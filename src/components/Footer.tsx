@@ -6,7 +6,7 @@ const Footer = () => {
   useEffect(() => {
     const version = document.getElementById("js-version")?.textContent;
     if (version) {
-        setVersion(version);
+      setVersion(version);
     }
   }, []);
 
@@ -22,13 +22,18 @@ const Footer = () => {
       borderColor: '#ddd',
       p: 1,
     }}>
-      <Typography variant="body2">
-        <Link sx={{ color: "#888", textDecoration: 'none' }} href="https://github.com/etkecc/synapse-admin" target="_blank" rel="noopener noreferrer">
-        Synapse-Admin <span style={{ fontWeight: 'bold', color: "#000" }}>{version}</span> by Awesome Technologies Innovationslabor GmbH,
-        etke.cc
-        </Link>
-      </Typography>
-    </Box>
+    <Typography variant="body2">
+      <Link sx={{ color: "#888", textDecoration: 'none' }} href="https://github.com/etkecc/synapse-admin" target="_blank">
+        Synapse-Admin
+      </Link> <Link href={`https://github.com/etkecc/synapse-admin/releases/tag/`+version} target="_blank">
+        <span style={{ fontWeight: 'bold', color: "#000" }}>{version}</span>
+      </Link> <Link sx={{ color: "#888", textDecoration: 'none' }} href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin" target="_blank">
+        by etke.cc
+      </Link> <Link sx={{ color: "#888", textDecoration: 'none' }} href="https://github.com/awesome-technologies/synapse-admin" target="_blank">
+        (originally developed by Awesome Technologies Innovationslabor GmbH)
+      </Link>
+    </Typography>
+  </Box>
   );
 };
 
