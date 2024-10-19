@@ -3,7 +3,7 @@
   "version": "0.10.3",
   "description": "Admin GUI for the Matrix.org server Synapse",
   "type": "module",
-  "author": "Awesome Technologies Innovationslabor GmbH",
+  "author": "Awesome Technologies Innovationslabor GmbH, etke.cc",
   "license": "Apache-2.0",
   "homepage": ".",
   "repository": {
