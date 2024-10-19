@@ -4683,16 +4683,15 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npmjs.org/ra-core/-/ra-core-5.2.0.tgz"
-  integrity sha512-HAl/rCLeGt55VvfimQd8emuErPIjI5R0f8fEpy7B+jucxGmGTOw2nes+Tf7UIZKjIoN2BHhb/pailjfd2n8Nlg==
+ra-core@^5.2.0, ra-core@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.3.0.tgz#02ce7e7c5d7617dbb2b2805803fde1d0c88dc4bd"
+  integrity sha512-e5Y0u+P+0Kx2XeYEAUDV63NdlAvMtlrb4ndYLtIbCaIeOx1o6GXlD2BedICaYSb6XXjz+KoNZ1nmWuZ6tS4f7Q==
   dependencies:
     "@tanstack/react-query" "^5.8.4"
     clsx "^2.1.1"
     date-fns "^3.6.0"
     eventemitter3 "^5.0.1"
-    hotscript "^1.0.12"
     inflection "^3.0.0"
     jsonexport "^3.2.0"
     lodash "~4.17.5"
