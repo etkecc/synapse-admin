@@ -41,7 +41,7 @@
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.16.1",
     "vite": "^5.4.6",
-    "vite-plugin-version-mark": "^0.1.0"
+    "vite-plugin-version-mark": "^0.1.1"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
