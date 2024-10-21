@@ -2,7 +2,7 @@ import russianMessages from "ra-language-russian";
 
 import { SynapseTranslationMessages } from ".";
 
-const ru: SynapseTranslationMessages = {
+const fixedRussianMessages = {
   ...russianMessages,
   ra: {
     ...russianMessages.ra,
@@ -11,7 +11,24 @@ const ru: SynapseTranslationMessages = {
       no_filtered_results: "Нет результатов",
       clear_filters: "Все фильтры сбросить",
     },
+    page: {
+      ...russianMessages.ra.page,
+      empty: "Пусто",
+      access_denied: "Доступ запрещен",
+      authentication_error: "Ошибка аутентификации",
+    },
+    message: {
+      ...russianMessages.ra.message,
+      access_denied:
+        "У вас нет прав доступа к этой странице.",
+      authentication_error:
+        "Сервер аутентификации вернул ошибку и не смог проверить ваши учетные данные.",
+    },
   },
+}
+
+const ru: SynapseTranslationMessages = {
+  ...fixedRussianMessages,
   synapseadmin: {
     auth: {
       base_url: "Адрес домашнего сервера",

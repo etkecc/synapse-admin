@@ -2,7 +2,7 @@ import chineseMessages from "@haxqer/ra-language-chinese";
 
 import { SynapseTranslationMessages } from ".";
 
-const zh: SynapseTranslationMessages = {
+const fixedChineseMessages = {
   ...chineseMessages,
   ra: {
     ...chineseMessages.ra,
@@ -11,7 +11,27 @@ const zh: SynapseTranslationMessages = {
       no_filtered_results: "没有结果",
       clear_filters: "清除所有过滤器",
     },
+    action: {
+      ...chineseMessages.ra.action,
+      update_application: "Anwendung aktualisieren",
+    },
+    page: {
+      ...chineseMessages.ra.page,
+      access_denied: "拒绝访问",
+      authentication_error: "认证错误",
+    },
+    message: {
+      ...chineseMessages.ra.message,
+      access_denied:
+        "您没有访问此页面的权限。",
+      authentication_error:
+        "身份验证服务器返回错误，无法验证您的凭据。",
+    },
   },
+}
+
+const zh: SynapseTranslationMessages = {
+  ...fixedChineseMessages,
   synapseadmin: {
     auth: {
       base_url: "服务器 URL",

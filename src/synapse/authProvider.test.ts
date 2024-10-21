@@ -30,7 +30,7 @@ describe("authProvider", () => {
       });
 
       expect(ret).toEqual({redirectTo: "/"});
-      expect(fetch).toBeCalledWith("http://example.com/_matrix/client/r0/login", {
+      expect(fetch).toHaveBeenCalledWith("http://example.com/_matrix/client/r0/login", {
         body: '{"device_id":null,"initial_device_display_name":"Synapse Admin","type":"m.login.password","identifier":{"type":"m.id.user","user":"@user:example.com"},"password":"secret"}',
         headers: new Headers({
           Accept: "application/json",
@@ -83,7 +83,7 @@ describe("authProvider", () => {
 
       await authProvider.logout(null);
 
-      expect(fetch).toBeCalledWith("example.com/_matrix/client/r0/logout", {
+      expect(fetch).toHaveBeenCalledWith("example.com/_matrix/client/r0/logout", {
         headers: new Headers({
           Accept: "application/json",
           Authorization: "Bearer foo",
@@ -123,7 +123,9 @@ describe("authProvider", () => {
 
   describe("getPermissions", () => {
     it("should do nothing", async () => {
-      await expect(authProvider.getPermissions(null)).resolves.toBeUndefined();
+      if (authProvider.getPermissions) {
+        await expect(authProvider.getPermissions(null)).resolves.toBeUndefined();
+      }
     });
   });
 });

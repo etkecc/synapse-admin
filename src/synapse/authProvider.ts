@@ -1,4 +1,4 @@
-import { AuthProvider, HttpError, Options, fetchUtils, useTranslate } from "react-admin";
+import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import storage from "../storage";
 import { MatrixError, displayError } from "../components/error";

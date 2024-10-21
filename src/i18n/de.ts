@@ -2,7 +2,7 @@ import { formalGermanMessages } from "@haleos/ra-language-german";
 
 import { SynapseTranslationMessages } from ".";
 
-const de: SynapseTranslationMessages = {
+const fixedGermanMessages = {
   ...formalGermanMessages,
   ra: {
     ...formalGermanMessages.ra,
@@ -10,8 +10,30 @@ const de: SynapseTranslationMessages = {
       ...formalGermanMessages.ra.navigation,
       no_filtered_results: "Keine Ergebnisse",
       clear_filters: "Alle Filter entfernen",
+      add_filter: "Filter hinzufügen",
+    },
+    action: {
+      ...formalGermanMessages.ra.action,
+      update_application: "Anwendung aktualisieren",
+    },
+    page: {
+      ...formalGermanMessages.ra.page,
+      empty: "Leer",
+      access_denied: "Zugriff verweigert",
+      authentication_error: "Authentifizierungsfehler",
+    },
+    message: {
+      ...formalGermanMessages.ra.message,
+      access_denied:
+        "Sie haben nicht die richtigen Berechtigungen um auf diese Seite zuzugreifen.",
+      authentication_error:
+        "Der Authentifizierungsserver hat einen Fehler zurückgegeben und Ihre Anmeldedaten konnten nicht überprüft werden.",
     },
   },
+}
+
+const de: SynapseTranslationMessages = {
+  ...fixedGermanMessages,
   synapseadmin: {
     auth: {
       base_url: "Heimserver URL",
