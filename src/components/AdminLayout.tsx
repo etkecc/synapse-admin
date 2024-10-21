@@ -81,13 +81,13 @@ const AdminMenu = (props) => {
 
 export const AdminLayout = ({ children }) => (
   <Layout appBar={AdminAppBar} menu={AdminMenu} sx={{
-    ['& .RaLayout-appFrame']: {
-      minHeight: '90vh',
-      height: '90vh',
-    },
-    ['& .RaLayout-content']: {
-      marginBottom: '3rem',
-    },
+      ['& .RaLayout-appFrame']: {
+        minHeight: '90vh',
+        height: '90vh',
+      },
+      ['& .RaLayout-content']: {
+        marginBottom: '3rem',
+      },
     }}>
     {children}
   </Layout>
