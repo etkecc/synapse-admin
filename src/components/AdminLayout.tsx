@@ -1,17 +1,7 @@
 import { AppBar, Confirm, Layout, Logout, Menu, useLogout, UserMenu } from "react-admin";
-import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import { LoginMethod } from "../pages/LoginPage";
-import { useState } from "react";
-
-const DEFAULT_SUPPORT_LINK = "https://github.com/etkecc/synapse-admin/issues";
-const supportLink = (): string => {
-  try {
-    new URL(localStorage.getItem("support_url") || ""); // Check if the URL is valid
-    return localStorage.getItem("support_url") || DEFAULT_SUPPORT_LINK;
-  } catch (e) {
-    return DEFAULT_SUPPORT_LINK;
-  }
-};
+import { useEffect, useState, Suspense } from "react";
+import { Icons, DefaultIcon } from "./icons";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -56,22 +46,48 @@ const AdminUserMenu = () => {
 
 const AdminAppBar = () => <AppBar userMenu={<AdminUserMenu />} />;
 
-const AdminMenu = () => (
-  <Menu>
-    <Menu.ResourceItems />
-    <Menu.Item to={supportLink()} target="_blank" primaryText="Contact support" leftIcon={<LiveHelpIcon />} />
-  </Menu>
-);
+const AdminMenu = (props) => {
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    const menuConfig = localStorage.getItem('menu');
+    if (menuConfig) {
+      setMenu(JSON.parse(menuConfig));
+    }
+  }, []);
+
+  return (
+    <Menu {...props}>
+      <Menu.ResourceItems />
+      {menu.map((item, index) => {
+        const { url, icon, label } = item;
+        const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
+
+        return (
+          <Suspense key={index}>
+            <Menu.Item
+              to={url}
+              target="_blank"
+              primaryText={label}
+              leftIcon={IconComponent ? <IconComponent /> : <DefaultIcon />}
+              onClick={props.onMenuClick}
+            />
+          </Suspense>
+        );
+      })}
+    </Menu>
+  );
+};
 
 export const AdminLayout = ({ children }) => (
   <Layout appBar={AdminAppBar} menu={AdminMenu} sx={{
-      ['& .RaLayout-appFrame']: {
-        minHeight: '90vh',
-        height: '90vh',
-      },
-      ['& .RaLayout-content']: {
-        marginBottom: '3rem',
-      },
+    ['& .RaLayout-appFrame']: {
+      minHeight: '90vh',
+      height: '90vh',
+    },
+    ['& .RaLayout-content']: {
+      marginBottom: '3rem',
+    },
     }}>
     {children}
   </Layout>

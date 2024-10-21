@@ -4,6 +4,13 @@ interface AppContextType {
   restrictBaseUrl: string | string[];
   asManagedUsers: string[];
   supportURL: string;
+  menu: MenuItem[];
+}
+
+interface MenuItem {
+  label: string;
+  icon: string;
+  url: string;
 }
 
 export const AppContext = createContext({});
