@@ -2,6 +2,7 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import storage from "../storage";
 import { MatrixError, displayError } from "../components/error";
+import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const authProvider: AuthProvider = {
   // called when the user attempts to log in
@@ -57,7 +58,7 @@ const authProvider: AuthProvider = {
     storage.setItem("base_url", base_url);
 
     const decoded_base_url = window.decodeURIComponent(base_url);
-    let login_api_url = decoded_base_url + (accessToken ? "/_matrix/client/v3/account/whoami" : "/_matrix/client/r0/login");
+    let login_api_url = decoded_base_url + (accessToken ? "/_matrix/client/v3/account/whoami" : "/_matrix/client/v3/login");
 
     let response;
 
@@ -95,11 +96,48 @@ const authProvider: AuthProvider = {
       );
     }
   },
+  getIdentity: async () => {
+    const access_token = storage.getItem("access_token");
+    const user_id = storage.getItem("user_id");
+    const base_url = storage.getItem("base_url");
+
+    if (typeof access_token !== "string" || typeof user_id !== "string" || typeof base_url !== "string") {
+      return Promise.reject();
+    }
+
+    const options: Options = {
+      headers: new Headers({
+        Accept: "application/json",
+        Authorization: `Bearer ${access_token}`,
+      }),
+    };
+
+    const whoami_api_url = base_url + `/_matrix/client/v3/profile/${user_id}`;
+
+    try {
+      let avatar_url = "";
+      const response = await fetchUtils.fetchJson(whoami_api_url, options);
+      if (response.json.avatar_url) {
+        const mediaresp = await fetchAuthenticatedMedia(response.json.avatar_url, "thumbnail");
+        const blob = await mediaresp.blob();
+        avatar_url = URL.createObjectURL(blob);
+      }
+
+      return Promise.resolve({
+        id: user_id,
+        fullName: response.json.displayname,
+        avatar: avatar_url,
+      });
+    } catch (err) {
+      console.log("Error getting identity", err);
+      return Promise.reject();
+    }
+  },
   // called when the user clicks on the logout button
   logout: async () => {
     console.log("logout");
 
-    const logout_api_url = storage.getItem("base_url") + "/_matrix/client/r0/logout";
+    const logout_api_url = storage.getItem("base_url") + "/_matrix/client/v3/logout";
     const access_token = storage.getItem("access_token");
 
     const options: Options = {

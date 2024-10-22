@@ -52,7 +52,11 @@ const AdminMenu = (props) => {
   useEffect(() => {
     const menuConfig = localStorage.getItem('menu');
     if (menuConfig) {
-      setMenu(JSON.parse(menuConfig));
+      try {
+        setMenu(JSON.parse(menuConfig));
+      } catch (e) {
+        console.error('Error parsing menu configuration', e);
+      }
     }
   }, []);
 
