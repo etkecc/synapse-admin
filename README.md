@@ -70,6 +70,7 @@ The following changes are already implemented:
 * [Fix footer causing vertical scrollbar](https://github.com/etkecc/synapse-admin/pull/60)
 * [Custom Menu Items](https://github.com/etkecc/synapse-admin/pull/79)
 * [Add user profile to the top menu](https://github.com/etkecc/synapse-admin/pull/80)
+* [Enable visual customization](https://github.com/etkecc/synapse-admin/pull/81)
 
 _the list will be updated as new changes are added_
 
