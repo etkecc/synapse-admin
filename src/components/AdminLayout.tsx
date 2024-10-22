@@ -1,4 +1,4 @@
-import { AppBar, Confirm, Layout, Logout, Menu, useLogout, UserMenu } from "react-admin";
+import { AppBar, TitlePortal, InspectorButton, Confirm, Layout, Logout, Menu, useLogout, UserMenu } from "react-admin";
 import { LoginMethod } from "../pages/LoginPage";
 import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "./icons";
@@ -44,7 +44,12 @@ const AdminUserMenu = () => {
   );
 };
 
-const AdminAppBar = () => <AppBar userMenu={<AdminUserMenu />} />;
+const AdminAppBar = () => {
+  return (<AppBar userMenu={<AdminUserMenu />}>
+    <TitlePortal />
+    <InspectorButton />
+  </AppBar>);
+};
 
 const AdminMenu = (props) => {
   const [menu, setMenu] = useState([]);

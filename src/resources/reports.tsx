@@ -3,6 +3,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import ReportIcon from "@mui/icons-material/Warning";
 import {
   Datagrid,
+  DatagridConfigurable,
   DateField,
   DeleteButton,
   List,
@@ -90,13 +91,13 @@ const ReportShowActions = () => {
 
 export const ReportList = (props: ListProps) => (
   <List {...props} pagination={<ReportPagination />} sort={{ field: "received_ts", order: "DESC" }}>
-    <Datagrid rowClick="show" bulkActionButtons={false}>
+    <DatagridConfigurable rowClick="show" bulkActionButtons={false}>
       <TextField source="id" sortable={false} />
       <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={true} />
       <TextField sortable={false} source="user_id" />
       <TextField sortable={false} source="name" />
       <TextField sortable={false} source="score" />
-    </Datagrid>
+    </DatagridConfigurable>
   </List>
 );
 

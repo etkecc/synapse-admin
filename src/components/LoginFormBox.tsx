@@ -13,7 +13,7 @@ const LoginFormBox = styled(Box)(({ theme }) => ({
   backgroundSize: "cover",
 
   [`& .card`]: {
-    width: "30rem",
+    maxWidth: "30rem",
     marginTop: "6rem",
     marginBottom: "6rem",
   },

@@ -1,6 +1,7 @@
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import {
   Datagrid,
+  DatagridConfigurable,
   ExportButton,
   List,
   ListProps,
@@ -37,12 +38,12 @@ export const UserMediaStatsList = (props: ListProps) => (
     pagination={<UserMediaStatsPagination />}
     sort={{ field: "media_length", order: "DESC" }}
   >
-    <Datagrid rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
+    <DatagridConfigurable rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
       <TextField source="user_id" label="resources.users.fields.id" />
       <TextField source="displayname" label="resources.users.fields.displayname" />
       <NumberField source="media_count" />
       <NumberField source="media_length" />
-    </Datagrid>
+    </DatagridConfigurable>
   </List>
 );
 

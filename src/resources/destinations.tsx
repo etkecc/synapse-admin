@@ -8,6 +8,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import {
   Button,
   Datagrid,
+  DatagridConfigurable,
   DateField,
   List,
   ListProps,
@@ -123,14 +124,14 @@ export const DestinationList = (props: ListProps) => {
       pagination={<DestinationPagination />}
       sort={{ field: "destination", order: "ASC" }}
     >
-      <Datagrid rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
+      <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
         <FunctionField source="destination" render={destinationFieldRender} />
         <DateField source="failure_ts" showTime options={DATE_FORMAT} />
         <RetryDateField source="retry_last_ts" showTime options={DATE_FORMAT} />
         <TextField source="retry_interval" />
         <TextField source="last_successful_stream_ordering" />
         <DestinationReconnectButton />
-      </Datagrid>
+      </DatagridConfigurable>
     </List>
   );
 };

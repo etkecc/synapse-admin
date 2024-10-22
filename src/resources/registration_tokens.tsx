@@ -4,6 +4,7 @@ import {
   Create,
   CreateProps,
   Datagrid,
+  DatagridConfigurable,
   DateField,
   DateTimeInput,
   Edit,
@@ -39,13 +40,13 @@ export const RegistrationTokenList = (props: ListProps) => (
     pagination={false}
     perPage={500}
   >
-    <Datagrid rowClick="edit">
+    <DatagridConfigurable rowClick="edit">
       <TextField source="token" sortable={false} />
       <NumberField source="uses_allowed" sortable={false} />
       <NumberField source="pending" sortable={false} />
       <NumberField source="completed" sortable={false} />
       <DateField source="expiry_time" showTime options={DATE_FORMAT} sortable={false} />
-    </Datagrid>
+    </DatagridConfigurable>
   </List>
 );
 

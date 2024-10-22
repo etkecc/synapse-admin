@@ -15,6 +15,7 @@ import {
   ArrayField,
   Button,
   Datagrid,
+  DatagridConfigurable,
   DateField,
   Create,
   CreateProps,
@@ -156,7 +157,7 @@ export const UserList = (props: ListProps) => (
     actions={<UserListActions />}
     pagination={<UserPagination />}
   >
-    <Datagrid
+    <DatagridConfigurable
       rowClick={(id: Identifier, resource: string) => `/${resource}/${id}`}
       bulkActionButtons={<UserBulkActionButtons />}
     >
@@ -169,7 +170,7 @@ export const UserList = (props: ListProps) => (
       <BooleanField source="locked" />
       <BooleanField source="erased" sortable={false} />
       <DateField source="creation_ts" label="resources.users.fields.creation_ts_ms" showTime options={DATE_FORMAT} />
-    </Datagrid>
+    </DatagridConfigurable>
   </List>
 );
 
