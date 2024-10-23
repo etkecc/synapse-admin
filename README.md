@@ -71,6 +71,7 @@ The following changes are already implemented:
 * [Custom Menu Items](https://github.com/etkecc/synapse-admin/pull/79)
 * [Add user profile to the top menu](https://github.com/etkecc/synapse-admin/pull/80)
 * [Enable visual customization](https://github.com/etkecc/synapse-admin/pull/81)
+* [Fix room state events display](https://github.com/etkecc/synapse-admin/pull/100)
 
 _the list will be updated as new changes are added_
 
