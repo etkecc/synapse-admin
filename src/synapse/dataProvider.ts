@@ -575,13 +575,28 @@ const baseDataProvider: SynapseDataProvider = {
 
   getMany: async (resource, params) => {
     console.log("getMany " + resource);
-    const homeserver = storage.getItem("base_url");
-    if (!homeserver || !(resource in resourceMap)) throw Error("Homerserver not set");
+    const base_url = storage.getItem("base_url");
+    const homeserver = storage.getItem("home_server");
+    if (!base_url || !(resource in resourceMap)) throw Error("base_url not set");
 
     const res = resourceMap[resource];
 
-    const endpoint_url = homeserver + res.path;
-    const responses = await Promise.all(params.ids.map(id => jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`)));
+    const endpoint_url = base_url + res.path;
+    const responses = await Promise.all(params.ids.map(id => {
+      // edge case: when user is external / federated, homeserver will return error, as querying external users via
+      // /_synapse/admin/v2/users is not allowed.
+      // That leads to an issue when a user is referenced (e.g., in room state datagrid) - the user cell is just empty.
+      // To avoid that, we fake the response with one specific field (name) which is used in the datagrid.
+      if (homeserver && resource === "users") {
+        if (!(<string>id).endsWith(homeserver)) {
+          const json = {
+              name: id,
+          };
+          return Promise.resolve({ json });
+        }
+      }
+      return jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
+    }));
     return {
       data: responses.map(({ json }) => res.map(json)),
       total: responses.length,

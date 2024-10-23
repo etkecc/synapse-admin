@@ -75,7 +75,7 @@ const authProvider: AuthProvider = {
 
       response = await fetchUtils.fetchJson(login_api_url, options);
       const json = response.json;
-      storage.setItem("home_server", accessToken ? base_url : json.home_server);
+      storage.setItem("home_server", accessToken ? json.user_id.split(":")[1] : json.home_server);
       storage.setItem("user_id", json.user_id);
       storage.setItem("access_token", accessToken ? accessToken : json.access_token);
       storage.setItem("device_id", json.device_id);

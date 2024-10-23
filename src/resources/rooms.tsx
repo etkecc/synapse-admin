@@ -187,7 +187,7 @@ export const RoomShow = (props: ShowProps) => {
             <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
               <TextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} />
-              <TextField source="content" sortable={false} />
+              <FunctionField source="content" sortable={false} render={record => `${JSON.stringify(record.content, null, 2)}`} />
               <ReferenceField source="sender" reference="users" sortable={false}>
                 <TextField source="id" />
               </ReferenceField>
