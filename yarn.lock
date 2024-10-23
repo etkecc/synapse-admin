@@ -5695,10 +5695,10 @@ vite-plugin-version-mark@^0.1.2:
   resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.1.2.tgz#85b2315cffce7ac2d83b6afceb313d0d1c47c4d4"
   integrity sha512-+mPRTwx6SOEfEq3/y1u+O0ju5Lz0Ac27Fx6hE5Xn1fMpIQfo3aERPB2/xxYI8lIa8GPHCX5c8ApqBKWwFNHxwA==
 
-vite@^5.4.6:
-  version "5.4.6"
-  resolved "https://registry.npmjs.org/vite/-/vite-5.4.6.tgz"
-  integrity sha512-IeL5f8OO5nylsgzd9tq4qD2QqI0k2CQLGrWD0rCN0EQJZpBK5vJAx0I+GDkMOXxQX/OfFHMuLIx6ddAxGX/k+Q==
+vite@^5.4.10:
+  version "5.4.10"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.10.tgz#d358a7bd8beda6cf0f3b7a450a8c7693a4f80c18"
+  integrity sha512-1hvaPshuPUtxeQ0hsVH3Mud0ZanOLwVTneA1EgbAM5LhaZEqyPWGRQ7BtaMvUrTDeEaC8pxtj6a6jku3x4z6SQ==
   dependencies:
     esbuild "^0.21.3"
     postcss "^8.4.43"
