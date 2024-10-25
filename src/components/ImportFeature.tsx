@@ -121,6 +121,7 @@ const FilePicker = () => {
 
   const verifyCsv = ({ data, meta, errors }: ParseResult<ImportLine>, { setValues, setStats, setError }) => {
     /* First, verify the presence of required fields */
+    meta.fields = meta.fields?.map(f => f.trim().toLowerCase());
     const missingFields = expectedFields.filter(eF => !meta.fields?.find(mF => eF === mF));
 
     if (missingFields.length > 0) {
@@ -147,6 +148,15 @@ const FilePicker = () => {
     };
 
     const errorMessages = errors.map(e => e.message);
+    // sanitize the data first
+    data = data.map(line => {
+      const newLine = {} as ImportLine;
+      for (const [key, value] of Object.entries(line)) {
+        newLine[key.trim().toLowerCase()] = value;
+      }
+      return newLine;
+    });
+    // process the data
     data.forEach((line, idx) => {
       if (line.user_type === undefined || line.user_type === "") {
         stats.user_types.default++;
@@ -173,6 +183,7 @@ const FilePicker = () => {
           line[f] = true; // we need true booleans instead of strings
         } else {
           if (line[f] !== "false" && line[f] !== "") {
+            console.log("invalid value", line[f], "for field " + f + " in row " + idx);
             errorMessages.push(
               translate("import_users.error.invalid_value", {
                 field: f,
