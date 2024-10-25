@@ -84,6 +84,7 @@ The following changes are already implemented:
 * [Add user profile to the top menu](https://github.com/etkecc/synapse-admin/pull/80)
 * [Enable visual customization](https://github.com/etkecc/synapse-admin/pull/81)
 * [Fix room state events display](https://github.com/etkecc/synapse-admin/pull/100)
+* [Sanitize CSV on import](https://github.com/etkecc/synapse-admin/pull/101)
 
 _the list will be updated as new changes are added_
 
