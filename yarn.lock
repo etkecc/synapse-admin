@@ -4667,12 +4667,12 @@ ra-i18n-polyglot@^5.3.0:
     node-polyglot "^2.2.2"
     ra-core "^5.3.0"
 
-ra-language-english@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.3.0.tgz#f2811d9c72513c18ff0f48498bfa92f97911b4ad"
-  integrity sha512-Gp8dt4annXcxFd7BJ/EgngLmI74A25++iwE5lS8WqD6yBL3byU5Xwu9+CQ8YQkU9+cQEFhLhkWIGfXXczxSymw==
+ra-language-english@^5.3.0, ra-language-english@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.3.1.tgz#823d25cbbf66ae9ba4098e087ae21110f4ffb030"
+  integrity sha512-ttEVhRI06VPA0MEFmCkxQNFa3C4ztGHG14vRnfRtpQ3qSF996genzoYCW/AdkI/JzskHU1zAw5o73qezSdqCuA==
   dependencies:
-    ra-core "^5.3.0"
+    ra-core "^5.3.1"
 
 ra-language-farsi@^5.0.0:
   version "5.0.0"
