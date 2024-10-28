@@ -4719,10 +4719,10 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.3.0.tgz#02ce7e7c5d7617dbb2b2805803fde1d0c88dc4bd"
-  integrity sha512-e5Y0u+P+0Kx2XeYEAUDV63NdlAvMtlrb4ndYLtIbCaIeOx1o6GXlD2BedICaYSb6XXjz+KoNZ1nmWuZ6tS4f7Q==
+ra-core@^5.3.0, ra-core@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.3.1.tgz#38773ae1cda386064010fc2774c204ccaf6bc325"
+  integrity sha512-1q/h71iOco6kA9kkGNEmChuw+JgUTr+Y6MLfb/N0VcF75xX+v5SjoNMgHee/Jtn6uObOVeWdhAhIJ/bFwHR5sg==
   dependencies:
     "@tanstack/react-query" "^5.8.4"
     clsx "^2.1.1"
@@ -4735,20 +4735,20 @@ ra-core@^5.3.0:
     react-error-boundary "^4.0.13"
     react-is "^18.2.0"
 
-ra-i18n-polyglot@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ra-i18n-polyglot/-/ra-i18n-polyglot-5.3.0.tgz#ed10be1e3133b3e4a42990d045646ef336faf1ce"
-  integrity sha512-Dc2m6MlpF1qHeqH5iJukd7t6oVxnqC/k8AY+HEYQCXCTHhVWkzHDjLOilcKHbgiY6st1p6KoCL93CP8lyEjaqg==
+ra-i18n-polyglot@^5.3.0, ra-i18n-polyglot@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/ra-i18n-polyglot/-/ra-i18n-polyglot-5.3.1.tgz#92fa199d3aab77a540e66c719bcac9c01a50a5a5"
+  integrity sha512-WcxTBWSYlLy20Hh72BhadyG/El5UHWaJQnglN7JK+M16EDR2Mp8R1kPGHFLtCAbjjMXUaKzZQ50AS51Ct1kVLQ==
   dependencies:
     node-polyglot "^2.2.2"
-    ra-core "^5.3.0"
+    ra-core "^5.3.1"
 
-ra-language-english@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.3.0.tgz#f2811d9c72513c18ff0f48498bfa92f97911b4ad"
-  integrity sha512-Gp8dt4annXcxFd7BJ/EgngLmI74A25++iwE5lS8WqD6yBL3byU5Xwu9+CQ8YQkU9+cQEFhLhkWIGfXXczxSymw==
+ra-language-english@^5.3.0, ra-language-english@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.3.1.tgz#823d25cbbf66ae9ba4098e087ae21110f4ffb030"
+  integrity sha512-ttEVhRI06VPA0MEFmCkxQNFa3C4ztGHG14vRnfRtpQ3qSF996genzoYCW/AdkI/JzskHU1zAw5o73qezSdqCuA==
   dependencies:
-    ra-core "^5.3.0"
+    ra-core "^5.3.1"
 
 ra-language-farsi@^5.0.0:
   version "5.0.0"
@@ -4774,10 +4774,10 @@ ra-language-russian@^4.14.2:
   dependencies:
     ra-core "^4.16.2"
 
-ra-ui-materialui@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-5.3.0.tgz#14b1c35f98a4d133dd0ef6be85191de71da88bb2"
-  integrity sha512-jmEqI77LDcEbhrMC45QM1YmUMSOwzNH8dEjr9A/Xm+UW+YnzOFDkVJJumfP3jpFL4wviX48Qy5mBi54t19CYjw==
+ra-ui-materialui@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-5.3.1.tgz#67ca58752519b6ea430d5fba13bb0e5496479e77"
+  integrity sha512-ViLAtCVsdAPrdT72K1W2a00UkZZI0FSw8YTsrPBPPjLfaH1MpjEAG2cwI9ODuPDe65/GkiM1W0husWV5JveLnw==
   dependencies:
     "@tanstack/react-query" "^5.8.4"
     autosuggest-highlight "^3.1.1"
@@ -4792,19 +4792,19 @@ ra-ui-materialui@^5.3.0:
     react-error-boundary "^4.0.13"
     react-transition-group "^4.4.5"
 
-react-admin@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/react-admin/-/react-admin-5.3.0.tgz#c94dce0e96b949717e3c79df03b7cba133949ba1"
-  integrity sha512-86M0c76ClN7mbMsONLY83lV32hAQREH1hnhHXANZPS4BnRSKSyFjI93Wke+TwUkWlYiqXlEwaYzISfDTTU3xqA==
+react-admin@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/react-admin/-/react-admin-5.3.1.tgz#9748328c3671c228cf45809ae2123bfc76423e53"
+  integrity sha512-pxEccGTXwreI0EhPgssp0B8fWMk68fCmpHImjVZ8SJ//zXWncffwcbRwb7HbvkF56Zp3ivx9UIZ/vvuBCjN49g==
   dependencies:
     "@emotion/react" "^11.4.1"
     "@emotion/styled" "^11.3.0"
     "@mui/icons-material" "^5.15.20"
     "@mui/material" "^5.15.20"
-    ra-core "^5.3.0"
-    ra-i18n-polyglot "^5.3.0"
-    ra-language-english "^5.3.0"
-    ra-ui-materialui "^5.3.0"
+    ra-core "^5.3.1"
+    ra-i18n-polyglot "^5.3.1"
+    ra-language-english "^5.3.1"
+    ra-ui-materialui "^5.3.1"
     react-hook-form "^7.53.0"
     react-router "^6.22.0"
     react-router-dom "^6.22.0"
