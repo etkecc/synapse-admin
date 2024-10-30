@@ -183,6 +183,11 @@ interface Pusher {
   pushkey: string;
 }
 
+interface ExperimentalFeature {
+  name: string;
+  value: boolean;
+}
+
 interface UserMedia {
   created_ts: number;
   last_access_ts?: number;
@@ -248,9 +253,16 @@ export interface UploadMediaResult {
   content_uri: string;
 }
 
+export interface ExperimentalFeatures {
+  features: {
+    [key: string]: boolean;
+  };
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   uploadMedia: (params: UploadMediaParams) => Promise<UploadMediaResult>;
+  updateFeatures: (id: Identifier, features: ExperimentalFeatures) => Promise<void>;
 }
 
 const resourceMap = {
@@ -356,6 +368,17 @@ const resourceMap = {
     }),
     data: "pushers",
     total: json => json.total,
+  },
+  features: {
+    map: (f: ExperimentalFeature) => ({
+      ...f,
+      id: f.name,
+    }),
+    total: json => json.features.length,
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/experimental_features/${id}`,
+    }),
+    data: "features",
   },
   joined_rooms: {
     map: (jr: string) => ({
@@ -523,6 +546,11 @@ function getSearchOrder(order: "ASC" | "DESC") {
   }
 }
 
+const featureLabels = {
+  msc3881: "enable remotely toggling push notifications for another client",
+  msc3575: "enable experimental sliding sync support",
+};
+
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource);
@@ -624,6 +652,14 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = `${homeserver}${ref.endpoint}?${new URLSearchParams(filterUndefined(query)).toString()}`;
 
     const { json } = await jsonClient(endpoint_url);
+    if (resource === "features") {
+      json.features = Object.entries(json.features).map(([feature, enabled]) => ({
+        featureName: feature,
+        featureValue: enabled,
+        featureLabel: featureLabels[feature],
+      }));
+      console.log("JSON", json[res.data]);
+    }
     return {
       data: json[res.data].map(res.map),
       total: res.total(json, from, perPage),
@@ -798,14 +834,24 @@ const baseDataProvider: SynapseDataProvider = {
     });
     return json as UploadMediaResult;
   },
+  updateFeatures: async (id: Identifier, features: ExperimentalFeatures) => {
+    const base_url = storage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
+    await jsonClient(endpoint_url, { method: "PUT", body: JSON.stringify({ features }) });
+  },
 };
 
 const dataProvider = withLifecycleCallbacks(baseDataProvider, [
   {
     resource: "users",
     beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
+      console.log("beforeUpdate", params);
       const avatarFile = params.data.avatar_file?.rawFile;
       const avatarErase = params.data.avatar_erase;
+
+      if (params.data.features) {
+        await dataProvider.updateFeatures(params.id, params.data.features);
+      }
 
       if (avatarErase) {
         params.data.avatar_url = "";

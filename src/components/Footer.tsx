@@ -22,7 +22,7 @@ const Footer = () => {
       borderColor: '#ddd',
       p: 1,
     }}>
-    <Typography variant="body2">
+    <Typography variant="body2" component="div">
       <Avatar src="./images/logo.webp" sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }} />
       <Link sx={{ color: "#888", textDecoration: 'none' }} href="https://github.com/etkecc/synapse-admin" target="_blank">
         Synapse Admin
