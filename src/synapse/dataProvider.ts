@@ -183,11 +183,6 @@ interface Pusher {
   pushkey: string;
 }
 
-export interface ExperimentalFeature {
-  feature_name: string;
-  feature_value: boolean;
-}
-
 interface UserMedia {
   created_ts: number;
   last_access_ts?: number;
@@ -827,7 +822,6 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
   {
     resource: "users",
     beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
-      console.log("beforeUpdate", params);
       const avatarFile = params.data.avatar_file?.rawFile;
       const avatarErase = params.data.avatar_erase;
 
