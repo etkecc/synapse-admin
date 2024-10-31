@@ -160,6 +160,10 @@ const en: SynapseTranslationMessages = {
         delete_media: "Delete all media uploaded by the user(-s)",
         redact_events: "Redact all events sent by the user(-s)",
       },
+      experimental_features: {
+        msc3881: "enable remotely toggling push notifications for another client",
+        msc3575: "enable experimental sliding sync support",
+      },
     },
     rooms: {
       name: "Room |||| Rooms",

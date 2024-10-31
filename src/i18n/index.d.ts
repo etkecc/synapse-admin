@@ -156,6 +156,9 @@ interface SynapseTranslationMessages extends TranslationMessages {
         delete_media: string;
         redact_events: string;
       };
+      experimental_features?: {
+        [key: string]: string;
+      };
     };
     rooms: {
       name: string;
