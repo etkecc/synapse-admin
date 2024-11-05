@@ -156,6 +156,7 @@ const it: SynapseTranslationMessages = {
         erase_avatar: "Cancella l'avatar dell'utente",
         delete_media: "Elimina tutti i media caricati dall'utente(-s)",
         redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
+        generate_password: "Genera password",
       },
     },
     rooms: {

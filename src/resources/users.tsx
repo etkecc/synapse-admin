@@ -68,6 +68,8 @@ import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/Server
 import { DATE_FORMAT } from "../components/date";
 import { DeviceRemoveButton } from "../components/devices";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
+import { generateRandomPassword } from "../synapse/synapse";
+import { useFormContext } from "react-hook-form";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -301,12 +303,33 @@ const UserBooleanInput = props => {
 const UserPasswordInput = props => {
   const record = useRecordContext();
   let asManagedUserIsSelected = false;
+
+  // Get form context to update field value
+  const form = useFormContext();
   if (record) {
     asManagedUserIsSelected = isASManaged(record.id);
   }
 
+  const generatePassword = () => {
+    const password = generateRandomPassword();
+    if (record) {
+      form.setValue("password", password, { shouldDirty: true });
+    }
+  };
+
   return (
-      <PasswordInput {...props} helperText="resources.users.helper.modify_managed_user_error" disabled={asManagedUserIsSelected} />
+    <>
+      <PasswordInput {...props} helperText="resources.users.helper.modify_managed_user_error"
+        {...(asManagedUserIsSelected ? { disabled: true } : {})}
+       />
+       <Button
+        variant="outlined"
+        label="Generate Password"
+        onClick={generatePassword}
+        sx={{ marginBottom: "10px" }}
+        disabled={asManagedUserIsSelected}
+      />
+    </>
   );
 };
 

@@ -180,6 +180,7 @@ const zh: SynapseTranslationMessages = {
         erase_avatar: "抹掉头像",
         delete_media: "删除用户上传的所有媒体",
         redact_events: "重新编辑用户（-s）发送的所有事件",
+        generate_password: "生成密码",
       },
     },
     rooms: {

@@ -155,6 +155,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         erase_avatar: string;
         delete_media: string;
         redact_events: string;
+        generate_password: string;
       };
     };
     rooms: {

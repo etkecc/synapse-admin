@@ -193,6 +193,7 @@ const ru: SynapseTranslationMessages = {
         erase_avatar: "Удалить аватар",
         delete_media: "Удаление всех медиафайлов, загруженных пользователем (-ами)",
         redact_events: "Удаление всех событий, отправленных пользователем (-ами)",
+        generate_password: "Сгенерировать пароль",
       },
       },
       rooms: {

@@ -155,6 +155,7 @@ const fa: SynapseTranslationMessages = {
         erase_avatar: "محو الصورة الرمزية",
         delete_media: "حذف جميع الوسائط التي تم تحميلها بواسطة المستخدم (المستخدمين)",
         redact_events: "تنقيح جميع الأحداث المرسلة من قبل المستخدم (-s)",
+        generate_password: "توليد رمز عبور",
       },
     },
     rooms: {
@@ -207,6 +208,11 @@ const fa: SynapseTranslationMessages = {
           title: "حذف اتاق",
           content:
             "آیا مطمئن هستید که می خواهید اتاق را حذف کنید؟ این قابل بازگشت نیست. همه پیام ها و رسانه های مشترک در اتاق از سرور حذف می شوند!",
+          fields: {
+            block: "حذف",
+          },
+          success: "اتاق با موفقیت حذف شد.",
+          failure: "خطایی رخ داده است.",
         },
       },
     },

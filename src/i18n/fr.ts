@@ -157,6 +157,7 @@ const fr: SynapseTranslationMessages = {
         erase_avatar: "Effacer l'avatar",
         delete_media: "Supprimer tous les médias téléchargés par le(s) utilisateur(s)",
         redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
+        generate_password: "Générer un mot de passe",
       },
     },
     rooms: {

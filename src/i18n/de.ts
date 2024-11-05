@@ -190,6 +190,7 @@ const de: SynapseTranslationMessages = {
         erase_avatar: "Avatar löschen",
         delete_media: "Alle von dem/den Benutzer(n) hochgeladenen Medien löschen",
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
+        generate_password: "Passwort generieren",
       },
     },
     rooms: {
