@@ -26,11 +26,6 @@ const ExperimentalFeatureRow = (props: { featureKey: string, featureValue: boole
         alignItems="start"
         sx={{
             padding: 2,
-            borderRadius: 1,
-            backgroundColor: "background.paper",
-            "&:hover": {
-                backgroundColor: "action.hover"
-            }
         }}
     >
         <Switch checked={checked} onChange={handleChange} />
