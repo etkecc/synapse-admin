@@ -248,7 +248,7 @@ export interface UploadMediaResult {
   content_uri: string;
 }
 
-export interface ExperimentalFeatures {
+export interface ExperimentalFeaturesModel {
   features: {
     [key: string]: boolean;
   };
@@ -257,7 +257,7 @@ export interface ExperimentalFeatures {
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   uploadMedia: (params: UploadMediaParams) => Promise<UploadMediaResult>;
-  updateFeatures: (id: Identifier, features: ExperimentalFeatures) => Promise<void>;
+  updateFeatures: (id: Identifier, features: ExperimentalFeaturesModel) => Promise<void>;
 }
 
 const resourceMap = {
@@ -809,9 +809,9 @@ const baseDataProvider: SynapseDataProvider = {
     const base_url = storage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
     const { json } = await jsonClient(endpoint_url);
-    return json.features as ExperimentalFeatures;
+    return json.features as ExperimentalFeaturesModel;
   },
-  updateFeatures: async (id: Identifier, features: ExperimentalFeatures) => {
+  updateFeatures: async (id: Identifier, features: ExperimentalFeaturesModel) => {
     const base_url = storage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
     await jsonClient(endpoint_url, { method: "PUT", body: JSON.stringify({ features }) });

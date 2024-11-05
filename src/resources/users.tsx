@@ -69,7 +69,7 @@ import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/Server
 import { DATE_FORMAT } from "../components/date";
 import { DeviceRemoveButton } from "../components/devices";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
-import { ExperimentalFeature, ExperimentalFeatures } from "../synapse/dataProvider";
+import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -461,56 +461,6 @@ export const UserEdit = (props: EditProps) => {
   );
 };
 
-const ExperimentalFeatureRow = (props: { featureKey: string, featureValue: boolean, updateFeature: (feature_name: string, feature_value: boolean) => void}) => {
-  const featureKey = props.featureKey;
-  const featureValue = props.featureValue;
-  const translate = useTranslate();
-  const translateString = `resources.users.experimental_features.${featureKey}`;
-  const [checked, setChecked] = useState(featureValue);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
-    props.updateFeature(featureKey, event.target.checked);
-  };
-
-  return <Stack direction="row" spacing={2}>
-    <Typography variant="body1">{featureKey}</Typography>
-    <Typography variant="body1">{translate(translateString)}</Typography>
-    <Switch checked={checked} onChange={handleChange} />
-  </Stack>
-}
-
-const ExperimentalFeaturesList = () => {
-  const record = useRecordContext();
-  const notify = useNotify();
-  const dataProvider = useDataProvider();
-  const [features, setFeatures] = useState({});
-  if (!record) {
-    return null;
-  }
-
-  useEffect(() => {
-    const fetchFeatures = async () => {
-      const features = await dataProvider.getFeatures(record.id);
-      setFeatures(features);
-    }
-
-    fetchFeatures();
-  }, []);
-
-  const updateFeature = async (feature_name: string, feature_value: boolean) => {
-    const updatedFeatures = {...features, [feature_name]: feature_value};
-    setFeatures(updatedFeatures);
-    const reponse = await dataProvider.updateFeatures(record.id, updatedFeatures);
-    notify("Feature updated", { type: "success" });
-  };
-
-  return <>
-    <Stack direction="column" spacing={2}>
-      {Object.keys(features).map((featureKey: string) => <ExperimentalFeatureRow key={featureKey} featureKey={featureKey} featureValue={features[featureKey]} updateFeature={updateFeature} />)}
-    </Stack>
-  </>
-}
 const resource: ResourceProps = {
   name: "users",
   icon: UserIcon,
