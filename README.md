@@ -89,6 +89,7 @@ with a proper manifest.json generation on build)
 * Allow setting version using `SYNAPSE_ADMIN_VERSION` environment variable on build (if git is not available)
 * [Add option to control user's experimental features](https://github.com/etkecc/synapse-admin/pull/111)
 * [Add random password generation on user create/edit form](https://github.com/etkecc/synapse-admin/pull/123)
+* [Add option to set user's rate limits](https://github.com/etkecc/synapse-admin/pull/125)
 
 _the list will be updated as new changes are added_
 
