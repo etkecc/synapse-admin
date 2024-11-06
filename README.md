@@ -86,6 +86,7 @@ with a proper manifest.json generation on build)
 * [Enable visual customization](https://github.com/etkecc/synapse-admin/pull/81)
 * [Fix room state events display](https://github.com/etkecc/synapse-admin/pull/100)
 * [Sanitize CSV on import](https://github.com/etkecc/synapse-admin/pull/101)
+* Allow setting version using `SYNAPSE_ADMIN_VERSION` environment variable on build (if git is not available)
 * [Add option to control user's experimental features](https://github.com/etkecc/synapse-admin/pull/111)
 
 _the list will be updated as new changes are added_
