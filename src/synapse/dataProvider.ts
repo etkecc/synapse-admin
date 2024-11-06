@@ -674,7 +674,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = storage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    return dataProvider.getOne(resource, { id: returnMXID(params.data.id) }).then(
+    return await dataProvider.getOne(resource, { id: returnMXID(params.data.id) }).then(
       () => {
         throw Error("User ID exists");
       },
