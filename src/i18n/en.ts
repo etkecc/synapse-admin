@@ -25,7 +25,11 @@ const en: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Localpart of a Matrix user-id without homeserver.",
-      tabs: { sso: "SSO" },
+      tabs: {
+        sso: "SSO",
+        experimental: "Experimental",
+        limits: "Rate Limits",
+      },
     },
     rooms: {
       details: "Room details",
@@ -161,6 +165,12 @@ const en: SynapseTranslationMessages = {
         redact_events: "Redact all events sent by the user(-s)",
         generate_password: "Generate password",
       },
+      limits: {
+        messages_per_second: "Messages per second",
+        messages_per_second_text: "The number of actions that can be performed in a second. 0 mean that ratelimiting is disabled for this user",
+        burst_count: "Burst count",
+        burst_count_text: "How many actions that can be performed before being limited.",
+      }
     },
     rooms: {
       name: "Room |||| Rooms",

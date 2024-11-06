@@ -8,9 +8,10 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ScienceIcon from "@mui/icons-material/Science";
+import LockClockIcon from '@mui/icons-material/LockClock';
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { useEffect, useState } from "react";
-import { Alert, Switch, Stack, Typography } from "@mui/material";
+import { Alert } from "@mui/material";
 import {
   ArrayInput,
   ArrayField,
@@ -72,6 +73,7 @@ import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../comp
 import { generateRandomPassword } from "../synapse/synapse";
 import { useFormContext } from "react-hook-form";
 import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
+import { UserRateLimits } from "../components/UserRateLimits";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -476,8 +478,12 @@ export const UserEdit = (props: EditProps) => {
           </ReferenceManyField>
         </FormTab>
 
-        <FormTab label="Experimental" icon={<ScienceIcon />} path="experimental">
+        <FormTab label="synapseadmin.users.tabs.experimental" icon={<ScienceIcon />} path="experimental">
           <ExperimentalFeaturesList />
+        </FormTab>
+
+        <FormTab label="synapseadmin.users.tabs.limits" icon={<LockClockIcon />} path="limits">
+          <UserRateLimits />
         </FormTab>
       </TabbedForm>
     </Edit>

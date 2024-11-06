@@ -24,7 +24,7 @@ const fa: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "بخش محلی یک شناسه کاربری ماتریکس بدون سرور خانگی.",
-      tabs: { sso: "SSO" },
+      tabs: { sso: "SSO", experimental: "تجربی", limits: "محدودیت ها" },
     },
     rooms: {
       tabs: {
@@ -157,6 +157,12 @@ const fa: SynapseTranslationMessages = {
         redact_events: "تنقيح جميع الأحداث المرسلة من قبل المستخدم (-s)",
         generate_password: "توليد رمز عبور",
       },
+      limits: {
+        messages_per_second: "پیام در ثانیه",
+        messages_per_second_text: "تعداد عملیاتی که می تواند در یک ثانیه انجام شود. 0 به معنای غیرفعال کردن محدودیت برای این کاربر است.",
+        burst_count: "تعداد پیچیدگی",
+        burst_count_text: "تعداد عملیاتی که می تواند قبل از محدودیت انجام شود.",
+      }
     },
     rooms: {
       name: "اتاق |||| اتاق ها",

@@ -55,7 +55,7 @@ const de: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Lokaler Anteil der Matrix Benutzer-ID ohne Homeserver.",
-      tabs: { sso: "SSO" },
+      tabs: { sso: "SSO", experimental: "Experimentell", limits: "Rate Limits" },
     },
     rooms: {
       details: "Raumdetails",
@@ -192,6 +192,12 @@ const de: SynapseTranslationMessages = {
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
         generate_password: "Passwort generieren",
       },
+      limits: {
+        messages_per_second: "Nachrichten pro Sekunde",
+        messages_per_second_text: "Die Anzahl der Aktionen, die in einer Sekunde durchgeführt werden können. 0 bedeutet, dass die Rate-Limitierung für diesen Benutzer deaktiviert ist.",
+        burst_count: "Burst-Anzahl",
+        burst_count_text: "Die Anzahl der Aktionen, die vor der Begrenzung durchgeführt werden können.",
+      }
     },
     rooms: {
       name: "Raum |||| Räume",

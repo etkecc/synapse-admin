@@ -24,7 +24,7 @@ const fr: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Partie locale d'un identifiant utilisateur Matrix sans le nom du serveur d’accueil.",
-      tabs: { sso: "Authentification unique" },
+      tabs: { sso: "Authentification unique", experimental: "Expérimental", limits: "Limites" },
     },
     rooms: {
       tabs: {
@@ -159,6 +159,12 @@ const fr: SynapseTranslationMessages = {
         redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
         generate_password: "Générer un mot de passe",
       },
+      limits: {
+        messages_per_second: "Messages par seconde",
+        messages_per_second_text: "Le nombre d'actions que l'utilisateur peut effectuer par seconde. 0 signifie que la limitation est désactivée pour cet utilisateur.",
+        burst_count: "Compteur de pics",
+        burst_count_text: "Le nombre d'actions que l'utilisateur peut effectuer avant d'être limité.",
+      }
     },
     rooms: {
       name: "Salon |||| Salons",
