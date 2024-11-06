@@ -254,10 +254,17 @@ export interface ExperimentalFeaturesModel {
   };
 }
 
+export interface RateLimitsModel {
+  messages_per_second?: number;
+  burst_count?: number;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   uploadMedia: (params: UploadMediaParams) => Promise<UploadMediaResult>;
   updateFeatures: (id: Identifier, features: ExperimentalFeaturesModel) => Promise<void>;
+  getRateLimits: (id: Identifier) => Promise<RateLimitsModel>;
+  setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
 }
 
 const resourceMap = {
@@ -816,6 +823,17 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
     await jsonClient(endpoint_url, { method: "PUT", body: JSON.stringify({ features }) });
   },
+  getRateLimits: async (id: Identifier) => {
+    const base_url = storage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
+    const { json } = await jsonClient(endpoint_url);
+    return json as RateLimitsModel;
+  },
+  setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
+    const base_url = storage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
+    await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(rateLimits) });
+  },
 };
 
 const dataProvider = withLifecycleCallbacks(baseDataProvider, [
@@ -824,6 +842,12 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
     beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
       const avatarFile = params.data.avatar_file?.rawFile;
       const avatarErase = params.data.avatar_erase;
+      const rates = params.data.rates;
+
+      if (rates) {
+        await dataProvider.setRateLimits(params.id, rates);
+        delete params.data.rates;
+      }
 
       if (avatarErase) {
         params.data.avatar_url = "";

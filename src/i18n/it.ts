@@ -24,7 +24,7 @@ const it: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "ID utente non valido su questo homeserver.",
-      tabs: { sso: "SSO" },
+      tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti" },
     },
     rooms: {
       tabs: {
@@ -156,7 +156,14 @@ const it: SynapseTranslationMessages = {
         erase_avatar: "Cancella l'avatar dell'utente",
         delete_media: "Elimina tutti i media caricati dall'utente(-s)",
         redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
+        generate_password: "Genera password",
       },
+      limits: {
+        messages_per_second: "Messaggi al secondo",
+        messages_per_second_text: "Il numero di azioni che l'utente può eseguire al secondo. 0 significa che la limitazione è disabilitata per questo utente.",
+        burst_count: "Burst-conteggio",
+        burst_count_text: "Il numero di azioni che l'utente può eseguire prima di essere limitato.",
+      }
     },
     rooms: {
       name: "Stanza |||| Stanze",

@@ -8,9 +8,10 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ScienceIcon from "@mui/icons-material/Science";
+import LockClockIcon from '@mui/icons-material/LockClock';
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { useEffect, useState } from "react";
-import { Alert, Switch, Stack, Typography } from "@mui/material";
+import { Alert } from "@mui/material";
 import {
   ArrayInput,
   ArrayField,
@@ -69,7 +70,10 @@ import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/Server
 import { DATE_FORMAT } from "../components/date";
 import { DeviceRemoveButton } from "../components/devices";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
+import { generateRandomPassword } from "../synapse/synapse";
+import { useFormContext } from "react-hook-form";
 import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
+import { UserRateLimits } from "../components/UserRateLimits";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -301,12 +305,33 @@ const UserBooleanInput = props => {
 const UserPasswordInput = props => {
   const record = useRecordContext();
   let asManagedUserIsSelected = false;
+
+  // Get form context to update field value
+  const form = useFormContext();
   if (record) {
     asManagedUserIsSelected = isASManaged(record.id);
   }
 
+  const generatePassword = () => {
+    const password = generateRandomPassword();
+    if (record) {
+      form.setValue("password", password, { shouldDirty: true });
+    }
+  };
+
   return (
-      <PasswordInput {...props} helperText="resources.users.helper.modify_managed_user_error" disabled={asManagedUserIsSelected} />
+    <>
+      <PasswordInput {...props} helperText="resources.users.helper.modify_managed_user_error"
+        {...(asManagedUserIsSelected ? { disabled: true } : {})}
+       />
+       <Button
+        variant="outlined"
+        label="Generate Password"
+        onClick={generatePassword}
+        sx={{ marginBottom: "10px" }}
+        disabled={asManagedUserIsSelected}
+      />
+    </>
   );
 };
 
@@ -453,8 +478,12 @@ export const UserEdit = (props: EditProps) => {
           </ReferenceManyField>
         </FormTab>
 
-        <FormTab label="Experimental" icon={<ScienceIcon />} path="experimental">
+        <FormTab label="synapseadmin.users.tabs.experimental" icon={<ScienceIcon />} path="experimental">
           <ExperimentalFeaturesList />
+        </FormTab>
+
+        <FormTab label="synapseadmin.users.tabs.limits" icon={<LockClockIcon />} path="limits">
+          <UserRateLimits />
         </FormTab>
       </TabbedForm>
     </Edit>
