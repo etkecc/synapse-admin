@@ -674,16 +674,23 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = storage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
-    if (!("create" in res)) return Promise.reject();
+    return dataProvider.getOne(resource, { id: returnMXID(params.data.id) }).then(
+      () => {
+        throw Error("User ID exists");
+      },
+      async () => {
+        const res = resourceMap[resource];
+        if (!("create" in res)) return Promise.reject();
 
-    const create = res.create(params.data);
-    const endpoint_url = homeserver + create.endpoint;
-    const { json } = await jsonClient(endpoint_url, {
-      method: create.method,
-      body: JSON.stringify(create.body, filterNullValues),
-    });
-    return { data: res.map(json) };
+        const create = res.create(params.data);
+        const endpoint_url = homeserver + create.endpoint;
+        const { json } = await jsonClient(endpoint_url, {
+          method: create.method,
+          body: JSON.stringify(create.body, filterNullValues),
+        });
+        return { data: res.map(json) };
+      }
+    );
   },
 
   createMany: async (resource: string, params: { ids: Identifier[]; data: RaRecord }) => {
