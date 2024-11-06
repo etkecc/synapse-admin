@@ -3,38 +3,42 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
+import { WellKnownKey, LoadConfig } from "./components/config";
 import { AppContext, MenuItem } from "./AppContext";
 import storage from "./storage";
 
-fetch("config.json")
-  .then(res => res.json())
-  .then(props => {
-    if (props.asManagedUsers) {
-      storage.setItem("as_managed_users", JSON.stringify(props.asManagedUsers));
-    }
+// load config.json
+let props: AppContextType = {};
+try {
+  const resp = await fetch("config.json");
+  const configJSON = await resp.json();
+  console.log("Loaded config.json", configJSON);
+  props = LoadConfig(configJSON as AppContextType);
+} catch (e) {
+  console.error(e);
+}
 
-    let menu: MenuItem[] = [];
-    if (props.menu) {
-      menu = props.menu;
+// if home_server is set, try to load https://home_server/.well-known/matrix/client
+const homeserver = storage.getItem("home_server");
+if (homeserver) {
+  try {
+    const resp = await fetch(`https://${homeserver}/.well-known/matrix/client`);
+    const configWK = await resp.json();
+    if (!configWK[WellKnownKey]) {
+      console.log(`Loaded https://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`, configWK);
+    } else {
+      console.log(`Loaded https://${homeserver}.well-known/matrix/client`, configWK);
+      props = LoadConfig(configWK[WellKnownKey] as AppContextType);
     }
-    if (props.supportURL) {
-      const migratedSupportURL = {
-        label: "Contact support",
-        icon: "SupportAgent",
-        url: props.supportURL,
-      };
-      console.warn("supportURL config option is deprecated. Please, use the menu option instead. Automatically migrated to the new menu option:", migratedSupportURL);
-      menu.push(migratedSupportURL as MenuItem);
-    }
-    if (menu.length > 0) {
-      storage.setItem("menu", JSON.stringify(menu));
-    }
+  } catch (e) {
+    console.log(`https://${homeserver}/.well-known/matrix/client not found, skipping`, e);
+  }
+}
 
-    return createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")).render(
       <React.StrictMode>
         <AppContext.Provider value={props}>
           <App />
         </AppContext.Provider>
       </React.StrictMode>
-    )
-  });
+);
