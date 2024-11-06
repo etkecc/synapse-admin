@@ -7,9 +7,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
+import ScienceIcon from "@mui/icons-material/Science";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { useEffect, useState } from "react";
-import { Alert, ownerDocument } from "@mui/material";
+import { Alert, Switch, Stack, Typography } from "@mui/material";
 import {
   ArrayInput,
   ArrayField,
@@ -54,10 +55,10 @@ import {
   useNotify,
   Identifier,
   ToolbarClasses,
-  RaRecord,
   ImageInput,
   ImageField,
   FunctionField,
+  useDataProvider,
 } from "react-admin";
 import { Link } from "react-router-dom";
 
@@ -70,6 +71,7 @@ import { DeviceRemoveButton } from "../components/devices";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { generateRandomPassword } from "../synapse/synapse";
 import { useFormContext } from "react-hook-form";
+import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -128,8 +130,6 @@ const UserBulkActionButtons = () => {
   const [asManagedUserIsSelected, setAsManagedUserIsSelected] = useState(false);
   const selectedIds = record.selectedIds;
   const ownUserId = localStorage.getItem("user_id");
-  const notify = useNotify();
-  const translate = useTranslate();
 
   useEffect(() => {
     setOwnUserIsSelected(selectedIds.includes(ownUserId));
@@ -240,11 +240,11 @@ export const UserCreate = (props: CreateProps) => (
 
 const UserTitle = () => {
   const record = useRecordContext();
+  const translate = useTranslate();
   if (!record) {
     return null;
   }
 
-  const translate = useTranslate();
   let username = record ? (record.displayname ? `"${record.displayname}"` : `"${record.name}"`) : ""
   if (isASManaged(record?.id)) {
     username += " 🤖";
@@ -337,7 +337,11 @@ export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
 
   return (
-    <Edit {...props} title={<UserTitle />} actions={<UserEditActions />} mutationMode="pessimistic">
+    <Edit {...props} title={<UserTitle />} actions={<UserEditActions />} mutationMode="pessimistic" queryOptions={{
+      meta: {
+        include: ["features"] // Tell your dataProvider to include features
+      }
+    }}>
       <TabbedForm toolbar={<UserEditToolbar />}>
         <FormTab label={translate("resources.users.name", { smart_count: 1 })} icon={<PersonPinIcon />}>
           <AvatarField source="avatar_src" sx={{ height: "120px", width: "120px" }} />
@@ -470,6 +474,10 @@ export const UserEdit = (props: EditProps) => {
               <TextField source="pushkey" sortable={false} />
             </Datagrid>
           </ReferenceManyField>
+        </FormTab>
+
+        <FormTab label="Experimental" icon={<ScienceIcon />} path="experimental">
+          <ExperimentalFeaturesList />
         </FormTab>
       </TabbedForm>
     </Edit>
