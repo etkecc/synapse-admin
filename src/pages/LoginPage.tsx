@@ -33,7 +33,7 @@ const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
   const { restrictBaseUrl } = useAppContext();
-  const allowSingleBaseUrl = typeof restrictBaseUrl === "string";
+  const allowSingleBaseUrl = typeof restrictBaseUrl === "string" && restrictBaseUrl !== "";
   const allowMultipleBaseUrls =
     Array.isArray(restrictBaseUrl) &&
     restrictBaseUrl.length > 0 &&

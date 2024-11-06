@@ -3,17 +3,17 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 import App from "./App";
-import { WellKnownKey, LoadConfig } from "./components/config";
-import { AppContext, MenuItem } from "./AppContext";
+import { Config, WellKnownKey, LoadConfig } from "./components/config";
+import { AppContext } from "./AppContext";
 import storage from "./storage";
 
 // load config.json
-let props: AppContextType = {};
+let props: Config = {};
 try {
   const resp = await fetch("config.json");
   const configJSON = await resp.json();
   console.log("Loaded config.json", configJSON);
-  props = LoadConfig(configJSON as AppContextType);
+  props = LoadConfig(configJSON as Config);
 } catch (e) {
   console.error(e);
 }
@@ -28,7 +28,7 @@ if (homeserver) {
       console.log(`Loaded https://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`, configWK);
     } else {
       console.log(`Loaded https://${homeserver}.well-known/matrix/client`, configWK);
-      props = LoadConfig(configWK[WellKnownKey] as AppContextType);
+      props = LoadConfig(configWK[WellKnownKey] as Config);
     }
   } catch (e) {
     console.log(`https://${homeserver}/.well-known/matrix/client not found, skipping`, e);

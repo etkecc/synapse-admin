@@ -1,9 +1,21 @@
-import { AppContextType, MenuItem } from "../AppContext";
 import storage from "../storage";
+
+export interface Config {
+  restrictBaseUrl: string | string[];
+  asManagedUsers: string[];
+  supportURL: string;
+  menu: MenuItem[];
+}
+
+export interface MenuItem {
+  label: string;
+  icon: string;
+  url: string;
+}
 
 export const WellKnownKey = "cc.etke.synapse-admin";
 
-export const LoadConfig = (context: AppContextType): AppContextType => {
+export const LoadConfig = (context: Config): Config => {
   if (context.restrictBaseUrl) {
     storage.setItem("restrict_base_url", JSON.stringify(context.restrictBaseUrl));
   }
@@ -30,6 +42,7 @@ export const LoadConfig = (context: AppContextType): AppContextType => {
   }
 
   // below we try to calculate "final" config, which will contain values from context and already set values in storage
+  // because LoadConfig could be called multiple times to get config from different sources
   let finalAsManagedUsers: string[] = [];
   try {
     finalAsManagedUsers = JSON.parse(storage.getItem("as_managed_users") || "");
@@ -45,6 +58,6 @@ export const LoadConfig = (context: AppContextType): AppContextType => {
     asManagedUsers: finalAsManagedUsers,
     supportURL: storage.getItem("support_url") || "",
     menu: finalMenu,
-  } as AppContextType;
+  } as Config;
 
 }

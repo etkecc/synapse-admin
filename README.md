@@ -90,6 +90,7 @@ with a proper manifest.json generation on build)
 * [Add option to control user's experimental features](https://github.com/etkecc/synapse-admin/pull/111)
 * [Add random password generation on user create/edit form](https://github.com/etkecc/synapse-admin/pull/123)
 * [Add option to set user's rate limits](https://github.com/etkecc/synapse-admin/pull/125)
+* [Support configuration via /.well-known/matrix/client](https://github.com/etkecc/synapse-admin/pull/126)
 
 _the list will be updated as new changes are added_
 
@@ -106,7 +107,11 @@ After that open `http://localhost:5173` in your browser, login using the followi
 
 ## Configuration
 
-You can use `config.json` file to configure synapse-admin
+You can use `config.json` file to configure Synapse Admin instance,
+and `/.well-known/matrix/client` file to provide Synapse Admin configuration specifically for your homeserver.
+In the latter case, any instance of Synapse Admin will automatically pick up the configuration from the homeserver.
+Note that configuration inside the `/.well-known/matrix/client` file should go under the `cc.etke.synapse-admin` key,
+and it will override the configuration from the `config.json` file.
 
 The `config.json` can be injected into a Docker container using a bind mount.
 
@@ -131,11 +136,31 @@ Edit `config.json` to restrict either to a single homeserver:
 }
 ```
 
+similar for `/.well-known/matrix/client`:
+
+```json
+{
+  "cc.etke.synapse-admin": {
+    "restrictBaseUrl": "https://your-matrixs-erver.example.com"
+  }
+}
+```
+
 or to a list of homeservers:
 
 ```json
 {
   "restrictBaseUrl": ["https://your-first-matrix-server.example.com", "https://your-second-matrix-server.example.com"]
+}
+```
+
+similar for `/.well-known/matrix/client`:
+
+```json
+{
+  "cc.etke.synapse-admin": {
+    "restrictBaseUrl": ["https://your-first-matrix-server.example.com", "https://your-second-matrix-server.example.com"]
+  }
 }
 ```
 
@@ -149,6 +174,16 @@ Example for [mautrix-telegram](https://github.com/mautrix/telegram)
 ```json
 {
   "asManagedUsers": ["^@telegram_[a-zA-Z0-9]+:example\\.com$"]
+}
+```
+
+similar for `/.well-known/matrix/client`:
+
+```json
+{
+  "cc.etke.synapse-admin": {
+    "asManagedUsers": ["^@telegram_[a-zA-Z0-9]+:example\\.com$"]
+  }
 }
 ```
 
@@ -168,6 +203,22 @@ You can add custom menu items to the main menu by providing a `menu` array in th
 }
 ```
 
+similar for `/.well-known/matrix/client`:
+
+```json
+{
+  "cc.etke.synapse-admin": {
+    "menu": [
+      {
+        "label": "Contact support",
+        "icon": "SupportAgent",
+        "url": "https://github.com/etkecc/synapse-admin/issues"
+      }
+    ]
+  }
+}
+```
+
 Where `icon` is one of the [preloaded icons](./src/components/icons.ts)
 
 ### Providing support URL
@@ -179,6 +230,16 @@ Where `icon` is one of the [preloaded icons](./src/components/icons.ts)
 ```json
 {
   "supportURL": "https://example.com/support"
+}
+```
+
+similar for `/.well-known/matrix/client`:
+
+```json
+{
+  "cc.etke.synapse-admin": {
+    "supportURL": "https://example.com/support"
+  }
 }
 ```
 
