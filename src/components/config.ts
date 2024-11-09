@@ -43,6 +43,13 @@ export const LoadConfig = (context: Config): Config => {
 
   // below we try to calculate "final" config, which will contain values from context and already set values in storage
   // because LoadConfig could be called multiple times to get config from different sources
+  let finalRestrictBaseUrl: string | string[] = "";
+  try {
+    finalRestrictBaseUrl = JSON.parse(storage.getItem("restrict_base_url") || "");
+    if (Array.isArray(finalRestrictBaseUrl) && finalRestrictBaseUrl.length == 1) {
+      finalRestrictBaseUrl = finalRestrictBaseUrl[0];
+    }
+  } catch (e) {}
   let finalAsManagedUsers: string[] = [];
   try {
     finalAsManagedUsers = JSON.parse(storage.getItem("as_managed_users") || "");
@@ -54,10 +61,27 @@ export const LoadConfig = (context: Config): Config => {
   } catch (e) {}
 
   return {
-    restrictBaseUrl: storage.getItem("restrict_base_url") || "",
+    restrictBaseUrl: finalRestrictBaseUrl,
     asManagedUsers: finalAsManagedUsers,
     supportURL: storage.getItem("support_url") || "",
     menu: finalMenu,
   } as Config;
 
+}
+
+
+export const ClearConfig = () => {
+  // config.json
+  storage.removeItem("restrict_base_url");
+  storage.removeItem("as_managed_users");
+  storage.removeItem("support_url");
+  storage.removeItem("menu");
+
+  // session
+  storage.removeItem("home_server");
+  storage.removeItem("base_url");
+  storage.removeItem("user_id");
+  storage.removeItem("device_id");
+  storage.removeItem("access_token");
+  storage.removeItem("login_type");
 }

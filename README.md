@@ -113,6 +113,10 @@ In the latter case, any instance of Synapse Admin will automatically pick up the
 Note that configuration inside the `/.well-known/matrix/client` file should go under the `cc.etke.synapse-admin` key,
 and it will override the configuration from the `config.json` file.
 
+In case you use [spantaleev/matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) or
+[etkecc/ansible](https://github.com/etkecc/ansible),
+configuration will be automatically added to the `/.well-known/matrix/client` file.
+
 The `config.json` can be injected into a Docker container using a bind mount.
 
 ```yml

@@ -2,6 +2,7 @@ import { AppBar, TitlePortal, InspectorButton, Confirm, Layout, Logout, Menu, us
 import { LoginMethod } from "../pages/LoginPage";
 import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "./icons";
+import { ClearConfig } from "./config";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -21,8 +22,7 @@ const AdminUserMenu = () => {
 
   const handleDialogClose = () => {
     setOpen(false);
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("login_type");
+    ClearConfig();
     window.location.reload();
   };
 

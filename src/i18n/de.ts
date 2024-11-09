@@ -194,7 +194,7 @@ const de: SynapseTranslationMessages = {
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",
-        messages_per_second_text: "Die Anzahl der Aktionen, die in einer Sekunde durchgeführt werden können. 0 bedeutet, dass die Rate-Limitierung für diesen Benutzer deaktiviert ist.",
+        messages_per_second_text: "Die Anzahl der Aktionen, die in einer Sekunde durchgeführt werden können.",
         burst_count: "Burst-Anzahl",
         burst_count_text: "Die Anzahl der Aktionen, die vor der Begrenzung durchgeführt werden können.",
       }

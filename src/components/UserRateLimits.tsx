@@ -4,11 +4,16 @@ import { useDataProvider, useNotify, useRecordContext, useTranslate } from "reac
 import { TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
-const RateLimitRow = ({ limit, value, updateRateLimit }: { limit: string, value: number, updateRateLimit: (limit: string, value: number) => void }) => {
+const RateLimitRow = ({ limit, value, updateRateLimit }: { limit: string, value: any, updateRateLimit: (limit: string, value: any) => void }) => {
   const translate = useTranslate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    updateRateLimit(limit, parseInt(event.target.value));
+    const value = parseInt(event.target.value);
+    if (isNaN(value)) {
+      updateRateLimit(limit, null);
+      return;
+    }
+    updateRateLimit(limit, value);
   };
 
   return <Stack
@@ -48,8 +53,8 @@ export const UserRateLimits = () => {
   const form = useFormContext();
   const dataProvider = useDataProvider();
   const [rateLimits, setRateLimits] = useState({
-    messages_per_second: 0,
-    burst_count: 0,
+    messages_per_second: "", // we are setting string here to make the number field empty by default, null is prohibited by the field validation
+    burst_count: "",
   });
 
   if (!record) {
@@ -67,7 +72,7 @@ export const UserRateLimits = () => {
       fetchRateLimits();
   }, []);
 
-  const updateRateLimit = async (limit: string, value: number) => {
+  const updateRateLimit = async (limit: string, value: any) => {
     let updatedRateLimits = { ...rateLimits, [limit]: value };
     setRateLimits(updatedRateLimits);
     form.setValue(`rates.${limit}`, value, { shouldDirty: true });

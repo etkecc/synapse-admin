@@ -160,7 +160,7 @@ const it: SynapseTranslationMessages = {
       },
       limits: {
         messages_per_second: "Messaggi al secondo",
-        messages_per_second_text: "Il numero di azioni che l'utente può eseguire al secondo. 0 significa che la limitazione è disabilitata per questo utente.",
+        messages_per_second_text: "Il numero di azioni che l'utente può eseguire al secondo.",
         burst_count: "Burst-conteggio",
         burst_count_text: "Il numero di azioni che l'utente può eseguire prima di essere limitato.",
       }

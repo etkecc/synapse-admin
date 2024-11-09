@@ -167,7 +167,7 @@ const en: SynapseTranslationMessages = {
       },
       limits: {
         messages_per_second: "Messages per second",
-        messages_per_second_text: "The number of actions that can be performed in a second. 0 mean that ratelimiting is disabled for this user",
+        messages_per_second_text: "The number of actions that can be performed in a second.",
         burst_count: "Burst count",
         burst_count_text: "How many actions that can be performed before being limited.",
       }

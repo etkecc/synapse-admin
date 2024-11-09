@@ -159,7 +159,7 @@ const fa: SynapseTranslationMessages = {
       },
       limits: {
         messages_per_second: "پیام در ثانیه",
-        messages_per_second_text: "تعداد عملیاتی که می تواند در یک ثانیه انجام شود. 0 به معنای غیرفعال کردن محدودیت برای این کاربر است.",
+        messages_per_second_text: "تعداد عملیاتی که می تواند در یک ثانیه انجام شود.",
         burst_count: "تعداد پیچیدگی",
         burst_count_text: "تعداد عملیاتی که می تواند قبل از محدودیت انجام شود.",
       }

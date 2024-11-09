@@ -161,7 +161,7 @@ const fr: SynapseTranslationMessages = {
       },
       limits: {
         messages_per_second: "Messages par seconde",
-        messages_per_second_text: "Le nombre d'actions que l'utilisateur peut effectuer par seconde. 0 signifie que la limitation est désactivée pour cet utilisateur.",
+        messages_per_second_text: "Le nombre d'actions que l'utilisateur peut effectuer par seconde.",
         burst_count: "Compteur de pics",
         burst_count_text: "Le nombre d'actions que l'utilisateur peut effectuer avant d'être limité.",
       }

@@ -184,7 +184,7 @@ const zh: SynapseTranslationMessages = {
       },
       limits: {
         messages_per_second: "每秒消息数",
-        messages_per_second_text: "每秒可以执行的操作数。0 表示禁用此用户的限制。",
+        messages_per_second_text: "每秒可以执行的操作数。",
         burst_count: "Burst-计数",
         burst_count_text: "在限制之前可以执行的操作数。",
       }

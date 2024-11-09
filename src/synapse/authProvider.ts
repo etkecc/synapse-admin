@@ -3,6 +3,7 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 import storage from "../storage";
 import { MatrixError, displayError } from "../components/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
+import { ClearConfig } from "../components/config";
 
 const authProvider: AuthProvider = {
   // called when the user attempts to log in
@@ -154,8 +155,7 @@ const authProvider: AuthProvider = {
       } catch (err) {
         console.log("Error logging out", err);
       } finally {
-        storage.removeItem("access_token");
-        storage.removeItem("login_type");
+        ClearConfig();
       }
     }
   },

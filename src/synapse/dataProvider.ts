@@ -837,9 +837,21 @@ const baseDataProvider: SynapseDataProvider = {
     return json as RateLimitsModel;
   },
   setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
+    const filtered = Object.entries(rateLimits).
+      filter(([key, value]) => value !== null && value !== undefined).
+      reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+      }, {});
+
     const base_url = storage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
-    await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(rateLimits) });
+    if (Object.keys(filtered).length === 0) {
+      await jsonClient(endpoint_url, { method: "DELETE" });
+      return
+    }
+
+    await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
   },
 };
 
