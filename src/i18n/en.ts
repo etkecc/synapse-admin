@@ -166,7 +166,7 @@ const en: SynapseTranslationMessages = {
         redact_events: "Redact all events sent by the user(-s)",
         generate_password: "Generate password",
         overwrite_title: "Warning!",
-        overwrite_content: "This username is already taken. Are you certain that you intend to overwrite the existing user?",
+        overwrite_content: "This username is already taken. Are you sure that you want to overwrite the existing user?",
         overwrite_cancel: "Cancel",
         overwrite_confirm: "Overwrite",
       },
