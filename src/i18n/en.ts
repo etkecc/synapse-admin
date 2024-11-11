@@ -157,6 +157,7 @@ const en: SynapseTranslationMessages = {
         erase_text: "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
         erase_admin_error: "Deleting own user is not allowed.",
         modify_managed_user_error: "Modifying a system-managed user is not allowed.",
+        username_available: "Username is available",
       },
       action: {
         erase: "Erase user data",
@@ -164,6 +165,10 @@ const en: SynapseTranslationMessages = {
         delete_media: "Delete all media uploaded by the user(-s)",
         redact_events: "Redact all events sent by the user(-s)",
         generate_password: "Generate password",
+        overwrite_title: "Warning!",
+        overwrite_content: "This username is already taken. Are you certain that you intend to overwrite the existing user?",
+        overwrite_cancel: "Cancel",
+        overwrite_confirm: "Overwrite",
       },
       limits: {
         messages_per_second: "Messages per second",

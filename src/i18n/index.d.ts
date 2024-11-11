@@ -149,6 +149,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         erase_text: string;
         erase_admin_error: string;
         modify_managed_user_error: string;
+        username_available: string;
       };
       action: {
         erase: string;
@@ -156,6 +157,10 @@ interface SynapseTranslationMessages extends TranslationMessages {
         delete_media: string;
         redact_events: string;
         generate_password: string;
+        overwrite_title: string;
+        overwrite_content: string;
+        overwrite_cancel: string;
+        overwrite_confirm: string;
       };
       limits: {
         messages_per_second: string;

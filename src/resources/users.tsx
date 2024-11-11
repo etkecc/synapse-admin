@@ -11,7 +11,8 @@ import ScienceIcon from "@mui/icons-material/Science";
 import LockClockIcon from '@mui/icons-material/LockClock';
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { useEffect, useState } from "react";
-import { Alert } from "@mui/material";
+import { Alert, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import {
   ArrayInput,
   ArrayField,
@@ -60,6 +61,9 @@ import {
   ImageField,
   FunctionField,
   useDataProvider,
+  Confirm,
+  useCreate,
+  useRedirect,
 } from "react-admin";
 import { Link } from "react-router-dom";
 
@@ -71,9 +75,10 @@ import { DATE_FORMAT } from "../components/date";
 import { DeviceRemoveButton } from "../components/devices";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { generateRandomPassword } from "../synapse/synapse";
-import { useFormContext } from "react-hook-form";
+import { SubmitHandler, FieldValues, useFormContext, useFormState } from "react-hook-form";
 import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
 import { UserRateLimits } from "../components/UserRateLimits";
+import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -213,13 +218,70 @@ const UserEditActions = () => {
   );
 };
 
-export const UserCreate = (props: CreateProps) => (
-  <Create
+export const UserCreate = (props: CreateProps) => {
+  const dataProvider = useDataProvider();
+  const translate = useTranslate();
+  const redirect = useRedirect();
+  const notify = useNotify();
+  const theme = useTheme();
+
+  const [open, setOpen] = useState(false);
+  const [userIsAvailable, setUserIsAvailable] = useState<boolean | undefined>();
+  const [userAvailabilityEl, setUserAvailabilityEl] = useState<React.ReactElement | false>(<Typography component="span"></Typography>);
+  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [create] = useCreate();
+
+  const checkAvailability = async(event: React.FocusEvent<HTMLInputElement>) => {
+    const username = event.target.value;
+    const result: UsernameAvailabilityResult = await dataProvider.checkUsernameAvailability(username);
+    setUserIsAvailable(!!result?.available);
+    if (result?.available) {
+      setUserAvailabilityEl(<Typography component="span" variant="body2" sx={{ color: theme.palette.success.main }}>✔️ {translate("resources.users.helper.username_available")}</Typography>);
+    } else {
+      setUserAvailabilityEl(<Typography component="span" variant="body2" sx={{ color:  theme.palette.warning.main }}>⚠️ {result?.error || "unknown error"}</Typography>);
+    }
+  };
+
+  const postSave = (data: Record<string, any>) => {
+    setFormData(data);
+    if (!userIsAvailable) {
+      setOpen(true);
+      return;
+    }
+
+    create("users", { data: data }, {
+      onSuccess: (resource: User) => {
+        notify("ra.notification.created", { messageArgs: { smart_count: 1 } });
+        redirect(() => { return `users/${resource.id}` });
+      }
+    });
+  };
+
+  const handleConfirm = () => {
+    setOpen(false);
+    updateUser();
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
+
+  const updateUser = () => {
+    create("users", { data: formData }, {
+      onSuccess: (resource: User) => {
+        notify("ra.notification.updated", { messageArgs: { smart_count: 1 } });
+        redirect(() => { return `users/${resource.id}` });
+      }
+    });
+  }
+
+  return <Create
     {...props}
-    redirect={(resource: string | undefined, id: Identifier | undefined) => `${resource}/${id}`}
   >
-    <SimpleForm>
-      <TextInput source="id" autoComplete="off" validate={validateUser} />
+    <SimpleForm
+      onSubmit={postSave}
+    >
+      <TextInput source="id" autoComplete="off" validate={validateUser} onBlur={checkAvailability} helperText={userAvailabilityEl}/>
       <TextInput source="displayname" validate={maxLength(256)} />
       <PasswordInput source="password" autoComplete="new-password" validate={maxLength(512)} />
       <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable />
@@ -237,8 +299,17 @@ export const UserCreate = (props: CreateProps) => (
         </SimpleFormIterator>
       </ArrayInput>
     </SimpleForm>
+    <Confirm
+        isOpen={open}
+        title="resources.users.action.overwrite_title"
+        content="resources.users.action.overwrite_content"
+        onConfirm={handleConfirm}
+        onClose={handleDialogClose}
+        confirm="resources.users.action.overwrite_confirm"
+        cancel="resources.users.action.overwrite_cancel"
+      />
   </Create>
-);
+};
 
 const UserTitle = () => {
   const record = useRecordContext();

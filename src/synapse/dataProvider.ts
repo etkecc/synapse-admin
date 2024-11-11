@@ -120,7 +120,8 @@ interface ExternalId {
   external_id: string;
 }
 
-interface User {
+export interface User {
+  id?: string;
   name: string;
   displayname?: string;
   threepids: Threepid[];
@@ -259,12 +260,19 @@ export interface RateLimitsModel {
   burst_count?: number;
 }
 
+export interface UsernameAvailabilityResult {
+  available?: boolean;
+  error?: string;
+  errcode?: string;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   uploadMedia: (params: UploadMediaParams) => Promise<UploadMediaResult>;
   updateFeatures: (id: Identifier, features: ExperimentalFeaturesModel) => Promise<void>;
   getRateLimits: (id: Identifier) => Promise<RateLimitsModel>;
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
+  checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
 }
 
 const resourceMap = {
@@ -846,6 +854,19 @@ const baseDataProvider: SynapseDataProvider = {
 
     await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
   },
+  checkUsernameAvailability: async (username: string) => {
+    const base_url = storage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/username_available?username=${encodeURIComponent(username)}`;
+    try {
+      const { json } = await jsonClient(endpoint_url);
+      return json as UsernameAvailabilityResult;
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return { available: false, error: error.body.error, errcode: error.body.errcode } as UsernameAvailabilityResult;
+      }
+      throw error;
+    }
+  }
 };
 
 const dataProvider = withLifecycleCallbacks(baseDataProvider, [

@@ -174,6 +174,7 @@ const zh: SynapseTranslationMessages = {
         erase_text: "这意味着用户发送的信息对于发送信息时在房间内的任何人来说都是可见的，但对于之后加入房间的用户来说则是隐藏的。",
         erase_admin_error: "不允许删除自己的用户",
         modify_managed_user_error: "不允许修改系统管理的用户。",
+        username_available: "用户名可用",
       },
       action: {
         erase: "抹除用户信息",
@@ -181,6 +182,10 @@ const zh: SynapseTranslationMessages = {
         delete_media: "删除用户上传的所有媒体",
         redact_events: "重新编辑用户（-s）发送的所有事件",
         generate_password: "生成密码",
+        overwrite_title: "警告！",
+        overwrite_content: "这个用户名已经被占用。您确定要覆盖现有的用户吗？",
+        overwrite_cancel: "取消",
+        overwrite_confirm: "覆盖",
       },
       limits: {
         messages_per_second: "每秒消息数",

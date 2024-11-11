@@ -150,6 +150,7 @@ const it: SynapseTranslationMessages = {
         erase_text: "Ciò significa che i messaggi inviati dall'utente (o dagli utenti) saranno ancora visibili da chiunque si trovasse nella stanza al momento dell'invio, ma saranno nascosti agli utenti che si uniranno alla stanza in seguito.",
         erase_admin_error: "Non è consentito eliminare il proprio utente.",
         modify_managed_user_error: "La modifica di un utente gestito dal sistema non è consentita.",
+        username_available: "Nome utente disponibile",
       },
       action: {
         erase: "Cancella i dati dell'utente",
@@ -157,6 +158,10 @@ const it: SynapseTranslationMessages = {
         delete_media: "Elimina tutti i media caricati dall'utente(-s)",
         redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
         generate_password: "Genera password",
+        overwrite_title: "Attenzione!",
+        overwrite_content: "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",
+        overwrite_cancel: "Annulla",
+        overwrite_confirm: "Sovrascrivi",
       },
       limits: {
         messages_per_second: "Messaggi al secondo",

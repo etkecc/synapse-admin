@@ -149,6 +149,7 @@ const fa: SynapseTranslationMessages = {
         erase_text: "وهذا يعني أن الرسائل المرسلة من قبل المستخدم (المستخدمين) ستظل مرئية من قبل أي شخص كان في الغرفة عند إرسال هذه الرسائل، ولكنها مخفية عن المستخدمين الذين ينضمون إلى الغرفة بعد ذلك.",
         erase_admin_error: "حذف المستخدم الخاص غير مسموح به.",
         modify_managed_user_error: "لا يُسمح بتغيير المستخدم الذي يديره النظام.",
+        username_available: "نام کاربری موجود",
       },
       action: {
         erase: "پاک کردن اطلاعات کاربر",
@@ -156,6 +157,10 @@ const fa: SynapseTranslationMessages = {
         delete_media: "حذف جميع الوسائط التي تم تحميلها بواسطة المستخدم (المستخدمين)",
         redact_events: "تنقيح جميع الأحداث المرسلة من قبل المستخدم (-s)",
         generate_password: "توليد رمز عبور",
+        overwrite_title: "هشدار!",
+        overwrite_content: "این نام کاربری قبلا استفاده شده است. آیا مطمئن هستید که می خواهید کاربر موجود را بازنویسی کنید؟",
+        overwrite_cancel: "انصراف",
+        overwrite_confirm: "بازنویسی",
       },
       limits: {
         messages_per_second: "پیام در ثانیه",

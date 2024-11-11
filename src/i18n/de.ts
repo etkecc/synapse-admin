@@ -184,6 +184,7 @@ const de: SynapseTranslationMessages = {
         erase_text: "Das bedeutet, dass die von dem/den Benutzer(n) gesendeten Nachrichten für alle, die zum Zeitpunkt des Sendens im Raum waren, sichtbar bleiben, aber für Benutzer, die dem Raum später beitreten, nicht sichtbar sind.",
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",
         modify_managed_user_error: "Das Ändern eines vom System verwalteten Benutzers ist nicht zulässig.",
+        username_available: "Benutzername verfügbar",
       },
       action: {
         erase: "Lösche Benutzerdaten",
@@ -191,6 +192,10 @@ const de: SynapseTranslationMessages = {
         delete_media: "Alle von dem/den Benutzer(n) hochgeladenen Medien löschen",
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
         generate_password: "Passwort generieren",
+        overwrite_title: "Warnung!",
+        overwrite_content: "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",
+        overwrite_cancel: "Abbrechen",
+        overwrite_confirm: "Überschreiben",
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",
