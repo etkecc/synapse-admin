@@ -75,7 +75,7 @@ import { DATE_FORMAT } from "../components/date";
 import { DeviceRemoveButton } from "../components/devices";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { generateRandomPassword } from "../synapse/synapse";
-import { SubmitHandler, FieldValues, useFormContext, useFormState } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
 import { UserRateLimits } from "../components/UserRateLimits";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
