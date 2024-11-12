@@ -91,6 +91,7 @@ with a proper manifest.json generation on build)
 * [Add random password generation on user create/edit form](https://github.com/etkecc/synapse-admin/pull/123)
 * [Add option to set user's rate limits](https://github.com/etkecc/synapse-admin/pull/125)
 * [Support configuration via /.well-known/matrix/client](https://github.com/etkecc/synapse-admin/pull/126)
+* [Prevent accidental user overwrites](https://github.com/etkecc/synapse-admin/pull/139)
 
 _the list will be updated as new changes are added_
 
