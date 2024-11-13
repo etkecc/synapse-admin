@@ -172,11 +172,15 @@ const LoginPage = () => {
     useEffect(() => {
       const params = new URLSearchParams(window.location.search);
       const username = params.get("username");
-      const serverURL = params.get("server");
+      let serverURL = params.get("server");
       if (username) {
         form.setValue("username", username);
       }
       if (serverURL) {
+        const isFullUrl = serverURL.match(/^(http|https):\/\//);
+        if (!isFullUrl) {
+          serverURL = `https://${serverURL}`;
+        }
         form.setValue("base_url", serverURL);
       }
     }, [window.location.search]);
