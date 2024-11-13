@@ -8,7 +8,12 @@ import { AppContext } from "./AppContext";
 import storage from "./storage";
 
 // load config.json
-let props: Config = {};
+let props: Config = {
+  restrictBaseUrl: [],
+  asManagedUsers: [],
+  supportURL: "",
+  menu: [],
+};
 try {
   const resp = await fetch("config.json");
   const configJSON = await resp.json();

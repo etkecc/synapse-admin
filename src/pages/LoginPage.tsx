@@ -96,6 +96,9 @@ const LoginPage = () => {
 
   const handleSubmit = auth => {
     setLoading(true);
+    const cleanUrl = window.location.href.replace(window.location.search, "");
+    window.history.replaceState({}, "", cleanUrl);
+
     login(auth).catch(error => {
       setLoading(false);
       notify(
@@ -166,6 +169,18 @@ const LoginPage = () => {
         .catch(() => setSSOBaseUrl(""));
     }, [formData.base_url, form]);
 
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search);
+      const username = params.get("username");
+      const serverURL = params.get("server");
+      if (username) {
+        form.setValue("username", username);
+      }
+      if (serverURL) {
+        form.setValue("base_url", serverURL);
+      }
+    }, [window.location.search]);
+
     return (
       <>
         <Tabs
@@ -186,10 +201,10 @@ const LoginPage = () => {
                 source="username"
                 label="ra.auth.username"
                 autoComplete="username"
-                disabled={loading || !supportPassAuth}
                 onBlur={handleUsernameChange}
                 resettable
                 validate={required()}
+                {...(loading || !supportPassAuth ? { disabled: true } : {})}
               />
             </Box>
             <Box>
@@ -198,7 +213,7 @@ const LoginPage = () => {
                 label="ra.auth.password"
                 type="password"
                 autoComplete="current-password"
-                disabled={loading || !supportPassAuth}
+                {...(loading || !supportPassAuth ? { disabled: true } : {})}
                 resettable
                 validate={required()}
               />
@@ -209,7 +224,7 @@ const LoginPage = () => {
             <TextInput
               source="accessToken"
               label="synapseadmin.auth.access_token"
-              disabled={loading}
+              {...(loading ? { disabled: true } : {})}
               resettable
               validate={required()}
             />
@@ -221,7 +236,7 @@ const LoginPage = () => {
             label="synapseadmin.auth.base_url"
             select={allowMultipleBaseUrls}
             autoComplete="url"
-            disabled={loading}
+            {...(loading ? { disabled: true } : {})}
             readOnly={allowSingleBaseUrl}
             resettable={allowAnyBaseUrl}
             validate={[required(), validateBaseUrl]}
