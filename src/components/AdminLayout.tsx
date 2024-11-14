@@ -1,4 +1,4 @@
-import { AppBar, TitlePortal, InspectorButton, Confirm, Layout, Logout, Menu, useLogout, UserMenu } from "react-admin";
+import { CheckForApplicationUpdate, AppBar, TitlePortal, InspectorButton, Confirm, Layout, Logout, Menu, useLogout, UserMenu } from "react-admin";
 import { LoginMethod } from "../pages/LoginPage";
 import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "./icons";
@@ -99,5 +99,6 @@ export const AdminLayout = ({ children }) => (
       },
     }}>
     {children}
+    <CheckForApplicationUpdate />
   </Layout>
 );
