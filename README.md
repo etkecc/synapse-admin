@@ -23,6 +23,7 @@ This project is built using [react-admin](https://marmelab.com/react-admin/).
   * [Changes](#changes)
   * [Development](#development)
 * [Configuration](#configuration)
+  * [Prefilling login form](#prefilling-login-form)
   * [Restricting available homeserver](#restricting-available-homeserver)
   * [Protecting appservice managed users](#protecting-appservice-managed-users)
   * [Adding custom menu items](#adding-custom-menu-items)
@@ -92,6 +93,7 @@ with a proper manifest.json generation on build)
 * [Add option to set user's rate limits](https://github.com/etkecc/synapse-admin/pull/125)
 * [Support configuration via /.well-known/matrix/client](https://github.com/etkecc/synapse-admin/pull/126)
 * [Prevent accidental user overwrites](https://github.com/etkecc/synapse-admin/pull/139)
+* [Allow providing login form details via GET params](https://github.com/etkecc/synapse-admin/pull/140)
 
 _the list will be updated as new changes are added_
 
@@ -129,6 +131,17 @@ services:
     ...
 ```
 
+### Prefilling login form
+
+You can prefill `username` and `homeserver` fields on the login page using GET parameters, example:
+
+```
+https://matrix.example.com/synapse-admin/?username=admin&server=matrix.example.com
+```
+
+That way `username` and `homeserver` fields will be pre-filled with `admin` and `https://matrix.example.com` respectively.
+
+
 ### Restricting available homeserver
 
 You can restrict the homeserver(s), so that the user can no longer define it himself.
@@ -137,7 +150,7 @@ Edit `config.json` to restrict either to a single homeserver:
 
 ```json
 {
-  "restrictBaseUrl": "https://your-matrixs-erver.example.com"
+  "restrictBaseUrl": "https://matrix.example.com"
 }
 ```
 
@@ -146,7 +159,7 @@ similar for `/.well-known/matrix/client`:
 ```json
 {
   "cc.etke.synapse-admin": {
-    "restrictBaseUrl": "https://your-matrixs-erver.example.com"
+    "restrictBaseUrl": "https://matrix.example.com"
   }
 }
 ```
