@@ -33,7 +33,7 @@ const Footer = () => {
       gap: '10px'
     }}>
       <Avatar src="./images/logo.webp" sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }} />
-      <Link sx={{ display: 'inline-block', color: theme.palette.info.main, textDecoration: 'none' }} href="https://github.com/etkecc/synapse-admin" target="_blank">
+      <Link sx={{ color: theme.palette.info.main, textDecoration: 'none' }} href="https://github.com/etkecc/synapse-admin" target="_blank">
         Synapse Admin
       </Link>
       <Link sx={{ display: 'inline-block', color: theme.palette.grey[600] }} href={`https://github.com/etkecc/synapse-admin/releases/tag/`+version} target="_blank">
