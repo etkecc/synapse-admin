@@ -4741,12 +4741,12 @@ ra-i18n-polyglot@^5.3.3, ra-i18n-polyglot@^5.3.4:
     node-polyglot "^2.2.2"
     ra-core "^5.3.4"
 
-ra-language-english@^5.3.2, ra-language-english@^5.3.3:
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.3.3.tgz#9f532dd2471d3b9ae818245044d186d5b27c707e"
-  integrity sha512-MM8y1R+Ts8Q9Vn+lph27kFwscs+lzMb+xmtDSQIK0/1Fq8f96JA8ogw0u+lKGhTA7t1iudjulBlD/mnuYZJoGg==
+ra-language-english@^5.3.3, ra-language-english@^5.3.4:
+  version "5.3.4"
+  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.3.4.tgz#a1ffcd848ec1b080f4dc3728332e0ceedb1f6783"
+  integrity sha512-QR0ej0JKQaGmtGSh1W+O4HnoaTv/9SQBtpztAkTitPVjlCGJeNBr/IjriAxsp0ezhhCr+uZrwrCfoWjKPkjpDg==
   dependencies:
-    ra-core "^5.3.3"
+    ra-core "^5.3.4"
 
 ra-language-farsi@^5.0.0:
   version "5.0.0"
