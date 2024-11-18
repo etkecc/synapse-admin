@@ -40,6 +40,7 @@ import {
 } from "react-admin";
 
 import {
+  RoomDirectoryMakeAdminButton,
   RoomDirectoryBulkUnpublishButton,
   RoomDirectoryBulkPublishButton,
   RoomDirectoryUnpublishButton,
@@ -115,6 +116,7 @@ export const RoomShow = (props: ShowProps) => {
         </Tab>
 
         <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
+          <div>1</div>
           <ReferenceManyField reference="room_members" target="room_id" label={false}>
             <Datagrid style={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
               <TextField source="id" sortable={false} label="resources.users.fields.id" />
@@ -222,6 +224,7 @@ const RoomBulkActionButtons = () => {
   const record = useListContext();
   return (
     <>
+      <RoomDirectoryMakeAdminButton />
       <RoomDirectoryBulkPublishButton />
       <RoomDirectoryBulkUnpublishButton />
       <DeleteRoomButton

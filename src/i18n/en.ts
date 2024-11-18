@@ -38,7 +38,7 @@ const en: SynapseTranslationMessages = {
         members: "Members",
         detail: "Details",
         permission: "Permissions",
-      },
+      }
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
   },
@@ -233,6 +233,12 @@ const en: SynapseTranslationMessages = {
           success: "Room/s successfully deleted.",
           failure: "The room/s could not be deleted.",
         },
+        make_admin: {
+          title: "Assign a room admin to selected rooms",
+          confirm: "Make admin",
+          content: "Put the full MXID of the user which will be set as admin for the selected rooms",
+          success: "The user has been set as room admin."
+        }
       },
     },
     reports: {

@@ -14,7 +14,6 @@ import {
   Pagination,
   ResourceProps,
   SelectColumnsButton,
-  TextField,
   TopToolbar,
   useCreate,
   useDataProvider,
@@ -24,12 +23,77 @@ import {
   useRecordContext,
   useRefresh,
   useUnselectAll,
+  Confirm,
 } from "react-admin";
 import { useMutation } from "@tanstack/react-query";
 import AvatarField from "../components/AvatarField";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
+import PersonIcon from '@mui/icons-material/Person';
+import { Typography } from "@mui/material";
 
 
 const RoomDirectoryPagination = () => <Pagination rowsPerPageOptions={[100, 500, 1000, 2000]} />;
+
+export const RoomDirectoryMakeAdminButton = (props: ButtonProps) => {
+  const { selectedIds } = useListContext();
+  const [open, setOpen] = useState(false);
+  const [userIdValue, setUserIdValue] = useState("");
+  const dataProvider = useDataProvider();
+  const translate = useTranslate();
+
+  const { mutate: makeRoomAdminn, isPending } = useMutation({
+    mutationFn: (data) =>
+      dataProvider.makeRoomAdmin(selectedIds, userIdValue),
+    onSuccess: () => {
+      console.log("SUCCESS");
+      // notify("resources.servernotices.action.send_success");
+      // unselectAllUsers();
+      // closeDialog();
+    },
+    onError: () =>
+      // notify("resources.servernotices.action.send_failure", {
+      //   type: "error",
+      // }),
+      console.log("Failure")
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserIdValue(event.target.value);
+  };
+
+  const handleConfirm = async () => {
+    console.log("CONFIRMED");
+    await makeRoomAdminn();
+    // await dataProvider.makeRoomAdmin(selectedIds, userIdValue)
+  };
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Button {...props} label="Assign admin" onClick={() => setOpen(true)}><PersonIcon /></Button>
+      <Confirm
+        isOpen={open}
+        onConfirm={handleConfirm}
+        onClose={handleDialogClose}
+        confirm="resources.rooms.action.make_admin.confirm"
+        cancel="ra.action.cancel"
+        title="resources.rooms.action.make_admin.title"
+        content={<>
+          <Typography sx={{ marginBottom: 2}}>{translate("resources.rooms.action.make_admin.content")}</Typography>
+          <TextField
+            type="text"
+            variant="filled"
+            value={userIdValue}
+            onChange={handleChange}
+            label={"user id"}
+        /></>}
+      />
+    </>
+  );
+};
 
 export const RoomDirectoryUnpublishButton = (props: DeleteButtonProps) => {
   const translate = useTranslate();
