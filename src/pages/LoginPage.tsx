@@ -26,6 +26,7 @@ import {
   splitMxid,
 } from "../synapse/synapse";
 import storage from "../storage";
+import Footer from "../components/Footer";
 
 export type LoginMethod = "credentials" | "accessToken";
 
@@ -321,6 +322,7 @@ const LoginPage = () => {
         </Card>
       </LoginFormBox>
       <Notification />
+      <Footer />
     </Form>
   );
 };
