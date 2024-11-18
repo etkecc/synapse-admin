@@ -3,6 +3,7 @@ import { LoginMethod } from "../pages/LoginPage";
 import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "./icons";
 import { ClearConfig } from "./config";
+import Footer from "./Footer";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -88,8 +89,9 @@ const AdminMenu = (props) => {
   );
 };
 
-export const AdminLayout = ({ children }) => (
-  <Layout appBar={AdminAppBar} menu={AdminMenu} sx={{
+export const AdminLayout = ({ children }) => {
+  return <>
+    <Layout appBar={AdminAppBar} menu={AdminMenu} sx={{
       ['& .RaLayout-appFrame']: {
         minHeight: '90vh',
         height: '90vh',
@@ -98,7 +100,9 @@ export const AdminLayout = ({ children }) => (
         marginBottom: '3rem',
       },
     }}>
-    {children}
-    <CheckForApplicationUpdate />
-  </Layout>
-);
+      {children}
+      <CheckForApplicationUpdate />
+    </Layout>
+    <Footer />
+  </>
+};
