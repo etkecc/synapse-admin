@@ -12,7 +12,8 @@
 
 ---
 
-![Screenshots](./screenshots.jpg)
+![Login form](./screenshots/auth.webp)
+![Screenshots](./screenshots/screenshots.jpg)
 
 This project is built using [react-admin](https://marmelab.com/react-admin/).
 
@@ -94,6 +95,7 @@ with a proper manifest.json generation on build)
 * [Support configuration via /.well-known/matrix/client](https://github.com/etkecc/synapse-admin/pull/126)
 * [Prevent accidental user overwrites](https://github.com/etkecc/synapse-admin/pull/139)
 * [Allow providing login form details via GET params](https://github.com/etkecc/synapse-admin/pull/140)
+* [Add preferred theme colors to login page and footer](https://github.com/etkecc/synapse-admin/pull/155)
 
 _the list will be updated as new changes are added_
 

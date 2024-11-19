@@ -13,6 +13,8 @@ const Footer = () => {
     }
   }, []);
 
+  console.log(theme);
+
   return (<Box
     component="footer"
     sx={{
@@ -21,7 +23,7 @@ const Footer = () => {
       bottom: 0,
       width: '100%',
       bgcolor: theme.palette.background.default,
-      color: theme.palette.primary.contrastText,
+      color: theme.palette.text.primary,
       borderTop: '1px solid',
       borderColor: theme.palette.divider,
       fontSize: '0.89rem',
@@ -33,19 +35,15 @@ const Footer = () => {
       gap: '10px'
     }}>
       <Avatar src="./images/logo.webp" sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }} />
-      <Link sx={{ color: theme.palette.info.main, textDecoration: 'none' }} href="https://github.com/etkecc/synapse-admin" target="_blank">
-        Synapse Admin
+      <Link href="https://github.com/etkecc/synapse-admin" target="_blank">
+        Synapse Admin {version}
       </Link>
-      <Link sx={{ display: 'inline-block', color: theme.palette.grey[600] }} href={`https://github.com/etkecc/synapse-admin/releases/tag/`+version} target="_blank">
-        <span style={{ fontWeight: 'bold' }}>{version}</span>
+        by
+      <Link href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin" target="_blank">
+        etke.cc
       </Link>
-      <Link sx={{  textDecoration: 'none', color: theme.palette.info.main }} href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin" target="_blank">
-        by etke.cc
-      </Link>
-      <Link sx={{ textDecoration: 'none', color: theme.palette.grey[600] }} href="https://github.com/awesome-technologies/synapse-admin" target="_blank">
-        (originally developed by Awesome Technologies Innovationslabor GmbH).
-      </Link>
-      <Link sx={{ fontWeight: 'bold', color: theme.palette.info.main,textDecoration: 'none' }} href="https://matrix.to/#/#synapse-admin:etke.cc" target="_blank">#synapse-admin:etke.cc</Link>
+      (originally developed by Awesome Technologies Innovationslabor GmbH).
+      <Link sx={{ fontWeight: 'bold' }} href="https://matrix.to/#/#synapse-admin:etke.cc" target="_blank">#synapse-admin:etke.cc</Link>
   </Box>
   );
 };
