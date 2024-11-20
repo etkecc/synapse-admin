@@ -96,7 +96,6 @@ const RoomShowActions = () => {
 
 export const MakeAdminBtn = () => {
   const record = useRecordContext() as Room;
-  console.log("record@@@", record);
 
   if (!record) {
     return null;

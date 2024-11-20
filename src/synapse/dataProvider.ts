@@ -944,7 +944,7 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
         })
       );
       return params;
-    }
+    },
   },
 ]);
 

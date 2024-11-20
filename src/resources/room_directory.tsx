@@ -1,7 +1,6 @@
 import RoomDirectoryIcon from "@mui/icons-material/FolderShared";
 import {
   BooleanField,
-  TextField,
   BulkDeleteButton,
   BulkDeleteButtonProps,
   Button,
@@ -15,6 +14,7 @@ import {
   Pagination,
   ResourceProps,
   SelectColumnsButton,
+  TextField,
   TopToolbar,
   useCreate,
   useDataProvider,
@@ -27,7 +27,6 @@ import {
 } from "react-admin";
 import { useMutation } from "@tanstack/react-query";
 import AvatarField from "../components/AvatarField";
-
 const RoomDirectoryPagination = () => <Pagination rowsPerPageOptions={[100, 500, 1000, 2000]} />;
 
 export const RoomDirectoryUnpublishButton = (props: DeleteButtonProps) => {
