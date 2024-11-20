@@ -223,6 +223,14 @@ interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        make_admin: {
+          assign_admin: string;
+          title: string;
+          confirm: string;
+          content: string;
+          success: string;
+          failure: string;
+        };
       };
     };
     reports: {

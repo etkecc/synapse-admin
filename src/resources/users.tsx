@@ -79,6 +79,7 @@ import { useFormContext } from "react-hook-form";
 import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
 import { UserRateLimits } from "../components/UserRateLimits";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
+import { MakeAdminBtn } from "./rooms";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -526,6 +527,7 @@ export const UserEdit = (props: EditProps) => {
               >
                 <TextField source="name" sortable={false} />
               </ReferenceField>
+              <MakeAdminBtn />
             </Datagrid>
           </ReferenceManyField>
         </FormTab>

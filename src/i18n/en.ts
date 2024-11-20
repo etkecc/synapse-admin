@@ -234,10 +234,12 @@ const en: SynapseTranslationMessages = {
           failure: "The room/s could not be deleted.",
         },
         make_admin: {
-          title: "Assign a room admin to selected rooms",
+          assign_admin: "Assign admin",
+          title: "Assign a room admin to %{roomName}",
           confirm: "Make admin",
-          content: "Put the full MXID of the user which will be set as admin for the selected rooms",
-          success: "The user has been set as room admin."
+          content: "Put the full MXID of the user which will be set as admin.\nWarning: for this to work, the room needs to have at least one local member as admin.",
+          success: "The user has been set as room admin.",
+          failure: "The user could not be set as room admin. %{errMsg}",
         }
       },
     },

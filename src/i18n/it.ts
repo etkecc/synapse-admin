@@ -221,6 +221,14 @@ const it: SynapseTranslationMessages = {
         content:
           "Sei sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
       },
+      make_admin: {
+        assign_admin: "Assegna un amministratore",
+        title: "Assegna un amministratore alla stanza %{roomName}",
+        confirm: "Assegna un amministratore",
+        content: "Inserisci la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
+        success: "L'utente è stato designato come amministratore della stanza.",
+        failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
+      }
     },
   },
   reports: {

@@ -11,11 +11,11 @@ import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import {
   BooleanField,
-  BulkDeleteButton,
   DateField,
+  EditButton,
+  WrapperField,
   Datagrid,
   DatagridConfigurable,
-  DeleteButton,
   ExportButton,
   FunctionField,
   List,
@@ -32,15 +32,16 @@ import {
   ShowProps,
   Tab,
   TabbedShowLayout,
-  TextField,
+  TextField as RaTextField,
   TopToolbar,
   useRecordContext,
   useTranslate,
   useListContext,
+  useNotify,
 } from "react-admin";
 
+import TextField from "@mui/material/TextField";
 import {
-  RoomDirectoryMakeAdminButton,
   RoomDirectoryBulkUnpublishButton,
   RoomDirectoryBulkPublishButton,
   RoomDirectoryUnpublishButton,
@@ -49,7 +50,14 @@ import {
 import { DATE_FORMAT } from "../components/date";
 import DeleteRoomButton from "../components/DeleteRoomButton";
 import AvatarField from "../components/AvatarField";
-
+import { Room } from "../synapse/dataProvider";
+import { useMutation } from "@tanstack/react-query";
+import { useDataProvider } from "react-admin";
+import { Confirm } from "react-admin";
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import PersonIcon from '@mui/icons-material/Person';
+import Typography from "@mui/material/Typography";
 const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
 const RoomTitle = () => {
@@ -86,8 +94,96 @@ const RoomShowActions = () => {
   );
 };
 
+export const MakeAdminBtn = () => {
+  const record = useRecordContext() as Room;
+  console.log("record@@@", record);
+
+  if (!record) {
+    return null;
+  }
+
+  if (record.joined_local_members < 1) {
+    return null;
+  }
+
+  const [open, setOpen] = useState(false);
+  const [userIdValue, setUserIdValue] = useState("");
+  const dataProvider = useDataProvider();
+  const notify = useNotify();
+  const translate = useTranslate();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      try {
+        const result = await dataProvider.makeRoomAdmin(record.room_id, userIdValue);
+        if (!result.success) {
+          throw new Error(result.error);
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      notify("resources.rooms.action.make_admin.success", { type: "success" });
+      setOpen(false);
+      setUserIdValue("");
+    },
+    onError: (err) => {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      notify("resources.rooms.action.make_admin.failure", { type: "error", messageArgs: { errMsg: errorMessage } });
+      setOpen(false);
+      setUserIdValue("");
+    }
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserIdValue(event.target.value);
+  };
+
+  const handleConfirm = async () => {
+    mutate();
+    setOpen(false);
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleConfirm();
+    }
+  };
+
+  return (<>
+      <Button size="small" onClick={(e) => { e.stopPropagation(); setOpen(true); }} disabled={isPending}>
+        <PersonIcon /> {translate("resources.rooms.action.make_admin.assign_admin")}
+      </Button>
+      <Confirm
+        isOpen={open}
+        onConfirm={handleConfirm}
+        onClose={handleDialogClose}
+        confirm="resources.rooms.action.make_admin.confirm"
+        cancel="ra.action.cancel"
+        title={translate("resources.rooms.action.make_admin.title", { roomName: record.name })}
+        content={<>
+          <Typography sx={{ marginBottom: 2, whiteSpace: "pre-line"}}>{translate("resources.rooms.action.make_admin.content")}</Typography>
+          <TextField
+            type="text"
+            variant="filled"
+            value={userIdValue}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            label={"user_id"}
+          />
+        </>}
+      />
+  </>);
+};
+
 export const RoomShow = (props: ShowProps) => {
   const translate = useTranslate();
+  const record = useRecordContext();
   return (
     <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
       <TabbedShowLayout>
@@ -97,29 +193,29 @@ export const RoomShow = (props: ShowProps) => {
             sx={{ height: "120px", width: "120px" }}
             label="resources.rooms.fields.avatar"
           />
-          <TextField source="room_id" />
-          <TextField source="name" />
-          <TextField source="topic" />
-          <TextField source="canonical_alias" />
+          <RaTextField source="room_id" />
+          <RaTextField source="name" />
+          <RaTextField source="topic" />
+          <RaTextField source="canonical_alias" />
           <ReferenceField source="creator" reference="users">
-            <TextField source="id" />
+            <RaTextField source="id" />
           </ReferenceField>
         </Tab>
 
         <Tab label="synapseadmin.rooms.tabs.detail" icon={<PageviewIcon />} path="detail">
-          <TextField source="joined_members" />
-          <TextField source="joined_local_members" />
-          <TextField source="joined_local_devices" />
-          <TextField source="state_events" />
-          <TextField source="version" />
-          <TextField source="encryption" emptyText={translate("resources.rooms.enums.unencrypted")} />
+          <RaTextField source="joined_members" />
+          <RaTextField source="joined_local_members" />
+          <RaTextField source="joined_local_devices" />
+          <RaTextField source="state_events" />
+          <RaTextField source="version" />
+          <RaTextField source="encryption" emptyText={translate("resources.rooms.enums.unencrypted")} />
         </Tab>
 
         <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
-          <div>1</div>
+          <MakeAdminBtn />
           <ReferenceManyField reference="room_members" target="room_id" label={false}>
             <Datagrid style={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
-              <TextField source="id" sortable={false} label="resources.users.fields.id" />
+              <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
               <ReferenceField
                 label="resources.users.fields.displayname"
                 source="id"
@@ -127,7 +223,7 @@ export const RoomShow = (props: ShowProps) => {
                 sortable={false}
                 link=""
               >
-                <TextField source="displayname" sortable={false} />
+                <RaTextField source="displayname" sortable={false} />
               </ReferenceField>
             </Datagrid>
           </ReferenceManyField>
@@ -187,11 +283,11 @@ export const RoomShow = (props: ShowProps) => {
         <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
           <ReferenceManyField reference="room_state" target="room_id" label={false}>
             <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
-              <TextField source="type" sortable={false} />
+              <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} />
               <FunctionField source="content" sortable={false} render={record => `${JSON.stringify(record.content, null, 2)}`} />
               <ReferenceField source="sender" reference="users" sortable={false}>
-                <TextField source="id" />
+                <RaTextField source="id" />
               </ReferenceField>
             </Datagrid>
           </ReferenceManyField>
@@ -208,10 +304,10 @@ export const RoomShow = (props: ShowProps) => {
           </Box>
           <ReferenceManyField reference="forward_extremities" target="room_id" label={false}>
             <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
-              <TextField source="id" sortable={false} />
+              <RaTextField source="id" sortable={false} />
               <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} />
               <NumberField source="depth" sortable={false} />
-              <TextField source="state_group" sortable={false} />
+              <RaTextField source="state_group" sortable={false} />
             </Datagrid>
           </ReferenceManyField>
         </Tab>
@@ -224,7 +320,6 @@ const RoomBulkActionButtons = () => {
   const record = useListContext();
   return (
     <>
-      <RoomDirectoryMakeAdminButton />
       <RoomDirectoryBulkPublishButton />
       <RoomDirectoryBulkUnpublishButton />
       <DeleteRoomButton
@@ -273,12 +368,13 @@ export const RoomList = (props: ListProps) => {
           }}
         />
         <FunctionField source="name" render={record => record["name"] || record["canonical_alias"] || record["id"]} />
-        <TextField source="joined_members" />
-        <TextField source="joined_local_members" />
-        <TextField source="state_events" />
-        <TextField source="version" />
+        <RaTextField source="joined_members" />
+        <RaTextField source="joined_local_members" />
+        <RaTextField source="state_events" />
+        <RaTextField source="version" />
         <BooleanField source="federatable" />
         <BooleanField source="public" />
+        <MakeAdminBtn />
       </DatagridConfigurable>
     </List>
   );

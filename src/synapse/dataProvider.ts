@@ -52,7 +52,7 @@ interface Action {
   body?: Record<string, any>;
 }
 
-interface Room {
+export interface Room {
   room_id: string;
   name?: string;
   canonical_alias?: string;
@@ -273,7 +273,7 @@ export interface SynapseDataProvider extends DataProvider {
   getRateLimits: (id: Identifier) => Promise<RateLimitsModel>;
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
-  makeRoomAdmin: (room_id: string, user_id: string) => Promise<void>;
+  makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
 }
 
 const resourceMap = {
@@ -868,36 +868,19 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  makeRoomAdmin: async (rooms: string[], user_id: string) => {
+  makeRoomAdmin: async (room_id: string, user_id: string) => {
     const base_url = storage.getItem("base_url");
 
-    rooms.map(async(room_id) => {
-      console.log("RROOM", room_id);
-      const invite_url = `${base_url}/_matrix/client/v3/join/${encodeURIComponent(room_id)}?via=synapse`;
-      const { json: json1 } = await jsonClient(invite_url, { method: "POST", body: JSON.stringify({
-        user_id,
-        third_party_signed: {
-          "mxid": "@admin:synapse",
-          "sender": "@admin:synapse",
-          "signatures": {
-            "example.org": {
-              "ed25519:0": "some9signature"
-            }
-          },
-          "token": "random8nonce"
-        }
-      }) });
-      console.log("@json1", json1);
-      const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
-      const { json } = await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
-      console.log("Sj", json);
-    })
-
-    // console.log("rooms", room_ids);
-    // console.log("user_id", user_id);
-    return [];
     const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
-    await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
+    try {
+      const { json } = await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
+      return { success: true };
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return { success: false, error: error.body.error, errcode: error.body.errcode };
+      }
+      throw error;
+    }
   }
 };
 

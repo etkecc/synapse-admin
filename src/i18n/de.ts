@@ -260,6 +260,14 @@ const de: SynapseTranslationMessages = {
           success: "Raum/Räume erfolgreich gelöscht.",
           failure: "Der/die Raum/Räume konnten nicht gelöscht werden.",
         },
+        make_admin: {
+          assign_admin: "Raumadministrator zuweisen",
+          title: "Raumadministrator zu %{roomName} zuweisen",
+          confirm: "Raumadministrator zuweisen",
+          content: "Geben Sie die vollständige MXID des Benutzers an, der als Administrator gesetzt werden soll.\nWarnung: Damit dies funktioniert, muss der Raum mindestens einen lokalen Mitglied als Administrator haben.",
+          success: "Der/die Benutzer wurde/n als Raumadministrator gesetzt.",
+          failure: "Der/die Benutzer konnte/n nicht als Raumadministrator gesetzt werden. %{errMsg}",
+        }
       },
     },
     reports: {

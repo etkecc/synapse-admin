@@ -227,6 +227,14 @@ const fr: SynapseTranslationMessages = {
           success: "Salle/s supprimées avec succès.",
           failure: "La/les salle/s n'ont pas pu être supprimées.",
         },
+        make_admin: {
+          assign_admin: "Assigner un administrateur",
+          title: "Assigner un administrateur au salon %{roomName}",
+          confirm: "Assigner un administrateur",
+          content: "Entrez la MXID complète de l'utilisateur qui sera désigné comme administrateur.\nAttention : pour que cela fonctionne, la salle doit avoir au moins un membre local en tant qu'administrateur.",
+          success: "L'utilisateur a été désigné comme administrateur de la salle.",
+          failure: "L'utilisateur n'a pas pu être désigné comme administrateur de la salle. %{errMsg}",
+        }
       },
     },
     reports: {
