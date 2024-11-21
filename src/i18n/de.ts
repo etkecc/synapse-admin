@@ -25,7 +25,7 @@ const fixedGermanMessages = {
     message: {
       ...formalGermanMessages.ra.message,
       access_denied:
-        "Sie haben nicht die richtigen Berechtigungen um auf diese Seite zuzugreifen.",
+        "Sie haben nicht die erforderlichen Berechtigungen um auf diese Seite zuzugreifen.",
       authentication_error:
         "Der Authentifizierungsserver hat einen Fehler zurückgegeben und Ihre Anmeldedaten konnten nicht überprüft werden.",
     },
@@ -228,7 +228,7 @@ const de: SynapseTranslationMessages = {
       },
       helper: {
         forward_extremities:
-          "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
+          "Vorderextremitäten sind Blatt-Ereignisse am Ende eines gerichteten azyklischen Graphens (DAG) in einem Raum, auch bekannt als Ereignisse ohne Nachkommen. Je mehr in einem Raum existieren, umso mehr Zustandsauflösungen muss Synapse absolvieren (Hinweis: dies ist eine sehr aufwendige operation). Obwohl Synapse code hat um zu verhindern, dass zuviele davon gleichzeitig in einem Raum existieren, können Bugs manchmal dafür sorgen, dass sie sich ansammeln. Wenn ein Raum >10 Vorderextremitäten hat ist es sinnvoll zu überprüfen um welchen Raum es sich handelt und sie gegebenenfalls, wie in #1769 beschrieben, mittels SQL queries zu entfernen.",
       },
       enums: {
         join_rules: {
@@ -253,9 +253,9 @@ const de: SynapseTranslationMessages = {
         erase: {
           title: "Raum löschen",
           content:
-            "Sind Sie sicher dass Sie den Raum löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden. Alle Nachrichten und Medien, die der Raum beinhaltet werden vom Server gelöscht!",
+            "Sind Sie sicher, dass Sie den Raum löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden. Alle Nachrichten und Medien, die der Raum beinhaltet werden vom Server gelöscht!",
           fields: {
-            block: "Benutzer blockieren und daran hindern, dem Raum beizutreten",
+            block: "Blockieren und Benutzer daran hindern, dem Raum beizutreten",
           },
           success: "Raum/Räume erfolgreich gelöscht.",
           failure: "Der/die Raum/Räume konnten nicht gelöscht werden.",
@@ -301,7 +301,7 @@ const de: SynapseTranslationMessages = {
         erase: {
           title: "Gemeldetes Event löschen",
           content:
-            "Sind Sie sicher dass Sie das gemeldete Event löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+            "Sind Sie sicher, dass Sie das gemeldete Event löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
         },
       },
     },
@@ -348,8 +348,8 @@ const de: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Ungeschützt, Schutz erstellen",
-        delete: "Geschützt, Schutz aufheben",
+        create: "Ungeschützt, Schutz aktivieren",
+        delete: "Geschützt, Schutz deaktivieren",
         none: "In Quarantäne",
         send_success: "Erfolgreich den Schutz-Status geändert.",
         send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
@@ -429,8 +429,8 @@ const de: SynapseTranslationMessages = {
         title: "Raum aus Verzeichnis löschen |||| %{smart_count} Räume aus Verzeichnis löschen",
         content:
           "Möchten Sie den Raum wirklich aus dem Raumverzeichnis löschen? |||| Möchten Sie die %{smart_count} Räume wirklich aus dem Raumverzeichnis löschen?",
-        erase: "Lösche aus Verzeichnis",
-        create: "Eintragen ins Verzeichnis",
+        erase: "Aus Verzeichnis löschen",
+        create: "Ins Verzeichnis eintragen",
         send_success: "Raum erfolgreich eingetragen.",
         send_failure: "Beim Entfernen ist ein Fehler aufgetreten.",
       },
@@ -452,7 +452,7 @@ const de: SynapseTranslationMessages = {
       fields: {
         token: "Token",
         valid: "Gültige Token",
-        uses_allowed: "Anzahl",
+        uses_allowed: "Verwendungen erlaubt",
         pending: "Ausstehend",
         completed: "Abgeschlossen",
         expiry_time: "Ablaufzeit",
