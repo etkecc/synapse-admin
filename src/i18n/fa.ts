@@ -152,6 +152,14 @@ const fa: SynapseTranslationMessages = {
         modify_managed_user_error: "لا يُسمح بتغيير المستخدم الذي يديره النظام.",
         username_available: "نام کاربری موجود",
       },
+      badge: {
+        you: "شما",
+        bot: "ربات",
+        admin: "مدیر",
+        support: "پشتیبان",
+        regular: "کاربر عادی",
+        system_managed: "مدیریت سیستم",
+      },
       action: {
         erase: "پاک کردن اطلاعات کاربر",
         erase_avatar: "محو الصورة الرمزية",

@@ -153,6 +153,14 @@ const it: SynapseTranslationMessages = {
         modify_managed_user_error: "La modifica di un utente gestito dal sistema non è consentita.",
         username_available: "Nome utente disponibile",
       },
+      badge: {
+        you: "Tu",
+        bot: "Bot",
+        admin: "Amministratore",
+        support: "Supporto",
+        regular: "Utente normale",
+        system_managed: "Gestito dal sistema",
+      },
       action: {
         erase: "Cancella i dati dell'utente",
         erase_avatar: "Cancella l'avatar dell'utente",

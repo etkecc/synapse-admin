@@ -178,6 +178,14 @@ const zh: SynapseTranslationMessages = {
         modify_managed_user_error: "不允许修改系统管理的用户。",
         username_available: "用户名可用",
       },
+      badge: {
+        you: "您",
+        bot: "机器人",
+        admin: "管理员",
+        support: "支持",
+        regular: "普通用户",
+        system_managed: "系统管理",
+      },
       action: {
         erase: "抹除用户信息",
         erase_avatar: "抹掉头像",

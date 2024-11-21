@@ -187,6 +187,14 @@ const de: SynapseTranslationMessages = {
         modify_managed_user_error: "Das Ändern eines vom System verwalteten Benutzers ist nicht zulässig.",
         username_available: "Benutzername verfügbar",
       },
+      badge: {
+        you: "Sie",
+        bot: "Bot",
+        admin: "Administrator",
+        support: "Unterstützung",
+        regular: "Normaler Benutzer",
+        system_managed: "Systemverwalteter Benutzer",
+      },
       action: {
         erase: "Lösche Benutzerdaten",
         erase_avatar: "Avatar löschen",

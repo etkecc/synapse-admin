@@ -163,6 +163,14 @@ interface SynapseTranslationMessages extends TranslationMessages {
         overwrite_cancel: string;
         overwrite_confirm: string;
       };
+      badge: {
+        you: string;
+        bot: string;
+        admin: string;
+        support: string;
+        regular: string;
+        system_managed: string;
+      }
       limits: {
         messages_per_second: string;
         messages_per_second_text: string;

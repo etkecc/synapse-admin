@@ -320,9 +320,6 @@ const UserTitle = () => {
   }
 
   let username = record ? (record.displayname ? `"${record.displayname}"` : `"${record.name}"`) : ""
-  if (isASManaged(record?.id)) {
-    username += " 🤖";
-  }
   return (
     <span>
       {translate("resources.users.name", {

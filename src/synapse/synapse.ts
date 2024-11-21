@@ -1,6 +1,7 @@
 import { Identifier, fetchUtils } from "react-admin";
 
 import storage from "../storage";
+import { isMXID } from "../components/mxid";
 
 export const splitMxid = mxid => {
   const re = /^@(?<name>[a-zA-Z0-9._=\-/]+):(?<domain>[a-zA-Z0-9\-.]+\.[a-zA-Z]+)$/;
@@ -77,8 +78,8 @@ export function returnMXID(input: string | Identifier): string {
 
   // Check if the input already looks like a valid MXID (i.e., starts with "@" and contains ":")
   const mxidPattern = /^@[^@:]+:[^@:]+$/;
-  if (typeof input === 'string' && mxidPattern.test(input)) {
-    return input; // Already a valid MXID
+  if (isMXID(input)) {
+    return input as string; // Already a valid MXID
   }
 
   // If input is not a valid MXID, assume it's a localpart and construct the MXID

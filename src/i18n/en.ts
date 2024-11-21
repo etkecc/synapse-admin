@@ -171,6 +171,14 @@ const en: SynapseTranslationMessages = {
         overwrite_cancel: "Cancel",
         overwrite_confirm: "Overwrite",
       },
+      badge: {
+        you: "You",
+        bot: "Bot",
+        admin: "Admin",
+        support: "Support",
+        regular: "Regular User",
+        system_managed: "System-managed",
+      },
       limits: {
         messages_per_second: "Messages per second",
         messages_per_second_text: "The number of actions that can be performed in a second.",
