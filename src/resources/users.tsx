@@ -464,7 +464,7 @@ export const UserEdit = (props: EditProps) => {
 
         <FormTab label={translate("resources.devices.name", { smart_count: 2 })} icon={<DevicesIcon />} path="devices">
           <ReferenceManyField reference="devices" target="user_id" label={false}>
-            <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <TextField source="device_id" sortable={false} />
               <TextField source="display_name" sortable={false} />
               <TextField source="last_seen_ip" sortable={false} />
@@ -477,7 +477,7 @@ export const UserEdit = (props: EditProps) => {
         <FormTab label="resources.connections.name" icon={<SettingsInputComponentIcon />} path="connections">
           <ReferenceField reference="connections" source="id" label={false} link={false}>
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
-              <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
+              <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
                 <TextField source="ip" sortable={false} />
                 <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} />
                 <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
@@ -499,7 +499,7 @@ export const UserEdit = (props: EditProps) => {
             perPage={50}
             sort={{ field: "created_ts", order: "DESC" }}
           >
-            <Datagrid style={{ width: "100%" }}>
+            <Datagrid sx={{ width: "100%" }}>
               <MediaIDField source="media_id" />
               <DateField source="created_ts" showTime options={DATE_FORMAT} />
               <DateField source="last_access_ts" showTime options={DATE_FORMAT} />
@@ -516,19 +516,19 @@ export const UserEdit = (props: EditProps) => {
 
         <FormTab label={translate("resources.rooms.name", { smart_count: 2 })} icon={<ViewListIcon />} path="rooms">
           <ReferenceManyField reference="joined_rooms" target="user_id" label={false}>
-            <Datagrid style={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
-              <TextField source="id" sortable={false} label="resources.rooms.fields.room_id" />
-              <ReferenceField
-                label="resources.rooms.fields.name"
-                source="id"
-                reference="rooms"
-                sortable={false}
-                link=""
-              >
-                <TextField source="name" sortable={false} />
-              </ReferenceField>
-              <MakeAdminBtn />
-            </Datagrid>
+              <Datagrid sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+                </ReferenceField>
+                  <TextField source="id" label="resources.rooms.fields.room_id" sortable={false}/>
+                <ReferenceField reference="rooms" source="id" label="resources.rooms.fields.name" link={false} sortable={false}>
+                  <TextField source="name" />
+                </ReferenceField>
+                <ReferenceField reference="rooms" source="id" label="resources.rooms.fields.joined_members" link={false} sortable={false}>
+                  <TextField source="joined_members" sortable={false} />
+                </ReferenceField>
+                  <MakeAdminBtn />
+              </Datagrid>
           </ReferenceManyField>
         </FormTab>
 
@@ -538,7 +538,7 @@ export const UserEdit = (props: EditProps) => {
           path="pushers"
         >
           <ReferenceManyField reference="pushers" target="user_id" label={false}>
-            <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <TextField source="kind" sortable={false} />
               <TextField source="app_display_name" sortable={false} />
               <TextField source="app_id" sortable={false} />

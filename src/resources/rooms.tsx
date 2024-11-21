@@ -216,7 +216,7 @@ export const RoomShow = (props: ShowProps) => {
         <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
           <MakeAdminBtn />
           <ReferenceManyField reference="room_members" target="room_id" label={false}>
-            <Datagrid style={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+            <Datagrid sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
               <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
               <ReferenceField
                 label="resources.users.fields.displayname"
@@ -284,7 +284,7 @@ export const RoomShow = (props: ShowProps) => {
 
         <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
           <ReferenceManyField reference="room_state" target="room_id" label={false}>
-            <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} />
               <FunctionField source="content" sortable={false} render={record => `${JSON.stringify(record.content, null, 2)}`} />
@@ -305,7 +305,7 @@ export const RoomShow = (props: ShowProps) => {
             {translate("resources.rooms.helper.forward_extremities")}
           </Box>
           <ReferenceManyField reference="forward_extremities" target="room_id" label={false}>
-            <Datagrid style={{ width: "100%" }} bulkActionButtons={false}>
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="id" sortable={false} />
               <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} />
               <NumberField source="depth" sortable={false} />
@@ -358,6 +358,9 @@ export const RoomList = (props: ListProps) => {
         bulkActionButtons={<RoomBulkActionButtons />}
         omit={["joined_local_members", "state_events", "version", "federatable"]}
       >
+        <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+          <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+        </ReferenceField>
         <BooleanField
           source="is_encrypted"
           sortBy="encryption"
