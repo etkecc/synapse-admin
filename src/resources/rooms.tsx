@@ -85,6 +85,7 @@ const RoomShowActions = () => {
   return (
     <TopToolbar>
       {publishButton}
+      <MakeAdminBtn />
       <DeleteRoomButton
         selectedIds={[record.id]}
         confirmTitle="resources.rooms.action.erase.title"
@@ -105,8 +106,10 @@ export const MakeAdminBtn = () => {
     return null;
   }
 
+
+  const ownMXID = localStorage.getItem("user_id") || "";
   const [open, setOpen] = useState(false);
-  const [userIdValue, setUserIdValue] = useState("");
+  const [userIdValue, setUserIdValue] = useState(ownMXID);
   const dataProvider = useDataProvider();
   const notify = useNotify();
   const translate = useTranslate();
@@ -164,7 +167,7 @@ export const MakeAdminBtn = () => {
         onClose={handleDialogClose}
         confirm="resources.rooms.action.make_admin.confirm"
         cancel="ra.action.cancel"
-        title={translate("resources.rooms.action.make_admin.title", { roomName: record.name })}
+        title={translate("resources.rooms.action.make_admin.title", { roomName: record.name ? record.name : record.room_id })}
         content={<>
           <Typography sx={{ marginBottom: 2, whiteSpace: "pre-line"}}>{translate("resources.rooms.action.make_admin.content")}</Typography>
           <TextField
@@ -173,7 +176,7 @@ export const MakeAdminBtn = () => {
             value={userIdValue}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            label={"user_id"}
+            label={"Matrix ID"}
           />
         </>}
       />

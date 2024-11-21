@@ -27,6 +27,7 @@ import {
 } from "react-admin";
 import { useMutation } from "@tanstack/react-query";
 import AvatarField from "../components/AvatarField";
+import { MakeAdminBtn } from "./rooms";
 const RoomDirectoryPagination = () => <Pagination rowsPerPageOptions={[100, 500, 1000, 2000]} />;
 
 export const RoomDirectoryUnpublishButton = (props: DeleteButtonProps) => {
@@ -152,6 +153,7 @@ export const RoomDirectoryList = () => (
       <NumberField source="num_joined_members" sortable={false} label="resources.rooms.fields.joined_members" />
       <BooleanField source="world_readable" sortable={false} label="resources.room_directory.fields.world_readable" />
       <BooleanField source="guest_can_join" sortable={false} label="resources.room_directory.fields.guest_can_join" />
+      <MakeAdminBtn />
     </DatagridConfigurable>
   </List>
 );

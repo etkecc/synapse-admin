@@ -13,8 +13,6 @@ const Footer = () => {
     }
   }, []);
 
-  console.log(theme);
-
   return (<Box
     component="footer"
     sx={{
