@@ -99,6 +99,7 @@ The following changes are already implemented:
 * 🎨 [Add preferred theme colors to login page and footer](https://github.com/etkecc/synapse-admin/pull/155)
 * 🔰 [Add "Assign Admin" button to the rooms](https://github.com/etkecc/synapse-admin/pull/156)
 * 🖼️ [Add rooms' avatars](https://github.com/etkecc/synapse-admin/pull/158)
+* 🤖 [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
 
 _the list will be updated as new changes are added_
 
