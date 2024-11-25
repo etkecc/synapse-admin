@@ -15,7 +15,8 @@ import {
 import { DataProvider, useTranslate } from "ra-core";
 import { useDataProvider, useNotify, RaRecord, Title } from "react-admin";
 
-import { generateRandomMxId, generateRandomPassword, returnMXID } from "../synapse/synapse";
+import { generateRandomMXID, returnMXID } from "../utils/mxid";
+import { generateRandomPassword } from "../utils/password";
 
 const LOGGING = true;
 
@@ -274,7 +275,7 @@ const FilePicker = () => {
         // No need to do a bunch of cryptographic random number getting if
         // we are using neither a generated password nor a generated user id.
         if (useridMode === "ignore" || userRecord.id === undefined || userRecord.id === "") {
-          userRecord.id = generateRandomMxId();
+          userRecord.id = generateRandomMXID();
         }
         if (passwordMode === false || entry.password === undefined || entry.password === "") {
           userRecord.password = generateRandomPassword();
@@ -325,7 +326,7 @@ const FilePicker = () => {
                 );
               } else {
                 const newRecordData = Object.assign({}, recordData, {
-                  id: generateRandomMxId(),
+                  id: generateRandomMXID(),
                 });
                 retries++;
                 if (retries > 512) {

@@ -24,7 +24,7 @@ import {
   getWellKnownUrl,
   isValidBaseUrl,
   splitMxid,
-} from "../synapse/synapse";
+} from "../synapse/matrix";
 import Footer from "../components/Footer";
 
 export type LoginMethod = "credentials" | "accessToken";

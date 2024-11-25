@@ -13,7 +13,7 @@ import {
   withLifecycleCallbacks,
 } from "react-admin";
 
-import { returnMXID } from "./synapse";
+import { returnMXID } from "../utils/mxid";
 import { MatrixError, displayError } from "../utils/error";
 
 // Adds the access token to all requests

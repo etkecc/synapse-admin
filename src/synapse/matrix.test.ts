@@ -1,4 +1,4 @@
-import { isValidBaseUrl, splitMxid } from "./synapse";
+import { isValidBaseUrl, splitMxid } from "./matrix";
 
 describe("splitMxid", () => {
   it("splits valid MXIDs", () =>

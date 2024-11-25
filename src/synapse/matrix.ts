@@ -49,51 +49,7 @@ export const getSupportedFeatures = async baseUrl => {
  * @returns array of supported login flows
  */
 export const getSupportedLoginFlows = async baseUrl => {
-  const loginFlowsUrl = `${baseUrl}/_matrix/client/r0/login`;
+  const loginFlowsUrl = `${baseUrl}/_matrix/client/v3/login`;
   const response = await fetchUtils.fetchJson(loginFlowsUrl, { method: "GET" });
   return response.json.flows;
 };
-
-/**
- * Generate a random MXID for current homeserver
- * @returns full MXID as string
- */
-export function generateRandomMxId(): string {
-  const homeserver = localStorage.getItem("home_server");
-  const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
-  const localpart = Array.from(crypto.getRandomValues(new Uint32Array(8)))
-    .map(x => characters[x % characters.length])
-    .join("");
-  return `@${localpart}:${homeserver}`;
-}
-
-/**
- * Return the full MXID from an arbitrary input
- * @param input  the input string
- * @returns full MXID as string
- */
-export function returnMXID(input: string | Identifier): string {
-  const homeserver = localStorage.getItem("home_server");
-
-  // Check if the input already looks like a valid MXID (i.e., starts with "@" and contains ":")
-  const mxidPattern = /^@[^@:]+:[^@:]+$/;
-  if (isMXID(input)) {
-    return input as string; // Already a valid MXID
-  }
-
-  // If input is not a valid MXID, assume it's a localpart and construct the MXID
-  const localpart = typeof input === 'string' && input.startsWith('@') ? input.slice(1) : input;
-  return `@${localpart}:${homeserver}`;
-}
-
-
-/**
- * Generate a random user password
- * @returns a new random password as string
- */
-export function generateRandomPassword(length = 64): string {
-  const characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~`!@#$%^&*()_-+={[}]|:;'.?/<>,";
-  return Array.from(crypto.getRandomValues(new Uint32Array(length)))
-    .map(x => characters[x % characters.length])
-    .join("");
-}

@@ -74,7 +74,7 @@ import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/Server
 import { DATE_FORMAT } from "../utils/date";
 import DeviceRemoveButton from "../components/DeviceRemoveButton";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
-import { generateRandomPassword } from "../synapse/synapse";
+import { generateRandomPassword } from "../utils/password";
 import { useFormContext } from "react-hook-form";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
 import UserRateLimits from "../components/UserRateLimits";
