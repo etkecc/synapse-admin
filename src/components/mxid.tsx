@@ -1,5 +1,5 @@
 import { Identifier } from "ra-core";
-import { GetConfig } from "./config";
+import { GetConfig } from "../utils/config";
 
 const mxidPattern = /^@[^@:]+:[^@:]+$/;
 

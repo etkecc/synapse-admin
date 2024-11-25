@@ -3,7 +3,7 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 import storage from "../storage";
 import { MatrixError, displayError } from "../components/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
-import { FetchConfig, ClearConfig } from "../components/config";
+import { FetchConfig, ClearConfig } from "../utils/config";
 
 const authProvider: AuthProvider = {
   // called when the user attempts to log in

@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { AdminContext } from "react-admin";
 
 import LoginPage from "./LoginPage";
-import { AppContext } from "../AppContext";
+import { AppContext } from "../App";
 import englishMessages from "../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);

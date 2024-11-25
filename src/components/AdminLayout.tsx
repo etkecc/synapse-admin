@@ -2,7 +2,7 @@ import { CheckForApplicationUpdate, AppBar, TitlePortal, InspectorButton, Confir
 import { LoginMethod } from "../pages/LoginPage";
 import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "./icons";
-import { MenuItem, GetConfig, ClearConfig } from "./config";
+import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import Footer from "./Footer";
 
 const AdminUserMenu = () => {
