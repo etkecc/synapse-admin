@@ -26,3 +26,5 @@ export const DeviceRemoveButton = (props: DeleteWithConfirmButtonProps) => {
     />
   );
 };
+
+export default DeviceRemoveButton;

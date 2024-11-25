@@ -3,7 +3,6 @@ import storage from "../storage";
 export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: string, mediaId: string } => {
     const re = /^mxc:\/\/([^/]+)\/(\w+)/;
     const ret = re.exec(mxcUrl);
-    console.log("mxcClient " + ret);
     if (ret == null) {
       throw new Error("Invalid mxcUrl");
     }

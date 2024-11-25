@@ -72,12 +72,12 @@ import DeleteUserButton from "../components/DeleteUserButton";
 import { isASManaged } from "../components/mxid";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
 import { DATE_FORMAT } from "../components/date";
-import { DeviceRemoveButton } from "../components/devices";
+import DeviceRemoveButton from "../components/DeviceRemoveButton";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { generateRandomPassword } from "../synapse/synapse";
 import { useFormContext } from "react-hook-form";
-import { ExperimentalFeaturesList } from "../components/ExperimentalFeatures";
-import { UserRateLimits } from "../components/UserRateLimits";
+import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
+import UserRateLimits from "../components/UserRateLimits";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
 import { MakeAdminBtn } from "./rooms";
 

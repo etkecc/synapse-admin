@@ -96,3 +96,5 @@ export const AdminLayout = ({ children }) => {
     <Footer />
   </>
 };
+
+export default AdminLayout;

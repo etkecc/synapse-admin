@@ -46,7 +46,7 @@ const RateLimitRow = ({ limit, value, updateRateLimit }: { limit: string, value:
   </Stack>
 }
 
-export const UserRateLimits = () => {
+const UserRateLimits = () => {
   const translate = useTranslate();
   const notify = useNotify();
   const record = useRecordContext();
@@ -93,3 +93,5 @@ export const UserRateLimits = () => {
     </Stack>
   </>
 };
+
+export default UserRateLimits;

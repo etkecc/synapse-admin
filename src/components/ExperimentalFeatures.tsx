@@ -93,3 +93,5 @@ export const ExperimentalFeaturesList = () => {
     </Stack>
   </>
 }
+
+export default ExperimentalFeaturesList;

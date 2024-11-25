@@ -4,8 +4,8 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin";
 import { Route } from "react-router-dom";
 
-import { AdminLayout } from "./components/AdminLayout";
-import { ImportFeature } from "./components/ImportFeature";
+import AdminLayout from "./components/AdminLayout";
+import UserImport from "./components/UserImport";
 import germanMessages from "./i18n/de";
 import englishMessages from "./i18n/en";
 import frenchMessages from "./i18n/fr";
@@ -61,7 +61,7 @@ const App = () => (
       i18nProvider={i18nProvider}
     >
       <CustomRoutes>
-        <Route path="/import_users" element={<ImportFeature />} />
+        <Route path="/import_users" element={<UserImport />} />
       </CustomRoutes>
       <Resource {...users} />
       <Resource {...rooms} />

@@ -570,4 +570,5 @@ const FilePicker = () => {
   return [<Title defaultTitle={translate("import_users.title")} />, cardContainer];
 };
 
-export const ImportFeature = FilePicker;
+export const UserImport = FilePicker;
+export default UserImport;
