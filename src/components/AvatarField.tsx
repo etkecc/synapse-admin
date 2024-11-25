@@ -3,8 +3,7 @@ import { Avatar, AvatarProps, Badge, Tooltip } from "@mui/material";
 import { FieldProps, useRecordContext, useTranslate } from "react-admin";
 import { useState, useEffect, useCallback } from "react";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
-import { isMXID, isASManaged } from "./mxid";
-import storage from "../storage";
+import { isMXID, isASManaged } from "../utils/mxid";
 
 const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
   const { alt, classes, sizes, sx, variant } = rest;
@@ -74,7 +73,7 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
       badge = "🛡️";
       tooltip = `${translate("resources.users.badge.system_managed")} (${tooltip})`;
     }
-    if (storage.getItem("user_id") === record?.id) {
+    if (localStorage.getItem("user_id") === record?.id) {
       badge = "🧙‍";
       tooltip = `${translate("resources.users.badge.you")} (${tooltip})`;
     }

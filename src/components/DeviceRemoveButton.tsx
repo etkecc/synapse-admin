@@ -1,5 +1,5 @@
 import { DeleteWithConfirmButton, DeleteWithConfirmButtonProps, useRecordContext } from "react-admin";
-import { isASManaged } from "./mxid";
+import { isASManaged } from "../utils/mxid";
 
 export const DeviceRemoveButton = (props: DeleteWithConfirmButtonProps) => {
   const record = useRecordContext();

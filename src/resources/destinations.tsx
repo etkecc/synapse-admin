@@ -33,7 +33,7 @@ import {
   DateFieldProps,
 } from "react-admin";
 
-import { DATE_FORMAT } from "../components/date";
+import { DATE_FORMAT } from "../utils/date";
 import { get } from "lodash";
 
 const DestinationPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;

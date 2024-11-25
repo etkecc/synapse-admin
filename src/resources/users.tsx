@@ -69,9 +69,9 @@ import { Link } from "react-router-dom";
 
 import AvatarField from "../components/AvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
-import { isASManaged } from "../components/mxid";
+import { isASManaged } from "../utils/mxid";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
-import { DATE_FORMAT } from "../components/date";
+import { DATE_FORMAT } from "../utils/date";
 import DeviceRemoveButton from "../components/DeviceRemoveButton";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { generateRandomPassword } from "../synapse/synapse";

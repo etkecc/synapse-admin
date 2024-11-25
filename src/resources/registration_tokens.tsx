@@ -24,7 +24,7 @@ import {
   Toolbar,
 } from "react-admin";
 
-import { DATE_FORMAT, dateFormatter, dateParser } from "../components/date";
+import { DATE_FORMAT, dateFormatter, dateParser } from "../utils/date";
 
 const validateToken = [regex(/^[A-Za-z0-9._~-]{0,64}$/)];
 const validateUsesAllowed = [number()];

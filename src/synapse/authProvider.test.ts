@@ -1,7 +1,6 @@
 import fetchMock from "jest-fetch-mock";
 
 import authProvider from "./authProvider";
-import storage from "../storage";
 import { HttpError } from "ra-core";
 
 fetchMock.enableMocks();
@@ -9,7 +8,7 @@ fetchMock.enableMocks();
 describe("authProvider", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
-    storage.clear();
+    localStorage.clear();
   });
 
   describe("login", () => {
@@ -38,10 +37,10 @@ describe("authProvider", () => {
         }),
         method: "POST",
       });
-      expect(storage.getItem("base_url")).toEqual("http://example.com");
-      expect(storage.getItem("user_id")).toEqual("@user:example.com");
-      expect(storage.getItem("access_token")).toEqual("foobar");
-      expect(storage.getItem("device_id")).toEqual("some_device");
+      expect(localStorage.getItem("base_url")).toEqual("http://example.com");
+      expect(localStorage.getItem("user_id")).toEqual("@user:example.com");
+      expect(localStorage.getItem("access_token")).toEqual("foobar");
+      expect(localStorage.getItem("device_id")).toEqual("some_device");
     });
   });
 
@@ -69,16 +68,16 @@ describe("authProvider", () => {
       }),
       method: "POST",
     });
-    expect(storage.getItem("base_url")).toEqual("https://example.com");
-    expect(storage.getItem("user_id")).toEqual("@user:example.com");
-    expect(storage.getItem("access_token")).toEqual("foobar");
-    expect(storage.getItem("device_id")).toEqual("some_device");
+    expect(localStorage.getItem("base_url")).toEqual("https://example.com");
+    expect(localStorage.getItem("user_id")).toEqual("@user:example.com");
+    expect(localStorage.getItem("access_token")).toEqual("foobar");
+    expect(localStorage.getItem("device_id")).toEqual("some_device");
   });
 
   describe("logout", () => {
     it("should remove the access_token from storage", async () => {
-      storage.setItem("base_url", "example.com");
-      storage.setItem("access_token", "foo");
+      localStorage.setItem("base_url", "example.com");
+      localStorage.setItem("access_token", "foo");
       fetchMock.mockResponse(JSON.stringify({}));
 
       await authProvider.logout(null);
@@ -91,7 +90,7 @@ describe("authProvider", () => {
         method: "POST",
         user: { authenticated: true, token: "Bearer foo" },
       });
-      expect(storage.getItem("access_token")).toBeNull();
+      expect(localStorage.getItem("access_token")).toBeNull();
     });
   });
 
@@ -115,7 +114,7 @@ describe("authProvider", () => {
     });
 
     it("should resolve when logged in", async () => {
-      storage.setItem("access_token", "foobar");
+      localStorage.setItem("access_token", "foobar");
 
       await expect(authProvider.checkAuth({})).resolves.toBeUndefined();
     });

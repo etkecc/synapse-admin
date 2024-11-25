@@ -1,7 +1,6 @@
 import { Identifier, fetchUtils } from "react-admin";
 
-import storage from "../storage";
-import { isMXID } from "../components/mxid";
+import { isMXID } from "../utils/mxid";
 
 export const splitMxid = mxid => {
   const re = /^@(?<name>[a-zA-Z0-9._=\-/]+):(?<domain>[a-zA-Z0-9\-.]+\.[a-zA-Z]+)$/;
@@ -60,7 +59,7 @@ export const getSupportedLoginFlows = async baseUrl => {
  * @returns full MXID as string
  */
 export function generateRandomMxId(): string {
-  const homeserver = storage.getItem("home_server");
+  const homeserver = localStorage.getItem("home_server");
   const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
   const localpart = Array.from(crypto.getRandomValues(new Uint32Array(8)))
     .map(x => characters[x % characters.length])
@@ -74,7 +73,7 @@ export function generateRandomMxId(): string {
  * @returns full MXID as string
  */
 export function returnMXID(input: string | Identifier): string {
-  const homeserver = storage.getItem("home_server");
+  const homeserver = localStorage.getItem("home_server");
 
   // Check if the input already looks like a valid MXID (i.e., starts with "@" and contains ":")
   const mxidPattern = /^@[^@:]+:[^@:]+$/;

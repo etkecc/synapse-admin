@@ -13,13 +13,12 @@ import {
   withLifecycleCallbacks,
 } from "react-admin";
 
-import storage from "../storage";
 import { returnMXID } from "./synapse";
-import { MatrixError, displayError } from "../components/error";
+import { MatrixError, displayError } from "../utils/error";
 
 // Adds the access token to all requests
 const jsonClient = async (url: string, options: Options = {}) => {
-  const token = storage.getItem("access_token");
+  const token = localStorage.getItem("access_token");
   console.log("httpClient " + url);
   if (token !== null) {
     options.user = {
@@ -401,7 +400,7 @@ const resourceMap = {
     data: "media",
     total: json => json.total,
     delete: (params: DeleteParams) => ({
-      endpoint: `/_synapse/admin/v1/media/${storage.getItem("home_server")}/${params.id}`,
+      endpoint: `/_synapse/admin/v1/media/${localStorage.getItem("home_server")}/${params.id}`,
     }),
   },
   protect_media: {
@@ -418,11 +417,11 @@ const resourceMap = {
   quarantine_media: {
     map: (qm: UserMedia) => ({ id: qm.media_id }),
     create: (params: UserMedia) => ({
-      endpoint: `/_synapse/admin/v1/media/quarantine/${storage.getItem("home_server")}/${params.media_id}`,
+      endpoint: `/_synapse/admin/v1/media/quarantine/${localStorage.getItem("home_server")}/${params.media_id}`,
       method: "POST",
     }),
     delete: (params: DeleteParams) => ({
-      endpoint: `/_synapse/admin/v1/media/unquarantine/${storage.getItem("home_server")}/${params.id}`,
+      endpoint: `/_synapse/admin/v1/media/unquarantine/${localStorage.getItem("home_server")}/${params.id}`,
       method: "POST",
     }),
   },
@@ -567,7 +566,7 @@ const baseDataProvider: SynapseDataProvider = {
       order_by: field,
       dir: getSearchOrder(order),
     };
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -586,7 +585,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getOne: async (resource, params) => {
     console.log("getOne " + resource);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -598,8 +597,8 @@ const baseDataProvider: SynapseDataProvider = {
 
   getMany: async (resource, params) => {
     console.log("getMany " + resource);
-    const base_url = storage.getItem("base_url");
-    const homeserver = storage.getItem("home_server");
+    const base_url = localStorage.getItem("base_url");
+    const homeserver = localStorage.getItem("home_server");
     if (!base_url || !(resource in resourceMap)) throw Error("base_url not set");
 
     const res = resourceMap[resource];
@@ -638,7 +637,7 @@ const baseDataProvider: SynapseDataProvider = {
       dir: getSearchOrder(order),
     };
 
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -655,7 +654,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   update: async (resource, params) => {
     console.log("update " + resource);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -670,7 +669,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   updateMany: async (resource, params) => {
     console.log("updateMany " + resource);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -687,7 +686,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   create: async (resource, params) => {
     console.log("create " + resource);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -704,7 +703,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   createMany: async (resource: string, params: { ids: Identifier[]; data: RaRecord }) => {
     console.log("createMany " + resource);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -726,7 +725,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   delete: async (resource, params) => {
     console.log("delete " + resource);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -751,7 +750,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   deleteMany: async (resource, params) => {
     console.log("deleteMany " + resource, "params", params);
-    const homeserver = storage.getItem("base_url");
+    const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
     const res = resourceMap[resource];
@@ -798,17 +797,17 @@ const baseDataProvider: SynapseDataProvider = {
    * @returns
    */
   deleteMedia: async ({ before_ts, size_gt = 0, keep_profiles = true }) => {
-    const homeserver = storage.getItem("home_server"); // TODO only required for synapse < 1.78.0
+    const homeserver = localStorage.getItem("home_server"); // TODO only required for synapse < 1.78.0
     const endpoint = `/_synapse/admin/v1/media/${homeserver}/delete?before_ts=${before_ts}&size_gt=${size_gt}&keep_profiles=${keep_profiles}`;
 
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const endpoint_url = base_url + endpoint;
     const { json } = await jsonClient(endpoint_url, { method: "POST" });
     return json as DeleteMediaResult;
   },
 
   uploadMedia: async ({ file, filename, content_type }: UploadMediaParams) => {
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const uploadMediaURL = `${base_url}/_matrix/media/v3/upload`;
 
     const { json } = await jsonClient(`${uploadMediaURL}?filename=${filename}`, {
@@ -822,18 +821,18 @@ const baseDataProvider: SynapseDataProvider = {
     return json as UploadMediaResult;
   },
   getFeatures: async (id: Identifier) => {
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
     const { json } = await jsonClient(endpoint_url);
     return json.features as ExperimentalFeaturesModel;
   },
   updateFeatures: async (id: Identifier, features: ExperimentalFeaturesModel) => {
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
     await jsonClient(endpoint_url, { method: "PUT", body: JSON.stringify({ features }) });
   },
   getRateLimits: async (id: Identifier) => {
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
     const { json } = await jsonClient(endpoint_url);
     return json as RateLimitsModel;
@@ -846,7 +845,7 @@ const baseDataProvider: SynapseDataProvider = {
         return obj;
       }, {});
 
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
     if (Object.keys(filtered).length === 0) {
       await jsonClient(endpoint_url, { method: "DELETE" });
@@ -856,7 +855,7 @@ const baseDataProvider: SynapseDataProvider = {
     await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
   },
   checkUsernameAvailability: async (username: string) => {
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/username_available?username=${encodeURIComponent(username)}`;
     try {
       const { json } = await jsonClient(endpoint_url);
@@ -869,7 +868,7 @@ const baseDataProvider: SynapseDataProvider = {
     }
   },
   makeRoomAdmin: async (room_id: string, user_id: string) => {
-    const base_url = storage.getItem("base_url");
+    const base_url = localStorage.getItem("base_url");
 
     const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
     try {
@@ -914,13 +913,13 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
     },
     beforeDelete: async (params: DeleteParams<any>, dataProvider: DataProvider) => {
       if (params.meta?.deleteMedia) {
-        const base_url = storage.getItem("base_url");
+        const base_url = localStorage.getItem("base_url");
         const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(params.id))}/media`;
         await jsonClient(endpoint_url, { method: "DELETE" });
       }
 
       if (params.meta?.redactEvents) {
-        const base_url = storage.getItem("base_url");
+        const base_url = localStorage.getItem("base_url");
         const endpoint_url = `${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(params.id))}/redact`;
         await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ rooms: [] }) });
       }
@@ -931,13 +930,13 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       await Promise.all(
         params.ids.map(async id => {
           if (params.meta?.deleteMedia) {
-            const base_url = storage.getItem("base_url");
+            const base_url = localStorage.getItem("base_url");
             const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`;
             await jsonClient(endpoint_url, { method: "DELETE" });
           }
 
           if (params.meta?.redactEvents) {
-            const base_url = storage.getItem("base_url");
+            const base_url = localStorage.getItem("base_url");
             const endpoint_url = `${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(id))}/redact`;
             await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ rooms: [] }) });
           }

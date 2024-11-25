@@ -32,9 +32,8 @@ import {
 } from "react-admin";
 import { useMutation } from "@tanstack/react-query";
 
-import { dateParser } from "./date";
+import { dateParser } from "../utils/date";
 import { DeleteMediaParams, SynapseDataProvider } from "../synapse/dataProvider";
-import storage from "../storage";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
@@ -385,7 +384,7 @@ export const MediaIDField = ({ source }) => {
   if (!record) {
     return null;
   }
-  const homeserver = storage.getItem("home_server");
+  const homeserver = localStorage.getItem("home_server");
 
   const mediaID = get(record, source)?.toString();
   if (!mediaID) {

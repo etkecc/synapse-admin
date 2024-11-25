@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 
 import {App, AppContext } from "./App";
 import { FetchConfig, GetConfig } from "./utils/config";
-import storage from "./storage";
 
 await FetchConfig();
 

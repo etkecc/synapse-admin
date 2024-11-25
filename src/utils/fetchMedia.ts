@@ -1,5 +1,3 @@
-import storage from "../storage";
-
 export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: string, mediaId: string } => {
     const re = /^mxc:\/\/([^/]+)\/(\w+)/;
     const ret = re.exec(mxcUrl);
@@ -14,8 +12,8 @@ export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: str
 export type MediaType = "thumbnail" | "original";
 
 export const fetchAuthenticatedMedia = async (mxcUrl: string, type: MediaType): Promise<Response> => {
-  const homeserver = storage.getItem("base_url");
-  const accessToken = storage.getItem("access_token");
+  const homeserver = localStorage.getItem("base_url");
+  const accessToken = localStorage.getItem("access_token");
 
   const { serverName, mediaId } = getServerAndMediaIdFromMxcUrl(mxcUrl);
   if (!serverName || !mediaId) {

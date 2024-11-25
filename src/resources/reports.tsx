@@ -22,7 +22,7 @@ import {
   useTranslate,
 } from "react-admin";
 
-import { DATE_FORMAT } from "../components/date";
+import { DATE_FORMAT } from "../utils/date";
 import { ReportMediaContent } from "../components/media";
 
 const ReportPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;

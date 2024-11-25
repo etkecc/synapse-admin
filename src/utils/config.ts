@@ -1,5 +1,3 @@
-import storage from "../storage";
-
 export interface Config {
   restrictBaseUrl: string | string[];
   asManagedUsers: RegExp[];
@@ -32,7 +30,7 @@ export const FetchConfig = async () => {
   }
 
   // if home_server is set, try to load https://home_server/.well-known/matrix/client
-  const homeserver = storage.getItem("home_server");
+  const homeserver = localStorage.getItem("home_server");
   if (homeserver) {
     try {
       const resp = await fetch(`https://${homeserver}/.well-known/matrix/client`);
@@ -80,5 +78,5 @@ export const ClearConfig = () => {
   // config.json
   config = {} as Config;
   // session
-  storage.clear();
+  localStorage.clear();
 }

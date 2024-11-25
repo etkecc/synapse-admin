@@ -1,7 +1,6 @@
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
-import storage from "../storage";
-import { MatrixError, displayError } from "../components/error";
+import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 import { FetchConfig, ClearConfig } from "../utils/config";
 
@@ -26,7 +25,7 @@ const authProvider: AuthProvider = {
       body: JSON.stringify(
         Object.assign(
           {
-            device_id: storage.getItem("device_id"),
+            device_id: localStorage.getItem("device_id"),
             initial_device_display_name: "Synapse Admin",
           },
           loginToken
@@ -52,11 +51,11 @@ const authProvider: AuthProvider = {
     if (!base_url) {
       // there is some kind of bug with base_url being present in the form, but not submitted
       // ref: https://github.com/etkecc/synapse-admin/issues/14
-      storage.removeItem("base_url")
+      localStorage.removeItem("base_url")
       throw new Error("Homeserver URL is required.");
     }
     base_url = base_url.replace(/\/+$/g, "");
-    storage.setItem("base_url", base_url);
+    localStorage.setItem("base_url", base_url);
 
     const decoded_base_url = window.decodeURIComponent(base_url);
     let login_api_url = decoded_base_url + (accessToken ? "/_matrix/client/v3/account/whoami" : "/_matrix/client/v3/login");
@@ -76,11 +75,11 @@ const authProvider: AuthProvider = {
 
       response = await fetchUtils.fetchJson(login_api_url, options);
       const json = response.json;
-      storage.setItem("home_server", accessToken ? json.user_id.split(":")[1] : json.home_server);
-      storage.setItem("user_id", json.user_id);
-      storage.setItem("access_token", accessToken ? accessToken : json.access_token);
-      storage.setItem("device_id", json.device_id);
-      storage.setItem("login_type", accessToken ? "accessToken" : "credentials");
+      localStorage.setItem("home_server", accessToken ? json.user_id.split(":")[1] : json.home_server);
+      localStorage.setItem("user_id", json.user_id);
+      localStorage.setItem("access_token", accessToken ? accessToken : json.access_token);
+      localStorage.setItem("device_id", json.device_id);
+      localStorage.setItem("login_type", accessToken ? "accessToken" : "credentials");
 
       // when doing access token auth, config is not fetched, so we need to do it here
       if (accessToken) {
@@ -103,9 +102,9 @@ const authProvider: AuthProvider = {
     }
   },
   getIdentity: async () => {
-    const access_token = storage.getItem("access_token");
-    const user_id = storage.getItem("user_id");
-    const base_url = storage.getItem("base_url");
+    const access_token = localStorage.getItem("access_token");
+    const user_id = localStorage.getItem("user_id");
+    const base_url = localStorage.getItem("base_url");
 
     if (typeof access_token !== "string" || typeof user_id !== "string" || typeof base_url !== "string") {
       return Promise.reject();
@@ -143,8 +142,8 @@ const authProvider: AuthProvider = {
   logout: async () => {
     console.log("logout");
 
-    const logout_api_url = storage.getItem("base_url") + "/_matrix/client/v3/logout";
-    const access_token = storage.getItem("access_token");
+    const logout_api_url = localStorage.getItem("base_url") + "/_matrix/client/v3/logout";
+    const access_token = localStorage.getItem("access_token");
 
     const options: Options = {
       method: "POST",
@@ -176,7 +175,7 @@ const authProvider: AuthProvider = {
   },
   // called when the user navigates to a new location, to check for authentication
   checkAuth: () => {
-    const access_token = storage.getItem("access_token");
+    const access_token = localStorage.getItem("access_token");
     return typeof access_token === "string" ? Promise.resolve() : Promise.reject();
   },
   // called when the user navigates to a new location, to check for permissions / roles

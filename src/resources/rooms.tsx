@@ -47,7 +47,7 @@ import {
   RoomDirectoryUnpublishButton,
   RoomDirectoryPublishButton,
 } from "./room_directory";
-import { DATE_FORMAT } from "../components/date";
+import { DATE_FORMAT } from "../utils/date";
 import DeleteRoomButton from "../components/DeleteRoomButton";
 import AvatarField from "../components/AvatarField";
 import { Room } from "../synapse/dataProvider";
