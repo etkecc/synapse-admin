@@ -35,7 +35,7 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
 * `menu` - add custom menu items to the main menu (sidebar) by providing a `menu` array in the config.
   Each `menu` item can contain the following fields:
   * `label` (required): The text to display in the menu.
-  * `icon` (optional): The icon to display next to the label, one of the [../src/components/icons.ts] icons, otherwise a default icon will be used.
+  * `icon` (optional): The icon to display next to the label, one of the [src/utils/icons.ts](../src/utils/icons.ts) icons, otherwise a default icon will be used.
   * `url` (required): The URL to navigate to when the menu item is clicked.
   [More details](custom-menu.md)
 
