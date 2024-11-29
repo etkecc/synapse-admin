@@ -48,7 +48,8 @@ const LoginPage = () => {
   const base_url = allowSingleBaseUrl ? restrictBaseUrl : localStorage.getItem("base_url");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
   const loginToken = /\?loginToken=([a-zA-Z0-9_-]+)/.exec(window.location.href);
-  const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
+  const accessToken = /\?accessToken=([a-zA-Z0-9_-]+)/.exec(window.location.href)?.[1];
+  const [loginMethod, setLoginMethod] = useState<LoginMethod>(accessToken ? "accessToken" : "credentials");
 
   useEffect(() => {
     if (!loginToken) {
@@ -231,6 +232,7 @@ const LoginPage = () => {
               {...(loading ? { disabled: true } : {})}
               resettable
               validate={required()}
+              defaultValue={accessToken}
             />
           </Box>
         )}
