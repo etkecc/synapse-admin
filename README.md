@@ -100,6 +100,7 @@ The following changes are already implemented:
 * 🔰 [Add "Assign Admin" button to the rooms](https://github.com/etkecc/synapse-admin/pull/156)
 * 🖼️ [Add rooms' avatars](https://github.com/etkecc/synapse-admin/pull/158)
 * 🤖 [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
+* 🏗️ [Dockerfile compiles binary](https://github.com/etkecc/synapse-admin/pull/179)
 
 _the list will be updated as new changes are added_
 
