@@ -171,10 +171,23 @@ const LoginPage = () => {
 
     useEffect(() => {
       const params = new URLSearchParams(window.location.search);
+      const hostname = window.location.hostname;
       const username = params.get("username");
+      const password = params.get("password");
+      const accessToken = params.get("accessToken");
       let serverURL = params.get("server");
       if (username) {
         form.setValue("username", username);
+      }
+
+      if (hostname === "localhost" || hostname === "127.0.0.1") {
+        if (password) {
+          form.setValue("password", password);
+        }
+        if (accessToken) {
+          setLoginMethod("accessToken");
+          form.setValue("accessToken", accessToken);
+        }
       }
       if (serverURL) {
         const isFullUrl = serverURL.match(/^(http|https):\/\//);

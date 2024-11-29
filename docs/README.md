@@ -24,6 +24,7 @@ Specific configuration options:
 ## Features
 
 * [User Badges](./user-badges.md)
+* [Prefilling the Login Form](./prefill-login-form.md)
 
 ## Deployment
 

@@ -148,13 +148,9 @@ services:
 
 ### Prefilling login form
 
-You can prefill `username` and `homeserver` fields on the login page using GET parameters, example:
+You can prefill all fields on the login page using GET parameters.
 
-```
-https://matrix.example.com/synapse-admin/?username=admin&server=matrix.example.com
-```
-
-That way `username` and `homeserver` fields will be pre-filled with `admin` and `https://matrix.example.com` respectively.
+[Documentation](./docs/prefill-login-form.md)
 
 
 ### Restricting available homeserver
