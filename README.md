@@ -100,6 +100,8 @@ The following changes are already implemented:
 * 🔰 [Add "Assign Admin" button to the rooms](https://github.com/etkecc/synapse-admin/pull/156)
 * 🖼️ [Add rooms' avatars](https://github.com/etkecc/synapse-admin/pull/158)
 * 🤖 [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
+* 🔑 [Allow prefilling any fields on the login form via GET params](https://github.com/etkecc/synapse-admin/pull/181)
+
 
 _the list will be updated as new changes are added_
 
@@ -111,7 +113,8 @@ _the list will be updated as new changes are added_
 This command initializes the development environment (local Synapse server and Postgres DB),
 and launches the app in a dev mode at `http://localhost:5173`
 
-After that open `http://localhost:5173` in your browser, login using the following credentials:
+After that open [http://localhost:5173](http://localhost:5173?username=admin&password=admin&server=http://localhost:8008] in your browser,
+login using the following credentials:
 
 * Login: admin
 * Password: admin
