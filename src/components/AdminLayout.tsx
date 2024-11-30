@@ -53,8 +53,8 @@ const AdminAppBar = () => {
     <TitlePortal />
     <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
       <ServerRunningProcess />
-      <ServerStatus />
     </Box>
+    <ServerStatus />
     <InspectorButton />
   </AppBar>);
 };

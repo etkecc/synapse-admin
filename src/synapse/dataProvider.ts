@@ -268,7 +268,7 @@ export interface UsernameAvailabilityResult {
 export interface ServerStatusComponent {
   ok: boolean;
   actionable: boolean;
-  type: number;
+  category: string;
   reason: string;
   url: string;
   help: string;
@@ -277,6 +277,13 @@ export interface ServerStatusComponent {
     icon: string;
     text: string;
   }
+}
+
+export interface ServerStatusResponse {
+  success: boolean;
+  ok: boolean;
+  host: string;
+  results: ServerStatusComponent[];
 }
 
 export interface SynapseDataProvider extends DataProvider {
@@ -288,7 +295,7 @@ export interface SynapseDataProvider extends DataProvider {
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUl: string) => Promise<{locked_at?: string; command?: string}>;
-  getServerStatus: (etkeAdminUl: string) => Promise<{success: boolean, ok: boolean; results: ServerStatusComponent[]}>;
+  getServerStatus: (etkeAdminUl: string) => Promise<ServerStatusResponse>;
 }
 
 const resourceMap = {
@@ -927,7 +934,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     return { locked_at, command };
   },
-  getServerStatus: async (serverStatusUrl: string) => {
+  getServerStatus: async (serverStatusUrl: string): Promise<ServerStatusResponse> => {
     try {
       const response = await fetch(`${serverStatusUrl}/status`, {
         headers: {
@@ -936,20 +943,20 @@ const baseDataProvider: SynapseDataProvider = {
       });
       if (!response.ok) {
         console.error(`Error getting server status: ${response.status} ${response.statusText}`);
-        return { success: false, ok: false, results: [] };
+        return { success: false, ok: false, host: "", results: [] };
       }
 
       const status = response.status;
       if (status === 200) {
         const json = await response.json();
-        const result = { success: true, ...json } as { success: boolean; ok: boolean; results: ServerStatusComponent[] };
+        const result = { success: true, ...json } as ServerStatusResponse;
         return result;
       }
     } catch (error) {
       console.error("Error getting server status", error);
     }
 
-    return { success: false, ok: false, results: [] };
+    return { success: false, ok: false, host: "", results: [] };
   }
 };
 

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../App";
 import { useDataProvider } from "react-admin";
 import { Box, Chip } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
-// every 10 seconds
-const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 1 * 1000;
+// every 5 minutes
+const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 60 * 1000;
 
 const useCurrentServerProcess = () => {
   const [serverCommand, setServerCommand] = useState("");
@@ -12,17 +13,22 @@ const useCurrentServerProcess = () => {
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
 
+  const checkServerRunningProcess = async () => {
+    const serverStatus = await dataProvider.getServerRunningProcess(etkeccAdmin);
+    if (serverStatus.command) {
+      setServerCommand(serverStatus.command);
+    }
+    if (serverStatus.locked_at) {
+      setServerLockedAt(new Date(serverStatus.locked_at).toLocaleString());
+    }
+  }
+
   useEffect(() => {
     let serverCheckInterval: NodeJS.Timeout;
     if (etkeccAdmin) {
-      serverCheckInterval = setInterval(async () => {
-        const serverStatus = await dataProvider.getServerRunningProcess(etkeccAdmin);
-        if (serverStatus.command) {
-          setServerCommand(serverStatus.command);
-        }
-        if (serverStatus.locked_at) {
-          setServerLockedAt(new Date(serverStatus.locked_at).toLocaleString());
-        }
+      checkServerRunningProcess();
+      setTimeout(() => {
+        serverCheckInterval = setInterval(checkServerRunningProcess, SERVER_CURRENT_PROCCESS_INTERVAL_TIME);
       }, SERVER_CURRENT_PROCCESS_INTERVAL_TIME);
     }
 
@@ -37,10 +43,11 @@ const useCurrentServerProcess = () => {
 };
 
 const ServerRunningProcess = () => {
+  const theme = useTheme();
   const { serverCommand, serverLockedAt } = useCurrentServerProcess();
 
   return <Box>
-    {serverCommand && serverLockedAt && <Chip label={`${serverCommand} - ${serverLockedAt}`} />}
+    {serverCommand && serverLockedAt && <Chip  sx={{ background: theme.palette.background.default }} label={`${serverCommand} - ${serverLockedAt}`} />}
   </Box>
 };
 
