@@ -294,8 +294,8 @@ export interface SynapseDataProvider extends DataProvider {
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
-  getServerRunningProcess: (etkeAdminUl: string) => Promise<{locked_at?: string; command?: string}>;
-  getServerStatus: (etkeAdminUl: string) => Promise<ServerStatusResponse>;
+  getServerRunningProcess: (etkeAdminUrl: string) => Promise<{locked_at?: string; command?: string}>;
+  getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
 }
 
 const resourceMap = {

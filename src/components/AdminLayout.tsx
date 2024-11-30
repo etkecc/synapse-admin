@@ -5,7 +5,7 @@ import { Icons, DefaultIcon } from "../utils/icons";
 import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import Footer from "./Footer";
 import { Avatar, Box } from "@mui/material";
-import ServerRunningProcess from "./ServerRunningProccess";
+import ServerRunningProcess from "./ServerRunningProcess";
 import ServerStatus from "./ServerStatus";
 
 const AdminUserMenu = () => {

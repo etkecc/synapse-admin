@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 // every 5 minutes
 const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 60 * 1000;
 
-const useCurrentServerProcess = () => {
+export const useCurrentServerProcess = () => {
   const [serverCommand, setServerCommand] = useState("");
   const [serverLockedAt, setServerLockedAt] = useState("");
   const { etkeccAdmin } = useAppContext();

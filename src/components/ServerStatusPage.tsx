@@ -4,6 +4,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CloseIcon from "@mui/icons-material/Close";
 import { ServerStatusComponent, ServerStatusResponse } from "../synapse/dataProvider";
 import { group } from "console";
+import { useCurrentServerProcess } from "./ServerRunningProcess";
 
 const StatusChip = ({ isOkay, size = "medium" }: { isOkay: boolean, size?: "small" | "medium" }) => {
   return isOkay ? (
@@ -50,6 +51,8 @@ const ServerStatusPage = () => {
     );
   }
 
+  const { serverCommand, serverLockedAt } = useCurrentServerProcess();
+
   return (
     <Stack spacing={3} mt={3}>
       <Stack spacing={1} direction="row" alignItems="center">
@@ -61,6 +64,18 @@ const ServerStatusPage = () => {
           {host}
         </Typography>
       </Stack>
+      {serverCommand && serverLockedAt && (
+      <Stack spacing={1} direction="row" alignItems="center">
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography variant="h5">Currently running:</Typography>
+          <Typography variant="h5" color="text.secondary">
+            <Link href={"https://etke.cc/help/extras/scheduler/#"+serverCommand} target="_blank">
+              {serverCommand}
+            </Link> since {serverLockedAt}
+          </Typography>
+        </Box>
+      </Stack>
+      )}
 
       <Stack spacing={2} direction="row">
         {Object.keys(groupedResults).map((category, idx) => (
