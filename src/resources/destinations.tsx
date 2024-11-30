@@ -123,6 +123,7 @@ export const DestinationList = (props: ListProps) => {
       filters={destinationFilters}
       pagination={<DestinationPagination />}
       sort={{ field: "destination", order: "ASC" }}
+      perPage={50}
     >
       <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
         <FunctionField source="destination" render={destinationFieldRender} label="resources.destinations.fields.destination" />

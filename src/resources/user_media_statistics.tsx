@@ -37,6 +37,7 @@ export const UserMediaStatsList = (props: ListProps) => (
     filters={userMediaStatsFilters}
     pagination={<UserMediaStatsPagination />}
     sort={{ field: "media_length", order: "DESC" }}
+    perPage={50}
   >
     <DatagridConfigurable rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
       <TextField source="user_id" label="resources.users.fields.id" />

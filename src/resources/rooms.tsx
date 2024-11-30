@@ -352,6 +352,7 @@ export const RoomList = (props: ListProps) => {
       sort={{ field: "name", order: "ASC" }}
       filters={roomFilters}
       actions={<RoomListActions />}
+      perPage={50}
     >
       <DatagridConfigurable
         rowClick="show"

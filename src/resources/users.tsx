@@ -166,6 +166,7 @@ export const UserList = (props: ListProps) => (
     sort={{ field: "name", order: "ASC" }}
     actions={<UserListActions />}
     pagination={<UserPagination />}
+    perPage={50}
   >
     <DatagridConfigurable
       rowClick={(id: Identifier, resource: string) => `/${resource}/${id}`}

@@ -38,7 +38,7 @@ export const RegistrationTokenList = (props: ListProps) => (
     filters={registrationTokenFilters}
     filterDefaultValues={{ valid: true }}
     pagination={false}
-    perPage={500}
+    perPage={50}
   >
     <DatagridConfigurable rowClick="edit">
       <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token"/>

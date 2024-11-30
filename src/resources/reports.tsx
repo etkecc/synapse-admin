@@ -90,7 +90,7 @@ const ReportShowActions = () => {
 };
 
 export const ReportList = (props: ListProps) => (
-  <List {...props} pagination={<ReportPagination />} sort={{ field: "received_ts", order: "DESC" }}>
+  <List {...props} pagination={<ReportPagination />} perPage={50} sort={{ field: "received_ts", order: "DESC" }}>
     <DatagridConfigurable rowClick="show" bulkActionButtons={false}>
       <TextField source="id" sortable={false} label="resources.reports.fields.id" />
       <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={true} label="resources.reports.fields.received_ts" />

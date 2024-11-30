@@ -135,7 +135,7 @@ const RoomDirectoryListActions = () => (
 );
 
 export const RoomDirectoryList = () => (
-  <List pagination={<RoomDirectoryPagination />} perPage={100} actions={<RoomDirectoryListActions />}>
+  <List pagination={<RoomDirectoryPagination />} perPage={50} actions={<RoomDirectoryListActions />}>
     <DatagridConfigurable
       rowClick={id => "/rooms/" + id + "/show"}
       bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
