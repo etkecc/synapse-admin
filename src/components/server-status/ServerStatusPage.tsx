@@ -1,8 +1,18 @@
 import { useStore } from "ra-core";
-import { Box, Stack, Typography, Paper, Link, Chip, Divider } from "@mui/material";
+import { Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from "@mui/icons-material/Close";
 import { ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
+
+const getTimeSince = (date: string) => {
+  const now = new Date();
+  const past = new Date(date);
+  const diffInMinutes = Math.floor((now.getTime() - past.getTime()) / (1000 * 60));
+
+  if (diffInMinutes < 1) return "just now";
+  if (diffInMinutes === 1) return "1 minute";
+  return `${diffInMinutes} minutes`;
+};
 
 const StatusChip = ({ isOkay, size = "medium" }: { isOkay: boolean, size?: "small" | "medium" }) => {
   return isOkay ? (
@@ -69,7 +79,10 @@ const ServerStatusPage = () => {
           <Typography variant="h5" color="text.secondary">
             <Link href={"https://etke.cc/help/extras/scheduler/#"+command} target="_blank">
               {command}
-            </Link> since {locked_at}
+            </Link>
+              <Tooltip title={locked_at.toString()}>
+                <Typography component="span" color="text.secondary" sx={{ display: "inline-block", ml: 1 }}>(started {getTimeSince(locked_at)} ago)</Typography>
+              </Tooltip>
           </Typography>
         </Box>
       </Stack>

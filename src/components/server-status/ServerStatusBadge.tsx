@@ -98,7 +98,7 @@ const useCurrentServerProcess = () => {
     setServerProcess({
       ...serverProcess,
       command: serverProcess.command,
-      locked_at: serverProcess.locked_at ? new Date(serverProcess.locked_at).toLocaleString() : ""
+      locked_at: serverProcess.locked_at ? new Date(serverProcess.locked_at) : ""
     });
   }
 
@@ -139,6 +139,7 @@ const ServerStatusBadge = () => {
     let badgeBackgroundColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
     let badgeColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
     console.log(command, locked_at);
+
     if (command && locked_at) {
       badgeBackgroundColor = theme.palette.warning.main;
       badgeColor = theme.palette.warning.main;
