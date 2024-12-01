@@ -1,6 +1,6 @@
-import { Avatar, Box, Badge, Theme, Tooltip, Typography } from "@mui/material";
-import { useState, useEffect } from "react";
-import { useAppContext } from "../App";
+import { Avatar, Badge, Theme, Tooltip } from "@mui/material";
+import { useEffect } from "react";
+import { useAppContext } from "../../App";
 import { Button, useDataProvider, useStore } from "react-admin";
 import { styled } from '@mui/material/styles';
 import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
@@ -9,14 +9,16 @@ import { useNavigate } from "react-router";
 import { useTheme } from "@mui/material/styles";
 
 interface StyledBadgeProps extends BadgeProps {
-  isOkay: boolean;
+  backgroundColor: string;
+  badgeColor: string
   theme?: Theme;
 }
 
-const StyledBadge = styled(Badge, { shouldForwardProp: (prop) => prop !== 'isOkay' })<StyledBadgeProps>(({ theme, isOkay }) => ({
+const StyledBadge = styled(Badge, { shouldForwardProp: (prop) => !['badgeColor', 'backgroundColor'].includes(prop as string) })<StyledBadgeProps>
+  (({ theme, backgroundColor, badgeColor }) => ({
     '& .MuiBadge-badge': {
-      backgroundColor: isOkay ? theme.palette.success.main : theme.palette.error.main,
-      color: isOkay ? theme.palette.success.main : theme.palette.error.main,
+      backgroundColor: backgroundColor,
+      color: badgeColor,
       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
       '&::after': {
         position: 'absolute',
@@ -44,6 +46,8 @@ const StyledBadge = styled(Badge, { shouldForwardProp: (prop) => prop !== 'isOka
 
 // every 5 minutes
 const SERVER_STATUS_INTERVAL_TIME = 5 * 60 * 1000;
+// every 5 minutes
+const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 60 * 1000;
 
 const useServerStatus = () => {
   const [serverStatus, setServerStatus] = useStore("serverStatus", { ok: false, success: false, host: "", actionable: false, results: [] });
@@ -70,7 +74,7 @@ const useServerStatus = () => {
       setTimeout(() => {
         // start the interval after 10 seconds to avoid too many requests
         serverStatusInterval = setInterval(checkServerStatus, SERVER_STATUS_INTERVAL_TIME);
-      }, SERVER_STATUS_INTERVAL_TIME);
+      }, 10);
     }
 
     return () => {
@@ -83,8 +87,43 @@ const useServerStatus = () => {
   return { isOkay, successCheck };
 };
 
-const ServerStatus = () => {
+const useCurrentServerProcess = () => {
+  const [serverProcess, setServerProcess] = useStore("serverProcess", { command: "", locked_at: "" });
+  const { etkeccAdmin } = useAppContext();
+  const dataProvider = useDataProvider();
+  const { command, locked_at } = serverProcess;
+
+  const checkServerRunningProcess = async () => {
+    const serverProcess = await dataProvider.getServerRunningProcess(etkeccAdmin);
+    setServerProcess({
+      ...serverProcess,
+      command: serverProcess.command,
+      locked_at: serverProcess.locked_at ? new Date(serverProcess.locked_at).toLocaleString() : ""
+    });
+  }
+
+  useEffect(() => {
+    let serverCheckInterval: NodeJS.Timeout;
+    if (etkeccAdmin) {
+      checkServerRunningProcess();
+      setTimeout(() => {
+        serverCheckInterval = setInterval(checkServerRunningProcess, SERVER_CURRENT_PROCCESS_INTERVAL_TIME);
+      }, 10);
+    }
+
+    return () => {
+      if (serverCheckInterval) {
+        clearInterval(serverCheckInterval);
+      }
+    }
+  }, [etkeccAdmin]);
+
+  return { command, locked_at };
+};
+
+const ServerStatusBadge = () => {
     const { isOkay, successCheck } = useServerStatus();
+    const { command, locked_at } = useCurrentServerProcess();
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -96,13 +135,24 @@ const ServerStatus = () => {
       navigate("/server_status");
     };
 
+    let tooltipText = "Click to view Server Status";
+    let badgeBackgroundColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
+    let badgeColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
+    console.log(command, locked_at);
+    if (command && locked_at) {
+      badgeBackgroundColor = theme.palette.warning.main;
+      badgeColor = theme.palette.warning.main;
+      tooltipText = `Running: ${command}; ${tooltipText}`;
+    }
+
     return <Button onClick={handleServerStatusClick} size="medium" sx={{ minWidth: "auto", ".MuiButton-startIcon": { m: 0 }}}>
-      <Tooltip title="Click to view Server Status" sx={{ cursor: "pointer" }}>
+      <Tooltip title={tooltipText} sx={{ cursor: "pointer" }}>
         <StyledBadge
           overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           variant="dot"
-          isOkay={isOkay}
+          backgroundColor={badgeBackgroundColor}
+          badgeColor={badgeColor}
         >
           <Avatar sx={{ height: 24, width: 24, background: theme.palette.mode === "dark" ? theme.palette.background.default : "#2196f3" }}>
             <MonitorHeartIcon sx={{ height: 22, width: 22, color: theme.palette.common.white }} />
@@ -112,4 +162,4 @@ const ServerStatus = () => {
     </Button>
 };
 
-export default ServerStatus;
+export default ServerStatusBadge;

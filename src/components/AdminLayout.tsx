@@ -4,9 +4,8 @@ import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "../utils/icons";
 import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import Footer from "./Footer";
-import { Avatar, Box } from "@mui/material";
-import ServerRunningProcess from "./ServerRunningProcess";
-import ServerStatus from "./ServerStatus";
+import { Box, Divider, Typography } from "@mui/material";
+import ServerStatusBadge from "./server-status/ServerStatusBadge";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -51,10 +50,7 @@ const AdminUserMenu = () => {
 const AdminAppBar = () => {
   return (<AppBar userMenu={<AdminUserMenu />}>
     <TitlePortal />
-    <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
-      <ServerRunningProcess />
-    </Box>
-    <ServerStatus />
+    <ServerStatusBadge />
     <InspectorButton />
   </AppBar>);
 };
@@ -66,6 +62,7 @@ const AdminMenu = (props) => {
   return (
     <Menu {...props}>
       <Menu.ResourceItems />
+      {menu.length > 0 && <Box sx={{ pl: 2 }}><Divider /><Typography variant="h6" sx={{ mb: 1 }}>External links</Typography></Box>}
       {menu.map((item, index) => {
         const { url, icon, label } = item;
         const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;

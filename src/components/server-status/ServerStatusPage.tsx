@@ -1,14 +1,12 @@
 import { useStore } from "ra-core";
 import { Box, Stack, Typography, Paper, Link, Chip, Divider } from "@mui/material";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from "@mui/icons-material/Close";
-import { ServerStatusComponent, ServerStatusResponse } from "../synapse/dataProvider";
-import { group } from "console";
-import { useCurrentServerProcess } from "./ServerRunningProcess";
+import { ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
 
 const StatusChip = ({ isOkay, size = "medium" }: { isOkay: boolean, size?: "small" | "medium" }) => {
   return isOkay ? (
-    <Chip icon={<CheckBoxIcon />} label="OK" color="success" variant="outlined" size={size} />
+    <Chip icon={<CheckIcon />} label="OK" color="success" variant="outlined" size={size} />
   ) : (
     <Chip icon={<CloseIcon />} label="Error" color="error" variant="outlined" size={size} />
   );
@@ -50,8 +48,8 @@ const ServerStatusPage = () => {
       </Paper>
     );
   }
-
-  const { serverCommand, serverLockedAt } = useCurrentServerProcess();
+  const [ serverProcess, setServerProcess ] = useStore("serverProcess", { command: "", locked_at: "" });
+  const { command, locked_at } = serverProcess;
 
   return (
     <Stack spacing={3} mt={3}>
@@ -64,14 +62,14 @@ const ServerStatusPage = () => {
           {host}
         </Typography>
       </Stack>
-      {serverCommand && serverLockedAt && (
+      {command && locked_at && (
       <Stack spacing={1} direction="row" alignItems="center">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h5">Currently running:</Typography>
           <Typography variant="h5" color="text.secondary">
-            <Link href={"https://etke.cc/help/extras/scheduler/#"+serverCommand} target="_blank">
-              {serverCommand}
-            </Link> since {serverLockedAt}
+            <Link href={"https://etke.cc/help/extras/scheduler/#"+command} target="_blank">
+              {command}
+            </Link> since {locked_at}
           </Typography>
         </Box>
       </Stack>

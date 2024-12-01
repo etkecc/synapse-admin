@@ -25,7 +25,7 @@ import authProvider from "./synapse/authProvider";
 import dataProvider, { ServerStatusResponse } from "./synapse/dataProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Config } from "./utils/config";
-import ServerStatusPage from "./components/ServerStatusPage";
+import ServerStatusPage from "./components/server-status/ServerStatusPage";
 
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {
