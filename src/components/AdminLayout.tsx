@@ -4,7 +4,6 @@ import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "../utils/icons";
 import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import Footer from "./Footer";
-import { Box, Divider, Typography } from "@mui/material";
 import ServerStatusBadge from "./server-status/ServerStatusBadge";
 
 const AdminUserMenu = () => {
@@ -62,7 +61,6 @@ const AdminMenu = (props) => {
   return (
     <Menu {...props}>
       <Menu.ResourceItems />
-      {menu.length > 0 && <Box sx={{ pl: 2 }}><Divider /><Typography variant="h6" sx={{ mb: 1 }}>External links</Typography></Box>}
       {menu.map((item, index) => {
         const { url, icon, label } = item;
         const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
