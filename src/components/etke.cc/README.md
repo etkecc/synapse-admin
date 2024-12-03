@@ -2,11 +2,9 @@
 
 This directory contains [etke.cc](https://etke.cc)-specific components, unusable for any other purposes and/or configuration.
 
-We at [etke.cc](https://etke.cc) attempting to develop everything open-source, but some components are too specific to
-be used by anyone else. This directory contains such components.
+We at [etke.cc](https://etke.cc) attempting to develop everything open-source, but some things are too specific to be used by anyone else. This directory contains such components - they are only available for [etke.cc](https://etke.cc) customers.
 
-Due to the specific mentioned above, these components are neither documented in the [docs](../../../docs/README.md), nor supported as
-part of the Synapse Admin open-source project.
+Due to the specifics mentioned above, these components are documented here rather than in the [docs](../../../docs/README.md), plus they are not supported as part of the Synapse Admin open-source project (i.e.: no issues, no PRs, no support, no requests, etc.).
 
 ## Components
 
@@ -20,7 +18,7 @@ In the application bar the new monitoring icon is displayed that shows the curre
 * 🟡 (yellow) - the server is up and running, but there is a command in progress (likely [maintenance](https://etke.cc/help/extras/scheduler/#maintenance)), so some temporary issues may occur - that's totally fine
 * 🔴 (red) - there is at least 1 issue with one of the server's components
 
-### Server Status Page
+### Server Status page
 
 ![Server Status Page](../../../screenshots/etke.cc/server-status/page.webp)
 

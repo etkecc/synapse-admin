@@ -26,6 +26,14 @@ Specific configuration options:
 * [User Badges](./user-badges.md)
 * [Prefilling the Login Form](./prefill-login-form.md)
 
+for [etke.cc](https://etke.cc) customers only:
+
+> **Note:** The following features are only available for etke.cc customers. Due to specifics of the implementation,
+they are not available for any other Synapse Admin deployments.
+
+* [Server Status icon](../src/components/etke.cc/README.md#server-status-icon)
+* [Server Status page](../src/components/etke.cc/README.md#server-status-page)
+
 ## Deployment
 
 * [Serving Synapse Admin behind a reverse proxy](./reverse-proxy.md)
