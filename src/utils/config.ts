@@ -68,9 +68,6 @@ export const LoadConfig = (context: any) => {
   if (menu.length > 0) {
     config.menu = menu;
   }
-  // if (context?.etkeccAdmin) {
-  //   config.etkeccAdmin = context.etkeccAdmin as string;
-  // }
 }
 
 // get config
