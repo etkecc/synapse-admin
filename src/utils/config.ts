@@ -51,8 +51,9 @@ export const FetchConfig = async () => {
 }
 
 // load config from context
+// we deliberately processing each key separately to avoid overwriting the whole config, loosing some keys, and messing
+// with typescript types
 export const LoadConfig = (context: any) => {
-  config = { ...config, ...context };
   if (context?.restrictBaseUrl) {
     config.restrictBaseUrl = context.restrictBaseUrl as string | string[];
   }
@@ -67,6 +68,10 @@ export const LoadConfig = (context: any) => {
   }
   if (menu.length > 0) {
     config.menu = menu;
+  }
+
+  if (context?.etkeccAdmin) {
+    config.etkeccAdmin = context.etkeccAdmin;
   }
 }
 
