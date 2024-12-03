@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from "react";
 import { Icons, DefaultIcon } from "../utils/icons";
 import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import Footer from "./Footer";
-import ServerStatusBadge from "./server-status/ServerStatusBadge";
+import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);

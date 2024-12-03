@@ -101,6 +101,7 @@ The following changes are already implemented:
 * 🖼️ [Add rooms' avatars](https://github.com/etkecc/synapse-admin/pull/158)
 * 🤖 [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
 * 🔑 [Allow prefilling any fields on the login form via GET params](https://github.com/etkecc/synapse-admin/pull/181)
+* _(for [etke.cc](https://etke.cc) customers only)_ [Server Status indicator and page](https://github.com/etkecc/synapse-admin/pull/182)
 
 
 _the list will be updated as new changes are added_
