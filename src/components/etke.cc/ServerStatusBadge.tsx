@@ -138,7 +138,6 @@ const ServerStatusBadge = () => {
     let tooltipText = "Click to view Server Status";
     let badgeBackgroundColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
     let badgeColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
-    console.log(command, locked_at);
 
     if (command && locked_at) {
       badgeBackgroundColor = theme.palette.warning.main;

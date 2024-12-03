@@ -23,7 +23,7 @@ const StatusChip = ({ isOkay, size = "medium" }: { isOkay: boolean, size?: "smal
 };
 
 const ServerComponentText = ({ text }: { text: string }) => {
-  return <Typography variant="body1" dangerouslySetInnerHTML={{ __html: text.replace(/\*\*/g, "") }} />;
+  return <Typography variant="body1" dangerouslySetInnerHTML={{ __html: text }} />;
 };
 
 const ServerStatusPage = () => {
@@ -109,7 +109,7 @@ const ServerStatusPage = () => {
                           <ServerComponentText text={result.label.text} />
                         )}
                       </Box>
-                      {result.reason && <Typography color="text.secondary">{result.reason}</Typography>}
+                      {result.reason && <Typography color="text.secondary" dangerouslySetInnerHTML={{ __html: result.reason }}/>}
                       {(!result.ok && result.help) && (
                         <Link href={result.help} target="_blank" rel="noopener noreferrer" sx={{ mt: 1 }}>
                           Learn more
