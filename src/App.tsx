@@ -52,7 +52,6 @@ const i18nProvider = polyglotI18nProvider(
 
 const queryClient = new QueryClient();
 
-
 export const App = () => (
   <QueryClientProvider client={queryClient}>
     <Admin
@@ -64,28 +63,27 @@ export const App = () => (
       dataProvider={dataProvider}
       i18nProvider={i18nProvider}
     >
-
-        <CustomRoutes>
-          <Route path="/import_users" element={<UserImport />} />
-          <Route path="/server_status" element={<ServerStatusPage />} />
-        </CustomRoutes>
-        <Resource {...users} />
-        <Resource {...rooms} />
-        <Resource {...userMediaStats} />
-        <Resource {...reports} />
-        <Resource {...roomDirectory} />
-        <Resource {...destinations} />
-        <Resource {...registrationToken} />
-        <Resource name="connections" />
-        <Resource name="devices" />
-        <Resource name="room_members" />
-        <Resource name="users_media" />
-        <Resource name="joined_rooms" />
-        <Resource name="pushers" />
-        <Resource name="servernotices" />
-        <Resource name="forward_extremities" />
-        <Resource name="room_state" />
-        <Resource name="destination_rooms" />
+      <CustomRoutes>
+        <Route path="/import_users" element={<UserImport />} />
+        <Route path="/server_status" element={<ServerStatusPage />} />
+      </CustomRoutes>
+      <Resource {...users} />
+      <Resource {...rooms} />
+      <Resource {...userMediaStats} />
+      <Resource {...reports} />
+      <Resource {...roomDirectory} />
+      <Resource {...destinations} />
+      <Resource {...registrationToken} />
+      <Resource name="connections" />
+      <Resource name="devices" />
+      <Resource name="room_members" />
+      <Resource name="users_media" />
+      <Resource name="joined_rooms" />
+      <Resource name="pushers" />
+      <Resource name="servernotices" />
+      <Resource name="forward_extremities" />
+      <Resource name="room_state" />
+      <Resource name="destination_rooms" />
     </Admin>
   </QueryClientProvider>
 );

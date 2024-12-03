@@ -27,7 +27,7 @@ const StyledBadge = styled(Badge, { shouldForwardProp: (prop) => !['badgeColor',
         width: '100%',
         height: '100%',
         borderRadius: '50%',
-        animation: 'ripple 1.2s infinite ease-in-out',
+        animation: 'ripple 2.5s infinite ease-in-out',
         border: '1px solid currentColor',
         content: '""',
       },
@@ -46,11 +46,11 @@ const StyledBadge = styled(Badge, { shouldForwardProp: (prop) => !['badgeColor',
 
 // every 5 minutes
 const SERVER_STATUS_INTERVAL_TIME = 5 * 60 * 1000;
-// every 5 minutes
-const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 60 * 1000;
+// every 5 seconds
+const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 1000;
 
 const useServerStatus = () => {
-  const [serverStatus, setServerStatus] = useStore("serverStatus", { ok: false, success: false, host: "", actionable: false, results: [] });
+  const [serverStatus, setServerStatus] = useStore("serverStatus", { ok: false, success: false, host: "", results: [] });
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const isOkay = serverStatus.ok;
@@ -62,7 +62,6 @@ const useServerStatus = () => {
       ok: serverStatus.ok,
       success: serverStatus.success,
       host: serverStatus.host,
-      actionable: serverStatus.actionable,
       results: serverStatus.results,
     });
   };
@@ -74,7 +73,9 @@ const useServerStatus = () => {
       setTimeout(() => {
         // start the interval after 10 seconds to avoid too many requests
         serverStatusInterval = setInterval(checkServerStatus, SERVER_STATUS_INTERVAL_TIME);
-      }, 10);
+      }, 10000);
+    }  else {
+      setServerStatus({ ok: false, success: false, host: "", results: [] });
     }
 
     return () => {
@@ -108,7 +109,9 @@ const useCurrentServerProcess = () => {
       checkServerRunningProcess();
       setTimeout(() => {
         serverCheckInterval = setInterval(checkServerRunningProcess, SERVER_CURRENT_PROCCESS_INTERVAL_TIME);
-      }, 10);
+      }, 5000);
+    } else {
+      setServerProcess({ command: "", locked_at: "" });
     }
 
     return () => {
@@ -136,8 +139,8 @@ const ServerStatusBadge = () => {
     };
 
     let tooltipText = "Click to view Server Status";
-    let badgeBackgroundColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
-    let badgeColor = isOkay ? theme.palette.success.main : theme.palette.error.main;
+    let badgeBackgroundColor = isOkay ? theme.palette.success.light : theme.palette.error.main;
+    let badgeColor = isOkay ? theme.palette.success.light : theme.palette.error.main;
 
     if (command && locked_at) {
       badgeBackgroundColor = theme.palette.warning.main;

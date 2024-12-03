@@ -1,7 +1,8 @@
 import { useStore } from "ra-core";
-import { Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip } from "@mui/material";
+import { Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps } from "@mui/material";
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from "@mui/icons-material/Close";
+import EngineeringIcon from '@mui/icons-material/Engineering';
 import { ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
 
 const getTimeSince = (date: string) => {
@@ -9,16 +10,29 @@ const getTimeSince = (date: string) => {
   const past = new Date(date);
   const diffInMinutes = Math.floor((now.getTime() - past.getTime()) / (1000 * 60));
 
-  if (diffInMinutes < 1) return "just now";
+  if (diffInMinutes < 1) return "a couple of seconds";
   if (diffInMinutes === 1) return "1 minute";
   return `${diffInMinutes} minutes`;
 };
 
-const StatusChip = ({ isOkay, size = "medium" }: { isOkay: boolean, size?: "small" | "medium" }) => {
-  return isOkay ? (
-    <Chip icon={<CheckIcon />} label="OK" color="success" variant="outlined" size={size} />
-  ) : (
-    <Chip icon={<CloseIcon />} label="Error" color="error" variant="outlined" size={size} />
+const StatusChip = ({ isOkay, size = "medium", command }: { isOkay: boolean, size?: "small" | "medium", command?: string   }) => {
+  let label = "OK";
+  let icon = <CheckIcon />;
+  let color: ChipProps["color"] = "success";
+  if (!isOkay) {
+    label = "Error";
+    icon = <CloseIcon />;
+    color = "error";
+  }
+
+  if (command) {
+    label = command;
+    color = "warning";
+    icon = <EngineeringIcon />;
+  }
+
+  return (
+    <Chip icon={icon} label={label} color={color} variant="outlined" size={size} />
   );
 };
 
@@ -33,6 +47,8 @@ const ServerStatusPage = () => {
     host: "",
     results: [],
   });
+  const [ serverProcess, setServerProcess ] = useStore("serverProcess", { command: "", locked_at: "" });
+  const { command, locked_at } = serverProcess;
   const successCheck = serverStatus.success;
   const isOkay = serverStatus.ok;
   const host = serverStatus.host;
@@ -58,15 +74,13 @@ const ServerStatusPage = () => {
       </Paper>
     );
   }
-  const [ serverProcess, setServerProcess ] = useStore("serverProcess", { command: "", locked_at: "" });
-  const { command, locked_at } = serverProcess;
 
   return (
     <Stack spacing={3} mt={3}>
       <Stack spacing={1} direction="row" alignItems="center">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">Status:</Typography>
-          <StatusChip isOkay={isOkay} />
+          <StatusChip isOkay={isOkay} command={command} />
         </Box>
         <Typography variant="h5" color="primary" fontWeight="medium">
           {host}
