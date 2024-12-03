@@ -96,11 +96,11 @@ const useCurrentServerProcess = () => {
   const { command, locked_at } = serverProcess;
 
   const checkServerRunningProcess = async () => {
-    const serverProcess = await dataProvider.getServerRunningProcess(etkeccAdmin);
+    const serverProcess: ServerProcessResponse = await dataProvider.getServerRunningProcess(etkeccAdmin);
     setServerProcess({
       ...serverProcess,
       command: serverProcess.command,
-      locked_at: serverProcess.locked_at ? new Date(serverProcess.locked_at) : ""
+      locked_at: serverProcess.locked_at
     });
   }
 
