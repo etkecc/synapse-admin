@@ -267,7 +267,6 @@ export interface UsernameAvailabilityResult {
 
 export interface ServerStatusComponent {
   ok: boolean;
-  actionable: boolean;
   category: string;
   reason: string;
   url: string;
@@ -286,6 +285,11 @@ export interface ServerStatusResponse {
   results: ServerStatusComponent[];
 }
 
+export interface ServerProcessResponse {
+  locked_at?: string;
+  command?: string;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   uploadMedia: (params: UploadMediaParams) => Promise<UploadMediaResult>;
@@ -294,7 +298,7 @@ export interface SynapseDataProvider extends DataProvider {
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
-  getServerRunningProcess: (etkeAdminUrl: string) => Promise<{locked_at?: string; command?: string}>;
+  getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
 }
 
@@ -904,7 +908,7 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  getServerRunningProcess: async (runningProcessUrl: string) => {
+  getServerRunningProcess: async (runningProcessUrl: string): Promise<ServerProcessResponse> => {
     const locked_at = "";
     const command = "";
 

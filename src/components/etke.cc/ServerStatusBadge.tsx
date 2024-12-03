@@ -7,6 +7,7 @@ import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import { BadgeProps } from "@mui/material/Badge";
 import { useNavigate } from "react-router";
 import { useTheme } from "@mui/material/styles";
+import { ServerProcessResponse, ServerStatusResponse } from "../../synapse/dataProvider";
 
 interface StyledBadgeProps extends BadgeProps {
   backgroundColor: string;
@@ -50,14 +51,14 @@ const SERVER_STATUS_INTERVAL_TIME = 5 * 60 * 1000;
 const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 1000;
 
 const useServerStatus = () => {
-  const [serverStatus, setServerStatus] = useStore("serverStatus", { ok: false, success: false, host: "", results: [] });
+  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", { ok: false, success: false, host: "", results: [] });
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const isOkay = serverStatus.ok;
   const successCheck = serverStatus.success;
 
   const checkServerStatus = async () => {
-    const serverStatus = await dataProvider.getServerStatus(etkeccAdmin);
+    const serverStatus: ServerStatusResponse = await dataProvider.getServerStatus(etkeccAdmin);
     setServerStatus({
       ok: serverStatus.ok,
       success: serverStatus.success,
@@ -89,7 +90,7 @@ const useServerStatus = () => {
 };
 
 const useCurrentServerProcess = () => {
-  const [serverProcess, setServerProcess] = useStore("serverProcess", { command: "", locked_at: "" });
+  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const { command, locked_at } = serverProcess;

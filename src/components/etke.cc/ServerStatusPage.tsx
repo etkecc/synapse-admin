@@ -3,7 +3,7 @@ import { Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps 
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from "@mui/icons-material/Close";
 import EngineeringIcon from '@mui/icons-material/Engineering';
-import { ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
+import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
 
 const getTimeSince = (date: string) => {
   const now = new Date();
@@ -47,7 +47,7 @@ const ServerStatusPage = () => {
     host: "",
     results: [],
   });
-  const [ serverProcess, setServerProcess ] = useStore("serverProcess", { command: "", locked_at: "" });
+  const [ serverProcess, setServerProcess ] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
   const { command, locked_at } = serverProcess;
   const successCheck = serverStatus.success;
   const isOkay = serverStatus.ok;
