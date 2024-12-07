@@ -124,11 +124,13 @@ interface SynapseTranslationMessages extends TranslationMessages {
         is_guest: string;
         admin: string;
         locked?: string; // TODO: fa, zh
+        suspended: string;
         deactivated: string;
         erased?: string; // TODO: fa, fr, it, zh
         guests: string;
         show_deactivated: string;
         show_locked?: string; // TODO: de, fa, fr, it, zh
+        show_suspended: string;
         user_id: string;
         displayname: string;
         password: string;
@@ -146,6 +148,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         password: string;
         create_password: string;
         deactivate: string;
+        suspend: string;
         erase: string;
         erase_text: string;
         erase_admin_error: string;
