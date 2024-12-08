@@ -38,6 +38,7 @@ const en: SynapseTranslationMessages = {
         members: "Members",
         detail: "Details",
         permission: "Permissions",
+        media: "Media",
       }
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
@@ -399,6 +400,12 @@ const en: SynapseTranslationMessages = {
         content: "Content",
         origin_server_ts: "time of send",
         sender: "Sender",
+      },
+    },
+    room_media: {
+      name: "Media",
+      fields: {
+        media_id: "Media ID",
       },
     },
     room_directory: {

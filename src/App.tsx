@@ -2,7 +2,7 @@ import { merge } from "lodash";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 
 import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin";
-import { createContext, useContext } from "react";
+
 import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
@@ -22,9 +22,8 @@ import rooms from "./resources/rooms";
 import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
 import authProvider from "./synapse/authProvider";
-import dataProvider, { ServerStatusResponse } from "./synapse/dataProvider";
+import dataProvider from "./synapse/dataProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Config } from "./utils/config";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
 
 // TODO: Can we use lazy loading together with browser locale?
@@ -87,9 +86,5 @@ export const App = () => (
     </Admin>
   </QueryClientProvider>
 );
-
-export const AppContext = createContext({});
-
-export const useAppContext = () => useContext(AppContext) as Config;
 
 export default App;

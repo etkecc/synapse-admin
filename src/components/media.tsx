@@ -314,6 +314,7 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
 export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
   const translate = useTranslate();
   const [loading, setLoading] = useState(false);
+  const notify = useNotify();
   const isImage = mimetype && mimetype.startsWith("image/");
 
   const openFileInNewTab = (blobURL: string) => {
@@ -340,12 +341,19 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
   const handleFile = async (preview: boolean) => {
     setLoading(true);
     const response = await fetchAuthenticatedMedia(mxcURL, "original");
-    const blob = await response.blob();
-    const blobURL = URL.createObjectURL(blob);
-    if (preview) {
-      openFileInNewTab(blobURL);
+    console.log("response", response);
+    if (response.ok) {
+      const blob = await response.blob();
+      const blobURL = URL.createObjectURL(blob);
+      if (preview) {
+        openFileInNewTab(blobURL);
+      } else {
+        downloadFile(blobURL);
+      }
     } else {
-      downloadFile(blobURL);
+      notify(`Media file error: ${response.statusText}`, {
+        type: "error",
+      });
     }
     setLoading(false);
   };
@@ -391,8 +399,17 @@ export const MediaIDField = ({ source }) => {
     return null;
   }
 
-  const uploadName = decodeURIComponent(get(record, "upload_name")?.toString());
-  const mxcURL = `mxc://${homeserver}/${mediaID}`;
+  let uploadName = mediaID;
+  if (get(record, "upload_name")) {
+    uploadName = decodeURIComponent(get(record, "upload_name")?.toString());
+  }
+
+  let mxcURL = mediaID;
+  if (!mediaID.startsWith(`mxc://${homeserver}`)) {
+    // this is user's media, where mediaID doesn't have the mxc://home_server/ prefix
+    // as it has in the rooms
+    mxcURL = `mxc://${homeserver}/${mediaID}`;
+  }
 
   return <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type}/>;
 };

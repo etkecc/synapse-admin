@@ -16,7 +16,7 @@ import {
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
 import LoginFormBox from "../components/LoginFormBox";
-import { useAppContext } from "../App";
+import { useAppContext } from "../Context";
 import {
   getServerVersion,
   getSupportedFeatures,

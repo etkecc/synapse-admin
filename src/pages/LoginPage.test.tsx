@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { AdminContext } from "react-admin";
 
 import LoginPage from "./LoginPage";
-import { AppContext } from "../App";
+import { AppContext } from "../Context";
 import englishMessages from "../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
@@ -33,7 +33,9 @@ describe("LoginForm", () => {
 
   it("renders with single restricted homeserver", () => {
     render(
-      <AppContext.Provider value={{ restrictBaseUrl: "https://matrix.example.com" }}>
+      <AppContext.Provider
+        value={{ restrictBaseUrl: "https://matrix.example.com", asManagedUsers: [], menu: [] }}
+      >
         <AdminContext i18nProvider={i18nProvider}>
           <LoginPage />
         </AdminContext>
@@ -56,6 +58,8 @@ describe("LoginForm", () => {
       <AppContext.Provider
         value={{
           restrictBaseUrl: ["https://matrix.example.com", "https://matrix.example.org"],
+          asManagedUsers: [],
+          menu: [],
         }}
       >
         <AdminContext i18nProvider={i18nProvider}>
