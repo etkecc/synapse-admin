@@ -7,12 +7,12 @@ import PageviewIcon from "@mui/icons-material/Pageview";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import {
   BooleanField,
   DateField,
-  EditButton,
   WrapperField,
   Datagrid,
   DatagridConfigurable,
@@ -38,6 +38,7 @@ import {
   useTranslate,
   useListContext,
   useNotify,
+  DeleteButton,
 } from "react-admin";
 
 import TextField from "@mui/material/TextField";
@@ -49,6 +50,7 @@ import {
 } from "./room_directory";
 import { DATE_FORMAT } from "../utils/date";
 import DeleteRoomButton from "../components/DeleteRoomButton";
+import { MediaIDField } from "../components/media";
 import AvatarField from "../components/AvatarField";
 import { Room } from "../synapse/dataProvider";
 import { useMutation } from "@tanstack/react-query";
@@ -227,6 +229,15 @@ export const RoomShow = (props: ShowProps) => {
               >
                 <RaTextField source="displayname" sortable={false} />
               </ReferenceField>
+            </Datagrid>
+          </ReferenceManyField>
+        </Tab>
+
+        <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
+          <ReferenceManyField reference="room_media" target="room_id" label={false}>
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+              <MediaIDField source="media_id" />
+              <DeleteButton mutationMode="pessimistic" redirect={false} />
             </Datagrid>
           </ReferenceManyField>
         </Tab>

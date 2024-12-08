@@ -384,6 +384,20 @@ const resourceMap = {
     data: "members",
     total: json => json.total,
   },
+  room_media: {
+    map: (mediaId: string) => ({
+      id: mediaId.replace("mxc://" + localStorage.getItem("home_server") + "/", ""),
+      media_id: mediaId.replace("mxc://" + localStorage.getItem("home_server") + "/", ""),
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/room/${id}/media`,
+    }),
+    total: json => json.total,
+    data: "local",
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/media/${localStorage.getItem("home_server")}/${params.id}`,
+    }),
+  },
   room_state: {
     map: (rs: RoomState) => ({
       ...rs,

@@ -391,8 +391,17 @@ export const MediaIDField = ({ source }) => {
     return null;
   }
 
-  const uploadName = decodeURIComponent(get(record, "upload_name")?.toString());
-  const mxcURL = `mxc://${homeserver}/${mediaID}`;
+  let uploadName = mediaID;
+  if (get(record, "upload_name")) {
+    uploadName = decodeURIComponent(get(record, "upload_name")?.toString());
+  }
+
+  let mxcURL = mediaID;
+  if (!mediaID.startsWith(`mxc://${homeserver}`)) {
+    // this is user's media, where mediaID doesn't have the mxc://home_server/ prefix
+    // as it has in the rooms
+    mxcURL = `mxc://${homeserver}/${mediaID}`;
+  }
 
   return <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type}/>;
 };
