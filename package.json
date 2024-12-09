@@ -51,7 +51,7 @@
     "@mui/icons-material": "^6.1.8",
     "@mui/material": "^6.1.9",
     "@mui/utils": "^5.16.8",
-    "@tanstack/react-query": "^5.62.0",
+    "@tanstack/react-query": "^5.62.3",
     "history": "^5.3.0",
     "lodash": "^4.17.21",
     "papaparse": "^5.4.1",
