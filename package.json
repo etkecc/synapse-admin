@@ -49,7 +49,7 @@
     "@haleos/ra-language-german": "^1.0.0",
     "@haxqer/ra-language-chinese": "^4.16.2",
     "@mui/icons-material": "^6.1.9",
-    "@mui/material": "^6.1.9",
+    "@mui/material": "^6.1.10",
     "@mui/utils": "^5.16.8",
     "@tanstack/react-query": "^5.62.3",
     "history": "^5.3.0",
