@@ -4613,7 +4613,7 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.4.0, ra-core@^5.4.1:
+ra-core@^5.4.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.4.1.tgz#f387826789f74ab656068c571523a46b4c07f286"
   integrity sha512-jn1kU3Yn6OMLZFi0Ym3hsNnOo6+qJRp9En61t7MccfY+ultVx2FBWi+EZRoV1+hlVZmO7OcpKJ2dM7Sb5csx1w==
@@ -4644,10 +4644,10 @@ ra-language-english@^5.3.4, ra-language-english@^5.4.1:
   dependencies:
     ra-core "^5.4.1"
 
-ra-language-farsi@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/ra-language-farsi/-/ra-language-farsi-5.0.0.tgz"
-  integrity sha512-wdveom01mdPY3KiFBWj4cc1f1YhWWi4pqNIuY79jgbJ43Kk72qOQIr3byWipy/Nt7dYzrAP3IvXmylWLLMmgnw==
+ra-language-farsi@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/ra-language-farsi/-/ra-language-farsi-5.1.0.tgz#27d2cc50e4074a0e2565e05da153da0d213729f8"
+  integrity sha512-U4swqsijT6foRP9v/fqLGEXV1TjuyjpQcmoDJfsN2kPyR9QiKlLGNrbv/sfpt7LT0om3egIXIRp/iQG1u44GXQ==
 
 ra-language-french@^5.4.1:
   version "5.4.1"
