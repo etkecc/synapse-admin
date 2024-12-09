@@ -21,6 +21,7 @@
 
 * [Fork differences](#fork-differences)
   * [Changes](#changes)
+    * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
   * [Development](#development)
   * [Support](#support)
 * [Configuration](#configuration)
@@ -57,6 +58,8 @@ The full list is described below in the [Changes](#changes) section.
 * As a component in [Matrix-Docker-Ansible-Deploy Playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)
 
 ### Changes
+
+_the list will be updated as new changes are added_
 
 The following changes are already implemented:
 
@@ -101,10 +104,14 @@ The following changes are already implemented:
 * 🖼️ [Add rooms' avatars](https://github.com/etkecc/synapse-admin/pull/158)
 * 🤖 [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
 * 🔑 [Allow prefilling any fields on the login form via GET params](https://github.com/etkecc/synapse-admin/pull/181)
-* _(for [etke.cc](https://etke.cc) customers only)_ [Server Status indicator and page](https://github.com/etkecc/synapse-admin/pull/182)
+* 🖼️ [Add "Media" tab for rooms](https://github.com/etkecc/synapse-admin/pull/196)
 
+#### exclusive for [etke.cc](https://etke.cc) customers
 
-_the list will be updated as new changes are added_
+We at [etke.cc](https://etke.cc) attempting to develop everything open-source, but some things are too specific to be used by anyone else.
+The following list contains such features - they are only available for [etke.cc](https://etke.cc) customers.
+
+* 📊 [Server Status indicator and page](https://github.com/etkecc/synapse-admin/pull/182)
 
 ### Development
 
