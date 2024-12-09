@@ -32,6 +32,7 @@ const fr: SynapseTranslationMessages = {
         members: "Membres",
         detail: "Détails",
         permission: "Permissions",
+        media: "Médias",
       },
     },
     reports: { tabs: { basic: "Informations de base", detail: "Détails" } },
@@ -381,6 +382,15 @@ const fr: SynapseTranslationMessages = {
         content: "Contenu",
         origin_server_ts: "Date d'envoi",
         sender: "Expéditeur",
+      },
+    },
+    room_media: {
+      name: "Médias",
+      fields: {
+        media_id: "Identifiant du média",
+      },
+      helper: {
+        info: "Cette liste contient les médias qui ont été téléchargés dans le salon. Il n'est pas possible de supprimer les médias qui ont été téléversés dans des dépôts de médias externes.",
       },
     },
     room_directory: {

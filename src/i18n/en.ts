@@ -407,6 +407,9 @@ const en: SynapseTranslationMessages = {
       fields: {
         media_id: "Media ID",
       },
+      helper: {
+        info: "This is a list of media that has been uploaded to the room. It is not possible to delete media that has been uploaded to external media repositories.",
+      },
     },
     room_directory: {
       name: "Room directory",

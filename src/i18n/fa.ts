@@ -32,6 +32,7 @@ const fa: SynapseTranslationMessages = {
         members: "اعضا",
         detail: "جزئیات",
         permission: "مجوزها",
+        media: "رسانه ها",
       },
     },
     reports: { tabs: { basic: "اصلی", detail: "جزئیات" } },
@@ -378,6 +379,15 @@ const fa: SynapseTranslationMessages = {
         content: "محتوا",
         origin_server_ts: "زمان ارسال",
         sender: "فرستنده",
+      },
+    },
+    room_media: {
+      name: "رسانه ها",
+      fields: {
+        media_id: "شناسه رسانه",
+      },
+      helper: {
+        info: "این یک لیست از رسانه ها است که در اتاق بارگذاری شده است. نمی توان رسانه ها را حذف کرد که در اتاق های خارجی بارگذاری شده اند.",
       },
     },
     room_directory: {

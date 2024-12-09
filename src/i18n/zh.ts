@@ -60,6 +60,7 @@ const zh: SynapseTranslationMessages = {
         members: "成员",
         detail: "细节",
         permission: "权限",
+        media: "媒体",
       },
     },
     reports: { tabs: { basic: "基本", detail: "细节" } },

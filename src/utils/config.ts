@@ -1,7 +1,7 @@
 export interface Config {
   restrictBaseUrl: string | string[];
-  asManagedUsers?: RegExp[];
-  menu?: MenuItem[];
+  asManagedUsers: RegExp[];
+  menu: MenuItem[];
   etkeccAdmin?: string;
 }
 

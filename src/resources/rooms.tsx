@@ -60,6 +60,8 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 import PersonIcon from '@mui/icons-material/Person';
 import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
+
 const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
 const RoomTitle = () => {
@@ -234,6 +236,7 @@ export const RoomShow = (props: ShowProps) => {
         </Tab>
 
         <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
+          <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
           <ReferenceManyField reference="room_media" target="room_id" label={false}>
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <MediaIDField source="media_id" />

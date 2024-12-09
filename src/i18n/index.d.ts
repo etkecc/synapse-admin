@@ -399,6 +399,9 @@ interface SynapseTranslationMessages extends TranslationMessages {
       fields: {
         media_id: string;
       };
+      helper: {
+        info: string;
+      };
     };
     room_directory?: {
       name: string;

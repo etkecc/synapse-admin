@@ -64,6 +64,7 @@ const de: SynapseTranslationMessages = {
         members: "Mitglieder",
         detail: "Details",
         permission: "Berechtigungen",
+        media: "Medien",
       },
     },
     reports: { tabs: { basic: "Allgemein", detail: "Details" } },
@@ -427,6 +428,15 @@ const de: SynapseTranslationMessages = {
         content: "Inhalt",
         origin_server_ts: "Sendezeit",
         sender: "Absender",
+      },
+    },
+    room_media: {
+      name: "Medien",
+      fields: {
+        media_id: "Medien ID",
+      },
+      helper: {
+        info: "Dies ist eine Liste der Medien, die in den Raum hochgeladen wurden. Es ist nicht möglich, Medien zu löschen, die in externen Medien-Repositories hochgeladen wurden.",
       },
     },
     room_directory: {

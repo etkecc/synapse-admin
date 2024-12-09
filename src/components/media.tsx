@@ -341,7 +341,7 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
   const handleFile = async (preview: boolean) => {
     setLoading(true);
     const response = await fetchAuthenticatedMedia(mxcURL, "original");
-    console.log("response", response);
+
     if (response.ok) {
       const blob = await response.blob();
       const blobURL = URL.createObjectURL(blob);
@@ -351,7 +351,8 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
         downloadFile(blobURL);
       }
     } else {
-      notify(`Media file error: ${response.statusText}`, {
+      const errMsg = translate("delete_media.action.send_failure");
+      notify(`${errMsg} ${response.statusText}.`, {
         type: "error",
       });
     }
@@ -406,8 +407,7 @@ export const MediaIDField = ({ source }) => {
 
   let mxcURL = mediaID;
   if (!mediaID.startsWith(`mxc://${homeserver}`)) {
-    // this is user's media, where mediaID doesn't have the mxc://home_server/ prefix
-    // as it has in the rooms
+    // this is user's media, where mediaID doesn't have the mxc://home_server/ prefix as it has in the rooms
     mxcURL = `mxc://${homeserver}/${mediaID}`;
   }
 

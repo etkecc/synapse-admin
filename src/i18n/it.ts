@@ -32,6 +32,7 @@ const it: SynapseTranslationMessages = {
         members: "Membro",
         detail: "Dettagli",
         permission: "Permessi",
+        media: "Media",
       },
     },
     reports: { tabs: { basic: "Semplice", detail: "Dettagli" } },
@@ -374,6 +375,15 @@ const it: SynapseTranslationMessages = {
       content: "Contenuto",
       origin_server_ts: "Ora dell'invio",
       sender: "Mittente",
+    },
+  },
+  room_media: {
+    name: "Media",
+    fields: {
+      media_id: "ID del media",
+    },
+    helper: {
+      info: "Questa è una lista di media che è stata caricata nella stanza. Non è possibile eliminare media che è stato caricato in repository di media esterni.",
     },
   },
   room_directory: {
