@@ -138,6 +138,7 @@ export interface User {
   external_ids: ExternalId[];
   user_type?: string;
   locked: boolean;
+  suspended?: boolean;
 }
 
 interface Device {
@@ -575,7 +576,7 @@ function getSearchOrder(order: "ASC" | "DESC") {
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource);
-    const { user_id, name, guests, deactivated, locked, search_term, destination, valid } = params.filter;
+    const { user_id, name, guests, deactivated, locked, suspended, search_term, destination, valid } = params.filter;
     const { page, perPage } = params.pagination as PaginationPayload;
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
@@ -589,6 +590,7 @@ const baseDataProvider: SynapseDataProvider = {
       guests: guests,
       deactivated: deactivated,
       locked: locked,
+      suspended: suspended,
       valid: valid,
       order_by: field,
       dir: getSearchOrder(order),
