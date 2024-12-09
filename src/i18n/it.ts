@@ -380,11 +380,14 @@ const it: SynapseTranslationMessages = {
   room_media: {
     name: "Media",
     fields: {
-      media_id: "ID del media",
+      media_id: "ID Media",
     },
     helper: {
-      info: "Questa è una lista di media che è stata caricata nella stanza. Non è possibile eliminare media che è stato caricato in repository di media esterni.",
+      info: "Questo è un elenco dei media caricati nella stanza. Non è possibile eliminare i media caricati su repository esterni.",
     },
+    action: {
+      error: "%{errcode} (%{errstatus}) %{error}"
+    }
   },
   room_directory: {
     name: "Elenco delle stanze",

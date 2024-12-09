@@ -410,6 +410,9 @@ const en: SynapseTranslationMessages = {
       helper: {
         info: "This is a list of media that has been uploaded to the room. It is not possible to delete media that has been uploaded to external media repositories.",
       },
+      action: {
+        error: "%{errcode} (%{errstatus}) %{error}",
+      },
     },
     room_directory: {
       name: "Room directory",

@@ -351,8 +351,13 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
         downloadFile(blobURL);
       }
     } else {
-      const errMsg = translate("delete_media.action.send_failure");
-      notify(`${errMsg} ${response.statusText}.`, {
+      const body = await response.json();
+      notify("resources.room_media.action.error", {
+        messageArgs: {
+          errcode: body.errcode,
+          errstatus: response.status,
+          error: body.error,
+        },
         type: "error",
       });
     }

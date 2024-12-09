@@ -389,6 +389,9 @@ const fa: SynapseTranslationMessages = {
       helper: {
         info: "این یک لیست از رسانه ها است که در اتاق بارگذاری شده است. نمی توان رسانه ها را حذف کرد که در اتاق های خارجی بارگذاری شده اند.",
       },
+      action: {
+        error: "%{errcode} (%{errstatus}) %{error}"
+      }
     },
     room_directory: {
       name: "راهنمای اتاق",

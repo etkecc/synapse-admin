@@ -438,6 +438,9 @@ const de: SynapseTranslationMessages = {
       helper: {
         info: "Dies ist eine Liste der Medien, die in den Raum hochgeladen wurden. Es ist nicht möglich, Medien zu löschen, die in externen Medien-Repositories hochgeladen wurden.",
       },
+      action: {
+        error: "%{errcode} (%{errstatus}) %{error}"
+      }
     },
     room_directory: {
       name: "Raumverzeichnis",

@@ -443,6 +443,9 @@ const ru: SynapseTranslationMessages = {
       helper: {
         info: "Это список медиа, которые были загружены в комнату. Невозможно удалить медиа, которые были загружены в внешние медиа-репозитории.",
       },
+      action: {
+        error: "%{errcode} (%{errstatus}) %{error}"
+      }
     },
     room_directory: {
       name: "Каталог комнат",

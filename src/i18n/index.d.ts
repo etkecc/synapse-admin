@@ -402,6 +402,9 @@ interface SynapseTranslationMessages extends TranslationMessages {
       helper: {
         info: string;
       };
+      action: {
+        error: string;
+      };
     };
     room_directory?: {
       name: string;

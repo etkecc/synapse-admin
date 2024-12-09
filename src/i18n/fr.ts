@@ -392,6 +392,9 @@ const fr: SynapseTranslationMessages = {
       helper: {
         info: "Cette liste contient les médias qui ont été téléchargés dans le salon. Il n'est pas possible de supprimer les médias qui ont été téléversés dans des dépôts de médias externes.",
       },
+      action: {
+        error: "%{errcode} (%{errstatus}) %{error}"
+      }
     },
     room_directory: {
       name: "Répertoire des salons",
