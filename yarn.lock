@@ -5479,10 +5479,10 @@ v8-to-istanbul@^9.0.1:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^2.0.0"
 
-vite-plugin-version-mark@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.1.3.tgz#ffc604549080c72e886405b33ef9cb8482ecd410"
-  integrity sha512-dfnFyMZuMDNwetkutFN1HMvrPu9S7k45JkxUa356wE+c/Lj5Sao9gRH69r1Dj/7XgHUiKxTIJeDkTIhomh249A==
+vite-plugin-version-mark@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.1.4.tgz#847ca9096365634eb952afa8ef36d96d109db0a9"
+  integrity sha512-0uoEWDnrH9ho4IwTzyFKosA+XnOWK7uT8WwCskPb2DVeFrCSn4sfPG7b+8l9EFWHgCx0n52iqwQEbs3w5FFzpw==
 
 vite@^5.4.11:
   version "5.4.11"
