@@ -1,6 +1,6 @@
 services:
   synapse:
-    image: ghcr.io/element-hq/synapse:latest
+    image: ghcr.io/element-hq/synapse:develop
     entrypoint: python
     command: "-m synapse.app.homeserver -c /config/homeserver.yaml"
     ports:
