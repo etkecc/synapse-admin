@@ -994,10 +994,10 @@
   dependencies:
     "@babel/runtime" "^7.23.9"
 
-"@mui/icons-material@^6.1.9":
-  version "6.1.9"
-  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-6.1.9.tgz#68b1003d3e29db4f5d5e5f46a4333f34762aeeeb"
-  integrity sha512-AzlhIT51rdjkZ/EcUV2dbhNkNSUHIqCnNoUxodpiTw8buyAUBd+qnxg5OBSuPpun/ZEdSSB8Q7Uyh6zqjiMsEQ==
+"@mui/icons-material@^6.1.10":
+  version "6.1.10"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-6.1.10.tgz#9ed27fc750ab4811da94c1a1252253d9d1e86cc2"
+  integrity sha512-G6P1BCSt6EQDcKca47KwvKjlqgOXFbp2I3oWiOlFgKYTANBH89yk7ttMQ5ysqNxSYAB+4TdM37MlPYp4+FkVrQ==
   dependencies:
     "@babel/runtime" "^7.26.0"
 
