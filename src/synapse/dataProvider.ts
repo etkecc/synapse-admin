@@ -291,11 +291,7 @@ export interface ServerProcessResponse {
 }
 
 export interface ServerNotification {
-  pm: string;
   event_id: string;
-  thread_reply: boolean;
-  homeserver: string;
-  message: string;
   output: string;
   sent_at: string;
 }
@@ -316,6 +312,7 @@ export interface SynapseDataProvider extends DataProvider {
   getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
+  deleteServerNotifications: (etkeAdminUrl: string) => Promise<{ success: boolean }>;
 }
 
 const resourceMap = {
@@ -993,21 +990,20 @@ const baseDataProvider: SynapseDataProvider = {
     return { success: false, ok: false, host: "", results: [] };
   },
   getServerNotifications: async (serverNotificationsUrl: string): Promise<ServerNotificationsResponse> => {
+    // return { success: true, notifications: [] };
     return { success: true,notifications: [
       {
-        "pm": "",
+        "event_id": "$-PSteHsWxJk5BozFsM0eIv7mrLrOnPlAX8HOUxUdddx1xs",
+        "output": "<p>Evertthing is allright.</p>\n</li>\n<li>🟩 <a href=\"https://cinny.demo.etke.host\" target=\"_blank\">https://cinny.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://demo.etke.host/.well-known/matrix/server\" target=\"_blank\">https://demo.etke.host/.well-known/matrix/server</a></li>\n<li>🟩 <a href=\"https://element.demo.etke.host\" target=\"_blank\">https://element.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://etherpad.demo.etke.host\" target=\"_blank\">https://etherpad.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://hydrogen.demo.etke.host\" target=\"_blank\">https://hydrogen.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://jitsi.demo.etke.host/about/health\" target=\"_blank\">https://jitsi.demo.etke.host/about/health</a></li>\n<li>🟩 <a href=\"https://matrix.demo.etke.host/_matrix/client/versions\" target=\"_blank\">https://matrix.demo.etke.host/_matrix/client/versions</a></li>\n<li>🟩 <a href=\"https://matrix.demo.etke.host:8448/_matrix/federation/v1/version\" target=\"_blank\">https://matrix.demo.etke.host:8448/_matrix/federation/v1/version</a></li>\n<li>🟩 <a href=\"https://miniflux.demo.etke.host\" target=\"_blank\">https://miniflux.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://ntfy.demo.etke.host\" target=\"_blank\">https://ntfy.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://radicale.demo.etke.host/.web/\" target=\"_blank\">https://radicale.demo.etke.host/.web/</a></li>\n<li>🟩 <a href=\"https://schildichat.demo.etke.host\" target=\"_blank\">https://schildichat.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://stats.demo.etke.host/api/health\" target=\"_blank\">https://stats.demo.etke.host/api/health</a></li>\n</ul>",
+        "sent_at": "2024-11-28 15:01:20"
+      },
+      {
         "event_id": "$-PSteHsWxJk5BozFsM0eIv7mrLrOnPlAX8HOUxUx1xs",
-        "thread_reply": true,
-        "homeserver": "demo.etke.host",
-        "message": "run ping",
         "output": "<p>Current health status of your services:</p>\n<ul>\n<li>🟩 CPU utilization is ~<strong>8%</strong></li>\n<li>🟩 Disk utilization is ~<strong>24%</strong></li>\n<li>🟩 RAM utilization is ~<strong>75%</strong></li>\n<li>🟩 <a href=\"https://federationtester.matrix.org/#demo.etke.host\" target=\"_blank\">demo.etke.host federation</a></li>\n<li>🟩 <a href=\"https://cinny.demo.etke.host\" target=\"_blank\">https://cinny.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://demo.etke.host/.well-known/matrix/server\" target=\"_blank\">https://demo.etke.host/.well-known/matrix/server</a></li>\n<li>🟩 <a href=\"https://element.demo.etke.host\" target=\"_blank\">https://element.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://etherpad.demo.etke.host\" target=\"_blank\">https://etherpad.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://hydrogen.demo.etke.host\" target=\"_blank\">https://hydrogen.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://jitsi.demo.etke.host/about/health\" target=\"_blank\">https://jitsi.demo.etke.host/about/health</a></li>\n<li>🟩 <a href=\"https://matrix.demo.etke.host/_matrix/client/versions\" target=\"_blank\">https://matrix.demo.etke.host/_matrix/client/versions</a></li>\n<li>🟩 <a href=\"https://matrix.demo.etke.host:8448/_matrix/federation/v1/version\" target=\"_blank\">https://matrix.demo.etke.host:8448/_matrix/federation/v1/version</a></li>\n<li>🟩 <a href=\"https://miniflux.demo.etke.host\" target=\"_blank\">https://miniflux.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://ntfy.demo.etke.host\" target=\"_blank\">https://ntfy.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://radicale.demo.etke.host/.web/\" target=\"_blank\">https://radicale.demo.etke.host/.web/</a></li>\n<li>🟩 <a href=\"https://schildichat.demo.etke.host\" target=\"_blank\">https://schildichat.demo.etke.host</a></li>\n<li>🟩 <a href=\"https://stats.demo.etke.host/api/health\" target=\"_blank\">https://stats.demo.etke.host/api/health</a></li>\n</ul>",
         "sent_at": "2024-11-28 15:01:20"
       },
       {
-        "pm": "@admin:demo.etke.host",
         "event_id": "$2Xf2loTIqbcu-wf_F5NEay-jIHXbd6y016G4XxMhXOo",
-        "homeserver": "demo.etke.host",
-        "message": "",
         "output": "<p>📰 An upcoming update to your demo.etke.host server has been published and will be applied during the week.</p>\n<p><strong>Stable Updates Published</strong></p>\n<ul>\n<li>Borgmatic: 1.9.2 -&gt; 1.9.3</li>\n<li><a href=\"https://github.com/tomsquest/docker-radicale\" target=\"_blank\">Radicale</a>: <a href=\"https://github.com/tomsquest/docker-radicale/releases/tag/3.3.0.1\" target=\"_blank\">3.3.0.1</a> -&gt; <a href=\"https://github.com/tomsquest/docker-radicale/releases/tag/3.3.1.0\" target=\"_blank\">3.3.1.0</a></li>\n<li><a href=\"https://github.com/element-hq/synapse\" target=\"_blank\">Synapse</a>: <a href=\"https://github.com/element-hq/synapse/releases/tag/v1.119.0\" target=\"_blank\">v1.119.0</a> -&gt; <a href=\"https://github.com/element-hq/synapse/releases/tag/v1.120.0\" target=\"_blank\">v1.120.0</a></li>\n<li><a href=\"https://github.com/etkecc/synapse-admin\" target=\"_blank\">Synapse Admin</a>: <a href=\"https://github.com/etkecc/synapse-admin/releases/tag/v0.10.3-etke31\" target=\"_blank\">v0.10.3-etke31</a> -&gt; <a href=\"https://github.com/etkecc/synapse-admin/releases/tag/v0.10.3-etke32\" target=\"_blank\">v0.10.3-etke32</a></li>\n<li><a href=\"https://github.com/nginx/nginx\" target=\"_blank\">Synapse Reverse Proxy Companion</a>: <a href=\"https://github.com/nginx/nginx/releases/tag/release-1.27.2\" target=\"_blank\">1.27.2-alpine</a> -&gt; <a href=\"https://github.com/nginx/nginx/releases/tag/release-1.27.3\" target=\"_blank\">1.27.3-alpine</a></li>\n<li><a href=\"https://github.com/traefik/traefik\" target=\"_blank\">Traefik</a>: <a href=\"https://github.com/traefik/traefik/releases/tag/v3.2.0\" target=\"_blank\">v3.2.0</a> -&gt; <a href=\"https://github.com/traefik/traefik/releases/tag/v3.2.1\" target=\"_blank\">v3.2.1</a></li>\n<li><a href=\"https://github.com/valkey-io/valkey\" target=\"_blank\">Valkey</a>: <a href=\"https://github.com/valkey-io/valkey/releases/tag/8.0.1\" target=\"_blank\">8.0.1</a> <em>new</em></li>\n</ul>\n<hr>\n<p><strong>Reminder: <a href=\"https://etke.cc/help/extras/synapse-admin/\" target=\"_blank\">Synapse Admin</a> Path Changed</strong></p>\n<p>Starting from the previous update, the Synapse Admin path changed from <code>https://matrix.your-server.com/synapse-admin</code> to <code>https://matrix.your-server.com/admin</code></p>\n<hr>\n<p><strong>Component Updates: Authenticated Media Enabled by Default</strong></p>\n<p>With this update, your Synapse homeserver will now require authentication for newly uploaded media files. While most Matrix ecosystem components (clients, bots, etc.) should support this feature, some software may lack compatibility.</p>\n<p>Due to the critical security benefits of this change, we strongly discourage disabling it. If you develop your own Matrix app, service, or tool, please consider implementing authenticated media support as soon as possible.</p>\n<hr>\n<p><strong>Component Updates: KeyDB Replaced by Valkey</strong></p>\n<p>Previously, we replaced <a href=\"https://redis.io/\" target=\"_blank\">Redis</a> with <a href=\"https://keydb.dev/\" target=\"_blank\">KeyDB</a> due to <a href=\"https://redis.io/blog/redis-adopts-dual-source-available-licensing/\" target=\"_blank\">Redis's licensing change</a>.</p>\n<p>Unfortunately, KeyDB has proven to be problematic, with issues that are not easily worked around. As a result, we are switching to <a href=\"https://valkey.io/\" target=\"_blank\">Valkey</a>, a promising drop-in replacement that has demonstrated reliability and performance.</p>\n<p>This change only affects servers using Redis-dependent components such as Synapse Workers, Funkwhale, and Peertube. Please expect a one-time maintenance downtime of up to 15 minutes during the migration.</p>\n<hr>\n<p><strong>Service Updates: Enhancing News Awareness</strong></p>\n<p>Some customers have missed important updates shared in #news:etke.cc, resulting in misunderstandings about server changes and increased customer support requests. To address this, the <a href=\"https://etke.cc/help/extras/scheduler/\" target=\"_blank\">Scheduler</a> will now repost announcements from #news:etke.cc directly to the DMs of homeserver admins.</p>\n<p>We encourage everyone to take just one minute per week to read these updates and stay informed. This small effort will help prevent confusion and ensure smoother operations.</p>\n<hr>\n<p><strong>Service Updates: Monitoring Changes</strong></p>\n<p>This week, we made significant backend changes to the <a href=\"https://etke.cc/services/monitoring/\" target=\"_blank\">monitoring service</a>. If you notice unexpected behavior or incorrect results in <a href=\"https://etke.cc/services/monitoring/#how-do-i-get-the-monitoring-report\" target=\"_blank\">reports</a>, please <a href=\"https://etke.cc/contacts/\" target=\"_blank\">contact us</a>.</p>\n<p>Additionally, all customers will have the Systemd unit monitoring feature enabled in the upcoming week.</p>\n<p><em>This announcement was also shared in the <a href=\"https://matrix.to/#/#news:etke.cc\" target=\"_blank\">#news:etke.cc</a> room. Alternatively you can stay informed about updates on our <a href=\"https://etke.cc/news\" target=\"_blank\">News page</a>, via our <a href=\"https://etke.cc/news/index.xml\" target=\"_blank\">RSS Feed</a>, or on <a href=\"https://mastodon.matrix.org/@etkecc\" target=\"_blank\">Fediverse</a>.</em></p>",
         "sent_at": "2024-11-28 21:01:17"
       },
@@ -1019,27 +1015,53 @@ const baseDataProvider: SynapseDataProvider = {
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`
         }
       });
-      console.log("response", response);
-      return { success: false, notifications: [] };
+      if (!response.ok) {
+        console.error(`Error getting server notifications: ${response.status} ${response.statusText}`);
+        return { success: false, notifications: [] };
+      }
+
+      const status = response.status;
+      if (status === 204) {
+        return { success: true, notifications: [] };
+      }
+
+      if (status === 200) {
+        const json = await response.json();
+        const result = { success: true, ...json } as ServerNotificationsResponse;
+        return result;
+      }
+
+      return { success: true, notifications: [] };
     } catch (error) {
       console.error("Error getting server notifications", error);
     }
-    //   if (!response.ok) {
-    //     console.error(`Error getting server notifications: ${response.status} ${response.statusText}`);
-    //     return { success: false, ok: false, host: "", results: [] };
-    //   }
 
-    //   const status = response.status;
-    //   if (status === 200) {
-    //     const json = await response.json();
-    //     const result = { success: true, ...json } as ServerStatusResponse;
-    //     return result;
-    //   }
-    // } catch (error) {
-    //   console.error("Error getting server status", error);
-    // }
+    return { success: false, notifications: [] };
+  },
+  deleteServerNotifications: async (serverNotificationsUrl: string) => {
+    try {
+      const response = await fetch(`${serverNotificationsUrl}/notifications`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        },
+        method: "DELETE"
+      });
+      if (!response.ok) {
+        console.error(`Error deleting server notifications: ${response.status} ${response.statusText}`);
+        return { success: false };
+      }
 
-    // return { success: false, ok: false, host: "", results: [] };
+      const status = response.status;
+      if (status === 204) {
+        const json = await response.json();
+        const result = { success: true }
+        return result;
+      }
+    } catch (error) {
+      console.error("Error deleting server notifications", error);
+    }
+
+    return { success: false };
   }
 };
 

@@ -9,9 +9,9 @@ import { FetchConfig, GetConfig } from "./utils/config";
 await FetchConfig();
 
 createRoot(document.getElementById("root")).render(
-      <React.StrictMode>
+      // <React.StrictMode>
         <AppContext.Provider value={GetConfig()}>
           <App />
         </AppContext.Provider>
-      </React.StrictMode>
+      // </React.StrictMode>
 );

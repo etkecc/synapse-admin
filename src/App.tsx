@@ -25,6 +25,7 @@ import authProvider from "./synapse/authProvider";
 import dataProvider from "./synapse/dataProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
+import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {
@@ -65,6 +66,7 @@ export const App = () => (
       <CustomRoutes>
         <Route path="/import_users" element={<UserImport />} />
         <Route path="/server_status" element={<ServerStatusPage />} />
+        <Route path="/server_notifications" element={<ServerNotificationsPage />} />
       </CustomRoutes>
       <Resource {...users} />
       <Resource {...rooms} />

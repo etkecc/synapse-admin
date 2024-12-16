@@ -5,7 +5,7 @@ import { Icons, DefaultIcon } from "../utils/icons";
 import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import Footer from "./Footer";
 import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
-import { ServerNotifications } from "./etke.cc/ServerNotifications";
+import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -51,7 +51,7 @@ const AdminAppBar = () => {
   return (<AppBar userMenu={<AdminUserMenu />}>
     <TitlePortal />
     <ServerStatusBadge />
-    <ServerNotifications />
+    <ServerNotificationsBadge />
     <InspectorButton />
   </AppBar>);
 };
