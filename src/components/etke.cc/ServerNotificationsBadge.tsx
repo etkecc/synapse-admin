@@ -1,9 +1,9 @@
-import { Badge, useTheme, Button, Paper, Popper, ClickAwayListener, Box, List, ListItem, ListItemText, Typography, ListSubheader, IconButton } from "@mui/material";
+import { Badge, useTheme, Button, Paper, Popper, ClickAwayListener, Box, List, ListItem, ListItemText, Typography, ListSubheader, IconButton, Divider } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDataProvider, useStore } from "react-admin";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useAppContext } from "../../Context";
 import { ServerNotificationsResponse } from "../../synapse/dataProvider";
 
@@ -18,7 +18,6 @@ const useServerNotifications = () => {
 
   const fetchNotifications = async () => {
     const notificationsResponse: ServerNotificationsResponse = await dataProvider.getServerNotifications(etkeccAdmin);
-    console.log("notificationsResponse", notificationsResponse);
     setServerNotifications({
       ...notificationsResponse,
       notifications: notificationsResponse.notifications,
@@ -50,12 +49,12 @@ const useServerNotifications = () => {
     }
   }, [etkeccAdmin]);
 
-  return { notifications, deleteServerNotifications };
+  return { success, notifications, deleteServerNotifications };
 };
 
 export const ServerNotificationsBadge = () => {
   const navigate = useNavigate();
-  const { notifications, deleteServerNotifications } = useServerNotifications();
+  const { success,notifications, deleteServerNotifications } = useServerNotifications();
   const theme = useTheme();
 
   // Modify menu state to work with Popper
@@ -80,6 +79,10 @@ export const ServerNotificationsBadge = () => {
     handleClose();
   };
 
+  if (!success) {
+    return null;
+  }
+
   return (
     <Box sx={{ position: "relative" }}>
       <IconButton onClick={handleOpen} sx={{ color: theme.palette.common.white }}>
@@ -98,7 +101,7 @@ export const ServerNotificationsBadge = () => {
             elevation={3}
             sx={{
               p: 1,
-              maxHeight: "300px",
+              maxHeight: "350px",
               overflowY: "auto",
               minWidth: "300px",
               maxWidth: {
@@ -113,51 +116,57 @@ export const ServerNotificationsBadge = () => {
               <List sx={{ p: 0 }} dense={true}>
                 <ListSubheader
                   sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     fontWeight: "bold",
-                    color: theme.palette.primary.main,
-                    backgroundColor: theme.palette.background.paper,
-                    cursor: "pointer"
+                    backgroundColor: "inherit",
                   }}
-                  onClick={() => handleSeeAllNotifications()}
                 >
-                    See all notifications
+                    <Typography variant="h6">Notifications</Typography>
+                    <Box sx={{ cursor: "pointer", color: theme.palette.primary.main }} onClick={() => handleSeeAllNotifications()}>See all notifications</Box>
                   </ListSubheader>
+                <Divider />
                 {notifications.map((notification) => (
-                  <ListItem
-                    key={notification.event_id}
-                    onClick={() => handleSeeAllNotifications()}
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "action.hover",
-                        cursor: "pointer"
-                      }
-                    }}
-                  >
-                    <ListItemText
-                      primary={
-                        <Typography
-                          variant="body2"
-                          sx={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap"
-                          }}
-                          dangerouslySetInnerHTML={{ __html: notification.output.split("\n")[0] }}
-                        />
-                      }
-                    />
-                  </ListItem>
+                  <Fragment key={notification.event_id}>
+                    <ListItem
+                      onClick={() => handleSeeAllNotifications()}
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: "action.hover",
+                          cursor: "pointer"
+                        }
+                      }}
+                    >
+                      <ListItemText
+                        primary={
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap"
+                            }}
+                            dangerouslySetInnerHTML={{ __html: notification.output.split("\n")[0] }}
+                          />
+                        }
+                      />
+                    </ListItem>
+                    <Divider />
+                  </Fragment>
                 ))}
                 <ListItem>
                   <Button
-                    onClick={(e) => handleClearAllNotifications()}
+                    onClick={() => handleClearAllNotifications()}
                     size="small"
                     color="error"
                     sx={{
-                      pl: 0
+                      pl: 0,
+                      pt: 1,
+                      verticalAlign: "middle"
                     }}
                   >
-                    <DeleteIcon fontSize="small" />
+                    <DeleteIcon fontSize="small" sx={{ mr: 1 }} />
                     Clear all
                   </Button>
                 </ListItem>
