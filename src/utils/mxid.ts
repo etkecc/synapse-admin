@@ -16,7 +16,11 @@ export const isMXID = (id: string | Identifier): boolean => mxidPattern.test(id 
  * @returns Whether the user is managed by an application service
  */
 export const isASManaged = (id: string | Identifier): boolean => {
-  return GetConfig().asManagedUsers.some(regex => regex.test(id as string));
+  const managedUsers = GetConfig().asManagedUsers;
+  if (!managedUsers) {
+    return false;
+  }
+  return managedUsers.some(regex => regex.test(id as string));
 };
 
 /**
@@ -40,8 +44,12 @@ export function generateRandomMXID(): string {
 export function returnMXID(input: string | Identifier): string {
   const homeserver = localStorage.getItem("home_server");
 
+  // when homeserver is not (just) a domain name, but a domain:port or even an IPv6 address
+  if (input.endsWith(homeserver) && input.startsWith("@")) {
+    return input as string; // Already a valid MXID
+  }
+
   // Check if the input already looks like a valid MXID (i.e., starts with "@" and contains ":")
-  const mxidPattern = /^@[^@:]+:[^@:]+$/;
   if (isMXID(input)) {
     return input as string; // Already a valid MXID
   }

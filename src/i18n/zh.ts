@@ -142,6 +142,20 @@ const zh: SynapseTranslationMessages = {
       send: "这个API会删除您硬盘上的本地媒体。包含了任何的本地缓存和下载的媒体备份。这个API不会影响上传到外部媒体存储库上的媒体文件。",
     },
   },
+  purge_remote_media: {
+    name: "远程媒体",
+    fields: {
+      before_ts: "最后访问于之前",
+    },
+    action: {
+      send: "清除远程媒体",
+      send_success: "远程媒体清除请求已发送。",
+      send_failure: "发生错误，远程媒体清除请求未成功。",
+    },
+    helper: {
+      send: "此API清除您服务器磁盘上的远程媒体缓存。这包括任何本地缩略图和下载的媒体副本。此API不会影响已经上传到服务器媒体存储库的媒体。",
+    },
+  },
   resources: {
     users: {
       name: "用户",
@@ -154,10 +168,13 @@ const zh: SynapseTranslationMessages = {
         name: "用户名",
         is_guest: "访客",
         admin: "服务器管理员",
+        locked: "锁定",
         deactivated: "被禁用",
+        suspended: "被锁定",
         guests: "显示访客",
         show_deactivated: "显示被禁用的账户",
         show_locked: "显示被锁定的账户",
+        show_suspended: "显示被锁定的账户",
         user_id: "搜索用户",
         displayname: "显示名字",
         password: "密码",
@@ -173,6 +190,7 @@ const zh: SynapseTranslationMessages = {
         password: "更改密码会使用户注销所有会话。",
         create_password: "使用下面的按钮生成一个强大和安全的密码。",
         deactivate: "您必须提供一串密码来激活账户。",
+        suspend: "您必须提供一串密码来暂停账户。",
         erase: "将用户标记为根据 GDPR 的要求抹除了",
         erase_text: "这意味着用户发送的信息对于发送信息时在房间内的任何人来说都是可见的，但对于之后加入房间的用户来说则是隐藏的。",
         erase_admin_error: "不允许删除自己的用户",

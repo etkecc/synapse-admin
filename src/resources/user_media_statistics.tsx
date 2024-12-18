@@ -14,13 +14,14 @@ import {
   useListContext,
 } from "react-admin";
 
-import { DeleteMediaButton } from "../components/media";
+import { DeleteMediaButton, PurgeRemoteMediaButton } from "../components/media";
 
 const ListActions = () => {
   const { isLoading, total } = useListContext();
   return (
     <TopToolbar>
       <DeleteMediaButton />
+      <PurgeRemoteMediaButton />
       <ExportButton disabled={isLoading || total === 0} />
     </TopToolbar>
   );

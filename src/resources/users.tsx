@@ -50,6 +50,7 @@ import {
   SaveButton,
   CreateButton,
   ExportButton,
+  BulkDeleteButton,
   TopToolbar,
   Toolbar,
   NumberField,
@@ -111,6 +112,7 @@ const userFilters = [
   <BooleanInput source="guests" alwaysOn />,
   <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
   <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
+  <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
 ];
 
 const UserPreventSelfDelete: React.FC<{ children: React.ReactNode; ownUserIsSelected: boolean; asManagedUserIsSelected: boolean }> = props => {
@@ -162,7 +164,7 @@ export const UserList = (props: ListProps) => (
   <List
     {...props}
     filters={userFilters}
-    filterDefaultValues={{ guests: true, deactivated: false, locked: false }}
+    filterDefaultValues={{ guests: true, deactivated: false, locked: false, suspended: false }}
     sort={{ field: "name", order: "ASC" }}
     actions={<UserListActions />}
     pagination={<UserPagination />}
@@ -179,6 +181,7 @@ export const UserList = (props: ListProps) => (
       <BooleanField source="admin" label="resources.users.fields.admin" />
       <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
       <BooleanField source="locked" label="resources.users.fields.locked" />
+      <BooleanField source="suspended" label="resources.users.fields.suspended" />
       <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
       <DateField source="creation_ts" label="resources.users.fields.creation_ts_ms" showTime options={DATE_FORMAT} />
     </DatagridConfigurable>
@@ -189,7 +192,7 @@ export const UserList = (props: ListProps) => (
 // here only local part of user_id
 // maxLength = 255 - "@" - ":" - storage.getItem("home_server").length
 // storage.getItem("home_server").length is not valid here
-const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-/]+$/, "synapseadmin.users.invalid_user_id")];
+const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-\+/]+$/, "synapseadmin.users.invalid_user_id")];
 
 const validateAddress = [required(), maxLength(255)];
 
@@ -433,6 +436,7 @@ export const UserEdit = (props: EditProps) => {
           <BooleanInput source="admin" />
           <UserBooleanInput source="locked" />
           <UserBooleanInput source="deactivated" helperText="resources.users.helper.deactivate" />
+          <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
           <BooleanInput source="erased" disabled />
           <DateField source="creation_ts_ms" showTime options={DATE_FORMAT} />
           <TextField source="consent_version" />
@@ -493,7 +497,7 @@ export const UserEdit = (props: EditProps) => {
             perPage={50}
             sort={{ field: "created_ts", order: "DESC" }}
           >
-            <Datagrid sx={{ width: "100%" }}>
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton/>}>
               <MediaIDField source="media_id" />
               <DateField source="created_ts" showTime options={DATE_FORMAT} />
               <DateField source="last_access_ts" showTime options={DATE_FORMAT} />

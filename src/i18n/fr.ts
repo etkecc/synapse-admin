@@ -117,6 +117,20 @@ const fr: SynapseTranslationMessages = {
       send: "Cette API supprime les médias locaux du disque de votre propre serveur. Cela inclut toutes les vignettes locales et les copies des médias téléchargés. Cette API n'affectera pas les médias qui ont été téléversés dans des dépôts de médias externes.",
     },
   },
+  purge_remote_media: {
+    name: "Médias distants",
+    fields: {
+      before_ts: "dernier accès avant",
+    },
+    action: {
+      send: "Purger les médias distants",
+      send_success: "La demande de purge des médias distants a été envoyée.",
+      send_failure: "Une erreur est survenue lors de la demande de purge des médias distants.",
+    },
+    helper: {
+      send: "Cette API purge le cache des médias distants du disque de votre propre serveur. Cela inclut toutes les vignettes locales et les copies des médias téléchargés. Cette API n'affectera pas les médias qui ont été téléchargés dans le dépôt de médias du serveur.",
+    },
+  },
   resources: {
     users: {
       name: "Utilisateur |||| Utilisateurs",
@@ -130,10 +144,12 @@ const fr: SynapseTranslationMessages = {
         is_guest: "Visiteur",
         admin: "Administrateur du serveur",
         locked: "Verrouillé",
+        suspended: "Suspendu",
         deactivated: "Désactivé",
         guests: "Afficher les visiteurs",
         show_deactivated: "Afficher les utilisateurs désactivés",
         show_locked: "Afficher les utilisateurs verrouillés",
+        show_suspended: "Afficher les utilisateurs suspendus",
         user_id: "Rechercher un utilisateur",
         displayname: "Nom d'affichage",
         password: "Mot de passe",
@@ -150,6 +166,7 @@ const fr: SynapseTranslationMessages = {
         password: "Changer le mot de passe déconnectera l'utilisateur de toutes les sessions.",
         create_password: "Générer un mot de passe fort et sécurisé en utilisant le bouton ci-dessous.",
         deactivate: "Vous devrez fournir un mot de passe pour réactiver le compte.",
+        suspend: "L'utilisateur sera suspendu jusqu'à ce que vous le réactiviez.",
         erase: "Marquer l'utilisateur comme effacé conformément au RGPD",
         erase_text: "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
         erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",

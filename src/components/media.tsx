@@ -124,6 +124,80 @@ export const DeleteMediaButton = (props: ButtonProps) => {
   );
 };
 
+const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const translate = useTranslate();
+
+  const PurgeRemoteMediaToolbar = (props: ToolbarProps) => (
+    <Toolbar {...props}>
+      <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
+      <Button label="ra.action.cancel" onClick={onClose}>
+        <IconCancel />
+      </Button>
+    </Toolbar>
+  );
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{translate("purge_remote_media.action.send")}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>{translate("purge_remote_media.helper.send")}</DialogContentText>
+        <SimpleForm toolbar={<PurgeRemoteMediaToolbar />} onSubmit={onSubmit}>
+          <DateTimeInput
+            source="before_ts"
+            label="purge_remote_media.fields.before_ts"
+            defaultValue={0}
+            parse={dateParser}
+          />
+        </SimpleForm>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const PurgeRemoteMediaButton = (props: ButtonProps) => {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const notify = useNotify();
+  const dataProvider = useDataProvider<SynapseDataProvider>();
+  const { mutate: purgeRemoteMedia, isPending } = useMutation({
+    mutationFn: (values: DeleteMediaParams) => dataProvider.purgeRemoteMedia(values),
+    onSuccess: () => {
+      notify("purge_remote_media.action.send_success");
+      closeDialog();
+    },
+    onError: () => {
+      notify("purge_remote_media.action.send_failure", {
+        type: "error",
+      });
+    },
+  });
+
+  const openDialog = () => setOpen(true);
+  const closeDialog = () => setOpen(false);
+
+  return (
+    <>
+      <Button
+        {...props}
+        label="purge_remote_media.action.send"
+        onClick={openDialog}
+        disabled={isPending}
+        sx={{
+          "&:hover": {
+            // Reset on mouse devices
+            "@media (hover: none)": {
+              backgroundColor: "transparent",
+            },
+          },
+        }}
+      >
+        <DeleteSweepIcon />
+      </Button>
+      <PurgeRemoteMediaDialog open={open} onClose={closeDialog} onSubmit={purgeRemoteMedia} />
+    </>
+  );
+};
+
 export const ProtectMediaButton = (props: ButtonProps) => {
   const record = useRecordContext();
   const translate = useTranslate();

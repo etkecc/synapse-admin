@@ -149,7 +149,7 @@ saml2_config:
   sp_config: null
   user_mapping_provider:
     config: null
-server_name: synapse
+server_name: synapse:8008
 signing_key_path: /config/synapse.signing.key
 spam_checker: []
 sso: null

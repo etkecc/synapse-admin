@@ -100,11 +100,14 @@ The following changes are already implemented:
 * 🛑 [Prevent accidental user overwrites](https://github.com/etkecc/synapse-admin/pull/139)
 * 🔍 [Allow providing login form details via GET params](https://github.com/etkecc/synapse-admin/pull/140)
 * 🎨 [Add preferred theme colors to login page and footer](https://github.com/etkecc/synapse-admin/pull/155)
-* 🔰 [Add "Assign Admin" button to the rooms](https://github.com/etkecc/synapse-admin/pull/156)
+* 🛡️ [Add "Assign Admin" button to the rooms](https://github.com/etkecc/synapse-admin/pull/156)
 * 🖼️ [Add rooms' avatars](https://github.com/etkecc/synapse-admin/pull/158)
-* 🤖 [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
-* 🔑 [Allow prefilling any fields on the login form via GET params](https://github.com/etkecc/synapse-admin/pull/181)
-* 🖼️ [Add "Media" tab for rooms](https://github.com/etkecc/synapse-admin/pull/196)
+* 🏷️ [User Badges](https://github.com/etkecc/synapse-admin/pull/160)
+* 🔄 [Allow prefilling any fields on the login form via GET params](https://github.com/etkecc/synapse-admin/pull/181)
+* 🎞️ [Add "Media" tab for rooms](https://github.com/etkecc/synapse-admin/pull/196)
+* 📞 [Support E.164-based Matrix IDs (MSC4009)](https://github.com/etkecc/synapse-admin/pull/214)
+* 🛑 [Add support for Account Suspension (MSC3823)](https://github.com/etkecc/synapse-admin/pull/195)
+* 🗑️ [Add "Purge Remote Media" button](https://github.com/etkecc/synapse-admin/pull/237)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

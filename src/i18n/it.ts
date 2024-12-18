@@ -114,6 +114,20 @@ const it: SynapseTranslationMessages = {
       send: "Questa API cancella i media locali dal disco del tuo server. Questo include anche ogni miniatura e copia del media scaricato. Questa API non inciderà sui media che sono stati caricati nei repository esterni.",
     },
   },
+  purge_remote_media: {
+    name: "Media Remoti",
+    fields: {
+      before_ts: "ultimo accesso prima di",
+    },
+    action: {
+      send: "Elimina media remoti",
+      send_success: "La richiesta per eliminare i media remoti è stata inviata.",
+      send_failure: "Si è verificato un errore con la richiesta di eliminazione dei media remoti.",
+    },
+    helper: {
+      send: "Questa API elimina la cache dei media remoti dal disco del tuo server. Questo include qualsiasi miniatura locale e copie di media scaricati. Questa API non influirà sui media che sono stati caricati nel repository multimediale del server.",
+    },
+  },
   resources: {
     users: {
       name: "Utente |||| Utenti",
@@ -127,10 +141,12 @@ const it: SynapseTranslationMessages = {
         is_guest: "Ospite",
         admin: "Amministratore",
         locked: "Bloccato",
+        suspended: "Sospeso",
         deactivated: "Disattivato",
         guests: "Mostra gli ospiti",
         show_deactivated: "Mostra gli utenti disattivati",
         show_locked: "Mostra gli utenti bloccati",
+        show_suspended: "Mostra gli utenti sospesi",
         user_id: "Cerca utente",
         displayname: "Nickname",
         password: "Password",
@@ -148,6 +164,7 @@ const it: SynapseTranslationMessages = {
         password: "Cambiando la password l'utente verrà disconnesso da tutte le sessioni attive.",
         create_password: "Genera una password forte e sicura utilizzando il pulsante sottostante.",
         deactivate: "Devi fornire una password per riattivare l'account.",
+        suspend: "Sospendi l'utente",
         erase: "Constrassegna l'utente come cancellato dal GDPR",
         erase_text: "Ciò significa che i messaggi inviati dall'utente (o dagli utenti) saranno ancora visibili da chiunque si trovasse nella stanza al momento dell'invio, ma saranno nascosti agli utenti che si uniranno alla stanza in seguito.",
         erase_admin_error: "Non è consentito eliminare il proprio utente.",

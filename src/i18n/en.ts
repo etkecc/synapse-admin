@@ -120,6 +120,20 @@ const en: SynapseTranslationMessages = {
       send: "This API deletes the local media from the disk of your own server. This includes any local thumbnails and copies of media downloaded. This API will not affect media that has been uploaded to external media repositories.",
     },
   },
+  purge_remote_media: {
+    name: "Remote Media",
+    fields: {
+      before_ts: "last access before",
+    },
+    action: {
+      send: "Purge remote media",
+      send_success: "Purge remote media request has been sent.",
+      send_failure: "An error has occurred with the purge remote media request.",
+    },
+    helper: {
+      send: "This API purges the remote media cache from the disk of your own server. This includes any local thumbnails and copies of media downloaded. This API will not affect media that has been uploaded to the server's own media repository.",
+    },
+  },
   resources: {
     users: {
       name: "User |||| Users",
@@ -133,11 +147,13 @@ const en: SynapseTranslationMessages = {
         is_guest: "Guest",
         admin: "Server Administrator",
         locked: "Locked",
+        suspended: "Suspended",
         deactivated: "Deactivated",
         erased: "Erased",
         guests: "Show guests",
         show_deactivated: "Show deactivated users",
         show_locked: "Show locked users",
+        show_suspended: "Show suspended users",
         user_id: "Search user",
         displayname: "Displayname",
         password: "Password",
@@ -155,6 +171,7 @@ const en: SynapseTranslationMessages = {
         password: "Changing password will log user out of all sessions.",
         create_password: "Generate a strong and secure password using the button below.",
         deactivate: "You must provide a password to re-activate an account.",
+        suspend: "Suspending user means they are put into a read-only mode.",
         erase: "Mark the user as GDPR-erased",
         erase_text: "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
         erase_admin_error: "Deleting own user is not allowed.",

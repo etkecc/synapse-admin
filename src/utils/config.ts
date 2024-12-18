@@ -31,20 +31,26 @@ export const FetchConfig = async () => {
     console.error(e);
   }
 
+  let protocol = "https";
+  const baseURL = localStorage.getItem("base_url");
+  if (baseURL && baseURL.startsWith("http://")) {
+    protocol = "http";
+  }
+
   // if home_server is set, try to load https://home_server/.well-known/matrix/client
   const homeserver = localStorage.getItem("home_server");
   if (homeserver) {
     try {
-      const resp = await fetch(`https://${homeserver}/.well-known/matrix/client`);
-        const configWK = await resp.json();
+      const resp = await fetch(`${protocol}://${homeserver}/.well-known/matrix/client`);
+      const configWK = await resp.json();
       if (!configWK[WellKnownKey]) {
-        console.log(`Loaded https://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`, configWK);
+        console.log(`Loaded ${protocol}://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`, configWK);
       } else {
-        console.log(`Loaded https://${homeserver}.well-known/matrix/client`, configWK);
+        console.log(`Loaded ${protocol}://${homeserver}.well-known/matrix/client`, configWK);
         LoadConfig(configWK[WellKnownKey]);
       }
     } catch (e) {
-      console.log(`https://${homeserver}/.well-known/matrix/client not found, skipping`, e);
+      console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
     }
   }
 

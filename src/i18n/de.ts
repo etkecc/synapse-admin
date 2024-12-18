@@ -147,6 +147,20 @@ const de: SynapseTranslationMessages = {
       send: "Diese API löscht die lokalen Medien von der Festplatte des eigenen Servers. Dies umfasst alle lokalen Miniaturbilder und Kopien von Medien. Diese API wirkt sich nicht auf Medien aus, die sich in externen Medien-Repositories befinden.",
     },
   },
+  purge_remote_media: {
+    name: "Externe Medien",
+    fields: {
+      before_ts: "letzter Zugriff vor",
+    },
+    action: {
+      send: "Externe Medien löschen",
+      send_success: "Die Anfrage zum Löschen externer Medien wurde gesendet.",
+      send_failure: "Bei der Anfrage zum Löschen externer Medien ist ein Fehler aufgetreten.",
+    },
+    helper: {
+      send: "Diese API löscht den externen Medien-Cache von der Festplatte Ihres eigenen Servers. Dazu gehören alle lokalen Thumbnails und Kopien heruntergeladener Medien. Diese API beeinflusst nicht die Medien, die in das eigene Medienarchiv des Servers hochgeladen wurden.",
+    },
+  },
   resources: {
     users: {
       name: "Benutzer",
@@ -160,11 +174,13 @@ const de: SynapseTranslationMessages = {
         is_guest: "Gast",
         admin: "Server Administrator",
         locked: "Gesperrt",
+        suspended: "Suspendiert",
         deactivated: "Deaktiviert",
         erased: "Gelöscht",
         guests: "Zeige Gäste",
         show_deactivated: "Zeige deaktivierte Benutzer",
         show_locked: "Zeige gesperrte Benutzer",
+        show_suspended: "Zeige suspendierte Benutzer",
         user_id: "Suche Benutzer",
         displayname: "Anzeigename",
         password: "Passwort",
@@ -182,6 +198,7 @@ const de: SynapseTranslationMessages = {
         password: "Durch die Änderung des Passworts wird der Benutzer von allen Sitzungen abgemeldet.",
         create_password: "Generiere ein starkes und sicheres Passwort mit dem Button unten.",
         deactivate: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
+        suspend: "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
         erase: "DSGVO konformes Löschen der Benutzerdaten.",
         erase_text: "Das bedeutet, dass die von dem/den Benutzer(n) gesendeten Nachrichten für alle, die zum Zeitpunkt des Sendens im Raum waren, sichtbar bleiben, aber für Benutzer, die dem Raum später beitreten, nicht sichtbar sind.",
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",
