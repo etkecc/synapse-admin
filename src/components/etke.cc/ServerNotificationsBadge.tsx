@@ -84,7 +84,7 @@ export const ServerNotificationsBadge = () => {
   }
 
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box>
       <IconButton onClick={handleOpen} sx={{ color: theme.palette.common.white }}>
         <Tooltip title={notifications && notifications.length > 0 ? `${notifications.length} new notifications` : `No notifications yet`}>
         {notifications && notifications.length > 0 && (
@@ -161,6 +161,7 @@ export const ServerNotificationsBadge = () => {
                 ))}
                 <ListItem>
                   <Button
+                    key="clear-all-notifications"
                     onClick={() => handleClearAllNotifications()}
                     size="small"
                     color="error"
