@@ -1,5 +1,5 @@
-import { Badge, useTheme, Button, Paper, Popper, ClickAwayListener, Box, List, ListItem, ListItemText, Typography, ListSubheader, IconButton, Divider } from "@mui/material";
-import MailIcon from "@mui/icons-material/Mail";
+import { Badge, useTheme, Button, Paper, Popper, ClickAwayListener, Box, List, ListItem, ListItemText, Typography, ListSubheader, IconButton, Divider, Tooltip } from "@mui/material";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDataProvider, useStore } from "react-admin";
 import { useNavigate } from "react-router";
@@ -54,7 +54,7 @@ const useServerNotifications = () => {
 
 export const ServerNotificationsBadge = () => {
   const navigate = useNavigate();
-  const { success,notifications, deleteServerNotifications } = useServerNotifications();
+  const { success, notifications, deleteServerNotifications } = useServerNotifications();
   const theme = useTheme();
 
   // Modify menu state to work with Popper
@@ -86,9 +86,13 @@ export const ServerNotificationsBadge = () => {
   return (
     <Box sx={{ position: "relative" }}>
       <IconButton onClick={handleOpen} sx={{ color: theme.palette.common.white }}>
-        <Badge badgeContent={notifications.length} color="warning">
-          <MailIcon />
-        </Badge>
+        <Tooltip title={notifications && notifications.length > 0 ? `${notifications.length} new notifications` : `No notifications yet`}>
+        {notifications && notifications.length > 0 && (
+          <Badge badgeContent={notifications.length} color="error">
+            <NotificationsIcon />
+          </Badge>
+        ) || <NotificationsIcon />}
+        </Tooltip>
       </IconButton>
       <Popper
         open={open}
@@ -110,7 +114,7 @@ export const ServerNotificationsBadge = () => {
               }
             }}
           >
-            {notifications.length === 0 ? (
+            {(!notifications || notifications.length === 0) ? (
               <Typography sx={{ p: 1 }} variant="body2">No new notifications</Typography>
             ) : (
               <List sx={{ p: 0 }} dense={true}>
