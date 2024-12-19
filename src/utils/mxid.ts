@@ -42,19 +42,20 @@ export function generateRandomMXID(): string {
  * @returns full MXID as string
  */
 export function returnMXID(input: string | Identifier): string {
-  const homeserver = localStorage.getItem("home_server");
+  const inputStr = input as string;
+  const homeserver = localStorage.getItem("home_server") || "";
 
   // when homeserver is not (just) a domain name, but a domain:port or even an IPv6 address
-  if (input.endsWith(homeserver) && input.startsWith("@")) {
-    return input as string; // Already a valid MXID
+  if (homeserver != "" && inputStr.endsWith(homeserver) && inputStr.startsWith("@")) {
+    return inputStr; // Already a valid MXID
   }
 
   // Check if the input already looks like a valid MXID (i.e., starts with "@" and contains ":")
   if (isMXID(input)) {
-    return input as string; // Already a valid MXID
+    return inputStr; // Already a valid MXID
   }
 
   // If input is not a valid MXID, assume it's a localpart and construct the MXID
-  const localpart = typeof input === 'string' && input.startsWith('@') ? input.slice(1) : input;
+  const localpart = typeof input === 'string' && inputStr.startsWith('@') ? inputStr.slice(1) : inputStr;
   return `@${localpart}:${homeserver}`;
 }
