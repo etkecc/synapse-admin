@@ -53,7 +53,6 @@ export const FetchConfig = async () => {
       console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
     }
   }
-
 }
 
 // load config from context

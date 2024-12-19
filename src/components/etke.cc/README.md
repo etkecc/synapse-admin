@@ -28,3 +28,15 @@ Server Status page. This page contains the following information:
 * Overall server status (up/updating/has issues)
 * Details about the currently running command (if any)
 * Details about the server's components statuses (up/down with error details and suggested actions) by categories
+
+### Server Notifications icon
+
+![Server Notifications icon](../../../screenshots/etke.cc/server-notifications/badge.webp)
+
+In the application bar the new notifications icon is displayed that shows the number of unread (not removed) notifications
+
+### Server Notifications page
+
+![Server Notifications Page](../../../screenshots/etke.cc/server-notifications/page.webp)
+
+When you click on a notification from the [Server Notifications icon](#server-notifications-icon)'s list in the application bar, you will be redirected to the Server Notifications page. This page contains the full text of all the notifications you have about your server.

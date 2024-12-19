@@ -80,11 +80,7 @@ const authProvider: AuthProvider = {
       localStorage.setItem("access_token", accessToken ? accessToken : json.access_token);
       localStorage.setItem("device_id", json.device_id);
       localStorage.setItem("login_type", accessToken ? "accessToken" : "credentials");
-
-      // when doing access token auth, config is not fetched, so we need to do it here
-      if (accessToken) {
-        await FetchConfig();
-      }
+      await FetchConfig();
 
       return Promise.resolve({redirectTo: "/"});
     } catch(err) {

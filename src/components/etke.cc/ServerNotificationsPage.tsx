@@ -40,8 +40,8 @@ const ServerNotificationsPage = () => {
           <Typography>No new notifications.</Typography>
         </Paper>
       ) : (
-        notifications.map((notification) => (
-          <Paper key={notification.event_id} sx={{ p: 2 }}>
+        notifications.map((notification, index) => (
+          <Paper key={notification.event_id ? notification.event_id : index} sx={{ p: 2 }}>
             <Stack spacing={1}>
               <Typography variant="subtitle1" fontWeight="bold" color="text.secondary">
                 <DisplayTime date={notification.sent_at} />

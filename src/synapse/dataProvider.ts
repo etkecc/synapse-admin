@@ -1054,7 +1054,6 @@ const baseDataProvider: SynapseDataProvider = {
 
       const status = response.status;
       if (status === 204) {
-        const json = await response.json();
         const result = { success: true }
         return result;
       }

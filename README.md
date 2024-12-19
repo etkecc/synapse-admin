@@ -115,6 +115,7 @@ We at [etke.cc](https://etke.cc) attempting to develop everything open-source, b
 The following list contains such features - they are only available for [etke.cc](https://etke.cc) customers.
 
 * 📊 [Server Status indicator and page](https://github.com/etkecc/synapse-admin/pull/182)
+* 📬 [Server Notifications indicator and page](https://github.com/etkecc/synapse-admin/pull/240)
 
 ### Development
 

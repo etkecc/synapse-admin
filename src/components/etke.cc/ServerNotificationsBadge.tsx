@@ -7,8 +7,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useAppContext } from "../../Context";
 import { ServerNotificationsResponse } from "../../synapse/dataProvider";
 
-// 10 seconds
-const SERVER_NOTIFICATIONS_INTERVAL_TIME = 10000;
+const SERVER_NOTIFICATIONS_INTERVAL_TIME = 300000;
 
 const useServerNotifications = () => {
   const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", { notifications: [], success: false });
@@ -37,9 +36,9 @@ const useServerNotifications = () => {
     if (etkeccAdmin) {
       fetchNotifications();
       setTimeout(() => {
-        // start the interval after 10 seconds to avoid too many requests
+        // start the interval after the SERVER_NOTIFICATIONS_INTERVAL_TIME to avoid too many requests
         serverNotificationsInterval = setInterval(fetchNotifications, SERVER_NOTIFICATIONS_INTERVAL_TIME);
-      }, 10000);
+      }, SERVER_NOTIFICATIONS_INTERVAL_TIME);
     }
 
     return () => {
@@ -131,8 +130,8 @@ export const ServerNotificationsBadge = () => {
                     <Box sx={{ cursor: "pointer", color: theme.palette.primary.main }} onClick={() => handleSeeAllNotifications()}>See all notifications</Box>
                   </ListSubheader>
                 <Divider />
-                {notifications.map((notification) => (
-                  <Fragment key={notification.event_id}>
+                {notifications.map((notification, index) => {
+                  return (<Fragment key={notification.event_id ? notification.event_id : index }>
                     <ListItem
                       onClick={() => handleSeeAllNotifications()}
                       sx={{
@@ -158,7 +157,7 @@ export const ServerNotificationsBadge = () => {
                     </ListItem>
                     <Divider />
                   </Fragment>
-                ))}
+                )})}
                 <ListItem>
                   <Button
                     key="clear-all-notifications"
