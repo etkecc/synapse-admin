@@ -68,7 +68,7 @@
     "react-hook-form": "^7.54.2",
     "react-is": "^18.3.1",
     "react-router": "^6.28.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.1"
   },
   "scripts": {
     "start": "vite serve",
