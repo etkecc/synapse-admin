@@ -4798,10 +4798,17 @@ react-router-dom@^6.22.0, react-router-dom@^6.28.0:
     "@remix-run/router" "1.21.0"
     react-router "6.28.0"
 
-react-router@6.28.0, react-router@^6.22.0, react-router@^6.26.2:
+react-router@6.28.0:
   version "6.28.0"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.28.0.tgz#29247c86d7ba901d7e5a13aa79a96723c3e59d0d"
   integrity sha512-HrYdIFqdrnhDw0PqG/AKjAqEqM7AvxCz0DQ4h2W8k6nqmc5uRBYDag0SBxx9iYz5G8gnuNVLzUe13wl9eAsXXg==
+  dependencies:
+    "@remix-run/router" "1.21.0"
+
+react-router@^6.22.0, react-router@^6.28.1:
+  version "6.28.1"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.28.1.tgz#f82317ab24eee67d7beb7b304c0378b2b48fa178"
+  integrity sha512-2omQTA3rkMljmrvvo6WtewGdVh45SpL9hGiCI9uUrwGGfNFDIvGK4gYJsKlJoNVi6AQZcopSCballL+QGOm7fA==
   dependencies:
     "@remix-run/router" "1.21.0"
 
