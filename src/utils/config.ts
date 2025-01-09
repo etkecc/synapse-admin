@@ -22,10 +22,16 @@ let config: Config = {
 };
 
 export const FetchConfig = async () => {
+  // load config.json and honor vite base url (import.meta.env.BASE_URL)
+  // if that url doesn't have a trailing slash - add it
+  let configJSONUrl = "config.json"
+  if (import.meta.env.BASE_URL) {
+    configJSONUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}config.json`;
+  }
   try {
-    const resp = await fetch("config.json");
+    const resp = await fetch(configJSONUrl);
     const configJSON = await resp.json();
-    console.log("Loaded config.json", configJSON);
+    console.log("Loaded", configJSONUrl, configJSON);
     LoadConfig(configJSON);
   } catch (e) {
     console.error(e);
