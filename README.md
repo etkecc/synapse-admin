@@ -108,6 +108,7 @@ The following changes are already implemented:
 * 📞 [Support E.164-based Matrix IDs (MSC4009)](https://github.com/etkecc/synapse-admin/pull/214)
 * 🛑 [Add support for Account Suspension (MSC3823)](https://github.com/etkecc/synapse-admin/pull/195)
 * 🗑️ [Add "Purge Remote Media" button](https://github.com/etkecc/synapse-admin/pull/237)
+* [Respect base url (`BASE_PATH` / `vite build --base`) when loading `config.json`](https://github.com/etkecc/synapse-admin/pull/274)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
