@@ -47,7 +47,7 @@ const LoginPage = () => {
   const translate = useTranslate();
   const base_url = allowSingleBaseUrl ? restrictBaseUrl : localStorage.getItem("base_url");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
-  const loginToken = /\?loginToken=([a-zA-Z0-9_-]+)/.exec(window.location.href);
+  const loginToken = new URLSearchParams(window.location.search).get("loginToken")
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
 
   useEffect(() => {
@@ -55,10 +55,12 @@ const LoginPage = () => {
       return;
     }
 
-    const ssoToken = loginToken[1];
-    console.log("SSO token is", ssoToken);
+    console.log("SSO token is", loginToken);
     // Prevent further requests
-    window.history.replaceState({}, "", window.location.href.replace(loginToken[0], "#").split("#")[0]);
+    const previousUrl = new URL(window.location.toString())
+    previousUrl.searchParams.delete("loginToken")
+    previousUrl.hash = ""
+    window.history.replaceState({}, "", previousUrl.toString());
     const baseUrl = localStorage.getItem("sso_base_url");
     localStorage.removeItem("sso_base_url");
     if (baseUrl) {
@@ -66,10 +68,10 @@ const LoginPage = () => {
         base_url: baseUrl,
         username: null,
         password: null,
-        loginToken: ssoToken,
+        loginToken,
       };
       console.log("Base URL is:", baseUrl);
-      console.log("SSO Token is:", ssoToken);
+      console.log("SSO Token is:", loginToken);
       console.log("Let's try token login...");
       login(auth).catch(error => {
         alert(
