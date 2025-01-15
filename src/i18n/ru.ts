@@ -50,7 +50,7 @@ const ru: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Локальная часть ID пользователя Matrix без адреса домашнего сервера.",
-      tabs: { sso: "SSO", experimental: "Экспериментальные", limits: "Ограничения" },
+      tabs: { sso: "SSO", experimental: "Экспериментальные", limits: "Ограничения", account_data: "Данные пользователя" },
     },
     rooms: {
       details: "Данные комнаты",
@@ -232,6 +232,11 @@ const ru: SynapseTranslationMessages = {
         messages_per_second_text: "Количество действий, которые могут быть выполнены в секунду.",
         burst_count: "Burst-счётчик",
         burst_count_text: "Количество действий, которые могут быть выполнены до ограничения.",
+      },
+      account_data: {
+        title: "Данные пользователя",
+        global: "Глобальные",
+        rooms: "Комнаты",
       }
     },
     rooms: {

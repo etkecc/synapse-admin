@@ -22,7 +22,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
     };
     users: {
       invalid_user_id: string;
-      tabs: { sso: string; experimental: string; limits: string; };
+      tabs: { sso: string; experimental: string; limits: string; account_data: string; };
     };
     rooms: {
       details?: string; // TODO: fa, fr, it, zh
@@ -195,6 +195,11 @@ interface SynapseTranslationMessages extends TranslationMessages {
         burst_count: string;
         burst_count_text: string;
       };
+      account_data: {
+        title: string;
+        global: string;
+        rooms: string;
+      }
     };
     rooms: {
       name: string;

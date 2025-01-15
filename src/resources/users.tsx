@@ -10,6 +10,7 @@ import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputCompone
 import ScienceIcon from "@mui/icons-material/Science";
 import LockClockIcon from '@mui/icons-material/LockClock';
 import ViewListIcon from "@mui/icons-material/ViewList";
+import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import { useEffect, useState } from "react";
 import { Alert, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -81,6 +82,7 @@ import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
 import UserRateLimits from "../components/UserRateLimits";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
 import { MakeAdminBtn } from "./rooms";
+import UserAccountData from "../components/UserAccountData";
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -555,6 +557,10 @@ export const UserEdit = (props: EditProps) => {
 
         <FormTab label="synapseadmin.users.tabs.limits" icon={<LockClockIcon />} path="limits">
           <UserRateLimits />
+        </FormTab>
+
+        <FormTab label="synapseadmin.users.tabs.account_data" icon={<DocumentScannerIcon />} path="accountdata">
+         <UserAccountData />
         </FormTab>
       </TabbedForm>
     </Edit>

@@ -55,7 +55,7 @@ const de: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Lokaler Anteil der Matrix Benutzer-ID ohne Homeserver.",
-      tabs: { sso: "SSO", experimental: "Experimentell", limits: "Rate Limits" },
+      tabs: { sso: "SSO", experimental: "Experimentell", limits: "Rate Limits", account_data: "Kontodaten" },
     },
     rooms: {
       details: "Raumdetails",
@@ -229,6 +229,11 @@ const de: SynapseTranslationMessages = {
         messages_per_second_text: "Die Anzahl der Aktionen, die in einer Sekunde durchgeführt werden können.",
         burst_count: "Burst-Anzahl",
         burst_count_text: "Die Anzahl der Aktionen, die vor der Begrenzung durchgeführt werden können.",
+      },
+      account_data: {
+        title: "Kontodaten",
+        global: "Globale",
+        rooms: "Räume",
       }
     },
     rooms: {

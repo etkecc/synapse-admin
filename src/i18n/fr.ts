@@ -24,7 +24,7 @@ const fr: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Partie locale d'un identifiant utilisateur Matrix sans le nom du serveur d’accueil.",
-      tabs: { sso: "Authentification unique", experimental: "Expérimental", limits: "Limites" },
+      tabs: { sso: "Authentification unique", experimental: "Expérimental", limits: "Limites", account_data: "Données du compte" },
     },
     rooms: {
       tabs: {
@@ -197,6 +197,11 @@ const fr: SynapseTranslationMessages = {
         messages_per_second_text: "Le nombre d'actions que l'utilisateur peut effectuer par seconde.",
         burst_count: "Compteur de pics",
         burst_count_text: "Le nombre d'actions que l'utilisateur peut effectuer avant d'être limité.",
+      },
+      account_data: {
+        title: "Données du compte",
+        global: "Globales",
+        rooms: "Salons",
       }
     },
     rooms: {

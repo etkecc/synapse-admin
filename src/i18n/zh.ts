@@ -52,7 +52,7 @@ const zh: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "必须要是一个有效的 Matrix 用户 ID ，例如 @user_id:homeserver",
-      tabs: { sso: "SSO", experimental: "实验性", limits: "限制" },
+      tabs: { sso: "SSO", experimental: "实验性", limits: "限制", account_data: "账户数据" },
     },
     rooms: {
       tabs: {
@@ -221,6 +221,11 @@ const zh: SynapseTranslationMessages = {
         messages_per_second_text: "每秒可以执行的操作数。",
         burst_count: "Burst-计数",
         burst_count_text: "在限制之前可以执行的操作数。",
+      },
+      account_data: {
+        title: "账户数据",
+        global: "全局",
+        rooms: "房间",
       }
     },
     rooms: {

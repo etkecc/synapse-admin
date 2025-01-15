@@ -29,6 +29,7 @@ const en: SynapseTranslationMessages = {
         sso: "SSO",
         experimental: "Experimental",
         limits: "Rate Limits",
+        account_data: "Account Data",
       },
     },
     rooms: {
@@ -202,6 +203,11 @@ const en: SynapseTranslationMessages = {
         messages_per_second_text: "The number of actions that can be performed in a second.",
         burst_count: "Burst count",
         burst_count_text: "How many actions that can be performed before being limited.",
+      },
+      account_data: {
+        title: "Account Data",
+        global: "Global",
+        rooms: "Rooms",
       }
     },
     rooms: {

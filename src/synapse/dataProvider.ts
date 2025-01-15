@@ -260,6 +260,17 @@ export interface RateLimitsModel {
   burst_count?: number;
 }
 
+export interface AccountDataModel {
+  account_data: {
+    global: {
+      [key: string]: object;
+    },
+    rooms: {
+      [key: string]: object;
+    };
+  }
+}
+
 export interface UsernameAvailabilityResult {
   available?: boolean;
   error?: string;
@@ -309,6 +320,7 @@ export interface SynapseDataProvider extends DataProvider {
   updateFeatures: (id: Identifier, features: ExperimentalFeaturesModel) => Promise<void>;
   getRateLimits: (id: Identifier) => Promise<RateLimitsModel>;
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
+  getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
@@ -910,6 +922,12 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
     const { json } = await jsonClient(endpoint_url);
     return json as RateLimitsModel;
+  },
+  getAccountData: async (id: Identifier) => {
+    const base_url = localStorage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/accountdata`;
+    const { json } = await jsonClient(endpoint_url);
+    return json as AccountDataModel;
   },
   setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
     const filtered = Object.entries(rateLimits).

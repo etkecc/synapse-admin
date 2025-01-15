@@ -24,7 +24,7 @@ const it: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "ID utente non valido su questo homeserver.",
-      tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti" },
+      tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti", account_data: "Dati del profilo" },
     },
     rooms: {
       tabs: {
@@ -195,6 +195,11 @@ const it: SynapseTranslationMessages = {
         messages_per_second_text: "Il numero di azioni che l'utente può eseguire al secondo.",
         burst_count: "Burst-conteggio",
         burst_count_text: "Il numero di azioni che l'utente può eseguire prima di essere limitato.",
+      },
+      account_data: {
+        title: "Dati del profilo",
+        global: "Globale",
+        rooms: "Stanza",
       }
     },
     rooms: {
