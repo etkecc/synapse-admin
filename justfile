@@ -16,6 +16,8 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d postgres
     @echo "Starting Synapse..."
     @docker-compose -f docker-compose-dev.yml up -d synapse
+    @echo "Starting Element Web..."
+    @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
     @docker-compose -f docker-compose-dev.yml exec synapse register_new_matrix_user --admin -u admin -p admin -c /config/homeserver.yaml http://localhost:8008 || true
     @echo "Starting the app..."

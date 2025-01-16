@@ -18,3 +18,17 @@ services:
       POSTGRES_PASSWORD: synapse
       POSTGRES_DB: synapse
       POSTGRES_INITDB_ARGS: "--lc-collate C --lc-ctype C --encoding UTF8"
+
+  element:
+    image: docker.io/vectorim/element-web:latest
+    depends_on:
+      synapse:
+        condition: service_healthy
+        restart: true
+    ports:
+    - "8080:8080"
+    volumes:
+    - ./testdata/element/nginx.conf:/etc/nginx/nginx.conf:ro
+    - /dev/null:/etc/nginx/conf.d/default.conf:ro
+    - ./testdata/element/config.json:/app/config.json:ro
+

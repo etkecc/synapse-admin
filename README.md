@@ -123,7 +123,7 @@ The following list contains such features - they are only available for [etke.cc
 `just run-dev` to start the development stack (depending on your system speed, you may want to re-run this command if
    user creation fails)
 
-This command initializes the development environment (local Synapse server and Postgres DB),
+This command initializes the development environment (local Synapse server, Element Web client app, and Postgres DB),
 and launches the app in a dev mode at `http://localhost:5173`
 
 After that open [http://localhost:5173](http://localhost:5173?username=admin&password=admin&server=http://localhost:8008) in your browser,
@@ -132,6 +132,8 @@ login using the following credentials:
 * Login: admin
 * Password: admin
 * Homeserver URL: http://localhost:8008
+
+Element Web runs on http://localhost:8080
 
 ### Support
 

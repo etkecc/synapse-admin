@@ -78,7 +78,7 @@ password_config:
 pid_file: /homeserver.pid
 presence:
   enabled: true
-public_baseurl: http://synapse:8008/
+public_baseurl: http://localhost:8008/
 push:
   include_content: true
 rc_admin_redaction:
