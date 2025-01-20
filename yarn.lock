@@ -4657,13 +4657,13 @@ ra-core@^5.4.3, ra-core@^5.4.4:
     react-error-boundary "^4.0.13"
     react-is "^18.2.0"
 
-ra-i18n-polyglot@^5.3.4, ra-i18n-polyglot@^5.4.3:
-  version "5.4.3"
-  resolved "https://registry.yarnpkg.com/ra-i18n-polyglot/-/ra-i18n-polyglot-5.4.3.tgz#f559edeb9db7e74755a8b44128e407aa8515ceea"
-  integrity sha512-/O2FIjzMrU1JZp26YbAuqikleOwcRHVbEuBZg8uoIwCf3YWRcFknxgOTXbE4/iozQsY2pW5XB5YU0a2Oy58eCg==
+ra-i18n-polyglot@^5.4.3, ra-i18n-polyglot@^5.4.4:
+  version "5.4.4"
+  resolved "https://registry.yarnpkg.com/ra-i18n-polyglot/-/ra-i18n-polyglot-5.4.4.tgz#2d0c068c75a872387b1984b4ff59fb55d459a810"
+  integrity sha512-C7ZNhw+65ZOofSYViHkITBYKHTPGYiasaMqBppbOlfDyqpwIqYC2PIG/Mtbmgxgtb9AJhOFwdUskd3ZrrxC+ag==
   dependencies:
     node-polyglot "^2.2.2"
-    ra-core "^5.4.3"
+    ra-core "^5.4.4"
 
 ra-language-english@^5.3.4, ra-language-english@^5.4.3:
   version "5.4.3"
