@@ -67,7 +67,7 @@
     "react-admin": "^5.5.2",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
-    "react-is": "^18.3.1",
+    "react-is": "^19.0.0",
     "ts-jest-mock-import-meta": "^1.2.1"
   },
   "scripts": {
