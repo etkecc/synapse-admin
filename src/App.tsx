@@ -6,7 +6,7 @@ import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin
 import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
-import UserImport from "./components/UserImport";
+import UserImport from "./components/user-import/UserImport";
 import germanMessages from "./i18n/de";
 import englishMessages from "./i18n/en";
 import frenchMessages from "./i18n/fr";
