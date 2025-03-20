@@ -1,9 +1,8 @@
-import { Alert, Box, CardContent, CardHeader, Container, ListItem, ListItemText, Paper, Stack, Typography } from "@mui/material"
+import { Alert, Box, CardContent, CardHeader, Container, List, ListItem, ListItemText, Paper, Stack, Typography } from "@mui/material"
 import { Button, Link, useTranslate } from "react-admin";
-import { ImportResult } from "./useImportFile";
+import { ImportResult } from "./types";
 import DownloadIcon from "@mui/icons-material/Download";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { List } from "@mui/material";
 
 const ResultsCard = ({ importResults, downloadSkippedRecords }: { importResults: ImportResult | null, downloadSkippedRecords: () => void }) => {
   const translate = useTranslate();

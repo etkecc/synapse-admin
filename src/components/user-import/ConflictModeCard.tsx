@@ -3,7 +3,7 @@ import { NativeSelect, Paper } from "@mui/material";
 import { CardContent, CardHeader, Container } from "@mui/material";
 
 import { useTranslate } from "ra-core";
-import { ParsedStats, Progress } from "./useImportFile";
+import { ParsedStats, Progress } from "./types";
 import { ChangeEventHandler } from "react";
 
 const TranslatableOption = ({ value, text }: { value: string, text: string }) => {

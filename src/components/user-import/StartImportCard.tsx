@@ -1,12 +1,14 @@
 import { Button, Checkbox, Paper, Container } from "@mui/material";
 
 import { CardActions, FormControlLabel } from "@mui/material";
-import { Progress } from "./useImportFile";
+import { Progress, ImportLine, ImportResult } from "./types";
 import { ChangeEventHandler } from "react";
 import { useTranslate } from "ra-core";
 
-
-const StartImportCard = ({ csvData, importResults, progress, dryRun, onDryRunModeChanged, runImport }: { csvData: any, importResults: any, progress: Progress, dryRun: boolean, onDryRunModeChanged: ChangeEventHandler<HTMLInputElement>, runImport: () => void }) => {
+const StartImportCard = (
+  { csvData, importResults, progress, dryRun, onDryRunModeChanged, runImport }:
+  { csvData: ImportLine[], importResults: ImportResult | null, progress: Progress, dryRun: boolean, onDryRunModeChanged: ChangeEventHandler<HTMLInputElement>, runImport: () => void }
+) => {
   const translate = useTranslate();
   if (!csvData || csvData.length === 0 || importResults) {
     return null;

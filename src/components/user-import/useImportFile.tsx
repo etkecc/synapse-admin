@@ -1,59 +1,13 @@
 import { ChangeEvent, useState } from "react";
-import { useTranslate, useNotify, RaRecord, HttpError } from "react-admin";
+import { useTranslate, useNotify, HttpError } from "react-admin";
 import { parse as parseCsv, unparse as unparseCsv, ParseResult } from "papaparse";
 import dataProvider from "../../synapse/dataProvider";
 import { returnMXID } from "../../utils/mxid";
 import { generateRandomPassword } from "../../utils/password";
 import { generateRandomMXID } from "../../utils/mxid";
+import { ImportLine, ParsedStats, Progress, ImportResult, ChangeStats } from "./types";
 
 const LOGGING = true;
-
-interface ImportLine {
-  id: string;
-  displayname: string;
-  user_type?: string;
-  name?: string;
-  deactivated?: boolean;
-  is_guest?: boolean;
-  admin?: boolean;
-  is_admin?: boolean;
-  password?: string;
-  avatar_url?: string;
-}
-
-export interface ParsedStats {
-  user_types: { default: number },
-  is_guest: number;
-  admin: number;
-  deactivated: number;
-  password: number;
-  avatar_url: number;
-  id: number;
-  total: number;
-}
-
-interface ChangeStats {
-  total: number;
-  id: number;
-  is_guest: number;
-  admin: number;
-  password: number;
-}
-
-export type Progress = {
-  done: number;
-  limit: number;
-} | null;
-
-
-export interface ImportResult {
-  skippedRecords: RaRecord[];
-  erroredRecords: RaRecord[];
-  succeededRecords: RaRecord[];
-  totalRecordCount: number;
-  changeStats: ChangeStats;
-  wasDryRun: boolean;
-}
 
 const EXPECTED_FIELDS = ["id", "displayname"].sort();
 

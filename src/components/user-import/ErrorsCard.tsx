@@ -1,8 +1,11 @@
-import { Container, Paper } from "@mui/material";
-import { CardHeader } from "@mui/material";
-import { CardContent } from "@mui/material";
-import { Stack } from "@mui/material";
-import { Typography } from "@mui/material";
+import {
+  Container,
+  Paper,
+  CardHeader,
+  CardContent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useTranslate } from "ra-core";
 
 const ErrorsCard = ({ errors }: { errors: string[] }) => {

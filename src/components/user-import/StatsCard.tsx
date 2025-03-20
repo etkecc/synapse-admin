@@ -1,18 +1,10 @@
-import { Card, Paper, Stack } from "@mui/material";
-
-import { CardContent } from "@mui/material";
-
-import { CardHeader } from "@mui/material";
-
-import { Container } from "@mui/material";
-
-import { Typography } from "@mui/material";
-import { ParsedStats, Progress } from "./useImportFile";
+import { Card, Paper, Stack, CardContent, CardHeader, Container, Typography } from "@mui/material";
 import { NativeSelect } from "@mui/material";
 import { FormControlLabel } from "@mui/material";
 import { Checkbox } from "@mui/material";
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
+import { ParsedStats, Progress } from "./types";
 
 const StatsCard = ({ stats, progress, importResults, useridMode, passwordMode, onUseridModeChanged, onPasswordModeChange }: { stats: ParsedStats | null, progress: Progress, importResults: any, useridMode: string, passwordMode: boolean, onUseridModeChanged: ChangeEventHandler<HTMLSelectElement>, onPasswordModeChange: ChangeEventHandler<HTMLInputElement> }) => {
   const translate = useTranslate();
