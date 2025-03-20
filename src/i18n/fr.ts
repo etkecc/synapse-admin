@@ -52,7 +52,7 @@ const fr: SynapseTranslationMessages = {
     goToPdf: "Voir le PDF",
     cards: {
       importstats: {
-        header: "Importer des utilisateurs",
+        header: "Utilisateurs analysés pour l'import",
         users_total:
           "%{smart_count} utilisateur dans le fichier CSV |||| %{smart_count} utilisateurs dans le fichier CSV",
         guest_count: "%{smart_count} visiteur |||| %{smart_count} visiteurs",

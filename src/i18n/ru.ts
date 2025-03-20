@@ -83,7 +83,7 @@ const ru: SynapseTranslationMessages = {
     goToPdf: "Перейти к PDF",
     cards: {
       importstats: {
-        header: "Импорт пользователей",
+        header: "Анализированные пользователи для импорта",
         users_total:
           "%{smart_count} пользователь в CSV файле |||| %{smart_count} пользователя в CSV файле |||| %{smart_count} пользователей в CSV файле",
         guest_count: "%{smart_count} гость |||| %{smart_count} гостя |||| %{smart_count} гостей",

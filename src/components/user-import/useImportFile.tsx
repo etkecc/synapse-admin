@@ -1,12 +1,10 @@
-import { Stats } from "node:fs";
 import { ChangeEvent, useState } from "react";
-import { useTranslate, useNotify, RaRecord } from "react-admin";
+import { useTranslate, useNotify, RaRecord, HttpError } from "react-admin";
 import { parse as parseCsv, unparse as unparseCsv, ParseResult } from "papaparse";
 import dataProvider from "../../synapse/dataProvider";
 import { returnMXID } from "../../utils/mxid";
 import { generateRandomPassword } from "../../utils/password";
 import { generateRandomMXID } from "../../utils/mxid";
-import { CardHeader } from "@mui/material";
 
 const LOGGING = true;
 
@@ -48,7 +46,7 @@ export type Progress = {
 } | null;
 
 
-interface ImportResult {
+export interface ImportResult {
   skippedRecords: RaRecord[];
   erroredRecords: RaRecord[];
   succeededRecords: RaRecord[];
@@ -70,9 +68,9 @@ const useImportFile = () => {
   const [importResults, setImportResults] = useState<ImportResult | null>(null);
   const [skippedRecords, setSkippedRecords] = useState<string>("");
 
-  const [conflictMode, setConflictMode] = useState("stop");
+  const [conflictMode, setConflictMode] = useState<"stop" | "skip">("stop");
   const [passwordMode, setPasswordMode] = useState(true);
-  const [useridMode, setUseridMode] = useState("update");
+  const [useridMode, setUseridMode] = useState<"update" | "ignore">("update");
 
   const translate = useTranslate();
   const notify = useNotify();
@@ -219,7 +217,7 @@ const useImportFile = () => {
       return;
     }
 
-    const value = e.target.value;
+    const value = e.target.value as "stop" | "skip";
     setConflictMode(value);
   };
 
@@ -235,7 +233,9 @@ const useImportFile = () => {
     if (progress !== null) {
       return;
     }
-    setUseridMode(e.target.value);
+
+    const value = e.target.value as "update" | "ignore";
+    setUseridMode(value);
   };
 
   const onDryRunModeChanged = (e: ChangeEvent<HTMLInputElement>) => {
@@ -317,41 +317,49 @@ const useImportFile = () => {
          */
         if (LOGGING) console.log("will check for existence of record " + JSON.stringify(userRecord));
         let retries = 0;
-        const submitRecord = (recordData: ImportLine) => {
-          return dataProvider.getOne("users", { id: recordData.id }).then(
-            async () => {
-              if (LOGGING) console.log("already existed");
+        const submitRecord = async (recordData: ImportLine) => {
+          try {
+            const response = await dataProvider.getOne("users", { id: recordData.id });
 
-              if (useridMode === "update" || conflictMode === "skip") {
-                skippedRecords.push(recordData);
-              } else if (conflictMode === "stop") {
-                throw new Error(
-                  translate("import_users.error.id_exits", {
-                    id: recordData.id,
-                  })
-                );
-              } else {
-                const newRecordData = Object.assign({}, recordData, {
-                  id: generateRandomMXID(),
-                });
-                retries++;
-                if (retries > 512) {
-                  console.warn("retry loop got stuck? pathological situation?");
-                  skippedRecords.push(recordData);
-                } else {
-                  await submitRecord(newRecordData);
-                }
-              }
-            },
-            async () => {
-              if (LOGGING) console.log("OK to create record " + recordData.id + " (" + recordData.displayname + ").");
+            if (LOGGING) console.log("already existed");
 
-              if (!dryRun) {
-                await dataProvider.create("users", { data: recordData });
-              }
-              succeededRecords.push(recordData);
+            if (conflictMode === "stop") {
+              throw new Error(
+                translate("import_users.error.id_exits", {
+                  id: recordData.id,
+                })
+              );
             }
-          );
+
+            if (conflictMode === "skip" || useridMode === "update") {
+              skippedRecords.push(recordData);
+              return;
+            }
+
+            const newRecordData = Object.assign({}, recordData, {
+              id: generateRandomMXID(),
+            });
+            retries++;
+
+            if (retries > 512) {
+              console.warn("retry loop got stuck? pathological situation?");
+              skippedRecords.push(recordData);
+              return;
+            }
+
+            await submitRecord(newRecordData);
+          } catch (e) {
+            if (!(e instanceof HttpError) || (e.status && e.status !== 404)) {
+              throw e;
+            }
+
+            if (LOGGING) console.log("OK to create record " + recordData.id + " (" + recordData.displayname + ").");
+
+            if (!dryRun) {
+              await dataProvider.create("users", { data: recordData });
+            }
+            succeededRecords.push(recordData);
+          }
         };
 
         await submitRecord(userRecord);
@@ -369,6 +377,7 @@ const useImportFile = () => {
       ]);
       setProgress(null);
     }
+
     return {
       skippedRecords,
       erroredRecords,
@@ -407,6 +416,7 @@ const useImportFile = () => {
     onPasswordModeChange,
     onUseridModeChanged,
     onFileChange,
+    downloadSkippedRecords
   }
 }
 

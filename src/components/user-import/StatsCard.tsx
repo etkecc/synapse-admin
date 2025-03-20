@@ -14,7 +14,7 @@ import { Checkbox } from "@mui/material";
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
 
-const StatsCard = ({ stats, progress, importResults, useridMode, passwordMode, onUseridModeChanged, onPasswordModeChange }: { stats: ParsedStats|null, progress: Progress, importResults: any, useridMode: string, passwordMode: boolean, onUseridModeChanged: ChangeEventHandler<HTMLSelectElement>, onPasswordModeChange: ChangeEventHandler<HTMLInputElement> }) => {
+const StatsCard = ({ stats, progress, importResults, useridMode, passwordMode, onUseridModeChanged, onPasswordModeChange }: { stats: ParsedStats | null, progress: Progress, importResults: any, useridMode: string, passwordMode: boolean, onUseridModeChanged: ChangeEventHandler<HTMLSelectElement>, onPasswordModeChange: ChangeEventHandler<HTMLInputElement> }) => {
   const translate = useTranslate();
 
   if (!stats) {
@@ -41,8 +41,6 @@ const StatsCard = ({ stats, progress, importResults, useridMode, passwordMode, o
                 <Typography>{translate("import_users.cards.importstats.admin_count", stats.admin)}</Typography>
               </Stack>
             </CardContent>
-          </Card>
-          <Card>
             <CardHeader
               title={translate("import_users.cards.ids.header")}
               sx={{ borderBottom: 1, borderColor: "divider" }}
@@ -62,8 +60,6 @@ const StatsCard = ({ stats, progress, importResults, useridMode, passwordMode, o
                 )}
               </Stack>
             </CardContent>
-          </Card>
-          <Card>
             <CardHeader
               title={translate("import_users.cards.passwords.header")}
               sx={{ borderBottom: 1, borderColor: "divider" }}

@@ -17,11 +17,11 @@ const ErrorsCard = ({ errors }: { errors: string[] }) => {
       <Paper elevation={1}>
         <CardHeader
           title={translate("import_users.error.error")}
-        sx={{
-          borderBottom: 1,
-          borderColor: "error.main",
-          color: "error.main"
-        }}
+          sx={{
+            borderBottom: 1,
+            borderColor: "error.main",
+            color: "error.main"
+          }}
       />
       <CardContent>
         <Stack spacing={1}>

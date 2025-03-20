@@ -51,7 +51,7 @@ const fa: SynapseTranslationMessages = {
     goToPdf: "رفتن به PDF",
     cards: {
       importstats: {
-        header: "وارد کردن کاربران",
+        header: "کاربران پردازش شده برای وارد کردن",
         users_total: "%{smart_count} user in CSV file |||| %{smart_count} users in CSV file",
         guest_count: "%{smart_count} guest |||| %{smart_count} guests",
         admin_count: "%{smart_count} admin |||| %{smart_count} admins",

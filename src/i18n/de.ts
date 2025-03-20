@@ -91,7 +91,7 @@ const de: SynapseTranslationMessages = {
     goToPdf: "Gehe zum PDF",
     cards: {
       importstats: {
-        header: "Benutzer importieren",
+        header: "Geparste Benutzer für den Import",
         users_total: "%{smart_count} Benutzer in der CSV Datei |||| %{smart_count} Benutzer in der CSV Datei",
         guest_count: "%{smart_count} Gast |||| %{smart_count} Gäste",
         admin_count: "%{smart_count} Server Administrator |||| %{smart_count} Server Administratoren",

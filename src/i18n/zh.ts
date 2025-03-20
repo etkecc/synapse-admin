@@ -86,7 +86,7 @@ const zh: SynapseTranslationMessages = {
     goToPdf: "转到 PDF",
     cards: {
       importstats: {
-        header: "导入用户",
+        header: "分析用于导入的用户",
         users_total: "%{smart_count} 用户在 CSV 文件中 |||| %{smart_count} 用户在 CSV 文件中",
         guest_count: "%{smart_count} 访客 |||| %{smart_count} 访客",
         admin_count: "%{smart_count} 管理员 |||| %{smart_count} 管理员",
