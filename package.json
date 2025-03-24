@@ -70,7 +70,7 @@
     "react-is": "^19.0.0",
     "ts-jest-mock-import-meta": "^1.2.1",
     "react-router": "^7.4.0",
-    "react-router-dom": "^7.3.0"
+    "react-router-dom": "^7.4.0"
   },
   "scripts": {
     "start": "vite serve",
