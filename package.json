@@ -58,7 +58,7 @@
     "papaparse": "^5.5.1",
     "ra-core": "^5.4.4",
     "ra-i18n-polyglot": "^5.4.4",
-    "ra-language-english": "^5.4.4",
+    "ra-language-english": "^5.6.4",
     "ra-language-farsi": "^5.1.0",
     "ra-language-french": "^5.6.3",
     "ra-language-italian": "^3.13.1",
