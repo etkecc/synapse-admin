@@ -64,7 +64,7 @@
     "ra-language-italian": "^3.13.1",
     "ra-language-russian": "^5.4.3",
     "react": "^19.0.0",
-    "react-admin": "^5.6.3",
+    "react-admin": "^5.6.4",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-is": "^19.0.0",
