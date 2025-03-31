@@ -328,6 +328,22 @@ export interface ServerCommandsResponse {
   [command: string]: ServerCommand;
 }
 
+export interface ScheduledCommand {
+  args: string;
+  command: string;
+  id: string;
+  is_recurring: boolean;
+  scheduled_at: string;
+}
+
+export interface RecurringCommand {
+  args: string;
+  command: string;
+  id: string;
+  scheduled_at: string;
+  time: string;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -343,6 +359,8 @@ export interface SynapseDataProvider extends DataProvider {
   getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
   deleteServerNotifications: (etkeAdminUrl: string) => Promise<{ success: boolean }>;
   getServerCommands: (etkeAdminUrl: string) => Promise<ServerCommandsResponse>;
+  getScheduledCommands: (etkeAdminUrl: string) => Promise<ScheduledCommand[]>;
+  getRecurringCommands: (etkeAdminUrl: string) => Promise<RecurringCommand[]>;
 }
 
 const resourceMap = {
@@ -1190,6 +1208,56 @@ const baseDataProvider: SynapseDataProvider = {
     return {
       success: false,
     }
+  },
+  getScheduledCommands: async (scheduledCommandsUrl: string) => {
+    try{
+      const response = await fetch(`${scheduledCommandsUrl}/schedules`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        }
+      });
+      if (!response.ok) {
+        console.error(`Error fetching scheduled commands: ${response.status} ${response.statusText}`);
+        return [];
+      }
+
+      const status = response.status;
+
+      if (status === 200) {
+        const json = await response.json();
+        return json as ScheduledCommand[];
+      }
+
+      return [];
+  } catch (error) {
+    console.error("Error fetching scheduled commands, error");
+  }
+    return [];
+  },
+  getRecurringCommands: async (recurringCommandsUrl: string) => {
+    try {
+      const response = await fetch(`${recurringCommandsUrl}/recurrings`, {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        }
+      });
+      if (!response.ok) {
+        console.error(`Error fetching recurring commands: ${response.status} ${response.statusText}`);
+        return [];
+      }
+
+      const status = response.status;
+
+      if (status === 200) {
+        const json = await response.json();
+        return json as RecurringCommand[];
+      }
+
+      return [];
+    } catch (error) {
+      console.error("Error fetching recurring commands, error");
+    }
+    return [];
   }
 };
 

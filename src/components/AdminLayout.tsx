@@ -8,6 +8,7 @@ import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
+import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -60,11 +61,11 @@ const AdminAppBar = () => {
 
 const AdminMenu = (props) => {
   const [menu, setMenu] = useState([] as MenuItem[]);
-  const [serverStatusEnabled, setServerStatusEnabled] = useState(false);
+  const [etkeRoutesEnabled, setEtkeRoutesEnabled] = useState(false);
   useEffect(() => {
     setMenu(GetConfig().menu);
     if (GetConfig().etkeccAdmin) {
-      setServerStatusEnabled(true);
+      setEtkeRoutesEnabled(true);
     }
   }, []);
   const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
@@ -72,15 +73,16 @@ const AdminMenu = (props) => {
 
   return (
     <Menu {...props}>
-      {serverStatusEnabled && <Menu.Item to="/server_status" leftIcon={
-        <ServerStatusStyledBadge
-          inSidebar={true}
-          command={serverProcess.command}
-          locked_at={serverProcess.locked_at}
-          isOkay={serverStatus.ok} />
+      {etkeRoutesEnabled && <Menu.Item key="server_status" to="/server_status" leftIcon={
+          <ServerStatusStyledBadge
+            inSidebar={true}
+            command={serverProcess.command}
+            locked_at={serverProcess.locked_at}
+            isOkay={serverStatus.ok} />
         }
         primaryText="Server Status" />
       }
+      {etkeRoutesEnabled && <Menu.Item key="scheduler_commands" to="/scheduler_commands" leftIcon={<ManageHistoryIcon />} primaryText="Scheduler Commands" />}
       <Menu.ResourceItems />
       {menu && menu.map((item, index) => {
         const { url, icon, label } = item;
