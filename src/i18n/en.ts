@@ -479,5 +479,13 @@ const en: SynapseTranslationMessages = {
       helper: { length: "Length of the token if no token is given." },
     },
   },
+  scheduled_commands: {
+    action: {
+      update_success: "Scheduled command updated successfully",
+      update_failure: "An error has occurred",
+      delete_success: "Scheduled command deleted successfully",
+      delete_failure: "An error has occurred",
+    },
+  },
 };
 export default en;

@@ -15,7 +15,7 @@ const SchedulerCommandsPage = () => {
       </Stack>
       <Stack spacing={1} direction="column" alignItems="center">
         <Box sx={{ width: "100%" }}>
-          <Typography sx={{ mb: 2 }} variant="h5"><ScheduleIcon sx={{ verticalAlign: "middle" }} /> Scheduled:</Typography>
+          <Typography variant="h5"><ScheduleIcon sx={{ verticalAlign: "middle" }} /> Scheduled:</Typography>
           <ScheduledCommandsList />
         </Box>
       </Stack>

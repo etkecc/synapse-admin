@@ -473,4 +473,12 @@ interface SynapseTranslationMessages extends TranslationMessages {
       };
     };
   };
+  scheduled_commands?: {
+    action: {
+      update_success: string;
+      update_failure: string;
+      delete_success: string;
+      delete_failure: string;
+    };
+  };
 }
