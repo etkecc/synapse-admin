@@ -26,7 +26,7 @@ import dataProvider from "./synapse/dataProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
-import SchedulerCommandsPage from "./components/etke.cc/SchedulerCommandsPage";
+import SchedulerCommandsPage from "./components/etke.cc/scheduler/components/SchedulerCommandsPage";
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {
   de: germanMessages,
