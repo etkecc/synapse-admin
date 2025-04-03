@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 
-import { Admin, CustomRoutes, EditGuesser, Resource, resolveBrowserLocale } from "react-admin";
+import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin";
 
 import { Route } from "react-router-dom";
 
@@ -26,9 +26,10 @@ import dataProvider from "./synapse/dataProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
-import SchedulerCommandsPage from "./components/etke.cc/scheduler/components/SchedulerCommandsPage";
-import ScheduledCommandEdit from "./components/etke.cc/scheduler/components/ScheduledCommandEdit";
-import RecurringCommandEdit from "./components/etke.cc/scheduler/components/RecurringCommandEdit";
+import ScheduledCommandEdit from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandEdit";
+import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
+import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
+import ServerSchedulesPage from "./components/etke.cc/schedules/components/ServerSchedulesPage";
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {
   de: germanMessages,
@@ -68,7 +69,8 @@ export const App = () => (
       <CustomRoutes>
         <Route path="/import_users" element={<UserImport />} />
         <Route path="/server_status" element={<ServerStatusPage />} />
-        <Route path="/scheduler_commands" element={<SchedulerCommandsPage />} />
+        <Route path="/server_schedules" element={<ServerSchedulesPage />} />
+        <Route path="/scheduled_commands/:id/show" element={<ScheduledCommandShow />} />
         <Route path="/scheduled_commands/:id" element={<ScheduledCommandEdit />} />
         <Route path="/scheduled_commands/create" element={<ScheduledCommandEdit />} />
         <Route path="/recurring_command/:id" element={<RecurringCommandEdit />} />

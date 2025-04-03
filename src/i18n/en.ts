@@ -481,6 +481,7 @@ const en: SynapseTranslationMessages = {
   },
   scheduled_commands: {
     action: {
+      create_success: "Scheduled command created successfully",
       update_success: "Scheduled command updated successfully",
       update_failure: "An error has occurred",
       delete_success: "Scheduled command deleted successfully",

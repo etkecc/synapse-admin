@@ -4,9 +4,9 @@ import { Datagrid } from "react-admin";
 import { Box, Paper } from "@mui/material";
 import { ListContextProvider, TextField, DeleteButton, TopToolbar } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
-import { DATE_FORMAT } from "../../../../utils/date";
-import { useRecurringCommands } from "../hooks/useRecurringCommands";
-import { useAppContext } from "../../../../Context";
+import { DATE_FORMAT } from "../../../../../utils/date";
+import { useRecurringCommands } from "../../hooks/useRecurringCommands";
+import { useAppContext } from "../../../../../Context";
 import { useDataProvider } from "react-admin";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
@@ -63,7 +63,6 @@ const RecurringCommandsList = () => {
       <Paper>
         <Datagrid bulkActionButtons={false} rowClick="show">
           <TextField source="command" />
-          <TextField source="id" />
           <TextField source="args" />
           <TextField source="time" label="Time (UTC)" />
           <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Scheduled at (local time)" />

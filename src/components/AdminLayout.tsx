@@ -82,7 +82,7 @@ const AdminMenu = (props) => {
         }
         primaryText="Server Status" />
       }
-      {etkeRoutesEnabled && <Menu.Item key="scheduler_commands" to="/scheduler_commands" leftIcon={<ManageHistoryIcon />} primaryText="Scheduler Commands" />}
+      {etkeRoutesEnabled && <Menu.Item key="server_schedules" to="/server_schedules" leftIcon={<ManageHistoryIcon />} primaryText="Server Schedules" />}
       <Menu.ResourceItems />
       {menu && menu.map((item, index) => {
         const { url, icon, label } = item;
