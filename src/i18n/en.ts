@@ -488,5 +488,14 @@ const en: SynapseTranslationMessages = {
       delete_failure: "An error has occurred",
     },
   },
+  recurring_commands: {
+    action: {
+      create_success: "Recurring command created successfully",
+      update_success: "Recurring command updated successfully",
+      update_failure: "An error has occurred",
+      delete_success: "Recurring command deleted successfully",
+      delete_failure: "An error has occurred",
+    },
+  },
 };
 export default en;

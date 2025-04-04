@@ -1361,6 +1361,11 @@ const baseDataProvider: SynapseDataProvider = {
         throw new Error("Failed to create recurring command");
       }
 
+      if (response.status === 204) {
+        // Return the command object we sent since the server doesn't return data
+        return command as RecurringCommand;
+      }
+
       const json = await response.json();
       return json as RecurringCommand;
     } catch (error) {
@@ -1370,7 +1375,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
   updateRecurringCommand: async (recurringCommandsUrl: string, command: RecurringCommand) => {
     try {
-      const response = await fetch(`${recurringCommandsUrl}/recurrings/${command.id}`, {
+      const response = await fetch(`${recurringCommandsUrl}/recurrings`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -1382,6 +1387,11 @@ const baseDataProvider: SynapseDataProvider = {
       if (!response.ok) {
         console.error(`Error updating recurring command: ${response.status} ${response.statusText}`);
         throw new Error("Failed to update recurring command");
+      }
+
+      if (response.status === 204) {
+        // Return the command object we sent since the server doesn't return data
+        return command as RecurringCommand;
       }
 
       const json = await response.json();

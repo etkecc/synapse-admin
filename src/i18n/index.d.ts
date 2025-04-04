@@ -482,4 +482,13 @@ interface SynapseTranslationMessages extends TranslationMessages {
       delete_failure: string;
     };
   };
+  recurring_commands?: {
+    action: {
+      create_success: string;
+      update_success: string;
+      update_failure: string;
+      delete_success: string;
+      delete_failure: string;
+    };
+  };
 }

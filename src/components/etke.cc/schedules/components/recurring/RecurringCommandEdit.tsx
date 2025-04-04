@@ -4,15 +4,17 @@ import {
   useNavigate,
 } from "react-router-dom";
 import {
-  SimpleForm,
+  Form,
   TextInput,
-  DateTimeInput,
   SaveButton,
   useNotify,
   useDataProvider,
   Loading,
   Button,
+  SelectInput,
+  TimeInput,
 } from "react-admin";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Card,
   CardContent,
@@ -22,29 +24,67 @@ import {
 import { useAppContext } from "../../../../../Context";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useServerCommands } from "../../../hooks/useServerCommands";
+import { useWatch } from "react-hook-form";
+import RecurringDeleteButton from "./RecurringDeleteButton";
+import { RecurringCommand } from "../../../../../synapse/dataProvider";
+
+const transformCommandsToChoices = (commands: Record<string, any>) => {
+  return Object.entries(commands).map(([key, value]) => ({
+    id: key,
+    name: value.name,
+    description: value.description
+  }));
+};
+
+const ArgumentsField = ({ serverCommands }) => {
+  const selectedCommand = useWatch({ name: "command" });
+  const showArgs = selectedCommand && serverCommands[selectedCommand]?.args === true;
+
+  if (!showArgs) return null;
+
+  return <TextInput required source="args" label="Arguments" fullWidth multiline />;
+};
 
 const RecurringCommandEdit = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const notify = useNotify();
   const dataProvider = useDataProvider();
+  const queryClient = useQueryClient();
   const { etkeccAdmin } = useAppContext();
-  const [command, setCommand] = useState({
-    command: "",
-    args: "",
-    time: "00:00",
-    scheduled_at: new Date().toISOString(),
-  });
-  const [loading, setLoading] = useState(id !== "create");
+  const [command, setCommand] = useState<RecurringCommand | undefined>(undefined);
+  const isCreating = typeof id === "undefined";
+  const [loading, setLoading] = useState(!isCreating);
   const { data: recurringCommands, isLoading: isLoadingList } = useRecurringCommands();
-  const isCreating = id === "create";
+  const { serverCommands, isLoading: isLoadingServerCommands } = useServerCommands();
   const pageTitle = isCreating ? "Create Recurring Command" : "Edit Recurring Command";
+
+  const commandChoices = transformCommandsToChoices(serverCommands);
+  const dayOfWeekChoices = [
+    { id: "Monday", name: "Monday" },
+    { id: "Tuesday", name: "Tuesday" },
+    { id: "Wednesday", name: "Wednesday" },
+    { id: "Thursday", name: "Thursday" },
+    { id: "Friday", name: "Friday" },
+    { id: "Saturday", name: "Saturday" },
+    { id: "Sunday", name: "Sunday" },
+  ];
 
   useEffect(() => {
     if (!isCreating && recurringCommands) {
       const commandToEdit = recurringCommands.find(cmd => cmd.id === id);
       if (commandToEdit) {
-        setCommand(commandToEdit);
+        const timeValue = commandToEdit.time || "";
+        const timeParts = timeValue.split(" ");
+
+        const parsedCommand = {
+          ...commandToEdit,
+          day_of_week: timeParts.length > 1 ? timeParts[0] : "Monday",
+          execution_time: timeParts.length > 1 ? timeParts[1] : timeValue
+        };
+
+        setCommand(parsedCommand);
       }
       setLoading(false);
     }
@@ -52,27 +92,55 @@ const RecurringCommandEdit = () => {
 
   const handleSubmit = async (data) => {
     try {
+      // Format the time from the Date object to a string in HH:MM format
+      let formattedTime = "00:00";
+
+      if (data.execution_time instanceof Date) {
+        const hours = String(data.execution_time.getHours()).padStart(2, "0");
+        const minutes = String(data.execution_time.getMinutes()).padStart(2, "0");
+        formattedTime = `${hours}:${minutes}`;
+      } else if (typeof data.execution_time === "string") {
+        formattedTime = data.execution_time;
+      }
+
+      const submissionData = {
+        ...data,
+        time: `${data.day_of_week} ${formattedTime}`,
+      };
+
+      delete submissionData.day_of_week;
+      delete submissionData.execution_time;
+      delete submissionData.scheduled_at;
+
+      // Only include args when it's required for the selected command
+      const selectedCommand = data.command;
+      if (!selectedCommand || !serverCommands[selectedCommand]?.args) {
+        delete submissionData.args;
+      }
+
       let result;
 
       if (isCreating) {
-        result = await dataProvider.createRecurringCommand(etkeccAdmin, data);
-        notify("Recurring command created successfully", { type: "success" });
+        result = await dataProvider.createRecurringCommand(etkeccAdmin, submissionData);
+        notify("recurring_commands.action.create_success", { type: "success" });
       } else {
         result = await dataProvider.updateRecurringCommand(etkeccAdmin, {
-          ...data,
+          ...submissionData,
           id: id,
         });
-        notify("Recurring command updated successfully", { type: "success" });
+        notify("recurring_commands.action.update_success", { type: "success" });
       }
 
-      navigate("/scheduler");
+      // Invalidate scheduled commands queries
+      queryClient.invalidateQueries({ queryKey: ["scheduledCommands"] });
+
+      navigate("/server_schedules");
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      notify(`Error: ${errorMessage}`, { type: "error" });
+      notify("recurring_commands.action.update_failure", { type: "error" });
     }
   };
 
-  if (loading || isLoadingList) {
+  if (loading || isLoadingList || isLoadingServerCommands) {
     return <Loading />;
   }
 
@@ -80,7 +148,7 @@ const RecurringCommandEdit = () => {
     <Box sx={{ mt: 2 }}>
       <Button
         label="Back"
-        onClick={() => navigate("/scheduler")}
+        onClick={() => navigate("/server_schedules")}
         startIcon={<ArrowBackIcon />}
         sx={{ mb: 2 }}
       />
@@ -88,21 +156,24 @@ const RecurringCommandEdit = () => {
       <Card>
         <CardHeader title={pageTitle} />
         <CardContent>
-          <SimpleForm
-            onSubmit={handleSubmit}
-            record={command}
-            warnWhenUnsavedChanges
-          >
+          <Form defaultValues={command || undefined} onSubmit={handleSubmit} record={command || undefined} warnWhenUnsavedChanges>
             <Box display="flex" flexDirection="column" gap={2}>
-              <TextInput source="command" label="Command" fullWidth required />
-              <TextInput source="args" label="Arguments" fullWidth multiline />
-              <TextInput source="time" label="Time (HH:MM in UTC)" fullWidth required />
-              <DateTimeInput source="scheduled_at" label="Initial execution date and time" fullWidth required />
-              <Box mt={2}>
+              {!isCreating && <TextInput readOnly source="id" label="ID" fullWidth required />}
+              <SelectInput source="command" choices={commandChoices} label="Command" fullWidth required />
+              <ArgumentsField serverCommands={serverCommands} />
+              <SelectInput source="day_of_week" choices={dayOfWeekChoices} label="Day of Week" fullWidth required />
+              <TimeInput
+                source="execution_time"
+                label="Time"
+                fullWidth
+                required
+              />
+              <Box mt={2} display="flex" justifyContent="space-between">
                 <SaveButton label={isCreating ? "Create" : "Update"} />
+                {!isCreating && <RecurringDeleteButton />}
               </Box>
             </Box>
-          </SimpleForm>
+          </Form>
         </CardContent>
       </Card>
     </Box>

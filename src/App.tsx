@@ -30,6 +30,7 @@ import ScheduledCommandEdit from "./components/etke.cc/schedules/components/sche
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
 import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
 import ServerSchedulesPage from "./components/etke.cc/schedules/components/ServerSchedulesPage";
+
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {
   de: germanMessages,
@@ -73,7 +74,8 @@ export const App = () => (
         <Route path="/scheduled_commands/:id/show" element={<ScheduledCommandShow />} />
         <Route path="/scheduled_commands/:id" element={<ScheduledCommandEdit />} />
         <Route path="/scheduled_commands/create" element={<ScheduledCommandEdit />} />
-        <Route path="/recurring_command/:id" element={<RecurringCommandEdit />} />
+        <Route path="/recurring_commands/:id" element={<RecurringCommandEdit />} />
+        <Route path="/recurring_commands/create" element={<RecurringCommandEdit />} />
         <Route path="/server_notifications" element={<ServerNotificationsPage />} />
       </CustomRoutes>
       <Resource {...users} />

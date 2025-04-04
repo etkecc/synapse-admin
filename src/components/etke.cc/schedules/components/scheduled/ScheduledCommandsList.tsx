@@ -35,8 +35,8 @@ const ScheduledCommandsList = () => {
   const listContext = useList({
     resource: "scheduled_commands",
     sort: { field: "scheduled_at", order: "DESC" },
-    perPage: 10,
-    data: data || [], // Provide the data from your custom hook
+    perPage: 50,
+    data: data || [],
     isLoading: isLoading,
   });
 

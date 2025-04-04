@@ -1,4 +1,4 @@
-import { Box, Typography, Link, Alert } from "@mui/material";
+import { Box, Typography, Link, Alert, Divider } from "@mui/material";
 import { Stack } from "@mui/material"
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import RestoreIcon from '@mui/icons-material/Restore';
@@ -18,18 +18,22 @@ const ServerSchedulesPage = () => {
           </Typography>
         </Alert>
       </Stack>
-      <Stack spacing={1} direction="column" alignItems="center">
-        <Box sx={{ width: "100%" }}>
-          <Typography variant="h5"><ScheduleIcon sx={{ verticalAlign: "middle" }} /> Scheduled commands:</Typography>
-          <ScheduledCommandsList />
-        </Box>
-      </Stack>
-      <Stack spacing={1} direction="column" alignItems="center">
-        <Box sx={{ width: "100%" }}>
-          <Typography sx={{ mb: 2 }} variant="h5"><RestoreIcon sx={{ verticalAlign: "middle" }} /> Recurring commands:</Typography>
-          <RecurringCommandsList />
-        </Box>
-      </Stack>
+
+      <Box sx={{ mt: 2 }}>
+        <Typography variant="h5">
+          <ScheduleIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Scheduled commands:
+        </Typography>
+        <ScheduledCommandsList />
+      </Box>
+
+      <Divider sx={{ my: 4, borderWidth: 2 }} />
+
+      <Box sx={{ mt: 2 }}>
+        <Typography variant="h5">
+          <RestoreIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Recurring commands:
+        </Typography>
+        <RecurringCommandsList />
+      </Box>
     </Stack>
   );
 };
