@@ -35,6 +35,7 @@ describe("authProvider", () => {
           Accept: "application/json",
           "Content-Type": "application/json",
         }),
+        credentials: "same-origin",
         method: "POST",
       });
       expect(localStorage.getItem("base_url")).toEqual("http://example.com");
@@ -66,6 +67,7 @@ describe("authProvider", () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       }),
+      credentials: "same-origin",
       method: "POST",
     });
     expect(localStorage.getItem("base_url")).toEqual("https://example.com");
@@ -88,6 +90,7 @@ describe("authProvider", () => {
           Authorization: "Bearer foo",
         }),
         method: "POST",
+        credentials: "same-origin",
         user: { authenticated: true, token: "Bearer foo" },
       });
       expect(localStorage.getItem("access_token")).toBeNull();

@@ -1,5 +1,6 @@
 export interface Config {
   restrictBaseUrl: string | string[];
+  corsCredentials: string;
   asManagedUsers: RegExp[];
   menu: MenuItem[];
   etkeccAdmin?: string;
@@ -16,6 +17,7 @@ export const WellKnownKey = "cc.etke.synapse-admin";
 // current configuration
 let config: Config = {
   restrictBaseUrl: "",
+  corsCredentials: "same-origin",
   asManagedUsers: [],
   menu: [],
   etkeccAdmin: ""
@@ -67,6 +69,10 @@ export const FetchConfig = async () => {
 export const LoadConfig = (context: any) => {
   if (context?.restrictBaseUrl) {
     config.restrictBaseUrl = context.restrictBaseUrl as string | string[];
+  }
+
+  if (context?.corsCredentials) {
+    config.corsCredentials = context.corsCredentials;
   }
 
   if (context?.asManagedUsers) {

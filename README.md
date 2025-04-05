@@ -27,6 +27,7 @@
 * [Configuration](#configuration)
   * [Prefilling login form](#prefilling-login-form)
   * [Restricting available homeserver](#restricting-available-homeserver)
+  * [Configuring CORS credentials](#configuring-cors-credentials)
   * [Protecting appservice managed users](#protecting-appservice-managed-users)
   * [Adding custom menu items](#adding-custom-menu-items)
 * [Usage](#usage)
@@ -179,6 +180,12 @@ You can prefill all fields on the login page using GET parameters.
 You can restrict the homeserver(s), so that the user can no longer define it himself.
 
 [Documentation](./docs/restrict-hs.md)
+
+### Configuring CORS credentials
+
+You can configure the CORS credentials mode for the Synapse Admin instance.
+
+[Documentation](./docs/cors-credentials.md)
 
 ### Protecting appservice managed users
 

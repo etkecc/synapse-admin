@@ -23,6 +23,7 @@ const authProvider: AuthProvider = {
     console.log("login ");
     let options: Options = {
       method: "POST",
+      credentials: GetConfig().corsCredentials,
       body: JSON.stringify(
         Object.assign(
           {
@@ -151,6 +152,7 @@ const authProvider: AuthProvider = {
 
     const options: Options = {
       method: "POST",
+      credentials: GetConfig().corsCredentials,
       user: {
         authenticated: true,
         token: `Bearer ${access_token}`,

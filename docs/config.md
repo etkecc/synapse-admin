@@ -28,6 +28,12 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
   The homeserver URL should be the _actual_ homeserver URL, and not the delegated one.
   Example: `https://matrix.example.com` or `https://synapse.example.net`
   [More details](restrict-hs.md)
+* `corsCredentials` - configure the CORS credentials for the Synapse Admin instance.
+  It accepts the following values:
+  * `same-origin` (default): Cookies will be sent only if the request is made from the same origin as the server.
+  * `include`: Cookies will be sent regardless of the origin of the request.
+  * `omit`: Cookies will not be sent with the request.
+  [More details](cors-credentials.md)
 * `asManagedUsers` - protect system user accounts managed by appservices (such as bridges) / system (such as bots) from accidental changes.
   By defining a list of MXID regex patterns, you can protect these accounts from accidental changes.
   Example: `^@baibot:example\\.com$`, `^@slackbot:example\\.com$`, `^@slack_[a-zA-Z0-9\\-]+:example\\.com$`, `^@telegrambot:example\\.com$`, `^@telegram_[a-zA-Z0-9]+:example\\.com$`

@@ -14,6 +14,7 @@ import {
 } from "react-admin";
 
 import { returnMXID } from "../utils/mxid";
+import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
 
 const CACHED_MANY_REF: Record<string, any> = {};
@@ -22,6 +23,7 @@ const CACHED_MANY_REF: Record<string, any> = {};
 const jsonClient = async (url: string, options: Options = {}) => {
   const token = localStorage.getItem("access_token");
   console.log("httpClient " + url);
+  options.credentials = GetConfig().corsCredentials;
   if (token !== null) {
     options.user = {
       authenticated: true,
