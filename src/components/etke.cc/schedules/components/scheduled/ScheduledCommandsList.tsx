@@ -58,9 +58,9 @@ const ScheduledCommandsList = () => {
            return `/${resource}/${id}`;
         }} >
           <TextField source="command" />
-          <TextField source="args" />
-          <BooleanField source="is_recurring" />
-          <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Scheduled at (local time)" />
+          <TextField source="args" label="Arguments" />
+          <BooleanField source="is_recurring" label="Is recurring?"/>
+          <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Run at (local time)" />
         </Datagrid>
       </Paper>
     </ListContextProvider>

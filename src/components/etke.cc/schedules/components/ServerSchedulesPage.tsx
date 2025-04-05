@@ -21,7 +21,11 @@ const ServerSchedulesPage = () => {
 
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5">
-          <ScheduleIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Scheduled commands:
+          <ScheduleIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Scheduled commands
+        </Typography>
+        <Typography variant="body1">
+          The following commands are scheduled to run at specific times. You can view their details and modify them as needed.
+          More details about the mode can be found <Link href="https://etke.cc/help/extras/scheduler/#schedule" target="_blank">here</Link>.
         </Typography>
         <ScheduledCommandsList />
       </Box>
@@ -30,7 +34,12 @@ const ServerSchedulesPage = () => {
 
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5">
-          <RestoreIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Recurring commands:
+          <RestoreIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Recurring commands
+        </Typography>
+        <Typography variant="body1">
+          The following commands are set to run at specific weekday and time (weekly).
+          You can view their details and modify them as needed.
+          More details about the mode can be found <Link href="https://etke.cc/help/extras/scheduler/#recurring" target="_blank">here</Link>.
         </Typography>
         <RecurringCommandsList />
       </Box>

@@ -42,9 +42,9 @@ const RecurringCommandsList = () => {
       <Paper>
         <Datagrid bulkActionButtons={false} rowClick="edit">
           <TextField source="command" />
-          <TextField source="args" />
+          <TextField source="args" label="Arguments" />
           <TextField source="time" label="Time (UTC)" />
-          <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Scheduled at (local time)" />
+          <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Next run at (local time)" />
         </Datagrid>
       </Paper>
     </ListContextProvider>

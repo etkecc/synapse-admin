@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { useAppContext } from "../../../../../Context";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
+import { Typography, Link } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ScheduledCommand } from "../../../../../synapse/dataProvider";
 import ScheduleDeleteButton from "./ScheduledDeleteButton";
@@ -109,13 +110,17 @@ const ScheduledCommandEdit = () => {
 
       <Card>
         <CardHeader title={pageTitle} />
+        {command && (
+          <Typography variant="body" sx={{ px: 2 }}>
+            You can find more details about the command <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">here</Link>.
+          </Typography>
+        )}
         <CardContent>
           <Form defaultValues={command || undefined} onSubmit={handleSubmit} record={command || undefined} warnWhenUnsavedChanges>
             <Box display="flex" flexDirection="column" gap={2}>
               {command && <TextInput readOnly source="id" label="ID" fullWidth required />}
               <SelectInput readOnly={!isCreating} source="command" choices={commandChoices} label="Command" fullWidth required />
               <ArgumentsField serverCommands={serverCommands} />
-              {!isCreating && <BooleanInput readOnly={!isCreating} source="is_recurring" label="Is recurring" />}
               <DateTimeInput source="scheduled_at" label="Scheduled at" fullWidth required />
               <Box mt={2} display="flex" justifyContent="space-between">
                 <SaveButton label={isCreating ? "Create" : "Update"} />

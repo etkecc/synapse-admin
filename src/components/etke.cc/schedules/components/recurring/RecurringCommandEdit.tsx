@@ -20,6 +20,9 @@ import {
   CardContent,
   CardHeader,
   Box,
+  Alert,
+  Typography,
+  Link,
 } from "@mui/material";
 import { useAppContext } from "../../../../../Context";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
@@ -156,6 +159,13 @@ const RecurringCommandEdit = () => {
       <Card>
         <CardHeader title={pageTitle} />
         <CardContent>
+            {command && (
+              <Alert severity="info">
+                <Typography variant="body" sx={{ px: 2 }}>
+                  You can find more details about the command <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">here</Link>.
+                </Typography>
+              </Alert>
+            )}
           <Form defaultValues={command || undefined} onSubmit={handleSubmit} record={command || undefined} warnWhenUnsavedChanges>
             <Box display="flex" flexDirection="column" gap={2}>
               {!isCreating && <TextInput readOnly source="id" label="ID" fullWidth required />}

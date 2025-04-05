@@ -11,7 +11,7 @@ import {
   DateField,
   RecordContextProvider,
 } from "react-admin";
-import { Alert, Box, Card, CardContent, CardHeader } from "@mui/material";
+import { Alert, Box, Card, CardContent, CardHeader, Typography, Link } from "@mui/material";
 import { useAppContext } from "../../../../../Context";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -47,6 +47,7 @@ const ScheduledCommandShow = () => {
     // navigate("/server_schedules");
     return null;
   }
+  console.log(command);
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -61,14 +62,25 @@ const ScheduledCommandShow = () => {
         <Card>
           <CardHeader title="Scheduled Command Details" />
           <CardContent>
+            {command && (
+              <Alert severity="info">
+                <Typography variant="body" sx={{ px: 2 }}>
+                  You can find more details about the command <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">here</Link>.
+                </Typography>
+              </Alert>
+            )}
             <SimpleShowLayout>
               <TextField source="id" label="ID" />
               <TextField source="command" label="Command" />
-              <TextField source="args" label="Arguments" />
+              {command.args && (
+                <TextField source="args" label="Arguments" />
+              )}
               <BooleanField source="is_recurring" label="Is recurring" />
               <DateField source="scheduled_at" label="Scheduled at" showTime />
             </SimpleShowLayout>
-            <Alert severity="warning">Recurring commands are not editable as they will be regenerated on the next run.</Alert>
+            {command.is_recurring && (
+              <Alert severity="warning">Scheduled commands created from a recurring one are not editable as they will be regenerated automatically. Please edit the recurring command instead.</Alert>
+            )}
           </CardContent>
         </Card>
         <Box display="flex" justifyContent="flex-end" mt={2}>
