@@ -112,6 +112,7 @@ The following changes are already implemented:
 * [Respect base url (`BASE_PATH` / `vite build --base`) when loading `config.json`](https://github.com/etkecc/synapse-admin/pull/274)
 * [Add Users' Account Data tab](https://github.com/etkecc/synapse-admin/pull/276)
 * [Make bulk registration CSV import more user-friendly](https://github.com/etkecc/synapse-admin/pull/411)
+* [Configurable CORS Credentials](https://github.com/etkecc/synapse-admin/pull/456)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
