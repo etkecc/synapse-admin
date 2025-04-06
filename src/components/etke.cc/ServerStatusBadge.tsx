@@ -1,48 +1,50 @@
+import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
 import { Avatar, Badge, Box, Theme, Tooltip } from "@mui/material";
-import { useEffect } from "react";
-import { useAppContext } from "../../Context";
-import { Button, useDataProvider, useStore } from "react-admin";
-import { styled } from '@mui/material/styles';
-import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
 import { BadgeProps } from "@mui/material/Badge";
-import { useNavigate } from "react-router";
+import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
+import { useEffect } from "react";
+import { Button, useDataProvider, useStore } from "react-admin";
+import { useNavigate } from "react-router";
+
+import { useAppContext } from "../../Context";
 import { ServerProcessResponse, ServerStatusResponse } from "../../synapse/dataProvider";
 
 interface StyledBadgeProps extends BadgeProps {
   backgroundColor: string;
-  badgeColor: string
+  badgeColor: string;
   theme?: Theme;
 }
 
-const StyledBadge = styled(Badge, { shouldForwardProp: (prop) => !['badgeColor', 'backgroundColor'].includes(prop as string) })<StyledBadgeProps>
-  (({ theme, backgroundColor, badgeColor }) => ({
-    '& .MuiBadge-badge': {
-      backgroundColor: backgroundColor,
-      color: badgeColor,
-      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-      '&::after': {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        borderRadius: '50%',
-        animation: 'ripple 2.5s infinite ease-in-out',
-        border: '1px solid currentColor',
-        content: '""',
-      },
+const StyledBadge = styled(Badge, {
+  shouldForwardProp: prop => !["badgeColor", "backgroundColor"].includes(prop as string),
+})<StyledBadgeProps>(({ theme, backgroundColor, badgeColor }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: backgroundColor,
+    color: badgeColor,
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 2.5s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
     },
-    '@keyframes ripple': {
-      '0%': {
-        transform: 'scale(.8)',
-        opacity: 1,
-      },
-      '100%': {
-        transform: 'scale(2.4)',
-        opacity: 0,
-      },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
     },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
 }));
 
 // every 5 minutes
@@ -51,8 +53,16 @@ const SERVER_STATUS_INTERVAL_TIME = 5 * 60 * 1000;
 const SERVER_CURRENT_PROCCESS_INTERVAL_TIME = 5 * 1000;
 
 const useServerStatus = () => {
-  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", { ok: false, success: false, host: "", results: [] });
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
+  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
+    ok: false,
+    success: false,
+    host: "",
+    results: [],
+  });
+  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+    command: "",
+    locked_at: "",
+  });
   const { command, locked_at } = serverProcess;
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
@@ -79,7 +89,7 @@ const useServerStatus = () => {
         // start the interval after 10 seconds to avoid too many requests
         serverStatusInterval = setInterval(checkServerStatus, SERVER_STATUS_INTERVAL_TIME);
       }, 10000);
-    }  else {
+    } else {
       setServerStatus({ ok: false, success: false, host: "", results: [] });
     }
 
@@ -90,26 +100,32 @@ const useServerStatus = () => {
       if (serverStatusInterval) {
         clearInterval(serverStatusInterval);
       }
-    }
+    };
   }, [etkeccAdmin, command]);
 
   return { isOkay, successCheck };
 };
 
 const useCurrentServerProcess = () => {
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
+  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+    command: "",
+    locked_at: "",
+  });
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const { command, locked_at } = serverProcess;
 
   const checkServerRunningProcess = async () => {
-    const serverProcess: ServerProcessResponse = await dataProvider.getServerRunningProcess(etkeccAdmin, command !== "");
+    const serverProcess: ServerProcessResponse = await dataProvider.getServerRunningProcess(
+      etkeccAdmin,
+      command !== ""
+    );
     setServerProcess({
       ...serverProcess,
       command: serverProcess.command,
-      locked_at: serverProcess.locked_at
+      locked_at: serverProcess.locked_at,
     });
-  }
+  };
 
   useEffect(() => {
     let serverCheckInterval: NodeJS.Timeout | null = null;
@@ -131,13 +147,23 @@ const useCurrentServerProcess = () => {
       if (serverCheckInterval) {
         clearInterval(serverCheckInterval);
       }
-    }
+    };
   }, [etkeccAdmin, command]);
 
   return { command, locked_at };
 };
 
-export const ServerStatusStyledBadge = ({ command, locked_at, isOkay, inSidebar = false }: { command: string, locked_at: string, isOkay: boolean, inSidebar: boolean }) => {
+export const ServerStatusStyledBadge = ({
+  command,
+  locked_at,
+  isOkay,
+  inSidebar = false,
+}: {
+  command: string;
+  locked_at: string;
+  isOkay: boolean;
+  inSidebar: boolean;
+}) => {
   const theme = useTheme();
   let badgeBackgroundColor = isOkay ? theme.palette.success.light : theme.palette.error.main;
   let badgeColor = isOkay ? theme.palette.success.light : theme.palette.error.main;
@@ -151,9 +177,10 @@ export const ServerStatusStyledBadge = ({ command, locked_at, isOkay, inSidebar 
     avatarBackgroundColor = theme.palette.grey[600];
   }
 
-  return <StyledBadge
+  return (
+    <StyledBadge
       overlap="circular"
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       variant="dot"
       backgroundColor={badgeBackgroundColor}
       badgeColor={badgeColor}
@@ -161,35 +188,43 @@ export const ServerStatusStyledBadge = ({ command, locked_at, isOkay, inSidebar 
       <Avatar sx={{ height: 24, width: 24, background: avatarBackgroundColor }}>
         <MonitorHeartIcon sx={{ height: 22, width: 22, color: theme.palette.common.white }} />
       </Avatar>
-  </StyledBadge>
+    </StyledBadge>
+  );
 };
 
 const ServerStatusBadge = () => {
-    const { isOkay, successCheck } = useServerStatus();
-    const { command, locked_at } = useCurrentServerProcess();
-    const navigate = useNavigate();
+  const { isOkay, successCheck } = useServerStatus();
+  const { command, locked_at } = useCurrentServerProcess();
+  const navigate = useNavigate();
 
-    if (!successCheck) {
-      return null;
-    }
+  if (!successCheck) {
+    return null;
+  }
 
-    const handleServerStatusClick = () => {
-      navigate("/server_status");
-    };
+  const handleServerStatusClick = () => {
+    navigate("/server_status");
+  };
 
-    let tooltipText = "Click to view Server Status";
+  let tooltipText = "Click to view Server Status";
 
-    if (command && locked_at) {
-      tooltipText = `Running: ${command}; ${tooltipText}`;
-    }
+  if (command && locked_at) {
+    tooltipText = `Running: ${command}; ${tooltipText}`;
+  }
 
-    return <Button onClick={handleServerStatusClick} size="medium" sx={{ minWidth: "auto", ".MuiButton-startIcon": { m: 0 }}}>
+  return (
+    <Button onClick={handleServerStatusClick} size="medium" sx={{ minWidth: "auto", ".MuiButton-startIcon": { m: 0 } }}>
       <Tooltip title={tooltipText} sx={{ cursor: "pointer" }}>
-          <Box>
-            <ServerStatusStyledBadge inSidebar={false} command={command || ""} locked_at={locked_at || ""} isOkay={isOkay} />
-          </Box>
+        <Box>
+          <ServerStatusStyledBadge
+            inSidebar={false}
+            command={command || ""}
+            locked_at={locked_at || ""}
+            isOkay={isOkay}
+          />
+        </Box>
       </Tooltip>
     </Button>
+  );
 };
 
 export default ServerStatusBadge;

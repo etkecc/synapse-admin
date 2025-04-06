@@ -1,11 +1,12 @@
-import { Box, Typography, Paper, Button } from "@mui/material"
-import { Stack } from "@mui/material"
-import { useStore } from "react-admin"
-import dataProvider, { ServerNotificationsResponse } from "../../synapse/dataProvider"
-import { useAppContext } from "../../Context";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getTimeSince } from "../../utils/date";
+import { Box, Typography, Paper, Button } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Tooltip } from "@mui/material";
+import { useStore } from "react-admin";
+
+import { useAppContext } from "../../Context";
+import dataProvider, { ServerNotificationsResponse } from "../../synapse/dataProvider";
+import { getTimeSince } from "../../utils/date";
 
 const DisplayTime = ({ date }: { date: string }) => {
   const dateFromDateString = new Date(date.replace(" ", "T") + "Z");
@@ -15,8 +16,8 @@ const DisplayTime = ({ date }: { date: string }) => {
 const ServerNotificationsPage = () => {
   const { etkeccAdmin } = useAppContext();
   const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", {
-      notifications: [],
-      success: false,
+    notifications: [],
+    success: false,
   });
 
   const notifications = serverNotifications.notifications;
@@ -26,13 +27,17 @@ const ServerNotificationsPage = () => {
       <Stack spacing={1} direction="row" alignItems="center">
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", gap: 1 }}>
           <Typography variant="h4">Server Notifications</Typography>
-          <Button variant="text" color="error" onClick={async () => {
-            await dataProvider.deleteServerNotifications(etkeccAdmin);
-            setServerNotifications({
-              notifications: [],
-              success: true,
-            });
-          }}>
+          <Button
+            variant="text"
+            color="error"
+            onClick={async () => {
+              await dataProvider.deleteServerNotifications(etkeccAdmin);
+              setServerNotifications({
+                notifications: [],
+                success: true,
+              });
+            }}
+          >
             <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> Clear
           </Button>
         </Box>

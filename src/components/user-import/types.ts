@@ -14,7 +14,7 @@ export interface ImportLine {
 }
 
 export interface ParsedStats {
-  user_types: { [key: string]: number };
+  user_types: Record<string, number>;
   is_guest: number;
   admin: number;
   deactivated: number;

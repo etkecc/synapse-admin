@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
 import fetchMock from "jest-fetch-mock";
+import { BrowserRouter } from "react-router-dom";
 fetchMock.enableMocks();
 
 jest.mock("./synapse/authProvider", () => ({

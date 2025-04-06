@@ -10,6 +10,6 @@ const decodeURLComponent = (str: any): any => {
   } catch (e) {
     return str;
   }
-}
+};
 
 export default decodeURLComponent;

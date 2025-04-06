@@ -1,4 +1,5 @@
 import { Identifier } from "ra-core";
+
 import { GetConfig } from "../utils/config";
 
 const mxidPattern = /^@[^@:]+:[^@:]+$/;
@@ -56,6 +57,6 @@ export function returnMXID(input: string | Identifier): string {
   }
 
   // If input is not a valid MXID, assume it's a localpart and construct the MXID
-  const localpart = typeof input === 'string' && inputStr.startsWith('@') ? inputStr.slice(1) : inputStr;
+  const localpart = typeof input === "string" && inputStr.startsWith("@") ? inputStr.slice(1) : inputStr;
   return `@${localpart}:${homeserver}`;
 }

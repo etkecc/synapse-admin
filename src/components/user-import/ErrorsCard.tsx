@@ -1,11 +1,4 @@
-import {
-  Container,
-  Paper,
-  CardHeader,
-  CardContent,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Container, Paper, CardHeader, CardContent, Stack, Typography } from "@mui/material";
 import { useTranslate } from "ra-core";
 
 const ErrorsCard = ({ errors }: { errors: string[] }) => {
@@ -23,16 +16,16 @@ const ErrorsCard = ({ errors }: { errors: string[] }) => {
           sx={{
             borderBottom: 1,
             borderColor: "error.main",
-            color: "error.main"
+            color: "error.main",
           }}
-      />
-      <CardContent>
-        <Stack spacing={1}>
-          {errors.map((e, idx) => (
-            <Typography key={idx} color="error">
-              {e}
-            </Typography>
-          ))}
+        />
+        <CardContent>
+          <Stack spacing={1}>
+            {errors.map((e, idx) => (
+              <Typography key={idx} color="error">
+                {e}
+              </Typography>
+            ))}
           </Stack>
         </CardContent>
       </Paper>

@@ -1,10 +1,18 @@
 import { CardHeader, CardContent, Container, Link, Stack, Typography, Paper } from "@mui/material";
-
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
+
 import { Progress } from "./types";
 
-const UploadCard = ({ importResults, onFileChange, progress }: { importResults: any, onFileChange: ChangeEventHandler<HTMLInputElement>, progress: Progress }) => {
+const UploadCard = ({
+  importResults,
+  onFileChange,
+  progress,
+}: {
+  importResults: any;
+  onFileChange: ChangeEventHandler<HTMLInputElement>;
+  progress: Progress;
+}) => {
   const translate = useTranslate();
   if (importResults) {
     return null;

@@ -1,17 +1,26 @@
-import { get } from "lodash";
-import { useState } from "react";
-
 import BlockIcon from "@mui/icons-material/Block";
 import IconCancel from "@mui/icons-material/Cancel";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import DownloadIcon from "@mui/icons-material/Download";
+import DownloadingIcon from "@mui/icons-material/Downloading";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import DownloadIcon from '@mui/icons-material/Download';
-import DownloadingIcon from '@mui/icons-material/Downloading';
-import { Grid2 as Grid, Box, Dialog, DialogContent, DialogContentText, DialogTitle, Tooltip, Link } from "@mui/material";
+import {
+  Grid2 as Grid,
+  Box,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Tooltip,
+  Link,
+} from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
+import { useMutation } from "@tanstack/react-query";
+import { get } from "lodash";
+import { useState } from "react";
 import {
   BooleanInput,
   Button,
@@ -30,12 +39,11 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import { useMutation } from "@tanstack/react-query";
 
-import { dateParser } from "../utils/date";
 import { DeleteMediaParams, SynapseDataProvider } from "../synapse/dataProvider";
-import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
+import { dateParser } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";
+import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
   const translate = useTranslate();
@@ -55,24 +63,9 @@ const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
       <DialogContent>
         <DialogContentText>{translate("delete_media.helper.send")}</DialogContentText>
         <SimpleForm toolbar={<DeleteMediaToolbar />} onSubmit={onSubmit}>
-          <DateTimeInput
-            source="before_ts"
-            label="delete_media.fields.before_ts"
-            defaultValue={0}
-            parse={dateParser}
-          />
-          <NumberInput
-            source="size_gt"
-            label="delete_media.fields.size_gt"
-            defaultValue={0}
-            min={0}
-            step={1024}
-          />
-          <BooleanInput
-            source="keep_profiles"
-            label="delete_media.fields.keep_profiles"
-            defaultValue={true}
-          />
+          <DateTimeInput source="before_ts" label="delete_media.fields.before_ts" defaultValue={0} parse={dateParser} />
+          <NumberInput source="size_gt" label="delete_media.fields.size_gt" defaultValue={0} min={0} step={1024} />
+          <BooleanInput source="keep_profiles" label="delete_media.fields.keep_profiles" defaultValue={true} />
         </SimpleForm>
       </DialogContent>
     </Dialog>
@@ -410,7 +403,7 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
     document.body.appendChild(anchorElement);
     anchorElement.click();
     document.body.removeChild(anchorElement);
-    setTimeout(() => URL.revokeObjectURL(blobURL), 10);;
+    setTimeout(() => URL.revokeObjectURL(blobURL), 10);
   };
 
   const handleFile = async (preview: boolean) => {
@@ -460,7 +453,7 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
           onClick={() => handleFile(false)}
           style={{ minWidth: 0, padding: 0, marginRight: 8 }}
         >
-        {loading ? <DownloadingIcon /> : <DownloadIcon />}
+          {loading ? <DownloadingIcon /> : <DownloadIcon />}
         </Button>
         <span>{label}</span>
       </Box>
@@ -491,7 +484,7 @@ export const MediaIDField = ({ source }) => {
     mxcURL = `mxc://${homeserver}/${mediaID}`;
   }
 
-  return <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type}/>;
+  return <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type} />;
 };
 
 export const ReportMediaContent = ({ source }) => {
@@ -510,5 +503,5 @@ export const ReportMediaContent = ({ source }) => {
     uploadName = decodeURLComponent(get(record, "event_json.content.body")?.toString());
   }
 
-  return <ViewMediaButton mxcURL={mxcURL} label={mxcURL} uploadName={uploadName} mimetype={record.media_type}/>;
+  return <ViewMediaButton mxcURL={mxcURL} label={mxcURL} uploadName={uploadName} mimetype={record.media_type} />;
 };

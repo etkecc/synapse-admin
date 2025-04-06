@@ -1,9 +1,26 @@
-import { Badge, useTheme, Button, Paper, Popper, ClickAwayListener, Box, List, ListItem, ListItemText, Typography, ListSubheader, IconButton, Divider, Tooltip } from "@mui/material";
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import DeleteIcon from "@mui/icons-material/Delete";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import {
+  Badge,
+  useTheme,
+  Button,
+  Paper,
+  Popper,
+  ClickAwayListener,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  ListSubheader,
+  IconButton,
+  Divider,
+  Tooltip,
+} from "@mui/material";
+import { Fragment, useEffect, useState } from "react";
 import { useDataProvider, useStore } from "react-admin";
 import { useNavigate } from "react-router";
-import { Fragment, useEffect, useState } from "react";
+
 import { useAppContext } from "../../Context";
 import { ServerNotificationsResponse, ServerProcessResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
@@ -12,8 +29,14 @@ import { getTimeSince } from "../../utils/date";
 const SERVER_NOTIFICATIONS_INTERVAL_TIME = 300000;
 
 const useServerNotifications = () => {
-  const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", { notifications: [], success: false });
-  const [ serverProcess, setServerProcess ] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
+  const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", {
+    notifications: [],
+    success: false,
+  });
+  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+    command: "",
+    locked_at: "",
+  });
   const { command, locked_at } = serverProcess;
 
   const { etkeccAdmin } = useAppContext();
@@ -21,13 +44,16 @@ const useServerNotifications = () => {
   const { notifications, success } = serverNotifications;
 
   const fetchNotifications = async () => {
-    const notificationsResponse: ServerNotificationsResponse = await dataProvider.getServerNotifications(etkeccAdmin, command !== "");
+    const notificationsResponse: ServerNotificationsResponse = await dataProvider.getServerNotifications(
+      etkeccAdmin,
+      command !== ""
+    );
     const serverNotifications = [...notificationsResponse.notifications];
     serverNotifications.reverse();
     setServerNotifications({
       ...notificationsResponse,
       notifications: serverNotifications,
-      success: notificationsResponse.success
+      success: notificationsResponse.success,
     });
   };
 
@@ -60,7 +86,7 @@ const useServerNotifications = () => {
       if (serverNotificationsInterval) {
         clearInterval(serverNotificationsInterval);
       }
-    }
+    };
   }, [etkeccAdmin, command, locked_at]);
 
   return { success, notifications, deleteServerNotifications };
@@ -89,7 +115,7 @@ export const ServerNotificationsBadge = () => {
   };
 
   const handleClearAllNotifications = async () => {
-    deleteServerNotifications()
+    deleteServerNotifications();
     handleClose();
   };
 
@@ -100,20 +126,21 @@ export const ServerNotificationsBadge = () => {
   return (
     <Box>
       <IconButton onClick={handleOpen} sx={{ color: theme.palette.common.white }}>
-        <Tooltip title={notifications && notifications.length > 0 ? `${notifications.length} new notifications` : `No notifications yet`}>
-        {notifications && notifications.length > 0 && (
-          <Badge badgeContent={notifications.length} color="error">
-            <NotificationsIcon />
-          </Badge>
-        ) || <NotificationsIcon />}
+        <Tooltip
+          title={
+            notifications && notifications.length > 0
+              ? `${notifications.length} new notifications`
+              : `No notifications yet`
+          }
+        >
+          {(notifications && notifications.length > 0 && (
+            <Badge badgeContent={notifications.length} color="error">
+              <NotificationsIcon />
+            </Badge>
+          )) || <NotificationsIcon />}
         </Tooltip>
       </IconButton>
-      <Popper
-        open={open}
-        anchorEl={anchorEl}
-        placement="bottom-end"
-        style={{ zIndex: 1300 }}
-      >
+      <Popper open={open} anchorEl={anchorEl} placement="bottom-end" style={{ zIndex: 1300 }}>
         <ClickAwayListener onClickAway={handleClose}>
           <Paper
             elevation={3}
@@ -125,12 +152,14 @@ export const ServerNotificationsBadge = () => {
               minWidth: "300px",
               maxWidth: {
                 xs: "100vw", // Full width on mobile
-                sm: "400px"  // Fixed width on desktop
-              }
+                sm: "400px", // Fixed width on desktop
+              },
             }}
           >
-            {(!notifications || notifications.length === 0) ? (
-              <Typography sx={{ p: 1 }} variant="body2">No new notifications</Typography>
+            {!notifications || notifications.length === 0 ? (
+              <Typography sx={{ p: 1 }} variant="body2">
+                No new notifications
+              </Typography>
             ) : (
               <List sx={{ p: 0 }} dense={true}>
                 <ListSubheader
@@ -141,46 +170,55 @@ export const ServerNotificationsBadge = () => {
                     fontWeight: "bold",
                   }}
                 >
-                    <Typography variant="h6">Notifications</Typography>
-                    <Box sx={{ cursor: "pointer", color: theme.palette.primary.main }} onClick={() => handleSeeAllNotifications()}>See all notifications</Box>
-                  </ListSubheader>
+                  <Typography variant="h6">Notifications</Typography>
+                  <Box
+                    sx={{ cursor: "pointer", color: theme.palette.primary.main }}
+                    onClick={() => handleSeeAllNotifications()}
+                  >
+                    See all notifications
+                  </Box>
+                </ListSubheader>
                 <Divider />
                 {notifications.map((notification, index) => {
-                  return (<Fragment key={notification.event_id ? notification.event_id + index : index }>
-                    <ListItem
-                      onClick={() => handleSeeAllNotifications()}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        overflow: "hidden",
-                        "&:hover": {
-                          backgroundColor: "action.hover",
-                          cursor: "pointer"
-                        }
-                      }}
-                    >
-                      <ListItemText
-                        primary={
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                            dangerouslySetInnerHTML={{ __html: notification.output.split("\n")[0] }}
-                          />
-                        }
-                      />
-                      <ListItemText
-                        primary={
-                          <Typography variant="body2" sx={{ color: theme.palette.text.secondary }}>{getTimeSince(notification.sent_at) + " ago"}</Typography>
-                        }
-                      />
-                    </ListItem>
-                    <Divider />
-                  </Fragment>
-                )})}
+                  return (
+                    <Fragment key={notification.event_id ? notification.event_id + index : index}>
+                      <ListItem
+                        onClick={() => handleSeeAllNotifications()}
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          overflow: "hidden",
+                          "&:hover": {
+                            backgroundColor: "action.hover",
+                            cursor: "pointer",
+                          },
+                        }}
+                      >
+                        <ListItemText
+                          primary={
+                            <Typography
+                              variant="body2"
+                              sx={{
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                              dangerouslySetInnerHTML={{ __html: notification.output.split("\n")[0] }}
+                            />
+                          }
+                        />
+                        <ListItemText
+                          primary={
+                            <Typography variant="body2" sx={{ color: theme.palette.text.secondary }}>
+                              {getTimeSince(notification.sent_at) + " ago"}
+                            </Typography>
+                          }
+                        />
+                      </ListItem>
+                      <Divider />
+                    </Fragment>
+                  );
+                })}
                 <ListItem>
                   <Button
                     key="clear-all-notifications"
@@ -190,7 +228,7 @@ export const ServerNotificationsBadge = () => {
                     sx={{
                       pl: 0,
                       pt: 1,
-                      verticalAlign: "middle"
+                      verticalAlign: "middle",
                     }}
                   >
                     <DeleteIcon fontSize="small" sx={{ mr: 1 }} />

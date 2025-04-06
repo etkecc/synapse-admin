@@ -1,11 +1,12 @@
+import { parse as parseCsv, unparse as unparseCsv, ParseResult } from "papaparse";
 import { ChangeEvent, useState } from "react";
 import { useTranslate, useNotify, HttpError } from "react-admin";
-import { parse as parseCsv, unparse as unparseCsv, ParseResult } from "papaparse";
+
+import { ImportLine, ParsedStats, Progress, ImportResult, ChangeStats } from "./types";
 import dataProvider from "../../synapse/dataProvider";
 import { returnMXID } from "../../utils/mxid";
-import { generateRandomPassword } from "../../utils/password";
 import { generateRandomMXID } from "../../utils/mxid";
-import { ImportLine, ParsedStats, Progress, ImportResult, ChangeStats } from "./types";
+import { generateRandomPassword } from "../../utils/password";
 
 const LOGGING = true;
 
@@ -76,7 +77,6 @@ const useImportFile = () => {
       setErrors([translate("import_users.error.required_field", { field: missingFields[0] })]);
       return false;
     }
-
 
     /* Collect some stats to prevent sneaky csv files from adding admin
        users or something.
@@ -327,7 +327,7 @@ const useImportFile = () => {
         translate("import_users.error.at_entry", {
           entry: entriesDone + 1,
           message: e instanceof Error ? e.message : String(e),
-        })
+        }),
       ]);
       setProgress(null);
     }
@@ -370,8 +370,8 @@ const useImportFile = () => {
     onPasswordModeChange,
     onUseridModeChanged,
     onFileChange,
-    downloadSkippedRecords
-  }
-}
+    downloadSkippedRecords,
+  };
+};
 
 export default useImportFile;

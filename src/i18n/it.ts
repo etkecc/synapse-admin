@@ -17,7 +17,8 @@ const it: SynapseTranslationMessages = {
       access_token: "Token di accesso",
       logout_acces_token_dialog: {
         title: "Stai utilizzando un token di accesso Matrix esistente.",
-        content: "Vuoi distruggere questa sessione (che potrebbe essere utilizzata altrove, ad esempio in un client Matrix) o semplicemente disconnetterti dal pannello di amministrazione?",
+        content:
+          "Vuoi distruggere questa sessione (che potrebbe essere utilizzata altrove, ad esempio in un client Matrix) o semplicemente disconnetterti dal pannello di amministrazione?",
         confirm: "Distruggi sessione",
         cancel: "Disconnetti solo dal pannello di amministrazione",
       },
@@ -166,7 +167,8 @@ const it: SynapseTranslationMessages = {
         deactivate: "Devi fornire una password per riattivare l'account.",
         suspend: "Sospendi l'utente",
         erase: "Constrassegna l'utente come cancellato dal GDPR",
-        erase_text: "Ciò significa che i messaggi inviati dall'utente (o dagli utenti) saranno ancora visibili da chiunque si trovasse nella stanza al momento dell'invio, ma saranno nascosti agli utenti che si uniranno alla stanza in seguito.",
+        erase_text:
+          "Ciò significa che i messaggi inviati dall'utente (o dagli utenti) saranno ancora visibili da chiunque si trovasse nella stanza al momento dell'invio, ma saranno nascosti agli utenti che si uniranno alla stanza in seguito.",
         erase_admin_error: "Non è consentito eliminare il proprio utente.",
         modify_managed_user_error: "La modifica di un utente gestito dal sistema non è consentita.",
         username_available: "Nome utente disponibile",
@@ -186,7 +188,8 @@ const it: SynapseTranslationMessages = {
         redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
         generate_password: "Genera password",
         overwrite_title: "Attenzione!",
-        overwrite_content: "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",
+        overwrite_content:
+          "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",
         overwrite_cancel: "Annulla",
         overwrite_confirm: "Sovrascrivi",
       },
@@ -200,7 +203,7 @@ const it: SynapseTranslationMessages = {
         title: "Dati del profilo",
         global: "Globale",
         rooms: "Stanza",
-      }
+      },
     },
     rooms: {
       name: "Stanza |||| Stanze",
@@ -228,230 +231,231 @@ const it: SynapseTranslationMessages = {
       helper: {
         /*        forward_extremities:
                   "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.", */
-        },
-        enums: {
+      },
+      enums: {
         join_rules: {
-        public: "Pubblica",
-        knock: "Bussa",
-        invite: "Invita",
-        private: "Privata",
+          public: "Pubblica",
+          knock: "Bussa",
+          invite: "Invita",
+          private: "Privata",
+        },
+        guest_access: {
+          can_join: "Gli utenti ospiti possono entrare",
+          forbidden: "Gli utenti ospiti non possono entrare",
+        },
+        history_visibility: {
+          invited: "Dall'invito",
+          joined: "Dall'entrata",
+          shared: "Dalla condivisione",
+          world_readable: "Chiunque",
+        },
+        unencrypted: "Non criptata",
       },
-      guest_access: {
-        can_join: "Gli utenti ospiti possono entrare",
-        forbidden: "Gli utenti ospiti non possono entrare",
-      },
-      history_visibility: {
-        invited: "Dall'invito",
-        joined: "Dall'entrata",
-        shared: "Dalla condivisione",
-        world_readable: "Chiunque",
-      },
-      unencrypted: "Non criptata",
-    },
-    action: {
-      erase: {
-        title: "Cancella stanza",
-        content:
-          "Sei sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
-      },
-      make_admin: {
-        assign_admin: "Assegna un amministratore",
-        title: "Assegna un amministratore alla stanza %{roomName}",
-        confirm: "Assegna un amministratore",
-        content: "Inserisci la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
-        success: "L'utente è stato designato come amministratore della stanza.",
-        failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
-      }
-    },
-  },
-  reports: {
-    name: "Evento segnalato |||| Eventi segnalati",
-    fields: {
-      id: "ID",
-      received_ts: "Orario del report",
-      user_id: "richiedente",
-      name: "nome della stanza",
-      score: "punteggio",
-      reason: "ragione",
-      event_id: "ID dell'evento",
-      event_json: {
-        origin: "server di origine",
-        origin_server_ts: "ora dell'invio",
-        type: "tipo di evento",
-        content: {
-          msgtype: "tipo di contenuto",
-          body: "contenuto",
-          format: "formato",
-          formatted_body: "contenuto formattato",
-          algorithm: "algoritmo",
+      action: {
+        erase: {
+          title: "Cancella stanza",
+          content:
+            "Sei sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
+        },
+        make_admin: {
+          assign_admin: "Assegna un amministratore",
+          title: "Assegna un amministratore alla stanza %{roomName}",
+          confirm: "Assegna un amministratore",
+          content:
+            "Inserisci la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
+          success: "L'utente è stato designato come amministratore della stanza.",
+          failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
         },
       },
     },
-  },
-  connections: {
-    name: "Connessioni",
-    fields: {
-      last_seen: "Data",
-      ip: "Indirizzo IP",
-      user_agent: "agente utente",
-    },
-  },
-  devices: {
-    name: "Dispositivo |||| Dispositivi",
-    fields: {
-      device_id: "ID del dispositivo",
-      display_name: "Nome del dispositivo",
-      last_seen_ts: "Timestamp",
-      last_seen_ip: "Indirizzo IP",
-    },
-    action: {
-      erase: {
-        title: "Rimozione del dispositivo %{id}",
-        content: 'Sei sicuro di voler rimuovere il dispositivo "%{name}"?',
-        success: "Dispositivo rimosso con successo.",
-        failure: "C'è stato un errore.",
+    reports: {
+      name: "Evento segnalato |||| Eventi segnalati",
+      fields: {
+        id: "ID",
+        received_ts: "Orario del report",
+        user_id: "richiedente",
+        name: "nome della stanza",
+        score: "punteggio",
+        reason: "ragione",
+        event_id: "ID dell'evento",
+        event_json: {
+          origin: "server di origine",
+          origin_server_ts: "ora dell'invio",
+          type: "tipo di evento",
+          content: {
+            msgtype: "tipo di contenuto",
+            body: "contenuto",
+            format: "formato",
+            formatted_body: "contenuto formattato",
+            algorithm: "algoritmo",
+          },
+        },
       },
     },
-  },
-  users_media: {
-    name: "Media",
-    fields: {
-      media_id: "ID del media",
-      media_length: "Peso del file (in Byte)",
-      media_type: "Tipo",
-      upload_name: "Nome del file",
-      quarantined_by: "In quarantena da",
-      safe_from_quarantine: "Protetto dalla quarantena",
-      created_ts: "Creato",
-      last_access_ts: "Ultimo accesso",
+    connections: {
+      name: "Connessioni",
+      fields: {
+        last_seen: "Data",
+        ip: "Indirizzo IP",
+        user_agent: "agente utente",
+      },
     },
-  },
-  protect_media: {
-    action: {
-      create: "Non protetto, proteggi",
-      delete: "Protetto, rimuovi protezione",
-      none: "In quarantena",
-      send_success: "Stato della protezione cambiato con successo.",
-      send_failure: "C'è stato un errore.",
+    devices: {
+      name: "Dispositivo |||| Dispositivi",
+      fields: {
+        device_id: "ID del dispositivo",
+        display_name: "Nome del dispositivo",
+        last_seen_ts: "Timestamp",
+        last_seen_ip: "Indirizzo IP",
+      },
+      action: {
+        erase: {
+          title: "Rimozione del dispositivo %{id}",
+          content: 'Sei sicuro di voler rimuovere il dispositivo "%{name}"?',
+          success: "Dispositivo rimosso con successo.",
+          failure: "C'è stato un errore.",
+        },
+      },
     },
-  },
-  quarantine_media: {
-    action: {
-      name: "Quarantina",
-      create: "Aggiungi alla quarantena",
-      delete: "In quarantena, rimuovi dalla quarantena",
-      none: "Protetto dalla quarantena",
-      send_success: "Stato della quarantena cambiato con successo.",
-      send_failure: "C'è stato un errore.",
+    users_media: {
+      name: "Media",
+      fields: {
+        media_id: "ID del media",
+        media_length: "Peso del file (in Byte)",
+        media_type: "Tipo",
+        upload_name: "Nome del file",
+        quarantined_by: "In quarantena da",
+        safe_from_quarantine: "Protetto dalla quarantena",
+        created_ts: "Creato",
+        last_access_ts: "Ultimo accesso",
+      },
     },
-  },
-  pushers: {
-    name: "Pusher |||| Pusher",
-    fields: {
-      app: "App",
-      app_display_name: "Nome dell'app",
-      app_id: "ID dell'app",
-      device_display_name: "Nome del dispositivo",
-      kind: "Tipo",
-      lang: "Lingua",
-      profile_tag: "Tag del profilo",
-      pushkey: "Pushkey",
-      data: { url: "URL" },
+    protect_media: {
+      action: {
+        create: "Non protetto, proteggi",
+        delete: "Protetto, rimuovi protezione",
+        none: "In quarantena",
+        send_success: "Stato della protezione cambiato con successo.",
+        send_failure: "C'è stato un errore.",
+      },
     },
-  },
-  servernotices: {
-    name: "Avvisi del server",
-    send: "Invia avvisi",
-    fields: {
-      body: "Messaggio",
+    quarantine_media: {
+      action: {
+        name: "Quarantina",
+        create: "Aggiungi alla quarantena",
+        delete: "In quarantena, rimuovi dalla quarantena",
+        none: "Protetto dalla quarantena",
+        send_success: "Stato della quarantena cambiato con successo.",
+        send_failure: "C'è stato un errore.",
+      },
     },
-    action: {
-      send: "Invia nota",
-      send_success: "Avviso inviato con successo.",
-      send_failure: "C'è stato un errore.",
+    pushers: {
+      name: "Pusher |||| Pusher",
+      fields: {
+        app: "App",
+        app_display_name: "Nome dell'app",
+        app_id: "ID dell'app",
+        device_display_name: "Nome del dispositivo",
+        kind: "Tipo",
+        lang: "Lingua",
+        profile_tag: "Tag del profilo",
+        pushkey: "Pushkey",
+        data: { url: "URL" },
+      },
     },
-    helper: {
-      send: 'Invia un avviso dal server agli utenti selezionati. La feature "Avvisi del server" è stata attivata sul server.',
+    servernotices: {
+      name: "Avvisi del server",
+      send: "Invia avvisi",
+      fields: {
+        body: "Messaggio",
+      },
+      action: {
+        send: "Invia nota",
+        send_success: "Avviso inviato con successo.",
+        send_failure: "C'è stato un errore.",
+      },
+      helper: {
+        send: 'Invia un avviso dal server agli utenti selezionati. La feature "Avvisi del server" è stata attivata sul server.',
+      },
     },
-  },
-  user_media_statistics: {
-    name: "Media degli utenti",
-    fields: {
-      media_count: "Numero media",
-      media_length: "Lunghezza media",
+    user_media_statistics: {
+      name: "Media degli utenti",
+      fields: {
+        media_count: "Numero media",
+        media_length: "Lunghezza media",
+      },
     },
-  },
-  forward_extremities: {
-    name: "Invia estremità",
-    fields: {
-      id: "Event ID",
-      received_ts: "Timestamp",
-      depth: "Profondità",
-      state_group: "State group",
+    forward_extremities: {
+      name: "Invia estremità",
+      fields: {
+        id: "Event ID",
+        received_ts: "Timestamp",
+        depth: "Profondità",
+        state_group: "State group",
+      },
     },
-  },
-  room_state: {
-    name: "Eventi di stato",
-    fields: {
-      type: "Tipo",
-      content: "Contenuto",
-      origin_server_ts: "Ora dell'invio",
-      sender: "Mittente",
+    room_state: {
+      name: "Eventi di stato",
+      fields: {
+        type: "Tipo",
+        content: "Contenuto",
+        origin_server_ts: "Ora dell'invio",
+        sender: "Mittente",
+      },
     },
-  },
-  room_media: {
-    name: "Media",
-    fields: {
-      media_id: "ID Media",
+    room_media: {
+      name: "Media",
+      fields: {
+        media_id: "ID Media",
+      },
+      helper: {
+        info: "Questo è un elenco dei media caricati nella stanza. Non è possibile eliminare i media caricati su repository esterni.",
+      },
+      action: {
+        error: "%{errcode} (%{errstatus}) %{error}",
+      },
     },
-    helper: {
-      info: "Questo è un elenco dei media caricati nella stanza. Non è possibile eliminare i media caricati su repository esterni.",
+    room_directory: {
+      name: "Elenco delle stanze",
+      fields: {
+        world_readable: "gli utenti ospite possono vedere senza entrare",
+        guest_can_join: "gli utenti ospite possono entrare",
+      },
+      action: {
+        title: "Cancella stanza dall'elenco |||| Cancella %{smart_count} stanze dall'elenco",
+        content:
+          "Sei sicuro di voler rimuovere questa stanza dall'elenco? |||| Sei sicuro di voler rimuovere %{smart_count} stanze dall'elenco?",
+        erase: "Rimuovi dall'elenco",
+        create: "Crea",
+        send_success: "Stanza creata con successo.",
+        send_failure: "C'è stato un errore.",
+      },
     },
-    action: {
-      error: "%{errcode} (%{errstatus}) %{error}"
-    }
-  },
-  room_directory: {
-    name: "Elenco delle stanze",
-    fields: {
-      world_readable: "gli utenti ospite possono vedere senza entrare",
-      guest_can_join: "gli utenti ospite possono entrare",
+    destinations: {
+      name: "Federazione",
+      fields: {
+        destination: "Destinazione",
+        failure_ts: "Timestamp dell'errore",
+        retry_last_ts: "Tentativo ultimo timestamp",
+        retry_interval: "Intervallo dei tentativi",
+        last_successful_stream_ordering: "Ultimo flusso riuscito con successo",
+        stream_ordering: "Flusso",
+      },
+      action: { reconnect: "Riconnetti" },
     },
-    action: {
-      title: "Cancella stanza dall'elenco |||| Cancella %{smart_count} stanze dall'elenco",
-      content:
-        "Sei sicuro di voler rimuovere questa stanza dall'elenco? |||| Sei sicuro di voler rimuovere %{smart_count} stanze dall'elenco?",
-      erase: "Rimuovi dall'elenco",
-      create: "Crea",
-      send_success: "Stanza creata con successo.",
-      send_failure: "C'è stato un errore.",
+    registration_tokens: {
+      name: "Token di registrazione",
+      fields: {
+        token: "Token",
+        valid: "Token valido",
+        uses_allowed: "Usi permessi",
+        pending: "In attesa",
+        completed: "Completato",
+        expiry_time: "Data della scadenza",
+        length: "Lunghezza",
+      },
+      helper: { length: "Lunghezza del token se non viene dato alcun token." },
     },
-  },
-  destinations: {
-    name: "Federazione",
-    fields: {
-      destination: "Destinazione",
-      failure_ts: "Timestamp dell'errore",
-      retry_last_ts: "Tentativo ultimo timestamp",
-      retry_interval: "Intervallo dei tentativi",
-      last_successful_stream_ordering: "Ultimo flusso riuscito con successo",
-      stream_ordering: "Flusso",
-    },
-    action: { reconnect: "Riconnetti" },
-  },
-  registration_tokens: {
-    name: "Token di registrazione",
-    fields: {
-      token: "Token",
-      valid: "Token valido",
-      uses_allowed: "Usi permessi",
-      pending: "In attesa",
-      completed: "Completato",
-      expiry_time: "Data della scadenza",
-      length: "Lunghezza",
-    },
-    helper: { length: "Lunghezza del token se non viene dato alcun token." },
-  },
   },
 };
 export default it;

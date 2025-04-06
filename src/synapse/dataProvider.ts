@@ -13,8 +13,9 @@ import {
   withLifecycleCallbacks,
 } from "react-admin";
 
-import { returnMXID } from "../utils/mxid";
+import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
+import { returnMXID } from "../utils/mxid";
 
 const CACHED_MANY_REF: Record<string, any> = {};
 
@@ -22,6 +23,7 @@ const CACHED_MANY_REF: Record<string, any> = {};
 const jsonClient = async (url: string, options: Options = {}) => {
   const token = localStorage.getItem("access_token");
   console.log("httpClient " + url);
+  options.credentials = GetConfig().corsCredentials as RequestCredentials;
   if (token !== null) {
     options.user = {
       authenticated: true,
@@ -35,7 +37,7 @@ const jsonClient = async (url: string, options: Options = {}) => {
     const error = err as HttpError;
     const errorStatus = error.status;
     const errorBody = error.body as MatrixError;
-    const errMsg = !!errorBody?.errcode
+    const errMsg = errorBody?.errcode
       ? displayError(errorBody.errcode, errorStatus, errorBody.error)
       : displayError("M_INVALID", errorStatus, error.message);
 
@@ -252,9 +254,7 @@ export interface UploadMediaResult {
 }
 
 export interface ExperimentalFeaturesModel {
-  features: {
-    [key: string]: boolean;
-  };
+  features: Record<string, boolean>;
 }
 
 export interface RateLimitsModel {
@@ -264,13 +264,9 @@ export interface RateLimitsModel {
 
 export interface AccountDataModel {
   account_data: {
-    global: {
-      [key: string]: object;
-    },
-    rooms: {
-      [key: string]: object;
-    };
-  }
+    global: Record<string, object>;
+    rooms: Record<string, object>;
+  };
 }
 
 export interface UsernameAvailabilityResult {
@@ -289,7 +285,7 @@ export interface ServerStatusComponent {
     url: string;
     icon: string;
     text: string;
-  }
+  };
 }
 
 export interface ServerStatusResponse {
@@ -324,9 +320,7 @@ export interface ServerCommand {
   additionalArgs?: string;
 }
 
-export interface ServerCommandsResponse {
-  [command: string]: ServerCommand;
-}
+export type ServerCommandsResponse = Record<string, ServerCommand>;
 
 export interface ScheduledCommand {
   args: string;
@@ -713,21 +707,23 @@ const baseDataProvider: SynapseDataProvider = {
     const res = resourceMap[resource];
 
     const endpoint_url = base_url + res.path;
-    const responses = await Promise.all(params.ids.map(id => {
-      // edge case: when user is external / federated, homeserver will return error, as querying external users via
-      // /_synapse/admin/v2/users is not allowed.
-      // That leads to an issue when a user is referenced (e.g., in room state datagrid) - the user cell is just empty.
-      // To avoid that, we fake the response with one specific field (name) which is used in the datagrid.
-      if (homeserver && resource === "users") {
-        if (!(<string>id).endsWith(homeserver)) {
-          const json = {
+    const responses = await Promise.all(
+      params.ids.map(id => {
+        // edge case: when user is external / federated, homeserver will return error, as querying external users via
+        // /_synapse/admin/v2/users is not allowed.
+        // That leads to an issue when a user is referenced (e.g., in room state datagrid) - the user cell is just empty.
+        // To avoid that, we fake the response with one specific field (name) which is used in the datagrid.
+        if (homeserver && resource === "users") {
+          if (!(id as string).endsWith(homeserver)) {
+            const json = {
               name: id,
-          };
-          return Promise.resolve({ json });
+            };
+            return Promise.resolve({ json });
+          }
         }
-      }
-      return jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
-    }));
+        return jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
+      })
+    );
     return {
       data: responses.map(({ json }) => res.map(json)),
       total: responses.length,
@@ -746,8 +742,6 @@ const baseDataProvider: SynapseDataProvider = {
       dir: getSearchOrder(order),
     };
 
-
-
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
@@ -756,16 +750,16 @@ const baseDataProvider: SynapseDataProvider = {
     const ref = res.reference(params.id);
 
     const endpoint_url = `${homeserver}${ref.endpoint}?${new URLSearchParams(filterUndefined(query)).toString()}`;
-    let CACHE_KEY = ref.endpoint;
+    const CACHE_KEY = ref.endpoint;
     let jsonData = [];
     let total = 0;
 
     if (CACHED_MANY_REF[CACHE_KEY]) {
-        jsonData = CACHED_MANY_REF[CACHE_KEY]["data"].slice(from, from + perPage);
-        total = CACHED_MANY_REF[CACHE_KEY]["total"];
+      jsonData = CACHED_MANY_REF[CACHE_KEY]["data"].slice(from, from + perPage);
+      total = CACHED_MANY_REF[CACHE_KEY]["total"];
     } else {
       const { json } = await jsonClient(endpoint_url);
-      jsonData = json[res.data]
+      jsonData = json[res.data];
       total = res.total(json, from, perPage);
       if (resource === "joined_rooms") {
         // cache will be applied only for joined_rooms
@@ -989,9 +983,9 @@ const baseDataProvider: SynapseDataProvider = {
     return json as AccountDataModel;
   },
   setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
-    const filtered = Object.entries(rateLimits).
-      filter(([key, value]) => value !== null && value !== undefined).
-      reduce((obj, [key, value]) => {
+    const filtered = Object.entries(rateLimits)
+      .filter(([key, value]) => value !== null && value !== undefined)
+      .reduce((obj, [key, value]) => {
         obj[key] = value;
         return obj;
       }, {});
@@ -1000,7 +994,7 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
     if (Object.keys(filtered).length === 0) {
       await jsonClient(endpoint_url, { method: "DELETE" });
-      return
+      return;
     }
 
     await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
@@ -1032,7 +1026,7 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  getServerRunningProcess: async (etkeAdminUrl: string, burstCache: boolean = false): Promise<ServerProcessResponse> => {
+  getServerRunningProcess: async (etkeAdminUrl: string, burstCache = false): Promise<ServerProcessResponse> => {
     const locked_at = "";
     const command = "";
 
@@ -1044,8 +1038,8 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       const response = await fetch(serverURL, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
 
       if (!response.ok) {
@@ -1067,7 +1061,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     return { locked_at, command };
   },
-  getServerStatus: async (etkeAdminUrl: string, burstCache: boolean = false): Promise<ServerStatusResponse> => {
+  getServerStatus: async (etkeAdminUrl: string, burstCache = false): Promise<ServerStatusResponse> => {
     let serverURL = `${etkeAdminUrl}/status`;
     if (burstCache) {
       serverURL += `?time=${new Date().getTime()}`;
@@ -1076,8 +1070,8 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       const response = await fetch(serverURL, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
       if (!response.ok) {
         console.error(`Error getting server status: ${response.status} ${response.statusText}`);
@@ -1096,7 +1090,10 @@ const baseDataProvider: SynapseDataProvider = {
 
     return { success: false, ok: false, host: "", results: [] };
   },
-  getServerNotifications: async (serverNotificationsUrl: string, burstCache: boolean = false): Promise<ServerNotificationsResponse> => {
+  getServerNotifications: async (
+    serverNotificationsUrl: string,
+    burstCache = false
+  ): Promise<ServerNotificationsResponse> => {
     let serverURL = `${serverNotificationsUrl}/notifications`;
     if (burstCache) {
       serverURL += `?time=${new Date().getTime()}`;
@@ -1105,8 +1102,8 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       const response = await fetch(serverURL, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
       if (!response.ok) {
         console.error(`Error getting server notifications: ${response.status} ${response.statusText}`);
@@ -1135,9 +1132,9 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       const response = await fetch(`${serverNotificationsUrl}/notifications`, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-        method: "DELETE"
+        method: "DELETE",
       });
       if (!response.ok) {
         console.error(`Error deleting server notifications: ${response.status} ${response.statusText}`);
@@ -1146,7 +1143,7 @@ const baseDataProvider: SynapseDataProvider = {
 
       const status = response.status;
       if (status === 204) {
-        const result = { success: true }
+        const result = { success: true };
         return result;
       }
     } catch (error) {
@@ -1159,8 +1156,8 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       const response = await fetch(`${serverCommandsUrl}/commands`, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
       if (!response.ok) {
         console.error(`Error fetching server commands: ${response.status} ${response.statusText}`);
@@ -1185,15 +1182,15 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = `${serverCommandsUrl}/commands`;
     const body = {
       command: command,
-      ...additionalArgs
-    }
+      ...additionalArgs,
+    };
     const response = await fetch(endpoint_url, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
     });
 
     if (!response.ok) {
@@ -1208,7 +1205,7 @@ const baseDataProvider: SynapseDataProvider = {
     if (status === 204) {
       return {
         success: true,
-      }
+      };
     }
 
     return {

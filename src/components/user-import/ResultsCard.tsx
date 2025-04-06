@@ -1,10 +1,29 @@
-import { Alert, Box, CardContent, CardHeader, Container, List, ListItem, ListItemText, Paper, Stack, Typography } from "@mui/material"
-import { Button, Link, useTranslate } from "react-admin";
-import { ImportResult } from "./types";
-import DownloadIcon from "@mui/icons-material/Download";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DownloadIcon from "@mui/icons-material/Download";
+import {
+  Alert,
+  Box,
+  CardContent,
+  CardHeader,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Button, Link, useTranslate } from "react-admin";
 
-const ResultsCard = ({ importResults, downloadSkippedRecords }: { importResults: ImportResult | null, downloadSkippedRecords: () => void }) => {
+import { ImportResult } from "./types";
+
+const ResultsCard = ({
+  importResults,
+  downloadSkippedRecords,
+}: {
+  importResults: ImportResult | null;
+  downloadSkippedRecords: () => void;
+}) => {
   const translate = useTranslate();
 
   if (!importResults) {
@@ -30,7 +49,7 @@ const ResultsCard = ({ importResults, downloadSkippedRecords }: { importResults:
               {translate("import_users.cards.results.successful", importResults.succeededRecords.length)}
             </Typography>
             <List dense>
-              {importResults.succeededRecords.map((record) => (
+              {importResults.succeededRecords.map(record => (
                 <ListItem key={record.id}>
                   <ListItemText primary={record.displayname} />
                 </ListItem>
@@ -47,8 +66,7 @@ const ResultsCard = ({ importResults, downloadSkippedRecords }: { importResults:
                   onClick={downloadSkippedRecords}
                   sx={{ mt: 2 }}
                   label={translate("import_users.cards.results.download_skipped")}
-                >
-                </Button>
+                ></Button>
               </Box>
             )}
             {importResults.erroredRecords.length > 0 && (
@@ -58,15 +76,17 @@ const ResultsCard = ({ importResults, downloadSkippedRecords }: { importResults:
             )}
 
             {importResults.wasDryRun && (
-            <Alert severity="warning" key="simulated">
-              {translate("import_users.cards.results.simulated_only")}
-            </Alert>
-          )}
+              <Alert severity="warning" key="simulated">
+                {translate("import_users.cards.results.simulated_only")}
+              </Alert>
+            )}
           </Stack>
         </CardContent>
       </Paper>
       <Box sx={{ mt: 2 }}>
-        <Link to="/users"><Button variant="outlined" startIcon={<ArrowBackIcon />} label={translate("ra.action.back")} /></Link>
+        <Link to="/users">
+          <Button variant="outlined" startIcon={<ArrowBackIcon />} label={translate("ra.action.back")} />
+        </Link>
       </Box>
     </Container>
   );

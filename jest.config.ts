@@ -10,22 +10,22 @@ const config: JestConfigWithTsJest = {
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
   transform: {
-    '^.+\\.tsx?$': [
-      'ts-jest',
+    "^.+\\.tsx?$": [
+      "ts-jest",
       {
         diagnostics: {
-          ignoreCodes: [1343]
+          ignoreCodes: [1343],
         },
         astTransformers: {
           before: [
             {
-              path: 'ts-jest-mock-import-meta',
-              options: { metaObjectReplacement: { env: { BASE_URL: "/" } } }
-            }
-          ]
-        }
-      }
-    ]
-  }
+              path: "ts-jest-mock-import-meta",
+              options: { metaObjectReplacement: { env: { BASE_URL: "/" } } },
+            },
+          ],
+        },
+      },
+    ],
+  },
 };
 export default config;

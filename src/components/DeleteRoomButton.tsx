@@ -1,9 +1,21 @@
+import ActionCheck from "@mui/icons-material/CheckCircle";
+import ActionDelete from "@mui/icons-material/Delete";
+import AlertError from "@mui/icons-material/ErrorOutline";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { Fragment, useState } from "react";
-import { SimpleForm, BooleanInput, useTranslate, RaRecord, useNotify, useRedirect, useDelete, NotificationType, useDeleteMany, Identifier, useUnselectAll } from "react-admin";
-import ActionDelete from "@mui/icons-material/Delete";
-import ActionCheck from "@mui/icons-material/CheckCircle";
-import AlertError from "@mui/icons-material/ErrorOutline";
+import {
+  SimpleForm,
+  BooleanInput,
+  useTranslate,
+  RaRecord,
+  useNotify,
+  useRedirect,
+  useDelete,
+  NotificationType,
+  useDeleteMany,
+  Identifier,
+  useUnselectAll,
+} from "react-admin";
 
 interface DeleteRoomButtonProps {
   selectedIds: Identifier[];
@@ -13,7 +25,7 @@ interface DeleteRoomButtonProps {
 
 const resourceName = "rooms";
 
-const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = (props) => {
+const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
   const translate = useTranslate();
   const [open, setOpen] = useState(false);
   const [block, setBlock] = useState(false);
@@ -28,7 +40,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = (props) => {
   const handleDialogOpen = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
 
-  const handleDelete = (values: {block: boolean}) => {
+  const handleDelete = (values: { block: boolean }) => {
     deleteMany(
       resourceName,
       { ids: recordIds, meta: values },
@@ -39,8 +51,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = (props) => {
           unselectAll();
           redirect("/rooms");
         },
-        onError: (error) =>
-          notify("resources.rooms.action.erase.failure", { type: 'error' as NotificationType }),
+        onError: error => notify("resources.rooms.action.erase.failure", { type: "error" as NotificationType }),
       }
     );
   };

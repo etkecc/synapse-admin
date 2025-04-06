@@ -1,12 +1,12 @@
-export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: string, mediaId: string } => {
-    const re = /^mxc:\/\/([^/]+)\/(\w+)/;
-    const ret = re.exec(mxcUrl);
-    if (ret == null) {
-      throw new Error("Invalid mxcUrl");
-    }
-    const serverName = ret[1];
-    const mediaId = ret[2];
-    return { serverName, mediaId };
+export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: string; mediaId: string } => {
+  const re = /^mxc:\/\/([^/]+)\/(\w+)/;
+  const ret = re.exec(mxcUrl);
+  if (ret == null) {
+    throw new Error("Invalid mxcUrl");
+  }
+  const serverName = ret[1];
+  const mediaId = ret[2];
+  return { serverName, mediaId };
 };
 
 export type MediaType = "thumbnail" | "original";

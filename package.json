@@ -30,7 +30,6 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.2.5",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "eslint-plugin-yaml": "^1.1.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
@@ -75,7 +74,7 @@
   "scripts": {
     "start": "vite serve",
     "build": "vite build",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ignore-path .gitignore --ignore-pattern testdata/ --ext .ts,.tsx,.yml,.yaml .",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ignore-path .gitignore --ignore-pattern testdata/ --ext .ts,.tsx .",
     "fix": "yarn lint --fix",
     "test": "yarn jest",
     "test:watch": "yarn jest --watch"
@@ -88,15 +87,13 @@
       "import",
       "prettier",
       "unused-imports",
-      "@typescript-eslint",
-      "yaml"
+      "@typescript-eslint"
     ],
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:@typescript-eslint/stylistic",
-      "plugin:import/typescript",
-      "plugin:yaml/legacy"
+      "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -135,8 +132,7 @@
             ]
           ]
         }
-      ],
-      "unused-imports/no-unused-imports-ts": 2
+      ]
     }
   },
   "prettier": {

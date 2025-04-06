@@ -17,14 +17,20 @@ const fr: SynapseTranslationMessages = {
       access_token: "Jeton d'accès",
       logout_acces_token_dialog: {
         title: "Vous utilisez un jeton d'accès Matrix existant.",
-        content: "Voulez-vous détruire cette session (qui pourrait être utilisée ailleurs, par exemple dans un client Matrix) ou simplement vous déconnecter du panneau d'administration?",
+        content:
+          "Voulez-vous détruire cette session (qui pourrait être utilisée ailleurs, par exemple dans un client Matrix) ou simplement vous déconnecter du panneau d'administration?",
         confirm: "Détruire la session",
         cancel: "Se déconnecter simplement du panneau d'administration",
       },
     },
     users: {
       invalid_user_id: "Partie locale d'un identifiant utilisateur Matrix sans le nom du serveur d’accueil.",
-      tabs: { sso: "Authentification unique", experimental: "Expérimental", limits: "Limites", account_data: "Données du compte" },
+      tabs: {
+        sso: "Authentification unique",
+        experimental: "Expérimental",
+        limits: "Limites",
+        account_data: "Données du compte",
+      },
     },
     rooms: {
       tabs: {
@@ -168,7 +174,8 @@ const fr: SynapseTranslationMessages = {
         deactivate: "Vous devrez fournir un mot de passe pour réactiver le compte.",
         suspend: "L'utilisateur sera suspendu jusqu'à ce que vous le réactiviez.",
         erase: "Marquer l'utilisateur comme effacé conformément au RGPD",
-        erase_text: "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
+        erase_text:
+          "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
         erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",
         modify_managed_user_error: "La modification d'un utilisateur géré par le système n'est pas autorisée.",
         username_available: "Nom d'utilisateur disponible",
@@ -188,7 +195,8 @@ const fr: SynapseTranslationMessages = {
         redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
         generate_password: "Générer un mot de passe",
         overwrite_title: "Attention !",
-        overwrite_content: "Ce nom d'utilisateur est déjà pris. Êtes-vous sûr de vouloir écraser l'utilisateur existant ?",
+        overwrite_content:
+          "Ce nom d'utilisateur est déjà pris. Êtes-vous sûr de vouloir écraser l'utilisateur existant ?",
         overwrite_cancel: "Annuler",
         overwrite_confirm: "Écraser",
       },
@@ -202,7 +210,7 @@ const fr: SynapseTranslationMessages = {
         title: "Données du compte",
         global: "Globales",
         rooms: "Salons",
-      }
+      },
     },
     rooms: {
       name: "Salon |||| Salons",
@@ -265,10 +273,11 @@ const fr: SynapseTranslationMessages = {
           assign_admin: "Assigner un administrateur",
           title: "Assigner un administrateur au salon %{roomName}",
           confirm: "Assigner un administrateur",
-          content: "Entrez la MXID complète de l'utilisateur qui sera désigné comme administrateur.\nAttention : pour que cela fonctionne, la salle doit avoir au moins un membre local en tant qu'administrateur.",
+          content:
+            "Entrez la MXID complète de l'utilisateur qui sera désigné comme administrateur.\nAttention : pour que cela fonctionne, la salle doit avoir au moins un membre local en tant qu'administrateur.",
           success: "L'utilisateur a été désigné comme administrateur de la salle.",
           failure: "L'utilisateur n'a pas pu être désigné comme administrateur de la salle. %{errMsg}",
-        }
+        },
       },
     },
     reports: {
@@ -415,8 +424,8 @@ const fr: SynapseTranslationMessages = {
         info: "Cette liste contient les médias qui ont été téléchargés dans le salon. Il n'est pas possible de supprimer les médias qui ont été téléversés dans des dépôts de médias externes.",
       },
       action: {
-        error: "%{errcode} (%{errstatus}) %{error}"
-      }
+        error: "%{errcode} (%{errstatus}) %{error}",
+      },
     },
     room_directory: {
       name: "Répertoire des salons",

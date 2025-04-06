@@ -18,7 +18,8 @@ const en: SynapseTranslationMessages = {
       access_token: "Access token",
       logout_acces_token_dialog: {
         title: "You are using an existing Matrix access token.",
-        content: "Do you want to destroy this session (that could be used elsewhere, e.g. in a Matrix client) or just logout from the admin panel?",
+        content:
+          "Do you want to destroy this session (that could be used elsewhere, e.g. in a Matrix client) or just logout from the admin panel?",
         confirm: "Destroy session",
         cancel: "Just logout from admin panel",
       },
@@ -40,7 +41,7 @@ const en: SynapseTranslationMessages = {
         detail: "Details",
         permission: "Permissions",
         media: "Media",
-      }
+      },
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
   },
@@ -174,7 +175,8 @@ const en: SynapseTranslationMessages = {
         deactivate: "You must provide a password to re-activate an account.",
         suspend: "Suspending user means they are put into a read-only mode.",
         erase: "Mark the user as GDPR-erased",
-        erase_text: "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
+        erase_text:
+          "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
         erase_admin_error: "Deleting own user is not allowed.",
         modify_managed_user_error: "Modifying a system-managed user is not allowed.",
         username_available: "Username is available",
@@ -208,7 +210,7 @@ const en: SynapseTranslationMessages = {
         title: "Account Data",
         global: "Global",
         rooms: "Rooms",
-      }
+      },
     },
     rooms: {
       name: "Room |||| Rooms",
@@ -271,10 +273,11 @@ const en: SynapseTranslationMessages = {
           assign_admin: "Assign admin",
           title: "Assign a room admin to %{roomName}",
           confirm: "Make admin",
-          content: "Put the full MXID of the user which will be set as admin.\nWarning: for this to work, the room needs to have at least one local member as admin.",
+          content:
+            "Put the full MXID of the user which will be set as admin.\nWarning: for this to work, the room needs to have at least one local member as admin.",
           success: "The user has been set as room admin.",
           failure: "The user could not be set as room admin. %{errMsg}",
-        }
+        },
       },
     },
     reports: {

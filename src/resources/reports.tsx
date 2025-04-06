@@ -22,8 +22,8 @@ import {
   useTranslate,
 } from "react-admin";
 
-import { DATE_FORMAT } from "../utils/date";
 import { ReportMediaContent } from "../components/media";
+import { DATE_FORMAT } from "../utils/date";
 
 const ReportPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -93,7 +93,13 @@ export const ReportList = (props: ListProps) => (
   <List {...props} pagination={<ReportPagination />} perPage={50} sort={{ field: "received_ts", order: "DESC" }}>
     <DatagridConfigurable rowClick="show" bulkActionButtons={false}>
       <TextField source="id" sortable={false} label="resources.reports.fields.id" />
-      <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={true} label="resources.reports.fields.received_ts" />
+      <DateField
+        source="received_ts"
+        showTime
+        options={DATE_FORMAT}
+        sortable={true}
+        label="resources.reports.fields.received_ts"
+      />
       <TextField sortable={false} source="user_id" label="resources.reports.fields.user_id" />
       <TextField sortable={false} source="name" label="resources.reports.fields.name" />
       <TextField sortable={false} source="score" label="resources.reports.fields.score" />

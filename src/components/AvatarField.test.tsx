@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { RecordContextProvider } from "react-admin";
 import { act } from "react";
+import { RecordContextProvider } from "react-admin";
+
 import AvatarField from "./AvatarField";
 
 describe("AvatarField", () => {
@@ -8,7 +9,7 @@ describe("AvatarField", () => {
     // Mock fetch
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        blob: () => Promise.resolve(new Blob(["mock image data"], { type: 'image/jpeg' })),
+        blob: () => Promise.resolve(new Blob(["mock image data"], { type: "image/jpeg" })),
       })
     ) as jest.Mock;
 

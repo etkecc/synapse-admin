@@ -1,6 +1,5 @@
-import polyglotI18nProvider from "ra-i18n-polyglot";
-
 import { render, screen } from "@testing-library/react";
+import polyglotI18nProvider from "ra-i18n-polyglot";
 import { AdminContext } from "react-admin";
 import { BrowserRouter } from "react-router-dom";
 
@@ -37,11 +36,9 @@ describe("LoginForm", () => {
   it("renders with single restricted homeserver", () => {
     render(
       <BrowserRouter>
-        <AppContext.Provider
-          value={{ restrictBaseUrl: "https://matrix.example.com", asManagedUsers: [], menu: [] }}
-        >
-        <AdminContext i18nProvider={i18nProvider}>
-          <LoginPage />
+        <AppContext.Provider value={{ restrictBaseUrl: "https://matrix.example.com", asManagedUsers: [], menu: [] }}>
+          <AdminContext i18nProvider={i18nProvider}>
+            <LoginPage />
           </AdminContext>
         </AppContext.Provider>
       </BrowserRouter>
@@ -61,9 +58,9 @@ describe("LoginForm", () => {
   it("renders with multiple restricted homeservers", async () => {
     render(
       <AppContext.Provider
-          value={{
-            restrictBaseUrl: ["https://matrix.example.com", "https://matrix.example.org"],
-            asManagedUsers: [],
+        value={{
+          restrictBaseUrl: ["https://matrix.example.com", "https://matrix.example.org"],
+          asManagedUsers: [],
           menu: [],
         }}
       >

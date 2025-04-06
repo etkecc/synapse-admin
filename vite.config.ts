@@ -1,7 +1,6 @@
-import { vitePluginVersionMark } from "vite-plugin-version-mark";
-
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { vitePluginVersionMark } from "vite-plugin-version-mark";
 
 export default defineConfig({
   base: "./",
@@ -16,7 +15,7 @@ export default defineConfig({
       ifMeta: false,
       ifLog: false,
       ifGlobal: true,
-      outputFile: (version) => ({
+      outputFile: version => ({
         path: "manifest.json",
         content: JSON.stringify({
           name: "Synapse Admin",
@@ -24,20 +23,23 @@ export default defineConfig({
           description: "Synapse Admin is an admin console for synapse Matrix homeserver with additional features.",
           categories: ["productivity", "utilities"],
           orientation: "landscape",
-          icons: [{
-            src: "favicon.ico",
-            sizes: "32x32",
-            type: "image/x-icon"
-          },{
-            src: "images/logo.webp",
-            sizes: "512x512",
-            type: "image/webp",
-            purpose: "any maskable"
-          }],
+          icons: [
+            {
+              src: "favicon.ico",
+              sizes: "32x32",
+              type: "image/x-icon",
+            },
+            {
+              src: "images/logo.webp",
+              sizes: "512x512",
+              type: "image/webp",
+              purpose: "any maskable",
+            },
+          ],
           start_url: ".",
           display: "standalone",
           theme_color: "#000000",
-          background_color: "#ffffff"
+          background_color: "#ffffff",
         }),
       }),
     }),

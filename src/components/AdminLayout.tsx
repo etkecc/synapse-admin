@@ -1,12 +1,25 @@
-import { CheckForApplicationUpdate, AppBar, TitlePortal, InspectorButton, Confirm, Layout, Logout, Menu, useLogout, UserMenu, useStore } from "react-admin";
-import { LoginMethod } from "../pages/LoginPage";
 import { useEffect, useState, Suspense } from "react";
-import { Icons, DefaultIcon } from "../utils/icons";
-import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
+import {
+  CheckForApplicationUpdate,
+  AppBar,
+  TitlePortal,
+  InspectorButton,
+  Confirm,
+  Layout,
+  Logout,
+  Menu,
+  useLogout,
+  UserMenu,
+  useStore,
+} from "react-admin";
+
 import Footer from "./Footer";
-import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
+import { LoginMethod } from "../pages/LoginPage";
+import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
+import { Icons, DefaultIcon } from "../utils/icons";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
+import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
 import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 
@@ -51,15 +64,17 @@ const AdminUserMenu = () => {
 };
 
 const AdminAppBar = () => {
-  return (<AppBar userMenu={<AdminUserMenu />}>
-    <TitlePortal />
-    <ServerStatusBadge />
-    <ServerNotificationsBadge />
-    <InspectorButton />
-  </AppBar>);
+  return (
+    <AppBar userMenu={<AdminUserMenu />}>
+      <TitlePortal />
+      <ServerStatusBadge />
+      <ServerNotificationsBadge />
+      <InspectorButton />
+    </AppBar>
+  );
 };
 
-const AdminMenu = (props) => {
+const AdminMenu = props => {
   const [menu, setMenu] = useState([] as MenuItem[]);
   const [etkeRoutesEnabled, setEtkeRoutesEnabled] = useState(false);
   useEffect(() => {
@@ -68,8 +83,16 @@ const AdminMenu = (props) => {
       setEtkeRoutesEnabled(true);
     }
   }, []);
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", { command: "", locked_at: "" });
-  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", { success: false, ok: false, host: "", results: [] });
+  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+    command: "",
+    locked_at: "",
+  });
+  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
+    success: false,
+    ok: false,
+    host: "",
+    results: [],
+  });
 
   return (
     <Menu {...props}>
@@ -84,42 +107,49 @@ const AdminMenu = (props) => {
       }
       {etkeRoutesEnabled && <Menu.Item key="server_schedules" to="/server_schedules" leftIcon={<ManageHistoryIcon />} primaryText="Server Schedules" />}
       <Menu.ResourceItems />
-      {menu && menu.map((item, index) => {
-        const { url, icon, label } = item;
-        const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
+      {menu &&
+        menu.map((item, index) => {
+          const { url, icon, label } = item;
+          const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
 
-        return (
-          <Suspense key={index}>
-            <Menu.Item
-              to={url}
-              target="_blank"
-              primaryText={label}
-              leftIcon={IconComponent ? <IconComponent /> : <DefaultIcon />}
-              onClick={props.onMenuClick}
-            />
-          </Suspense>
-        );
-      })}
+          return (
+            <Suspense key={index}>
+              <Menu.Item
+                to={url}
+                target="_blank"
+                primaryText={label}
+                leftIcon={IconComponent ? <IconComponent /> : <DefaultIcon />}
+                onClick={props.onMenuClick}
+              />
+            </Suspense>
+          );
+        })}
     </Menu>
   );
 };
 
 export const AdminLayout = ({ children }) => {
-  return <>
-    <Layout appBar={AdminAppBar} menu={AdminMenu} sx={{
-      ['& .RaLayout-appFrame']: {
-        minHeight: '90vh',
-        height: '90vh',
-      },
-      ['& .RaLayout-content']: {
-        marginBottom: '3rem',
-      },
-    }}>
-      {children}
-      <CheckForApplicationUpdate />
-    </Layout>
-    <Footer />
-  </>
+  return (
+    <>
+      <Layout
+        appBar={AdminAppBar}
+        menu={AdminMenu}
+        sx={{
+          ["& .RaLayout-appFrame"]: {
+            minHeight: "90vh",
+            height: "90vh",
+          },
+          ["& .RaLayout-content"]: {
+            marginBottom: "3rem",
+          },
+        }}
+      >
+        {children}
+        <CheckForApplicationUpdate />
+      </Layout>
+      <Footer />
+    </>
+  );
 };
 
 export default AdminLayout;

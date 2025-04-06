@@ -4,12 +4,19 @@ import UserIcon from "@mui/icons-material/Group";
 import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
 import PageviewIcon from "@mui/icons-material/Pageview";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
+import PersonIcon from "@mui/icons-material/Person";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import PermMediaIcon from "@mui/icons-material/PermMedia";
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   BooleanField,
   DateField,
@@ -40,27 +47,20 @@ import {
   useNotify,
   DeleteButton,
 } from "react-admin";
+import { useDataProvider } from "react-admin";
+import { Confirm } from "react-admin";
 
-import TextField from "@mui/material/TextField";
 import {
   RoomDirectoryBulkUnpublishButton,
   RoomDirectoryBulkPublishButton,
   RoomDirectoryUnpublishButton,
   RoomDirectoryPublishButton,
 } from "./room_directory";
-import { DATE_FORMAT } from "../utils/date";
+import AvatarField from "../components/AvatarField";
 import DeleteRoomButton from "../components/DeleteRoomButton";
 import { MediaIDField } from "../components/media";
-import AvatarField from "../components/AvatarField";
 import { Room } from "../synapse/dataProvider";
-import { useMutation } from "@tanstack/react-query";
-import { useDataProvider } from "react-admin";
-import { Confirm } from "react-admin";
-import { useState } from "react";
-import Button from "@mui/material/Button";
-import PersonIcon from '@mui/icons-material/Person';
-import Typography from "@mui/material/Typography";
-import Alert from "@mui/material/Alert";
+import { DATE_FORMAT } from "../utils/date";
 
 const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -110,7 +110,6 @@ export const MakeAdminBtn = () => {
     return null;
   }
 
-
   const ownMXID = localStorage.getItem("user_id") || "";
   const [open, setOpen] = useState(false);
   const [userIdValue, setUserIdValue] = useState(ownMXID);
@@ -134,12 +133,12 @@ export const MakeAdminBtn = () => {
       setOpen(false);
       setUserIdValue("");
     },
-    onError: (err) => {
+    onError: err => {
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       notify("resources.rooms.action.make_admin.failure", { type: "error", messageArgs: { errMsg: errorMessage } });
       setOpen(false);
       setUserIdValue("");
-    }
+    },
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,8 +160,16 @@ export const MakeAdminBtn = () => {
     }
   };
 
-  return (<>
-      <Button size="small" onClick={(e) => { e.stopPropagation(); setOpen(true); }} disabled={isPending}>
+  return (
+    <>
+      <Button
+        size="small"
+        onClick={e => {
+          e.stopPropagation();
+          setOpen(true);
+        }}
+        disabled={isPending}
+      >
         <PersonIcon /> {translate("resources.rooms.action.make_admin.assign_admin")}
       </Button>
       <Confirm
@@ -171,20 +178,27 @@ export const MakeAdminBtn = () => {
         onClose={handleDialogClose}
         confirm="resources.rooms.action.make_admin.confirm"
         cancel="ra.action.cancel"
-        title={translate("resources.rooms.action.make_admin.title", { roomName: record.name ? record.name : record.room_id })}
-        content={<>
-          <Typography sx={{ marginBottom: 2, whiteSpace: "pre-line"}}>{translate("resources.rooms.action.make_admin.content")}</Typography>
-          <TextField
-            type="text"
-            variant="filled"
-            value={userIdValue}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-            label={"Matrix ID"}
-          />
-        </>}
+        title={translate("resources.rooms.action.make_admin.title", {
+          roomName: record.name ? record.name : record.room_id,
+        })}
+        content={
+          <>
+            <Typography sx={{ marginBottom: 2, whiteSpace: "pre-line" }}>
+              {translate("resources.rooms.action.make_admin.content")}
+            </Typography>
+            <TextField
+              type="text"
+              variant="filled"
+              value={userIdValue}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              label={"Matrix ID"}
+            />
+          </>
+        }
       />
-  </>);
+    </>
+  );
 };
 
 export const RoomShow = (props: ShowProps) => {
@@ -194,11 +208,7 @@ export const RoomShow = (props: ShowProps) => {
     <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
       <TabbedShowLayout>
         <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
-          <AvatarField
-            source="avatar"
-            sx={{ height: "120px", width: "120px" }}
-            label="resources.rooms.fields.avatar"
-          />
+          <AvatarField source="avatar" sx={{ height: "120px", width: "120px" }} label="resources.rooms.fields.avatar" />
           <RaTextField source="room_id" />
           <RaTextField source="name" />
           <RaTextField source="topic" />
@@ -301,7 +311,11 @@ export const RoomShow = (props: ShowProps) => {
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} />
-              <FunctionField source="content" sortable={false} render={record => `${JSON.stringify(record.content, null, 2)}`} />
+              <FunctionField
+                source="content"
+                sortable={false}
+                render={record => `${JSON.stringify(record.content, null, 2)}`}
+              />
               <ReferenceField source="sender" reference="users" sortable={false}>
                 <RaTextField source="id" />
               </ReferenceField>
@@ -373,7 +387,13 @@ export const RoomList = (props: ListProps) => {
         bulkActionButtons={<RoomBulkActionButtons />}
         omit={["joined_local_members", "state_events", "version", "federatable"]}
       >
-        <ReferenceField reference="rooms" source="id" label="resources.users.fields.avatar" link={false} sortable={false}>
+        <ReferenceField
+          reference="rooms"
+          source="id"
+          label="resources.users.fields.avatar"
+          link={false}
+          sortable={false}
+        >
           <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
         </ReferenceField>
         <RaTextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
@@ -390,7 +410,11 @@ export const RoomList = (props: ListProps) => {
             }}
           />
         </WrapperField>
-        <FunctionField source="name" render={record => record["name"] || record["canonical_alias"] || record["id"]} label="resources.rooms.fields.name" />
+        <FunctionField
+          source="name"
+          render={record => record["name"] || record["canonical_alias"] || record["id"]}
+          label="resources.rooms.fields.name"
+        />
         <RaTextField source="joined_members" label="resources.rooms.fields.joined_members" />
         <RaTextField source="joined_local_members" label="resources.rooms.fields.joined_local_members" />
         <RaTextField source="state_events" label="resources.rooms.fields.state_events" />

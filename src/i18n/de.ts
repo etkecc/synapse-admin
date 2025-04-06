@@ -29,15 +29,15 @@ const fixedGermanMessages = {
     },
     message: {
       ...formalGermanMessages.ra.message,
-      access_denied:
-        "Sie haben nicht die erforderlichen Berechtigungen um auf diese Seite zuzugreifen.",
+      access_denied: "Sie haben nicht die erforderlichen Berechtigungen um auf diese Seite zuzugreifen.",
       authentication_error:
         "Der Authentifizierungsserver hat einen Fehler zurückgegeben und Ihre Anmeldedaten konnten nicht überprüft werden.",
-      select_all_limit_reached: "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
+      select_all_limit_reached:
+        "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
       placeholder_data_warning: "Netzwerkproblem: Datenaktualisierung fehlgeschlagen.",
     },
   },
-}
+};
 
 const de: SynapseTranslationMessages = {
   ...fixedGermanMessages,
@@ -55,7 +55,8 @@ const de: SynapseTranslationMessages = {
       access_token: "Zugriffstoken",
       logout_acces_token_dialog: {
         title: "Sie verwenden ein bestehendes Matrix-Zugriffstoken.",
-        content: "Möchten Sie diese Sitzung (die anderswo, z.B. in einem Matrix-Client, verwendet werden könnte) beenden oder sich nur vom Admin-Panel abmelden?",
+        content:
+          "Möchten Sie diese Sitzung (die anderswo, z.B. in einem Matrix-Client, verwendet werden könnte) beenden oder sich nur vom Admin-Panel abmelden?",
         confirm: "Sitzung beenden",
         cancel: "Nur vom Admin-Panel abmelden",
       },
@@ -205,9 +206,11 @@ const de: SynapseTranslationMessages = {
         password: "Durch die Änderung des Passworts wird der Benutzer von allen Sitzungen abgemeldet.",
         create_password: "Generiere ein starkes und sicheres Passwort mit dem Button unten.",
         deactivate: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
-        suspend: "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
+        suspend:
+          "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
         erase: "DSGVO konformes Löschen der Benutzerdaten.",
-        erase_text: "Das bedeutet, dass die von dem/den Benutzer(n) gesendeten Nachrichten für alle, die zum Zeitpunkt des Sendens im Raum waren, sichtbar bleiben, aber für Benutzer, die dem Raum später beitreten, nicht sichtbar sind.",
+        erase_text:
+          "Das bedeutet, dass die von dem/den Benutzer(n) gesendeten Nachrichten für alle, die zum Zeitpunkt des Sendens im Raum waren, sichtbar bleiben, aber für Benutzer, die dem Raum später beitreten, nicht sichtbar sind.",
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",
         modify_managed_user_error: "Das Ändern eines vom System verwalteten Benutzers ist nicht zulässig.",
         username_available: "Benutzername verfügbar",
@@ -227,7 +230,8 @@ const de: SynapseTranslationMessages = {
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
         generate_password: "Passwort generieren",
         overwrite_title: "Warnung!",
-        overwrite_content: "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",
+        overwrite_content:
+          "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",
         overwrite_cancel: "Abbrechen",
         overwrite_confirm: "Überschreiben",
       },
@@ -241,7 +245,7 @@ const de: SynapseTranslationMessages = {
         title: "Kontodaten",
         global: "Globale",
         rooms: "Räume",
-      }
+      },
     },
     rooms: {
       name: "Raum |||| Räume",
@@ -304,10 +308,11 @@ const de: SynapseTranslationMessages = {
           assign_admin: "Raumadministrator zuweisen",
           title: "Raumadministrator zu %{roomName} zuweisen",
           confirm: "Raumadministrator zuweisen",
-          content: "Geben Sie die vollständige MXID des Benutzers an, der als Administrator gesetzt werden soll.\nWarnung: Damit dies funktioniert, muss der Raum mindestens ein lokales Mitglied als Administrator haben.",
+          content:
+            "Geben Sie die vollständige MXID des Benutzers an, der als Administrator gesetzt werden soll.\nWarnung: Damit dies funktioniert, muss der Raum mindestens ein lokales Mitglied als Administrator haben.",
           success: "Der/die Benutzer wurde/n als Raumadministrator gesetzt.",
           failure: "Der/die Benutzer konnte/n nicht als Raumadministrator gesetzt werden. %{errMsg}",
-        }
+        },
       },
     },
     reports: {
@@ -468,8 +473,8 @@ const de: SynapseTranslationMessages = {
         info: "Dies ist eine Liste der Medien, die in den Raum hochgeladen wurden. Es ist nicht möglich, Medien zu löschen, die in externen Medien-Repositories hochgeladen wurden.",
       },
       action: {
-        error: "%{errcode} (%{errstatus}) %{error}"
-      }
+        error: "%{errcode} (%{errstatus}) %{error}",
+      },
     },
     room_directory: {
       name: "Raumverzeichnis",

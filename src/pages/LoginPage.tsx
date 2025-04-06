@@ -1,6 +1,17 @@
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CircularProgress,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { useState, useEffect } from "react";
-
-import { Avatar, Box, Button, Card, CardActions, CircularProgress, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
 import {
   Form,
   FormDataConsumer,
@@ -15,8 +26,10 @@ import {
   useLocales,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
-import LoginFormBox from "../components/LoginFormBox";
+
 import { useAppContext } from "../Context";
+import Footer from "../components/Footer";
+import LoginFormBox from "../components/LoginFormBox";
 import {
   getServerVersion,
   getSupportedFeatures,
@@ -25,7 +38,6 @@ import {
   isValidBaseUrl,
   splitMxid,
 } from "../synapse/matrix";
-import Footer from "../components/Footer";
 
 export type LoginMethod = "credentials" | "accessToken";
 
@@ -47,7 +59,7 @@ const LoginPage = () => {
   const translate = useTranslate();
   const base_url = allowSingleBaseUrl ? restrictBaseUrl : localStorage.getItem("base_url");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
-  const loginToken = new URLSearchParams(window.location.search).get("loginToken")
+  const loginToken = new URLSearchParams(window.location.search).get("loginToken");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
 
   useEffect(() => {
@@ -57,8 +69,8 @@ const LoginPage = () => {
 
     console.log("SSO token is", loginToken);
     // Prevent further requests
-    const previousUrl = new URL(window.location.toString())
-    previousUrl.searchParams.delete("loginToken")
+    const previousUrl = new URL(window.location.toString());
+    previousUrl.searchParams.delete("loginToken");
     window.history.replaceState({}, "", previousUrl.toString());
     const baseUrl = localStorage.getItem("sso_base_url");
     localStorage.removeItem("sso_base_url");
@@ -281,7 +293,7 @@ const LoginPage = () => {
             {loading ? (
               <CircularProgress size={25} thickness={2} />
             ) : (
-              <Avatar sx={{ width: "120px", height: "120px" }} src="./images/logo.webp"/>
+              <Avatar sx={{ width: "120px", height: "120px" }} src="./images/logo.webp" />
             )}
           </Box>
           <Box className="hint">{translate("synapseadmin.auth.welcome")}</Box>
@@ -300,37 +312,35 @@ const LoginPage = () => {
               ))}
             </Select>
             <FormDataConsumer>{formDataProps => <UserData {...formDataProps} />}</FormDataConsumer>
-            {loginMethod === "credentials" && <CardActions className="actions">
-              <Button
-                variant="contained"
-                type="submit"
-                color="primary"
-                disabled={loading || !supportPassAuth}
-                fullWidth
-              >
-                {translate("ra.auth.sign_in")}
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleSSO}
-                disabled={loading || ssoBaseUrl === ""}
-                fullWidth
-              >
-                {translate("synapseadmin.auth.sso_sign_in")}
-              </Button>
-            </CardActions>}
-            {loginMethod === "accessToken" && <CardActions className="actions">
-              <Button
-                variant="contained"
-                type="submit"
-                color="primary"
-                disabled={loading}
-                fullWidth
-              >
-                {translate("ra.auth.sign_in")}
-              </Button>
-            </CardActions>}
+            {loginMethod === "credentials" && (
+              <CardActions className="actions">
+                <Button
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  disabled={loading || !supportPassAuth}
+                  fullWidth
+                >
+                  {translate("ra.auth.sign_in")}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleSSO}
+                  disabled={loading || ssoBaseUrl === ""}
+                  fullWidth
+                >
+                  {translate("synapseadmin.auth.sso_sign_in")}
+                </Button>
+              </CardActions>
+            )}
+            {loginMethod === "accessToken" && (
+              <CardActions className="actions">
+                <Button variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
+                  {translate("ra.auth.sign_in")}
+                </Button>
+              </CardActions>
+            )}
           </Box>
         </Card>
       </LoginFormBox>

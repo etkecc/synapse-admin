@@ -1,10 +1,10 @@
-import { MouseEvent } from "react";
-
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import DestinationsIcon from "@mui/icons-material/CloudQueue";
+import ErrorIcon from "@mui/icons-material/Error";
 import FolderSharedIcon from "@mui/icons-material/FolderShared";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import ErrorIcon from '@mui/icons-material/Error';
+import { get } from "lodash";
+import { MouseEvent } from "react";
 import {
   Button,
   Datagrid,
@@ -34,7 +34,6 @@ import {
 } from "react-admin";
 
 import { DATE_FORMAT } from "../utils/date";
-import { get } from "lodash";
 
 const DestinationPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -101,19 +100,18 @@ const RetryDateField = (props: DateFieldProps) => {
   return <DateField {...props} />;
 };
 
-
 const destinationFieldRender = (record: RaRecord) => {
   if (record.retry_last_ts > 0) {
     return (
       <>
-        <ErrorIcon fontSize="inherit" color="error" sx={{verticalAlign: "middle"}}/>
+        <ErrorIcon fontSize="inherit" color="error" sx={{ verticalAlign: "middle" }} />
 
         {record.destination}
       </>
     );
   }
   return <> {record.destination} </>;
-}
+};
 
 export const DestinationList = (props: ListProps) => {
   const record = useRecordContext(props);
@@ -126,11 +124,28 @@ export const DestinationList = (props: ListProps) => {
       perPage={50}
     >
       <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
-        <FunctionField source="destination" render={destinationFieldRender} label="resources.destinations.fields.destination" />
-        <DateField source="failure_ts" showTime options={DATE_FORMAT} label="resources.destinations.fields.failure_ts" />
-        <RetryDateField source="retry_last_ts" showTime options={DATE_FORMAT} label="resources.destinations.fields.retry_last_ts" />
+        <FunctionField
+          source="destination"
+          render={destinationFieldRender}
+          label="resources.destinations.fields.destination"
+        />
+        <DateField
+          source="failure_ts"
+          showTime
+          options={DATE_FORMAT}
+          label="resources.destinations.fields.failure_ts"
+        />
+        <RetryDateField
+          source="retry_last_ts"
+          showTime
+          options={DATE_FORMAT}
+          label="resources.destinations.fields.retry_last_ts"
+        />
         <TextField source="retry_interval" label="resources.destinations.fields.retry_interval" />
-        <TextField source="last_successful_stream_ordering" label="resources.destinations.fields.last_successful_stream_ordering" />
+        <TextField
+          source="last_successful_stream_ordering"
+          label="resources.destinations.fields.last_successful_stream_ordering"
+        />
         <DestinationReconnectButton />
       </DatagridConfigurable>
     </List>

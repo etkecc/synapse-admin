@@ -1,7 +1,8 @@
-import { get } from "lodash";
 import { Avatar, AvatarProps, Badge, Tooltip } from "@mui/material";
-import { FieldProps, useRecordContext, useTranslate } from "react-admin";
+import { get } from "lodash";
 import { useState, useEffect, useCallback } from "react";
+import { FieldProps, useRecordContext, useTranslate } from "react-admin";
+
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 import { isMXID, isASManaged } from "../utils/mxid";
 
@@ -96,12 +97,15 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
             {letter}
           </Avatar>
         </Badge>
-      </Tooltip>);
+      </Tooltip>
+    );
   }
 
-  return (<Avatar alt={alt} classes={classes} sizes={sizes} src={src} sx={sx} variant={variant}>
-          {letter}
-          </Avatar>);
+  return (
+    <Avatar alt={alt} classes={classes} sizes={sizes} src={src} sx={sx} variant={variant}>
+      {letter}
+    </Avatar>
+  );
 };
 
 export default AvatarField;

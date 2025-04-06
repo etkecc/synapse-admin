@@ -4,9 +4,26 @@ import { FormControlLabel } from "@mui/material";
 import { Checkbox } from "@mui/material";
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
+
 import { ParsedStats, Progress } from "./types";
 
-const StatsCard = ({ stats, progress, importResults, useridMode, passwordMode, onUseridModeChanged, onPasswordModeChange }: { stats: ParsedStats | null, progress: Progress, importResults: any, useridMode: string, passwordMode: boolean, onUseridModeChanged: ChangeEventHandler<HTMLSelectElement>, onPasswordModeChange: ChangeEventHandler<HTMLInputElement> }) => {
+const StatsCard = ({
+  stats,
+  progress,
+  importResults,
+  useridMode,
+  passwordMode,
+  onUseridModeChanged,
+  onPasswordModeChange,
+}: {
+  stats: ParsedStats | null;
+  progress: Progress;
+  importResults: any;
+  useridMode: string;
+  passwordMode: boolean;
+  onUseridModeChanged: ChangeEventHandler<HTMLSelectElement>;
+  onPasswordModeChange: ChangeEventHandler<HTMLInputElement>;
+}) => {
   const translate = useTranslate();
 
   if (!stats) {

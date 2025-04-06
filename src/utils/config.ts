@@ -1,5 +1,6 @@
 export interface Config {
   restrictBaseUrl: string | string[];
+  corsCredentials: string;
   asManagedUsers: RegExp[];
   menu: MenuItem[];
   etkeccAdmin?: string;
@@ -16,17 +17,18 @@ export const WellKnownKey = "cc.etke.synapse-admin";
 // current configuration
 let config: Config = {
   restrictBaseUrl: "",
+  corsCredentials: "same-origin",
   asManagedUsers: [],
   menu: [],
-  etkeccAdmin: ""
+  etkeccAdmin: "",
 };
 
 export const FetchConfig = async () => {
   // load config.json and honor vite base url (import.meta.env.BASE_URL)
   // if that url doesn't have a trailing slash - add it
-  let configJSONUrl = "config.json"
+  let configJSONUrl = "config.json";
   if (import.meta.env.BASE_URL) {
-    configJSONUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}config.json`;
+    configJSONUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}config.json`;
   }
   try {
     const resp = await fetch(configJSONUrl);
@@ -50,7 +52,10 @@ export const FetchConfig = async () => {
       const resp = await fetch(`${protocol}://${homeserver}/.well-known/matrix/client`);
       const configWK = await resp.json();
       if (!configWK[WellKnownKey]) {
-        console.log(`Loaded ${protocol}://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`, configWK);
+        console.log(
+          `Loaded ${protocol}://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`,
+          configWK
+        );
       } else {
         console.log(`Loaded ${protocol}://${homeserver}.well-known/matrix/client`, configWK);
         LoadConfig(configWK[WellKnownKey]);
@@ -59,7 +64,7 @@ export const FetchConfig = async () => {
       console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
     }
   }
-}
+};
 
 // load config from context
 // we deliberately processing each key separately to avoid overwriting the whole config, loosing some keys, and messing
@@ -67,6 +72,10 @@ export const FetchConfig = async () => {
 export const LoadConfig = (context: any) => {
   if (context?.restrictBaseUrl) {
     config.restrictBaseUrl = context.restrictBaseUrl as string | string[];
+  }
+
+  if (context?.corsCredentials) {
+    config.corsCredentials = context.corsCredentials;
   }
 
   if (context?.asManagedUsers) {
@@ -84,13 +93,12 @@ export const LoadConfig = (context: any) => {
   if (context?.etkeccAdmin) {
     config.etkeccAdmin = context.etkeccAdmin;
   }
-}
+};
 
 // get config
 export const GetConfig = (): Config => {
   return config;
-}
-
+};
 
 // clear config
 export const ClearConfig = () => {
@@ -98,4 +106,4 @@ export const ClearConfig = () => {
   config = {} as Config;
   // session
   localStorage.clear();
-}
+};

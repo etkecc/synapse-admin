@@ -1,8 +1,19 @@
+import { PlayArrow, CheckCircle } from "@mui/icons-material";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Alert,
+  TextField,
+  Box,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Loading, useDataProvider, useCreatePath, useStore } from "react-admin";
 import { useAppContext } from "../../Context";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Alert, TextField, Box } from "@mui/material";
-import { PlayArrow, CheckCircle } from "@mui/icons-material";
 import { Icons } from "../../utils/icons";
 import { ServerCommand, ServerProcessResponse } from "../../synapse/dataProvider";
 import { Link } from "react-router-dom";
@@ -11,7 +22,7 @@ import { useServerCommands } from "./hooks/useServerCommands";
 const renderIcon = (icon: string) => {
   const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
   return IconComponent ? <IconComponent sx={{ verticalAlign: "middle", mr: 1 }} /> : null;
-}
+};
 
 const ServerCommandsPanel = () => {
   const { etkeccAdmin } = useAppContext();

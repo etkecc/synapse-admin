@@ -1,9 +1,21 @@
+import ActionCheck from "@mui/icons-material/CheckCircle";
+import ActionDelete from "@mui/icons-material/Delete";
+import AlertError from "@mui/icons-material/ErrorOutline";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { Fragment, useState } from "react";
-import { SimpleForm, BooleanInput, useTranslate, RaRecord, useNotify, useRedirect, useDelete, NotificationType, useDeleteMany, Identifier, useUnselectAll } from "react-admin";
-import ActionDelete from "@mui/icons-material/Delete";
-import ActionCheck from "@mui/icons-material/CheckCircle";
-import AlertError from "@mui/icons-material/ErrorOutline";
+import {
+  SimpleForm,
+  BooleanInput,
+  useTranslate,
+  RaRecord,
+  useNotify,
+  useRedirect,
+  useDelete,
+  NotificationType,
+  useDeleteMany,
+  Identifier,
+  useUnselectAll,
+} from "react-admin";
 
 interface DeleteUserButtonProps {
   selectedIds: Identifier[];
@@ -13,7 +25,7 @@ interface DeleteUserButtonProps {
 
 const resourceName = "users";
 
-const DeleteUserButton: React.FC<DeleteUserButtonProps> = (props) => {
+const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
   const translate = useTranslate();
   const [open, setOpen] = useState(false);
   const [deleteMedia, setDeleteMedia] = useState(false);
@@ -29,7 +41,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = (props) => {
   const handleDialogOpen = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
 
-  const handleDelete = (values: {deleteMedia: boolean, redactEvents: boolean}) => {
+  const handleDelete = (values: { deleteMedia: boolean; redactEvents: boolean }) => {
     deleteMany(
       resourceName,
       { ids: recordIds, meta: values },
@@ -39,14 +51,13 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = (props) => {
             messageArgs: {
               smart_count: recordIds.length,
             },
-            type: 'info' as NotificationType,
+            type: "info" as NotificationType,
           });
           handleDialogClose();
           unselectAll();
           redirect("/users");
         },
-        onError: (error) =>
-          notify("ra.notification.data_provider_error", { type: 'error' as NotificationType }),
+        onError: error => notify("ra.notification.data_provider_error", { type: "error" as NotificationType }),
       }
     );
   };

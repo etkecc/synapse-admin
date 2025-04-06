@@ -27,6 +27,7 @@
 * [Configuration](#configuration)
   * [Prefilling login form](#prefilling-login-form)
   * [Restricting available homeserver](#restricting-available-homeserver)
+  * [Configuring CORS credentials](#configuring-cors-credentials)
   * [Protecting appservice managed users](#protecting-appservice-managed-users)
   * [Adding custom menu items](#adding-custom-menu-items)
 * [Usage](#usage)
@@ -111,6 +112,7 @@ The following changes are already implemented:
 * [Respect base url (`BASE_PATH` / `vite build --base`) when loading `config.json`](https://github.com/etkecc/synapse-admin/pull/274)
 * [Add Users' Account Data tab](https://github.com/etkecc/synapse-admin/pull/276)
 * [Make bulk registration CSV import more user-friendly](https://github.com/etkecc/synapse-admin/pull/411)
+* [Configurable CORS Credentials](https://github.com/etkecc/synapse-admin/pull/456)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
@@ -179,6 +181,12 @@ You can prefill all fields on the login page using GET parameters.
 You can restrict the homeserver(s), so that the user can no longer define it himself.
 
 [Documentation](./docs/restrict-hs.md)
+
+### Configuring CORS credentials
+
+You can configure the CORS credentials mode for the Synapse Admin instance.
+
+[Documentation](./docs/cors-credentials.md)
 
 ### Protecting appservice managed users
 

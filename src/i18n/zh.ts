@@ -27,15 +27,13 @@ const fixedChineseMessages = {
     },
     message: {
       ...chineseMessages.ra.message,
-      access_denied:
-        "您没有访问此页面的权限。",
-      authentication_error:
-        "身份验证服务器返回错误，无法验证您的凭据。",
+      access_denied: "您没有访问此页面的权限。",
+      authentication_error: "身份验证服务器返回错误，无法验证您的凭据。",
       select_all_limit_reached: "选择的元素太多。只选择了前 %{max} 个元素。",
       placeholder_data_warning: "网络问题：数据刷新失败。",
     },
   },
-}
+};
 
 const zh: SynapseTranslationMessages = {
   ...fixedChineseMessages,
@@ -199,7 +197,8 @@ const zh: SynapseTranslationMessages = {
         deactivate: "您必须提供一串密码来激活账户。",
         suspend: "您必须提供一串密码来暂停账户。",
         erase: "将用户标记为根据 GDPR 的要求抹除了",
-        erase_text: "这意味着用户发送的信息对于发送信息时在房间内的任何人来说都是可见的，但对于之后加入房间的用户来说则是隐藏的。",
+        erase_text:
+          "这意味着用户发送的信息对于发送信息时在房间内的任何人来说都是可见的，但对于之后加入房间的用户来说则是隐藏的。",
         erase_admin_error: "不允许删除自己的用户",
         modify_managed_user_error: "不允许修改系统管理的用户。",
         username_available: "用户名可用",
@@ -233,7 +232,7 @@ const zh: SynapseTranslationMessages = {
         title: "账户数据",
         global: "全局",
         rooms: "房间",
-      }
+      },
     },
     rooms: {
       name: "房间",
@@ -384,8 +383,8 @@ const zh: SynapseTranslationMessages = {
         info: "这是上传到房间的媒体列表。无法删除上传到外部媒体存储库的媒体。",
       },
       action: {
-        error: "%{errcode} (%{errstatus}) %{error}"
-      }
+        error: "%{errcode} (%{errstatus}) %{error}",
+      },
     },
   },
 };
