@@ -1,4 +1,4 @@
-import { PlayArrow, CheckCircle } from "@mui/icons-material";
+import { PlayArrow, CheckCircle, HelpCenter } from "@mui/icons-material";
 import {
   Table,
   TableBody,
@@ -130,7 +130,16 @@ const ServerCommandsPanel = () => {
         <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Command</TableCell>
+              <TableCell>
+                Command
+                <Button
+                  size="small"
+                  startIcon={<HelpCenter />}
+                  title="Help"
+                  href="https://etke.cc/help/extras/scheduler/#commands"
+                  target="_blank"
+                />
+              </TableCell>
               <TableCell>Description</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -142,6 +151,13 @@ const ServerCommandsPanel = () => {
                   <Box>
                     {renderIcon(icon)}
                     {command}
+                    <Button
+                      size="small"
+                      startIcon={<HelpCenter />}
+                      title={command + " help"}
+                      href={"https://etke.cc/help/extras/scheduler/#" + command}
+                      target="_blank"
+                    />{" "}
                   </Box>
                 </TableCell>
                 <TableCell>{description}</TableCell>
