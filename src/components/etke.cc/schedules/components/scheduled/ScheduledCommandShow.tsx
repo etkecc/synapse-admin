@@ -1,5 +1,6 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Alert, Box, Card, CardContent, CardHeader, Typography, Link } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import {
   Loading,
   Button,
@@ -11,12 +12,12 @@ import {
   DateField,
   RecordContextProvider,
 } from "react-admin";
-import { Alert, Box, Card, CardContent, CardHeader, Typography, Link } from "@mui/material";
-import { useAppContext } from "../../../../../Context";
-import { useScheduledCommands } from "../../hooks/useScheduledCommands";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { useParams, useNavigate } from "react-router-dom";
+
 import ScheduledDeleteButton from "./ScheduledDeleteButton";
+import { useAppContext } from "../../../../../Context";
+import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
 const ScheduledCommandShow = () => {
   const { id } = useParams();
@@ -51,12 +52,7 @@ const ScheduledCommandShow = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button
-        label="Back"
-        onClick={() => navigate("/server_schedules")}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      />
+      <Button label="Back" onClick={() => navigate("/server_schedules")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
 
       <RecordContextProvider value={command}>
         <Card>
@@ -65,21 +61,26 @@ const ScheduledCommandShow = () => {
             {command && (
               <Alert severity="info">
                 <Typography variant="body" sx={{ px: 2 }}>
-                  You can find more details about the command <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">here</Link>.
+                  You can find more details about the command{" "}
+                  <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                    here
+                  </Link>
+                  .
                 </Typography>
               </Alert>
             )}
             <SimpleShowLayout>
               <TextField source="id" label="ID" />
               <TextField source="command" label="Command" />
-              {command.args && (
-                <TextField source="args" label="Arguments" />
-              )}
+              {command.args && <TextField source="args" label="Arguments" />}
               <BooleanField source="is_recurring" label="Is recurring" />
               <DateField source="scheduled_at" label="Scheduled at" showTime />
             </SimpleShowLayout>
             {command.is_recurring && (
-              <Alert severity="warning">Scheduled commands created from a recurring one are not editable as they will be regenerated automatically. Please edit the recurring command instead.</Alert>
+              <Alert severity="warning">
+                Scheduled commands created from a recurring one are not editable as they will be regenerated
+                automatically. Please edit the recurring command instead.
+              </Alert>
             )}
           </CardContent>
         </Card>

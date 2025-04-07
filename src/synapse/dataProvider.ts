@@ -1210,14 +1210,14 @@ const baseDataProvider: SynapseDataProvider = {
 
     return {
       success: false,
-    }
+    };
   },
   getScheduledCommands: async (scheduledCommandsUrl: string) => {
-    try{
+    try {
       const response = await fetch(`${scheduledCommandsUrl}/schedules`, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
       if (!response.ok) {
         console.error(`Error fetching scheduled commands: ${response.status} ${response.statusText}`);
@@ -1232,17 +1232,17 @@ const baseDataProvider: SynapseDataProvider = {
       }
 
       return [];
-  } catch (error) {
-    console.error("Error fetching scheduled commands, error");
-  }
+    } catch (error) {
+      console.error("Error fetching scheduled commands, error");
+    }
     return [];
   },
   getRecurringCommands: async (recurringCommandsUrl: string) => {
     try {
       const response = await fetch(`${recurringCommandsUrl}/recurrings`, {
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
       if (!response.ok) {
         console.error(`Error fetching recurring commands: ${response.status} ${response.statusText}`);
@@ -1268,9 +1268,9 @@ const baseDataProvider: SynapseDataProvider = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-        body: JSON.stringify(command)
+        body: JSON.stringify(command),
       });
 
       if (!response.ok) {
@@ -1293,16 +1293,16 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       // Use the base endpoint without ID and use PUT for upsert
       const response = await fetch(`${scheduledCommandsUrl}/schedules`, {
-        method: "PUT",  // Using PUT on the base endpoint
+        method: "PUT", // Using PUT on the base endpoint
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-        body: JSON.stringify(command)
+        body: JSON.stringify(command),
       });
 
       if (!response.ok) {
-        let jsonErr = JSON.parse(await response.text());
+        const jsonErr = JSON.parse(await response.text());
         console.error(`Error updating scheduled command: ${response.status} ${response.statusText}`);
         throw new Error(jsonErr.error);
       }
@@ -1327,8 +1327,8 @@ const baseDataProvider: SynapseDataProvider = {
       const response = await fetch(`${scheduledCommandsUrl}/schedules/${id}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
 
       if (!response.ok) {
@@ -1348,9 +1348,9 @@ const baseDataProvider: SynapseDataProvider = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-        body: JSON.stringify(command)
+        body: JSON.stringify(command),
       });
 
       if (!response.ok) {
@@ -1376,9 +1376,9 @@ const baseDataProvider: SynapseDataProvider = {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-        body: JSON.stringify(command)
+        body: JSON.stringify(command),
       });
 
       if (!response.ok) {
@@ -1403,8 +1403,8 @@ const baseDataProvider: SynapseDataProvider = {
       const response = await fetch(`${recurringCommandsUrl}/recurrings/${id}`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       });
 
       if (!response.ok) {
@@ -1417,7 +1417,7 @@ const baseDataProvider: SynapseDataProvider = {
       console.error("Error deleting recurring command", error);
       return { success: false };
     }
-  }
+  },
 };
 
 const dataProvider = withLifecycleCallbacks(baseDataProvider, [

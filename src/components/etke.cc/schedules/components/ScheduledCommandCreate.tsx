@@ -2,7 +2,7 @@ const transformCommandsToChoices = (commands: Record<string, any>) => {
   return Object.entries(commands).map(([key, value]) => ({
     id: key,
     name: value.name,
-    description: value.description
+    description: value.description,
   }));
 };
 
@@ -14,7 +14,7 @@ const ScheduledCommandCreate = () => {
       <SelectInput
         source="command"
         choices={commandChoices}
-        optionText={(choice) => `${choice.name} - ${choice.description}`}
+        optionText={choice => `${choice.name} - ${choice.description}`}
       />
     </SimpleForm>
   );

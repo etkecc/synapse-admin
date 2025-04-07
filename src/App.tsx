@@ -7,10 +7,10 @@ import { Route } from "react-router-dom";
 import AdminLayout from "./components/AdminLayout";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
+import ServerSchedulesPage from "./components/etke.cc/schedules/components/ServerSchedulesPage";
+import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
 import ScheduledCommandEdit from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandEdit";
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
-import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
-import ServerSchedulesPage from "./components/etke.cc/schedules/components/ServerSchedulesPage";
 import UserImport from "./components/user-import/UserImport";
 import germanMessages from "./i18n/de";
 import englishMessages from "./i18n/en";
@@ -28,7 +28,6 @@ import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
 import authProvider from "./synapse/authProvider";
 import dataProvider from "./synapse/dataProvider";
-
 
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {

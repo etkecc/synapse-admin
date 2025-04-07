@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDataProvider } from "react-admin";
-import { ServerCommand } from "../../../synapse/dataProvider";
+
 import { useAppContext } from "../../../Context";
+import { ServerCommand } from "../../../synapse/dataProvider";
 
 export const useServerCommands = () => {
   const { etkeccAdmin } = useAppContext();
   const [isLoading, setLoading] = useState(true);
-  const [serverCommands, setServerCommands] = useState<{ [key: string]: ServerCommand }>({});
+  const [serverCommands, setServerCommands] = useState<Record<string, ServerCommand>>({});
   const dataProvider = useDataProvider();
 
   useEffect(() => {

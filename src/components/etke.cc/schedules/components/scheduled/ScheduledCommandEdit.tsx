@@ -1,8 +1,7 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Card, CardContent, CardHeader, Box } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 import { useState, useEffect } from "react";
-import {
-  useParams,
-  useNavigate,
-} from "react-router-dom";
 import {
   Form,
   TextInput,
@@ -15,26 +14,20 @@ import {
   BooleanInput,
   SelectInput,
 } from "react-admin";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Box,
-} from "@mui/material";
-import { useAppContext } from "../../../../../Context";
-import { useScheduledCommands } from "../../hooks/useScheduledCommands";
-import { Typography, Link } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { ScheduledCommand } from "../../../../../synapse/dataProvider";
-import ScheduleDeleteButton from "./ScheduledDeleteButton";
-import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useWatch } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
+
+import ScheduleDeleteButton from "./ScheduledDeleteButton";
+import { useAppContext } from "../../../../../Context";
+import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { useServerCommands } from "../../../hooks/useServerCommands";
+import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
 const transformCommandsToChoices = (commands: Record<string, any>) => {
   return Object.entries(commands).map(([key, value]) => ({
     id: key,
     name: value.name,
-    description: value.description
+    description: value.description,
   }));
 };
 
@@ -72,7 +65,7 @@ const ScheduledCommandEdit = () => {
     }
   }, [id, scheduledCommands, isCreating]);
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async data => {
     try {
       let result;
 
@@ -101,25 +94,36 @@ const ScheduledCommandEdit = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button
-        label="Back"
-        onClick={() => navigate("/server_schedules")}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      />
+      <Button label="Back" onClick={() => navigate("/server_schedules")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
 
       <Card>
         <CardHeader title={pageTitle} />
         {command && (
           <Typography variant="body" sx={{ px: 2 }}>
-            You can find more details about the command <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">here</Link>.
+            You can find more details about the command{" "}
+            <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+              here
+            </Link>
+            .
           </Typography>
         )}
         <CardContent>
-          <Form defaultValues={command || undefined} onSubmit={handleSubmit} record={command || undefined} warnWhenUnsavedChanges>
+          <Form
+            defaultValues={command || undefined}
+            onSubmit={handleSubmit}
+            record={command || undefined}
+            warnWhenUnsavedChanges
+          >
             <Box display="flex" flexDirection="column" gap={2}>
               {command && <TextInput readOnly source="id" label="ID" fullWidth required />}
-              <SelectInput readOnly={!isCreating} source="command" choices={commandChoices} label="Command" fullWidth required />
+              <SelectInput
+                readOnly={!isCreating}
+                source="command"
+                choices={commandChoices}
+                label="Command"
+                fullWidth
+                required
+              />
               <ArgumentsField serverCommands={serverCommands} />
               <DateTimeInput source="scheduled_at" label="Scheduled at" fullWidth required />
               <Box mt={2} display="flex" justifyContent="space-between">

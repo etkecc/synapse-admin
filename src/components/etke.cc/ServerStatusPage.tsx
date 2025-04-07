@@ -1,7 +1,7 @@
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import { Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps } from "@mui/material";
+import { Alert, Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps } from "@mui/material";
 import { useStore } from "ra-core";
 
 import ServerCommandsPanel from "./ServerCommandsPanel";
@@ -68,8 +68,7 @@ const ServerStatusPage = () => {
     return (
       <Paper elevation={3} sx={{ p: 3, mt: 3 }}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <CloseIcon color="error" />
-          <Typography color="error">Unable to fetch server status. Please try again later.</Typography>
+          <Typography color="info">Fetching real-time server health... Just a moment!</Typography>
         </Stack>
       </Paper>
     );
@@ -105,6 +104,23 @@ const ServerStatusPage = () => {
       )}
 
       <ServerCommandsPanel />
+
+      <Alert severity="info">
+        <Typography variant="body" sx={{ px: 2 }}>
+          This is a{" "}
+          <Link href="https://etke.cc/services/monitoring/" target="_blank">
+            monitoring report
+          </Link>{" "}
+          of the server. If any of the checks below concern you, please check the{" "}
+          <Link
+            href="https://etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues"
+            target="_blank"
+          >
+            suggested actions
+          </Link>
+          .
+        </Typography>
+      </Alert>
 
       <Stack spacing={2} direction="row">
         {Object.keys(groupedResults).map((category, idx) => (

@@ -157,16 +157,26 @@ export const ServerStatusStyledBadge = ({
   command,
   locked_at,
   isOkay,
+  isLoaded,
   inSidebar = false,
 }: {
   command: string;
   locked_at: string;
   isOkay: boolean;
+  isLoaded: boolean;
   inSidebar: boolean;
 }) => {
   const theme = useTheme();
-  let badgeBackgroundColor = isOkay ? theme.palette.success.light : theme.palette.error.main;
-  let badgeColor = isOkay ? theme.palette.success.light : theme.palette.error.main;
+  let badgeBackgroundColor = isLoaded
+    ? isOkay
+      ? theme.palette.success.light
+      : theme.palette.error.main
+    : theme.palette.grey[600];
+  let badgeColor = isLoaded
+    ? isOkay
+      ? theme.palette.success.light
+      : theme.palette.error.main
+    : theme.palette.grey[600];
 
   if (command && locked_at) {
     badgeBackgroundColor = theme.palette.warning.main;
@@ -220,6 +230,7 @@ const ServerStatusBadge = () => {
             command={command || ""}
             locked_at={locked_at || ""}
             isOkay={isOkay}
+            isLoaded={successCheck}
           />
         </Box>
       </Tooltip>

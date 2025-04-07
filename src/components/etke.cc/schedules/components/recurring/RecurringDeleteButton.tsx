@@ -1,12 +1,12 @@
-import { useNotify, useDataProvider, useRecordContext } from "react-admin";
-import { useTheme } from "@mui/material/styles";
-
-import { RecurringCommand } from "../../../../../synapse/dataProvider";
-import { useAppContext } from "../../../../../Context";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Confirm } from "react-admin";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTheme } from "@mui/material/styles";
+import { useState } from "react";
+import { useNotify, useDataProvider, useRecordContext } from "react-admin";
+import { Button, Confirm } from "react-admin";
+import { useNavigate } from "react-router-dom";
+
+import { useAppContext } from "../../../../../Context";
+import { RecurringCommand } from "../../../../../synapse/dataProvider";
 
 const RecurringDeleteButton = () => {
   const record = useRecordContext() as RecurringCommand;
@@ -18,7 +18,7 @@ const RecurringDeleteButton = () => {
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.stopPropagation();
     setOpen(true);
   };
@@ -54,7 +54,7 @@ const RecurringDeleteButton = () => {
       <Confirm
         isOpen={open}
         title="Delete Recurring Command"
-        content={`Are you sure you want to delete the command: ${record?.command || ''}?`}
+        content={`Are you sure you want to delete the command: ${record?.command || ""}?`}
         onConfirm={handleConfirm}
         onClose={handleCancel}
       />

@@ -1,8 +1,7 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Card, CardContent, CardHeader, Box, Alert, Typography, Link } from "@mui/material";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import {
-  useParams,
-  useNavigate,
-} from "react-router-dom";
 import {
   Form,
   TextInput,
@@ -14,29 +13,20 @@ import {
   SelectInput,
   TimeInput,
 } from "react-admin";
-import { useQueryClient } from "@tanstack/react-query";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Box,
-  Alert,
-  Typography,
-  Link,
-} from "@mui/material";
-import { useAppContext } from "../../../../../Context";
-import { useRecurringCommands } from "../../hooks/useRecurringCommands";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useWatch } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
+
 import RecurringDeleteButton from "./RecurringDeleteButton";
+import { useAppContext } from "../../../../../Context";
 import { RecurringCommand } from "../../../../../synapse/dataProvider";
+import { useServerCommands } from "../../../hooks/useServerCommands";
+import { useRecurringCommands } from "../../hooks/useRecurringCommands";
 
 const transformCommandsToChoices = (commands: Record<string, any>) => {
   return Object.entries(commands).map(([key, value]) => ({
     id: key,
     name: value.name,
-    description: value.description
+    description: value.description,
   }));
 };
 
@@ -84,7 +74,7 @@ const RecurringCommandEdit = () => {
         const parsedCommand = {
           ...commandToEdit,
           day_of_week: timeParts.length > 1 ? timeParts[0] : "Monday",
-          execution_time: timeParts.length > 1 ? timeParts[1] : timeValue
+          execution_time: timeParts.length > 1 ? timeParts[1] : timeValue,
         };
 
         setCommand(parsedCommand);
@@ -93,7 +83,7 @@ const RecurringCommandEdit = () => {
     }
   }, [id, recurringCommands, isCreating]);
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async data => {
     try {
       // Format the time from the Date object to a string in HH:MM format
       let formattedTime = "00:00";
@@ -149,35 +139,34 @@ const RecurringCommandEdit = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button
-        label="Back"
-        onClick={() => navigate("/server_schedules")}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      />
+      <Button label="Back" onClick={() => navigate("/server_schedules")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
 
       <Card>
         <CardHeader title={pageTitle} />
         <CardContent>
-            {command && (
-              <Alert severity="info">
-                <Typography variant="body" sx={{ px: 2 }}>
-                  You can find more details about the command <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">here</Link>.
-                </Typography>
-              </Alert>
-            )}
-          <Form defaultValues={command || undefined} onSubmit={handleSubmit} record={command || undefined} warnWhenUnsavedChanges>
+          {command && (
+            <Alert severity="info">
+              <Typography variant="body" sx={{ px: 2 }}>
+                You can find more details about the command{" "}
+                <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                  here
+                </Link>
+                .
+              </Typography>
+            </Alert>
+          )}
+          <Form
+            defaultValues={command || undefined}
+            onSubmit={handleSubmit}
+            record={command || undefined}
+            warnWhenUnsavedChanges
+          >
             <Box display="flex" flexDirection="column" gap={2}>
               {!isCreating && <TextInput readOnly source="id" label="ID" fullWidth required />}
               <SelectInput source="command" choices={commandChoices} label="Command" fullWidth required />
               <ArgumentsField serverCommands={serverCommands} />
               <SelectInput source="day_of_week" choices={dayOfWeekChoices} label="Day of Week" fullWidth required />
-              <TimeInput
-                source="execution_time"
-                label="Time"
-                fullWidth
-                required
-              />
+              <TimeInput source="execution_time" label="Time" fullWidth required />
               <Box mt={2} display="flex" justifyContent="space-between">
                 <SaveButton label={isCreating ? "Create" : "Update"} />
                 {!isCreating && <RecurringDeleteButton />}

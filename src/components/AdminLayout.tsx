@@ -1,3 +1,4 @@
+import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -21,7 +22,6 @@ import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
 import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
-import ManageHistoryIcon from '@mui/icons-material/ManageHistory';
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -96,16 +96,30 @@ const AdminMenu = props => {
 
   return (
     <Menu {...props}>
-      {etkeRoutesEnabled && <Menu.Item key="server_status" to="/server_status" leftIcon={
-          <ServerStatusStyledBadge
-            inSidebar={true}
-            command={serverProcess.command}
-            locked_at={serverProcess.locked_at}
-            isOkay={serverStatus.ok} />
-        }
-        primaryText="Server Status" />
-      }
-      {etkeRoutesEnabled && <Menu.Item key="server_schedules" to="/server_schedules" leftIcon={<ManageHistoryIcon />} primaryText="Server Schedules" />}
+      {etkeRoutesEnabled && (
+        <Menu.Item
+          key="server_status"
+          to="/server_status"
+          leftIcon={
+            <ServerStatusStyledBadge
+              inSidebar={true}
+              command={serverProcess.command}
+              locked_at={serverProcess.locked_at}
+              isOkay={serverStatus.ok}
+              isLoaded={serverStatus.success}
+            />
+          }
+          primaryText="Server Status"
+        />
+      )}
+      {etkeRoutesEnabled && (
+        <Menu.Item
+          key="server_schedules"
+          to="/server_schedules"
+          leftIcon={<ManageHistoryIcon />}
+          primaryText="Server Schedules"
+        />
+      )}
       <Menu.ResourceItems />
       {menu &&
         menu.map((item, index) => {
