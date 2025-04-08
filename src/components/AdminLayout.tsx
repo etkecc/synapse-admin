@@ -114,10 +114,10 @@ const AdminMenu = props => {
       )}
       {etkeRoutesEnabled && (
         <Menu.Item
-          key="server_schedules"
-          to="/server_schedules"
+          key="server_actions"
+          to="/server_actions"
           leftIcon={<ManageHistoryIcon />}
-          primaryText="Server Schedules"
+          primaryText="Server Actions"
         />
       )}
       <Menu.ResourceItems />

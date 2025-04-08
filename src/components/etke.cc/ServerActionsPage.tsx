@@ -1,38 +1,21 @@
 import RestoreIcon from "@mui/icons-material/Restore";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import { Box, Typography, Link, Alert, Divider } from "@mui/material";
+import { Box, Typography, Link, Divider } from "@mui/material";
 import { Stack } from "@mui/material";
 
-import RecurringCommandsList from "./recurring/RecurringCommandsList";
-import ScheduledCommandsList from "./scheduled/ScheduledCommandsList";
-import CurrentlyRunningCommand from "../../CurrentlyRunningCommand";
-import ServerCommandsPanel from "../../ServerCommandsPanel";
-const ServerSchedulesPage = () => {
+import RecurringCommandsList from "./schedules/components/recurring/RecurringCommandsList";
+import ScheduledCommandsList from "./schedules/components/scheduled/ScheduledCommandsList";
+import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
+import ServerCommandsPanel from "./ServerCommandsPanel";
+const ServerActionsPage = () => {
   return (
     <Stack spacing={3} mt={3}>
-      <Stack spacing={1} direction="column">
+      <Stack spacing={2} direction="column">
         <CurrentlyRunningCommand />
         <ServerCommandsPanel />
       </Stack>
 
       <Divider sx={{ my: 4, borderWidth: 1 }} />
-
-      <Stack spacing={1} direction="column">
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="h4">Server Schedules</Typography>
-        </Box>
-        <Typography variant="body1">
-          Here you can{" "}
-          <Link target="_blank" href="https://etke.cc/help/extras/scheduler/#schedule">
-            schedule
-          </Link>{" "}
-          commands to run them either once at a certain time or on{" "}
-          <Link target="_blank" href="https://etke.cc/help/extras/scheduler/#recurring">
-            a recurring basis
-          </Link>
-          .
-        </Typography>
-      </Stack>
 
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5">
@@ -69,4 +52,4 @@ const ServerSchedulesPage = () => {
   );
 };
 
-export default ServerSchedulesPage;
+export default ServerActionsPage;

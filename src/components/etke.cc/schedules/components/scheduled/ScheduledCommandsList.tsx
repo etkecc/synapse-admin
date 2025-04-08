@@ -16,7 +16,7 @@ const ListActions = () => {
   const navigate = useNavigate();
 
   const handleCreate = () => {
-    navigate("/scheduled_commands/create");
+    navigate("/server_actions/scheduled/create");
   };
 
   return (
@@ -30,7 +30,7 @@ const ScheduledCommandsList = () => {
   const { data, isLoading, error } = useScheduledCommands();
 
   const listContext = useList({
-    resource: "scheduled_commands",
+    resource: "scheduled",
     sort: { field: "scheduled_at", order: "DESC" },
     perPage: 50,
     data: data || [],
@@ -40,7 +40,7 @@ const ScheduledCommandsList = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <ResourceContextProvider value="scheduled_commands">
+    <ResourceContextProvider value="scheduled">
       <ListContextProvider value={listContext}>
         <ListActions />
         <Paper>
@@ -52,10 +52,10 @@ const ScheduledCommandsList = () => {
               }
 
               if (record.is_recurring) {
-                return `/${resource}/${id}/show`;
+                return `/server_actions/${resource}/${id}/show`;
               }
 
-              return `/${resource}/${id}`;
+              return `/server_actions/${resource}/${id}`;
             }}
           >
             <TextField source="command" />

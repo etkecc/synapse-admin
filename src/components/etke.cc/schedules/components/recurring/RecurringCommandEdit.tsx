@@ -127,7 +127,7 @@ const RecurringCommandEdit = () => {
       // Invalidate scheduled commands queries
       queryClient.invalidateQueries({ queryKey: ["scheduledCommands"] });
 
-      navigate("/server_schedules");
+      navigate("/server_actions");
     } catch (error) {
       notify("recurring_commands.action.update_failure", { type: "error" });
     }
@@ -139,7 +139,7 @@ const RecurringCommandEdit = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button label="Back" onClick={() => navigate("/server_schedules")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
+      <Button label="Back" onClick={() => navigate("/server_actions")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
 
       <Card>
         <CardHeader title={pageTitle} />

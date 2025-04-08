@@ -82,7 +82,7 @@ const ScheduledCommandEdit = () => {
         notify("scheduled_commands.action.update_success", { type: "success" });
       }
 
-      navigate("/server_schedules");
+      navigate("/server_actions");
     } catch (error) {
       notify("scheduled_commands.action.update_failure", { type: "error" });
     }
@@ -94,7 +94,7 @@ const ScheduledCommandEdit = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button label="Back" onClick={() => navigate("/server_schedules")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
+      <Button label="Back" onClick={() => navigate("/server_actions")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
 
       <Card>
         <CardHeader title={pageTitle} />

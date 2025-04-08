@@ -28,7 +28,7 @@ const ScheduledDeleteButton = () => {
     try {
       await dataProvider.deleteScheduledCommand(etkeccAdmin, record.id);
       notify("scheduled_commands.action.delete_success", { type: "success" });
-      navigate("/server_schedules");
+      navigate("/server_actions");
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
       notify(`Error: ${errorMessage}`, { type: "error" });

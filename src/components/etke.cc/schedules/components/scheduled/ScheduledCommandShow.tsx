@@ -22,9 +22,6 @@ import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 const ScheduledCommandShow = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const notify = useNotify();
-  const dataProvider = useDataProvider();
-  const { etkeccAdmin } = useAppContext();
   const [command, setCommand] = useState<ScheduledCommand | null>(null);
   const [loading, setLoading] = useState(true);
   const { data: scheduledCommands, isLoading: isLoadingList } = useScheduledCommands();
@@ -44,15 +41,12 @@ const ScheduledCommandShow = () => {
   }
 
   if (!command) {
-    // notify("Command not found", { type: "error" });
-    // navigate("/server_schedules");
     return null;
   }
-  console.log(command);
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button label="Back" onClick={() => navigate("/server_schedules")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
+      <Button label="Back" onClick={() => navigate("/server_actions")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
 
       <RecordContextProvider value={command}>
         <Card>

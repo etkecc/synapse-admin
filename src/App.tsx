@@ -7,7 +7,7 @@ import { Route } from "react-router-dom";
 import AdminLayout from "./components/AdminLayout";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
-import ServerSchedulesPage from "./components/etke.cc/schedules/components/ServerSchedulesPage";
+import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
 import ScheduledCommandEdit from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandEdit";
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
@@ -68,12 +68,12 @@ export const App = () => (
       <CustomRoutes>
         <Route path="/import_users" element={<UserImport />} />
         <Route path="/server_status" element={<ServerStatusPage />} />
-        <Route path="/server_schedules" element={<ServerSchedulesPage />} />
-        <Route path="/scheduled_commands/:id/show" element={<ScheduledCommandShow />} />
-        <Route path="/scheduled_commands/:id" element={<ScheduledCommandEdit />} />
-        <Route path="/scheduled_commands/create" element={<ScheduledCommandEdit />} />
-        <Route path="/recurring_commands/:id" element={<RecurringCommandEdit />} />
-        <Route path="/recurring_commands/create" element={<RecurringCommandEdit />} />
+        <Route path="/server_actions" element={<ServerActionsPage />} />
+        <Route path="/server_actions/scheduled/:id/show" element={<ScheduledCommandShow />} />
+        <Route path="/server_actions/scheduled/:id" element={<ScheduledCommandEdit />} />
+        <Route path="/server_actions/scheduled/create" element={<ScheduledCommandEdit />} />
+        <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
+        <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
         <Route path="/server_notifications" element={<ServerNotificationsPage />} />
       </CustomRoutes>
       <Resource {...users} />

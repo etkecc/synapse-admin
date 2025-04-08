@@ -1,4 +1,4 @@
-import { PlayArrow, CheckCircle, HelpCenter } from "@mui/icons-material";
+import { PlayArrow, CheckCircle, HelpCenter, Construction } from "@mui/icons-material";
 import {
   Table,
   TableBody,
@@ -128,13 +128,16 @@ const ServerCommandsPanel = () => {
 
   return (
     <>
-      <Typography variant="h4">Server Commands</Typography>
+      <Typography variant="h5"><Construction sx={{ verticalAlign: "middle", mr: 1 }} /> Server Commands</Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>
                 Command
+              </TableCell>
+              <TableCell>
+                Help
                 <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
                   <Button size="small" startIcon={<HelpCenter />} title="Help" />
                 </Link>
@@ -145,15 +148,17 @@ const ServerCommandsPanel = () => {
           </TableHead>
           <TableBody>
             {Object.entries(serverCommands).map(([command, { icon, args, description, additionalArgs }]) => (
-              <TableRow key={command} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow key={command}>
                 <TableCell scope="row">
                   <Box>
                     {renderIcon(icon)}
                     {command}
+                  </Box>
+                </TableCell>
+                <TableCell>
                     <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
                       <Button size="small" startIcon={<HelpCenter />} title={command + " help"} />
                     </Link>
-                  </Box>
                 </TableCell>
                 <TableCell>{description}</TableCell>
                 <TableCell>
