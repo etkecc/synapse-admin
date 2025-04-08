@@ -4,6 +4,7 @@ import EngineeringIcon from "@mui/icons-material/Engineering";
 import { Alert, Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps } from "@mui/material";
 import { useStore } from "ra-core";
 
+import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import ServerCommandsPanel from "./ServerCommandsPanel";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
@@ -85,28 +86,13 @@ const ServerStatusPage = () => {
           {host}
         </Typography>
       </Stack>
-      {command && locked_at && (
-        <Stack spacing={1} direction="row" alignItems="center">
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <Typography variant="h5">Currently running:</Typography>
-            <Typography variant="h5" color="text.secondary">
-              <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
-                {command}
-              </Link>
-              <Tooltip title={locked_at.toString()}>
-                <Typography component="span" color="text.secondary" sx={{ display: "inline-block", ml: 1 }}>
-                  (started {getTimeSince(locked_at)} ago)
-                </Typography>
-              </Tooltip>
-            </Typography>
-          </Box>
-        </Stack>
-      )}
+
+      <CurrentlyRunningCommand />
 
       <ServerCommandsPanel />
 
       <Alert severity="info">
-        <Typography variant="body" sx={{ px: 2 }}>
+        <Typography variant="body1" sx={{ px: 2 }}>
           This is a{" "}
           <Link href="https://etke.cc/services/monitoring/" target="_blank">
             monitoring report

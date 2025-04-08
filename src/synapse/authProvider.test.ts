@@ -34,8 +34,8 @@ describe("authProvider", () => {
         headers: new Headers({
           Accept: "application/json",
           "Content-Type": "application/json",
+          credentials: "same-origin",
         }),
-        credentials: "same-origin",
         method: "POST",
       });
       expect(localStorage.getItem("base_url")).toEqual("http://example.com");
@@ -66,8 +66,8 @@ describe("authProvider", () => {
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
+        credentials: "same-origin",
       }),
-      credentials: "same-origin",
       method: "POST",
     });
     expect(localStorage.getItem("base_url")).toEqual("https://example.com");
@@ -87,10 +87,11 @@ describe("authProvider", () => {
       expect(fetch).toHaveBeenCalledWith("example.com/_matrix/client/v3/logout", {
         headers: new Headers({
           Accept: "application/json",
+          "Content-Type": "application/json",
           Authorization: "Bearer foo",
+          credentials: "same-origin",
         }),
         method: "POST",
-        credentials: "same-origin",
         user: { authenticated: true, token: "Bearer foo" },
       });
       expect(localStorage.getItem("access_token")).toBeNull();

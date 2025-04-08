@@ -10,10 +10,12 @@ import {
   Alert,
   TextField,
   Box,
+  Link,
+  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Button, Loading, useDataProvider, useCreatePath, useStore } from "react-admin";
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 
 import { useAppContext } from "../../Context";
 import { useServerCommands } from "./hooks/useServerCommands";
@@ -94,7 +96,8 @@ const ServerCommandsPanel = () => {
     results.push(
       <Box key="notification-link">
         Expect your result in the{" "}
-        <Link to={createPath({ resource: "server_notifications", type: "list" })}>Notifications</Link> page soon.
+        <RouterLink to={createPath({ resource: "server_notifications", type: "list" })}>Notifications</RouterLink> page
+        soon.
       </Box>
     );
 
@@ -125,20 +128,16 @@ const ServerCommandsPanel = () => {
 
   return (
     <>
-      <h2>Server Commands</h2>
+      <Typography variant="h4">Server Commands</Typography>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>
                 Command
-                <Button
-                  size="small"
-                  startIcon={<HelpCenter />}
-                  title="Help"
-                  href="https://etke.cc/help/extras/scheduler/#commands"
-                  target="_blank"
-                />
+                <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
+                  <Button size="small" startIcon={<HelpCenter />} title="Help" />
+                </Link>
               </TableCell>
               <TableCell>Description</TableCell>
               <TableCell></TableCell>
@@ -151,13 +150,9 @@ const ServerCommandsPanel = () => {
                   <Box>
                     {renderIcon(icon)}
                     {command}
-                    <Button
-                      size="small"
-                      startIcon={<HelpCenter />}
-                      title={command + " help"}
-                      href={"https://etke.cc/help/extras/scheduler/#" + command}
-                      target="_blank"
-                    />{" "}
+                    <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
+                      <Button size="small" startIcon={<HelpCenter />} title={command + " help"} />
+                    </Link>
                   </Box>
                 </TableCell>
                 <TableCell>{description}</TableCell>

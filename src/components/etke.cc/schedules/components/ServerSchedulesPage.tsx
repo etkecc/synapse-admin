@@ -5,10 +5,18 @@ import { Stack } from "@mui/material";
 
 import RecurringCommandsList from "./recurring/RecurringCommandsList";
 import ScheduledCommandsList from "./scheduled/ScheduledCommandsList";
-
+import CurrentlyRunningCommand from "../../CurrentlyRunningCommand";
+import ServerCommandsPanel from "../../ServerCommandsPanel";
 const ServerSchedulesPage = () => {
   return (
     <Stack spacing={3} mt={3}>
+      <Stack spacing={1} direction="column">
+        <CurrentlyRunningCommand />
+        <ServerCommandsPanel />
+      </Stack>
+
+      <Divider sx={{ my: 4, borderWidth: 1 }} />
+
       <Stack spacing={1} direction="column">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Typography variant="h4">Server Schedules</Typography>

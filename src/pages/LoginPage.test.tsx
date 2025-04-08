@@ -36,7 +36,14 @@ describe("LoginForm", () => {
   it("renders with single restricted homeserver", () => {
     render(
       <BrowserRouter>
-        <AppContext.Provider value={{ restrictBaseUrl: "https://matrix.example.com", asManagedUsers: [], menu: [] }}>
+        <AppContext.Provider
+          value={{
+            restrictBaseUrl: "https://matrix.example.com",
+            asManagedUsers: [],
+            menu: [],
+            corsCredentials: "include",
+          }}
+        >
           <AdminContext i18nProvider={i18nProvider}>
             <LoginPage />
           </AdminContext>
@@ -62,6 +69,7 @@ describe("LoginForm", () => {
           restrictBaseUrl: ["https://matrix.example.com", "https://matrix.example.org"],
           asManagedUsers: [],
           menu: [],
+          corsCredentials: "include",
         }}
       >
         <AdminContext i18nProvider={i18nProvider}>

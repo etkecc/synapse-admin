@@ -99,7 +99,7 @@ const ScheduledCommandEdit = () => {
       <Card>
         <CardHeader title={pageTitle} />
         {command && (
-          <Typography variant="body" sx={{ px: 2 }}>
+          <Typography variant="body1" sx={{ px: 2 }}>
             You can find more details about the command{" "}
             <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
               here
