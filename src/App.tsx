@@ -5,9 +5,9 @@ import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin
 import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
+import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
-import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
 import ScheduledCommandEdit from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandEdit";
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";

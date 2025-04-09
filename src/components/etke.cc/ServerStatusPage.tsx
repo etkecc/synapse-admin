@@ -5,7 +5,6 @@ import { Alert, Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, Chi
 import { useStore } from "ra-core";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
-import ServerCommandsPanel from "./ServerCommandsPanel";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
 
@@ -89,24 +88,20 @@ const ServerStatusPage = () => {
 
       <CurrentlyRunningCommand />
 
-      <ServerCommandsPanel />
-
-      <Alert severity="info">
-        <Typography variant="body1" sx={{ px: 2 }}>
-          This is a{" "}
-          <Link href="https://etke.cc/services/monitoring/" target="_blank">
-            monitoring report
-          </Link>{" "}
-          of the server. If any of the checks below concern you, please check the{" "}
-          <Link
-            href="https://etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues"
-            target="_blank"
-          >
-            suggested actions
-          </Link>
-          .
-        </Typography>
-      </Alert>
+      <Typography variant="body1">
+        This is a{" "}
+        <Link href="https://etke.cc/services/monitoring/" target="_blank">
+          monitoring report
+        </Link>{" "}
+        of the server. If any of the checks below concern you, please check the{" "}
+        <Link
+          href="https://etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues"
+          target="_blank"
+        >
+          suggested actions
+        </Link>
+        .
+      </Typography>
 
       <Stack spacing={2} direction="row">
         {Object.keys(groupedResults).map((category, idx) => (

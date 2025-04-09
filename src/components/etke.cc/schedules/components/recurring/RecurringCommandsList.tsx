@@ -38,13 +38,16 @@ const RecurringCommandsList = () => {
       <ListContextProvider value={listContext}>
         <ListActions />
         <Paper>
-          <Datagrid bulkActionButtons={false} rowClick={(id: Identifier, resource: string, record: any) => {
-            if (!record) {
-              return "";
-            }
+          <Datagrid
+            bulkActionButtons={false}
+            rowClick={(id: Identifier, resource: string, record: any) => {
+              if (!record) {
+                return "";
+              }
 
-            return `/server_actions/${resource}/${id}`;
-          }}>
+              return `/server_actions/${resource}/${id}`;
+            }}
+          >
             <TextField source="command" />
             <TextField source="args" label="Arguments" />
             <TextField source="time" label="Time (UTC)" />

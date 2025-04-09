@@ -128,20 +128,22 @@ const ServerCommandsPanel = () => {
 
   return (
     <>
-      <Typography variant="h5"><Construction sx={{ verticalAlign: "middle", mr: 1 }} /> Server Commands</Typography>
-      <TableContainer component={Paper}>
+      <Typography variant="h5">
+        <Construction sx={{ verticalAlign: "middle", mr: 1 }} /> Available Commands
+      </Typography>
+      <Typography variant="body1" sx={{ mt: 0 }}>
+        The following commands are available to run. More details about each of them can be found{" "}
+        <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
+          here
+        </Link>
+        .
+      </Typography>
+      <TableContainer component={Paper} sx={{ mt: 2 }}>
         <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>
-                Command
-              </TableCell>
-              <TableCell>
-                Help
-                <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
-                  <Button size="small" startIcon={<HelpCenter />} title="Help" />
-                </Link>
-              </TableCell>
+              <TableCell>Command</TableCell>
+              <TableCell></TableCell>
               <TableCell>Description</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -156,9 +158,9 @@ const ServerCommandsPanel = () => {
                   </Box>
                 </TableCell>
                 <TableCell>
-                    <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
-                      <Button size="small" startIcon={<HelpCenter />} title={command + " help"} />
-                    </Link>
+                  <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
+                    <Button size="small" startIcon={<HelpCenter />} title={command + " help"} />
+                  </Link>
                 </TableCell>
                 <TableCell>{description}</TableCell>
                 <TableCell>

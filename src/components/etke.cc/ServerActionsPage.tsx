@@ -3,19 +3,17 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import { Box, Typography, Link, Divider } from "@mui/material";
 import { Stack } from "@mui/material";
 
-import RecurringCommandsList from "./schedules/components/recurring/RecurringCommandsList";
-import ScheduledCommandsList from "./schedules/components/scheduled/ScheduledCommandsList";
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import ServerCommandsPanel from "./ServerCommandsPanel";
+import RecurringCommandsList from "./schedules/components/recurring/RecurringCommandsList";
+import ScheduledCommandsList from "./schedules/components/scheduled/ScheduledCommandsList";
 const ServerActionsPage = () => {
   return (
     <Stack spacing={3} mt={3}>
-      <Stack spacing={2} direction="column">
+      <Stack direction="column">
         <CurrentlyRunningCommand />
         <ServerCommandsPanel />
       </Stack>
-
-      <Divider sx={{ my: 4, borderWidth: 1 }} />
 
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5">
@@ -31,8 +29,6 @@ const ServerActionsPage = () => {
         </Typography>
         <ScheduledCommandsList />
       </Box>
-
-      <Divider sx={{ my: 4, borderWidth: 2 }} />
 
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5">
