@@ -23,10 +23,10 @@ const authProvider: AuthProvider = {
     console.log("login ");
     let options: Options = {
       method: "POST",
+      credentials: GetConfig().corsCredentials as RequestCredentials,
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
-        credentials: GetConfig().corsCredentials as RequestCredentials,
       }),
       body: JSON.stringify(
         Object.assign(
@@ -154,10 +154,10 @@ const authProvider: AuthProvider = {
 
     const options: Options = {
       method: "POST",
+      credentials: GetConfig().corsCredentials as RequestCredentials,
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
-        credentials: GetConfig().corsCredentials as RequestCredentials,
       }),
       user: {
         authenticated: true,

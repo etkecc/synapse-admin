@@ -47,10 +47,21 @@ In the application bar the new notifications icon is displayed that shows the nu
 
 When you click on a notification from the [Server Notifications icon](#server-notifications-icon)'s list in the application bar, you will be redirected to the Server Notifications page. This page contains the full text of all the notifications you have about your server.
 
+### Server Actions Page
+
+![Server Actions Page](../../../screenshots/etke.cc/server-actions/page.webp)
+
+When you click on the `Server Actions` sidebar menu item, you will be redirected to the Server Actions page.
+On this page you can do the following:
+
+* [Run a command](#server-commands-panel) on your server immediately
+* [Schedule a command](https://etke.cc/help/extras/scheduler/#schedule) to run at a specific date and time
+* [Configure a recurring schedule](https://etke.cc/help/extras/scheduler/#recurring) for a command to run at a specific time every week
+
 ### Server Commands Panel
 
 ![Server Commands Panel](../../../screenshots/etke.cc/server-commands/panel.webp)
 
-When you open [Server Status page](#server-status-page), you will see the Server Commands panel. This panel contains all
-[the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in 1 click. Once command is finished, you will get a notification about the
-result.
+When you open [Server Actions page](#server-status-page), you will see the Server Commands panel.
+This panel contains all [the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in 1 click.
+Once command is finished, you will get a notification about the result.
