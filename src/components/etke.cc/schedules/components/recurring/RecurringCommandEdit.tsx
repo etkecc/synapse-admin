@@ -166,7 +166,7 @@ const RecurringCommandEdit = () => {
               <SelectInput source="command" choices={commandChoices} label="Command" fullWidth required />
               <ArgumentsField serverCommands={serverCommands} />
               <SelectInput source="day_of_week" choices={dayOfWeekChoices} label="Day of Week" fullWidth required />
-              <TimeInput source="execution_time" label="Time" fullWidth required />
+              <TimeInput source="execution_time" label="Time (UTC)" fullWidth required />
               <Box mt={2} display="flex" justifyContent="space-between">
                 <SaveButton label={isCreating ? "Create" : "Update"} />
                 {!isCreating && <RecurringDeleteButton />}
