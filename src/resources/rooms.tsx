@@ -412,6 +412,10 @@ export const RoomList = (props: ListProps) => {
         </WrapperField>
         <FunctionField
           source="name"
+          sx={{
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+          }}
           render={record => record["name"] || record["canonical_alias"] || record["id"]}
           label="resources.rooms.fields.name"
         />

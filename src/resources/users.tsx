@@ -187,8 +187,23 @@ export const UserList = (props: ListProps) => (
         sortBy="avatar_url"
         label="resources.users.fields.avatar"
       />
-      <TextField source="id" sortBy="name" label="resources.users.fields.id" />
-      <TextField source="displayname" label="resources.users.fields.displayname" />
+      <TextField
+        source="id"
+        sx={{
+          wordBreak: "break-word",
+          overflowWrap: "break-word",
+        }}
+        sortBy="name"
+        label="resources.users.fields.id"
+      />
+      <TextField
+        source="displayname"
+        sx={{
+          wordBreak: "break-word",
+          overflowWrap: "break-word",
+        }}
+        label="resources.users.fields.displayname"
+      />
       <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
       <BooleanField source="admin" label="resources.users.fields.admin" />
       <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
@@ -283,7 +298,7 @@ export const UserCreate = (props: CreateProps) => {
         onSuccess: (resource: User) => {
           notify("ra.notification.created", { messageArgs: { smart_count: 1 } });
           redirect(() => {
-            return `users/${encodeURIComponent(resource.id)}`;
+            return `users/${encodeURIComponent(resource.id as string)}`;
           });
         },
       }
@@ -307,7 +322,7 @@ export const UserCreate = (props: CreateProps) => {
         onSuccess: (resource: User) => {
           notify("ra.notification.updated", { messageArgs: { smart_count: 1 } });
           redirect(() => {
-            return `users/${encodeURIComponent(resource.id)}`;
+            return `users/${encodeURIComponent(resource.id as string)}`;
           });
         },
       }
@@ -602,7 +617,13 @@ export const UserEdit = (props: EditProps) => {
                 link={false}
                 sortable={false}
               >
-                <TextField source="name" />
+                <TextField
+                  source="name"
+                  sx={{
+                    wordBreak: "break-word",
+                    overflowWrap: "break-word",
+                  }}
+                />
               </ReferenceField>
               <ReferenceField
                 reference="rooms"
