@@ -4461,10 +4461,10 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.7.2:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.7.2.tgz#858e8a48ca3e8d43130c58f10cb1d2637bdee255"
-  integrity sha512-/X/1fmrnsFzC+JWipV8xKW9Zg5NOrem3c6NkD110ij8jTlmeuQFkIZnrjpvqBcBRvk6r/BRRBJQ+6Aoo3HGPiQ==
+ra-core@^5.4.3, ra-core@^5.7.2, ra-core@^5.7.3:
+  version "5.7.3"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.7.3.tgz#4b330b5da71ed952d97deb9ea5a2594eb96680b8"
+  integrity sha512-efPFdUnrLpERy0IuonvVS2LxYhNr9q+WrFNtDn+AZiPLqM8z+4zP+66lEHch6zmZR+jJWzR3Jo/8L01cuvPVnA==
   dependencies:
     "@tanstack/react-query" "^5.21.7"
     clsx "^2.1.1"
