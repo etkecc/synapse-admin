@@ -4469,7 +4469,7 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.7.3, ra-core@^5.7.4:
+ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.7.4:
   version "5.7.4"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.7.4.tgz#e5cf337464f409ab94ec474f842fd1c1aeb53b33"
   integrity sha512-wHZ6Pco5x7DWWK9c9tIJt/n4kOIM/IMG7NMLHtx5ar59lHnLiifg1opfAPmgtyq+AVX7R75z2C0WH/5NJ9HATQ==
@@ -5402,10 +5402,10 @@ vite-plugin-version-mark@^0.1.4:
   resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.1.4.tgz#847ca9096365634eb952afa8ef36d96d109db0a9"
   integrity sha512-0uoEWDnrH9ho4IwTzyFKosA+XnOWK7uT8WwCskPb2DVeFrCSn4sfPG7b+8l9EFWHgCx0n52iqwQEbs3w5FFzpw==
 
-vite@^6.3.2:
-  version "6.3.3"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-6.3.3.tgz#497392c3f2243194e4dbf09ea83e9a3dddf49b88"
-  integrity sha512-5nXH+QsELbFKhsEfWLkHrvgRpTdGJzqOZ+utSdmPTvwHmvU6ITTm3xx+mRusihkcI8GeC7lCDyn3kDtiki9scw==
+vite@^6.3.4:
+  version "6.3.4"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-6.3.4.tgz#d441a72c7cd9a93b719bb851250a4e6c119c9cff"
+  integrity sha512-BiReIiMS2fyFqbqNT/Qqt4CVITDU9M9vE+DKcVAsB+ZV0wvTKd+3hMbkpxz1b+NmEDMegpVbisKiAZOnvO92Sw==
   dependencies:
     esbuild "^0.25.0"
     fdir "^6.4.4"
