@@ -1,8 +1,6 @@
-import { Stack, Switch, Typography } from "@mui/material";
+import { Tooltip, Stack, Switch, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useRecordContext } from "react-admin";
-import { useNotify } from "react-admin";
-import { useDataProvider } from "react-admin";
+import { useRecordContext, useTranslate, useNotify, useDataProvider } from "react-admin";
 
 import { ExperimentalFeaturesModel, SynapseDataProvider } from "../synapse/dataProvider";
 
@@ -15,6 +13,7 @@ const ExperimentalFeatureRow = (props: {
   featureValue: boolean;
   updateFeature: (feature_name: string, feature_value: boolean) => void;
 }) => {
+  const translate = useTranslate();
   const featureKey = props.featureKey;
   const featureValue = props.featureValue;
   const featureDescription = experimentalFeaturesMap[featureKey] ?? "";
@@ -34,7 +33,9 @@ const ExperimentalFeatureRow = (props: {
         padding: 2,
       }}
     >
-      <Switch checked={checked} onChange={handleChange} />
+      <Tooltip title={translate("resources.experimental_features.action.toggle")}>
+        <Switch checked={checked} onChange={handleChange} />
+      </Tooltip>
       <Stack>
         <Typography
           variant="subtitle1"

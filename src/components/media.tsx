@@ -50,10 +50,14 @@ const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
 
   const DeleteMediaToolbar = (props: ToolbarProps) => (
     <Toolbar {...props}>
-      <SaveButton label="delete_media.action.send" icon={<DeleteSweepIcon />} />
-      <Button label="ra.action.cancel" onClick={onClose}>
-        <IconCancel />
-      </Button>
+      <Tooltip title={translate("delete_media.helper.send")}>
+        <SaveButton label="delete_media.action.send" icon={<DeleteSweepIcon />} />
+      </Tooltip>
+      <Tooltip title={translate("ra.action.cancel")}>
+        <Button label="ra.action.cancel" onClick={onClose}>
+          <IconCancel />
+        </Button>
+      </Tooltip>
     </Toolbar>
   );
 
@@ -63,9 +67,20 @@ const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
       <DialogContent>
         <DialogContentText>{translate("delete_media.helper.send")}</DialogContentText>
         <SimpleForm toolbar={<DeleteMediaToolbar />} onSubmit={onSubmit}>
-          <DateTimeInput source="before_ts" label="delete_media.fields.before_ts" defaultValue={0} parse={dateParser} />
-          <NumberInput source="size_gt" label="delete_media.fields.size_gt" defaultValue={0} min={0} step={1024} />
-          <BooleanInput source="keep_profiles" label="delete_media.fields.keep_profiles" defaultValue={true} />
+          <Tooltip title={translate("delete_media.helper.before_ts")}>
+            <DateTimeInput
+              source="before_ts"
+              label="delete_media.fields.before_ts"
+              defaultValue={0}
+              parse={dateParser}
+            />
+          </Tooltip>
+          <Tooltip title={translate("delete_media.helper.size_gt")}>
+            <NumberInput source="size_gt" label="delete_media.fields.size_gt" defaultValue={0} min={0} step={1024} />
+          </Tooltip>
+          <Tooltip title={translate("delete_media.helper.keep_profiles")}>
+            <BooleanInput source="keep_profiles" label="delete_media.fields.keep_profiles" defaultValue={true} />
+          </Tooltip>
         </SimpleForm>
       </DialogContent>
     </Dialog>
@@ -76,6 +91,7 @@ export const DeleteMediaButton = (props: ButtonProps) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const notify = useNotify();
+  const translate = useTranslate();
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const { mutate: deleteMedia, isPending } = useMutation({
     mutationFn: (values: DeleteMediaParams) => dataProvider.deleteMedia(values),
@@ -95,24 +111,26 @@ export const DeleteMediaButton = (props: ButtonProps) => {
 
   return (
     <>
-      <Button
-        {...props}
-        label="delete_media.action.send"
-        onClick={openDialog}
-        disabled={isPending}
-        sx={{
-          color: theme.palette.error.main,
-          "&:hover": {
-            backgroundColor: alpha(theme.palette.error.main, 0.12),
-            // Reset on mouse devices
-            "@media (hover: none)": {
-              backgroundColor: "transparent",
+      <Tooltip title={translate("delete_media.helper.send")}>
+        <Button
+          {...props}
+          label="delete_media.action.send"
+          onClick={openDialog}
+          disabled={isPending}
+          sx={{
+            color: theme.palette.error.main,
+            "&:hover": {
+              backgroundColor: alpha(theme.palette.error.main, 0.12),
+              // Reset on mouse devices
+              "@media (hover: none)": {
+                backgroundColor: "transparent",
+              },
             },
-          },
-        }}
-      >
-        <DeleteSweepIcon />
-      </Button>
+          }}
+        >
+          <DeleteSweepIcon />
+        </Button>
+      </Tooltip>
       <DeleteMediaDialog open={open} onClose={closeDialog} onSubmit={deleteMedia} />
     </>
   );
@@ -123,10 +141,14 @@ const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
 
   const PurgeRemoteMediaToolbar = (props: ToolbarProps) => (
     <Toolbar {...props}>
-      <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
-      <Button label="ra.action.cancel" onClick={onClose}>
-        <IconCancel />
-      </Button>
+      <Tooltip title={translate("purge_remote_media.helper.send")}>
+        <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
+      </Tooltip>
+      <Tooltip title={translate("ra.action.cancel")}>
+        <Button label="ra.action.cancel" onClick={onClose}>
+          <IconCancel />
+        </Button>
+      </Tooltip>
     </Toolbar>
   );
 
@@ -152,6 +174,7 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const notify = useNotify();
+  const translate = useTranslate();
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const { mutate: purgeRemoteMedia, isPending } = useMutation({
     mutationFn: (values: DeleteMediaParams) => dataProvider.purgeRemoteMedia(values),
@@ -171,22 +194,24 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
 
   return (
     <>
-      <Button
-        {...props}
-        label="purge_remote_media.action.send"
-        onClick={openDialog}
-        disabled={isPending}
-        sx={{
-          "&:hover": {
-            // Reset on mouse devices
-            "@media (hover: none)": {
-              backgroundColor: "transparent",
+      <Tooltip title={translate("purge_remote_media.helper.send")}>
+        <Button
+          {...props}
+          label="purge_remote_media.action.send"
+          onClick={openDialog}
+          disabled={isPending}
+          sx={{
+            "&:hover": {
+              // Reset on mouse devices
+              "@media (hover: none)": {
+                backgroundColor: "transparent",
+              },
             },
-          },
-        }}
-      >
-        <DeleteSweepIcon />
-      </Button>
+          }}
+        >
+          <DeleteSweepIcon />
+        </Button>
+      </Tooltip>
       <PurgeRemoteMediaDialog open={open} onClose={closeDialog} onSubmit={purgeRemoteMedia} />
     </>
   );
@@ -462,6 +487,7 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
 };
 
 export const MediaIDField = ({ source }) => {
+  const translate = useTranslate();
   const record = useRecordContext();
   if (!record) {
     return null;
@@ -484,10 +510,15 @@ export const MediaIDField = ({ source }) => {
     mxcURL = `mxc://${homeserver}/${mediaID}`;
   }
 
-  return <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type} />;
+  return (
+    <Tooltip title={translate("resources.users_media.action.open")}>
+      <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type} />
+    </Tooltip>
+  );
 };
 
 export const ReportMediaContent = ({ source }) => {
+  const translate = useTranslate();
   const record = useRecordContext();
   if (!record) {
     return null;
@@ -503,5 +534,9 @@ export const ReportMediaContent = ({ source }) => {
     uploadName = decodeURLComponent(get(record, "event_json.content.body")?.toString());
   }
 
-  return <ViewMediaButton mxcURL={mxcURL} label={mxcURL} uploadName={uploadName} mimetype={record.media_type} />;
+  return (
+    <Tooltip title={translate("resources.users_media.action.open")}>
+      <ViewMediaButton mxcURL={mxcURL} label={mxcURL} uploadName={uploadName} mimetype={record.media_type} />
+    </Tooltip>
+  );
 };
