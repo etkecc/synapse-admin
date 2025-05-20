@@ -1,7 +1,7 @@
 import ActionCheck from "@mui/icons-material/CheckCircle";
 import ActionDelete from "@mui/icons-material/Delete";
 import AlertError from "@mui/icons-material/ErrorOutline";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Button, Tooltip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { Fragment, useState } from "react";
 import {
   SimpleForm,
@@ -63,22 +63,24 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
 
   return (
     <Fragment>
-      <Button
-        onClick={handleDialogOpen}
-        disabled={isLoading}
-        className={"ra-delete-button"}
-        key="button"
-        size="small"
-        sx={{
-          "&.MuiButton-sizeSmall": {
-            lineHeight: 1.5,
-          },
-        }}
-        color={"error"}
-        startIcon={<ActionDelete />}
-      >
-        {translate("ra.action.delete")}
-      </Button>
+      <Tooltip title={translate("ra.action.delete")}>
+        <Button
+          onClick={handleDialogOpen}
+          disabled={isLoading}
+          className={"ra-delete-button"}
+          key="button"
+          size="small"
+          sx={{
+            "&.MuiButton-sizeSmall": {
+              lineHeight: 1.5,
+            },
+          }}
+          color={"error"}
+          startIcon={<ActionDelete />}
+        >
+          {translate("ra.action.delete")}
+        </Button>
+      </Tooltip>
       <Dialog open={open} onClose={handleDialogClose}>
         <DialogTitle>{translate(props.confirmTitle)}</DialogTitle>
         <DialogContent>
