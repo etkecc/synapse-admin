@@ -146,40 +146,51 @@ const LoginPage = () => {
       const domain = splitMxid(formData.username)?.domain;
       if (domain) {
         getWellKnownUrl(domain).then(url => {
-          if (allowAnyBaseUrl || (allowMultipleBaseUrls && restrictBaseUrl.includes(url)))
-            form.setValue("base_url", url);
+          if (allowAnyBaseUrl || (allowMultipleBaseUrls && restrictBaseUrl.includes(url))) {
+            form.setValue("base_url", url, {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+            checkServerInfo(url);
+          }
         });
       }
     };
 
-    useEffect(() => {
-      if (!formData.base_url) {
-        form.setValue("base_url", "");
-      }
-      if (formData.base_url === "" && allowMultipleBaseUrls) {
-        form.setValue("base_url", restrictBaseUrl[0]);
-      }
-      if (!isValidBaseUrl(formData.base_url)) return;
+    const checkServerInfo = (url: string) => {
+      if (!isValidBaseUrl(url)) return;
 
-      getServerVersion(formData.base_url)
+      getServerVersion(url)
         .then(serverVersion => setServerVersion(`${translate("synapseadmin.auth.server_version")} ${serverVersion}`))
         .catch(() => setServerVersion(""));
 
-      getSupportedFeatures(formData.base_url)
+      getSupportedFeatures(url)
         .then(features =>
           setMatrixVersions(`${translate("synapseadmin.auth.supports_specs")} ${features.versions.join(", ")}`)
         )
         .catch(() => setMatrixVersions(""));
 
       // Set SSO Url
-      getSupportedLoginFlows(formData.base_url)
+      getSupportedLoginFlows(url)
         .then(loginFlows => {
           const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
           const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
           setSupportPassAuth(supportPass);
-          setSSOBaseUrl(supportSSO ? formData.base_url : "");
+          setSSOBaseUrl(supportSSO ? url : "");
         })
         .catch(() => setSSOBaseUrl(""));
+    };
+
+    const handleBaseUrlBlur = () => {
+      // Trigger validation only when user finishes typing
+      form.trigger("base_url");
+      checkServerInfo(formData.base_url);
+    };
+
+    useEffect(() => {
+      if (formData.base_url === "" && allowMultipleBaseUrls) {
+        form.setValue("base_url", restrictBaseUrl[0]);
+      }
     }, [formData.base_url, form]);
 
     useEffect(() => {
@@ -189,6 +200,7 @@ const LoginPage = () => {
       const password = params.get("password");
       const accessToken = params.get("accessToken");
       let serverURL = params.get("server");
+
       if (username) {
         form.setValue("username", username);
       }
@@ -202,12 +214,19 @@ const LoginPage = () => {
           form.setValue("accessToken", accessToken);
         }
       }
+
       if (serverURL) {
         const isFullUrl = serverURL.match(/^(http|https):\/\//);
         if (!isFullUrl) {
           serverURL = `https://${serverURL}`;
         }
-        form.setValue("base_url", serverURL);
+
+        form.setValue("base_url", serverURL, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+
+        checkServerInfo(serverURL);
       }
     }, [window.location.search]);
 
@@ -270,6 +289,7 @@ const LoginPage = () => {
             readOnly={allowSingleBaseUrl}
             resettable={allowAnyBaseUrl}
             validate={[required(), validateBaseUrl]}
+            onBlur={handleBaseUrlBlur}
           >
             {allowMultipleBaseUrls &&
               restrictBaseUrl.map(url => (
@@ -286,7 +306,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onTouched">
+    <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onBlur">
       <LoginFormBox>
         <Card className="card">
           <Box className="avatar">
