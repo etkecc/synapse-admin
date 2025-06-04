@@ -28,6 +28,7 @@ import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
 import authProvider from "./synapse/authProvider";
 import dataProvider from "./synapse/dataProvider";
+import UserRolesPage from './components/UserRolesPage';
 
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {
@@ -75,6 +76,7 @@ export const App = () => (
         <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
         <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
         <Route path="/server_notifications" element={<ServerNotificationsPage />} />
+        <Route path="/user_roles" element={<UserRolesPage />} />
       </CustomRoutes>
       <Resource {...users} />
       <Resource {...rooms} />

@@ -84,6 +84,8 @@ import { DATE_FORMAT } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { isASManaged } from "../utils/mxid";
 import { generateRandomPassword } from "../utils/password";
+import UserRolesPage from './components/UserRolesPage';
+
 
 const choices_medium = [
   { id: "email", name: "resources.users.email" },
@@ -670,6 +672,9 @@ export const UserEdit = (props: EditProps) => {
 
         <FormTab label="synapseadmin.users.tabs.account_data" icon={<DocumentScannerIcon />} path="accountdata">
           <UserAccountData />
+        </FormTab>
+        <FormTab label="synapseadmin.users.tabs.roles" icon={<AssignmentIndIcon />} path="roles">
+          <UserRolesPage />
         </FormTab>
       </TabbedForm>
     </Edit>
