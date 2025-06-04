@@ -1463,12 +1463,12 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       }
 
       if (avatarFile instanceof File) {
-        const reponse = await dataProvider.uploadMedia({
+        const response = await dataProvider.uploadMedia({
           file: avatarFile,
           filename: params.data.avatar_file.title,
           content_type: params.data.avatar_file.rawFile.type,
         });
-        params.data.avatar_url = reponse.content_uri;
+        params.data.avatar_url = response.content_uri;
       }
       return params;
     },

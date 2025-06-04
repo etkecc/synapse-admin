@@ -9,7 +9,7 @@ You can do that for a single homeserver or multiple homeservers at once, as `res
 an array of strings.
 
 The examples below contain the configuration settings to restrict the Synapse Admin instance to work only with
-`example.com` (with Synapse runing at `matrix.example.com`) and
+`example.com` (with Synapse running at `matrix.example.com`) and
 `example.net` (with Synapse running at `synapse.example.net`) homeservers.
 Note that the homeserver URL should be the _actual_ homeserver URL, and not the delegated one.
 

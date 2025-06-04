@@ -74,7 +74,7 @@ export const ExperimentalFeaturesList = () => {
   const updateFeature = async (feature_name: string, feature_value: boolean) => {
     const updatedFeatures = { ...features, [feature_name]: feature_value } as ExperimentalFeaturesModel;
     setFeatures(updatedFeatures);
-    const reponse = await dataProvider.updateFeatures(record.id, updatedFeatures);
+    const response = await dataProvider.updateFeatures(record.id, updatedFeatures);
     notify("ra.notification.updated", {
       messageArgs: { smart_count: 1 },
       type: "success",
