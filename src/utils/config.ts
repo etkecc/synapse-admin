@@ -67,7 +67,7 @@ export const FetchConfig = async () => {
 };
 
 // load config from context
-// we deliberately processing each key separately to avoid overwriting the whole config, loosing some keys, and messing
+// we deliberately processing each key separately to avoid overwriting the whole config, losing some keys, and messing
 // with typescript types
 export const LoadConfig = (context: any) => {
   if (context?.restrictBaseUrl) {
