@@ -22,6 +22,30 @@ import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
 import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
+import PeopleIcon from '@mui/icons-material/People';
+
+
+const MyMenu = () => {
+  const resources = useResourceDefinitions();
+  return (
+    <Menu>
+      {Object.keys(resources).map(name => (
+        <MenuItemLink
+          key={name}
+          to={`/${name}`}
+          primaryText={resources[name].options?.label || name}
+          leftIcon={resources[name].icon}
+        />
+      ))}
+      {/* Добавляем новый пункт меню */}
+      <MenuItemLink
+        to="/user_roles"
+        primaryText="User Roles"
+        leftIcon={<PeopleIcon />}
+      />
+    </Menu>
+  );
+};
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);

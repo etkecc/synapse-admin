@@ -648,6 +648,30 @@ function getSearchOrder(order: "ASC" | "DESC") {
 }
 
 const baseDataProvider: SynapseDataProvider = {
+  customMethod: async (url: string, options: RequestInit = {}) => {
+    const token = localStorage.getItem('token');
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...options.headers,
+    };
+
+    const response = await fetch(`${baseUrl}${url}`, {
+      ...options,
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    return {
+      status: response.status,
+      headers: response.headers,
+      data: await response.json(),
+    };
+  },
+
   getList: async (resource, params) => {
     console.log("getList " + resource);
     const { user_id, name, guests, deactivated, locked, suspended, search_term, destination, valid } = params.filter;
