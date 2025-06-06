@@ -434,6 +434,7 @@ const UserBooleanInput = props => {
 const UserPasswordInput = props => {
   const record = useRecordContext();
   let asManagedUserIsSelected = false;
+  const translate = useTranslate();
 
   // Get form context to update field value
   const form = useFormContext();
@@ -446,17 +447,34 @@ const UserPasswordInput = props => {
     form.setValue("password", password, { shouldDirty: true });
   };
 
+  // Get the current deactivated state and the original value
+  const deactivated = form.watch("deactivated");
+  const deactivatedFromRecord = record?.deactivated;
+
+  // Custom validation for reactivation case
+  const validatePasswordOnReactivation = value => {
+    if (deactivatedFromRecord === true && deactivated === false && !value) {
+      return translate("resources.users.helper.password_required_for_reactivation");
+    }
+    return undefined;
+  };
+
+  let passwordHelperText = "resources.users.helper.create_password";
+
+  if (asManagedUserIsSelected) {
+    passwordHelperText = "resources.users.helper.modify_managed_user_error";
+  } else if (deactivatedFromRecord === true && deactivated === false) {
+    passwordHelperText = "resources.users.helper.password_required_for_reactivation";
+  } else if (record) {
+    passwordHelperText = "resources.users.helper.password";
+  }
+
   return (
     <>
       <PasswordInput
         {...props}
-        helperText={
-          asManagedUserIsSelected
-            ? "resources.users.helper.modify_managed_user_error"
-            : record
-              ? "resources.users.helper.password"
-              : "resources.users.helper.create_password"
-        }
+        validate={validatePasswordOnReactivation}
+        helperText={passwordHelperText}
         disabled={asManagedUserIsSelected}
       />
       <Button

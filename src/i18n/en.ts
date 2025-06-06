@@ -171,6 +171,7 @@ const en: SynapseTranslationMessages = {
       },
       helper: {
         password: "Changing password will log user out of all sessions.",
+        password_required_for_reactivation: "You must provide a password to re-activate an account.",
         create_password: "Generate a strong and secure password using the button below.",
         lock: "Prevent the user from usefully using their account. This is a non-destructive action that can be reversed.",
         deactivate: "You must provide a password to re-activate an account.",

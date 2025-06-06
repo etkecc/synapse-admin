@@ -161,6 +161,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
       };
       helper: {
         password: string;
+        password_required_for_reactivation: string;
         create_password: string;
         lock: string;
         deactivate: string;

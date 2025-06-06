@@ -204,6 +204,7 @@ const de: SynapseTranslationMessages = {
       },
       helper: {
         password: "Durch die Änderung des Passworts wird der Benutzer von allen Sitzungen abgemeldet.",
+        password_required_for_reactivation: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
         create_password: "Generiere ein starkes und sicheres Passwort mit dem Button unten.",
         deactivate: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
         suspend:
