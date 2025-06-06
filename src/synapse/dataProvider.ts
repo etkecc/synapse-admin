@@ -1054,7 +1054,7 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       await jsonClient(endpoint_url, {
         method: "POST",
-        body: JSON.stringify({ erase: true })
+        body: JSON.stringify({ erase: true }),
       });
       return { success: true };
     } catch (error) {

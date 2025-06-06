@@ -537,9 +537,21 @@ export const UserEdit = (props: EditProps) => {
           <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable />
           <BooleanInput source="admin" helperText="resources.users.helper.admin" />
           <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
-          <UserBooleanInput sx={{ color: theme.palette.warning.main }} source="locked" helperText="resources.users.helper.lock" />
-          <UserBooleanInput sx={{ color: theme.palette.error.main }} source="deactivated" helperText="resources.users.helper.deactivate" />
-          <ErasedBooleanInput sx={{ color: theme.palette.error.main, marginLeft: "25px" }} source="erased" helperText="resources.users.helper.erase" />
+          <UserBooleanInput
+            sx={{ color: theme.palette.warning.main }}
+            source="locked"
+            helperText="resources.users.helper.lock"
+          />
+          <UserBooleanInput
+            sx={{ color: theme.palette.error.main }}
+            source="deactivated"
+            helperText="resources.users.helper.deactivate"
+          />
+          <ErasedBooleanInput
+            sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
+            source="erased"
+            helperText="resources.users.helper.erase"
+          />
           <DateField sx={{ marginTop: "20px" }} source="creation_ts_ms" showTime options={DATE_FORMAT} />
           <TextField source="consent_version" />
         </FormTab>
