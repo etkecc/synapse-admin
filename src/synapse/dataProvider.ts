@@ -348,6 +348,7 @@ export interface SynapseDataProvider extends DataProvider {
   getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  suspendUser: (id: Identifier, suspendValue: boolean) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
@@ -782,6 +783,7 @@ const baseDataProvider: SynapseDataProvider = {
     const res = resourceMap[resource];
 
     const endpoint_url = homeserver + res.path;
+
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`, {
       method: "PUT",
       body: JSON.stringify(params.data, filterNullValues),
@@ -1018,6 +1020,22 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
     try {
       const { json } = await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
+      return { success: true };
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return { success: false, error: error.body.error, errcode: error.body.errcode };
+      }
+      throw error;
+    }
+  },
+  suspendUser: async (id: Identifier, suspendValue: boolean) => {
+    const base_url = localStorage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/suspend/${encodeURIComponent(returnMXID(id))}`;
+    try {
+      const { json } = await jsonClient(endpoint_url, {
+        method: "PUT",
+        body: JSON.stringify({ suspend: suspendValue })
+      });
       return { success: true };
     } catch (error) {
       if (error instanceof HttpError) {
@@ -1427,10 +1445,16 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       const avatarFile = params.data.avatar_file?.rawFile;
       const avatarErase = params.data.avatar_erase;
       const rates = params.data.rates;
+      const suspended = params.data.suspended;
 
       if (rates) {
         await dataProvider.setRateLimits(params.id, rates);
         delete params.data.rates;
+      }
+
+      if (suspended !== undefined) {
+        await (dataProvider as SynapseDataProvider).suspendUser(params.id, suspended);
+        delete params.data.suspended;
       }
 
       if (avatarErase) {

@@ -40,7 +40,7 @@ const UserAccountData = () => {
     <>
       <Stack direction="column" spacing={2} width="100%">
         <Typography variant="h6">{translate("resources.users.account_data.title")}</Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" component="div">
           <Box>
             <Accordion>
               <AccordionSummary expandIcon={<ArrowDownwardIcon />}>

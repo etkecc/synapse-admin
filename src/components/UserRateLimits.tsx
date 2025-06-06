@@ -33,7 +33,6 @@ const RateLimitRow = ({
       }}
     >
       <TextField
-        id="outlined-number"
         type="number"
         value={value}
         onChange={handleChange}
