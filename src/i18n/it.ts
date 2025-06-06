@@ -167,6 +167,8 @@ const it: SynapseTranslationMessages = {
         deactivate: "Devi fornire una password per riattivare l'account.",
         suspend: "Sospendi l'utente",
         erase: "Constrassegna l'utente come cancellato dal GDPR",
+        admin: "Un amministratore del server ha controllo totale sul server e sui suoi utenti.",
+        lock: "Impedisce all'utente di utilizzare il server. Questa è un'azione non distruttiva che può essere annullata.",
         erase_text:
           "Ciò significa che i messaggi inviati dall'utente (o dagli utenti) saranno ancora visibili da chiunque si trovasse nella stanza al momento dell'invio, ma saranno nascosti agli utenti che si uniranno alla stanza in seguito.",
         erase_admin_error: "Non è consentito eliminare il proprio utente.",
