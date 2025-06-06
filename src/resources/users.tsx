@@ -115,7 +115,8 @@ const userFilters = [
   <BooleanInput source="guests" alwaysOn />,
   <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
   <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
-  <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
+  // waiting for https://github.com/element-hq/synapse/issues/18016
+  // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
 ];
 
 const UserPreventSelfDelete: React.FC<{
@@ -208,7 +209,6 @@ export const UserList = (props: ListProps) => (
       <BooleanField source="admin" label="resources.users.fields.admin" />
       <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
       <BooleanField source="locked" label="resources.users.fields.locked" />
-      <BooleanField source="suspended" label="resources.users.fields.suspended" />
       <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
       <DateField source="creation_ts" label="resources.users.fields.creation_ts_ms" showTime options={DATE_FORMAT} />
     </DatagridConfigurable>
