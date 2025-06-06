@@ -516,6 +516,7 @@ export const UserEdit = (props: EditProps) => {
           <BooleanInput source="admin" />
           <UserBooleanInput source="locked" />
           <UserBooleanInput source="deactivated" helperText="resources.users.helper.deactivate" />
+          <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
           <BooleanInput source="erased" disabled />
           <DateField source="creation_ts_ms" showTime options={DATE_FORMAT} />
           <TextField source="consent_version" />
