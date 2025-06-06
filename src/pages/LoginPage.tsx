@@ -185,7 +185,6 @@ const LoginPage = () => {
     }
   };
 
-
   const UserData = ({ formData }) => {
     const form = useFormContext();
 
@@ -197,17 +196,17 @@ const LoginPage = () => {
       const domain = splitMxid(formData.username)?.domain;
       if (domain) {
         const url = await getWellKnownUrl(domain);
-          if (allowAnyBaseUrl || (allowMultipleBaseUrls && restrictBaseUrl.includes(url))) {
-            form.setValue("base_url", url, {
-              shouldValidate: true,
-              shouldDirty: true,
-            });
+        if (allowAnyBaseUrl || (allowMultipleBaseUrls && restrictBaseUrl.includes(url))) {
+          form.setValue("base_url", url, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
           checkServerInfo(url);
         }
       }
     };
 
-    const handleBaseUrlBlurOrChange = (event) => {
+    const handleBaseUrlBlurOrChange = event => {
       // Get the value either from the event (onChange) or from formData (onBlur)
       const value = event?.target?.value || formData.base_url;
 
@@ -318,16 +317,17 @@ const LoginPage = () => {
               choices={baseUrlChoices}
             />
           )}
-          {!allowMultipleBaseUrls && (<TextInput
-            source="base_url"
-            label="synapseadmin.auth.base_url"
-            autoComplete="url"
-            {...(loading ? { disabled: true } : {})}
-            readOnly={allowSingleBaseUrl}
-            resettable={allowAnyBaseUrl}
-            validate={[required(), validateBaseUrl]}
-            onBlur={handleBaseUrlBlurOrChange}
-           />
+          {!allowMultipleBaseUrls && (
+            <TextInput
+              source="base_url"
+              label="synapseadmin.auth.base_url"
+              autoComplete="url"
+              {...(loading ? { disabled: true } : {})}
+              readOnly={allowSingleBaseUrl}
+              resettable={allowAnyBaseUrl}
+              validate={[required(), validateBaseUrl]}
+              onBlur={handleBaseUrlBlurOrChange}
+            />
           )}
         </Box>
         <Typography className="serverVersion">{serverVersion}</Typography>

@@ -115,6 +115,8 @@ const userFilters = [
   <BooleanInput source="guests" alwaysOn />,
   <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
   <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
+  // waiting for https://github.com/element-hq/synapse/issues/18016
+  // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
 ];
 
 const UserPreventSelfDelete: React.FC<{
