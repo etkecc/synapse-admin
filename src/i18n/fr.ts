@@ -170,6 +170,7 @@ const fr: SynapseTranslationMessages = {
       },
       helper: {
         password: "Changer le mot de passe déconnectera l'utilisateur de toutes les sessions.",
+        password_required_for_reactivation: "Vous devez fournir un mot de passe pour réactiver le compte.",
         create_password: "Générer un mot de passe fort et sécurisé en utilisant le bouton ci-dessous.",
         deactivate: "Vous devrez fournir un mot de passe pour réactiver le compte.",
         suspend: "L'utilisateur sera suspendu jusqu'à ce que vous le réactiviez.",

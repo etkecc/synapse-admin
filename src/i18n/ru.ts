@@ -208,6 +208,7 @@ const ru: SynapseTranslationMessages = {
       },
       helper: {
         password: "Смена пароля завершит все сессии пользователя.",
+        password_required_for_reactivation: "Вы должны предоставить пароль для реактивации учётной записи.",
         create_password: "Сгенерировать надёжный и безопасный пароль, используя кнопку ниже.",
         deactivate: "Вы должны предоставить пароль для реактивации учётной записи.",
         suspend:

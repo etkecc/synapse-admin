@@ -115,6 +115,7 @@ The following changes are already implemented:
 * 🌐 [Configurable CORS Credentials](https://github.com/etkecc/synapse-admin/pull/456)
 * [Do not check homeserver URL during typing in the login form](https://github.com/etkecc/synapse-admin/pull/585)
 * [Improve user account status toggles](https://github.com/etkecc/synapse-admin/pull/608)
+* [Validate that password is entered upon reactivation of account](https://github.com/etkecc/synapse-admin/pull/609)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

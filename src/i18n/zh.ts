@@ -193,6 +193,7 @@ const zh: SynapseTranslationMessages = {
       },
       helper: {
         password: "更改密码会使用户注销所有会话。",
+        password_required_for_reactivation: "您必须提供一串密码来激活账户。",
         create_password: "使用下面的按钮生成一个强大和安全的密码。",
         deactivate: "您必须提供一串密码来激活账户。",
         suspend: "您必须提供一串密码来暂停账户。",
