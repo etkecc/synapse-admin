@@ -352,6 +352,7 @@ export interface SynapseDataProvider extends DataProvider {
     id: Identifier,
     suspendValue: boolean
   ) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
@@ -1047,6 +1048,22 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
+  eraseUser: async (id: Identifier) => {
+    const base_url = localStorage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/deactivate/${encodeURIComponent(returnMXID(id))}`;
+    try {
+      await jsonClient(endpoint_url, {
+        method: "POST",
+        body: JSON.stringify({ erase: true }),
+      });
+      return { success: true };
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return { success: false, error: error.body.error, errcode: error.body.errcode };
+      }
+      throw error;
+    }
+  },
   getServerRunningProcess: async (etkeAdminUrl: string, burstCache = false): Promise<ServerProcessResponse> => {
     const locked_at = "";
     const command = "";
@@ -1449,15 +1466,24 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       const avatarErase = params.data.avatar_erase;
       const rates = params.data.rates;
       const suspended = params.data.suspended;
+      const previousSuspended = params.previousData?.suspended;
+      const deactivated = params.data.deactivated;
+      const erased = params.data.erased;
 
       if (rates) {
         await dataProvider.setRateLimits(params.id, rates);
         delete params.data.rates;
       }
 
-      if (suspended !== undefined) {
+      if (suspended !== undefined && suspended !== previousSuspended) {
         await (dataProvider as SynapseDataProvider).suspendUser(params.id, suspended);
         delete params.data.suspended;
+      }
+
+      if (deactivated !== undefined && erased !== undefined) {
+        await (dataProvider as SynapseDataProvider).eraseUser(params.id);
+        delete params.data.deactivated;
+        delete params.data.erased;
       }
 
       if (avatarErase) {

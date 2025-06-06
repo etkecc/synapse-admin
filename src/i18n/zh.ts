@@ -197,6 +197,8 @@ const zh: SynapseTranslationMessages = {
         deactivate: "您必须提供一串密码来激活账户。",
         suspend: "您必须提供一串密码来暂停账户。",
         erase: "将用户标记为根据 GDPR 的要求抹除了",
+        admin: "服务器管理员对服务器和其用户有完全的控制权。",
+        lock: "阻止用户使用服务器。这是一个非破坏性的操作，可以被撤销。",
         erase_text:
           "这意味着用户发送的信息对于发送信息时在房间内的任何人来说都是可见的，但对于之后加入房间的用户来说则是隐藏的。",
         erase_admin_error: "不允许删除自己的用户",

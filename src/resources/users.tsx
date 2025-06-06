@@ -426,7 +426,7 @@ const UserBooleanInput = props => {
 
   return (
     <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
-      <BooleanInput {...props} disabled={ownUserIsSelected || asManagedUserIsSelected} />
+      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...props} />
     </UserPreventSelfDelete>
   );
 };
@@ -470,8 +470,28 @@ const UserPasswordInput = props => {
   );
 };
 
+const ErasedBooleanInput = props => {
+  const record = useRecordContext();
+  const form = useFormContext();
+  const deactivated = form.watch("deactivated");
+  const erased = form.watch("erased");
+
+  const erasedFromRecord = record?.erased;
+  const deactivatedFromRecord = record?.deactivated;
+
+  useEffect(() => {
+    // If the user was erased and deactivated, by unchecking Erased, we want to also uncheck Deactivated
+    if (erasedFromRecord === true && erased === false) {
+      form.setValue("deactivated", false);
+    }
+  }, [deactivatedFromRecord, erased, erasedFromRecord]);
+
+  return <UserBooleanInput disabled={!deactivated} {...props} />;
+};
+
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
+  const theme = useTheme();
 
   return (
     <Edit
@@ -515,12 +535,24 @@ export const UserEdit = (props: EditProps) => {
             helperText="resources.users.helper.password"
           />
           <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable />
-          <BooleanInput source="admin" />
-          <UserBooleanInput source="locked" />
-          <UserBooleanInput source="deactivated" helperText="resources.users.helper.deactivate" />
+          <BooleanInput source="admin" helperText="resources.users.helper.admin" />
           <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
-          <BooleanInput source="erased" disabled />
-          <DateField source="creation_ts_ms" showTime options={DATE_FORMAT} />
+          <UserBooleanInput
+            sx={{ color: theme.palette.warning.main }}
+            source="locked"
+            helperText="resources.users.helper.lock"
+          />
+          <UserBooleanInput
+            sx={{ color: theme.palette.error.main }}
+            source="deactivated"
+            helperText="resources.users.helper.deactivate"
+          />
+          <ErasedBooleanInput
+            sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
+            source="erased"
+            helperText="resources.users.helper.erase"
+          />
+          <DateField sx={{ marginTop: "20px" }} source="creation_ts_ms" showTime options={DATE_FORMAT} />
           <TextField source="consent_version" />
         </FormTab>
 

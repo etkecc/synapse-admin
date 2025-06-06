@@ -172,9 +172,11 @@ const en: SynapseTranslationMessages = {
       helper: {
         password: "Changing password will log user out of all sessions.",
         create_password: "Generate a strong and secure password using the button below.",
+        lock: "Prevent the user from usefully using their account. This is a non-destructive action that can be reversed.",
         deactivate: "You must provide a password to re-activate an account.",
         suspend: "Suspending user means they are put into a read-only mode.",
-        erase: "Mark the user as GDPR-erased",
+        erase: "In addition to deactivating the user, mark the user as GDPR-erased.",
+        admin: "A server administrator has full control over the server and its users.",
         erase_text:
           "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
         erase_admin_error: "Deleting own user is not allowed.",

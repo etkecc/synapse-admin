@@ -209,6 +209,8 @@ const de: SynapseTranslationMessages = {
         suspend:
           "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
         erase: "DSGVO konformes Löschen der Benutzerdaten.",
+        admin: "Ein Serveradministrator hat volle Kontrolle über den Server und seine Benutzer.",
+        lock: "Verhindert, dass der Benutzer den Server nutzen kann. Dies ist eine nicht-destruktive Aktion, die rückgängig gemacht werden kann.",
         erase_text:
           "Das bedeutet, dass die von dem/den Benutzer(n) gesendeten Nachrichten für alle, die zum Zeitpunkt des Sendens im Raum waren, sichtbar bleiben, aber für Benutzer, die dem Raum später beitreten, nicht sichtbar sind.",
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",

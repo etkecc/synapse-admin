@@ -174,6 +174,8 @@ const fr: SynapseTranslationMessages = {
         deactivate: "Vous devrez fournir un mot de passe pour réactiver le compte.",
         suspend: "L'utilisateur sera suspendu jusqu'à ce que vous le réactiviez.",
         erase: "Marquer l'utilisateur comme effacé conformément au RGPD",
+        admin: "Un administrateur de serveur a un contrôle total sur le serveur et ses utilisateurs.",
+        lock: "Empêche l'utilisateur d'utiliser le serveur. C'est une action non destructive qui peut être annulée.",
         erase_text:
           "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
         erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",
