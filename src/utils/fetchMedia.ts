@@ -2,7 +2,7 @@ export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: str
   const re = /^mxc:\/\/([^/]+)\/([\w-]+)$/;
   const ret = re.exec(mxcUrl);
   if (ret == null) {
-    return { serverName: "", mediaId: ""  };
+    return { serverName: "", mediaId: "" };
   }
   const serverName = ret[1];
   const mediaId = ret[2];

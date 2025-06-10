@@ -59,6 +59,7 @@ export const App = () => (
     <Admin
       disableTelemetry
       requireAuth
+      title="Synapse Admin"
       layout={AdminLayout}
       loginPage={LoginPage}
       authProvider={authProvider}
