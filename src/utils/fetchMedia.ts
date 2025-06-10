@@ -18,7 +18,7 @@ export const fetchAuthenticatedMedia = async (mxcUrl: string, type: MediaType): 
   const { serverName, mediaId } = getServerAndMediaIdFromMxcUrl(mxcUrl);
   if (!serverName || !mediaId) {
     console.error("Invalid mxcUrl", mxcUrl, "serverName:", serverName, "mediaId:", mediaId);
-    throw new Error("Invalid mxcUrl");
+    return new Response(null, { status: 400, statusText: "Invalid mxcUrl" });
   }
 
   let url = "";
