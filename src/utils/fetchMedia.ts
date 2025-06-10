@@ -2,7 +2,7 @@ export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: str
   const re = /^mxc:\/\/([^/]+)\/([\w-]+)$/;
   const ret = re.exec(mxcUrl);
   if (ret == null) {
-    throw new Error("Invalid mxcUrl");
+    return { serverName: "", mediaId: ""  };
   }
   const serverName = ret[1];
   const mediaId = ret[2];
@@ -17,6 +17,7 @@ export const fetchAuthenticatedMedia = async (mxcUrl: string, type: MediaType): 
 
   const { serverName, mediaId } = getServerAndMediaIdFromMxcUrl(mxcUrl);
   if (!serverName || !mediaId) {
+    console.error("Invalid mxcUrl", mxcUrl, "serverName:", serverName, "mediaId:", mediaId);
     throw new Error("Invalid mxcUrl");
   }
 
