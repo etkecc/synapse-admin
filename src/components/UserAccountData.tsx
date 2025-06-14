@@ -29,7 +29,7 @@ const UserAccountData = () => {
     return (
       <Typography variant="body2">
         {translate("ra.navigation.no_results", {
-          resource: "Account Data",
+          name: "Account Data",
           _: "No results found.",
         })}
       </Typography>
