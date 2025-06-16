@@ -1,14 +1,33 @@
 {
   "name": "synapse-admin",
   "version": "0.11.1",
-  "description": "Admin GUI for the Matrix.org server Synapse",
+  "description": "Feature-packed and visually customizable admin GUI for Matrix Synapse servers.",
+  "keywords": [
+    "matrix",
+    "synapse",
+    "admin",
+    "homeserver",
+    "management",
+    "react",
+    "nodejs",
+    "dashboard",
+    "etkecc",
+    "docker"
+  ],
   "type": "module",
   "author": "etke.cc (originally by Awesome Technologies Innovationslabor GmbH)",
   "license": "Apache-2.0",
-  "homepage": ".",
+  "homepage": "https://github.com/etkecc/synapse-admin#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/etkecc/synapse-admin"
+    "url": "git+https://github.com/etkecc/synapse-admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/etkecc/synapse-admin/issues"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://liberapay.com/etkecc"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
