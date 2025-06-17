@@ -1,3 +1,13 @@
+// SPDX-FileCopyrightText: 2020 Michael Albert
+// SPDX-FileCopyrightText: 2020 - 2024 Manuel Stahl
+// SPDX-FileCopyrightText: 2021 Dirk Klimpel
+// SPDX-FileCopyrightText: 2023 Przemysław Romanik
+// SPDX-FileCopyrightText: 2024 Alexander Tumin
+// SPDX-FileCopyrightText: 2024 - 2025 Borislav Pantaleev
+// SPDX-FileCopyrightText: 2024 - 2025 Nikita Chernyi
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import englishMessages from "ra-language-english";
 
 import { SynapseTranslationMessages } from ".";
