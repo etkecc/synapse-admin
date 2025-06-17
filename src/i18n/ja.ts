@@ -9,12 +9,12 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-import englishMessages from "ra-language-english";
+import japaneseMessages from "@bicstone/ra-language-japanese";
 
 import { SynapseTranslationMessages } from ".";
 
-const en: SynapseTranslationMessages = {
-  ...englishMessages,
+const ja: SynapseTranslationMessages = {
+  ...japaneseMessages,
   synapseadmin: {
     auth: {
       base_url: "ホームサーバーのURL",
