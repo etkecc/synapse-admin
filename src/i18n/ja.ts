@@ -61,7 +61,8 @@ const ja: SynapseTranslationMessages = {
       at_entry: "エントリー %{entry}: %{message}",
       error: "エラー",
       required_field: "必須のフィールド「%{field}」がありません",
-      invalid_value: "%{row}行目に不正な値があります。「%{field}」のフィールドには「true」または「false」を指定してください",
+      invalid_value:
+        "%{row}行目に不正な値があります。「%{field}」のフィールドには「true」または「false」を指定してください",
       unreasonably_big: "ファイルは%{size}メガバイトで大きすぎるため、読み込みを行いませんでした",
       already_in_progress: "インポートを実行しています",
       id_exits: "ID %{id} は既に存在しています",
@@ -347,7 +348,7 @@ const ja: SynapseTranslationMessages = {
       action: {
         erase: {
           title: "%{id}を削除",
-          content: '「%{name}」を削除してよろしいですか？',
+          content: "「%{name}」を削除してよろしいですか？",
           success: "端末を削除しました。",
           failure: "エラーが発生しました。",
         },
@@ -414,7 +415,7 @@ const ja: SynapseTranslationMessages = {
         send_failure: "エラーが発生しました。",
       },
       helper: {
-        send: 'サーバーの告知を指定したユーザーに送信。「サーバーの告知」機能がサーバーで有効になっている必要があります。',
+        send: "サーバーの告知を指定したユーザーに送信。「サーバーの告知」機能がサーバーで有効になっている必要があります。",
       },
     },
     user_media_statistics: {

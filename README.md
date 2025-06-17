@@ -113,9 +113,10 @@ The following changes are already implemented:
 * 🗂️ [Add Users' Account Data tab](https://github.com/etkecc/synapse-admin/pull/276)
 * 🧾 [Make bulk registration CSV import more user-friendly](https://github.com/etkecc/synapse-admin/pull/411)
 * 🌐 [Configurable CORS Credentials](https://github.com/etkecc/synapse-admin/pull/456)
-* [Do not check homeserver URL during typing in the login form](https://github.com/etkecc/synapse-admin/pull/585)
-* [Improve user account status toggles](https://github.com/etkecc/synapse-admin/pull/608)
-* [Validate that password is entered upon reactivation of account](https://github.com/etkecc/synapse-admin/pull/609)
+* 🧪 [Do not check homeserver URL during typing in the login form](https://github.com/etkecc/synapse-admin/pull/585)
+* 🔧 [Improve user account status toggles](https://github.com/etkecc/synapse-admin/pull/608)
+* 🛡️ [Validate that password is entered upon reactivation of account](https://github.com/etkecc/synapse-admin/pull/609)
+* 🌏 [Add Japanese localization](https://github.com/etkecc/synapse-admin/pull/631)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
