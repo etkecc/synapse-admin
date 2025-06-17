@@ -48,10 +48,10 @@ const i18nProvider = polyglotI18nProvider(
     { locale: "de", name: "Deutsch" },
     { locale: "fr", name: "Français" },
     { locale: "it", name: "Italiano" },
-    { locale: "ja", name: "日本語" },
+    { locale: "ja", name: "Japanese (日本語)" },
     { locale: "fa", name: "Persian (فارسی)" },
     { locale: "ru", name: "Russian (Русский)" },
-    { locale: "zh", name: "Japanese (简体中文)" },
+    { locale: "zh", name: "Chinese (简体中文)" },
   ]
 );
 
