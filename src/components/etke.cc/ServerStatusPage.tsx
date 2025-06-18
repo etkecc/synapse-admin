@@ -1,12 +1,11 @@
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import { Alert, Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps } from "@mui/material";
+import { Box, Stack, Typography, Paper, Link, Chip, Divider, ChipProps } from "@mui/material";
 import { useStore } from "ra-core";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
-import { getTimeSince } from "../../utils/date";
 
 const StatusChip = ({
   isOkay,
@@ -40,17 +39,17 @@ const ServerComponentText = ({ text }: { text: string }) => {
 };
 
 const ServerStatusPage = () => {
-  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
+  const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     ok: false,
     success: false,
     host: "",
     results: [],
   });
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
   });
-  const { command, locked_at } = serverProcess;
+  const { command } = serverProcess;
   const successCheck = serverStatus.success;
   const isOkay = serverStatus.ok;
   const host = serverStatus.host;
@@ -104,7 +103,7 @@ const ServerStatusPage = () => {
       </Typography>
 
       <Stack spacing={2} direction="row">
-        {Object.keys(groupedResults).map((category, idx) => (
+        {Object.keys(groupedResults).map((category, _idx) => (
           <Box key={`category_${category}`} sx={{ flex: 1 }}>
             <Typography variant="h5" mb={1}>
               {category}

@@ -219,13 +219,12 @@ export const UserList = (props: ListProps) => (
 // here only local part of user_id
 // maxLength = 255 - "@" - ":" - storage.getItem("home_server").length
 // storage.getItem("home_server").length is not valid here
-const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-\+/]+$/, "synapseadmin.users.invalid_user_id")];
+const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "synapseadmin.users.invalid_user_id")];
 
 const validateAddress = [required(), maxLength(255)];
 
 const UserEditActions = () => {
   const record = useRecordContext();
-  const translate = useTranslate();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
   let asManagedUserIsSelected = false;
@@ -262,6 +261,7 @@ export const UserCreate = (props: CreateProps) => {
   const [userAvailabilityEl, setUserAvailabilityEl] = useState<React.ReactElement | false>(
     <Typography component="span"></Typography>
   );
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [create] = useCreate();
 
@@ -284,6 +284,7 @@ export const UserCreate = (props: CreateProps) => {
     }
   };
 
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const postSave = (data: Record<string, any>) => {
     setFormData(data);
     if (!userIsAvailable) {

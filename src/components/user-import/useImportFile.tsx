@@ -273,7 +273,7 @@ const useImportFile = () => {
         let retries = 0;
         const submitRecord = async (recordData: ImportLine) => {
           try {
-            const response = await dataProvider.getOne("users", { id: recordData.id });
+            await dataProvider.getOne("users", { id: recordData.id });
 
             if (LOGGING) console.log("already existed");
 

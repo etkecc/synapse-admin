@@ -83,11 +83,11 @@ const AdminMenu = props => {
       setEtkeRoutesEnabled(true);
     }
   }, []);
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
   });
-  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
+  const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     success: false,
     ok: false,
     host: "",
@@ -124,6 +124,7 @@ const AdminMenu = props => {
       {menu &&
         menu.map((item, index) => {
           const { url, icon, label } = item;
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
 
           return (

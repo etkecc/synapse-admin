@@ -161,14 +161,14 @@ const LoginPage = () => {
     try {
       const serverVersion = await getServerVersion(url);
       setServerVersion(`${translate("synapseadmin.auth.server_version")} ${serverVersion}`);
-    } catch (error) {
+    } catch {
       setServerVersion("");
     }
 
     try {
       const features = await getSupportedFeatures(url);
       setMatrixVersions(`${translate("synapseadmin.auth.supports_specs")} ${features.versions.join(", ")}`);
-    } catch (error) {
+    } catch {
       setMatrixVersions("");
     }
 
@@ -179,7 +179,7 @@ const LoginPage = () => {
       const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
       setSupportPassAuth(supportPass);
       setSSOBaseUrl(supportSSO ? url : "");
-    } catch (error) {
+    } catch {
       setSupportPassAuth(false);
       setSSOBaseUrl("");
     }

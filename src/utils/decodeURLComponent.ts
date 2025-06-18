@@ -4,10 +4,10 @@
  * @returns The decoded string, or the original string if decoding fails.
  * @example decodeURIComponent("Hello%20World") // "Hello World"
  */
-const decodeURLComponent = (str: any): any => {
+const decodeURLComponent = (str: string): string => {
   try {
     return decodeURIComponent(str);
-  } catch (e) {
+  } catch {
     return str;
   }
 };

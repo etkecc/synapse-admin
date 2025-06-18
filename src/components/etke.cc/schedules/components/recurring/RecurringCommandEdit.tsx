@@ -22,6 +22,7 @@ import { RecurringCommand } from "../../../../../synapse/dataProvider";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const transformCommandsToChoices = (commands: Record<string, any>) => {
   return Object.entries(commands).map(([key, value]) => ({
     id: key,
@@ -111,13 +112,11 @@ const RecurringCommandEdit = () => {
         delete submissionData.args;
       }
 
-      let result;
-
       if (isCreating) {
-        result = await dataProvider.createRecurringCommand(etkeccAdmin, submissionData);
+        await dataProvider.createRecurringCommand(etkeccAdmin, submissionData);
         notify("recurring_commands.action.create_success", { type: "success" });
       } else {
-        result = await dataProvider.updateRecurringCommand(etkeccAdmin, {
+        await dataProvider.updateRecurringCommand(etkeccAdmin, {
           ...submissionData,
           id: id,
         });
@@ -129,6 +128,7 @@ const RecurringCommandEdit = () => {
 
       navigate("/server_actions");
     } catch (error) {
+      console.error("Error saving recurring command:", error);
       notify("recurring_commands.action.update_failure", { type: "error" });
     }
   };

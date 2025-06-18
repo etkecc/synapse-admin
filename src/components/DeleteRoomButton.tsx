@@ -7,10 +7,8 @@ import {
   SimpleForm,
   BooleanInput,
   useTranslate,
-  RaRecord,
   useNotify,
   useRedirect,
-  useDelete,
   NotificationType,
   useDeleteMany,
   Identifier,
@@ -51,7 +49,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
           unselectAll();
           redirect("/rooms");
         },
-        onError: error => notify("resources.rooms.action.erase.failure", { type: "error" as NotificationType }),
+        onError: _error => notify("resources.rooms.action.erase.failure", { type: "error" as NotificationType }),
       }
     );
   };

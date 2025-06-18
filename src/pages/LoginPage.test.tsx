@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { AdminContext } from "react-admin";
 
@@ -7,7 +7,6 @@ import { AppContext } from "../Context";
 import englishMessages from "../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
-import { act } from "@testing-library/react";
 
 describe("LoginForm", () => {
   it("renders with no restriction to homeserver", async () => {

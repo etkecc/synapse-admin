@@ -7,10 +7,8 @@ import {
   SimpleForm,
   BooleanInput,
   useTranslate,
-  RaRecord,
   useNotify,
   useRedirect,
-  useDelete,
   NotificationType,
   useDeleteMany,
   Identifier,
@@ -57,7 +55,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
           unselectAll();
           redirect("/users");
         },
-        onError: error => notify("ra.notification.data_provider_error", { type: "error" as NotificationType }),
+        onError: _error => notify("ra.notification.data_provider_error", { type: "error" as NotificationType }),
       }
     );
   };

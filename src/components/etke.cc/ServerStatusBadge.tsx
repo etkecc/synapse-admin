@@ -59,11 +59,11 @@ const useServerStatus = () => {
     host: "",
     results: [],
   });
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
   });
-  const { command, locked_at } = serverProcess;
+  const { command } = serverProcess;
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const isOkay = serverStatus.ok;

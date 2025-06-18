@@ -17,6 +17,7 @@ import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
 import { returnMXID } from "../utils/mxid";
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const CACHED_MANY_REF: Record<string, any> = {};
 
 // Adds the access token to all requests
@@ -33,7 +34,7 @@ const jsonClient = async (url: string, options: Options = {}) => {
   try {
     const response = await fetchUtils.fetchJson(url, options);
     return response;
-  } catch (err: any) {
+  } catch (err) {
     const error = err as HttpError;
     const errorStatus = error.status;
     const errorBody = error.body as MatrixError;
@@ -45,15 +46,10 @@ const jsonClient = async (url: string, options: Options = {}) => {
   }
 };
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const filterUndefined = (obj: Record<string, any>) => {
-  return Object.fromEntries(Object.entries(obj).filter(([key, value]) => value !== undefined));
+  return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
 };
-
-interface Action {
-  endpoint: string;
-  method?: string;
-  body?: Record<string, any>;
-}
 
 export interface Room {
   room_id: string;
@@ -990,7 +986,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
   setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
     const filtered = Object.entries(rateLimits)
-      .filter(([key, value]) => value !== null && value !== undefined)
+      .filter(([_key, value]) => value !== null && value !== undefined)
       .reduce((obj, [key, value]) => {
         obj[key] = value;
         return obj;
@@ -1023,7 +1019,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
     try {
-      const { json } = await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
+      await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
       return { success: true };
     } catch (error) {
       if (error instanceof HttpError) {
@@ -1036,7 +1032,7 @@ const baseDataProvider: SynapseDataProvider = {
     const base_url = localStorage.getItem("base_url");
     const endpoint_url = `${base_url}/_synapse/admin/v1/suspend/${encodeURIComponent(returnMXID(id))}`;
     try {
-      const { json } = await jsonClient(endpoint_url, {
+      await jsonClient(endpoint_url, {
         method: "PUT",
         body: JSON.stringify({ suspend: suspendValue }),
       });
@@ -1211,7 +1207,7 @@ const baseDataProvider: SynapseDataProvider = {
 
       return {};
     } catch (error) {
-      console.error("Error fetching server commands, error");
+      console.error("Error fetching server commands:", error);
     }
 
     return {};
@@ -1271,7 +1267,7 @@ const baseDataProvider: SynapseDataProvider = {
 
       return [];
     } catch (error) {
-      console.error("Error fetching scheduled commands, error");
+      console.error("Error fetching scheduled commands:", error);
     }
     return [];
   },
@@ -1296,7 +1292,7 @@ const baseDataProvider: SynapseDataProvider = {
 
       return [];
     } catch (error) {
-      console.error("Error fetching recurring commands, error");
+      console.error("Error fetching recurring commands:", error);
     }
     return [];
   },
@@ -1501,7 +1497,7 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       }
       return params;
     },
-    beforeDelete: async (params: DeleteParams<any>, dataProvider: DataProvider) => {
+    beforeDelete: async (params: DeleteParams<any>, _dataProvider: DataProvider) => {
       if (params.meta?.deleteMedia) {
         const base_url = localStorage.getItem("base_url");
         const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(params.id))}/media`;
@@ -1516,7 +1512,7 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
 
       return params;
     },
-    beforeDeleteMany: async (params: DeleteManyParams<any>, dataProvider: DataProvider) => {
+    beforeDeleteMany: async (params: DeleteManyParams<any>, _dataProvider: DataProvider) => {
       await Promise.all(
         params.ids.map(async id => {
           if (params.meta?.deleteMedia) {

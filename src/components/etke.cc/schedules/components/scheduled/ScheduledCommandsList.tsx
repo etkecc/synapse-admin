@@ -1,15 +1,13 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
-import { Loading, Button, useNotify, useRefresh, useCreatePath, useRecordContext } from "react-admin";
+import { Loading, Button } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
 import { Datagrid } from "react-admin";
 import { BooleanField, DateField, TopToolbar } from "react-admin";
-import { useDataProvider } from "react-admin";
 import { Identifier } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
-import { useAppContext } from "../../../../../Context";
 import { DATE_FORMAT } from "../../../../../utils/date";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 const ListActions = () => {
@@ -27,7 +25,7 @@ const ListActions = () => {
 };
 
 const ScheduledCommandsList = () => {
-  const { data, isLoading, error } = useScheduledCommands();
+  const { data, isLoading } = useScheduledCommands();
 
   const listContext = useList({
     resource: "scheduled",
@@ -46,6 +44,7 @@ const ScheduledCommandsList = () => {
         <Paper>
           <Datagrid
             bulkActionButtons={false}
+            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             rowClick={(id: Identifier, resource: string, record: any) => {
               if (!record) {
                 return "";

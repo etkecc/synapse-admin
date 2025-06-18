@@ -3,7 +3,6 @@ import {
   BooleanInput,
   Create,
   CreateProps,
-  Datagrid,
   DatagridConfigurable,
   DateField,
   DateTimeInput,

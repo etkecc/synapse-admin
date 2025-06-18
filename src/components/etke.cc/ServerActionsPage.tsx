@@ -1,6 +1,6 @@
 import RestoreIcon from "@mui/icons-material/Restore";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import { Box, Typography, Link, Divider } from "@mui/material";
+import { Box, Typography, Link } from "@mui/material";
 import { Stack } from "@mui/material";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";

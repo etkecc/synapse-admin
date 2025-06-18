@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import {
   Loading,
   Button,
-  useDataProvider,
-  useNotify,
   SimpleShowLayout,
   TextField,
   BooleanField,
@@ -15,7 +13,6 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduledDeleteButton from "./ScheduledDeleteButton";
-import { useAppContext } from "../../../../../Context";
 import { ScheduledCommand } from "../../../../../synapse/dataProvider";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
