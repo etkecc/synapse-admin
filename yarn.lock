@@ -4821,7 +4821,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.8.3, ra-core@^5.8.4:
+ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.8.4:
   version "5.8.4"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.8.4.tgz#1790ca083ed488da63f2f5c973412145dff8eae0"
   integrity sha512-UdlhZj9oeGGQDt1dtpDSZ51dXHmZgtooQuhSALLpuCk57Pm/frkF0/JEFIudZGA+2MqVIGAXxaCXNLgeo+d7ZQ==
@@ -4873,12 +4873,12 @@ ra-language-farsi@^5.1.0:
   resolved "https://registry.yarnpkg.com/ra-language-farsi/-/ra-language-farsi-5.1.0.tgz#27d2cc50e4074a0e2565e05da153da0d213729f8"
   integrity sha512-U4swqsijT6foRP9v/fqLGEXV1TjuyjpQcmoDJfsN2kPyR9QiKlLGNrbv/sfpt7LT0om3egIXIRp/iQG1u44GXQ==
 
-ra-language-french@^5.8.3:
-  version "5.8.3"
-  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.8.3.tgz#aed41d7b75f32788c662c1ff26d0e0d34b01c23b"
-  integrity sha512-dtgopRO21Bt6Fuu+V4OC7UeV/PrXhyhqnEeMc9pnaC6AQAJKr+2piFdO6ED/L3VWLudz5a1yQfwW4cscUWzXoA==
+ra-language-french@^5.8.4:
+  version "5.8.4"
+  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.8.4.tgz#369f0cb47792f9c13c30eb654488e073f56d59a8"
+  integrity sha512-Lx7qCQQJx/6o3QRha93wBFkE906bg9Z/x+5MIushIQXozu8JSoCHnh+NvGeh920Eqr14Z83rw0J4noANDCg8pA==
   dependencies:
-    ra-core "^5.8.3"
+    ra-core "^5.8.4"
 
 ra-language-italian@^3.13.1:
   version "3.13.1"
