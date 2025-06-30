@@ -47,7 +47,7 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-prettier": "^5.5.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "jest": "^30.0.2",
     "jest-environment-jsdom": "^30.0.2",
