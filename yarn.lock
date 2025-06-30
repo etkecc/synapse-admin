@@ -4832,7 +4832,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.8.4, ra-core@^5.9.0:
+ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.0:
   version "5.9.0"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.0.tgz#05fa1cd174ac527887147202193b32b24f449526"
   integrity sha512-Q7zcAny2QUJcNHoQFo0h71Qi4p52+aw48sJR8i+sc48RKGXQbKuKYujzibLS7H70+q4cVYZVx3vC24WKznXJ7Q==
@@ -5007,10 +5007,18 @@ react-refresh@^0.17.0:
   dependencies:
     react-router "7.6.2"
 
-react-router@7.6.2, "react-router@^6.28.1 || ^7.1.1", react-router@^7.6.0:
+react-router@7.6.2:
   version "7.6.2"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.6.2.tgz#9f48b343bead7d0a94e28342fc4f9ae29131520e"
   integrity sha512-U7Nv3y+bMimgWjhlT5CRdzHPu2/KVmqPwKUCChW8en5P3znxUqwlYFlbmyj8Rgp1SF6zs5X4+77kBVknkg6a0w==
+  dependencies:
+    cookie "^1.0.1"
+    set-cookie-parser "^2.6.0"
+
+"react-router@^6.28.1 || ^7.1.1", react-router@^7.6.3:
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.6.3.tgz#7a4ea5b479b66d2c49a8f000812b2319b4d0a6da"
+  integrity sha512-zf45LZp5skDC6I3jDLXQUu0u26jtuP4lEGbc7BbdyxenBN1vJSTA18czM2D+h5qyMBuMrD+9uB+mU37HIoKGRA==
   dependencies:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
