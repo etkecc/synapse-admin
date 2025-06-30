@@ -67,7 +67,7 @@
     "@emotion/styled": "^11.14.0",
     "@haleos/ra-language-german": "^1.0.0",
     "@haxqer/ra-language-chinese": "^4.16.2",
-    "@mui/icons-material": "^7.1.1",
+    "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
     "@mui/utils": "^7.1.0",
     "@tanstack/react-query": "^5.81.2",
