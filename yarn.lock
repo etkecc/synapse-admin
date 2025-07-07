@@ -4832,10 +4832,10 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.0.tgz#05fa1cd174ac527887147202193b32b24f449526"
-  integrity sha512-Q7zcAny2QUJcNHoQFo0h71Qi4p52+aw48sJR8i+sc48RKGXQbKuKYujzibLS7H70+q4cVYZVx3vC24WKznXJ7Q==
+ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.0, ra-core@^5.9.1:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.1.tgz#aec237b1fec8c98da589d0f6e204850578b54a4d"
+  integrity sha512-60TIpOglUiRPcIOkQPY6zyepE4e52z2XytJheREktsosjLD5BRE5+D8haOr9M9vJ1LlT4jrwBAkNh7NRoK3ZuA==
   dependencies:
     "@tanstack/react-query" "^5.21.7"
     clsx "^2.1.1"
@@ -4884,12 +4884,12 @@ ra-language-farsi@^5.1.0:
   resolved "https://registry.yarnpkg.com/ra-language-farsi/-/ra-language-farsi-5.1.0.tgz#27d2cc50e4074a0e2565e05da153da0d213729f8"
   integrity sha512-U4swqsijT6foRP9v/fqLGEXV1TjuyjpQcmoDJfsN2kPyR9QiKlLGNrbv/sfpt7LT0om3egIXIRp/iQG1u44GXQ==
 
-ra-language-french@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.9.0.tgz#0e12aeca8ab61b04282ddb1d20f90bce053daaf6"
-  integrity sha512-365KNumup2SuYb9MWOv2r8aayVDf9ykhj5yGIw8JZOsxP0NOZ+sEUjI4QIEeeww12APTF2YdnX6l6vhxMEtqOg==
+ra-language-french@^5.9.1:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.9.1.tgz#51b21d243ee6cc5351fc8f5de666818d03b214cf"
+  integrity sha512-qc6Y58EB9cgYaJM229lDkJKMY88RhE86Lb8FqpgNwmmTDnC3wN9x1sGLbVGvRJ73p77pbu/PrQr7nhUArxVdzQ==
   dependencies:
-    ra-core "^5.9.0"
+    ra-core "^5.9.1"
 
 ra-language-italian@^3.13.1:
   version "3.13.1"
