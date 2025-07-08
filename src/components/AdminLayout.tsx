@@ -1,4 +1,5 @@
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -120,6 +121,7 @@ const AdminMenu = props => {
           primaryText="Server Actions"
         />
       )}
+      {etkeRoutesEnabled && <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />}
       <Menu.ResourceItems />
       {menu &&
         menu.map((item, index) => {
