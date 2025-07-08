@@ -5,6 +5,7 @@ import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin
 import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
+import BillingPage from "./components/etke.cc/BillingPage";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
@@ -79,6 +80,7 @@ export const App = () => (
         <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
         <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
         <Route path="/server_notifications" element={<ServerNotificationsPage />} />
+        <Route path="/billing" element={<BillingPage />} />
       </CustomRoutes>
       <Resource {...users} />
       <Resource {...rooms} />

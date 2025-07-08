@@ -334,6 +334,19 @@ export interface RecurringCommand {
   time: string;
 }
 
+export interface Payment {
+  amount: number;
+  email: string;
+  is_subscription: boolean;
+  paid_at: string;
+  transaction_id: string;
+}
+
+export interface PaymentsResponse {
+  payments: Payment[];
+  total: number;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -362,6 +375,8 @@ export interface SynapseDataProvider extends DataProvider {
   createRecurringCommand: (etkeAdminUrl: string, command: Partial<RecurringCommand>) => Promise<RecurringCommand>;
   updateRecurringCommand: (etkeAdminUrl: string, command: RecurringCommand) => Promise<RecurringCommand>;
   deleteRecurringCommand: (etkeAdminUrl: string, id: string) => Promise<{ success: boolean }>;
+  getPayments: (etkeAdminUrl: string) => Promise<PaymentsResponse>;
+  getInvoice: (etkeAdminUrl: string, transactionId: string) => Promise<void>;
 }
 
 const resourceMap = {
@@ -1450,6 +1465,98 @@ const baseDataProvider: SynapseDataProvider = {
     } catch (error) {
       console.error("Error deleting recurring command", error);
       return { success: false };
+    }
+  },
+  getPayments: async (etkeAdminUrl: string) => {
+    try {
+      const response = await fetch(`${etkeAdminUrl}/payments`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error(`Error fetching payments: ${response.status} ${response.statusText}`);
+        return { payments: [], total: 0 };
+      }
+
+      const status = response.status;
+
+      if (status === 200) {
+        const json = await response.json();
+        return json as PaymentsResponse;
+      }
+
+      if (status === 204) {
+        return { payments: [], total: 0 };
+      }
+
+      return { payments: [], total: 0 };
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+      return { payments: [], total: 0 };
+    }
+  },
+  getInvoice: async (etkeAdminUrl: string, transactionId: string) => {
+    try {
+      const response = await fetch(`${etkeAdminUrl}/payments/${transactionId}/invoice`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        let errorMessage = `Error fetching invoice: ${response.status} ${response.statusText}`;
+
+        // Handle specific error codes
+        switch (response.status) {
+          case 404:
+            errorMessage = "Invoice not found for this transaction";
+            break;
+          case 500:
+            errorMessage = "Server error while generating invoice. Please try again later";
+            break;
+          case 401:
+            errorMessage = "Unauthorized access. Please check your permissions";
+            break;
+          case 403:
+            errorMessage = "Access forbidden. You don't have permission to download this invoice";
+            break;
+          default:
+            errorMessage = `Failed to fetch invoice (${response.status}): ${response.statusText}`;
+        }
+
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      // Get the file as a blob
+      const blob = await response.blob();
+
+      // Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+
+      // Try to get filename from response headers
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = `invoice_${transactionId}.pdf`;
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+      throw error; // Re-throw to let the UI handle the error
     }
   },
 };
