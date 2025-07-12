@@ -4849,7 +4849,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.0, ra-core@^5.9.1:
+ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.1:
   version "5.9.1"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.1.tgz#aec237b1fec8c98da589d0f6e204850578b54a4d"
   integrity sha512-60TIpOglUiRPcIOkQPY6zyepE4e52z2XytJheREktsosjLD5BRE5+D8haOr9M9vJ1LlT4jrwBAkNh7NRoK3ZuA==
@@ -5843,10 +5843,10 @@ vite-plugin-version-mark@^0.1.4:
   resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.1.4.tgz#847ca9096365634eb952afa8ef36d96d109db0a9"
   integrity sha512-0uoEWDnrH9ho4IwTzyFKosA+XnOWK7uT8WwCskPb2DVeFrCSn4sfPG7b+8l9EFWHgCx0n52iqwQEbs3w5FFzpw==
 
-vite@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-7.0.0.tgz#5675bb4c956dd9da932583628e7758ab09fe761f"
-  integrity sha512-ixXJB1YRgDIw2OszKQS9WxGHKwLdCsbQNkpJN171udl6szi/rIySHL6/Os3s2+oE4P/FLD4dxg4mD7Wust+u5g==
+vite@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-7.0.4.tgz#481204416277cfa7c93384c55984475c4276b18f"
+  integrity sha512-SkaSguuS7nnmV7mfJ8l81JGBFV7Gvzp8IzgE8A8t23+AxuNX61Q5H1Tpz5efduSN7NHC8nQXD3sKQKZAu5mNEA==
   dependencies:
     esbuild "^0.25.0"
     fdir "^6.4.6"
