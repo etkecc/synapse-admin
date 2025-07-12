@@ -127,6 +127,7 @@ The following list contains such features - they are only available for [etke.cc
 * 📬 [Server Notifications indicator and page](https://github.com/etkecc/synapse-admin/pull/240)
 * 🛠️ [Server Commands panel](https://github.com/etkecc/synapse-admin/pull/365)
 * 🚀 [Server Actions page](https://github.com/etkecc/synapse-admin/pull/457)
+* 💳 [Billing page](https://github.com/etkecc/synapse-admin/pull/691)
 
 ### Development
 

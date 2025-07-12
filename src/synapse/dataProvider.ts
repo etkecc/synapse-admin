@@ -1468,34 +1468,28 @@ const baseDataProvider: SynapseDataProvider = {
     }
   },
   getPayments: async (etkeAdminUrl: string) => {
-    try {
-      const response = await fetch(`${etkeAdminUrl}/payments`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+    const response = await fetch(`${etkeAdminUrl}/payments`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
 
-      if (!response.ok) {
-        console.error(`Error fetching payments: ${response.status} ${response.statusText}`);
-        return { payments: [], total: 0 };
-      }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch payments: ${response.status} ${response.statusText}`);
+    }
 
-      const status = response.status;
+    const status = response.status;
 
-      if (status === 200) {
-        const json = await response.json();
-        return json as PaymentsResponse;
-      }
+    if (status === 200) {
+      const json = await response.json();
+      return json as PaymentsResponse;
+    }
 
-      if (status === 204) {
-        return { payments: [], total: 0 };
-      }
-
-      return { payments: [], total: 0 };
-    } catch (error) {
-      console.error("Error fetching payments:", error);
+    if (status === 204) {
       return { payments: [], total: 0 };
     }
+
+    throw new Error(`${response.status} ${response.statusText}`); // Handle unexpected status codes
   },
   getInvoice: async (etkeAdminUrl: string, transactionId: string) => {
     try {

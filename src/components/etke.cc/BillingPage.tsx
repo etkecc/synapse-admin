@@ -1,3 +1,4 @@
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DownloadIcon from "@mui/icons-material/Download";
 import PaymentIcon from "@mui/icons-material/Payment";
 import {
@@ -13,13 +14,31 @@ import {
   Paper,
   Chip,
   Button,
+  Tooltip,
 } from "@mui/material";
 import { Stack } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
 import { useDataProvider, useNotify } from "react-admin";
 
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, Payment } from "../../synapse/dataProvider";
+
+const TruncatedUUID = ({ uuid }): React.ReactElement => {
+  const short = `${uuid.slice(0, 8)}...${uuid.slice(-6)}`;
+  const copyToClipboard = () => navigator.clipboard.writeText(uuid);
+
+  return (
+    <Tooltip title={uuid}>
+      <span style={{ display: "inline-flex", alignItems: "center" }}>
+        {short}
+        <IconButton size="small" onClick={copyToClipboard}>
+          <ContentCopyIcon fontSize="small" />
+        </IconButton>
+      </span>
+    </Tooltip>
+  );
+};
 
 const BillingPage = () => {
   const { etkeccAdmin } = useAppContext();
@@ -28,6 +47,7 @@ const BillingPage = () => {
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [failure, setFailure] = useState<string | null>(null);
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,8 +60,8 @@ const BillingPage = () => {
         setPaymentsData(response.payments);
         setTotal(response.total);
       } catch (error) {
-        notify("Error fetching billing data", { type: "error" });
         console.error("Error fetching billing data:", error);
+        setFailure(error instanceof Error ? error.message : error);
       } finally {
         setLoading(false);
       }
@@ -67,29 +87,59 @@ const BillingPage = () => {
     }
   };
 
+  const header = (
+    <Box>
+      <Typography variant="h4">
+        <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Billing
+      </Typography>
+      <Typography variant="body1">
+        View payments and generate invoices from here. More details about billing can be found{" "}
+        <Link href="https://etke.cc/help/extras/scheduler/#payments" target="_blank">
+          here
+        </Link>
+        .
+      </Typography>
+    </Box>
+  );
+
   if (loading) {
     return (
-      <Box sx={{ mt: 3 }}>
-        <Typography>Loading billing information...</Typography>
-      </Box>
+      <Stack spacing={3} mt={3}>
+        {header}
+        <Box sx={{ mt: 3 }}>
+          <Typography>Loading billing information...</Typography>
+        </Box>
+      </Stack>
+    );
+  }
+
+  if (failure) {
+    return (
+      <Stack spacing={3} mt={3}>
+        {header}
+        <Box sx={{ mt: 3 }}>
+          <Typography>
+            There was a problem loading your billing information.
+            <br />
+            This might be a temporary issue - please try again in a few minutes.
+            <br />
+            If it persists, contact{" "}
+            <Link href="https://etke.cc/contacts/" target="_blank">
+              etke.cc support team
+            </Link>{" "}
+            with the following error message:
+          </Typography>
+          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+            {failure}
+          </Typography>
+        </Box>
+      </Stack>
     );
   }
 
   return (
     <Stack spacing={3} mt={3}>
-      <Box>
-        <Typography variant="h4">
-          <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Billing
-        </Typography>
-        <Typography variant="body1">
-          View payments and generate invoices from here. More details about billing can be found{" "}
-          <Link href="https://etke.cc/help/extras/scheduler/#billing" target="_blank">
-            here
-          </Link>
-          .
-        </Typography>
-      </Box>
-
+      {header}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5">Payment Summary</Typography>
         <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
@@ -103,28 +153,36 @@ const BillingPage = () => {
           Payment History
         </Typography>
         {paymentsData.length === 0 ? (
-          <Typography variant="body1">No payments found.</Typography>
+          <Typography variant="body1">
+            No payments found. If you believe that's an error, please{" "}
+            <Link href="https://etke.cc/contacts/" target="_blank">
+              contact etke.cc support
+            </Link>
+            .
+          </Typography>
         ) : (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Transaction ID</TableCell>
-                  <TableCell>Amount</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Subscription</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>Amount</TableCell>
                   <TableCell>Paid At</TableCell>
-                  <TableCell>Invoice</TableCell>
+                  <TableCell>Download Invoice</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {paymentsData.map(payment => (
                   <TableRow key={payment.transaction_id}>
-                    <TableCell>{payment.transaction_id}</TableCell>
-                    <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <TruncatedUUID uuid={payment.transaction_id} />
+                    </TableCell>
                     <TableCell>{payment.email}</TableCell>
-                    <TableCell>{payment.is_subscription ? "Yes" : "No"}</TableCell>
-                    <TableCell>{new Date(payment.paid_at).toLocaleString()}</TableCell>
+                    <TableCell>{payment.is_subscription ? "Subscription" : "One-time"}</TableCell>
+                    <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                    <TableCell>{new Date(payment.paid_at).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <Button
                         variant="outlined"
