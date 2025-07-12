@@ -4849,7 +4849,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.0, ra-core@^5.9.1:
+ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.1:
   version "5.9.1"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.1.tgz#aec237b1fec8c98da589d0f6e204850578b54a4d"
   integrity sha512-60TIpOglUiRPcIOkQPY6zyepE4e52z2XytJheREktsosjLD5BRE5+D8haOr9M9vJ1LlT4jrwBAkNh7NRoK3ZuA==
@@ -4978,10 +4978,10 @@ react-error-boundary@^4.0.13:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-hook-form@^7.53.0, react-hook-form@^7.59.0:
-  version "7.59.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.59.0.tgz#69e7ebc4db933f7aa0ef0973ec8e09f299e5f24e"
-  integrity sha512-kmkek2/8grqarTJExFNjy+RXDIP8yM+QTl3QL6m6Q8b2bih4ltmiXxH7T9n+yXNK477xPh5yZT/6vD8sYGzJTA==
+react-hook-form@^7.53.0, react-hook-form@^7.60.0:
+  version "7.60.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.60.0.tgz#cc4bfa2952d602fc8f1dcf2d4929fcb6d9cdc782"
+  integrity sha512-SBrYOvMbDB7cV8ZfNpaiLcgjH/a1c7aK0lK+aNigpf4xWLO8q+o4tcvVurv3c4EOyzn/3dCsYt4GKD42VvJ/+A==
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
