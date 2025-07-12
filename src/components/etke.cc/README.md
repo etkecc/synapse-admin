@@ -65,3 +65,10 @@ On this page you can do the following:
 When you open [Server Actions page](#server-status-page), you will see the Server Commands panel.
 This panel contains all [the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in 1 click.
 Once command is finished, you will get a notification about the result.
+
+### Billing Page
+
+![Billing Page](../../../screenshots/etke.cc/billing/page.webp)
+
+When you click on the `Billing` sidebar menu item, you will be see the Billing page.
+On this page you can see the list of successful payments and invoices.
