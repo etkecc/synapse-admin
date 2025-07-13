@@ -98,6 +98,12 @@ const BillingPage = () => {
           here
         </Link>
         .
+        <br />
+        If you'd like to change your billing email, or add company details, please{" "}
+        <Link href="https://etke.cc/contacts/" target="_blank">
+          contact etke.cc support
+        </Link>
+        .
       </Typography>
     </Box>
   );
