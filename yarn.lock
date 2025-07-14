@@ -388,12 +388,12 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@bicstone/ra-language-japanese@^5.6.3":
-  version "5.6.3"
-  resolved "https://registry.yarnpkg.com/@bicstone/ra-language-japanese/-/ra-language-japanese-5.6.3.tgz#2ef703ee1453cbf795b4375df70f37c9c4e24359"
-  integrity sha512-2DMVF0qTzsDy517ls23udvM3eYpO5OiHmokXeXhmg0yYUlF95YgtZ8mwdhp2lP1qukY+xWx1DJCsRoAj0Ife1A==
+"@bicstone/ra-language-japanese@^5.7.0":
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/@bicstone/ra-language-japanese/-/ra-language-japanese-5.7.0.tgz#d98fd930c82950489a0de65ad30598f858ce8ded"
+  integrity sha512-OkK2bMk6MIpwYO6lN8N3HwndgBO2jz4mPKUJtzsvVhWVP+Te/TmXLNeyL+2SL+pf8pBEvCTiRsDoj5KLuJ91cw==
   dependencies:
-    ra-core ">=4.0.0-alpha.2"
+    ra-core "^5.0.0"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -4832,22 +4832,6 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@>=4.0.0-alpha.2, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.1:
-  version "5.9.1"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.1.tgz#aec237b1fec8c98da589d0f6e204850578b54a4d"
-  integrity sha512-60TIpOglUiRPcIOkQPY6zyepE4e52z2XytJheREktsosjLD5BRE5+D8haOr9M9vJ1LlT4jrwBAkNh7NRoK3ZuA==
-  dependencies:
-    "@tanstack/react-query" "^5.21.7"
-    clsx "^2.1.1"
-    date-fns "^3.6.0"
-    eventemitter3 "^5.0.1"
-    inflection "^3.0.0"
-    jsonexport "^3.2.0"
-    lodash "^4.17.21"
-    query-string "^7.1.3"
-    react-error-boundary "^4.0.13"
-    react-is "^18.2.0 || ^19.0.0"
-
 ra-core@^4.11.2, ra-core@^4.16.2:
   version "4.16.20"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-4.16.20.tgz#ad11785c706f8256ec0e9d371be2e13c8ca40e80"
@@ -4863,6 +4847,22 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     query-string "^7.1.1"
     react-is "^17.0.2"
     react-query "^3.32.1"
+
+ra-core@^5.0.0, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.1:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.9.1.tgz#aec237b1fec8c98da589d0f6e204850578b54a4d"
+  integrity sha512-60TIpOglUiRPcIOkQPY6zyepE4e52z2XytJheREktsosjLD5BRE5+D8haOr9M9vJ1LlT4jrwBAkNh7NRoK3ZuA==
+  dependencies:
+    "@tanstack/react-query" "^5.21.7"
+    clsx "^2.1.1"
+    date-fns "^3.6.0"
+    eventemitter3 "^5.0.1"
+    inflection "^3.0.0"
+    jsonexport "^3.2.0"
+    lodash "^4.17.21"
+    query-string "^7.1.3"
+    react-error-boundary "^4.0.13"
+    react-is "^18.2.0 || ^19.0.0"
 
 ra-i18n-polyglot@^5.4.4, ra-i18n-polyglot@^5.9.1:
   version "5.9.1"
