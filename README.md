@@ -117,6 +117,7 @@ The following changes are already implemented:
 * 🔧 [Improve user account status toggles](https://github.com/etkecc/synapse-admin/pull/608)
 * 🛡️ [Validate that password is entered upon reactivation of account](https://github.com/etkecc/synapse-admin/pull/609)
 * 🌏 [Add Japanese localization](https://github.com/etkecc/synapse-admin/pull/631)
+* 🗣️ [Correctly set document language based on the selected locale](https://github.com/etkecc/synapse-admin/issues/723)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

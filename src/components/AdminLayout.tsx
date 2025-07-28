@@ -13,6 +13,7 @@ import {
   useLogout,
   UserMenu,
   useStore,
+  useLocaleState,
 } from "react-admin";
 
 import Footer from "./Footer";
@@ -146,6 +147,12 @@ const AdminMenu = props => {
 };
 
 export const AdminLayout = ({ children }) => {
+  // Set the document language based on the selected locale
+  const [locale, _setLocale] = useLocaleState();
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   return (
     <>
       <Layout
