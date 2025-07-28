@@ -4856,7 +4856,7 @@ ra-core@^4.11.2, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.0.0, ra-core@^5.10.0, ra-core@^5.4.3, ra-core@^5.4.4, ra-core@^5.9.1:
+ra-core@^5.0.0, ra-core@^5.10.0, ra-core@^5.4.3, ra-core@^5.4.4:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.10.0.tgz#7103f421916ad177370f4109231a398b70b0dc7e"
   integrity sha512-k/VhFLiunfT8IfcFrxDTYj8Yp0tqCL5En02FMbbazHTMzg4FcmaOD4zVr0W/JTpbNuCjoccYgZg9ixezZvdhHg==
@@ -4971,10 +4971,10 @@ react-error-boundary@^4.0.13:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-hook-form@^7.53.0, react-hook-form@^7.60.0:
-  version "7.60.0"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.60.0.tgz#cc4bfa2952d602fc8f1dcf2d4929fcb6d9cdc782"
-  integrity sha512-SBrYOvMbDB7cV8ZfNpaiLcgjH/a1c7aK0lK+aNigpf4xWLO8q+o4tcvVurv3c4EOyzn/3dCsYt4GKD42VvJ/+A==
+react-hook-form@^7.53.0, react-hook-form@^7.61.1:
+  version "7.61.1"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.61.1.tgz#8c1f086ccd921a6e90df6800787e9ca3833f86c1"
+  integrity sha512-2vbXUFDYgqEgM2RcXcAT2PwDW/80QARi+PKmHy5q2KhuKvOlG8iIYgf7eIlIANR5trW9fJbP4r5aub3a4egsew==
 
 react-hotkeys-hook@^5.1.0:
   version "5.1.0"
