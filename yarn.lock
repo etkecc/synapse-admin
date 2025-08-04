@@ -4997,12 +4997,12 @@ ra-language-farsi@^5.1.0:
   resolved "https://registry.yarnpkg.com/ra-language-farsi/-/ra-language-farsi-5.1.0.tgz#27d2cc50e4074a0e2565e05da153da0d213729f8"
   integrity sha512-U4swqsijT6foRP9v/fqLGEXV1TjuyjpQcmoDJfsN2kPyR9QiKlLGNrbv/sfpt7LT0om3egIXIRp/iQG1u44GXQ==
 
-ra-language-french@^5.10.0:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.10.0.tgz#bc7df8aabf3c3afdd19ad8b7b2fa0001a148428a"
-  integrity sha512-7ysBsVOYtiGzavcLC/Ne7NF7dhiZtFWXmtxYC0W+ucuYP+vuZAcG8/wzHXHzhv3j1pPmpoEh97kFhuIo/puI/A==
+ra-language-french@^5.10.1:
+  version "5.10.1"
+  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.10.1.tgz#f55edaca916633fe4440306b6d18610841decc88"
+  integrity sha512-U/9zCEOjDk4VGBI2I3+04ecDiqN4UjjgCA+IDWtsrkRP6dxxD7CxL7XG4VdTc6Y6FzyTv98vTwnvy7IAuzdfbQ==
   dependencies:
-    ra-core "^5.10.0"
+    ra-core "^5.10.1"
 
 ra-language-italian@^3.13.1:
   version "3.13.1"
