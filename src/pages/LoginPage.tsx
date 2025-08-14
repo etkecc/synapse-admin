@@ -56,9 +56,14 @@ const LoginPage = () => {
   const allowAnyBaseUrl = !(allowSingleBaseUrl || allowMultipleBaseUrls);
   const localStorageBaseUrl = localStorage.getItem("base_url");
   let base_url = allowSingleBaseUrl ? restrictBaseUrl : localStorageBaseUrl;
-  if (allowMultipleBaseUrls && localStorageBaseUrl && !restrictBaseUrl.includes(localStorageBaseUrl)) {
-    // don't set base_url if it is not in the restrictBaseUrl array
-    base_url = null;
+  if (allowMultipleBaseUrls) {
+    if (localStorageBaseUrl && !restrictBaseUrl.includes(localStorageBaseUrl)) {
+      // don't set base_url if it is not in the restrictBaseUrl array
+      base_url = null;
+    } else if (!localStorageBaseUrl && baseUrlChoices.length > 0) {
+      // preselect the first base_url from the restrictBaseUrl array
+      base_url = baseUrlChoices[0]?.name;
+    }
   }
   const [loading, setLoading] = useState(false);
   const [supportPassAuth, setSupportPassAuth] = useState(true);
