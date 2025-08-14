@@ -61,7 +61,7 @@ const LoginPage = () => {
       // don't set base_url if it is not in the restrictBaseUrl array
       base_url = null;
     } else if (!localStorageBaseUrl && baseUrlChoices.length > 0) {
-       // preselect the first base_url from the restrictBaseUrl array
+      // preselect the first base_url from the restrictBaseUrl array
       base_url = baseUrlChoices[0]?.name;
     }
   }
