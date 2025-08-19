@@ -16,7 +16,7 @@ export const WellKnownKey = "cc.etke.synapse-admin";
 
 // current configuration
 let config: Config = {
-  restrictBaseUrl: "",
+  restrictBaseUrl: import.meta.env.VITE_SERVER_URL || "",
   corsCredentials: "same-origin",
   asManagedUsers: [],
   menu: [],

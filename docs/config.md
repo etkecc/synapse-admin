@@ -45,9 +45,48 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
   * `url` (required): The URL to navigate to when the menu item is clicked.
   [More details](custom-menu.md)
 
+## Docker Environment Variables
+
+When using the Docker container, you can configure Synapse Admin using environment variables:
+
+* `SERVER_URL` - prefill the server URL in the login form. This is useful when you want to pre-configure the login form for a specific homeserver.
+  Example: `SERVER_URL=https://matrix.example.com`
+* `BASE_URL` - serve Synapse Admin from a subpath. This allows you to host Synapse Admin at a path like `/admin` instead of the root path.
+  Example: `BASE_URL=/admin`
+
 ## Examples
 
-### config.json
+### Docker with environment variables
+
+```bash
+# Run with prefilled server URL
+docker run -p 8080:80 -e SERVER_URL="https://matrix.example.com" ghcr.io/etkecc/synapse-admin
+
+# Run on a subpath
+docker run -p 8080:80 -e BASE_URL="/admin" ghcr.io/etkecc/synapse-admin
+
+# Combined configuration
+docker run -p 8080:80 \
+  -e SERVER_URL="https://matrix.example.com" \
+  -e BASE_URL="/admin" \
+  ghcr.io/etkecc/synapse-admin
+```
+
+Or using docker-compose:
+
+```yaml
+services:
+  synapse-admin:
+    image: ghcr.io/etkecc/synapse-admin:latest
+    ports:
+      - "8080:80"
+    environment:
+      - SERVER_URL=https://matrix.example.com
+      - BASE_URL=/admin
+    restart: unless-stopped
+```
+
+### `config.json`
 
 ```json
 {

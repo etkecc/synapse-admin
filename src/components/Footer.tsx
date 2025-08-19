@@ -35,7 +35,7 @@ const Footer = () => {
       }}
     >
       <Avatar
-        src="./images/logo.webp"
+        src={`${import.meta.env.BASE_URL}/images/logo.webp`}
         sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }}
       />
       <Link href="https://github.com/etkecc/synapse-admin" target="_blank">

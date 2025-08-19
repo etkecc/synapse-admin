@@ -70,7 +70,6 @@ The following changes are already implemented:
 * 🔒 [Add ability to toggle whether to show locked users](https://github.com/Awesome-Technologies/synapse-admin/pull/573)
 * 🖊️ [Fix user's display name in header on user's page](https://github.com/etkecc/synapse-admin/pull/9)
 * 🧹 [Fix footer overlapping content](https://github.com/Awesome-Technologies/synapse-admin/issues/574)
-* 🐋 Switch from nginx to [SWS](https://static-web-server.net/) for serving the app, reducing the size of the Docker image
 * 🔄 [Fix redirect URL after user creation](https://github.com/etkecc/synapse-admin/pull/16)
 * 🔍 [Display actual Synapse errors](https://github.com/etkecc/synapse-admin/pull/17)
 * ⚠️ [Fix base_url being undefined on unsuccessful login](https://github.com/etkecc/synapse-admin/pull/18)
@@ -109,7 +108,7 @@ The following changes are already implemented:
 * 📞 [Support E.164-based Matrix IDs (MSC4009)](https://github.com/etkecc/synapse-admin/pull/214)
 * 🛑 [Add support for Account Suspension (MSC3823)](https://github.com/etkecc/synapse-admin/pull/195)
 * 🗑️ [Add "Purge Remote Media" button](https://github.com/etkecc/synapse-admin/pull/237)
-* 📁 [Respect base url (`BASE_PATH` / `vite build --base`) when loading `config.json`](https://github.com/etkecc/synapse-admin/pull/274)
+* 📁 [Respect base url (`BASE_URL` / `vite build --base`) when loading `config.json`](https://github.com/etkecc/synapse-admin/pull/274)
 * 🗂️ [Add Users' Account Data tab](https://github.com/etkecc/synapse-admin/pull/276)
 * 🧾 [Make bulk registration CSV import more user-friendly](https://github.com/etkecc/synapse-admin/pull/411)
 * 🌐 [Configurable CORS Credentials](https://github.com/etkecc/synapse-admin/pull/456)
@@ -278,11 +277,16 @@ You have three options:
       hostname: synapse-admin
       build:
         context: https://github.com/etkecc/synapse-admin.git
-        dockerfile: Dockerfile.build
+        dockerfile: Dockerfile
         args:
           - BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
         #   - NODE_OPTIONS="--max_old_space_size=1024"
-        #   - BASE_PATH="/synapse-admin"
+        #   - SYNAPSE_ADMIN_VERSION="custom-version"
+      environment:
+        # Set SERVER_URL to prefill login form (optional)
+        - SERVER_URL=""
+        # Set BASE_URL if serving from a subpath (optional)
+        - BASE_URL=""
       ports:
         - "8080:80"
       restart: unless-stopped
@@ -292,40 +296,21 @@ You have three options:
 
 ### Serving Synapse Admin on a different path
 
-The path prefix where synapse-admin is served can only be changed during the build step.
+The path prefix where synapse-admin is served can be changed either during build time or runtime.
 
+**Build time configuration (No Docker):**
 If you downloaded the source code, use `yarn build --base=/my-prefix` to set a path prefix.
 
-If you want to build your own Docker container, use the `BASE_PATH` argument.
+**Build time configuration (Docker):**
+If you want to build your own Docker container, you can pass the base URL as a build argument to change DEFAULT one:
+```bash
+docker build --build-arg BASE_URL="/admin" -t my-synapse-admin .
+```
 
-We do not support directly changing the path where Synapse Admin is served in the pre-built Docker container. Instead please use a reverse proxy if you need to move Synapse Admin to a different base path. If you want to serve multiple applications with different paths on the same domain, you need a reverse proxy anyway.
-
-Example for Traefik:
-
-`docker-compose.yml`
-
-```yml
-services:
-  traefik:
-    image: traefik:v3
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
-  synapse-admin:
-    image: ghcr.io/etkecc/synapse-admin:latest
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.admin.rule=Host(`example.com`) && PathPrefix(`/admin`)"
-      - "traefik.http.services.admin.loadbalancer.server.port=80"
-      - "traefik.http.middlewares.admin-slashless-redirect.redirectregex.regex=(/admin)$$"
-      - "traefik.http.middlewares.admin-slashless-redirect.redirectregex.replacement=$${1}/"
-      - "traefik.http.middlewares.admin-strip-prefix.stripprefix.prefixes=/admin"
-      - "traefik.http.routers.admin.middlewares=admin-slashless-redirect,admin-strip-prefix"
+**Runtime configuration (Docker only):**
+You can set the `BASE_URL` environment variable when running the Docker container:
+```bash
+docker run -p 8080:80 -e BASE_URL="/synapse-admin" ghcr.io/etkecc/synapse-admin
 ```
 
 ## Development
