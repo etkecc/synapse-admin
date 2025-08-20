@@ -29,7 +29,7 @@ const UploadCard = ({
           <Stack spacing={2}>
             <Typography>
               {translate("import_users.cards.upload.explanation")}
-              <Link href="./data/example.csv" sx={{ ml: 1 }}>
+              <Link href={`${import.meta.env.BASE_URL}/data/example.csv`} sx={{ ml: 1 }}>
                 example.csv
               </Link>
             </Typography>

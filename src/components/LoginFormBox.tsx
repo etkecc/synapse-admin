@@ -7,7 +7,7 @@ const LoginFormBox = styled(Box)(({ theme }) => ({
   minHeight: "calc(100vh - 1rem)",
   alignItems: "center",
   justifyContent: "flex-start",
-  background: "url(./images/floating-cogs.svg)",
+  background: `url(${import.meta.env.BASE_URL}/images/floating-cogs.svg)`,
   backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.default : theme.palette.background.paper,
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
