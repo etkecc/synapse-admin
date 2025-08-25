@@ -3122,10 +3122,10 @@ fb-watchman@^2.0.2:
   dependencies:
     bser "2.1.1"
 
-fdir@^6.4.4, fdir@^6.4.6:
-  version "6.4.6"
-  resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.4.6.tgz#2b268c0232697063111bbf3f64810a2a741ba281"
-  integrity sha512-hiFoqpyZcfNm1yc4u8oWCf9A2c4D3QjCrks3zmoVKVxpQRzmPNar1hUJcBG2RQHvEVGDN+Jm81ZheVLAQMK6+w==
+fdir@^6.4.4, fdir@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.5.0.tgz#ed2ab967a331ade62f18d077dae192684d50d350"
+  integrity sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==
 
 file-entry-cache@^8.0.0:
   version "8.0.0"
@@ -5933,13 +5933,13 @@ vite-plugin-version-mark@^0.1.4:
   resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.1.4.tgz#847ca9096365634eb952afa8ef36d96d109db0a9"
   integrity sha512-0uoEWDnrH9ho4IwTzyFKosA+XnOWK7uT8WwCskPb2DVeFrCSn4sfPG7b+8l9EFWHgCx0n52iqwQEbs3w5FFzpw==
 
-vite@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.2.tgz#62ffd8a915977ff387fbe7a731af1a650ec5006e"
-  integrity sha512-J0SQBPlQiEXAF7tajiH+rUooJPo0l8KQgyg4/aMunNtrOa7bwuZJsJbDWzeljqQpgftxuq5yNJxQ91O9ts29UQ==
+vite@^7.1.3:
+  version "7.1.3"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.3.tgz#8d70cb02fd6346b4bf1329a6760800538ef0faea"
+  integrity sha512-OOUi5zjkDxYrKhTV3V7iKsoS37VUM7v40+HuwEmcrsf11Cdx9y3DIr2Px6liIcZFwt3XSRpQvFpL3WVy7ApkGw==
   dependencies:
     esbuild "^0.25.0"
-    fdir "^6.4.6"
+    fdir "^6.5.0"
     picomatch "^4.0.3"
     postcss "^8.5.6"
     rollup "^4.43.0"
