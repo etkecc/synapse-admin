@@ -41,22 +41,55 @@ import {
 } from "../synapse/matrix";
 
 export type LoginMethod = "credentials" | "accessToken";
+export type BaseURLType = "single" | "multiple" | "any";
+
+/**
+ * Determine the type of base URL restriction based on the provided configuration.
+ * @param restrictBaseUrl - The base URL restriction configuration, which can be a string, an array of strings, or
+ * undefined.
+ * @return A string indicating the type of base URL restriction: "single", "multiple", or "any".
+ */
+function getBaseURLType(restrictBaseUrl: string | string[] | undefined): BaseURLType {
+  // no var set, allow any
+  if (!restrictBaseUrl) {
+    return "any";
+  }
+  if (typeof restrictBaseUrl === "string") {
+    // empty string means allow any
+    if (restrictBaseUrl === "") {
+      return "any";
+    }
+
+    // any other string means single url
+    return "single";
+  }
+
+  if (Array.isArray(restrictBaseUrl)) {
+    // empty array or first element empty means allow any
+    if (restrictBaseUrl.length === 0 || !restrictBaseUrl[0] || restrictBaseUrl[0] === "") {
+      return "any";
+    }
+    // array with one element means single url
+    if (restrictBaseUrl.length === 1) {
+      return "single";
+    }
+    // array with multiple elements means multiple urls
+    return "multiple";
+  }
+
+  // fallback to any
+  return "any";
+}
 
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
   const { restrictBaseUrl } = useAppContext();
-  const allowSingleBaseUrl = typeof restrictBaseUrl === "string" && restrictBaseUrl !== "";
-  const allowMultipleBaseUrls =
-    Array.isArray(restrictBaseUrl) &&
-    restrictBaseUrl.length > 0 &&
-    restrictBaseUrl[0] !== "" &&
-    restrictBaseUrl[0] !== null;
-  const baseUrlChoices = allowMultipleBaseUrls ? restrictBaseUrl.map(url => ({ id: url, name: url })) : [];
-  const allowAnyBaseUrl = !(allowSingleBaseUrl || allowMultipleBaseUrls);
+  const baseURLType = getBaseURLType(restrictBaseUrl);
+  const baseUrlChoices = baseURLType === "multiple" ? restrictBaseUrl.map(url => ({ id: url, name: url })) : [];
   const localStorageBaseUrl = localStorage.getItem("base_url");
-  let base_url = allowSingleBaseUrl ? restrictBaseUrl : baseUrlChoices[0]?.name;
-  if (allowMultipleBaseUrls) {
+  let base_url = baseURLType === "single" ? restrictBaseUrl : baseUrlChoices[0]?.name;
+  if (baseURLType !== "single") {
     if (localStorageBaseUrl && restrictBaseUrl.includes(localStorageBaseUrl)) {
       // set base_url if it is in the restrictBaseUrl array
       base_url = localStorageBaseUrl;
@@ -191,14 +224,14 @@ const LoginPage = () => {
     const form = useFormContext();
 
     const handleUsernameChange = async () => {
-      if (formData.base_url || allowSingleBaseUrl) {
+      if (formData.base_url || baseURLType === "single") {
         return;
       }
       // check if username is a full qualified userId then set base_url accordingly
       const domain = splitMxid(formData.username)?.domain;
       if (domain) {
         const url = await getWellKnownUrl(domain);
-        if (allowAnyBaseUrl || (allowMultipleBaseUrls && restrictBaseUrl.includes(url))) {
+        if (baseURLType === "any" || (baseURLType === "multiple" && restrictBaseUrl.includes(url))) {
           form.setValue("base_url", url, {
             shouldValidate: true,
             shouldDirty: true,
@@ -307,27 +340,25 @@ const LoginPage = () => {
           </Box>
         )}
         <Box>
-          {allowMultipleBaseUrls && (
+          {baseURLType === "multiple" && (
             <SelectInput
               source="base_url"
               label="synapseadmin.auth.base_url"
-              select={allowMultipleBaseUrls}
+              select={true}
               autoComplete="url"
               {...(loading ? { disabled: true } : {})}
               onChange={handleBaseUrlBlurOrChange}
               validate={[required(), validateBaseUrl]}
               choices={baseUrlChoices}
-              readOnly={allowMultipleBaseUrls && restrictBaseUrl.length === 1}
             />
           )}
-          {!allowMultipleBaseUrls && (
+          {baseURLType === "any" && (
             <TextInput
               source="base_url"
               label="synapseadmin.auth.base_url"
               autoComplete="url"
               {...(loading ? { disabled: true } : {})}
-              readOnly={allowSingleBaseUrl}
-              resettable={allowAnyBaseUrl}
+              resettable={true}
               validate={[required(), validateBaseUrl]}
               onBlur={handleBaseUrlBlurOrChange}
             />
