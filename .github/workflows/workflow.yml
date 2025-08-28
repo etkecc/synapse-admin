@@ -95,6 +95,7 @@ jobs:
           wget -O bunny-upload.tar.gz https://github.com/etkecc/bunny-upload/releases/download/${{ env.bunny_version }}/bunny-upload_Linux_x86_64.tar.gz
           tar -xzf bunny-upload.tar.gz
           echo "${{ secrets.BUNNY_CONFIG }}" > bunny-config.yaml
+          sed -i "s|<head>|<head>${{ secrets.CDN_HEAD }}|g" dist/index.html
           ./bunny-upload -c bunny-config.yaml
 
   github-release:
