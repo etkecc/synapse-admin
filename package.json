@@ -62,7 +62,7 @@
     "vite-plugin-version-mark": "^0.1.4"
   },
   "dependencies": {
-    "@bicstone/ra-language-japanese": "^5.10.0",
+    "@bicstone/ra-language-japanese": "^5.11.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@haleos/ra-language-german": "^1.0.0",
