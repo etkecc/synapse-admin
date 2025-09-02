@@ -243,6 +243,26 @@ const useImportFile = () => {
         // we want to ensure that the ID is always full MXID, otherwise randomly-generated MXIDs will be in the full
         // form, but the ones from the CSV will be localpart-only.
         userRecord.id = returnMXID(userRecord.id);
+
+        // if there are 3PIDs, convert them to objects ("medium:address,..." -> [{medium,address},...])
+        if (userRecord.threepids !== undefined && userRecord.threepids !== "") {
+          const threepids = userRecord.threepids.split(",").map(m => m.trim());
+          const threepidObjs = [];
+          for (const threepid of threepids) {
+            const parts = threepid.split(":");
+            if (parts.length !== 2) {
+              continue;
+            }
+            const medium = parts[0].trim().toLowerCase();
+            const address = parts[1].trim();
+            if (address === "") {
+              continue;
+            }
+            threepidObjs.push({ medium, address });
+          }
+          userRecord.threepids = threepidObjs;
+        }
+
         /* TODO record update stats (especially admin no -> yes, deactivated x -> !x, ... */
 
         /* For these modes we will consider the ID that's in the record.
