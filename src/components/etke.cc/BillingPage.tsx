@@ -147,14 +147,6 @@ const BillingPage = () => {
     <Stack spacing={3} mt={3}>
       {header}
       <Box sx={{ mt: 2 }}>
-        <Typography variant="h5">Payment Summary</Typography>
-        <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="body1">Total Payments:</Typography>
-          <Chip label={total} color="primary" variant="outlined" />
-        </Box>
-      </Box>
-
-      <Box sx={{ mt: 2 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
           Payment History
         </Typography>
