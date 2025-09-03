@@ -41,59 +41,64 @@ import {
 } from "../synapse/matrix";
 
 export type LoginMethod = "credentials" | "accessToken";
-export type BaseURLType = "single" | "multiple" | "any";
 
 /**
- * Determine the type of base URL restriction based on the provided configuration.
- * @param restrictBaseUrl - The base URL restriction configuration, which can be a string, an array of strings, or
- * undefined.
- * @return A string indicating the type of base URL restriction: "single", "multiple", or "any".
+ * Get restricted base URL(s) from app context
+ * @returns tuple of (single URL or null, array of URLs or null)
  */
-function getBaseURLType(restrictBaseUrl: string | string[] | undefined): [string, BaseURLType] {
+function getRestrictedBaseUrl(): [string | null, string[] | null] {
+  const { restrictBaseUrl } = useAppContext();
   // no var set, allow any
   if (!restrictBaseUrl) {
-    return ["", "any"];
+    return [null, null];
   }
   if (typeof restrictBaseUrl === "string") {
     // empty string means allow any
     if (restrictBaseUrl === "") {
-      return ["", "any"];
+      return [null, null];
     }
 
     // any other string means single url
-    return [restrictBaseUrl, "single"];
+    return [restrictBaseUrl, null];
   }
 
   if (Array.isArray(restrictBaseUrl)) {
-    // empty array or first element empty means allow any
-    if (restrictBaseUrl.length === 0 || !restrictBaseUrl[0] || restrictBaseUrl[0] === "") {
-      return ["", "any"];
+    // empty array means allow any
+    if (restrictBaseUrl.length === 0) {
+      return [null, null];
     }
+    let items = restrictBaseUrl.filter(item => item && item.trim() !== "");
+    items = Array.from(new Set(items)); // deduplicate
+    // after filtering, empty array means allow any
+    if (items.length === 0) {
+      return [null, null];
+    }
+
     // array with one element means single url
-    if (restrictBaseUrl.length === 1) {
-      return [restrictBaseUrl[0], "single"];
+    if (items.length === 1) {
+      return [items[0], null];
     }
     // array with multiple elements means multiple urls
-    return ["", "multiple"];
+    return [null, items];
   }
 
   // fallback to any
-  return ["", "any"];
+  return [null, null];
 }
 
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
-  let { restrictBaseUrl } = useAppContext();
-  const [baseUrlString, baseURLType] = getBaseURLType(restrictBaseUrl);
-  if (baseURLType === "single") {
-    restrictBaseUrl = baseUrlString;
-  }
-  const baseUrlChoices = baseURLType === "multiple" ? restrictBaseUrl.map(url => ({ id: url, name: url })) : [];
+  const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = getRestrictedBaseUrl();
+  const baseUrlChoices = restrictBaseUrlMultiple ? restrictBaseUrlMultiple : [];
   const localStorageBaseUrl = localStorage.getItem("base_url");
-  let base_url = baseURLType === "single" ? restrictBaseUrl : baseUrlChoices[0]?.name;
-  if (baseURLType !== "single") {
-    if (localStorageBaseUrl && restrictBaseUrl.includes(localStorageBaseUrl)) {
+  let base_url = restrictBaseUrlSingle
+    ? restrictBaseUrlSingle
+    : restrictBaseUrlMultiple
+      ? restrictBaseUrlMultiple[0]
+      : null;
+  if (!base_url) {
+    if (localStorageBaseUrl && restrictBaseUrlMultiple?.includes(localStorageBaseUrl)) {
       // set base_url if it is in the restrictBaseUrl array
       base_url = localStorageBaseUrl;
     }
@@ -227,14 +232,14 @@ const LoginPage = () => {
     const form = useFormContext();
 
     const handleUsernameChange = async () => {
-      if (formData.base_url || baseURLType === "single") {
+      if (formData.base_url || restrictBaseUrlSingle) {
         return;
       }
       // check if username is a full qualified userId then set base_url accordingly
       const domain = splitMxid(formData.username)?.domain;
       if (domain) {
         const url = await getWellKnownUrl(domain);
-        if (baseURLType === "any" || (baseURLType === "multiple" && restrictBaseUrl.includes(url))) {
+        if (!restrictBaseUrlMultiple || restrictBaseUrlMultiple.includes(url)) {
           form.setValue("base_url", url, {
             shouldValidate: true,
             shouldDirty: true,
@@ -343,7 +348,7 @@ const LoginPage = () => {
           </Box>
         )}
         <Box>
-          {baseURLType === "multiple" && (
+          {restrictBaseUrlMultiple && (
             <SelectInput
               source="base_url"
               label="synapseadmin.auth.base_url"
@@ -355,7 +360,7 @@ const LoginPage = () => {
               choices={baseUrlChoices}
             />
           )}
-          {baseURLType === "any" && (
+          {!restrictBaseUrlSingle && !restrictBaseUrlMultiple && (
             <TextInput
               source="base_url"
               label="synapseadmin.auth.base_url"
