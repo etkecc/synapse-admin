@@ -49,43 +49,46 @@ export type BaseURLType = "single" | "multiple" | "any";
  * undefined.
  * @return A string indicating the type of base URL restriction: "single", "multiple", or "any".
  */
-function getBaseURLType(restrictBaseUrl: string | string[] | undefined): BaseURLType {
+function getBaseURLType(restrictBaseUrl: string | string[] | undefined): [string, BaseURLType] {
   // no var set, allow any
   if (!restrictBaseUrl) {
-    return "any";
+    return ["", "any"];
   }
   if (typeof restrictBaseUrl === "string") {
     // empty string means allow any
     if (restrictBaseUrl === "") {
-      return "any";
+      return ["", "any"];
     }
 
     // any other string means single url
-    return "single";
+    return [restrictBaseUrl, "single"];
   }
 
   if (Array.isArray(restrictBaseUrl)) {
     // empty array or first element empty means allow any
     if (restrictBaseUrl.length === 0 || !restrictBaseUrl[0] || restrictBaseUrl[0] === "") {
-      return "any";
+      return ["", "any"];
     }
     // array with one element means single url
     if (restrictBaseUrl.length === 1) {
-      return "single";
+      return [restrictBaseUrl[0], "single"];
     }
     // array with multiple elements means multiple urls
-    return "multiple";
+    return ["", "multiple"];
   }
 
   // fallback to any
-  return "any";
+  return ["", "any"];
 }
 
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
-  const { restrictBaseUrl } = useAppContext();
-  const baseURLType = getBaseURLType(restrictBaseUrl);
+  let { restrictBaseUrl } = useAppContext();
+  const [baseUrlString, baseURLType] = getBaseURLType(restrictBaseUrl);
+  if (baseURLType === "single") {
+    restrictBaseUrl = baseUrlString;
+  }
   const baseUrlChoices = baseURLType === "multiple" ? restrictBaseUrl.map(url => ({ id: url, name: url })) : [];
   const localStorageBaseUrl = localStorage.getItem("base_url");
   let base_url = baseURLType === "single" ? restrictBaseUrl : baseUrlChoices[0]?.name;

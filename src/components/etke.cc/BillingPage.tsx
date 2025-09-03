@@ -12,7 +12,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Chip,
   Button,
   Tooltip,
 } from "@mui/material";
@@ -45,7 +44,6 @@ const BillingPage = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const notify = useNotify();
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
-  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [failure, setFailure] = useState<string | null>(null);
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
@@ -58,7 +56,6 @@ const BillingPage = () => {
         setLoading(true);
         const response = await dataProvider.getPayments(etkeccAdmin);
         setPaymentsData(response.payments);
-        setTotal(response.total);
       } catch (error) {
         console.error("Error fetching billing data:", error);
         setFailure(error instanceof Error ? error.message : error);
