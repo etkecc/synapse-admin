@@ -59,7 +59,7 @@
     "typescript": "^5.9.2",
     "typescript-eslint": "^8.41.0",
     "vite": "^7.1.4",
-    "vite-plugin-version-mark": "^0.1.4"
+    "vite-plugin-version-mark": "^0.2.2"
   },
   "dependencies": {
     "@bicstone/ra-language-japanese": "^5.11.0",
