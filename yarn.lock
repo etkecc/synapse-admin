@@ -4901,7 +4901,7 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-ra-core@^4.11.2, ra-core@^4.16.2:
+ra-core@^4.11.2, ra-core@^4.12.0, ra-core@^4.16.2:
   version "4.16.20"
   resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-4.16.20.tgz#ad11785c706f8256ec0e9d371be2e13c8ca40e80"
   integrity sha512-+xJSVBD3zTG9Zxy042SpAWsozuIKCNvN/cZeUr5lINHY3/zOcZ2bbJ+Ce7IMcKnlvxS4g3tvqq4HuTQpItFEcg==
@@ -4985,6 +4985,13 @@ ra-language-russian@^5.4.4:
   integrity sha512-a3zPOBZWan3pWW70Oj7MA0xnOlll//5iY3cwURUnzH4lkzChmYY9nUvMugErDy5n6PWY/GzpVkFyXLPFtD5whg==
   dependencies:
     ra-core "^5.4.3"
+
+ra-language-ukrainian@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ra-language-ukrainian/-/ra-language-ukrainian-4.0.0.tgz#bc160a0824d219af93a66a521af4161ec69fa155"
+  integrity sha512-3CRkJtPjl05FAGpePkUMz+xuhKuxGASTlgZXB0GyZ2M8VTG2kkncVtt39VZMzfte8W2EgV9V5vFAwJ0KtUjdXA==
+  dependencies:
+    ra-core "^4.12.0"
 
 ra-ui-materialui@^5.11.0:
   version "5.11.0"
