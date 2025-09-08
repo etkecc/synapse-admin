@@ -96,6 +96,7 @@ jobs:
           tar -xzf bunny-upload.tar.gz
           echo "${{ secrets.BUNNY_CONFIG }}" > bunny-config.yaml
           sed -i "s|<head>|<head>${{ secrets.CDN_HEAD }}|g" dist/index.html
+          rm dist/robots.txt
           ./bunny-upload -c bunny-config.yaml
 
   github-release:
