@@ -162,7 +162,7 @@ const en: SynapseTranslationMessages = {
         suspended: "Suspended",
         deactivated: "Deactivated",
         erased: "Erased",
-        guests: "Show guests",
+        show_guests: "Show guests",
         show_deactivated: "Show deactivated users",
         show_locked: "Show locked users",
         show_suspended: "Show suspended users",

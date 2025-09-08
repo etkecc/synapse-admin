@@ -144,7 +144,7 @@ const fa: SynapseTranslationMessages = {
         deactivated: "غیرفعال",
         locked: "قفل شده",
         suspended: "معلق",
-        guests: "نمایش مهمانان",
+        show_guests: "نمایش مهمانان",
         show_deactivated: "نمایش کاربران غیرفعال شده",
         show_locked: "نمایش کاربران قفل شده",
         show_suspended: "نمایش کاربران معلق",

@@ -189,7 +189,7 @@ const ru: SynapseTranslationMessages = {
         suspended: "Приостановлен",
         deactivated: "Деактивирован",
         erased: "Удалён",
-        guests: "Показывать гостей",
+        show_guests: "Показывать гостей",
         show_deactivated: "Показывать деактивированных",
         show_locked: "Показывать заблокированных",
         show_suspended: "Показывать приостановленных",

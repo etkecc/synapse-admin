@@ -164,7 +164,7 @@ const ja: SynapseTranslationMessages = {
         suspended: "停止",
         deactivated: "無効化",
         erased: "消去",
-        guests: "ゲストを表示",
+        show_guests: "ゲストを表示",
         show_deactivated: "無効化されたユーザーを表示",
         show_locked: "ロックされたユーザーを表示",
         show_suspended: "停止されたユーザーを表示",

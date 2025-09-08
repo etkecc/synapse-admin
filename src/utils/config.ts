@@ -3,6 +3,7 @@ export interface Config {
   corsCredentials: string;
   asManagedUsers: RegExp[];
   menu: MenuItem[];
+  externalAuthProvider: boolean;
   etkeccAdmin?: string;
 }
 
@@ -20,6 +21,7 @@ let config: Config = {
   corsCredentials: "same-origin",
   asManagedUsers: [],
   menu: [],
+  externalAuthProvider: false,
   etkeccAdmin: "",
 };
 
@@ -90,6 +92,10 @@ export const LoadConfig = (context: object) => {
     config.menu = menu;
   }
 
+  if (context?.externalAuthProvider !== undefined) {
+    config.externalAuthProvider = context.externalAuthProvider;
+  }
+
   if (context?.etkeccAdmin) {
     config.etkeccAdmin = context.etkeccAdmin;
   }
@@ -106,4 +112,9 @@ export const ClearConfig = () => {
   config = {} as Config;
   // session
   localStorage.clear();
+};
+
+// workaround for external auth providers (like MAS, LDAP, etc.) to signal that some functionality should be disabled
+export const SetExternalAuthProvider = (value: boolean) => {
+  config.externalAuthProvider = value;
 };
