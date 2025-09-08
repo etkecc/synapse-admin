@@ -10,7 +10,9 @@ behavior to better suit setups with external auth providers. Currently, the foll
 * Do not show guests filter in the users list
 
 Note: for MAS (Matrix Authentication Service), Synapse Admin automatically detects its presence and adjusts its behavior
-accordingly, so you do not need to set this option explicitly if you use MAS.
+accordingly during the login process and that will affect your _current_ session only.
+If you restart your Synapse Admin instance, you will need to log in again to re-detect MAS.
+Setting `externalAuthProvider` to `true` will make the behavior persistent across restarts.
 
 ## Configuration
 
