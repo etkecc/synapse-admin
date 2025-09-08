@@ -152,7 +152,7 @@ const fr: SynapseTranslationMessages = {
         locked: "Verrouillé",
         suspended: "Suspendu",
         deactivated: "Désactivé",
-        guests: "Afficher les visiteurs",
+        show_guests: "Afficher les visiteurs",
         show_deactivated: "Afficher les utilisateurs désactivés",
         show_locked: "Afficher les utilisateurs verrouillés",
         show_suspended: "Afficher les utilisateurs suspendus",

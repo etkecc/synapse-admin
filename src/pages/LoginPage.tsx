@@ -39,6 +39,7 @@ import {
   isValidBaseUrl,
   splitMxid,
 } from "../synapse/matrix";
+import { SetExternalAuthProvider } from "../utils/config";
 
 export type LoginMethod = "credentials" | "accessToken";
 
@@ -220,6 +221,16 @@ const LoginPage = () => {
       const loginFlows = await getSupportedLoginFlows(url);
       const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
       const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
+      if (
+        loginFlows.find(
+          f =>
+            f.type === "m.login.sso" &&
+            (f["org.matrix.msc3824.delegated_oidc_compatibility"] || f["delegated_oidc_compatibility"])
+        )
+      ) {
+        console.log("Detected delegated_oidc_compatibility SSO flow");
+        SetExternalAuthProvider(true);
+      }
       setSupportPassAuth(supportPass);
       setSSOBaseUrl(supportSSO ? url : "");
     } catch {

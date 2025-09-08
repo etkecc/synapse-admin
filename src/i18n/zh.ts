@@ -176,7 +176,7 @@ const zh: SynapseTranslationMessages = {
         locked: "锁定",
         deactivated: "被禁用",
         suspended: "被锁定",
-        guests: "显示访客",
+        show_guests: "显示访客",
         show_deactivated: "显示被禁用的账户",
         show_locked: "显示被锁定的账户",
         show_suspended: "显示被锁定的账户",

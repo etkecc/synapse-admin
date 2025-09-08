@@ -30,6 +30,7 @@
   * [Configuring CORS credentials](#configuring-cors-credentials)
   * [Protecting appservice managed users](#protecting-appservice-managed-users)
   * [Adding custom menu items](#adding-custom-menu-items)
+  * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
 * [Usage](#usage)
   * [Supported Synapse](#supported-synapse)
   * [Prerequisites](#prerequisites)
@@ -209,6 +210,13 @@ you can specify the list of MXIDs (regexp) that should be prohibited from any ch
 You can add custom menu items to the main menu by providing a `menu` array in the config.
 
 [Documentation](./docs/custom-menu.md)
+
+### Enabling external auth provider-compatible mode
+
+If you use an external authentication provider (like MAS, LDAP, etc.) for your Synapse server,
+you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavior accordingly.
+
+[Documentation](./docs/external-auth-provider.md)
 
 ## Usage
 

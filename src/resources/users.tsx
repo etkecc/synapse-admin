@@ -80,6 +80,7 @@ import UserAccountData from "../components/UserAccountData";
 import UserRateLimits from "../components/UserRateLimits";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
+import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { isASManaged } from "../utils/mxid";
@@ -110,14 +111,19 @@ const UserListActions = () => {
 
 const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
-const userFilters = [
-  <SearchInput source="name" alwaysOn />,
-  <BooleanInput source="guests" alwaysOn />,
-  <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
-  <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
-  // waiting for https://github.com/element-hq/synapse/issues/18016
-  // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
-];
+const userFilters = () => {
+  const filters = [
+    <SearchInput source="name" alwaysOn />,
+    <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
+    <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
+    // waiting for https://github.com/element-hq/synapse/issues/18016
+    // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
+  ];
+  if (!GetConfig().externalAuthProvider) {
+    filters.push(<BooleanInput label="resources.users.fields.show_guests" source="guests" alwaysOn />);
+  }
+  return filters;
+};
 
 const UserPreventSelfDelete: React.FC<{
   children: React.ReactNode;
@@ -171,7 +177,7 @@ const UserBulkActionButtons = () => {
 export const UserList = (props: ListProps) => (
   <List
     {...props}
-    filters={userFilters}
+    filters={userFilters()}
     filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }}
     sort={{ field: "name", order: "ASC" }}
     actions={<UserListActions />}
@@ -454,7 +460,7 @@ const UserPasswordInput = props => {
 
   // Custom validation for reactivation case
   const validatePasswordOnReactivation = value => {
-    if (deactivatedFromRecord === true && deactivated === false && !value) {
+    if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider && !value) {
       return translate("resources.users.helper.password_required_for_reactivation");
     }
     return undefined;
@@ -464,7 +470,7 @@ const UserPasswordInput = props => {
 
   if (asManagedUserIsSelected) {
     passwordHelperText = "resources.users.helper.modify_managed_user_error";
-  } else if (deactivatedFromRecord === true && deactivated === false) {
+  } else if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider) {
     passwordHelperText = "resources.users.helper.password_required_for_reactivation";
   } else if (record) {
     passwordHelperText = "resources.users.helper.password";

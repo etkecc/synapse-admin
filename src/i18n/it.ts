@@ -144,7 +144,7 @@ const it: SynapseTranslationMessages = {
         locked: "Bloccato",
         suspended: "Sospeso",
         deactivated: "Disattivato",
-        guests: "Mostra gli ospiti",
+        show_guests: "Mostra gli ospiti",
         show_deactivated: "Mostra gli utenti disattivati",
         show_locked: "Mostra gli utenti bloccati",
         show_suspended: "Mostra gli utenti sospesi",
