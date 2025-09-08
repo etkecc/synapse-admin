@@ -92,6 +92,10 @@ export const LoadConfig = (context: object) => {
     config.menu = menu;
   }
 
+  if (context?.externalAuthProvider !== undefined) {
+    config.externalAuthProvider = context.externalAuthProvider;
+  }
+
   if (context?.etkeccAdmin) {
     config.etkeccAdmin = context.etkeccAdmin;
   }
