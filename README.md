@@ -121,6 +121,7 @@ The following changes are already implemented:
 * 🗣️ [Correctly set document language based on the selected locale](https://github.com/etkecc/synapse-admin/issues/723)
 * 📇 [Support 3pids in CSV users import (bulk registration)](https://github.com/etkecc/synapse-admin/pull/804)
 * 🇺🇦 [Add Ukrainian localization](https://github.com/etkecc/synapse-admin/pull/806)
+* [External Auth Provider-compatible mode](https://github.com/etkecc/synapse-admin/pull/821)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
