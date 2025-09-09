@@ -185,7 +185,7 @@ const de: SynapseTranslationMessages = {
         suspended: "Suspendiert",
         deactivated: "Deaktiviert",
         erased: "Gelöscht",
-        guests: "Zeige Gäste",
+        show_guests: "Zeige Gäste",
         show_deactivated: "Zeige deaktivierte Benutzer",
         show_locked: "Zeige gesperrte Benutzer",
         show_suspended: "Zeige suspendierte Benutzer",
@@ -204,11 +204,14 @@ const de: SynapseTranslationMessages = {
       },
       helper: {
         password: "Durch die Änderung des Passworts wird der Benutzer von allen Sitzungen abgemeldet.",
+        password_required_for_reactivation: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
         create_password: "Generiere ein starkes und sicheres Passwort mit dem Button unten.",
         deactivate: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
         suspend:
           "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
         erase: "DSGVO konformes Löschen der Benutzerdaten.",
+        admin: "Ein Serveradministrator hat volle Kontrolle über den Server und seine Benutzer.",
+        lock: "Verhindert, dass der Benutzer den Server nutzen kann. Dies ist eine nicht-destruktive Aktion, die rückgängig gemacht werden kann.",
         erase_text:
           "Das bedeutet, dass die von dem/den Benutzer(n) gesendeten Nachrichten für alle, die zum Zeitpunkt des Sendens im Raum waren, sichtbar bleiben, aber für Benutzer, die dem Raum später beitreten, nicht sichtbar sind.",
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",

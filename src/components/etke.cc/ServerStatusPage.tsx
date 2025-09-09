@@ -1,12 +1,11 @@
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import EngineeringIcon from "@mui/icons-material/Engineering";
-import { Alert, Box, Stack, Typography, Paper, Link, Chip, Divider, Tooltip, ChipProps } from "@mui/material";
+import { Box, Stack, Typography, Paper, Link, Chip, Divider, ChipProps } from "@mui/material";
 import { useStore } from "ra-core";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
-import { getTimeSince } from "../../utils/date";
 
 const StatusChip = ({
   isOkay,
@@ -40,18 +39,21 @@ const ServerComponentText = ({ text }: { text: string }) => {
 };
 
 const ServerStatusPage = () => {
-  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
+  const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     ok: false,
     success: false,
+    maintenance: false,
     host: "",
     results: [],
   });
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
-  const { command, locked_at } = serverProcess;
+  const { command } = serverProcess;
   const successCheck = serverStatus.success;
+  const isMaintenance = serverStatus.maintenance;
   const isOkay = serverStatus.ok;
   const host = serverStatus.host;
   const results = serverStatus.results;
@@ -62,6 +64,20 @@ const ServerStatusPage = () => {
       groupedResults[result.category] = [];
     }
     groupedResults[result.category].push(result);
+  }
+
+  if (isMaintenance) {
+    return (
+      <Paper elevation={3} sx={{ p: 3, mt: 3 }}>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Typography color="info">
+            The monitoring system is currently in maintenance mode. Please try again later.
+            <br />
+            You don't need to contact support about that, we are already working on it!
+          </Typography>
+        </Stack>
+      </Paper>
+    );
   }
 
   if (!successCheck) {
@@ -104,7 +120,7 @@ const ServerStatusPage = () => {
       </Typography>
 
       <Stack spacing={2} direction="row">
-        {Object.keys(groupedResults).map((category, idx) => (
+        {Object.keys(groupedResults).map((category, _idx) => (
           <Box key={`category_${category}`} sx={{ flex: 1 }}>
             <Typography variant="h5" mb={1}>
               {category}

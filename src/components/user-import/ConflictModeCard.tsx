@@ -3,7 +3,7 @@ import { CardContent, CardHeader, Container } from "@mui/material";
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
 
-import { ParsedStats, Progress } from "./types";
+import { ImportResult, ParsedStats, Progress } from "./types";
 
 const TranslatableOption = ({ value, text }: { value: string; text: string }) => {
   const translate = useTranslate();
@@ -18,7 +18,7 @@ const ConflictModeCard = ({
   progress,
 }: {
   stats: ParsedStats | null;
-  importResults: any;
+  importResults: ImportResult | null;
   onConflictModeChanged: ChangeEventHandler<HTMLSelectElement>;
   conflictMode: string;
   progress: Progress;

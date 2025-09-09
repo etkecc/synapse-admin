@@ -29,7 +29,7 @@ const UserAccountData = () => {
     return (
       <Typography variant="body2">
         {translate("ra.navigation.no_results", {
-          resource: "Account Data",
+          name: "Account Data",
           _: "No results found.",
         })}
       </Typography>
@@ -40,7 +40,7 @@ const UserAccountData = () => {
     <>
       <Stack direction="column" spacing={2} width="100%">
         <Typography variant="h6">{translate("resources.users.account_data.title")}</Typography>
-        <Typography variant="body1">
+        <Typography variant="body1" component="div">
           <Box>
             <Accordion>
               <AccordionSummary expandIcon={<ArrowDownwardIcon />}>

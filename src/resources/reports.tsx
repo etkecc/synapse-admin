@@ -2,7 +2,6 @@ import PageviewIcon from "@mui/icons-material/Pageview";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ReportIcon from "@mui/icons-material/Warning";
 import {
-  Datagrid,
   DatagridConfigurable,
   DateField,
   DeleteButton,

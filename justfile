@@ -6,6 +6,9 @@ default:
 build: __install
     @yarn run build --base=./
 
+update:
+    yarn upgrade-interactive --latest
+
 # run the app in a development mode
 run:
     @yarn start --host 0.0.0.0

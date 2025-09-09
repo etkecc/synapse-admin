@@ -11,7 +11,6 @@ import {
   useDataProvider,
   Loading,
   Button,
-  BooleanInput,
   SelectInput,
 } from "react-admin";
 import { useWatch } from "react-hook-form";
@@ -23,6 +22,7 @@ import { ScheduledCommand } from "../../../../../synapse/dataProvider";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const transformCommandsToChoices = (commands: Record<string, any>) => {
   return Object.entries(commands).map(([key, value]) => ({
     id: key,
@@ -50,7 +50,7 @@ const ScheduledCommandEdit = () => {
   const isCreating = typeof id === "undefined";
   const [loading, setLoading] = useState(!isCreating);
   const { data: scheduledCommands, isLoading: isLoadingList } = useScheduledCommands();
-  const { serverCommands, isLoading: isLoadingServerCommands } = useServerCommands();
+  const { serverCommands } = useServerCommands();
   const pageTitle = isCreating ? "Create Scheduled Command" : "Edit Scheduled Command";
 
   const commandChoices = transformCommandsToChoices(serverCommands);
@@ -67,15 +67,12 @@ const ScheduledCommandEdit = () => {
 
   const handleSubmit = async data => {
     try {
-      let result;
-
       data.scheduled_at = new Date(data.scheduled_at).toISOString();
-
       if (isCreating) {
-        result = await dataProvider.createScheduledCommand(etkeccAdmin, data);
+        await dataProvider.createScheduledCommand(etkeccAdmin, data);
         notify("scheduled_commands.action.create_success", { type: "success" });
       } else {
-        result = await dataProvider.updateScheduledCommand(etkeccAdmin, {
+        await dataProvider.updateScheduledCommand(etkeccAdmin, {
           ...data,
           id: id,
         });
@@ -84,6 +81,7 @@ const ScheduledCommandEdit = () => {
 
       navigate("/server_actions");
     } catch (error) {
+      console.log("Error saving scheduled command:", error);
       notify("scheduled_commands.action.update_failure", { type: "error" });
     }
   };

@@ -23,6 +23,7 @@ import {
   useTranslate,
   PasswordInput,
   TextInput,
+  SelectInput,
   useLocales,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
@@ -38,29 +39,88 @@ import {
   isValidBaseUrl,
   splitMxid,
 } from "../synapse/matrix";
+import { SetExternalAuthProvider } from "../utils/config";
 
 export type LoginMethod = "credentials" | "accessToken";
+
+/**
+ * Get restricted base URL(s) from app context
+ * @returns tuple of (single URL or null, array of URLs or null)
+ */
+function getRestrictedBaseUrl(): [string | null, string[] | null] {
+  const { restrictBaseUrl } = useAppContext();
+  // no var set, allow any
+  if (!restrictBaseUrl) {
+    return [null, null];
+  }
+  if (typeof restrictBaseUrl === "string") {
+    // empty string means allow any
+    if (restrictBaseUrl === "") {
+      return [null, null];
+    }
+
+    // any other string means single url
+    return [restrictBaseUrl, null];
+  }
+
+  if (Array.isArray(restrictBaseUrl)) {
+    // empty array means allow any
+    if (restrictBaseUrl.length === 0) {
+      return [null, null];
+    }
+    let items = restrictBaseUrl.filter(item => item && item.trim() !== "");
+    items = Array.from(new Set(items)); // deduplicate
+    // after filtering, empty array means allow any
+    if (items.length === 0) {
+      return [null, null];
+    }
+
+    // array with one element means single url
+    if (items.length === 1) {
+      return [items[0], null];
+    }
+    // array with multiple elements means multiple urls
+    return [null, items];
+  }
+
+  // fallback to any
+  return [null, null];
+}
 
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
-  const { restrictBaseUrl } = useAppContext();
-  const allowSingleBaseUrl = typeof restrictBaseUrl === "string" && restrictBaseUrl !== "";
-  const allowMultipleBaseUrls =
-    Array.isArray(restrictBaseUrl) &&
-    restrictBaseUrl.length > 0 &&
-    restrictBaseUrl[0] !== "" &&
-    restrictBaseUrl[0] !== null;
-  const allowAnyBaseUrl = !(allowSingleBaseUrl || allowMultipleBaseUrls);
+  const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = getRestrictedBaseUrl();
+  const baseUrlChoices = restrictBaseUrlMultiple ? restrictBaseUrlMultiple : [];
+  const localStorageBaseUrl = localStorage.getItem("base_url");
+  let base_url = restrictBaseUrlSingle
+    ? restrictBaseUrlSingle
+    : restrictBaseUrlMultiple
+      ? restrictBaseUrlMultiple[0]
+      : null;
+  if (!base_url) {
+    if (localStorageBaseUrl && restrictBaseUrlMultiple?.includes(localStorageBaseUrl)) {
+      // set base_url if it is in the restrictBaseUrl array
+      base_url = localStorageBaseUrl;
+    }
+  }
   const [loading, setLoading] = useState(false);
   const [supportPassAuth, setSupportPassAuth] = useState(true);
   const [locale, setLocale] = useLocaleState();
   const locales = useLocales();
   const translate = useTranslate();
-  const base_url = allowSingleBaseUrl ? restrictBaseUrl : localStorage.getItem("base_url");
+
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
+  const [serverVersion, setServerVersion] = useState("");
+  const [matrixVersions, setMatrixVersions] = useState("");
+
+  useEffect(() => {
+    if (base_url) {
+      checkServerInfo(base_url);
+    }
+  }, []);
 
   useEffect(() => {
     if (!loginToken) {
@@ -133,54 +193,85 @@ const LoginPage = () => {
     window.location.href = ssoFullUrl;
   };
 
+  const checkServerInfo = async (url: string) => {
+    if (!isValidBaseUrl(url)) {
+      setServerVersion("");
+      setMatrixVersions("");
+      setSupportPassAuth(false);
+      setSSOBaseUrl("");
+      return;
+    }
+
+    try {
+      const serverVersion = await getServerVersion(url);
+      setServerVersion(`${translate("synapseadmin.auth.server_version")} ${serverVersion}`);
+    } catch {
+      setServerVersion("");
+    }
+
+    try {
+      const features = await getSupportedFeatures(url);
+      setMatrixVersions(`${translate("synapseadmin.auth.supports_specs")} ${features.versions.join(", ")}`);
+    } catch {
+      setMatrixVersions("");
+    }
+
+    // Set SSO Url
+    try {
+      const loginFlows = await getSupportedLoginFlows(url);
+      const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
+      const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
+      if (
+        loginFlows.find(
+          f =>
+            f.type === "m.login.sso" &&
+            (f["org.matrix.msc3824.delegated_oidc_compatibility"] || f["delegated_oidc_compatibility"])
+        )
+      ) {
+        console.log("Detected delegated_oidc_compatibility SSO flow");
+        SetExternalAuthProvider(true);
+      }
+      setSupportPassAuth(supportPass);
+      setSSOBaseUrl(supportSSO ? url : "");
+    } catch {
+      setSupportPassAuth(false);
+      setSSOBaseUrl("");
+    }
+  };
+
   const UserData = ({ formData }) => {
     const form = useFormContext();
-    const [serverVersion, setServerVersion] = useState("");
-    const [matrixVersions, setMatrixVersions] = useState("");
 
-    const handleUsernameChange = () => {
-      if (formData.base_url || allowSingleBaseUrl) {
+    const handleUsernameChange = async () => {
+      if (formData.base_url || restrictBaseUrlSingle) {
         return;
       }
       // check if username is a full qualified userId then set base_url accordingly
       const domain = splitMxid(formData.username)?.domain;
       if (domain) {
-        getWellKnownUrl(domain).then(url => {
-          if (allowAnyBaseUrl || (allowMultipleBaseUrls && restrictBaseUrl.includes(url)))
-            form.setValue("base_url", url);
-        });
+        const url = await getWellKnownUrl(domain);
+        if (!restrictBaseUrlMultiple || restrictBaseUrlMultiple.includes(url)) {
+          form.setValue("base_url", url, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+          checkServerInfo(url);
+        }
       }
     };
 
-    useEffect(() => {
-      if (!formData.base_url) {
-        form.setValue("base_url", "");
+    const handleBaseUrlBlurOrChange = event => {
+      // Get the value either from the event (onChange) or from formData (onBlur)
+      const value = event?.target?.value || formData.base_url;
+
+      if (!value) {
+        return;
       }
-      if (formData.base_url === "" && allowMultipleBaseUrls) {
-        form.setValue("base_url", restrictBaseUrl[0]);
-      }
-      if (!isValidBaseUrl(formData.base_url)) return;
 
-      getServerVersion(formData.base_url)
-        .then(serverVersion => setServerVersion(`${translate("synapseadmin.auth.server_version")} ${serverVersion}`))
-        .catch(() => setServerVersion(""));
-
-      getSupportedFeatures(formData.base_url)
-        .then(features =>
-          setMatrixVersions(`${translate("synapseadmin.auth.supports_specs")} ${features.versions.join(", ")}`)
-        )
-        .catch(() => setMatrixVersions(""));
-
-      // Set SSO Url
-      getSupportedLoginFlows(formData.base_url)
-        .then(loginFlows => {
-          const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
-          const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
-          setSupportPassAuth(supportPass);
-          setSSOBaseUrl(supportSSO ? formData.base_url : "");
-        })
-        .catch(() => setSSOBaseUrl(""));
-    }, [formData.base_url, form]);
+      // Trigger validation only when user finishes typing/selecting
+      form.trigger("base_url");
+      checkServerInfo(value);
+    };
 
     useEffect(() => {
       const params = new URLSearchParams(window.location.search);
@@ -189,6 +280,7 @@ const LoginPage = () => {
       const password = params.get("password");
       const accessToken = params.get("accessToken");
       let serverURL = params.get("server");
+
       if (username) {
         form.setValue("username", username);
       }
@@ -202,12 +294,19 @@ const LoginPage = () => {
           form.setValue("accessToken", accessToken);
         }
       }
+
       if (serverURL) {
         const isFullUrl = serverURL.match(/^(http|https):\/\//);
         if (!isFullUrl) {
           serverURL = `https://${serverURL}`;
         }
-        form.setValue("base_url", serverURL);
+
+        form.setValue("base_url", serverURL, {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+
+        checkServerInfo(serverURL);
       }
     }, [window.location.search]);
 
@@ -227,7 +326,6 @@ const LoginPage = () => {
           <>
             <Box>
               <TextInput
-                autoFocus
                 source="username"
                 label="ra.auth.username"
                 autoComplete="username"
@@ -261,23 +359,29 @@ const LoginPage = () => {
           </Box>
         )}
         <Box>
-          <TextInput
-            source="base_url"
-            label="synapseadmin.auth.base_url"
-            select={allowMultipleBaseUrls}
-            autoComplete="url"
-            {...(loading ? { disabled: true } : {})}
-            readOnly={allowSingleBaseUrl}
-            resettable={allowAnyBaseUrl}
-            validate={[required(), validateBaseUrl]}
-          >
-            {allowMultipleBaseUrls &&
-              restrictBaseUrl.map(url => (
-                <MenuItem key={url} value={url}>
-                  {url}
-                </MenuItem>
-              ))}
-          </TextInput>
+          {restrictBaseUrlMultiple && (
+            <SelectInput
+              source="base_url"
+              label="synapseadmin.auth.base_url"
+              select={true}
+              autoComplete="url"
+              {...(loading ? { disabled: true } : {})}
+              onChange={handleBaseUrlBlurOrChange}
+              validate={[required(), validateBaseUrl]}
+              choices={baseUrlChoices}
+            />
+          )}
+          {!restrictBaseUrlSingle && !restrictBaseUrlMultiple && (
+            <TextInput
+              source="base_url"
+              label="synapseadmin.auth.base_url"
+              autoComplete="url"
+              {...(loading ? { disabled: true } : {})}
+              resettable={true}
+              validate={[required(), validateBaseUrl]}
+              onBlur={handleBaseUrlBlurOrChange}
+            />
+          )}
         </Box>
         <Typography className="serverVersion">{serverVersion}</Typography>
         <Typography className="matrixVersions">{matrixVersions}</Typography>
@@ -286,7 +390,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onTouched">
+    <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onBlur">
       <LoginFormBox>
         <Card className="card">
           <Box className="avatar">

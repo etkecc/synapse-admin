@@ -5,7 +5,7 @@ import { Checkbox } from "@mui/material";
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
 
-import { ParsedStats, Progress } from "./types";
+import { ImportResult, ParsedStats, Progress } from "./types";
 
 const StatsCard = ({
   stats,
@@ -18,7 +18,7 @@ const StatsCard = ({
 }: {
   stats: ParsedStats | null;
   progress: Progress;
-  importResults: any;
+  importResults: ImportResult | null;
   useridMode: string;
   passwordMode: boolean;
   onUseridModeChanged: ChangeEventHandler<HTMLSelectElement>;

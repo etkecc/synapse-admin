@@ -1,4 +1,5 @@
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
+import PaymentIcon from "@mui/icons-material/Payment";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -12,6 +13,7 @@ import {
   useLogout,
   UserMenu,
   useStore,
+  useLocaleState,
 } from "react-admin";
 
 import Footer from "./Footer";
@@ -83,11 +85,11 @@ const AdminMenu = props => {
       setEtkeRoutesEnabled(true);
     }
   }, []);
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
   });
-  const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
+  const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     success: false,
     ok: false,
     host: "",
@@ -120,10 +122,12 @@ const AdminMenu = props => {
           primaryText="Server Actions"
         />
       )}
+      {etkeRoutesEnabled && <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />}
       <Menu.ResourceItems />
       {menu &&
         menu.map((item, index) => {
           const { url, icon, label } = item;
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
 
           return (
@@ -143,6 +147,12 @@ const AdminMenu = props => {
 };
 
 export const AdminLayout = ({ children }) => {
+  // Set the document language based on the selected locale
+  const [locale, _setLocale] = useLocaleState();
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
+
   return (
     <>
       <Layout

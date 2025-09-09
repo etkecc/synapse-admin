@@ -1,3 +1,13 @@
+// SPDX-FileCopyrightText: 2020 Michael Albert
+// SPDX-FileCopyrightText: 2020 - 2024 Manuel Stahl
+// SPDX-FileCopyrightText: 2021 Dirk Klimpel
+// SPDX-FileCopyrightText: 2023 Przemysław Romanik
+// SPDX-FileCopyrightText: 2024 Alexander Tumin
+// SPDX-FileCopyrightText: 2024 - 2025 Borislav Pantaleev
+// SPDX-FileCopyrightText: 2024 - 2025 Nikita Chernyi
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import englishMessages from "ra-language-english";
 
 import { SynapseTranslationMessages } from ".";
@@ -152,7 +162,7 @@ const en: SynapseTranslationMessages = {
         suspended: "Suspended",
         deactivated: "Deactivated",
         erased: "Erased",
-        guests: "Show guests",
+        show_guests: "Show guests",
         show_deactivated: "Show deactivated users",
         show_locked: "Show locked users",
         show_suspended: "Show suspended users",
@@ -171,10 +181,13 @@ const en: SynapseTranslationMessages = {
       },
       helper: {
         password: "Changing password will log user out of all sessions.",
+        password_required_for_reactivation: "You must provide a password to re-activate an account.",
         create_password: "Generate a strong and secure password using the button below.",
+        lock: "Prevent the user from usefully using their account. This is a non-destructive action that can be reversed.",
         deactivate: "You must provide a password to re-activate an account.",
         suspend: "Suspending user means they are put into a read-only mode.",
-        erase: "Mark the user as GDPR-erased",
+        erase: "In addition to deactivating the user, mark the user as GDPR-erased.",
+        admin: "A server administrator has full control over the server and its users.",
         erase_text:
           "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
         erase_admin_error: "Deleting own user is not allowed.",

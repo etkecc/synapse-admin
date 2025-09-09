@@ -30,6 +30,7 @@
   * [Configuring CORS credentials](#configuring-cors-credentials)
   * [Protecting appservice managed users](#protecting-appservice-managed-users)
   * [Adding custom menu items](#adding-custom-menu-items)
+  * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
 * [Usage](#usage)
   * [Supported Synapse](#supported-synapse)
   * [Prerequisites](#prerequisites)
@@ -113,6 +114,14 @@ The following changes are already implemented:
 * 🗂️ [Add Users' Account Data tab](https://github.com/etkecc/synapse-admin/pull/276)
 * 🧾 [Make bulk registration CSV import more user-friendly](https://github.com/etkecc/synapse-admin/pull/411)
 * 🌐 [Configurable CORS Credentials](https://github.com/etkecc/synapse-admin/pull/456)
+* 🧪 [Do not check homeserver URL during typing in the login form](https://github.com/etkecc/synapse-admin/pull/585)
+* 🔧 [Improve user account status toggles](https://github.com/etkecc/synapse-admin/pull/608)
+* 🛡️ [Validate that password is entered upon reactivation of account](https://github.com/etkecc/synapse-admin/pull/609)
+* 🇯🇵 [Add Japanese localization](https://github.com/etkecc/synapse-admin/pull/631)
+* 🗣️ [Correctly set document language based on the selected locale](https://github.com/etkecc/synapse-admin/issues/723)
+* 📇 [Support 3pids in CSV users import (bulk registration)](https://github.com/etkecc/synapse-admin/pull/804)
+* 🇺🇦 [Add Ukrainian localization](https://github.com/etkecc/synapse-admin/pull/806)
+* [External Auth Provider-compatible mode](https://github.com/etkecc/synapse-admin/pull/821)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
@@ -123,6 +132,7 @@ The following list contains such features - they are only available for [etke.cc
 * 📬 [Server Notifications indicator and page](https://github.com/etkecc/synapse-admin/pull/240)
 * 🛠️ [Server Commands panel](https://github.com/etkecc/synapse-admin/pull/365)
 * 🚀 [Server Actions page](https://github.com/etkecc/synapse-admin/pull/457)
+* 💳 [Billing page](https://github.com/etkecc/synapse-admin/pull/691)
 
 ### Development
 
@@ -201,6 +211,13 @@ you can specify the list of MXIDs (regexp) that should be prohibited from any ch
 You can add custom menu items to the main menu by providing a `menu` array in the config.
 
 [Documentation](./docs/custom-menu.md)
+
+### Enabling external auth provider-compatible mode
+
+If you use an external authentication provider (like MAS, LDAP, etc.) for your Synapse server,
+you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavior accordingly.
+
+[Documentation](./docs/external-auth-provider.md)
 
 ## Usage
 

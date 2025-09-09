@@ -1,7 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
+import { useDataProvider, useRecordContext, useTranslate } from "react-admin";
 import { useFormContext } from "react-hook-form";
 
 const RateLimitRow = ({
@@ -10,8 +10,8 @@ const RateLimitRow = ({
   updateRateLimit,
 }: {
   limit: string;
-  value: any;
-  updateRateLimit: (limit: string, value: any) => void;
+  value: object;
+  updateRateLimit: (limit: string, value: integer | null) => void;
 }) => {
   const translate = useTranslate();
 
@@ -33,7 +33,6 @@ const RateLimitRow = ({
       }}
     >
       <TextField
-        id="outlined-number"
         type="number"
         value={value}
         onChange={handleChange}
@@ -54,8 +53,6 @@ const RateLimitRow = ({
 };
 
 const UserRateLimits = () => {
-  const translate = useTranslate();
-  const notify = useNotify();
   const record = useRecordContext();
   const form = useFormContext();
   const dataProvider = useDataProvider();
@@ -79,7 +76,7 @@ const UserRateLimits = () => {
     fetchRateLimits();
   }, []);
 
-  const updateRateLimit = async (limit: string, value: any) => {
+  const updateRateLimit = async (limit: string, value: integer | null) => {
     const updatedRateLimits = { ...rateLimits, [limit]: value };
     setRateLimits(updatedRateLimits);
     form.setValue(`rates.${limit}`, value, { shouldDirty: true });

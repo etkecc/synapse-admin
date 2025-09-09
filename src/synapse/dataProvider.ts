@@ -17,6 +17,7 @@ import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
 import { returnMXID } from "../utils/mxid";
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const CACHED_MANY_REF: Record<string, any> = {};
 
 // Adds the access token to all requests
@@ -33,7 +34,7 @@ const jsonClient = async (url: string, options: Options = {}) => {
   try {
     const response = await fetchUtils.fetchJson(url, options);
     return response;
-  } catch (err: any) {
+  } catch (err) {
     const error = err as HttpError;
     const errorStatus = error.status;
     const errorBody = error.body as MatrixError;
@@ -45,15 +46,10 @@ const jsonClient = async (url: string, options: Options = {}) => {
   }
 };
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const filterUndefined = (obj: Record<string, any>) => {
-  return Object.fromEntries(Object.entries(obj).filter(([key, value]) => value !== undefined));
+  return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
 };
-
-interface Action {
-  endpoint: string;
-  method?: string;
-  body?: Record<string, any>;
-}
 
 export interface Room {
   room_id: string;
@@ -290,6 +286,7 @@ export interface ServerStatusComponent {
 
 export interface ServerStatusResponse {
   success: boolean;
+  maintenance?: boolean;
   ok: boolean;
   host: string;
   results: ServerStatusComponent[];
@@ -298,6 +295,7 @@ export interface ServerStatusResponse {
 export interface ServerProcessResponse {
   locked_at: string;
   command: string;
+  maintenance?: boolean;
 }
 
 export interface ServerNotification {
@@ -338,6 +336,19 @@ export interface RecurringCommand {
   time: string;
 }
 
+export interface Payment {
+  amount: number;
+  email: string;
+  is_subscription: boolean;
+  paid_at: string;
+  transaction_id: string;
+}
+
+export interface PaymentsResponse {
+  payments: Payment[];
+  total: number;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -348,6 +359,11 @@ export interface SynapseDataProvider extends DataProvider {
   getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  suspendUser: (
+    id: Identifier,
+    suspendValue: boolean
+  ) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
@@ -361,6 +377,8 @@ export interface SynapseDataProvider extends DataProvider {
   createRecurringCommand: (etkeAdminUrl: string, command: Partial<RecurringCommand>) => Promise<RecurringCommand>;
   updateRecurringCommand: (etkeAdminUrl: string, command: RecurringCommand) => Promise<RecurringCommand>;
   deleteRecurringCommand: (etkeAdminUrl: string, id: string) => Promise<{ success: boolean }>;
+  getPayments: (etkeAdminUrl: string) => Promise<PaymentsResponse>;
+  getInvoice: (etkeAdminUrl: string, transactionId: string) => Promise<void>;
 }
 
 const resourceMap = {
@@ -782,6 +800,7 @@ const baseDataProvider: SynapseDataProvider = {
     const res = resourceMap[resource];
 
     const endpoint_url = homeserver + res.path;
+
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`, {
       method: "PUT",
       body: JSON.stringify(params.data, filterNullValues),
@@ -984,7 +1003,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
   setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
     const filtered = Object.entries(rateLimits)
-      .filter(([key, value]) => value !== null && value !== undefined)
+      .filter(([_key, value]) => value !== null && value !== undefined)
       .reduce((obj, [key, value]) => {
         obj[key] = value;
         return obj;
@@ -1017,7 +1036,39 @@ const baseDataProvider: SynapseDataProvider = {
 
     const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
     try {
-      const { json } = await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
+      await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
+      return { success: true };
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return { success: false, error: error.body.error, errcode: error.body.errcode };
+      }
+      throw error;
+    }
+  },
+  suspendUser: async (id: Identifier, suspendValue: boolean) => {
+    const base_url = localStorage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/suspend/${encodeURIComponent(returnMXID(id))}`;
+    try {
+      await jsonClient(endpoint_url, {
+        method: "PUT",
+        body: JSON.stringify({ suspend: suspendValue }),
+      });
+      return { success: true };
+    } catch (error) {
+      if (error instanceof HttpError) {
+        return { success: false, error: error.body.error, errcode: error.body.errcode };
+      }
+      throw error;
+    }
+  },
+  eraseUser: async (id: Identifier) => {
+    const base_url = localStorage.getItem("base_url");
+    const endpoint_url = `${base_url}/_synapse/admin/v1/deactivate/${encodeURIComponent(returnMXID(id))}`;
+    try {
+      await jsonClient(endpoint_url, {
+        method: "POST",
+        body: JSON.stringify({ erase: true }),
+      });
       return { success: true };
     } catch (error) {
       if (error instanceof HttpError) {
@@ -1042,9 +1093,13 @@ const baseDataProvider: SynapseDataProvider = {
         },
       });
 
+      if (response.status === 503) {
+        return { locked_at, command, maintenance: true };
+      }
+
       if (!response.ok) {
         console.error(`Error getting server running process: ${response.status} ${response.statusText}`);
-        return { locked_at, command };
+        return { locked_at, command, maintenance: false };
       }
       const status = response.status;
 
@@ -1053,13 +1108,13 @@ const baseDataProvider: SynapseDataProvider = {
         return json as { locked_at: string; command: string };
       }
       if (status === 204) {
-        return { locked_at, command };
+        return { locked_at, command, maintenance: false };
       }
     } catch (error) {
       console.error("Error getting server running process", error);
     }
 
-    return { locked_at, command };
+    return { locked_at, command, maintenance: false };
   },
   getServerStatus: async (etkeAdminUrl: string, burstCache = false): Promise<ServerStatusResponse> => {
     let serverURL = `${etkeAdminUrl}/status`;
@@ -1073,6 +1128,11 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+
+      if (response.status === 503) {
+        return { success: false, ok: false, host: "", results: [], maintenance: true };
+      }
+
       if (!response.ok) {
         console.error(`Error getting server status: ${response.status} ${response.statusText}`);
         return { success: false, ok: false, host: "", results: [] };
@@ -1105,6 +1165,9 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+      if (response.status === 503) {
+        return { success: false, notifications: [] };
+      }
       if (!response.ok) {
         console.error(`Error getting server notifications: ${response.status} ${response.statusText}`);
         return { success: false, notifications: [] };
@@ -1159,24 +1222,29 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+
+      if (response.status === 503) {
+        return { maintenance: true, commands: [] };
+      }
+
       if (!response.ok) {
         console.error(`Error fetching server commands: ${response.status} ${response.statusText}`);
-        return {};
+        return { maintenance: false, commands: [] };
       }
 
       const status = response.status;
 
       if (status === 200) {
         const json = await response.json();
-        return json as ServerCommandsResponse;
+        return { maintenance: false, commands: json };
       }
 
-      return {};
+      return { maintenance: false, commands: [] };
     } catch (error) {
-      console.error("Error fetching server commands, error");
+      console.error("Error fetching server commands:", error);
     }
 
-    return {};
+    return { maintenance: false, commands: [] };
   },
   runServerCommand: async (serverCommandsUrl: string, command: string, additionalArgs: Record<string, any> = {}) => {
     const endpoint_url = `${serverCommandsUrl}/commands`;
@@ -1193,10 +1261,18 @@ const baseDataProvider: SynapseDataProvider = {
       },
     });
 
+    if (response.status === 503) {
+      return {
+        success: false,
+        maintenance: true,
+      };
+    }
+
     if (!response.ok) {
       console.error(`Error running server command: ${response.status} ${response.statusText}`);
       return {
         success: false,
+        maintenance: false,
       };
     }
 
@@ -1205,11 +1281,13 @@ const baseDataProvider: SynapseDataProvider = {
     if (status === 204) {
       return {
         success: true,
+        maintenance: false,
       };
     }
 
     return {
       success: false,
+      maintenance: false,
     };
   },
   getScheduledCommands: async (scheduledCommandsUrl: string) => {
@@ -1219,6 +1297,10 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+      if (response.status === 503) {
+        return [];
+      }
+
       if (!response.ok) {
         console.error(`Error fetching scheduled commands: ${response.status} ${response.statusText}`);
         return [];
@@ -1233,7 +1315,7 @@ const baseDataProvider: SynapseDataProvider = {
 
       return [];
     } catch (error) {
-      console.error("Error fetching scheduled commands, error");
+      console.error("Error fetching scheduled commands:", error);
     }
     return [];
   },
@@ -1244,6 +1326,11 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+
+      if (response.status === 503) {
+        return [];
+      }
+
       if (!response.ok) {
         console.error(`Error fetching recurring commands: ${response.status} ${response.statusText}`);
         return [];
@@ -1258,7 +1345,7 @@ const baseDataProvider: SynapseDataProvider = {
 
       return [];
     } catch (error) {
-      console.error("Error fetching recurring commands, error");
+      console.error("Error fetching recurring commands:", error);
     }
     return [];
   },
@@ -1418,6 +1505,96 @@ const baseDataProvider: SynapseDataProvider = {
       return { success: false };
     }
   },
+  getPayments: async (etkeAdminUrl: string) => {
+    const response = await fetch(`${etkeAdminUrl}/payments`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+
+    if (response.status === 503) {
+      return { payments: [], total: 0, maintenance: true };
+    }
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch payments: ${response.status} ${response.statusText}`);
+    }
+
+    const status = response.status;
+
+    if (status === 200) {
+      const json = await response.json();
+      return json as PaymentsResponse;
+    }
+
+    if (status === 204) {
+      return { payments: [], total: 0, maintenance: false };
+    }
+
+    throw new Error(`${response.status} ${response.statusText}`); // Handle unexpected status codes
+  },
+  getInvoice: async (etkeAdminUrl: string, transactionId: string) => {
+    try {
+      const response = await fetch(`${etkeAdminUrl}/payments/${transactionId}/invoice`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        let errorMessage = `Error fetching invoice: ${response.status} ${response.statusText}`;
+
+        // Handle specific error codes
+        switch (response.status) {
+          case 404:
+            errorMessage = "Invoice not found for this transaction";
+            break;
+          case 500:
+            errorMessage = "Server error while generating invoice. Please try again later";
+            break;
+          case 401:
+            errorMessage = "Unauthorized access. Please check your permissions";
+            break;
+          case 403:
+            errorMessage = "Access forbidden. You don't have permission to download this invoice";
+            break;
+          default:
+            errorMessage = `Failed to fetch invoice (${response.status}): ${response.statusText}`;
+        }
+
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      // Get the file as a blob
+      const blob = await response.blob();
+
+      // Create a download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+
+      // Try to get filename from response headers
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = `invoice_${transactionId}.pdf`;
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+      throw error; // Re-throw to let the UI handle the error
+    }
+  },
 };
 
 const dataProvider = withLifecycleCallbacks(baseDataProvider, [
@@ -1427,10 +1604,25 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       const avatarFile = params.data.avatar_file?.rawFile;
       const avatarErase = params.data.avatar_erase;
       const rates = params.data.rates;
+      const suspended = params.data.suspended;
+      const previousSuspended = params.previousData?.suspended;
+      const deactivated = params.data.deactivated;
+      const erased = params.data.erased;
 
       if (rates) {
         await dataProvider.setRateLimits(params.id, rates);
         delete params.data.rates;
+      }
+
+      if (suspended !== undefined && suspended !== previousSuspended) {
+        await (dataProvider as SynapseDataProvider).suspendUser(params.id, suspended);
+        delete params.data.suspended;
+      }
+
+      if (deactivated !== undefined && erased !== undefined) {
+        await (dataProvider as SynapseDataProvider).eraseUser(params.id);
+        delete params.data.deactivated;
+        delete params.data.erased;
       }
 
       if (avatarErase) {
@@ -1439,16 +1631,16 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       }
 
       if (avatarFile instanceof File) {
-        const reponse = await dataProvider.uploadMedia({
+        const response = await dataProvider.uploadMedia({
           file: avatarFile,
           filename: params.data.avatar_file.title,
           content_type: params.data.avatar_file.rawFile.type,
         });
-        params.data.avatar_url = reponse.content_uri;
+        params.data.avatar_url = response.content_uri;
       }
       return params;
     },
-    beforeDelete: async (params: DeleteParams<any>, dataProvider: DataProvider) => {
+    beforeDelete: async (params: DeleteParams<any>, _dataProvider: DataProvider) => {
       if (params.meta?.deleteMedia) {
         const base_url = localStorage.getItem("base_url");
         const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(params.id))}/media`;
@@ -1463,7 +1655,7 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
 
       return params;
     },
-    beforeDeleteMany: async (params: DeleteManyParams<any>, dataProvider: DataProvider) => {
+    beforeDeleteMany: async (params: DeleteManyParams<any>, _dataProvider: DataProvider) => {
       await Promise.all(
         params.ids.map(async id => {
           if (params.meta?.deleteMedia) {

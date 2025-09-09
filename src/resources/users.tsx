@@ -80,6 +80,7 @@ import UserAccountData from "../components/UserAccountData";
 import UserRateLimits from "../components/UserRateLimits";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
+import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { isASManaged } from "../utils/mxid";
@@ -110,13 +111,19 @@ const UserListActions = () => {
 
 const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
-const userFilters = [
-  <SearchInput source="name" alwaysOn />,
-  <BooleanInput source="guests" alwaysOn />,
-  <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
-  <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
-  <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
-];
+const userFilters = () => {
+  const filters = [
+    <SearchInput source="name" alwaysOn />,
+    <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
+    <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
+    // waiting for https://github.com/element-hq/synapse/issues/18016
+    // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
+  ];
+  if (!GetConfig().externalAuthProvider) {
+    filters.push(<BooleanInput label="resources.users.fields.show_guests" source="guests" alwaysOn />);
+  }
+  return filters;
+};
 
 const UserPreventSelfDelete: React.FC<{
   children: React.ReactNode;
@@ -170,7 +177,7 @@ const UserBulkActionButtons = () => {
 export const UserList = (props: ListProps) => (
   <List
     {...props}
-    filters={userFilters}
+    filters={userFilters()}
     filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }}
     sort={{ field: "name", order: "ASC" }}
     actions={<UserListActions />}
@@ -208,7 +215,6 @@ export const UserList = (props: ListProps) => (
       <BooleanField source="admin" label="resources.users.fields.admin" />
       <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
       <BooleanField source="locked" label="resources.users.fields.locked" />
-      <BooleanField source="suspended" label="resources.users.fields.suspended" />
       <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
       <DateField source="creation_ts" label="resources.users.fields.creation_ts_ms" showTime options={DATE_FORMAT} />
     </DatagridConfigurable>
@@ -219,13 +225,12 @@ export const UserList = (props: ListProps) => (
 // here only local part of user_id
 // maxLength = 255 - "@" - ":" - storage.getItem("home_server").length
 // storage.getItem("home_server").length is not valid here
-const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-\+/]+$/, "synapseadmin.users.invalid_user_id")];
+const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "synapseadmin.users.invalid_user_id")];
 
 const validateAddress = [required(), maxLength(255)];
 
 const UserEditActions = () => {
   const record = useRecordContext();
-  const translate = useTranslate();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
   let asManagedUserIsSelected = false;
@@ -262,6 +267,7 @@ export const UserCreate = (props: CreateProps) => {
   const [userAvailabilityEl, setUserAvailabilityEl] = useState<React.ReactElement | false>(
     <Typography component="span"></Typography>
   );
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [create] = useCreate();
 
@@ -284,6 +290,7 @@ export const UserCreate = (props: CreateProps) => {
     }
   };
 
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const postSave = (data: Record<string, any>) => {
     setFormData(data);
     if (!userIsAvailable) {
@@ -426,7 +433,7 @@ const UserBooleanInput = props => {
 
   return (
     <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
-      <BooleanInput {...props} disabled={ownUserIsSelected || asManagedUserIsSelected} />
+      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...props} />
     </UserPreventSelfDelete>
   );
 };
@@ -434,6 +441,7 @@ const UserBooleanInput = props => {
 const UserPasswordInput = props => {
   const record = useRecordContext();
   let asManagedUserIsSelected = false;
+  const translate = useTranslate();
 
   // Get form context to update field value
   const form = useFormContext();
@@ -446,17 +454,34 @@ const UserPasswordInput = props => {
     form.setValue("password", password, { shouldDirty: true });
   };
 
+  // Get the current deactivated state and the original value
+  const deactivated = form.watch("deactivated");
+  const deactivatedFromRecord = record?.deactivated;
+
+  // Custom validation for reactivation case
+  const validatePasswordOnReactivation = value => {
+    if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider && !value) {
+      return translate("resources.users.helper.password_required_for_reactivation");
+    }
+    return undefined;
+  };
+
+  let passwordHelperText = "resources.users.helper.create_password";
+
+  if (asManagedUserIsSelected) {
+    passwordHelperText = "resources.users.helper.modify_managed_user_error";
+  } else if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider) {
+    passwordHelperText = "resources.users.helper.password_required_for_reactivation";
+  } else if (record) {
+    passwordHelperText = "resources.users.helper.password";
+  }
+
   return (
     <>
       <PasswordInput
         {...props}
-        helperText={
-          asManagedUserIsSelected
-            ? "resources.users.helper.modify_managed_user_error"
-            : record
-              ? "resources.users.helper.password"
-              : "resources.users.helper.create_password"
-        }
+        validate={validatePasswordOnReactivation}
+        helperText={passwordHelperText}
         disabled={asManagedUserIsSelected}
       />
       <Button
@@ -470,8 +495,28 @@ const UserPasswordInput = props => {
   );
 };
 
+const ErasedBooleanInput = props => {
+  const record = useRecordContext();
+  const form = useFormContext();
+  const deactivated = form.watch("deactivated");
+  const erased = form.watch("erased");
+
+  const erasedFromRecord = record?.erased;
+  const deactivatedFromRecord = record?.deactivated;
+
+  useEffect(() => {
+    // If the user was erased and deactivated, by unchecking Erased, we want to also uncheck Deactivated
+    if (erasedFromRecord === true && erased === false) {
+      form.setValue("deactivated", false);
+    }
+  }, [deactivatedFromRecord, erased, erasedFromRecord]);
+
+  return <UserBooleanInput disabled={!deactivated} {...props} />;
+};
+
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
+  const theme = useTheme();
 
   return (
     <Edit
@@ -515,12 +560,24 @@ export const UserEdit = (props: EditProps) => {
             helperText="resources.users.helper.password"
           />
           <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable />
-          <BooleanInput source="admin" />
-          <UserBooleanInput source="locked" />
-          <UserBooleanInput source="deactivated" helperText="resources.users.helper.deactivate" />
+          <BooleanInput source="admin" helperText="resources.users.helper.admin" />
           <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
-          <BooleanInput source="erased" disabled />
-          <DateField source="creation_ts_ms" showTime options={DATE_FORMAT} />
+          <UserBooleanInput
+            sx={{ color: theme.palette.warning.main }}
+            source="locked"
+            helperText="resources.users.helper.lock"
+          />
+          <UserBooleanInput
+            sx={{ color: theme.palette.error.main }}
+            source="deactivated"
+            helperText="resources.users.helper.deactivate"
+          />
+          <ErasedBooleanInput
+            sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
+            source="erased"
+            helperText="resources.users.helper.erase"
+          />
+          <DateField sx={{ marginTop: "20px" }} source="creation_ts_ms" showTime options={DATE_FORMAT} />
           <TextField source="consent_version" />
         </FormTab>
 

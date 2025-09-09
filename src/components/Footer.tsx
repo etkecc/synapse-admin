@@ -1,4 +1,4 @@
-import { Avatar, Box, Link, Typography } from "@mui/material";
+import { Avatar, Box, Link } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 

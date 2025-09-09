@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { AdminContext } from "react-admin";
 
@@ -7,7 +7,6 @@ import { AppContext } from "../Context";
 import englishMessages from "../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
-import { act } from "@testing-library/react";
 
 describe("LoginForm", () => {
   it("renders with no restriction to homeserver", async () => {
@@ -50,10 +49,11 @@ describe("LoginForm", () => {
     screen.getByRole("combobox", { name: "" });
     screen.getByRole("textbox", { name: englishMessages.ra.auth.username });
     screen.getByText(englishMessages.ra.auth.password);
-    const baseUrlInput = screen.getByRole("textbox", {
-      name: englishMessages.synapseadmin.auth.base_url,
-    });
-    expect(baseUrlInput.className.split(" ")).toContain("Mui-readOnly");
+    expect(() =>
+      screen.getByRole("textbox", {
+        name: englishMessages.synapseadmin.auth.base_url,
+      })
+    ).toThrow();
     screen.getByRole("button", { name: englishMessages.ra.auth.sign_in });
   });
 

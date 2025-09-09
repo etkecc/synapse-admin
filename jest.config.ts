@@ -10,7 +10,7 @@ const config: JestConfigWithTsJest = {
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
   transform: {
-    "^.+\\.tsx?$": [
+    "^.+\\.(js|jsx|ts|tsx)$": [
       "ts-jest",
       {
         diagnostics: {
@@ -27,5 +27,6 @@ const config: JestConfigWithTsJest = {
       },
     ],
   },
+  transformIgnorePatterns: [],
 };
 export default config;

@@ -1,6 +1,5 @@
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import {
-  Datagrid,
   DatagridConfigurable,
   ExportButton,
   List,

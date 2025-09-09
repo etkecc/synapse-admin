@@ -5,13 +5,14 @@ import { ServerProcessResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
 
 const CurrentlyRunningCommand = () => {
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
-  const { command, locked_at } = serverProcess;
+  const { command, locked_at, maintenance } = serverProcess;
 
-  if (!command || !locked_at) {
+  if (!command || !locked_at || maintenance) {
     return null;
   }
 

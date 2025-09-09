@@ -119,13 +119,9 @@ export const MakeAdminBtn = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      try {
-        const result = await dataProvider.makeRoomAdmin(record.room_id, userIdValue);
-        if (!result.success) {
-          throw new Error(result.error);
-        }
-      } catch (error) {
-        throw error;
+      const result = await dataProvider.makeRoomAdmin(record.room_id, userIdValue);
+      if (!result.success) {
+        throw new Error(result.error);
       }
     },
     onSuccess: () => {
@@ -203,7 +199,6 @@ export const MakeAdminBtn = () => {
 
 export const RoomShow = (props: ShowProps) => {
   const translate = useTranslate();
-  const record = useRecordContext();
   return (
     <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
       <TabbedShowLayout>

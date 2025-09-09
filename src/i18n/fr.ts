@@ -152,7 +152,7 @@ const fr: SynapseTranslationMessages = {
         locked: "Verrouillé",
         suspended: "Suspendu",
         deactivated: "Désactivé",
-        guests: "Afficher les visiteurs",
+        show_guests: "Afficher les visiteurs",
         show_deactivated: "Afficher les utilisateurs désactivés",
         show_locked: "Afficher les utilisateurs verrouillés",
         show_suspended: "Afficher les utilisateurs suspendus",
@@ -170,10 +170,13 @@ const fr: SynapseTranslationMessages = {
       },
       helper: {
         password: "Changer le mot de passe déconnectera l'utilisateur de toutes les sessions.",
+        password_required_for_reactivation: "Vous devez fournir un mot de passe pour réactiver le compte.",
         create_password: "Générer un mot de passe fort et sécurisé en utilisant le bouton ci-dessous.",
         deactivate: "Vous devrez fournir un mot de passe pour réactiver le compte.",
         suspend: "L'utilisateur sera suspendu jusqu'à ce que vous le réactiviez.",
         erase: "Marquer l'utilisateur comme effacé conformément au RGPD",
+        admin: "Un administrateur de serveur a un contrôle total sur le serveur et ses utilisateurs.",
+        lock: "Empêche l'utilisateur d'utiliser le serveur. C'est une action non destructive qui peut être annulée.",
         erase_text:
           "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
         erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",

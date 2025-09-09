@@ -114,7 +114,6 @@ const destinationFieldRender = (record: RaRecord) => {
 };
 
 export const DestinationList = (props: ListProps) => {
-  const record = useRecordContext(props);
   return (
     <List
       {...props}

@@ -168,7 +168,7 @@ const zh: SynapseTranslationMessages = {
       msisdn: "电话",
       threepid: "邮箱 / 电话",
       fields: {
-        avatar: "邮箱",
+        avatar: "头像",
         id: "用户 ID",
         name: "用户名",
         is_guest: "访客",
@@ -176,7 +176,7 @@ const zh: SynapseTranslationMessages = {
         locked: "锁定",
         deactivated: "被禁用",
         suspended: "被锁定",
-        guests: "显示访客",
+        show_guests: "显示访客",
         show_deactivated: "显示被禁用的账户",
         show_locked: "显示被锁定的账户",
         show_suspended: "显示被锁定的账户",
@@ -193,10 +193,13 @@ const zh: SynapseTranslationMessages = {
       },
       helper: {
         password: "更改密码会使用户注销所有会话。",
+        password_required_for_reactivation: "您必须提供一串密码来激活账户。",
         create_password: "使用下面的按钮生成一个强大和安全的密码。",
         deactivate: "您必须提供一串密码来激活账户。",
         suspend: "您必须提供一串密码来暂停账户。",
         erase: "将用户标记为根据 GDPR 的要求抹除了",
+        admin: "服务器管理员对服务器和其用户有完全的控制权。",
+        lock: "阻止用户使用服务器。这是一个非破坏性的操作，可以被撤销。",
         erase_text:
           "这意味着用户发送的信息对于发送信息时在房间内的任何人来说都是可见的，但对于之后加入房间的用户来说则是隐藏的。",
         erase_admin_error: "不允许删除自己的用户",

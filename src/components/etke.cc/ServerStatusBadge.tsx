@@ -56,23 +56,27 @@ const useServerStatus = () => {
   const [serverStatus, setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     ok: false,
     success: false,
+    maintenance: false,
     host: "",
     results: [],
   });
-  const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
+  const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
-  const { command, locked_at } = serverProcess;
+  const { command } = serverProcess;
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const isOkay = serverStatus.ok;
   const successCheck = serverStatus.success;
+  const maintenance = serverStatus.maintenance;
 
   const checkServerStatus = async () => {
     const serverStatus: ServerStatusResponse = await dataProvider.getServerStatus(etkeccAdmin, command !== "");
     setServerStatus({
       ok: serverStatus.ok,
+      maintenance: serverStatus.maintenance,
       success: serverStatus.success,
       host: serverStatus.host,
       results: serverStatus.results,
@@ -103,17 +107,18 @@ const useServerStatus = () => {
     };
   }, [etkeccAdmin, command]);
 
-  return { isOkay, successCheck };
+  return { isOkay, successCheck, maintenance };
 };
 
 const useCurrentServerProcess = () => {
   const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
-  const { command, locked_at } = serverProcess;
+  const { command, locked_at, maintenance } = serverProcess;
 
   const checkServerRunningProcess = async () => {
     const serverProcess: ServerProcessResponse = await dataProvider.getServerRunningProcess(
@@ -124,6 +129,7 @@ const useCurrentServerProcess = () => {
       ...serverProcess,
       command: serverProcess.command,
       locked_at: serverProcess.locked_at,
+      maintenance: serverProcess.maintenance,
     });
   };
 
@@ -137,7 +143,7 @@ const useCurrentServerProcess = () => {
         serverCheckInterval = setInterval(checkServerRunningProcess, SERVER_CURRENT_PROCCESS_INTERVAL_TIME);
       }, 5000);
     } else {
-      setServerProcess({ command: "", locked_at: "" });
+      setServerProcess({ command: "", locked_at: "", maintenance: false });
     }
 
     return () => {
@@ -150,7 +156,7 @@ const useCurrentServerProcess = () => {
     };
   }, [etkeccAdmin, command]);
 
-  return { command, locked_at };
+  return { command, locked_at, maintenance };
 };
 
 export const ServerStatusStyledBadge = ({
@@ -158,25 +164,29 @@ export const ServerStatusStyledBadge = ({
   locked_at,
   isOkay,
   isLoaded,
+  isMaintenance = false,
   inSidebar = false,
 }: {
   command: string;
   locked_at: string;
   isOkay: boolean;
   isLoaded: boolean;
+  isMaintenance?: boolean;
   inSidebar: boolean;
 }) => {
   const theme = useTheme();
-  let badgeBackgroundColor = isLoaded
-    ? isOkay
-      ? theme.palette.success.light
-      : theme.palette.error.main
-    : theme.palette.grey[600];
-  let badgeColor = isLoaded
-    ? isOkay
-      ? theme.palette.success.light
-      : theme.palette.error.main
-    : theme.palette.grey[600];
+  let badgeBackgroundColor =
+    isLoaded && !isMaintenance
+      ? isOkay
+        ? theme.palette.success.light
+        : theme.palette.error.main
+      : theme.palette.grey[600];
+  let badgeColor =
+    isLoaded && !isMaintenance
+      ? isOkay
+        ? theme.palette.success.light
+        : theme.palette.error.main
+      : theme.palette.grey[600];
 
   if (command && locked_at) {
     badgeBackgroundColor = theme.palette.warning.main;
@@ -203,7 +213,7 @@ export const ServerStatusStyledBadge = ({
 };
 
 const ServerStatusBadge = () => {
-  const { isOkay, successCheck } = useServerStatus();
+  const { isOkay, successCheck, maintenance } = useServerStatus();
   const { command, locked_at } = useCurrentServerProcess();
   const navigate = useNavigate();
 
@@ -231,6 +241,7 @@ const ServerStatusBadge = () => {
             locked_at={locked_at || ""}
             isOkay={isOkay}
             isLoaded={successCheck}
+            isMaintenance={maintenance}
           />
         </Box>
       </Tooltip>

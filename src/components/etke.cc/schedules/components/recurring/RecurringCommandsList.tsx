@@ -21,7 +21,7 @@ const ListActions = () => {
 };
 
 const RecurringCommandsList = () => {
-  const { data, isLoading, error } = useRecurringCommands();
+  const { data, isLoading } = useRecurringCommands();
 
   const listContext = useList({
     resource: "recurring",
@@ -40,6 +40,7 @@ const RecurringCommandsList = () => {
         <Paper>
           <Datagrid
             bulkActionButtons={false}
+            /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             rowClick={(id: Identifier, resource: string, record: any) => {
               if (!record) {
                 return "";

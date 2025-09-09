@@ -2,14 +2,14 @@ import { CardHeader, CardContent, Container, Link, Stack, Typography, Paper } fr
 import { useTranslate } from "ra-core";
 import { ChangeEventHandler } from "react";
 
-import { Progress } from "./types";
+import { ImportResult, Progress } from "./types";
 
 const UploadCard = ({
   importResults,
   onFileChange,
   progress,
 }: {
-  importResults: any;
+  importResults: ImportResult | null;
   onFileChange: ChangeEventHandler<HTMLInputElement>;
   progress: Progress;
 }) => {

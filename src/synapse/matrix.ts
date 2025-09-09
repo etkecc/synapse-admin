@@ -1,6 +1,4 @@
-import { Identifier, fetchUtils } from "react-admin";
-
-import { isMXID } from "../utils/mxid";
+import { fetchUtils } from "react-admin";
 
 export const splitMxid = mxid => {
   const re = /^@(?<name>[a-zA-Z0-9._=\-/]+):(?<domain>[a-zA-Z0-9\-.]+\.[a-zA-Z]+)$/;

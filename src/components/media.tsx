@@ -7,16 +7,7 @@ import DownloadingIcon from "@mui/icons-material/Downloading";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import {
-  Grid2 as Grid,
-  Box,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Tooltip,
-  Link,
-} from "@mui/material";
+import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Tooltip } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useMutation } from "@tanstack/react-query";
 import { get } from "lodash";
@@ -171,7 +162,6 @@ const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
 };
 
 export const PurgeRemoteMediaButton = (props: ButtonProps) => {
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const notify = useNotify();
   const translate = useTranslate();

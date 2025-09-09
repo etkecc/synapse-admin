@@ -23,6 +23,7 @@ import { ServerCommand, ServerProcessResponse } from "../../synapse/dataProvider
 import { Icons } from "../../utils/icons";
 
 const renderIcon = (icon: string) => {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
   return IconComponent ? <IconComponent sx={{ verticalAlign: "middle", mr: 1 }} /> : null;
 };
@@ -34,10 +35,11 @@ const ServerCommandsPanel = () => {
   }
 
   const createPath = useCreatePath();
-  const { isLoading, serverCommands, setServerCommands } = useServerCommands();
+  const { isLoading, maintenance, serverCommands, setServerCommands } = useServerCommands();
   const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
   const [commandIsRunning, setCommandIsRunning] = useState<boolean>(serverProcess.command !== "");
   const [commandResult, setCommandResult] = useState<React.ReactNode[]>([]);
@@ -65,6 +67,17 @@ const ServerCommandsPanel = () => {
 
       const response = await dataProvider.runServerCommand(etkeccAdmin, command, requestParams);
 
+      if (response.maintenance) {
+        setCommandIsRunning(false);
+        setCommandResult([
+          <Box key="maintenance-warning">
+            The system is currently in maintenance mode. Commands cannot be run until maintenance mode is disabled. You
+            don't need to contact support about this, we are already working on it!
+          </Box>,
+        ]);
+        return;
+      }
+
       if (!response.success) {
         setCommandIsRunning(false);
         return;
@@ -80,6 +93,7 @@ const ServerCommandsPanel = () => {
       // Update server process status
       await updateServerProcessStatus(serverCommands[command]);
     } catch (error) {
+      console.error("Error running command:", error);
       setCommandIsRunning(false);
     }
   };
@@ -124,6 +138,18 @@ const ServerCommandsPanel = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (maintenance) {
+    return (
+      <Alert severity="info">
+        The system is currently in maintenance mode.
+        <br />
+        Please try again later.
+        <br />
+        You don't need to contact support about this, we are already working on it!
+      </Alert>
+    );
   }
 
   return (

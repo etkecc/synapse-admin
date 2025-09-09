@@ -144,7 +144,7 @@ const fa: SynapseTranslationMessages = {
         deactivated: "غیرفعال",
         locked: "قفل شده",
         suspended: "معلق",
-        guests: "نمایش مهمانان",
+        show_guests: "نمایش مهمانان",
         show_deactivated: "نمایش کاربران غیرفعال شده",
         show_locked: "نمایش کاربران قفل شده",
         show_suspended: "نمایش کاربران معلق",
@@ -162,6 +162,9 @@ const fa: SynapseTranslationMessages = {
         user_type: "نوع کاربر",
       },
       helper: {
+        password_required_for_reactivation: "برای فعالسازی مجدد حساب باید رمز عبور وارد کنید.",
+        admin: "مدیر سرور دارای کنترل کامل بر روی سرور و کاربران آن است.",
+        lock: "ممنوعیت استفاده از سرور توسط کاربر. این یک عملیات غیر مخرب است که می تواند برگردانده شود.",
         password: "با تغییر رمز عبور کاربر از تمام دستگاه ها خارج می شود.",
         create_password: "رمز عبور قوی و امنی را با استفاده از دکمه زیر ایجاد کنید.",
         deactivate: "برای فعالسازی مجدد حساب باید رمز عبور وارد کنید.",

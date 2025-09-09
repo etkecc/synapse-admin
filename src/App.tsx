@@ -5,6 +5,7 @@ import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin
 import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
+import BillingPage from "./components/etke.cc/BillingPage";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
@@ -16,7 +17,9 @@ import germanMessages from "./i18n/de";
 import englishMessages from "./i18n/en";
 import frenchMessages from "./i18n/fr";
 import italianMessages from "./i18n/it";
+import japaneseMessages from "./i18n/ja";
 import russianMessages from "./i18n/ru";
+import ukrainianMessages from "./i18n/uk";
 import chineseMessages from "./i18n/zh";
 import LoginPage from "./pages/LoginPage";
 import destinations from "./resources/destinations";
@@ -35,7 +38,9 @@ const messages = {
   en: englishMessages,
   fr: frenchMessages,
   it: italianMessages,
+  ja: japaneseMessages,
   ru: russianMessages,
+  uk: ukrainianMessages,
   zh: chineseMessages,
 };
 const i18nProvider = polyglotI18nProvider(
@@ -46,9 +51,11 @@ const i18nProvider = polyglotI18nProvider(
     { locale: "de", name: "Deutsch" },
     { locale: "fr", name: "Français" },
     { locale: "it", name: "Italiano" },
-    { locale: "fa", name: "Persian(فارسی)" },
-    { locale: "ru", name: "Russian(Русский)" },
-    { locale: "zh", name: "简体中文" },
+    { locale: "ja", name: "Japanese (日本語)" },
+    { locale: "fa", name: "Persian (فارسی)" },
+    { locale: "ru", name: "Russian (Русский)" },
+    { locale: "uk", name: "Ukrainian (Українська)" },
+    { locale: "zh", name: "Chinese (简体中文)" },
   ]
 );
 
@@ -59,6 +66,7 @@ export const App = () => (
     <Admin
       disableTelemetry
       requireAuth
+      title="Synapse Admin"
       layout={AdminLayout}
       loginPage={LoginPage}
       authProvider={authProvider}
@@ -75,6 +83,7 @@ export const App = () => (
         <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
         <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
         <Route path="/server_notifications" element={<ServerNotificationsPage />} />
+        <Route path="/billing" element={<BillingPage />} />
       </CustomRoutes>
       <Resource {...users} />
       <Resource {...rooms} />
