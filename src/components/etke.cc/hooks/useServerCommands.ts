@@ -7,15 +7,21 @@ import { ServerCommand } from "../../../synapse/dataProvider";
 export const useServerCommands = () => {
   const { etkeccAdmin } = useAppContext();
   const [isLoading, setLoading] = useState(true);
+  const [maintenance, setMaintenance] = useState(false);
   const [serverCommands, setServerCommands] = useState<Record<string, ServerCommand>>({});
   const dataProvider = useDataProvider();
 
   useEffect(() => {
     const fetchServerCommands = async () => {
       const serverCommandsResponse = await dataProvider.getServerCommands(etkeccAdmin);
+      if (serverCommandsResponse?.maintenance) {
+        setMaintenance(true);
+        setLoading(false);
+        return;
+      }
       if (serverCommandsResponse) {
-        const serverCommands = serverCommandsResponse;
-        Object.keys(serverCommandsResponse).forEach((command: string) => {
+        const serverCommands = serverCommandsResponse.commands;
+        Object.keys(serverCommandsResponse.commands).forEach((command: string) => {
           serverCommands[command].additionalArgs = "";
         });
         setServerCommands(serverCommands);
@@ -25,5 +31,5 @@ export const useServerCommands = () => {
     fetchServerCommands();
   }, [dataProvider, etkeccAdmin]);
 
-  return { isLoading, serverCommands, setServerCommands };
+  return { isLoading, maintenance, serverCommands, setServerCommands };
 };

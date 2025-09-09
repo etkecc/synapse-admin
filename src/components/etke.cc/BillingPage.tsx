@@ -3,6 +3,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import PaymentIcon from "@mui/icons-material/Payment";
 import {
   Box,
+  Alert,
   Typography,
   Link,
   Table,
@@ -45,6 +46,7 @@ const BillingPage = () => {
   const notify = useNotify();
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [maintenance, setMaintenance] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
 
@@ -56,6 +58,7 @@ const BillingPage = () => {
         setLoading(true);
         const response = await dataProvider.getPayments(etkeccAdmin);
         setPaymentsData(response.payments);
+        setMaintenance(response.maintenance);
       } catch (error) {
         console.error("Error fetching billing data:", error);
         setFailure(error instanceof Error ? error.message : error);
@@ -135,6 +138,23 @@ const BillingPage = () => {
           <Typography variant="body2" color="error" sx={{ mt: 1 }}>
             {failure}
           </Typography>
+        </Box>
+      </Stack>
+    );
+  }
+
+  if (maintenance) {
+    return (
+      <Stack spacing={3} mt={3}>
+        {header}
+        <Box sx={{ mt: 3 }}>
+          <Alert severity="info">
+            The system is currently in maintenance mode.
+            <br />
+            Please try again later.
+            <br />
+            You don't need to contact support about this, we are already working on it!
+          </Alert>
         </Box>
       </Stack>
     );

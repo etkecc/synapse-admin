@@ -286,6 +286,7 @@ export interface ServerStatusComponent {
 
 export interface ServerStatusResponse {
   success: boolean;
+  maintenance?: boolean;
   ok: boolean;
   host: string;
   results: ServerStatusComponent[];
@@ -294,6 +295,7 @@ export interface ServerStatusResponse {
 export interface ServerProcessResponse {
   locked_at: string;
   command: string;
+  maintenance?: boolean;
 }
 
 export interface ServerNotification {
@@ -1091,9 +1093,13 @@ const baseDataProvider: SynapseDataProvider = {
         },
       });
 
+      if (response.status === 503) {
+        return { locked_at, command, maintenance: true };
+      }
+
       if (!response.ok) {
         console.error(`Error getting server running process: ${response.status} ${response.statusText}`);
-        return { locked_at, command };
+        return { locked_at, command, maintenance: false };
       }
       const status = response.status;
 
@@ -1102,13 +1108,13 @@ const baseDataProvider: SynapseDataProvider = {
         return json as { locked_at: string; command: string };
       }
       if (status === 204) {
-        return { locked_at, command };
+        return { locked_at, command, maintenance: false };
       }
     } catch (error) {
       console.error("Error getting server running process", error);
     }
 
-    return { locked_at, command };
+    return { locked_at, command, maintenance: false };
   },
   getServerStatus: async (etkeAdminUrl: string, burstCache = false): Promise<ServerStatusResponse> => {
     let serverURL = `${etkeAdminUrl}/status`;
@@ -1122,6 +1128,11 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+
+      if (response.status === 503) {
+        return { success: false, ok: false, host: "", results: [], maintenance: true };
+      }
+
       if (!response.ok) {
         console.error(`Error getting server status: ${response.status} ${response.statusText}`);
         return { success: false, ok: false, host: "", results: [] };
@@ -1154,6 +1165,9 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+      if (response.status === 503) {
+        return { success: false, notifications: [] };
+      }
       if (!response.ok) {
         console.error(`Error getting server notifications: ${response.status} ${response.statusText}`);
         return { success: false, notifications: [] };
@@ -1208,24 +1222,29 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+
+      if (response.status === 503) {
+        return { maintenance: true, commands: [] };
+      }
+
       if (!response.ok) {
         console.error(`Error fetching server commands: ${response.status} ${response.statusText}`);
-        return {};
+        return { maintenance: false, commands: [] };
       }
 
       const status = response.status;
 
       if (status === 200) {
         const json = await response.json();
-        return json as ServerCommandsResponse;
+        return { maintenance: false, commands: json };
       }
 
-      return {};
+      return { maintenance: false, commands: [] };
     } catch (error) {
       console.error("Error fetching server commands:", error);
     }
 
-    return {};
+    return { maintenance: false, commands: [] };
   },
   runServerCommand: async (serverCommandsUrl: string, command: string, additionalArgs: Record<string, any> = {}) => {
     const endpoint_url = `${serverCommandsUrl}/commands`;
@@ -1242,10 +1261,18 @@ const baseDataProvider: SynapseDataProvider = {
       },
     });
 
+    if (response.status === 503) {
+      return {
+        success: false,
+        maintenance: true,
+      };
+    }
+
     if (!response.ok) {
       console.error(`Error running server command: ${response.status} ${response.statusText}`);
       return {
         success: false,
+        maintenance: false,
       };
     }
 
@@ -1254,11 +1281,13 @@ const baseDataProvider: SynapseDataProvider = {
     if (status === 204) {
       return {
         success: true,
+        maintenance: false,
       };
     }
 
     return {
       success: false,
+      maintenance: false,
     };
   },
   getScheduledCommands: async (scheduledCommandsUrl: string) => {
@@ -1268,6 +1297,10 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+      if (response.status === 503) {
+        return [];
+      }
+
       if (!response.ok) {
         console.error(`Error fetching scheduled commands: ${response.status} ${response.statusText}`);
         return [];
@@ -1293,6 +1326,11 @@ const baseDataProvider: SynapseDataProvider = {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
+
+      if (response.status === 503) {
+        return [];
+      }
+
       if (!response.ok) {
         console.error(`Error fetching recurring commands: ${response.status} ${response.statusText}`);
         return [];
@@ -1474,6 +1512,10 @@ const baseDataProvider: SynapseDataProvider = {
       },
     });
 
+    if (response.status === 503) {
+      return { payments: [], total: 0, maintenance: true };
+    }
+
     if (!response.ok) {
       throw new Error(`Failed to fetch payments: ${response.status} ${response.statusText}`);
     }
@@ -1486,7 +1528,7 @@ const baseDataProvider: SynapseDataProvider = {
     }
 
     if (status === 204) {
-      return { payments: [], total: 0 };
+      return { payments: [], total: 0, maintenance: false };
     }
 
     throw new Error(`${response.status} ${response.statusText}`); // Handle unexpected status codes

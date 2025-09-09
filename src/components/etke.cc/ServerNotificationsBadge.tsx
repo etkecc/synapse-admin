@@ -36,6 +36,7 @@ const useServerNotifications = () => {
   const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
   const { command, locked_at } = serverProcess;
 

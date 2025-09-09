@@ -42,15 +42,18 @@ const ServerStatusPage = () => {
   const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     ok: false,
     success: false,
+    maintenance: false,
     host: "",
     results: [],
   });
   const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
+    maintenance: false,
   });
   const { command } = serverProcess;
   const successCheck = serverStatus.success;
+  const isMaintenance = serverStatus.maintenance;
   const isOkay = serverStatus.ok;
   const host = serverStatus.host;
   const results = serverStatus.results;
@@ -61,6 +64,20 @@ const ServerStatusPage = () => {
       groupedResults[result.category] = [];
     }
     groupedResults[result.category].push(result);
+  }
+
+  if (isMaintenance) {
+    return (
+      <Paper elevation={3} sx={{ p: 3, mt: 3 }}>
+        <Stack direction="row" spacing={2} alignItems="center">
+          <Typography color="info">
+            The monitoring system is currently in maintenance mode. Please try again later.
+            <br />
+            You don't need to contact support about that, we are already working on it!
+          </Typography>
+        </Stack>
+      </Paper>
+    );
   }
 
   if (!successCheck) {
