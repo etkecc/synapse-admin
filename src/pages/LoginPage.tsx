@@ -187,7 +187,7 @@ const LoginPage = () => {
 
   const handleSSO = () => {
     localStorage.setItem("sso_base_url", ssoBaseUrl);
-    const ssoFullUrl = `${ssoBaseUrl}/_matrix/client/r0/login/sso/redirect?redirectUrl=${encodeURIComponent(
+    const ssoFullUrl = `${ssoBaseUrl}/_matrix/client/v3/login/sso/redirect?redirectUrl=${encodeURIComponent(
       window.location.href
     )}`;
     window.location.href = ssoFullUrl;
@@ -418,24 +418,23 @@ const LoginPage = () => {
             <FormDataConsumer>{formDataProps => <UserData {...formDataProps} />}</FormDataConsumer>
             {loginMethod === "credentials" && (
               <CardActions className="actions">
-                <Button
-                  variant="contained"
-                  type="submit"
-                  color="primary"
-                  disabled={loading || !supportPassAuth}
-                  fullWidth
-                >
-                  {translate("ra.auth.sign_in")}
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleSSO}
-                  disabled={loading || ssoBaseUrl === ""}
-                  fullWidth
-                >
-                  {translate("synapseadmin.auth.sso_sign_in")}
-                </Button>
+                {supportPassAuth && (
+                  <Button size="small" variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
+                    {translate("ra.auth.sign_in")}
+                  </Button>
+                )}
+                {ssoBaseUrl !== "" && (
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleSSO}
+                    disabled={loading}
+                    fullWidth
+                  >
+                    {translate("synapseadmin.auth.sso_sign_in")}
+                  </Button>
+                )}
               </CardActions>
             )}
             {loginMethod === "accessToken" && (

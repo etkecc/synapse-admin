@@ -17,6 +17,12 @@ const LoginFormBox = styled(Box)(({ theme }) => ({
     marginTop: "6rem",
     marginBottom: "6rem",
   },
+  [`@media (max-width: 600px)`]: {
+    [`& .card`]: {
+      width: "100%",
+      marginTop: "0",
+    },
+  },
   [`& .avatar`]: {
     margin: "1rem",
     display: "flex",
