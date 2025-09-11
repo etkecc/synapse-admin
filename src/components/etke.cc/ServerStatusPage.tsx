@@ -119,7 +119,7 @@ const ServerStatusPage = () => {
         .
       </Typography>
 
-      <Stack spacing={2} direction="row">
+      <Stack spacing={2} direction={{ xs: "column", md: "row" }}>
         {Object.keys(groupedResults).map((category, _idx) => (
           <Box key={`category_${category}`} sx={{ flex: 1 }}>
             <Typography variant="h5" mb={1}>

@@ -25,7 +25,9 @@ import { Icons } from "../../utils/icons";
 const renderIcon = (icon: string) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
-  return IconComponent ? <IconComponent sx={{ verticalAlign: "middle", mr: 1 }} /> : null;
+  return IconComponent ? (
+    <IconComponent sx={{ verticalAlign: "middle", mr: 1, display: { xs: "none", md: "inline-block" } }} />
+  ) : null;
 };
 
 const ServerCommandsPanel = () => {
@@ -165,12 +167,12 @@ const ServerCommandsPanel = () => {
         .
       </Typography>
       <TableContainer component={Paper} sx={{ mt: 2 }}>
-        <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
+        <Table sx={{ minWidth: { xs: 100, md: 450 } }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Command</TableCell>
-              <TableCell></TableCell>
-              <TableCell>Description</TableCell>
+              <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}></TableCell>
+              <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>Description</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -183,13 +185,13 @@ const ServerCommandsPanel = () => {
                     {command}
                   </Box>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
                   <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
                     <Button size="small" startIcon={<HelpCenter />} title={command + " help"} />
                   </Link>
                 </TableCell>
-                <TableCell>{description}</TableCell>
-                <TableCell>
+                <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>{description}</TableCell>
+                <TableCell sx={{ display: { xs: "table-cell", md: "table-cell" } }}>
                   {args && (
                     <TextField
                       size="small"
