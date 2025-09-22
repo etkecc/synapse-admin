@@ -5645,10 +5645,10 @@ vite-plugin-version-mark@^0.2.2:
   resolved "https://registry.yarnpkg.com/vite-plugin-version-mark/-/vite-plugin-version-mark-0.2.2.tgz#5379ea64ecf67e917c7804d54c1322353bbb545e"
   integrity sha512-qFxfnlpK++zBX7sWdOOmRFE+Yd7G/6vZ7mJFvlEhp/vLtqMU9cN0LWX+VcfVXubnyiGTpSzt/fzoejHRyTrbIQ==
 
-vite@^7.1.5:
-  version "7.1.5"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.5.tgz#4dbcb48c6313116689be540466fc80faa377be38"
-  integrity sha512-4cKBO9wR75r0BeIWWWId9XK9Lj6La5X846Zw9dFfzMRw38IlTk2iCcUt6hsyiDRcPidc55ZParFYDXi0nXOeLQ==
+vite@^7.1.7:
+  version "7.1.7"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-7.1.7.tgz#ed3f9f06e21d6574fe1ad425f6b0912d027ffc13"
+  integrity sha512-VbA8ScMvAISJNJVbRDTJdCwqQoAareR/wutevKanhR2/1EkoXVZVkkORaYm/tNVCjP/UDTKtcw3bAkwOUdedmA==
   dependencies:
     esbuild "^0.25.0"
     fdir "^6.5.0"
