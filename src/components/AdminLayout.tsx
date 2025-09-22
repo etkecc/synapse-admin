@@ -122,8 +122,8 @@ const AdminMenu = props => {
           primaryText="Server Actions"
         />
       )}
-      {etkeRoutesEnabled && <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />}
       <Menu.ResourceItems />
+      {etkeRoutesEnabled && <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />}
       {menu &&
         menu.map((item, index) => {
           const { url, icon, label } = item;
