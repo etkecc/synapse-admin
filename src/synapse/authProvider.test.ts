@@ -99,19 +99,13 @@ describe("authProvider", () => {
   });
 
   describe("checkError", () => {
-    it("should resolve if error.status is not 401 or 403", async () => {
+    it("should resolve if error.status is not 401", async () => {
       await expect(authProvider.checkError({ status: 200 })).resolves.toBeUndefined();
     });
 
     it("should reject if error.status is 401", async () => {
       await expect(
         authProvider.checkError(new HttpError("test-error", 401, { errcode: "test-errcode", error: "test-error" }))
-      ).rejects.toBeDefined();
-    });
-
-    it("should reject if error.status is 403", async () => {
-      await expect(
-        authProvider.checkError(new HttpError("test-error", 403, { errcode: "test-errcode", error: "test-error" }))
       ).rejects.toBeDefined();
     });
   });

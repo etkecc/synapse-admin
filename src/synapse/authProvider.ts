@@ -180,7 +180,7 @@ const authProvider: AuthProvider = {
     const errorBody = err.body as MatrixError;
     const status = err.status;
 
-    if (status === 401 || status === 403) {
+    if (status === 401) {
       return Promise.reject({ message: displayError(errorBody.errcode, status, errorBody.error) });
     }
     return Promise.resolve();

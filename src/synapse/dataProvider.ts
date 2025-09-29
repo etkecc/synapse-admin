@@ -368,7 +368,7 @@ export interface SynapseDataProvider extends DataProvider {
   getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
   deleteServerNotifications: (etkeAdminUrl: string) => Promise<{ success: boolean }>;
-  getServerCommands: (etkeAdminUrl: string) => Promise<ServerCommandsResponse>;
+  getServerCommands: (etkeAdminUrl: string) => Promise<{ maintenance: boolean; commands: ServerCommandsResponse[] }>;
   getScheduledCommands: (etkeAdminUrl: string) => Promise<ScheduledCommand[]>;
   getRecurringCommands: (etkeAdminUrl: string) => Promise<RecurringCommand[]>;
   createScheduledCommand: (etkeAdminUrl: string, command: Partial<ScheduledCommand>) => Promise<ScheduledCommand>;
