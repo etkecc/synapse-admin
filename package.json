@@ -75,7 +75,7 @@
     "jest-fixed-jsdom": "^0.0.10",
     "lodash": "^4.17.21",
     "papaparse": "^5.5.3",
-    "ra-core": "^5.11.2",
+    "ra-core": "^5.11.4",
     "ra-i18n-polyglot": "^5.11.2",
     "ra-language-english": "^5.11.2",
     "ra-language-farsi": "^5.1.0",
