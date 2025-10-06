@@ -8,6 +8,10 @@ build: __install
 
 update:
     yarn upgrade-interactive --latest
+    @echo "Cleaning up node_modules and reinstalling to avoid potential issues..."
+    -rm -rf node_modules
+    -rm yarn.lock
+    yarn install --network-timeout=300000
 
 # run the app in a development mode
 run:
