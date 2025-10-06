@@ -114,7 +114,7 @@ jobs:
         run: |
           mv dist synapse-admin
           tar chvzf synapse-admin.tar.gz synapse-admin
-      - uses: softprops/action-gh-release@6cbd405e2c4e67a21c47fa9e383d020e4e28b836 # v2.3.3
+      - uses: softprops/action-gh-release@62c96d0c4e8a889135c1f3a25910db8dbe0e85f7 # v2.3.4
         with:
           files: synapse-admin.tar.gz
           generate_release_notes: true
