@@ -15,6 +15,10 @@ caches:
   global_factor: 0.5
   per_cache_factors: null
 cas_config: null
+matrix_authentication_service:
+  enabled: true
+  endpoint: http://mas:8007
+  secret: ukIYOk4T7sz7VlrOPhZRbgzHHR4wXfir
 database:
   args:
     cp_max: 10
@@ -70,11 +74,6 @@ oembed: null
 oidc_providers: null
 old_signing_keys: null
 opentracing: null
-password_config:
-  enabled: true
-  localdb_enabled: true
-  pepper: zfvnYqxe3GTkdJ9BlfZiAqy2zMsjOg02uBTEiWLp2hjQGqlDw33pTSTplE6HoWlF
-  policy: null
 pid_file: /homeserver.pid
 presence:
   enabled: true

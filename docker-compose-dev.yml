@@ -9,10 +9,18 @@ services:
     - ./testdata/synapse:/config
     - ./testdata/synapse.data:/media-store
 
+  mas:
+    image: ghcr.io/element-hq/matrix-authentication-service:latest
+    ports:
+    - "8007:8007"
+    volumes:
+    - ./testdata/mas/config.yaml:/config.yaml:ro
+
   postgres:
-    image: postgres:alpine
+    image: postgres:17-alpine
     volumes:
     - ./testdata/postgres.data:/var/lib/postgresql/data
+    - ./testdata/postgres.initdb:/docker-entrypoint-initdb.d:ro
     environment:
       POSTGRES_USER: synapse
       POSTGRES_PASSWORD: synapse

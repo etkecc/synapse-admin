@@ -23,12 +23,14 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d postgres
     @echo "Starting Synapse..."
     @docker-compose -f docker-compose-dev.yml up -d synapse
-    @echo "Starting Element Web..."
-    @docker-compose -f docker-compose-dev.yml up -d element
+    @echo "Starting Matrix Authenitcation Service..."
+    @docker-compose -f docker-compose-dev.yml up -d mas
+    # @echo "Starting Element Web..."
+    # @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
-    @docker-compose -f docker-compose-dev.yml exec synapse register_new_matrix_user --admin -u admin -p admin -c /config/homeserver.yaml http://localhost:8008 || true
-    @echo "Starting the app..."
-    @yarn start --host 0.0.0.0
+    @docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes --admin -p admin admin || true
+    # @echo "Starting the app..."
+    # @yarn start --host 0.0.0.0
 
 # stop the dev stack
 stop-dev:
@@ -36,7 +38,7 @@ stop-dev:
 
 # register a user in the dev stack
 register-user localpart password *admin:
-	docker-compose exec synapse register_new_matrix_user {{ if admin == "1" {"--admin"} else {"--no-admin"} }} -u {{ localpart }} -p {{ password }} -c /config/homeserver.yaml http://localhost:8008
+    docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes {{ if admin =="1" {"--admin"} else {"--no-admin"} }} -p {{ password }} {{ localpart }}
 
 # run yarn {fix,lint,test} commands
 test:
