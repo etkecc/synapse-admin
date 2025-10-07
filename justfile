@@ -25,12 +25,12 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d synapse
     @echo "Starting Matrix Authenitcation Service..."
     @docker-compose -f docker-compose-dev.yml up -d mas
-    # @echo "Starting Element Web..."
-    # @docker-compose -f docker-compose-dev.yml up -d element
+    @echo "Starting Element Web..."
+    @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
     @docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes --admin -p admin admin || true
-    # @echo "Starting the app..."
-    # @yarn start --host 0.0.0.0
+    @echo "Starting the app..."
+    @yarn start --host 0.0.0.0
 
 # stop the dev stack
 stop-dev:
