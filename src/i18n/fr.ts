@@ -7,7 +7,7 @@ const fr: SynapseTranslationMessages = {
   synapseadmin: {
     auth: {
       base_url: "URL du serveur d’accueil",
-      welcome: "Bienvenue sur Synapse Admin",
+      welcome: "Bienvenue sur %{name}",
       server_version: "Version du serveur Synapse",
       username_error: "Veuillez entrer un nom d'utilisateur complet : « @utilisateur:domaine »",
       protocol_error: "L'URL doit commencer par « http:// » ou « https:// »",

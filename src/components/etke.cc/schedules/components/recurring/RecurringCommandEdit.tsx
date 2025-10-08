@@ -19,6 +19,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import RecurringDeleteButton from "./RecurringDeleteButton";
 import { useAppContext } from "../../../../../Context";
 import { RecurringCommand } from "../../../../../synapse/dataProvider";
+import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
 
@@ -145,15 +146,17 @@ const RecurringCommandEdit = () => {
         <CardHeader title={pageTitle} />
         <CardContent>
           {command && (
-            <Alert severity="info">
-              <Typography variant="body1" sx={{ px: 2 }}>
-                You can find more details about the command{" "}
-                <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                  here
-                </Link>
-                .
-              </Typography>
-            </Alert>
+            <EtkeAttribution>
+              <Alert severity="info">
+                <Typography variant="body1" sx={{ px: 2 }}>
+                  You can find more details about the command{" "}
+                  <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                    here
+                  </Link>
+                  .
+                </Typography>
+              </Alert>
+            </EtkeAttribution>
           )}
           <Form
             defaultValues={command || undefined}

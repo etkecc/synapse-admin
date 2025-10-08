@@ -5,6 +5,7 @@ import { Box, Stack, Typography, Paper, Link, Chip, Divider, ChipProps } from "@
 import { useStore } from "ra-core";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
+import { EtkeAttribution } from "./EtkeAttribution";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
 
 const StatusChip = ({
@@ -104,20 +105,22 @@ const ServerStatusPage = () => {
 
       <CurrentlyRunningCommand />
 
-      <Typography variant="body1">
-        This is a{" "}
-        <Link href="https://etke.cc/services/monitoring/" target="_blank">
-          monitoring report
-        </Link>{" "}
-        of the server. If any of the checks below concern you, please check the{" "}
-        <Link
-          href="https://etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues"
-          target="_blank"
-        >
-          suggested actions
-        </Link>
-        .
-      </Typography>
+      <EtkeAttribution>
+        <Typography variant="body1">
+          This is a{" "}
+          <Link href="https://etke.cc/services/monitoring/" target="_blank">
+            monitoring report
+          </Link>{" "}
+          of the server. If any of the checks below concern you, please check the{" "}
+          <Link
+            href="https://etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues"
+            target="_blank"
+          >
+            suggested actions
+          </Link>
+          .
+        </Typography>
+      </EtkeAttribution>
 
       <Stack spacing={2} direction={{ xs: "column", md: "row" }}>
         {Object.keys(groupedResults).map((category, _idx) => (
@@ -144,9 +147,11 @@ const ServerStatusPage = () => {
                         <Typography color="text.secondary" dangerouslySetInnerHTML={{ __html: result.reason }} />
                       )}
                       {!result.ok && result.help && (
-                        <Link href={result.help} target="_blank" rel="noopener noreferrer" sx={{ mt: 1 }}>
-                          Learn more
-                        </Link>
+                        <EtkeAttribution>
+                          <Link href={result.help} target="_blank" rel="noopener noreferrer" sx={{ mt: 1 }}>
+                            Learn more
+                          </Link>
+                        </EtkeAttribution>
                       )}
                     </Stack>
                   </Box>

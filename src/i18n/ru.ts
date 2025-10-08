@@ -35,7 +35,7 @@ const ru: SynapseTranslationMessages = {
   synapseadmin: {
     auth: {
       base_url: "Адрес домашнего сервера",
-      welcome: "Добро пожаловать в Synapse Admin",
+      welcome: "Добро пожаловать в %{name}",
       server_version: "Версия Synapse",
       supports_specs: "поддерживает спецификации Matrix",
       username_error: "Пожалуйста, укажите полный ID пользователя: '@user:domain'",

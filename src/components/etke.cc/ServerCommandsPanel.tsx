@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { Button, Loading, useDataProvider, useCreatePath, useStore } from "react-admin";
 import { Link as RouterLink } from "react-router-dom";
 
+import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { useServerCommands } from "./hooks/useServerCommands";
 import { ServerCommand, ServerProcessResponse } from "../../synapse/dataProvider";
@@ -159,13 +160,15 @@ const ServerCommandsPanel = () => {
       <Typography variant="h5">
         <Construction sx={{ verticalAlign: "middle", mr: 1 }} /> Available Commands
       </Typography>
-      <Typography variant="body1" sx={{ mt: 0 }}>
-        The following commands are available to run. More details about each of them can be found{" "}
-        <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
-          here
-        </Link>
-        .
-      </Typography>
+      <EtkeAttribution>
+        <Typography variant="body1" sx={{ mt: 0 }}>
+          The following commands are available to run. More details about each of them can be found{" "}
+          <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
+            here
+          </Link>
+          .
+        </Typography>
+      </EtkeAttribution>
       <TableContainer component={Paper} sx={{ mt: 2 }}>
         <Table sx={{ minWidth: { xs: 100, md: 450 } }} size="small" aria-label="simple table">
           <TableHead>
