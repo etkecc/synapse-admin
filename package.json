@@ -76,7 +76,7 @@
     "lodash": "^4.17.21",
     "papaparse": "^5.5.3",
     "ra-core": "^5.11.4",
-    "ra-i18n-polyglot": "^5.11.4",
+    "ra-i18n-polyglot": "^5.12.0",
     "ra-language-english": "^5.11.4",
     "ra-language-farsi": "^5.1.0",
     "ra-language-french": "^5.11.4",
