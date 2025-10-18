@@ -25,8 +25,8 @@ http:
   - 127.0.0.1/8
   - fd00::/8
   - ::1/128
-  public_base: http://[::]:8007/
-  issuer: http://[::]:8007/
+  public_base: http://localhost:8008/
+  issuer: http://localhost:8008/
 database:
   uri: postgresql://synapse:synapse@postgres:5432/mas
   max_connections: 10
@@ -99,3 +99,7 @@ matrix:
   homeserver: "synapse:8008"
   secret: ukIYOk4T7sz7VlrOPhZRbgzHHR4wXfir
   endpoint: "http://synapse:8008/"
+policy:
+  data:
+    client_registration:
+      allow_insecure_uris: true
