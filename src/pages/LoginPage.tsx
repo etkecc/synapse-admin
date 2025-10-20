@@ -34,10 +34,11 @@ import LoginFormBox from "../components/LoginFormBox";
 import {
   getServerVersion,
   getSupportedFeatures,
-  getSupportedLoginFlows,
   getWellKnownUrl,
   isValidBaseUrl,
   splitMxid,
+  getSupportedLoginFlows,
+  getAuthMetadata,
 } from "../synapse/matrix";
 import { SetExternalAuthProvider } from "../utils/config";
 
@@ -110,6 +111,8 @@ const LoginPage = () => {
   const locales = useLocales();
   const translate = useTranslate();
 
+  const [authMetadata, setAuthMetadata] = useState({});
+  const [ssoMasUrl, setSSOMASUrl] = useState("");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
@@ -193,6 +196,14 @@ const LoginPage = () => {
     window.location.href = ssoFullUrl;
   };
 
+  const handleSSOMAS = () => {
+    login({
+      base_url: ssoMasUrl,
+      clientUrl: window.location.origin,
+      authMetadata: authMetadata,
+    });
+  };
+
   const checkServerInfo = async (url: string) => {
     if (!isValidBaseUrl(url)) {
       setServerVersion("");
@@ -221,7 +232,11 @@ const LoginPage = () => {
       const loginFlows = await getSupportedLoginFlows(url);
       const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
       const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
+      setSupportPassAuth(supportPass);
+      setSSOBaseUrl(supportSSO ? url : "");
+
       if (
+        supportSSO &&
         loginFlows.find(
           f =>
             f.type === "m.login.sso" &&
@@ -230,12 +245,20 @@ const LoginPage = () => {
       ) {
         console.log("Detected delegated_oidc_compatibility SSO flow");
         SetExternalAuthProvider(true);
+        // only MAS SSO login is supported
+        setSSOBaseUrl("");
+
+        const authMetadata = await getAuthMetadata(url);
+        if (!authMetadata) {
+          throw new Error("Failed to fetch authentication metadata");
+        }
+        setAuthMetadata(authMetadata);
+        setSSOMASUrl(authMetadata.issuer);
       }
-      setSupportPassAuth(supportPass);
-      setSSOBaseUrl(supportSSO ? url : "");
     } catch {
       setSupportPassAuth(false);
       setSSOBaseUrl("");
+      setSSOMASUrl("");
     }
   };
 
@@ -433,6 +456,18 @@ const LoginPage = () => {
                     fullWidth
                   >
                     {translate("synapseadmin.auth.sso_sign_in")}
+                  </Button>
+                )}
+                {ssoMasUrl !== "" && (
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleSSOMAS}
+                    disabled={loading}
+                    fullWidth
+                  >
+                    {translate("synapseadmin.auth.sso_mas_sign_in")}
                   </Button>
                 )}
               </CardActions>

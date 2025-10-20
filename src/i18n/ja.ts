@@ -25,6 +25,7 @@ const ja: SynapseTranslationMessages = {
       protocol_error: "URLの先頭には「http://」または「https://」を置いてください",
       url_error: "正しいMatrixのサーバーのURLではありません",
       sso_sign_in: "シングルサインオン",
+      sso_mas_sign_in: "シングルサインオン (MAS)",
       credentials: "認証情報",
       access_token: "アクセストークン",
       logout_acces_token_dialog: {

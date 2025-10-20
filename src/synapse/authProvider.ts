@@ -1,5 +1,7 @@
+import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
+import { AuthMetadata, handleMASAuth, refreshAccessToken } from "./matrix";
 import { FetchConfig, ClearConfig, GetConfig } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
@@ -13,14 +15,48 @@ const authProvider: AuthProvider = {
     password,
     loginToken,
     accessToken,
+    clientUrl,
+    authMetadata,
   }: {
     base_url: string;
     username: string;
     password: string;
     loginToken: string;
     accessToken: string;
+    clientUrl: string;
+    authMetadata: AuthMetadata;
   }) => {
     console.log("login ");
+    // use the base_url from login instead of the well_known entry from the
+    // server, since the admin might want to access the admin API via some
+    // private address
+    if (!base_url) {
+      // there is some kind of bug with base_url being present in the form, but not submitted
+      // ref: https://github.com/etkecc/synapse-admin/issues/14
+      localStorage.removeItem("base_url");
+      throw new Error("Homeserver URL is required.");
+    }
+    base_url = base_url.replace(/\/+$/g, "");
+    localStorage.setItem("base_url", base_url);
+
+    const decoded_base_url = decodeURLComponent(base_url);
+    localStorage.setItem("decoded_base_url", decoded_base_url);
+
+    if (clientUrl && authMetadata) {
+      // this is a MAS SSO login
+      const authParams = await handleMASAuth(authMetadata, clientUrl);
+      const userManager = new UserManager({
+        authority: authParams.issuer,
+        client_id: authParams.clientId,
+        redirect_uri: authParams.redirectUri,
+        response_type: authParams.responseType,
+        scope: authParams.scope,
+      });
+
+      await userManager.signinRedirect();
+      return;
+    }
+
     let options: Options = {
       method: "POST",
       credentials: GetConfig().corsCredentials as RequestCredentials,
@@ -51,19 +87,6 @@ const authProvider: AuthProvider = {
       ),
     };
 
-    // use the base_url from login instead of the well_known entry from the
-    // server, since the admin might want to access the admin API via some
-    // private address
-    if (!base_url) {
-      // there is some kind of bug with base_url being present in the form, but not submitted
-      // ref: https://github.com/etkecc/synapse-admin/issues/14
-      localStorage.removeItem("base_url");
-      throw new Error("Homeserver URL is required.");
-    }
-    base_url = base_url.replace(/\/+$/g, "");
-    localStorage.setItem("base_url", base_url);
-
-    const decoded_base_url = decodeURLComponent(base_url);
     const login_api_url =
       decoded_base_url + (accessToken ? "/_matrix/client/v3/account/whoami" : "/_matrix/client/v3/login");
 
@@ -145,6 +168,128 @@ const authProvider: AuthProvider = {
       return Promise.reject();
     }
   },
+  handleCallback: async () => {
+    // Get the authorization code and state from the callback URL
+    const { searchParams } = new URL(window.location.href);
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
+    const error = searchParams.get("error");
+
+    if (error) {
+      console.error("Error during authentication:", error);
+      return Promise.reject(new Error(`Authentication error: ${error}`));
+    }
+
+    if (!code) {
+      console.error("No authorization code in callback");
+      return Promise.reject(new Error("No authorization code received"));
+    }
+
+    const stateKey = `oidc.${state}`;
+    const { code_verifier } = JSON.parse(localStorage.getItem(stateKey) || "{}");
+
+    if (!code_verifier) {
+      console.error("No code verifier found in storage");
+      return Promise.reject(new Error("PKCE code verifier not found"));
+    }
+
+    const tokenEndpoint = localStorage.getItem("token_endpoint");
+    const clientId = localStorage.getItem("clientId");
+
+    if (!tokenEndpoint || !clientId) {
+      console.error("Missing token endpoint or client ID");
+      return Promise.reject(new Error("Missing OAuth configuration"));
+    }
+
+    // Build form-urlencoded body (OAuth 2.0 token endpoints require this format)
+    const tokenParams = new URLSearchParams({
+      grant_type: "authorization_code",
+      client_id: clientId,
+      code: code,
+      code_verifier: code_verifier,
+      redirect_uri: `${window.location.origin}/auth-callback`,
+    });
+
+    // Exchange code for tokens
+    const response = await fetchUtils.fetchJson(tokenEndpoint, {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      }),
+      body: tokenParams.toString(),
+    });
+
+    // Save tokens to localStorage
+    const { access_token, refresh_token, id_token, expires_in } = response.json;
+
+    if (access_token) {
+      localStorage.setItem("access_token", access_token);
+    }
+
+    if (refresh_token) {
+      localStorage.setItem("refresh_token", refresh_token);
+    }
+
+    if (id_token) {
+      localStorage.setItem("id_token", id_token);
+    }
+
+    // Save token expiration time
+    if (expires_in) {
+      const expiresAt = Date.now() + expires_in * 1000;
+      localStorage.setItem("access_token_expires_at", expiresAt.toString());
+    }
+
+    const decoded_base_url = localStorage.getItem("decoded_base_url") || "";
+
+    if (!decoded_base_url) {
+      console.error("No base_url found in storage");
+      return Promise.reject(new Error("Base URL not found"));
+    }
+
+    // Get user_id from whoami endpoint
+    if (access_token && decoded_base_url) {
+      const whoamiUrl = `${decoded_base_url}/_matrix/client/v3/account/whoami`;
+      try {
+        const whoamiResponse = await fetchUtils.fetchJson(whoamiUrl, {
+          headers: new Headers({
+            Accept: "application/json",
+            Authorization: `Bearer ${access_token}`,
+          }),
+        });
+        const json = whoamiResponse.json;
+        const userId = json.user_id;
+        const deviceId = json.device_id;
+
+        if (userId) {
+          localStorage.setItem("user_id", userId);
+        }
+        if (deviceId) {
+          localStorage.setItem("device_id", deviceId);
+        }
+
+        localStorage.setItem("home_server", json.user_id.split(":")[1]);
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("login_type", "accessToken");
+
+        let pageToRedirectTo = "/";
+        try {
+          await FetchConfig();
+          const config = GetConfig();
+          if (config && config.etkeccAdmin) {
+            pageToRedirectTo = "/server_status";
+          }
+        } catch (err) {
+          console.error("Failed to fetch config:", err);
+        }
+
+        return Promise.resolve({ redirectTo: pageToRedirectTo });
+      } catch (err) {
+        console.error("Failed to get user info:", err);
+      }
+    }
+  },
   // called when the user clicks on the logout button
   logout: async () => {
     console.log("logout");
@@ -186,9 +331,36 @@ const authProvider: AuthProvider = {
     return Promise.resolve();
   },
   // called when the user navigates to a new location, to check for authentication
-  checkAuth: () => {
+  checkAuth: async () => {
     const access_token = localStorage.getItem("access_token");
-    return typeof access_token === "string" ? Promise.resolve() : Promise.reject();
+
+    if (typeof access_token !== "string") {
+      return Promise.reject();
+    }
+
+    // Check if token has expired
+    const expiresAt = localStorage.getItem("access_token_expires_at");
+    if (expiresAt) {
+      const expirationTime = parseInt(expiresAt, 10);
+      const now = Date.now();
+
+      if (now >= expirationTime) {
+        console.log("Access token has expired, attempting refresh...");
+
+        // Attempt to refresh the token
+        const refreshSuccess = await refreshAccessToken();
+
+        if (refreshSuccess) {
+          console.log("Token refreshed successfully");
+          return Promise.resolve();
+        } else {
+          console.log("Token refresh failed, redirecting to login");
+          return Promise.reject();
+        }
+      }
+    }
+
+    return Promise.resolve();
   },
 };
 

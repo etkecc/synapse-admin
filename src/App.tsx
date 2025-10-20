@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { merge } from "lodash";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin";
-import { Route } from "react-router-dom";
+import { Route, RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
@@ -61,48 +61,58 @@ const i18nProvider = polyglotI18nProvider(
 
 const queryClient = new QueryClient();
 
+//browser router is needed because of the supported SSO login
+const router = createBrowserRouter([
+  {
+    path: "*",
+    element: (
+      <Admin
+        disableTelemetry
+        requireAuth
+        title="Synapse Admin"
+        layout={AdminLayout}
+        loginPage={LoginPage}
+        authProvider={authProvider}
+        dataProvider={dataProvider}
+        i18nProvider={i18nProvider}
+      >
+        <CustomRoutes>
+          <Route path="/import_users" element={<UserImport />} />
+          <Route path="/server_status" element={<ServerStatusPage />} />
+          <Route path="/server_actions" element={<ServerActionsPage />} />
+          <Route path="/server_actions/scheduled/:id/show" element={<ScheduledCommandShow />} />
+          <Route path="/server_actions/scheduled/:id" element={<ScheduledCommandEdit />} />
+          <Route path="/server_actions/scheduled/create" element={<ScheduledCommandEdit />} />
+          <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
+          <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
+          <Route path="/server_notifications" element={<ServerNotificationsPage />} />
+          <Route path="/billing" element={<BillingPage />} />
+        </CustomRoutes>
+        <Resource {...users} />
+        <Resource {...rooms} />
+        <Resource {...userMediaStats} />
+        <Resource {...reports} />
+        <Resource {...roomDirectory} />
+        <Resource {...destinations} />
+        <Resource {...registrationToken} />
+        <Resource name="connections" />
+        <Resource name="devices" />
+        <Resource name="room_members" />
+        <Resource name="users_media" />
+        <Resource name="joined_rooms" />
+        <Resource name="pushers" />
+        <Resource name="servernotices" />
+        <Resource name="forward_extremities" />
+        <Resource name="room_state" />
+        <Resource name="destination_rooms" />
+      </Admin>
+    ),
+  },
+]);
+
 export const App = () => (
   <QueryClientProvider client={queryClient}>
-    <Admin
-      disableTelemetry
-      requireAuth
-      title="Synapse Admin"
-      layout={AdminLayout}
-      loginPage={LoginPage}
-      authProvider={authProvider}
-      dataProvider={dataProvider}
-      i18nProvider={i18nProvider}
-    >
-      <CustomRoutes>
-        <Route path="/import_users" element={<UserImport />} />
-        <Route path="/server_status" element={<ServerStatusPage />} />
-        <Route path="/server_actions" element={<ServerActionsPage />} />
-        <Route path="/server_actions/scheduled/:id/show" element={<ScheduledCommandShow />} />
-        <Route path="/server_actions/scheduled/:id" element={<ScheduledCommandEdit />} />
-        <Route path="/server_actions/scheduled/create" element={<ScheduledCommandEdit />} />
-        <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
-        <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
-        <Route path="/server_notifications" element={<ServerNotificationsPage />} />
-        <Route path="/billing" element={<BillingPage />} />
-      </CustomRoutes>
-      <Resource {...users} />
-      <Resource {...rooms} />
-      <Resource {...userMediaStats} />
-      <Resource {...reports} />
-      <Resource {...roomDirectory} />
-      <Resource {...destinations} />
-      <Resource {...registrationToken} />
-      <Resource name="connections" />
-      <Resource name="devices" />
-      <Resource name="room_members" />
-      <Resource name="users_media" />
-      <Resource name="joined_rooms" />
-      <Resource name="pushers" />
-      <Resource name="servernotices" />
-      <Resource name="forward_extremities" />
-      <Resource name="room_state" />
-      <Resource name="destination_rooms" />
-    </Admin>
+    <RouterProvider router={router} />
   </QueryClientProvider>
 );
 

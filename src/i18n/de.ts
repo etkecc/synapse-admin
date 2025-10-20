@@ -20,6 +20,7 @@ const fixedGermanMessages = {
       ...formalGermanMessages.ra.action,
       update_application: "Anwendung aktualisieren",
       select_all_button: "Alle auswählen",
+      search_columns: "Spalten durchsuchen",
     },
     page: {
       ...formalGermanMessages.ra.page,
@@ -36,6 +37,11 @@ const fixedGermanMessages = {
         "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
       placeholder_data_warning: "Netzwerkproblem: Datenaktualisierung fehlgeschlagen.",
     },
+    notification: {
+      ...formalGermanMessages.ra.notification,
+      application_update_available: "Eine neue Version ist verfügbar.",
+      offline: "Keine Verbindung. Daten konnten nicht abgerufen werden.",
+    },
   },
 };
 
@@ -51,6 +57,7 @@ const de: SynapseTranslationMessages = {
       protocol_error: "Die URL muss mit 'http://' oder 'https://' beginnen",
       url_error: "Keine gültige Matrix Server URL",
       sso_sign_in: "Anmeldung mit SSO",
+      sso_mas_sign_in: "Anmeldung mit SSO (MAS)",
       credentials: "Anmeldedaten",
       access_token: "Zugriffstoken",
       logout_acces_token_dialog: {
@@ -519,6 +526,24 @@ const de: SynapseTranslationMessages = {
         length: "Länge",
       },
       helper: { length: "Länge des Tokens, wenn kein Token vorgegeben wird." },
+    },
+  },
+  scheduled_commands: {
+    action: {
+      create_success: "Geplanter Befehl erfolgreich erstellt.",
+      update_success: "Geplanter Befehl erfolgreich aktualisiert.",
+      update_failure: "Fehler beim Aktualisieren des geplanten Befehls.",
+      delete_success: "Geplanter Befehl erfolgreich gelöscht.",
+      delete_failure: "Fehler beim Löschen des geplanten Befehls.",
+    },
+  },
+  recurring_commands: {
+    action: {
+      create_success: "Wiederkehrender Befehl erfolgreich erstellt.",
+      update_success: "Wiederkehrender Befehl erfolgreich aktualisiert.",
+      update_failure: "Fehler beim Aktualisieren des wiederkehrenden Befehls.",
+      delete_success: "Wiederkehrender Befehl erfolgreich gelöscht.",
+      delete_failure: "Fehler beim Löschen des wiederkehrenden Befehls.",
     },
   },
 };

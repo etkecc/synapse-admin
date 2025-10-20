@@ -12,7 +12,8 @@ const fr: SynapseTranslationMessages = {
       username_error: "Veuillez entrer un nom d'utilisateur complet : « @utilisateur:domaine »",
       protocol_error: "L'URL doit commencer par « http:// » ou « https:// »",
       url_error: "L'URL du serveur Matrix n'est pas valide",
-      sso_sign_in: "Se connecter avec l’authentification unique",
+      sso_sign_in: "Se connecter avec l'authentification unique",
+      sso_mas_sign_in: "Se connecter avec l'authentification unique (MAS)",
       credentials: "Identifiants",
       access_token: "Jeton d'accès",
       logout_acces_token_dialog: {

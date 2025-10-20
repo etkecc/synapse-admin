@@ -14,6 +14,7 @@ const uk: SynapseTranslationMessages = {
       protocol_error: "URL повинен починатися з 'http://' або 'https://'",
       url_error: "Недійсна URL-адреса сервера Matrix",
       sso_sign_in: "Вхід через SSO",
+      sso_mas_sign_in: "Вхід через SSO (MAS)",
       credentials: "Облікові дані",
       access_token: "Токен доступу",
       logout_acces_token_dialog: {

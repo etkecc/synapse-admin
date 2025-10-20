@@ -8,3 +8,9 @@ export function generateRandomPassword(length = 64): string {
     .map(x => characters[x % characters.length])
     .join("");
 }
+export const generateDeviceId = (): string => {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const array = new Uint8Array(16);
+  crypto.getRandomValues(array);
+  return Array.from(array, byte => chars[byte % chars.length]).join("");
+};
