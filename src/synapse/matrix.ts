@@ -55,11 +55,18 @@ export const getSupportedLoginFlows = async (baseUrl: string) => {
 };
 
 export const getAuthMetadata = async (baseUrl: string): Promise<AuthMetadata | null> => {
-  const authMetadataUrl = `${baseUrl}/_matrix/client/v1/auth_metadata`;
+  let authMetadataUrl = `${baseUrl}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`;
   try {
-    const response = await fetchUtils.fetchJson(authMetadataUrl, { method: "GET" });
+    let response = await fetchUtils.fetchJson(authMetadataUrl, { method: "GET" });
+    if (response.status !== 200) {
+      // Fallback to stable endpoint
+      authMetadataUrl = `${baseUrl}/_matrix/client/auth_metadata`;
+      response = await fetchUtils.fetchJson(authMetadataUrl, { method: "GET" });
+    }
+
     return response.json;
   } catch {
+
     return null;
   }
 };

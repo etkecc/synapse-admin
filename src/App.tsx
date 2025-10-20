@@ -92,7 +92,7 @@ export const App = () => {
   // Show loading state while handling callback
   if (isHandlingCallback) {
     return (
-      <Loading loadingPrimary="Authenticating..." loadingSecondary="Please wait while we complete your login..." />
+      <Loading loadingPrimary="" loadingSecondary="" />
     );
   }
 
