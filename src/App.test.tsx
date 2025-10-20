@@ -6,6 +6,7 @@ jest.mock("./synapse/authProvider", () => ({
   __esModule: true,
   default: {
     logout: jest.fn().mockResolvedValue(undefined),
+    handleCallback: jest.fn().mockResolvedValue({ redirectTo: "/" }),
   },
 }));
 

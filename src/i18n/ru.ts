@@ -42,7 +42,7 @@ const ru: SynapseTranslationMessages = {
       protocol_error: "Адрес должен начинаться с 'http://' или 'https://'",
       url_error: "Неверный адрес сервера Matrix",
       sso_sign_in: "Вход через SSO",
-      sso_mas_sign_in: "Вход через SSO (MAS)",
+      oidc_sign_in: "Вход через OIDC",
       credentials: "Учетные данные",
       access_token: "Токен доступа",
       logout_acces_token_dialog: {

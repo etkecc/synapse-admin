@@ -57,7 +57,7 @@ const de: SynapseTranslationMessages = {
       protocol_error: "Die URL muss mit 'http://' oder 'https://' beginnen",
       url_error: "Keine gültige Matrix Server URL",
       sso_sign_in: "Anmeldung mit SSO",
-      sso_mas_sign_in: "Anmeldung mit SSO (MAS)",
+      oidc_sign_in: "Anmeldung mit OIDC",
       credentials: "Anmeldedaten",
       access_token: "Zugriffstoken",
       logout_acces_token_dialog: {

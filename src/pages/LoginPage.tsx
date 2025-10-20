@@ -112,7 +112,7 @@ const LoginPage = () => {
   const translate = useTranslate();
 
   const [authMetadata, setAuthMetadata] = useState({});
-  const [ssoMasUrl, setSSOMASUrl] = useState("");
+  const [oidcUrl, setOIDCUrl] = useState("");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
@@ -196,9 +196,9 @@ const LoginPage = () => {
     window.location.href = ssoFullUrl;
   };
 
-  const handleSSOMAS = () => {
+  const handleOIDC = () => {
     login({
-      base_url: ssoMasUrl,
+      base_url: oidcUrl,
       clientUrl: window.location.origin,
       authMetadata: authMetadata,
     });
@@ -208,8 +208,8 @@ const LoginPage = () => {
     if (!isValidBaseUrl(url)) {
       setServerVersion("");
       setMatrixVersions("");
+      setOIDCUrl("");
       setSupportPassAuth(false);
-      setSSOBaseUrl("");
       return;
     }
 
@@ -253,12 +253,12 @@ const LoginPage = () => {
           throw new Error("Failed to fetch authentication metadata");
         }
         setAuthMetadata(authMetadata);
-        setSSOMASUrl(authMetadata.issuer);
+        setOIDCUrl(authMetadata.issuer);
       }
     } catch {
       setSupportPassAuth(false);
       setSSOBaseUrl("");
-      setSSOMASUrl("");
+      setOIDCUrl("");
     }
   };
 
@@ -458,16 +458,16 @@ const LoginPage = () => {
                     {translate("synapseadmin.auth.sso_sign_in")}
                   </Button>
                 )}
-                {ssoMasUrl !== "" && (
+                {oidcUrl !== "" && (
                   <Button
                     size="small"
                     variant="contained"
                     color="secondary"
-                    onClick={handleSSOMAS}
+                    onClick={handleOIDC}
                     disabled={loading}
                     fullWidth
                   >
-                    {translate("synapseadmin.auth.sso_mas_sign_in")}
+                    {translate("synapseadmin.auth.oidc_sign_in")}
                   </Button>
                 )}
               </CardActions>

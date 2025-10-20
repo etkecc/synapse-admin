@@ -142,7 +142,7 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
   const registerOpts = {
     method: "POST",
     body: JSON.stringify({
-      client_name: "Etke Synapse Admin",
+      client_name: "Synapse Admin",
       client_uri: clientUrl,
       response_types: ["code"],
       grant_types: ["authorization_code", "refresh_token"],
@@ -165,7 +165,7 @@ export interface AuthMetadata {
   issuer: string;
 }
 
-export interface MASAuthParams {
+export interface OIDCAuthParams {
   clientId: string;
   redirectUri: string;
   issuer: string;
@@ -173,7 +173,7 @@ export interface MASAuthParams {
   responseType: string;
 }
 
-export const handleMASAuth = async (authMetadata: AuthMetadata, clientUrl: string): Promise<MASAuthParams> => {
+export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: string): Promise<OIDCAuthParams> => {
   const registrationJson = await registerClient(authMetadata.registration_endpoint, clientUrl);
   const clientId = registrationJson.client_id;
 

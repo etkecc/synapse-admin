@@ -1,7 +1,7 @@
 import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
-import { AuthMetadata, handleMASAuth, refreshAccessToken } from "./matrix";
+import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
 import { FetchConfig, ClearConfig, GetConfig } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
@@ -43,8 +43,8 @@ const authProvider: AuthProvider = {
     localStorage.setItem("decoded_base_url", decoded_base_url);
 
     if (clientUrl && authMetadata) {
-      // this is a MAS SSO login
-      const authParams = await handleMASAuth(authMetadata, clientUrl);
+      // this is a OIDC login
+      const authParams = await handleOIDCAuth(authMetadata, clientUrl);
       const userManager = new UserManager({
         authority: authParams.issuer,
         client_id: authParams.clientId,
@@ -169,6 +169,7 @@ const authProvider: AuthProvider = {
     }
   },
   handleCallback: async () => {
+    console.log("handleCallback");
     // Get the authorization code and state from the callback URL
     const { searchParams } = new URL(window.location.href);
     const code = searchParams.get("code");
