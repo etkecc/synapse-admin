@@ -1,13 +1,19 @@
-import { Box } from "@mui/material";
+import { Box, BoxProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const LoginFormBox = styled(Box)(({ theme }) => ({
+interface LoginFormBoxProps extends BoxProps {
+  backgroundUrl: string;
+}
+
+const LoginFormBox = styled(Box, {
+  shouldForwardProp: prop => prop !== "backgroundUrl",
+})<LoginFormBoxProps>(({ theme, backgroundUrl }) => ({
   display: "flex",
   flexDirection: "column",
-  minHeight: "calc(100vh - 1rem)",
+  minHeight: "100vh",
   alignItems: "center",
   justifyContent: "flex-start",
-  background: "url(./images/floating-cogs.svg)",
+  background: `url(${backgroundUrl})`,
   backgroundColor: theme.palette.mode === "dark" ? theme.palette.background.default : theme.palette.background.paper,
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",

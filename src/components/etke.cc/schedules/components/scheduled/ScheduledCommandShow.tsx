@@ -14,6 +14,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduledDeleteButton from "./ScheduledDeleteButton";
 import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
 const ScheduledCommandShow = () => {
@@ -50,15 +51,17 @@ const ScheduledCommandShow = () => {
           <CardHeader title="Scheduled Command Details" />
           <CardContent>
             {command && (
-              <Alert severity="info">
-                <Typography variant="body1" sx={{ px: 2 }}>
-                  You can find more details about the command{" "}
-                  <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                    here
-                  </Link>
-                  .
-                </Typography>
-              </Alert>
+              <EtkeAttribution>
+                <Alert severity="info">
+                  <Typography variant="body1" sx={{ px: 2 }}>
+                    You can find more details about the command{" "}
+                    <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                      here
+                    </Link>
+                    .
+                  </Typography>
+                </Alert>
+              </EtkeAttribution>
             )}
             <SimpleShowLayout>
               <TextField source="id" label="ID" />

@@ -72,3 +72,25 @@ Once command is finished, you will get a notification about the result.
 
 When you click on the `Billing` sidebar menu item, you will be see the Billing page.
 On this page you can see the list of successful payments and invoices.
+
+### Instance config
+
+With instance config you can whitelabel Synapse Admin, and disable some features you don't need.
+
+**Whitelabelling** - the following customizations are available:
+
+* Application name (browser tab title, error pages)
+* Logo (login page)
+* Favicon (browser tab icon)
+* Background image (login page background)
+
+**Disabling features** - the following features can be disabled:
+
+* Server Actions
+* Server Status
+* Server Notifications
+* Billing page
+* Federation page
+* Invite tokens page
+
+Additionally, etke.cc attributions can be removed with the appropriate plan.

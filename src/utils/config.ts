@@ -1,7 +1,7 @@
 export interface Config {
   restrictBaseUrl: string | string[];
   corsCredentials: string;
-  asManagedUsers: RegExp[];
+  asManagedUsers: RegExp[] | string[];
   menu: MenuItem[];
   externalAuthProvider: boolean;
   etkeccAdmin?: string;
@@ -71,7 +71,7 @@ export const FetchConfig = async () => {
 // load config from context
 // we deliberately processing each key separately to avoid overwriting the whole config, losing some keys, and messing
 // with typescript types
-export const LoadConfig = (context: object) => {
+export const LoadConfig = (context: Config) => {
   if (context?.restrictBaseUrl) {
     config.restrictBaseUrl = context.restrictBaseUrl as string | string[];
   }
@@ -81,7 +81,9 @@ export const LoadConfig = (context: object) => {
   }
 
   if (context?.asManagedUsers) {
-    config.asManagedUsers = context.asManagedUsers.map((regex: string) => new RegExp(regex));
+    config.asManagedUsers = context.asManagedUsers.map((regex: string | RegExp) =>
+      typeof regex === "string" ? new RegExp(regex) : regex
+    );
   }
 
   let menu: MenuItem[] = [];

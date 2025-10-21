@@ -21,6 +21,7 @@ import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
 import { useDataProvider, useNotify } from "react-admin";
 
+import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, Payment } from "../../synapse/dataProvider";
 
@@ -61,7 +62,7 @@ const BillingPage = () => {
         setMaintenance(response.maintenance);
       } catch (error) {
         console.error("Error fetching billing data:", error);
-        setFailure(error instanceof Error ? error.message : error);
+        setFailure(error instanceof Error ? error.message : (error as string));
       } finally {
         setLoading(false);
       }
@@ -92,19 +93,22 @@ const BillingPage = () => {
       <Typography variant="h4">
         <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Billing
       </Typography>
-      <Typography variant="body1">
-        View payments and generate invoices from here. More details about billing can be found{" "}
-        <Link href="https://etke.cc/help/extras/scheduler/#payments" target="_blank">
-          here
-        </Link>
-        .
-        <br />
-        If you'd like to change your billing email, or add company details, please{" "}
-        <Link href="https://etke.cc/contacts/" target="_blank">
-          contact etke.cc support
-        </Link>
-        .
-      </Typography>
+      <Typography variant="body1">View payments and generate invoices from here.</Typography>
+      <EtkeAttribution>
+        <Typography variant="body1">
+          View payments and generate invoices from here. More details about billing can be found{" "}
+          <Link href="https://etke.cc/help/extras/scheduler/#payments" target="_blank">
+            here
+          </Link>
+          .
+          <br />
+          If you'd like to change your billing email, or add company details, please{" "}
+          <Link href="https://etke.cc/contacts/" target="_blank">
+            contact etke.cc support
+          </Link>
+          .
+        </Typography>
+      </EtkeAttribution>
     </Box>
   );
 
@@ -129,12 +133,16 @@ const BillingPage = () => {
             <br />
             This might be a temporary issue - please try again in a few minutes.
             <br />
-            If it persists, contact{" "}
-            <Link href="https://etke.cc/contacts/" target="_blank">
-              etke.cc support team
-            </Link>{" "}
-            with the following error message:
           </Typography>
+          <EtkeAttribution>
+            <Typography>
+              If it persists, contact{" "}
+              <Link href="https://etke.cc/contacts/" target="_blank">
+                etke.cc support team
+              </Link>{" "}
+              with the following error message:
+            </Typography>
+          </EtkeAttribution>
           <Typography variant="body2" color="error" sx={{ mt: 1 }}>
             {failure}
           </Typography>
@@ -169,11 +177,16 @@ const BillingPage = () => {
         </Typography>
         {paymentsData.length === 0 ? (
           <Typography variant="body1">
-            No payments found. If you believe that's an error, please{" "}
-            <Link href="https://etke.cc/contacts/" target="_blank">
-              contact etke.cc support
-            </Link>
-            .
+            No payments found.
+            <EtkeAttribution>
+              <Typography>
+                If you believe that's an error, please{" "}
+                <Link href="https://etke.cc/contacts/" target="_blank">
+                  contact etke.cc support
+                </Link>
+                .
+              </Typography>
+            </EtkeAttribution>
           </Typography>
         ) : (
           <TableContainer component={Paper}>

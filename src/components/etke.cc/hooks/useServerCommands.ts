@@ -3,8 +3,10 @@ import { useDataProvider } from "react-admin";
 
 import { useAppContext } from "../../../Context";
 import { ServerCommand } from "../../../synapse/dataProvider";
+import { GetInstanceConfig } from "../InstanceConfig";
 
 export const useServerCommands = () => {
+  const icfg = GetInstanceConfig();
   const { etkeccAdmin } = useAppContext();
   const [isLoading, setLoading] = useState(true);
   const [maintenance, setMaintenance] = useState(false);
@@ -24,6 +26,12 @@ export const useServerCommands = () => {
         Object.keys(serverCommandsResponse.commands).forEach((command: string) => {
           serverCommands[command].additionalArgs = "";
         });
+
+        if (icfg.disabled.payments || icfg.disabled.attributions) {
+          delete serverCommands["price"];
+          delete serverCommands["payments"];
+        }
+
         setServerCommands(serverCommands);
       }
       setLoading(false);

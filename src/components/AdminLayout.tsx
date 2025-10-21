@@ -18,10 +18,12 @@ import {
 
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
+import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
 import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
 import { Icons, DefaultIcon } from "../utils/icons";
+import { EtkeAttribution } from "./etke.cc/EtkeAttribution";
+import { GetInstanceConfig, ClearInstanceConfig } from "./etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
-import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
 import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
 
@@ -38,12 +40,15 @@ const AdminUserMenu = () => {
 
   const handleConfirm = () => {
     setOpen(false);
+    ClearConfig();
+    ClearInstanceConfig();
     logout();
   };
 
   const handleDialogClose = () => {
     setOpen(false);
     ClearConfig();
+    ClearInstanceConfig();
     window.location.reload();
   };
 
@@ -66,11 +71,12 @@ const AdminUserMenu = () => {
 };
 
 const AdminAppBar = () => {
+  const icfg = GetInstanceConfig();
   return (
     <AppBar userMenu={<AdminUserMenu />}>
       <TitlePortal />
-      <ServerStatusBadge />
-      <ServerNotificationsBadge />
+      {!icfg.disabled.monitoring && <ServerStatusBadge />}
+      {!icfg.disabled.notifications && <ServerNotificationsBadge />}
       <InspectorButton />
     </AppBar>
   );
@@ -78,6 +84,7 @@ const AdminAppBar = () => {
 
 const AdminMenu = props => {
   const [menu, setMenu] = useState([] as MenuItem[]);
+  const icfg = GetInstanceConfig();
   const [etkeRoutesEnabled, setEtkeRoutesEnabled] = useState(false);
   useEffect(() => {
     setMenu(GetConfig().menu);
@@ -98,7 +105,7 @@ const AdminMenu = props => {
 
   return (
     <Menu {...props}>
-      {etkeRoutesEnabled && (
+      {etkeRoutesEnabled && !icfg.disabled.monitoring && (
         <Menu.Item
           key="server_status"
           to="/server_status"
@@ -114,7 +121,7 @@ const AdminMenu = props => {
           primaryText="Server Status"
         />
       )}
-      {etkeRoutesEnabled && (
+      {etkeRoutesEnabled && !icfg.disabled.actions && (
         <Menu.Item
           key="server_actions"
           to="/server_actions"
@@ -123,7 +130,9 @@ const AdminMenu = props => {
         />
       )}
       <Menu.ResourceItems />
-      {etkeRoutesEnabled && <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />}
+      {etkeRoutesEnabled && !icfg.disabled.payments && (
+        <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />
+      )}
       {menu &&
         menu.map((item, index) => {
           const { url, icon, label } = item;
@@ -149,8 +158,24 @@ const AdminMenu = props => {
 export const AdminLayout = ({ children }) => {
   // Set the document language based on the selected locale
   const [locale, _setLocale] = useLocaleState();
+  const icfg = GetInstanceConfig();
   useEffect(() => {
     document.documentElement.lang = locale;
+    // set <title> based on instance name
+    if (icfg.name) {
+      document.title = icfg.name;
+    }
+    if (icfg.favicon_url) {
+      const link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
+      if (link) {
+        link.href = icfg.favicon_url;
+      } else {
+        const newLink = document.createElement("link");
+        newLink.rel = "icon";
+        newLink.href = icfg.favicon_url;
+        document.getElementsByTagName("head")[0].appendChild(newLink);
+      }
+    }
   }, [locale]);
 
   return (
@@ -171,7 +196,9 @@ export const AdminLayout = ({ children }) => {
         {children}
         <CheckForApplicationUpdate />
       </Layout>
-      <Footer />
+      <EtkeAttribution>
+        <Footer />
+      </EtkeAttribution>
     </>
   );
 };

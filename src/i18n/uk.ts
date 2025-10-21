@@ -7,7 +7,7 @@ const uk: SynapseTranslationMessages = {
   synapseadmin: {
     auth: {
       base_url: "URL домашнього сервера",
-      welcome: "Ласкаво просимо до Synapse Admin",
+      welcome: "Ласкаво просимо до %{name}",
       server_version: "Версія Synapse",
       supports_specs: "supports Matrix specs",
       username_error: "Будь ласка, введіть повний ідентифікатор користувача: '@user:domain'",

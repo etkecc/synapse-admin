@@ -19,6 +19,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ScheduleDeleteButton from "./ScheduledDeleteButton";
 import { useAppContext } from "../../../../../Context";
 import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
@@ -97,13 +98,15 @@ const ScheduledCommandEdit = () => {
       <Card>
         <CardHeader title={pageTitle} />
         {command && (
-          <Typography variant="body1" sx={{ px: 2 }}>
-            You can find more details about the command{" "}
-            <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-              here
-            </Link>
-            .
-          </Typography>
+          <EtkeAttribution>
+            <Typography variant="body1" sx={{ px: 2 }}>
+              You can find more details about the command{" "}
+              <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                here
+              </Link>
+              .
+            </Typography>
+          </EtkeAttribution>
         )}
         <CardContent>
           <Form

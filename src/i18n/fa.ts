@@ -7,7 +7,7 @@ const fa: SynapseTranslationMessages = {
   synapseadmin: {
     auth: {
       base_url: "آدرس سرور",
-      welcome: "به پنل مدیریت سیناپس خوش آمدید!",
+      welcome: "به پنل مدیریت سیناپس خوش آمدید، %{name}",
       server_version: "نسخه",
       username_error: "لطفاً شناسه کاربر را وارد کنید: '@user:domain'",
       protocol_error: "URL باید با 'http://' یا 'https://' شروع شود",

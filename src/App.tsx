@@ -7,6 +7,7 @@ import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
+import { GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
@@ -96,12 +97,18 @@ export const App = () => {
     );
   }
 
+  const icfg = GetInstanceConfig();
+  let title = "Synapse Admin";
+  if (icfg.name) {
+    title = icfg.name;
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <Admin
         disableTelemetry
         requireAuth
-        title="Synapse Admin"
+        title={title}
         layout={AdminLayout}
         loginPage={LoginPage}
         authProvider={authProvider}
@@ -110,23 +117,29 @@ export const App = () => {
       >
         <CustomRoutes>
           <Route path="/import_users" element={<UserImport />} />
-          <Route path="/server_status" element={<ServerStatusPage />} />
-          <Route path="/server_actions" element={<ServerActionsPage />} />
-          <Route path="/server_actions/scheduled/:id/show" element={<ScheduledCommandShow />} />
-          <Route path="/server_actions/scheduled/:id" element={<ScheduledCommandEdit />} />
-          <Route path="/server_actions/scheduled/create" element={<ScheduledCommandEdit />} />
-          <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />
-          <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
-          <Route path="/server_notifications" element={<ServerNotificationsPage />} />
-          <Route path="/billing" element={<BillingPage />} />
+          {!icfg.disabled.monitoring && <Route path="/server_status" element={<ServerStatusPage />} />}
+          {!icfg.disabled.actions && <Route path="/server_actions" element={<ServerActionsPage />} />}
+          {!icfg.disabled.actions && (
+            <Route path="/server_actions/scheduled/:id/show" element={<ScheduledCommandShow />} />
+          )}
+          {!icfg.disabled.actions && <Route path="/server_actions/scheduled/:id" element={<ScheduledCommandEdit />} />}
+          {!icfg.disabled.actions && (
+            <Route path="/server_actions/scheduled/create" element={<ScheduledCommandEdit />} />
+          )}
+          {!icfg.disabled.actions && <Route path="/server_actions/recurring/:id" element={<RecurringCommandEdit />} />}
+          {!icfg.disabled.actions && (
+            <Route path="/server_actions/recurring/create" element={<RecurringCommandEdit />} />
+          )}
+          {!icfg.disabled.actions && <Route path="/server_notifications" element={<ServerNotificationsPage />} />}
+          {!icfg.disabled.payments && <Route path="/billing" element={<BillingPage />} />}
         </CustomRoutes>
         <Resource {...users} />
         <Resource {...rooms} />
         <Resource {...userMediaStats} />
         <Resource {...reports} />
         <Resource {...roomDirectory} />
-        <Resource {...destinations} />
-        <Resource {...registrationToken} />
+        {!icfg.disabled.federation && <Resource {...destinations} />}
+        {!icfg.disabled.registration_tokens && <Resource {...registrationToken} />}
         <Resource name="connections" />
         <Resource name="devices" />
         <Resource name="room_members" />

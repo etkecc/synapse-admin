@@ -18,7 +18,7 @@ const ja: SynapseTranslationMessages = {
   synapseadmin: {
     auth: {
       base_url: "ホームサーバーのURL",
-      welcome: "Synapse Adminにようこそ",
+      welcome: "%{name}にようこそ",
       server_version: "Synapseのバージョン",
       supports_specs: "次のMatrixのスペックをサポートしています",
       username_error: "有効なユーザーIDを入力してください。形式は「@user:domain」です。",

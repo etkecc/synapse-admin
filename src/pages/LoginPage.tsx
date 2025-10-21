@@ -31,6 +31,8 @@ import { useFormContext } from "react-hook-form";
 import { useAppContext } from "../Context";
 import Footer from "../components/Footer";
 import LoginFormBox from "../components/LoginFormBox";
+import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
+import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import {
   getServerVersion,
   getSupportedFeatures,
@@ -121,7 +123,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (base_url) {
-      checkServerInfo(base_url);
+      checkServerInfo(base_url as string);
     }
   }, []);
 
@@ -261,6 +263,20 @@ const LoginPage = () => {
       setOIDCUrl("");
     }
   };
+
+  const icfg = GetInstanceConfig();
+  let welcomeTo = "Synapse Admin";
+  let logoUrl = "./images/logo.webp";
+  let backgroundUrl = "./images/floating-cogs.svg";
+  if (icfg.name) {
+    welcomeTo = icfg.name;
+  }
+  if (icfg.logo_url) {
+    logoUrl = icfg.logo_url;
+  }
+  if (icfg.background_url) {
+    backgroundUrl = icfg.background_url;
+  }
 
   const UserData = ({ formData }) => {
     const form = useFormContext();
@@ -414,16 +430,16 @@ const LoginPage = () => {
 
   return (
     <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onBlur">
-      <LoginFormBox>
+      <LoginFormBox backgroundUrl={backgroundUrl}>
         <Card className="card">
           <Box className="avatar">
             {loading ? (
               <CircularProgress size={25} thickness={2} />
             ) : (
-              <Avatar sx={{ width: "120px", height: "120px" }} src="./images/logo.webp" />
+              <Avatar sx={{ width: "120px", height: "120px" }} src={logoUrl} />
             )}
           </Box>
-          <Box className="hint">{translate("synapseadmin.auth.welcome")}</Box>
+          <Box className="hint">{translate("synapseadmin.auth.welcome", { name: welcomeTo })}</Box>
           <Box className="form">
             <Select
               fullWidth
@@ -483,7 +499,9 @@ const LoginPage = () => {
         </Card>
       </LoginFormBox>
       <Notification />
-      <Footer />
+      <EtkeAttribution>
+        <Footer />
+      </EtkeAttribution>
     </Form>
   );
 };
