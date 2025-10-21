@@ -92,16 +92,14 @@ export const App = () => {
 
   // Show loading state while handling callback
   if (isHandlingCallback) {
-    return (
-      <Loading loadingPrimary="" loadingSecondary="" />
-    );
+    return <Loading loadingPrimary="" loadingSecondary="" />;
   }
 
   const icfg = GetInstanceConfig();
   let title = "Synapse Admin";
   if (icfg.name) {
     title = icfg.name;
-  };
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

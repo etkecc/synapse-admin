@@ -66,7 +66,6 @@ export const getAuthMetadata = async (baseUrl: string): Promise<AuthMetadata | n
 
     return response.json;
   } catch {
-
     return null;
   }
 };
