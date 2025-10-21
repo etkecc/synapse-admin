@@ -13,7 +13,6 @@ const fr: SynapseTranslationMessages = {
       protocol_error: "L'URL doit commencer par « http:// » ou « https:// »",
       url_error: "L'URL du serveur Matrix n'est pas valide",
       sso_sign_in: "Se connecter avec l'authentification unique",
-      oidc_sign_in: "Se connecter avec OIDC",
       credentials: "Identifiants",
       access_token: "Jeton d'accès",
       logout_acces_token_dialog: {

@@ -13,7 +13,6 @@ const fa: SynapseTranslationMessages = {
       protocol_error: "URL باید با 'http://' یا 'https://' شروع شود",
       url_error: "آدرس وارد شده یک سرور معتبر نیست",
       sso_sign_in: "با SSO وارد شوید",
-      oidc_sign_in: "با OIDC وارد شوید",
       credentials: "اعتبارنامه",
       access_token: "توکن دسترسی",
       logout_acces_token_dialog: {

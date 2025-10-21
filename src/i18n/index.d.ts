@@ -11,7 +11,6 @@ interface SynapseTranslationMessages extends TranslationMessages {
       protocol_error: string;
       url_error: string;
       sso_sign_in: string;
-      oidc_sign_in: string;
       credentials: string;
       access_token: string;
       logout_acces_token_dialog: {

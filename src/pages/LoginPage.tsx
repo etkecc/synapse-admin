@@ -483,7 +483,7 @@ const LoginPage = () => {
                     disabled={loading}
                     fullWidth
                   >
-                    {translate("synapseadmin.auth.oidc_sign_in")}
+                    {translate("synapseadmin.auth.sso_sign_in")}
                   </Button>
                 )}
               </CardActions>

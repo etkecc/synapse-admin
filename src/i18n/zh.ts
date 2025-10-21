@@ -46,7 +46,6 @@ const zh: SynapseTranslationMessages = {
       protocol_error: "URL 需要以'http://'或'https://'作为起始",
       url_error: "不是一个有效的 Matrix 服务器地址",
       sso_sign_in: "使用 SSO 登录",
-      oidc_sign_in: "使用 OIDC 登录",
       credentials: "凭证",
       access_token: "访问令牌",
       logout_acces_token_dialog: {
