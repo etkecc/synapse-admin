@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { merge } from "lodash";
 import polyglotI18nProvider from "ra-i18n-polyglot";
-import { Admin, CustomRoutes, Resource, resolveBrowserLocale } from "react-admin";
+import { useEffect, useState } from "react";
+import { Admin, CustomRoutes, Loading, Resource, resolveBrowserLocale } from "react-admin";
 import { Route } from "react-router-dom";
 
 import AdminLayout from "./components/AdminLayout";
@@ -63,6 +64,38 @@ const i18nProvider = polyglotI18nProvider(
 const queryClient = new QueryClient();
 
 export const App = () => {
+  const [isHandlingCallback, setIsHandlingCallback] = useState(false);
+
+  useEffect(() => {
+    // Check if we're on the OAuth callback path, we need to do it this way,
+    // because react-admin by default uses HashRouter and "/#/auth-callback" URI is not accepted by MAS
+    const isCallbackPath = window.location.pathname === "/auth-callback";
+    const hasAuthCode = new URLSearchParams(window.location.search).has("code");
+
+    if (isCallbackPath && hasAuthCode) {
+      setIsHandlingCallback(true);
+
+      // Handle the OAuth callback
+      authProvider
+        .handleCallback?.()
+        .then(result => {
+          // Redirect to the appropriate page after successful auth
+          const redirectTo = result?.redirectTo || "/";
+          window.location.href = `${window.location.origin}/#${redirectTo}`;
+        })
+        .catch(error => {
+          console.error("OAuth callback error:", error);
+          // Redirect to login on error
+          window.location.href = `${window.location.origin}/#/login`;
+        });
+    }
+  }, []);
+
+  // Show loading state while handling callback
+  if (isHandlingCallback) {
+    return <Loading loadingPrimary="" loadingSecondary="" />;
+  }
+
   const icfg = GetInstanceConfig();
   let title = "Synapse Admin";
   if (icfg.name) {

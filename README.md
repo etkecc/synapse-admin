@@ -121,7 +121,8 @@ The following changes are already implemented:
 * 🗣️ [Correctly set document language based on the selected locale](https://github.com/etkecc/synapse-admin/issues/723)
 * 📇 [Support 3pids in CSV users import (bulk registration)](https://github.com/etkecc/synapse-admin/pull/804)
 * 🇺🇦 [Add Ukrainian localization](https://github.com/etkecc/synapse-admin/pull/806)
-* [External Auth Provider-compatible mode](https://github.com/etkecc/synapse-admin/pull/821)
+* 🧩 [External Auth Provider-compatible mode](https://github.com/etkecc/synapse-admin/pull/821)
+* 🪪 [OIDC Auth Support](https://github.com/etkecc/synapse-admin/pull/902)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
@@ -215,7 +216,7 @@ You can add custom menu items to the main menu by providing a `menu` array in th
 
 ### Enabling external auth provider-compatible mode
 
-If you use an external authentication provider (like MAS, LDAP, etc.) for your Synapse server,
+If you use an external authentication provider (like OIDC, LDAP, etc.) for your Synapse server,
 you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavior accordingly.
 
 [Documentation](./docs/external-auth-provider.md)

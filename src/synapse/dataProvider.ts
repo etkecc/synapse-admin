@@ -13,6 +13,7 @@ import {
   withLifecycleCallbacks,
 } from "react-admin";
 
+import { refreshAccessToken } from "./matrix";
 import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
 import { returnMXID } from "../utils/mxid";
@@ -22,6 +23,22 @@ const CACHED_MANY_REF: Record<string, any> = {};
 
 // Adds the access token to all requests
 const jsonClient = async (url: string, options: Options = {}) => {
+  // Check if token needs refresh before making the request
+  const access_token_expires_at = localStorage.getItem("access_token_expires_at");
+  const refreshToken = localStorage.getItem("refresh_token");
+
+  if (access_token_expires_at && refreshToken) {
+    const expiresAt = parseInt(access_token_expires_at, 10);
+    const now = Date.now();
+    const timeUntilExpiry = expiresAt - now;
+
+    // Refresh if token has expired or will expire in less than 2 minutes
+    if (timeUntilExpiry < 120000) {
+      console.log(`Token ${timeUntilExpiry <= 0 ? "expired" : "expiring soon"}, refreshing before API call...`);
+      await refreshAccessToken();
+    }
+  }
+
   const token = localStorage.getItem("access_token");
   console.log("httpClient " + url);
   options.credentials = GetConfig().corsCredentials as RequestCredentials;

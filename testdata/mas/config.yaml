@@ -1,0 +1,105 @@
+http:
+  listeners:
+  - name: web
+    resources:
+    - name: discovery
+    - name: human
+    - name: oauth
+    - name: compat
+    - name: graphql
+    - name: assets
+    binds:
+    - address: '[::]:8007'
+    proxy_protocol: false
+  - name: internal
+    resources:
+    - name: health
+    binds:
+    - host: localhost
+      port: 8081
+    proxy_protocol: false
+  trusted_proxies:
+  - 192.168.0.0/16
+  - 172.16.0.0/12
+  - 10.0.0.0/10
+  - 127.0.0.1/8
+  - fd00::/8
+  - ::1/128
+  public_base: http://localhost:8008/
+  issuer: http://localhost:8008/
+database:
+  uri: postgresql://synapse:synapse@postgres:5432/mas
+  max_connections: 10
+  min_connections: 0
+  connect_timeout: 30
+  idle_timeout: 600
+  max_lifetime: 1800
+email:
+  from: '"Authentication Service" <root@localhost>'
+  reply_to: '"Authentication Service" <root@localhost>'
+  transport: blackhole
+secrets:
+  encryption: f6a14c18d5636c44a1edacb37c6956a16fd46e4a406d50f46ca0700eb25334ac
+  keys:
+  - key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEogIBAAKCAQEAqmY3o83Q6v7i38VQN/8BY3ZmAQnPZnGhpIhXL5S9gJI+OJr1
+      pa4pT6YHvJplS6IcVhHgMFDiHt/p/kXuTyeXhkZsx/7hcnpmw0g+MF/sTY3Oxi8i
+      2POAKulmzuHQultdWtgZpFD0rqSwGp9UeQho+z7ewZGGdXhE1gwEFzTeUAVhGTir
+      VpHTvqR2nRnmGbzMwINJl9c2cOXKD6av9MfvHVM47ezuGMfu9o/OUw2HvqUYSfvu
+      esiEhERGmcJTQHZ6Z8bfEQpzr4Gw3ADp7rvxqyNIHqPe4hD/rVL4xxcqR56MnYkO
+      Pfn5k40q9HSxWUA35vQFOtyenkHn+nbFPEBKwQIDAQABAoIBAEM2vL3NQppfXih8
+      UU81NFwCaOwB7aBwNB2Ndi6bkkBz7z0uyrTGxR7Y0/ZuRISX9mtw86i7TuZ01nzp
+      Ir5wVJGvl9svy8f3Ri/DgFxeifxxcl20XB+NtUG3/UifxFCuF13tHfg1wr5c0eY+
+      cPio+5gXTZC3EX2mqihwZvCsdwDC6VFQOXbg35G98u2zF6OcZUVKgnVT5iSi8l29
+      G0m55PxYHaDG/Zi932aAobu1klP+eq4jmf2UUnL945VLOZM/cIZ9StO17+teHAJB
+      NHDPqZKU6zyzGP5lw+7jIakBJ4UhdTm4CNyKSstOpF0ymZe//VXK52WpmugtevBD
+      QNeE320CgYEAw6AZ3Eccs4ODmWax99Znyg1ZiyW+/RqTOs7zhWNvNpb8RgHvgrl0
+      yiIEXJXwWWmzDdfT3l71a6OyOXkJVJS3Zc4Zv0zKS4AUQsVRaeMvdC13Wr8tk+Ns
+      2oKcML8atfl0cOdAdeEFNdx4BKeQmMl9MRNd/R83PL2/HBpS9hCvKM8CgYEA3v0P
+      sHWaRvSD+cQdyMiQvvylETnF9LRrRG3zkxMkYwVNxOn7wIUrRftBPU8y2SGrjh5l
+      GmfqWVJ9fLZCJr5GTAcOP6dn4ZWdgUHM+WexvbqHrKvM3f+YITMAiGTO05GGNi5G
+      RasMhK1fmlgcgUV7+PRm5FfOX+2jalgpQ8TtF28CgYBcatlswEel4v6bzPFMxYS4
+      5r+jxgxJZHGjubtAC+6xWnkJ1cZB+r1a9OEcoFUw2IeXhZv5FOFanbYIAs9OnwdZ
+      WBm/z1ZOfs6TkMZagNKdTxFw1JqCoFF/lW6WdOH4kEXbRNSmG80rWeF1SXg9RgsX
+      0S948nNVBcswSptg1hb57wKBgH5wjfnn5VAAi+kPLDhSicjR5yNKWBX2S7Cki+3E
+      d+hx9HQInQjAOhZXbtm9075NGkLet0Nu0vJNFPynOAFR+PhZM9oiKYQ/Wu0VC44M
+      HzvOzem6DNOAf5mrmsy8JI7QwIJuYMhWQiXlTQVumtMuPCqhIsqtg0bfr764OMXF
+      nw6fAoGAOC0kdOzIgRnKMa8u6MIbgXA+gxCt3dBcKdx4xUuET8eVC70EIdvpXVQL
+      gYp/1Wiwc4mTCHKLJzVihV3ro5xlaFXlQDtXcMroiaRdLozStHwlSwujmWIGU2XO
+      zYsJRX3Uxh/PX/sqr2KKnYUlK7RLk6zaKVbwbqVyfk4dzgbGXRk=
+      -----END RSA PRIVATE KEY-----
+  - key: |
+      -----BEGIN EC PRIVATE KEY-----
+      MHcCAQEEIDH3srryT6YwQXCaAb8/Rl/o4FxhrSBGCTmTxEgXueZOoAoGCCqGSM49
+      AwEHoUQDQgAEMpz/4UhScbKhDQFwTersMqV0kZMWrzmxGpt7gDV4oOh6DxXopoY1
+      nZtAA0lb6kLyHeMRCmFhur16q9UhMLtOng==
+      -----END EC PRIVATE KEY-----
+  - key: |
+      -----BEGIN EC PRIVATE KEY-----
+      MIGkAgEBBDAMSMpErTzHV3fWugQGHdIMs9Udjvv3Tap+ORlFpAmT5QwqX3v7KTyQ
+      1br33HaNHnOgBwYFK4EEACKhZANiAAT249g/MWaq/pyJSpGHv8FsFUxQ0u6tvL6t
+      /ui8V2ArC0v6D5V9noxK0n7pLCCIA4w4sAypLABA5bfzzgX8ZsLw8YzWUF7dUVNZ
+      kEuRbJNxKMUCwwiuJM3BQvqL7cUOiZc=
+      -----END EC PRIVATE KEY-----
+  - key: |
+      -----BEGIN EC PRIVATE KEY-----
+      MHQCAQEEIG+pddhUkZkSP+mJUE9gKdoV3gJx8WSx3VF3ySIHzeqcoAcGBSuBBAAK
+      oUQDQgAE1014gdRlZpBuc5VWChIPRsbCY3fxZSNr99dxhtWOL7TndvuvIgvWuB5Z
+      X6XSFRFiHRl6qp3kY8/N+CkNKK+fWg==
+      -----END EC PRIVATE KEY-----
+passwords:
+  enabled: true
+  schemes:
+  - version: 1
+    algorithm: argon2id
+  minimum_complexity: 0
+matrix:
+  kind: synapse
+  homeserver: "synapse:8008"
+  secret: ukIYOk4T7sz7VlrOPhZRbgzHHR4wXfir
+  endpoint: "http://synapse:8008/"
+policy:
+  data:
+    client_registration:
+      allow_insecure_uris: true

@@ -19,24 +19,33 @@ run:
 
 # run dev stack and start the app in a development mode
 run-dev:
+    @echo "Pulling latest docker images..."
+    @docker-compose -f docker-compose-dev.yml pull
     @echo "Starting the database..."
     @docker-compose -f docker-compose-dev.yml up -d postgres
     @echo "Starting Synapse..."
     @docker-compose -f docker-compose-dev.yml up -d synapse
+    @echo "Starting Matrix Authenitcation Service..."
+    @docker-compose -f docker-compose-dev.yml up -d mas
+    @echo "Starting nginx reverse proxy (Synapse and MAS)..."
+    @docker-compose -f docker-compose-dev.yml up -d nginx
     @echo "Starting Element Web..."
     @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
-    @docker-compose -f docker-compose-dev.yml exec synapse register_new_matrix_user --admin -u admin -p admin -c /config/homeserver.yaml http://localhost:8008 || true
+    @docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes --admin -p admin admin || true
     @echo "Starting the app..."
     @yarn start --host 0.0.0.0
 
+logs-dev *flags:
+    @docker-compose -f docker-compose-dev.yml logs -f {{ flags }}
+
 # stop the dev stack
 stop-dev:
-    @docker-compose -f docker-compose-dev.yml stop
+    @docker-compose -f docker-compose-dev.yml down
 
 # register a user in the dev stack
 register-user localpart password *admin:
-	docker-compose exec synapse register_new_matrix_user {{ if admin == "1" {"--admin"} else {"--no-admin"} }} -u {{ localpart }} -p {{ password }} -c /config/homeserver.yaml http://localhost:8008
+    docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes {{ if admin =="1" {"--admin"} else {"--no-admin"} }} -p {{ password }} {{ localpart }}
 
 # run yarn {fix,lint,test} commands
 test:

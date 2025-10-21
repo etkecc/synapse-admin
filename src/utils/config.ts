@@ -116,7 +116,7 @@ export const ClearConfig = () => {
   localStorage.clear();
 };
 
-// workaround for external auth providers (like MAS, LDAP, etc.) to signal that some functionality should be disabled
+// workaround for external auth providers (like OIDC, LDAP, etc.) to signal that some functionality should be disabled
 export const SetExternalAuthProvider = (value: boolean) => {
   config.externalAuthProvider = value;
 };

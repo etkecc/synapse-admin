@@ -3,21 +3,21 @@ services:
     image: ghcr.io/element-hq/synapse:develop
     entrypoint: python
     command: "-m synapse.app.homeserver -c /config/homeserver.yaml"
-    ports:
-    - "8008:8008"
     volumes:
     - ./testdata/synapse:/config
     - ./testdata/synapse.data:/media-store
 
-  postgres:
-    image: postgres:alpine
+  mas:
+    image: ghcr.io/element-hq/matrix-authentication-service:latest
     volumes:
-    - ./testdata/postgres.data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: synapse
-      POSTGRES_PASSWORD: synapse
-      POSTGRES_DB: synapse
-      POSTGRES_INITDB_ARGS: "--lc-collate C --lc-ctype C --encoding UTF8"
+    - ./testdata/mas/config.yaml:/config.yaml:ro
+
+  nginx:
+    image: nginx:latest
+    ports:
+    - "8008:8008"
+    volumes:
+    - ./testdata/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
 
   element:
     image: docker.io/vectorim/element-web:latest
@@ -32,3 +32,13 @@ services:
     - /dev/null:/etc/nginx/conf.d/default.conf:ro
     - ./testdata/element/config.json:/app/config.json:ro
 
+  postgres:
+    image: postgres:17-alpine
+    volumes:
+    - ./testdata/postgres.data:/var/lib/postgresql/data
+    - ./testdata/postgres.initdb:/docker-entrypoint-initdb.d:ro
+    environment:
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: synapse
+      POSTGRES_DB: synapse
+      POSTGRES_INITDB_ARGS: "--lc-collate C --lc-ctype C --encoding UTF8"
