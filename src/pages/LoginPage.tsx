@@ -247,7 +247,7 @@ const LoginPage = () => {
       ) {
         console.log("Detected delegated_oidc_compatibility SSO flow");
         SetExternalAuthProvider(true);
-        // only MAS SSO login is supported
+        // only OIDC SSO login is supported
         setSSOBaseUrl("");
 
         const authMetadata = await getAuthMetadata(url);

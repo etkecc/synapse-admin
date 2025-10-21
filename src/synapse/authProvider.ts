@@ -3,6 +3,7 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
 import { FetchConfig, ClearConfig, GetConfig } from "../utils/config";
+import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -116,7 +117,11 @@ const authProvider: AuthProvider = {
       let pageToRedirectTo = "/";
 
       if (config && config.etkeccAdmin) {
-        pageToRedirectTo = "/server_status";
+        await FetchInstanceConfig(config.etkeccAdmin);
+        const icfg = GetInstanceConfig();
+        if (icfg && !icfg.disabled.monitoring) {
+          pageToRedirectTo = "/server_status";
+        }
       }
 
       return Promise.resolve({ redirectTo: pageToRedirectTo });
