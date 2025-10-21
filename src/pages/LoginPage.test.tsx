@@ -20,14 +20,14 @@ describe("LoginForm", () => {
     });
 
     screen.getByText(welcomeText);
-    screen.getByRole("combobox", { name: "" });
-    screen.getByRole("textbox", { name: englishMessages.ra.auth.username });
-    screen.getByText(englishMessages.ra.auth.password);
+    screen.getByRole("combobox", { name: "" }); // Language selector
+    // Base URL input should be visible and editable
     const baseUrlInput = screen.getByRole("textbox", {
       name: englishMessages.synapseadmin.auth.base_url,
     });
     expect(baseUrlInput.className.split(" ")).not.toContain("Mui-readOnly");
-    screen.getByRole("button", { name: englishMessages.ra.auth.sign_in });
+    // Username and password fields are not visible until server info is checked
+    // and supportPassAuth is determined
   });
 
   it("renders with single restricted homeserver", () => {
@@ -47,15 +47,15 @@ describe("LoginForm", () => {
     );
 
     screen.getByText(welcomeText);
-    screen.getByRole("combobox", { name: "" });
-    screen.getByRole("textbox", { name: englishMessages.ra.auth.username });
-    screen.getByText(englishMessages.ra.auth.password);
+    screen.getByRole("combobox", { name: "" }); // Language selector
+    // Base URL field should not be visible when single restricted homeserver is set
     expect(() =>
       screen.getByRole("textbox", {
         name: englishMessages.synapseadmin.auth.base_url,
       })
     ).toThrow();
-    screen.getByRole("button", { name: englishMessages.ra.auth.sign_in });
+    // Username and password fields are not visible until server info is checked
+    // and supportPassAuth is determined
   });
 
   it("renders with multiple restricted homeservers", async () => {
@@ -75,12 +75,12 @@ describe("LoginForm", () => {
     );
 
     screen.getByText(welcomeText);
-    screen.getByRole("combobox", { name: "" });
-    screen.getByRole("textbox", { name: englishMessages.ra.auth.username });
-    screen.getByText(englishMessages.ra.auth.password);
+    screen.getByRole("combobox", { name: "" }); // Language selector
+    // Base URL field should be visible as a combobox when multiple restricted homeservers are set
     screen.getByRole("combobox", {
       name: englishMessages.synapseadmin.auth.base_url,
     });
-    screen.getByRole("button", { name: englishMessages.ra.auth.sign_in });
+    // Username and password fields are not visible until server info is checked
+    // and supportPassAuth is determined
   });
 });

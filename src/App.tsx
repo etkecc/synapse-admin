@@ -67,7 +67,8 @@ export const App = () => {
   const [isHandlingCallback, setIsHandlingCallback] = useState(false);
 
   useEffect(() => {
-    // Check if we're on the OAuth callback path
+    // Check if we're on the OAuth callback path, we need to do it this way,
+    // because react-admin by default uses HashRouter and "/#/auth-callback" URI is not accepted by MAS
     const isCallbackPath = window.location.pathname === "/auth-callback";
     const hasAuthCode = new URLSearchParams(window.location.search).has("code");
 

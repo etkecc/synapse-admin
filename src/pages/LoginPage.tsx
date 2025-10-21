@@ -108,12 +108,13 @@ const LoginPage = () => {
     }
   }
   const [loading, setLoading] = useState(false);
-  const [supportPassAuth, setSupportPassAuth] = useState(true);
+  const [supportPassAuth, setSupportPassAuth] = useState(false);
   const [locale, setLocale] = useLocaleState();
   const locales = useLocales();
   const translate = useTranslate();
 
   const [authMetadata, setAuthMetadata] = useState({});
+  const [oidcVisible, setOIDCVisible] = useState(true);
   const [oidcUrl, setOIDCUrl] = useState("");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
@@ -256,6 +257,9 @@ const LoginPage = () => {
         }
         setAuthMetadata(authMetadata);
         setOIDCUrl(authMetadata.issuer);
+        setSupportPassAuth(false);
+      } else {
+        setOIDCVisible(false);
       }
     } catch {
       setSupportPassAuth(false);
@@ -361,42 +365,6 @@ const LoginPage = () => {
           <Tab label={translate("synapseadmin.auth.credentials")} value="credentials" />
           <Tab label={translate("synapseadmin.auth.access_token")} value="accessToken" />
         </Tabs>
-        {loginMethod === "credentials" ? (
-          <>
-            <Box>
-              <TextInput
-                source="username"
-                label="ra.auth.username"
-                autoComplete="username"
-                onBlur={handleUsernameChange}
-                resettable
-                validate={required()}
-                {...(loading || !supportPassAuth ? { disabled: true } : {})}
-              />
-            </Box>
-            <Box>
-              <PasswordInput
-                source="password"
-                label="ra.auth.password"
-                type="password"
-                autoComplete="current-password"
-                {...(loading || !supportPassAuth ? { disabled: true } : {})}
-                resettable
-                validate={required()}
-              />
-            </Box>
-          </>
-        ) : (
-          <Box>
-            <TextInput
-              source="accessToken"
-              label="synapseadmin.auth.access_token"
-              {...(loading ? { disabled: true } : {})}
-              resettable
-              validate={required()}
-            />
-          </Box>
-        )}
         <Box>
           {restrictBaseUrlMultiple && (
             <SelectInput
@@ -422,6 +390,43 @@ const LoginPage = () => {
             />
           )}
         </Box>
+        {loginMethod === "credentials" && supportPassAuth && (
+          <>
+            <Box>
+              <TextInput
+                source="username"
+                label="ra.auth.username"
+                autoComplete="username"
+                onBlur={handleUsernameChange}
+                resettable
+                validate={required()}
+                {...(loading || !supportPassAuth ? { disabled: true } : {})}
+              />
+            </Box>
+            <Box>
+              <PasswordInput
+                source="password"
+                label="ra.auth.password"
+                type="password"
+                autoComplete="current-password"
+                {...(loading || !supportPassAuth ? { disabled: true } : {})}
+                resettable
+                validate={required()}
+              />
+            </Box>
+          </>
+        )}
+        {loginMethod === "accessToken" && (
+          <Box>
+            <TextInput
+              source="accessToken"
+              label="synapseadmin.auth.access_token"
+              {...(loading ? { disabled: true } : {})}
+              resettable
+              validate={required()}
+            />
+          </Box>
+        )}
         <Typography className="serverVersion">{serverVersion}</Typography>
         <Typography className="matrixVersions">{matrixVersions}</Typography>
       </>
@@ -474,16 +479,16 @@ const LoginPage = () => {
                     {translate("synapseadmin.auth.sso_sign_in")}
                   </Button>
                 )}
-                {oidcUrl !== "" && (
+                {(oidcVisible || oidcUrl !== "") && (
                   <Button
                     size="small"
                     variant="contained"
                     color="secondary"
                     onClick={handleOIDC}
-                    disabled={loading}
+                    disabled={loading || oidcUrl === ""}
                     fullWidth
                   >
-                    {translate("synapseadmin.auth.sso_sign_in")}
+                    {translate("ra.auth.sign_in")}
                   </Button>
                 )}
               </CardActions>
