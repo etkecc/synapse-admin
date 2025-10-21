@@ -2,8 +2,8 @@ import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
-import { FetchConfig, ClearConfig, GetConfig } from "../utils/config";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
+import { FetchConfig, ClearConfig, GetConfig } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -275,7 +275,11 @@ const authProvider: AuthProvider = {
           localStorage.setItem("device_id", deviceId);
         }
 
-        localStorage.setItem("home_server", json.user_id.split(":")[1]);
+        // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
+        // like "@user:example.com:8008" or "@user:[2001:db8::1]"
+        const mxidParts = userId.split(":");
+        mxidParts.shift();
+        localStorage.setItem("home_server", mxidParts.join(":"));
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("login_type", "accessToken");
 
