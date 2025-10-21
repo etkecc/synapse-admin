@@ -215,7 +215,7 @@ You can add custom menu items to the main menu by providing a `menu` array in th
 
 ### Enabling external auth provider-compatible mode
 
-If you use an external authentication provider (like MAS, LDAP, etc.) for your Synapse server,
+If you use an external authentication provider (like OIDC, LDAP, etc.) for your Synapse server,
 you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavior accordingly.
 
 [Documentation](./docs/external-auth-provider.md)

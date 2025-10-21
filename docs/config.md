@@ -28,7 +28,7 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
   The homeserver URL should be the _actual_ homeserver URL, and not the delegated one.
   Example: `https://matrix.example.com` or `https://synapse.example.net`
   [More details](restrict-hs.md)
-* `externalAuthProvider` - set if an external authentication provider is used (e.g., MAS, LDAP, etc).
+* `externalAuthProvider` - set if an external authentication provider is used (e.g., OIDC, LDAP, etc).
   It accepts a boolean value.
   [More details](external-auth-provider.md)
 * `corsCredentials` - configure the CORS credentials for the Synapse Admin instance.

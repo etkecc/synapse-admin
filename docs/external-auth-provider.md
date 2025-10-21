@@ -1,6 +1,6 @@
 # External Auth Provider
 
-When you use an external authentication provider (like MAS, LDAP, etc.) your Synapse Admin API acts differently,
+When you use an external authentication provider (like OIDC, LDAP, etc.) your Synapse Admin API acts differently,
 but unfortunately, the API does not expose which provider is used (and if it is used at all), especially if you use a
 seamless/hidden password provider that does not announce itself.
 
@@ -9,10 +9,7 @@ behavior to better suit setups with external auth providers. Currently, the foll
 * Do not require a new password when reactivating a user
 * Do not show guests filter in the users list
 
-Note: for MAS (Matrix Authentication Service), Synapse Admin automatically detects its presence and adjusts its behavior
-accordingly during the login process and that will affect your _current_ session only.
-If you restart your Synapse Admin instance, you will need to log in again to re-detect MAS.
-Setting `externalAuthProvider` to `true` will make the behavior persistent across restarts.
+Note: for OIDC ("next-gen auth"), Synapse Admin adjusts its behavior automatically, so this config option is not required.
 
 ## Configuration
 

@@ -3,7 +3,7 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
-import { FetchConfig, ClearConfig, GetConfig } from "../utils/config";
+import { FetchConfig, ClearConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -234,6 +234,7 @@ const authProvider: AuthProvider = {
     }
 
     if (refresh_token) {
+      SetExternalAuthProvider(true); // refresh token is only present for external auth providers
       localStorage.setItem("refresh_token", refresh_token);
     }
 
@@ -351,6 +352,8 @@ const authProvider: AuthProvider = {
     // Check if token has expired
     const expiresAt = localStorage.getItem("access_token_expires_at");
     if (expiresAt) {
+      SetExternalAuthProvider(true); // presence of expiration time indicates external auth provider
+
       const expirationTime = parseInt(expiresAt, 10);
       const now = Date.now();
 
