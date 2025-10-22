@@ -117,6 +117,7 @@ const LoginPage = () => {
   const [oidcVisible, setOIDCVisible] = useState(true);
   const [oidcUrl, setOIDCUrl] = useState("");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
+  const [baseUrl, setBaseUrl] = useState(base_url || "");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
   const [serverVersion, setServerVersion] = useState("");
@@ -137,11 +138,11 @@ const LoginPage = () => {
     const previousUrl = new URL(window.location.toString());
     previousUrl.searchParams.delete("loginToken");
     window.history.replaceState({}, "", previousUrl.toString());
-    const baseUrl = localStorage.getItem("sso_base_url");
+    const sso_base_url = localStorage.getItem("sso_base_url");
     localStorage.removeItem("sso_base_url");
-    if (baseUrl) {
+    if (sso_base_url) {
       const auth = {
-        base_url: baseUrl,
+        base_url: sso_base_url,
         username: null,
         password: null,
         loginToken,
@@ -196,8 +197,9 @@ const LoginPage = () => {
   };
 
   const handleOIDC = () => {
+    console.log("baseUrl:", baseUrl);
     login({
-      base_url: oidcUrl,
+      base_url: baseUrl,
       clientUrl: window.location.origin,
       authMetadata: authMetadata,
     });
@@ -208,6 +210,7 @@ const LoginPage = () => {
       setServerVersion("");
       setMatrixVersions("");
       setOIDCUrl("");
+      setBaseUrl("");
       setSupportPassAuth(false);
       return;
     }
@@ -231,6 +234,7 @@ const LoginPage = () => {
       const loginFlows = await getSupportedLoginFlows(url);
       const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
       const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
+      setBaseUrl(url);
       setSupportPassAuth(supportPass);
       setSSOBaseUrl(supportSSO ? url : "");
 
@@ -260,6 +264,7 @@ const LoginPage = () => {
       setSupportPassAuth(false);
       setSSOBaseUrl("");
       setOIDCUrl("");
+      setBaseUrl("");
     }
   };
 

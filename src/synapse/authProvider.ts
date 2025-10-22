@@ -106,7 +106,17 @@ const authProvider: AuthProvider = {
 
       response = await fetchUtils.fetchJson(login_api_url, options);
       const json = response.json;
-      localStorage.setItem("home_server", accessToken ? json.user_id.split(":")[1] : json.home_server);
+
+      let homeserverFromMXID = "";
+      if (accessToken) {
+        // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
+        // like "@user:example.com:8008" or "@user:[2001:db8::1]"
+        const mxidParts = json.user_id.split(":");
+        mxidParts.shift();
+        homeserverFromMXID = mxidParts.join(":");
+      }
+
+      localStorage.setItem("home_server", accessToken ? homeserverFromMXID : json.home_server);
       localStorage.setItem("user_id", json.user_id);
       localStorage.setItem("access_token", accessToken ? accessToken : json.access_token);
       localStorage.setItem("device_id", json.device_id);
@@ -282,7 +292,7 @@ const authProvider: AuthProvider = {
         mxidParts.shift();
         localStorage.setItem("home_server", mxidParts.join(":"));
         localStorage.setItem("access_token", access_token);
-        localStorage.setItem("login_type", "accessToken");
+        localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
 
         let pageToRedirectTo = "/";
         try {

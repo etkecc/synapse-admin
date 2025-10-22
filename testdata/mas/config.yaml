@@ -25,8 +25,8 @@ http:
   - 127.0.0.1/8
   - fd00::/8
   - ::1/128
-  public_base: http://localhost:8008/
-  issuer: http://localhost:8008/
+  public_base: http://localhost:8007/
+  issuer: http://localhost:8007/
 database:
   uri: postgresql://synapse:synapse@postgres:5432/mas
   max_connections: 10

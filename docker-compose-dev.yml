@@ -9,6 +9,8 @@ services:
 
   mas:
     image: ghcr.io/element-hq/matrix-authentication-service:latest
+    ports:
+    - "8007:8007"
     volumes:
     - ./testdata/mas/config.yaml:/config.yaml:ro
 
@@ -22,7 +24,7 @@ services:
   synapse-admin-prod:
     image: ghcr.io/etkecc/synapse-admin
     ports:
-      - "8081:80"
+    - "8081:80"
 
   element:
     image: docker.io/vectorim/element-web:latest
