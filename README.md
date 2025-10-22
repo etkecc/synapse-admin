@@ -20,6 +20,8 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Fork differences](#fork-differences)
+  * [Availability](#availability)
+    * [IPFS](#ipfs)
   * [Changes](#changes)
     * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
   * [Development](#development)
@@ -51,13 +53,25 @@ this fork introduces numerous enhancements to improve usability and extend funct
 including support for authenticated media, advanced user management options, and visual customization.
 The full list is described below in the [Changes](#changes) section.
 
-**Availability**
+### Availability
 
 * As a core/default component on [etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=synapse-admin)
 * As a standalone app on [admin.etke.cc](https://admin.etke.cc)
 * As a prebuilt distribution on [GitHub Releases](https://github.com/etkecc/synapse-admin/releases)
 * As a Docker container on [Docker Hub](https://hub.docker.com/r/etkecc/synapse-admin) and [GitHub Container Registry](https://github.com/etkecc/synapse-admin/pkgs/container/synapse-admin)
 * As a component in [Matrix-Docker-Ansible-Deploy Playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)
+
+#### IPFS
+
+> Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net)
+
+**Latest version**
+
+`/ipns/synapse-admin.sibnsk.net` (dnslink key `/ipns/k51qzi5uqu5dj91scsxoqu0ebmy7uqajrt9ohl98vs7fl7l429h0chgozk58i2`)
+
+**Archive**
+
+`/ipns/synapse-admin-archive.sibnsk.net` (dnslink key `/ipns/k51qzi5uqu5dhxwc36sld1hn6jn935k71ww8rdyqomrnqcqucixy7re08qeu7z`)
 
 ### Changes
 
