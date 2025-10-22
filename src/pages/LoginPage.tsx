@@ -11,7 +11,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Form,
   FormDataConsumer,
@@ -112,6 +112,7 @@ const LoginPage = () => {
   const [locale, setLocale] = useLocaleState();
   const locales = useLocales();
   const translate = useTranslate();
+  const hasInitializedUrlParams = useRef(false);
 
   const [authMetadata, setAuthMetadata] = useState({});
   const [oidcVisible, setOIDCVisible] = useState(true);
@@ -317,41 +318,48 @@ const LoginPage = () => {
     };
 
     useEffect(() => {
-      const params = new URLSearchParams(window.location.search);
-      const hostname = window.location.hostname;
-      const username = params.get("username");
-      const password = params.get("password");
-      const accessToken = params.get("accessToken");
-      let serverURL = params.get("server");
+      if (hasInitializedUrlParams.current) return;
+      hasInitializedUrlParams.current = true;
 
-      if (username) {
-        form.setValue("username", username);
-      }
+      // Defer to ensure form is initialized
+      const timer = setTimeout(() => {
+        const params = new URLSearchParams(window.location.search);
+        const hostname = window.location.hostname;
+        const username = params.get("username");
+        const password = params.get("password");
+        const accessToken = params.get("accessToken");
+        let serverURL = params.get("server");
 
-      if (hostname === "localhost" || hostname === "127.0.0.1") {
-        if (password) {
-          form.setValue("password", password);
-        }
-        if (accessToken) {
-          setLoginMethod("accessToken");
-          form.setValue("accessToken", accessToken);
-        }
-      }
-
-      if (serverURL) {
-        const isFullUrl = serverURL.match(/^(http|https):\/\//);
-        if (!isFullUrl) {
-          serverURL = `https://${serverURL}`;
+        if (username) {
+          form.setValue("username", username);
         }
 
-        form.setValue("base_url", serverURL, {
-          shouldValidate: true,
-          shouldDirty: true,
-        });
+        if (hostname === "localhost" || hostname === "127.0.0.1") {
+          if (password) {
+            form.setValue("password", password);
+          }
+          if (accessToken) {
+            setLoginMethod("accessToken");
+            form.setValue("accessToken", accessToken);
+          }
+        }
 
-        checkServerInfo(serverURL);
-      }
-    }, [window.location.search]);
+        if (serverURL) {
+          const isFullUrl = serverURL.match(/^(http|https):\/\//);
+          if (!isFullUrl) {
+            serverURL = `https://${serverURL}`;
+          }
+
+          form.setValue("base_url", serverURL, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+          checkServerInfo(serverURL);
+        }
+      }, 0);
+
+      return () => clearTimeout(timer);
+    }, []);
 
     return (
       <>
