@@ -133,7 +133,6 @@ const LoginPage = () => {
       return;
     }
 
-    console.log("SSO token is", loginToken);
     // Prevent further requests
     const previousUrl = new URL(window.location.toString());
     previousUrl.searchParams.delete("loginToken");
@@ -147,9 +146,6 @@ const LoginPage = () => {
         password: null,
         loginToken,
       };
-      console.log("Base URL is:", baseUrl);
-      console.log("SSO Token is:", loginToken);
-      console.log("Let's try token login...");
       login(auth).catch(error => {
         alert(
           typeof error === "string"
@@ -246,7 +242,6 @@ const LoginPage = () => {
             (f["org.matrix.msc3824.delegated_oidc_compatibility"] || f["delegated_oidc_compatibility"])
         )
       ) {
-        console.log("Detected delegated_oidc_compatibility SSO flow");
         SetExternalAuthProvider(true);
         // only OIDC SSO login is supported
         setSSOBaseUrl("");
