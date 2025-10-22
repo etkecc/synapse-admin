@@ -97,6 +97,8 @@ jobs:
           echo "${{ secrets.BUNNY_CONFIG }}" > bunny-config.yaml
           sed -i "s|<head>|<head>${{ secrets.CDN_HEAD }}|g" dist/index.html
           rm dist/robots.txt
+          mkdir -p dist/auth-callback
+          cp dist/index.html dist/auth-callback/index.html
           ./bunny-upload -c bunny-config.yaml
 
   github-release:
