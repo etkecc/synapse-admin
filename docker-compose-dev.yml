@@ -19,6 +19,11 @@ services:
     volumes:
     - ./testdata/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
 
+  synapse-admin-prod:
+    image: ghcr.io/etkecc/synapse-admin
+    ports:
+      - "8081:80"
+
   element:
     image: docker.io/vectorim/element-web:latest
     depends_on:
