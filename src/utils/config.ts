@@ -48,7 +48,34 @@ export const FetchConfig = async () => {
   }
 
   // if home_server is set, try to load https://home_server/.well-known/matrix/client
-  const homeserver = localStorage.getItem("home_server");
+  let homeserver = localStorage.getItem("home_server");
+  // if it is not set, attempt to identify homeserver from the restrictBaseUrl config
+  if (!homeserver) {
+    const restrictBaseUrl = config.restrictBaseUrl;
+    if (typeof restrictBaseUrl === "string" && restrictBaseUrl !== "") {
+      try {
+        const url = new URL(restrictBaseUrl);
+        const host = url.host;
+        if (host) {
+          homeserver = host;
+        }
+      } catch (e) {
+        // invalid URL, ignore
+        console.log("Invalid restrictBaseUrl", restrictBaseUrl, e);
+      }
+    } else if (Array.isArray(restrictBaseUrl) && restrictBaseUrl.length > 0 && restrictBaseUrl[0] !== "") {
+      try {
+        const url = new URL(restrictBaseUrl[0]);
+        const host = url.host;
+        if (host) {
+          homeserver = host;
+        }
+      } catch (e) {
+        console.log("Invalid restrictBaseUrl", restrictBaseUrl[0], e);
+      }
+    }
+  }
+
   if (homeserver) {
     try {
       const resp = await fetch(`${protocol}://${homeserver}/.well-known/matrix/client`);
