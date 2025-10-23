@@ -1,5 +1,6 @@
 import { fetchUtils } from "react-admin";
 
+import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { generateDeviceId } from "../utils/password";
 
 export const splitMxid = mxid => {
@@ -145,10 +146,24 @@ interface ClientRegistration {
 }
 
 export const registerClient = async (registrationEndpoint: string, clientUrl: string): Promise<ClientRegistration> => {
+  if (clientUrl.endsWith("/")) {
+    clientUrl = clientUrl.slice(0, -1);
+  }
+
+  const icfg = GetInstanceConfig();
+  let clientName = "Synapse Admin";
+  let logoUri = `${clientUrl}/images/logo.webp`;
+  if (icfg.name) {
+    clientName = icfg.name;
+  }
+  if (icfg.logo_url) {
+    logoUri = icfg.logo_url;
+  }
+
   const registerOpts = {
     method: "POST",
     body: JSON.stringify({
-      client_name: "Synapse Admin",
+      client_name: clientName,
       client_uri: clientUrl,
       response_types: ["code"],
       grant_types: ["authorization_code", "refresh_token"],
@@ -156,7 +171,7 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
       id_token_signed_response_alg: "RS256",
       token_endpoint_auth_method: "none",
       application_type: "web",
-      logo_uri: `${clientUrl}/images/logo.webp`,
+      logo_uri: logoUri,
     }),
   };
   const registerResponse = await fetchUtils.fetchJson(`${registrationEndpoint}`, registerOpts);

@@ -2,8 +2,8 @@ import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
-import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
-import { FetchConfig, ClearConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
+import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
+import { ClearConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -58,9 +58,16 @@ const authProvider: AuthProvider = {
       return;
     }
 
+    const config = GetConfig();
+    const icfg = GetInstanceConfig();
+    let deviceName = "Synapse Admin";
+    if (icfg.name) {
+      deviceName = icfg.name;
+    }
+
     let options: Options = {
       method: "POST",
-      credentials: GetConfig().corsCredentials as RequestCredentials,
+      credentials: config.corsCredentials as RequestCredentials,
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -69,7 +76,7 @@ const authProvider: AuthProvider = {
         Object.assign(
           {
             device_id: localStorage.getItem("device_id"),
-            initial_device_display_name: "Synapse Admin",
+            initial_device_display_name: deviceName,
           },
           loginToken
             ? {
@@ -121,17 +128,10 @@ const authProvider: AuthProvider = {
       localStorage.setItem("access_token", accessToken ? accessToken : json.access_token);
       localStorage.setItem("device_id", json.device_id);
       localStorage.setItem("login_type", accessToken ? "accessToken" : "credentials");
-
-      await FetchConfig();
-      const config = GetConfig();
       let pageToRedirectTo = "/";
 
-      if (config && config.etkeccAdmin) {
-        await FetchInstanceConfig(config.etkeccAdmin);
-        const icfg = GetInstanceConfig();
-        if (icfg && !icfg.disabled.monitoring) {
-          pageToRedirectTo = "/server_status";
-        }
+      if (config.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
+        pageToRedirectTo = "/server_status";
       }
 
       return Promise.resolve({ redirectTo: pageToRedirectTo });
@@ -294,15 +294,11 @@ const authProvider: AuthProvider = {
         localStorage.setItem("access_token", access_token);
         localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
 
+        const cfg = GetConfig();
+        const icfg = GetInstanceConfig();
         let pageToRedirectTo = "/";
-        try {
-          await FetchConfig();
-          const config = GetConfig();
-          if (config && config.etkeccAdmin) {
-            pageToRedirectTo = "/server_status";
-          }
-        } catch (err) {
-          console.error("Failed to fetch config:", err);
+        if (cfg.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
+          pageToRedirectTo = "/server_status";
         }
 
         return Promise.resolve({ redirectTo: pageToRedirectTo });
