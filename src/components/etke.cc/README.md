@@ -8,6 +8,19 @@ Due to the specifics mentioned above, these components are documented here rathe
 
 ## Components
 
+<!-- vim-markdown-toc GFM -->
+
+* [Server Status icon](#server-status-icon)
+* [Server Status page](#server-status-page)
+* [Server Notifications icon](#server-notifications-icon)
+* [Server Notifications page](#server-notifications-page)
+* [Server Actions Page](#server-actions-page)
+* [Server Commands Panel](#server-commands-panel)
+* [Billing Page](#billing-page)
+* [Instance config](#instance-config)
+
+<!-- vim-markdown-toc -->
+
 ### Server Status icon
 
 ![Server Status icon](../../../screenshots/etke.cc/server-status/indicator.webp)
