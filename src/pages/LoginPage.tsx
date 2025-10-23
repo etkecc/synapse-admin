@@ -201,7 +201,7 @@ const LoginPage = () => {
     console.log("baseUrl:", baseUrl);
     login({
       base_url: baseUrl,
-      clientUrl: window.location.origin,
+      clientUrl: window.location.origin + window.location.pathname,
       authMetadata: authMetadata,
     });
   };
