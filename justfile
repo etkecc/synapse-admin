@@ -4,6 +4,7 @@ default:
 
 # build the app
 build: __install
+    @-rm -rf dist
     @yarn run build --base=./
 
 update:
@@ -19,8 +20,6 @@ run:
 
 # run dev stack and start the app in a development mode
 run-dev:
-    @echo "Pulling latest docker images..."
-    @docker-compose -f docker-compose-dev.yml pull
     @echo "Starting the database..."
     @docker-compose -f docker-compose-dev.yml up -d postgres
     @echo "Starting Synapse..."
@@ -33,6 +32,8 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
     @docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes --admin -p admin admin || true
+    @echo "Starting the pre-built (prod version) of the Synapse Admin app on http://localhost:8008/admin ..."
+    @docker-compose -f docker-compose-dev.yml up -d synapse-admin-prod
     @echo "Starting the app..."
     @yarn start --host 0.0.0.0
 

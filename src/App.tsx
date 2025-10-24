@@ -69,10 +69,17 @@ export const App = () => {
   useEffect(() => {
     // Check if we're on the OAuth callback path, we need to do it this way,
     // because react-admin by default uses HashRouter and "/#/auth-callback" URI is not accepted by MAS
-    const isCallbackPath = window.location.pathname === "/auth-callback";
+    const isCallbackPath = window.location.pathname.endsWith("/auth-callback");
     const hasAuthCode = new URLSearchParams(window.location.search).has("code");
 
     if (isCallbackPath && hasAuthCode) {
+      // Clean up the URL to remove /auth-callback for further processing,
+      // considering that in some cases (especially bugged older versions) there could be multiple /auth-callback segments.
+      // Also ensure there are no double slashes in the URL.
+      let href = window.location.origin + window.location.pathname.replaceAll("/auth-callback", "");
+      if (href.endsWith("/")) {
+        href = href.slice(0, -1);
+      }
       setIsHandlingCallback(true);
 
       // Handle the OAuth callback
@@ -81,12 +88,12 @@ export const App = () => {
         .then(result => {
           // Redirect to the appropriate page after successful auth
           const redirectTo = result?.redirectTo || "/";
-          window.location.href = `${window.location.origin}/#${redirectTo}`;
+          window.location.href = `${href}/#${redirectTo}`;
         })
         .catch(error => {
           console.error("OAuth callback error:", error);
           // Redirect to login on error
-          window.location.href = `${window.location.origin}/#/login`;
+          window.location.href = `${href}/#/login`;
         });
     }
   }, []);
