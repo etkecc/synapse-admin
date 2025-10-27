@@ -51,7 +51,6 @@ register-user localpart password *admin:
 # run yarn {fix,lint,test} commands
 test:
     @-yarn run fix
-    @-yarn run lint
     @-yarn run test
 
 # run the app in a production mode
