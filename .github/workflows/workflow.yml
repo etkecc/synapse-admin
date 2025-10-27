@@ -27,7 +27,7 @@ jobs:
         run: yarn install --immutable --network-timeout=300000
       - name: Build
         run: yarn build --base=${{ env.base_path }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           path: dist/
           name: dist
