@@ -60,6 +60,8 @@ The full list is described below in the [Changes](#changes) section.
 * As a prebuilt distribution on [GitHub Releases](https://github.com/etkecc/synapse-admin/releases)
 * As a Docker container on [Docker Hub](https://hub.docker.com/r/etkecc/synapse-admin) and [GitHub Container Registry](https://github.com/etkecc/synapse-admin/pkgs/container/synapse-admin)
 * As a component in [Matrix-Docker-Ansible-Deploy Playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)
+* As a [Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc) maintained by [@Defelo](https://github.com/Defelo)
+* As a [Arch Linux AUR package](https://aur.archlinux.org/packages/synapse-admin-etke-git) maintained by [@drygdryg](https://github.com/drygdryg)
 
 #### IPFS
 
