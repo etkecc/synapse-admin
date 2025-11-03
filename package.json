@@ -87,7 +87,7 @@
     "react": "^19.2.0",
     "react-admin": "^5.12.2",
     "react-dom": "^19.2.0",
-    "react-hook-form": "^7.65.0",
+    "react-hook-form": "^7.66.0",
     "react-is": "^19.2.0",
     "react-router": "^7.9.4",
     "react-router-dom": "^7.9.4",
