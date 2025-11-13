@@ -227,6 +227,10 @@ interface SynapseTranslationMessages extends TranslationMessages {
         avatar?: string;
         actions: string;
       };
+      filter: {
+        public_rooms: string;
+        empty_rooms: string;
+      };
       helper?: {
         forward_extremities: string;
       };

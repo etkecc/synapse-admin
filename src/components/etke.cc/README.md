@@ -103,6 +103,7 @@ With instance config you can whitelabel Synapse Admin, and disable some features
 * Server Status
 * Server Notifications
 * Billing page
+* Support page
 * Federation page
 * Invite tokens page
 

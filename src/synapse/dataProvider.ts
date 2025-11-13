@@ -684,8 +684,20 @@ function getSearchOrder(order: "ASC" | "DESC") {
 
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
-    console.log("getList " + resource);
-    const { user_id, name, guests, deactivated, locked, suspended, search_term, destination, valid } = params.filter;
+    console.log("getList " + resource, params);
+    const {
+      user_id,
+      name,
+      guests,
+      deactivated,
+      locked,
+      suspended,
+      search_term,
+      destination,
+      valid,
+      public_rooms,
+      empty_rooms,
+    } = params.filter;
     const { page, perPage } = params.pagination as PaginationPayload;
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
@@ -703,6 +715,8 @@ const baseDataProvider: SynapseDataProvider = {
       valid: valid,
       order_by: field,
       dir: getSearchOrder(order),
+      public_rooms: public_rooms,
+      empty_rooms: empty_rooms,
     };
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");

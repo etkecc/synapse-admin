@@ -259,6 +259,10 @@ const zh: SynapseTranslationMessages = {
         avatar: "头像",
         actions: "操作",
       },
+      filter: {
+        public_rooms: "公开房间",
+        empty_rooms: "空房间",
+      },
       enums: {
         join_rules: {
           public: "公开",
