@@ -277,6 +277,10 @@ const ru: SynapseTranslationMessages = {
         avatar: "Аватар",
         actions: "Действия",
       },
+      filter: {
+        public_rooms: "Публичные комнаты",
+        empty_rooms: "Пустые комнаты",
+      },
       helper: {
         forward_extremities:
           "Оконечности — это события-листья в конце ориентированного ациклического графа (DAG) в комнате, т.е. события без дочерних элементов. \

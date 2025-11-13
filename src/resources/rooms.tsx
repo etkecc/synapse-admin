@@ -46,6 +46,7 @@ import {
   useListContext,
   useNotify,
   DeleteButton,
+  NullableBooleanInput,
 } from "react-admin";
 import { useDataProvider } from "react-admin";
 import { Confirm } from "react-admin";
@@ -356,7 +357,11 @@ const RoomBulkActionButtons = () => {
   );
 };
 
-const roomFilters = [<SearchInput source="search_term" alwaysOn />];
+const roomFilters = [
+  <SearchInput source="search_term" alwaysOn />,
+  <NullableBooleanInput source="public_rooms" label="resources.rooms.filter.public_rooms" alwaysOn />,
+  <NullableBooleanInput source="empty_rooms" label="resources.rooms.filter.empty_rooms" alwaysOn />,
+];
 
 const RoomListActions = () => (
   <TopToolbar>

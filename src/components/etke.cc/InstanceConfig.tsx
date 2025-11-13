@@ -7,6 +7,7 @@ export interface InstanceConfig {
 }
 
 export interface DisableFeatures {
+  support?: boolean;
   actions?: boolean;
   attributions?: boolean;
   federation?: boolean;

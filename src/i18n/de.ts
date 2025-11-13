@@ -279,6 +279,10 @@ const de: SynapseTranslationMessages = {
         avatar: "Avatar",
         actions: "Aktionen",
       },
+      filter: {
+        public_rooms: "Öffentliche Räume",
+        empty_rooms: "Leere Räume",
+      },
       helper: {
         forward_extremities:
           "Vorderextremitäten sind Blatt-Ereignisse am Ende eines gerichteten azyklischen Graphens (DAG) in einem Raum, auch bekannt als Ereignisse ohne Nachkommen. Je mehr in einem Raum existieren, umso mehr Zustandsauflösungen muss Synapse absolvieren (Hinweis: dies ist eine sehr aufwendige Operation). Obwohl Synapse Code hat um zu verhindern, dass zuviele davon gleichzeitig in einem Raum existieren, können Bugs manchmal dafür sorgen, dass sie sich ansammeln. Wenn ein Raum >10 Vorderextremitäten hat ist es sinnvoll zu überprüfen um welchen Raum es sich handelt und sie gegebenenfalls, wie in #1769 beschrieben, mittels SQL-Queries zu entfernen.",

@@ -139,6 +139,7 @@ The following changes are already implemented:
 * 🇺🇦 [Add Ukrainian localization](https://github.com/etkecc/synapse-admin/pull/806)
 * 🧩 [External Auth Provider-compatible mode](https://github.com/etkecc/synapse-admin/pull/821)
 * 🪪 [OIDC Auth Support](https://github.com/etkecc/synapse-admin/pull/902)
+* 🗂️ [Add Public Rooms and Empty Rooms filters](https://github.com/etkecc/synapse-admin/pull/945)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
