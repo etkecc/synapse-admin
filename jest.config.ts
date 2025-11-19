@@ -13,6 +13,9 @@ const config: JestConfigWithTsJest = {
     "^.+\\.(js|jsx|ts|tsx)$": [
       "ts-jest",
       {
+        tsconfig: {
+          esModuleInterop: true,
+        },
         diagnostics: {
           ignoreCodes: [1343],
         },

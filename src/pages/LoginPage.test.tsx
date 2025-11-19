@@ -38,6 +38,7 @@ describe("LoginForm", () => {
           asManagedUsers: [],
           menu: [],
           corsCredentials: "include",
+          externalAuthProvider: false,
         }}
       >
         <AdminContext i18nProvider={i18nProvider}>
@@ -66,6 +67,7 @@ describe("LoginForm", () => {
           asManagedUsers: [],
           menu: [],
           corsCredentials: "include",
+          externalAuthProvider: false,
         }}
       >
         <AdminContext i18nProvider={i18nProvider}>
