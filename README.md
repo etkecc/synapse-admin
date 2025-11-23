@@ -301,6 +301,8 @@ You have three options:
 
   > note: if you're building on an architecture other than amd64 (for example a raspberry pi), make sure to define a maximum ram for node. otherwise the build will fail.
 
+  > note: if you're running on a ipv4-only system, make sure to set `SERVER_HOST=0.0.0.0` env var. Otherwise synapse-admin will not be able to start.
+
   ```yml
   services:
     synapse-admin:
