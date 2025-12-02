@@ -25,7 +25,7 @@ let instanceConfig: InstanceConfig = {
   disabled: {},
 };
 
-export const FetchInstanceConfig = async (etkeccAdminUrl: string) => {
+export const FetchInstanceConfig = async (etkeccAdminUrl: string | undefined) => {
   if (!etkeccAdminUrl || etkeccAdminUrl === "") {
     return;
   }
