@@ -20,7 +20,7 @@ export const DeviceRemoveButton = (props: DeleteWithConfirmButtonProps) => {
       mutationMode="pessimistic"
       redirect={false}
       disabled={isASManagedUser}
-      translateOptions={{
+      titleTranslateOptions={{
         id: record.id,
         name: record.display_name ? record.display_name : record.id,
       }}

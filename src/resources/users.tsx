@@ -429,6 +429,10 @@ const UserBooleanInput = props => {
   if (record) {
     ownUserIsSelected = record.id === ownUserId;
     asManagedUserIsSelected = isASManaged(record.id);
+    if (["locked", "deactivated", "erased"].includes(props.source) && record[props.source]) {
+      // we want to allow re-activating locked/deactivated/erased users even if they are AS managed
+      asManagedUserIsSelected = false;
+    }
   }
 
   return (
