@@ -7,6 +7,9 @@ while still allowing other risk-free changes (changing display names and avatars
 By defining a list of MXID regex patterns in the new `asManagedUsers` configuration setting,
 you can protect these accounts from accidental changes.
 
+If a system-managed user was locked, deactivated, or erased by mistake (e.g., from a client app or using any other way),
+ Synapse Admin will allow to restore it back to an active state.
+
 ## Configuration
 
 The examples below contain the configuration settings to mark
