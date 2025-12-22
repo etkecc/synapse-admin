@@ -4605,10 +4605,10 @@ ra-core@^4.11.2, ra-core@^4.12.0, ra-core@^4.16.2:
     react-is "^17.0.2"
     react-query "^3.32.1"
 
-ra-core@^5.0.0, ra-core@^5.13.3, ra-core@^5.4.3:
-  version "5.13.3"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.13.3.tgz#baf418cdcec8a96dd9e24eca1fd9c612f28db061"
-  integrity sha512-EAUIK/PVDTvUv/ZM0uZFrSFBbE7iwGFrPwyGvPrIrqvbvpyYgxzE9AeP9kf3twDM0Ks9RQCIA5zGGraRwH199w==
+ra-core@^5.0.0, ra-core@^5.13.3, ra-core@^5.13.4, ra-core@^5.4.3:
+  version "5.13.4"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.13.4.tgz#3c44174f77049e3abc942867b94e12ae9271a24f"
+  integrity sha512-f8tcZOi6og8VKRbbuictj9+gYzXWE+f4fI7m6hqhLrNHSkVcyqK8/A/Vs/feY16W9R1oMWWW0a0SCrZSdPqfcg==
   dependencies:
     date-fns "^3.6.0"
     eventemitter3 "^5.0.1"
