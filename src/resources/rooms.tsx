@@ -385,7 +385,7 @@ export const RoomList = (props: ListProps) => {
       <DatagridConfigurable
         rowClick="show"
         bulkActionButtons={<RoomBulkActionButtons />}
-        omit={["joined_local_members", "state_events", "version", "federatable"]}
+        omit={["joined_local_members", "state_events", "version", "federatable", "join_rules"]}
       >
         <ReferenceField
           reference="rooms"
@@ -423,6 +423,10 @@ export const RoomList = (props: ListProps) => {
         <RaTextField source="joined_local_members" label="resources.rooms.fields.joined_local_members" />
         <RaTextField source="state_events" label="resources.rooms.fields.state_events" />
         <RaTextField source="version" label="resources.rooms.fields.version" />
+        <RaTextField source="join_rules" label="resources.rooms.fields.join_rules" />
+        <ReferenceField source="creator" reference="users">
+          <RaTextField source="id" label="resources.rooms.fields.creator" />
+        </ReferenceField>
         <BooleanField source="federatable" label="resources.rooms.fields.federatable" />
         <BooleanField source="public" label="resources.rooms.fields.public" />
         <WrapperField label="resources.rooms.fields.actions">
