@@ -12,6 +12,7 @@ import {
   Loading,
   Button,
   SelectInput,
+  useLocale,
 } from "react-admin";
 import { useWatch } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";

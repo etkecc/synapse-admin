@@ -19,7 +19,7 @@ import {
 import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
-import { useDataProvider, useNotify } from "react-admin";
+import { useDataProvider, useLocale, useNotify } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
@@ -45,6 +45,7 @@ const BillingPage = () => {
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const notify = useNotify();
+  const locale = useLocale();
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [maintenance, setMaintenance] = useState(false);
@@ -210,7 +211,7 @@ const BillingPage = () => {
                     <TableCell>{payment.email}</TableCell>
                     <TableCell>{payment.is_subscription ? "Subscription" : "One-time"}</TableCell>
                     <TableCell>${payment.amount.toFixed(2)}</TableCell>
-                    <TableCell>{new Date(payment.paid_at).toLocaleDateString()}</TableCell>
+                    <TableCell>{new Date(payment.paid_at).toLocaleDateString(locale)}</TableCell>
                     <TableCell>
                       <Button
                         variant="outlined"
