@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
-import { Loading, Button } from "react-admin";
+import { Loading, Button, useLocale } from "react-admin";
 import { DateField } from "react-admin";
 import { Datagrid } from "react-admin";
 import { ListContextProvider, TextField, TopToolbar, Identifier } from "react-admin";
@@ -21,6 +21,7 @@ const ListActions = () => {
 };
 
 const RecurringCommandsList = () => {
+  const locale = useLocale();
   const { data, isLoading } = useRecurringCommands();
 
   const listContext = useList({
@@ -52,7 +53,13 @@ const RecurringCommandsList = () => {
             <TextField source="command" />
             <TextField source="args" label="Arguments" />
             <TextField source="time" label="Time (UTC)" />
-            <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Next run at (local time)" />
+            <DateField
+              options={DATE_FORMAT}
+              showTime
+              source="scheduled_at"
+              label="Next run at (local time)"
+              locales={locale}
+            />
           </Datagrid>
         </Paper>
       </ListContextProvider>

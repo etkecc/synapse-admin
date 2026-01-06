@@ -66,6 +66,7 @@ import {
   Confirm,
   useCreate,
   useRedirect,
+  useLocale,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -174,52 +175,61 @@ const UserBulkActionButtons = () => {
   );
 };
 
-export const UserList = (props: ListProps) => (
-  <List
-    {...props}
-    filters={userFilters()}
-    filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }}
-    sort={{ field: "name", order: "ASC" }}
-    actions={<UserListActions />}
-    pagination={<UserPagination />}
-    perPage={50}
-  >
-    <DatagridConfigurable
-      rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
-      bulkActionButtons={<UserBulkActionButtons />}
+export const UserList = (props: ListProps) => {
+  const locale = useLocale();
+  return (
+    <List
+      {...props}
+      filters={userFilters()}
+      filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }}
+      sort={{ field: "name", order: "ASC" }}
+      actions={<UserListActions />}
+      pagination={<UserPagination />}
+      perPage={50}
     >
-      <AvatarField
-        source="avatar_src"
-        sx={{ height: "40px", width: "40px" }}
-        sortBy="avatar_url"
-        label="resources.users.fields.avatar"
-      />
-      <TextField
-        source="id"
-        sx={{
-          wordBreak: "break-word",
-          overflowWrap: "break-word",
-        }}
-        sortBy="name"
-        label="resources.users.fields.id"
-      />
-      <TextField
-        source="displayname"
-        sx={{
-          wordBreak: "break-word",
-          overflowWrap: "break-word",
-        }}
-        label="resources.users.fields.displayname"
-      />
-      <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
-      <BooleanField source="admin" label="resources.users.fields.admin" />
-      <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
-      <BooleanField source="locked" label="resources.users.fields.locked" />
-      <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-      <DateField source="creation_ts" label="resources.users.fields.creation_ts_ms" showTime options={DATE_FORMAT} />
-    </DatagridConfigurable>
-  </List>
-);
+      <DatagridConfigurable
+        rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
+        bulkActionButtons={<UserBulkActionButtons />}
+      >
+        <AvatarField
+          source="avatar_src"
+          sx={{ height: "40px", width: "40px" }}
+          sortBy="avatar_url"
+          label="resources.users.fields.avatar"
+        />
+        <TextField
+          source="id"
+          sx={{
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+          }}
+          sortBy="name"
+          label="resources.users.fields.id"
+        />
+        <TextField
+          source="displayname"
+          sx={{
+            wordBreak: "break-word",
+            overflowWrap: "break-word",
+          }}
+          label="resources.users.fields.displayname"
+        />
+        <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+        <BooleanField source="admin" label="resources.users.fields.admin" />
+        <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
+        <BooleanField source="locked" label="resources.users.fields.locked" />
+        <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
+        <DateField
+          source="creation_ts"
+          label="resources.users.fields.creation_ts_ms"
+          showTime
+          options={DATE_FORMAT}
+          locales={locale}
+        />
+      </DatagridConfigurable>
+    </List>
+  );
+};
 
 // https://matrix.org/docs/spec/appendices#user-identifiers
 // here only local part of user_id
@@ -521,6 +531,7 @@ const ErasedBooleanInput = props => {
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
   const theme = useTheme();
+  const locale = useLocale();
 
   return (
     <Edit
@@ -581,7 +592,13 @@ export const UserEdit = (props: EditProps) => {
             source="erased"
             helperText="resources.users.helper.erase"
           />
-          <DateField sx={{ marginTop: "20px" }} source="creation_ts_ms" showTime options={DATE_FORMAT} />
+          <DateField
+            sx={{ marginTop: "20px" }}
+            source="creation_ts_ms"
+            showTime
+            options={DATE_FORMAT}
+            locales={locale}
+          />
           <TextField source="consent_version" />
         </FormTab>
 
@@ -609,7 +626,7 @@ export const UserEdit = (props: EditProps) => {
               <TextField source="device_id" sortable={false} />
               <TextField source="display_name" sortable={false} />
               <TextField source="last_seen_ip" sortable={false} />
-              <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} />
+              <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <DeviceRemoveButton />
             </Datagrid>
           </ReferenceManyField>
@@ -620,7 +637,7 @@ export const UserEdit = (props: EditProps) => {
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
               <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
                 <TextField source="ip" sortable={false} />
-                <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} />
+                <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
                 <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
               </Datagrid>
             </ArrayField>
@@ -642,8 +659,8 @@ export const UserEdit = (props: EditProps) => {
           >
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
               <MediaIDField source="media_id" />
-              <DateField source="created_ts" showTime options={DATE_FORMAT} />
-              <DateField source="last_access_ts" showTime options={DATE_FORMAT} />
+              <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
+              <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
               <NumberField source="media_length" />
               <TextField source="media_type" sx={{ display: "block", width: 200, wordBreak: "break-word" }} />
               <FunctionField

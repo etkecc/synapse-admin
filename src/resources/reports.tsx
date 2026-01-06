@@ -17,6 +17,7 @@ import {
   TabbedShowLayout,
   TextField,
   TopToolbar,
+  useLocale,
   useRecordContext,
   useTranslate,
 } from "react-admin";
@@ -28,6 +29,7 @@ const ReportPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100,
 
 export const ReportShow = (props: ShowProps) => {
   const translate = useTranslate();
+  const locale = useLocale();
   return (
     <Show {...props} actions={<ReportShowActions />}>
       <TabbedShowLayout>
@@ -37,7 +39,7 @@ export const ReportShow = (props: ShowProps) => {
           })}
           icon={<ViewListIcon />}
         >
-          <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={true} />
+          <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={true} locales={locale} />
           <ReferenceField source="user_id" reference="users">
             <TextField source="id" />
           </ReferenceField>
@@ -51,7 +53,13 @@ export const ReportShow = (props: ShowProps) => {
         </Tab>
 
         <Tab label="synapseadmin.reports.tabs.detail" icon={<PageviewIcon />} path="detail">
-          <DateField source="event_json.origin_server_ts" showTime options={DATE_FORMAT} sortable={true} />
+          <DateField
+            source="event_json.origin_server_ts"
+            showTime
+            options={DATE_FORMAT}
+            sortable={true}
+            locales={locale}
+          />
           <ReferenceField source="sender" reference="users">
             <TextField source="id" />
           </ReferenceField>
@@ -88,23 +96,27 @@ const ReportShowActions = () => {
   );
 };
 
-export const ReportList = (props: ListProps) => (
-  <List {...props} pagination={<ReportPagination />} perPage={50} sort={{ field: "received_ts", order: "DESC" }}>
-    <DatagridConfigurable rowClick="show" bulkActionButtons={false}>
-      <TextField source="id" sortable={false} label="resources.reports.fields.id" />
-      <DateField
-        source="received_ts"
-        showTime
-        options={DATE_FORMAT}
-        sortable={true}
-        label="resources.reports.fields.received_ts"
-      />
-      <TextField sortable={false} source="user_id" label="resources.reports.fields.user_id" />
-      <TextField sortable={false} source="name" label="resources.reports.fields.name" />
-      <TextField sortable={false} source="score" label="resources.reports.fields.score" />
-    </DatagridConfigurable>
-  </List>
-);
+export const ReportList = (props: ListProps) => {
+  const locale = useLocale();
+  return (
+    <List {...props} pagination={<ReportPagination />} perPage={50} sort={{ field: "received_ts", order: "DESC" }}>
+      <DatagridConfigurable rowClick="show" bulkActionButtons={false}>
+        <TextField source="id" sortable={false} label="resources.reports.fields.id" />
+        <DateField
+          source="received_ts"
+          showTime
+          options={DATE_FORMAT}
+          sortable={true}
+          label="resources.reports.fields.received_ts"
+          locales={locale}
+        />
+        <TextField sortable={false} source="user_id" label="resources.reports.fields.user_id" />
+        <TextField sortable={false} source="name" label="resources.reports.fields.name" />
+        <TextField sortable={false} source="score" label="resources.reports.fields.score" />
+      </DatagridConfigurable>
+    </List>
+  );
+};
 
 const resource: ResourceProps = {
   name: "reports",

@@ -2,18 +2,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Typography, Paper, Button } from "@mui/material";
 import { Stack } from "@mui/material";
 import { Tooltip } from "@mui/material";
-import { useStore } from "react-admin";
+import { useLocale, useStore } from "react-admin";
 
 import { useAppContext } from "../../Context";
 import dataProvider, { ServerNotificationsResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
 
-const DisplayTime = ({ date }: { date: string }) => {
+const DisplayTime = ({ date, locale }: { date: string; locale: string }) => {
   const dateFromDateString = new Date(date.replace(" ", "T") + "Z");
-  return <Tooltip title={dateFromDateString.toLocaleString()}>{<span>{getTimeSince(date) + " ago"}</span>}</Tooltip>;
+  return (
+    <Tooltip title={dateFromDateString.toLocaleString(locale)}>{<span>{getTimeSince(date) + " ago"}</span>}</Tooltip>
+  );
 };
 
 const ServerNotificationsPage = () => {
+  const locale = useLocale();
   const { etkeccAdmin } = useAppContext();
   const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", {
     notifications: [],
@@ -52,7 +55,7 @@ const ServerNotificationsPage = () => {
           <Paper key={notification.event_id ? notification.event_id : index} sx={{ p: 2 }}>
             <Stack spacing={1}>
               <Typography variant="subtitle1" fontWeight="bold" color="text.secondary">
-                <DisplayTime date={notification.sent_at} />
+                <DisplayTime date={notification.sent_at} locale={locale} />
               </Typography>
               <Typography dangerouslySetInnerHTML={{ __html: notification.output }} />
             </Stack>

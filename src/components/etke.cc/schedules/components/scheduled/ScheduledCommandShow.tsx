@@ -9,6 +9,7 @@ import {
   BooleanField,
   DateField,
   RecordContextProvider,
+  useLocale,
 } from "react-admin";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -20,6 +21,7 @@ import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 const ScheduledCommandShow = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const locale = useLocale();
   const [command, setCommand] = useState<ScheduledCommand | null>(null);
   const [loading, setLoading] = useState(true);
   const { data: scheduledCommands, isLoading: isLoadingList } = useScheduledCommands();
@@ -68,7 +70,7 @@ const ScheduledCommandShow = () => {
               <TextField source="command" label="Command" />
               {command.args && <TextField source="args" label="Arguments" />}
               <BooleanField source="is_recurring" label="Is recurring" />
-              <DateField source="scheduled_at" label="Scheduled at" showTime />
+              <DateField source="scheduled_at" label="Scheduled at" showTime locales={locale} />
             </SimpleShowLayout>
             {command.is_recurring && (
               <Alert severity="warning">

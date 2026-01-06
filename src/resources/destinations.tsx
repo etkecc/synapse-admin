@@ -31,6 +31,7 @@ import {
   useRefresh,
   useTranslate,
   DateFieldProps,
+  useLocale,
 } from "react-admin";
 
 import { DATE_FORMAT } from "../utils/date";
@@ -114,6 +115,7 @@ const destinationFieldRender = (record: RaRecord) => {
 };
 
 export const DestinationList = (props: ListProps) => {
+  const locale = useLocale();
   return (
     <List
       {...props}
@@ -133,12 +135,14 @@ export const DestinationList = (props: ListProps) => {
           showTime
           options={DATE_FORMAT}
           label="resources.destinations.fields.failure_ts"
+          locales={locale}
         />
         <RetryDateField
           source="retry_last_ts"
           showTime
           options={DATE_FORMAT}
           label="resources.destinations.fields.retry_last_ts"
+          locales={locale}
         />
         <TextField source="retry_interval" label="resources.destinations.fields.retry_interval" />
         <TextField
@@ -153,13 +157,14 @@ export const DestinationList = (props: ListProps) => {
 
 export const DestinationShow = (props: ShowProps) => {
   const translate = useTranslate();
+  const locale = useLocale();
   return (
     <Show actions={<DestinationShowActions />} title={<DestinationTitle />} {...props}>
       <TabbedShowLayout>
         <Tab label="status" icon={<ViewListIcon />}>
           <TextField source="destination" />
-          <DateField source="failure_ts" showTime options={DATE_FORMAT} />
-          <DateField source="retry_last_ts" showTime options={DATE_FORMAT} />
+          <DateField source="failure_ts" showTime options={DATE_FORMAT} locales={locale} />
+          <DateField source="retry_last_ts" showTime options={DATE_FORMAT} locales={locale} />
           <TextField source="retry_interval" />
           <TextField source="last_successful_stream_ordering" />
         </Tab>

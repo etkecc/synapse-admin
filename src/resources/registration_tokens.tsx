@@ -21,6 +21,7 @@ import {
   TextInput,
   TextField,
   Toolbar,
+  useLocale,
 } from "react-admin";
 
 import { DATE_FORMAT, dateFormatter, dateParser } from "../utils/date";
@@ -31,29 +32,33 @@ const validateLength = [number(), maxValue(64)];
 
 const registrationTokenFilters = [<BooleanInput source="valid" alwaysOn />];
 
-export const RegistrationTokenList = (props: ListProps) => (
-  <List
-    {...props}
-    filters={registrationTokenFilters}
-    filterDefaultValues={{ valid: true }}
-    pagination={false}
-    perPage={50}
-  >
-    <DatagridConfigurable rowClick="edit">
-      <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
-      <NumberField source="uses_allowed" sortable={false} label="resources.registration_tokens.fields.uses_allowed" />
-      <NumberField source="pending" sortable={false} label="resources.registration_tokens.fields.pending" />
-      <NumberField source="completed" sortable={false} label="resources.registration_tokens.fields.completed" />
-      <DateField
-        source="expiry_time"
-        showTime
-        options={DATE_FORMAT}
-        sortable={false}
-        label="resources.registration_tokens.fields.expiry_time"
-      />
-    </DatagridConfigurable>
-  </List>
-);
+export const RegistrationTokenList = (props: ListProps) => {
+  const locale = useLocale();
+  return (
+    <List
+      {...props}
+      filters={registrationTokenFilters}
+      filterDefaultValues={{ valid: true }}
+      pagination={false}
+      perPage={50}
+    >
+      <DatagridConfigurable rowClick="edit">
+        <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
+        <NumberField source="uses_allowed" sortable={false} label="resources.registration_tokens.fields.uses_allowed" />
+        <NumberField source="pending" sortable={false} label="resources.registration_tokens.fields.pending" />
+        <NumberField source="completed" sortable={false} label="resources.registration_tokens.fields.completed" />
+        <DateField
+          source="expiry_time"
+          showTime
+          options={DATE_FORMAT}
+          sortable={false}
+          label="resources.registration_tokens.fields.expiry_time"
+          locales={locale}
+        />
+      </DatagridConfigurable>
+    </List>
+  );
+};
 
 export const RegistrationTokenCreate = (props: CreateProps) => (
   <Create {...props} redirect="list">

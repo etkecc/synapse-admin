@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
-import { Loading, Button } from "react-admin";
+import { Loading, Button, useLocale } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
 import { Datagrid } from "react-admin";
@@ -25,6 +25,7 @@ const ListActions = () => {
 };
 
 const ScheduledCommandsList = () => {
+  const locale = useLocale();
   const { data, isLoading } = useScheduledCommands();
 
   const listContext = useList({
@@ -60,7 +61,13 @@ const ScheduledCommandsList = () => {
             <TextField source="command" />
             <TextField source="args" label="Arguments" />
             <BooleanField source="is_recurring" label="Is recurring?" />
-            <DateField options={DATE_FORMAT} showTime source="scheduled_at" label="Run at (local time)" />
+            <DateField
+              options={DATE_FORMAT}
+              showTime
+              source="scheduled_at"
+              label="Run at (local time)"
+              locales={locale}
+            />
           </Datagrid>
         </Paper>
       </ListContextProvider>

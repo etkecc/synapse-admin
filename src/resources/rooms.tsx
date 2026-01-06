@@ -47,6 +47,7 @@ import {
   useNotify,
   DeleteButton,
   NullableBooleanInput,
+  useLocale,
 } from "react-admin";
 import { useDataProvider } from "react-admin";
 import { Confirm } from "react-admin";
@@ -200,6 +201,7 @@ export const MakeAdminBtn = () => {
 
 export const RoomShow = (props: ShowProps) => {
   const translate = useTranslate();
+  const locale = useLocale();
   return (
     <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
       <TabbedShowLayout>
@@ -306,7 +308,7 @@ export const RoomShow = (props: ShowProps) => {
           <ReferenceManyField reference="room_state" target="room_id" label={false}>
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="type" sortable={false} />
-              <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} />
+              <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <FunctionField
                 source="content"
                 sortable={false}
@@ -331,7 +333,7 @@ export const RoomShow = (props: ShowProps) => {
           <ReferenceManyField reference="forward_extremities" target="room_id" label={false}>
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="id" sortable={false} />
-              <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} />
+              <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <NumberField source="depth" sortable={false} />
               <RaTextField source="state_group" sortable={false} />
             </Datagrid>
