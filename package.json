@@ -39,7 +39,7 @@
     "@types/lodash": "^4.17.21",
     "@types/node": "^25.0.3",
     "@types/papaparse": "^5.5.2",
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.8",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.52.0",
     "@vitejs/plugin-react": "^5.1.2",
