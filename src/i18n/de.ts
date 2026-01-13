@@ -230,6 +230,7 @@ const de: SynapseTranslationMessages = {
         admin: "Administrator",
         support: "Unterstützung",
         regular: "Normaler Benutzer",
+        federated: "Föderierter Benutzer",
         system_managed: "Systemverwalteter Benutzer",
       },
       action: {

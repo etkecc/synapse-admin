@@ -212,6 +212,7 @@ const zh: SynapseTranslationMessages = {
         admin: "管理员",
         support: "支持",
         regular: "普通用户",
+        federated: "联合用户",
         system_managed: "系统管理",
       },
       action: {

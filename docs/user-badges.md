@@ -34,3 +34,8 @@ Tooltip for this badge is `Support`.
 
 This badge is displayed on regular users' avatars.
 Tooltip for this badge is `Regular User`.
+
+### 🌐 Federated (Remote) User
+
+This badge is displayed on federated (remote) users' avatars.
+Tooltip for this badge is `Federated User`.

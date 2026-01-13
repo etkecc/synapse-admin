@@ -190,6 +190,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         admin: string;
         support: string;
         regular: string;
+        federated: string;
         system_managed: string;
       };
       limits: {

@@ -213,6 +213,7 @@ const ja: SynapseTranslationMessages = {
         admin: "管理者",
         support: "サポート",
         regular: "一般ユーザー",
+        federated: "フェデレーションユーザー",
         system_managed: "システム管理",
       },
       limits: {

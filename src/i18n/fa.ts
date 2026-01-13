@@ -182,6 +182,7 @@ const fa: SynapseTranslationMessages = {
         admin: "مدیر",
         support: "پشتیبان",
         regular: "کاربر عادی",
+        federated: "فدرال",
         system_managed: "مدیریت سیستم",
       },
       action: {

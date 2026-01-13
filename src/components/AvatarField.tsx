@@ -66,6 +66,11 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
         tooltip = translate("resources.users.badge.regular");
         break;
     }
+
+    if (!record?.id.endsWith(localStorage.getItem("home_server") || "")) {
+      badge = "🌐";
+      tooltip = translate("resources.users.badge.federated");
+    }
     if (record?.admin) {
       badge = "👑";
       tooltip = translate("resources.users.badge.admin");

@@ -228,6 +228,7 @@ const ru: SynapseTranslationMessages = {
         admin: "Админ",
         support: "Поддержка",
         regular: "Обычный пользователь",
+        federated: "Внешний пользователь",
         system_managed: "Управляемый системой",
       },
       action: {

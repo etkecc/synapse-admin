@@ -182,6 +182,7 @@ const it: SynapseTranslationMessages = {
         admin: "Amministratore",
         support: "Supporto",
         regular: "Utente normale",
+        federated: "Federato",
         system_managed: "Gestito dal sistema",
       },
       action: {

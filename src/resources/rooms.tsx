@@ -212,6 +212,7 @@ export const RoomShow = (props: ShowProps) => {
           <RaTextField source="topic" />
           <RaTextField source="canonical_alias" />
           <ReferenceField source="creator" reference="users">
+            <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
             <RaTextField source="id" />
           </ReferenceField>
         </Tab>
@@ -227,8 +228,23 @@ export const RoomShow = (props: ShowProps) => {
 
         <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
           <MakeAdminBtn />
-          <ReferenceManyField reference="room_members" target="room_id" label={false}>
+          <ReferenceManyField
+            reference="room_members"
+            target="room_id"
+            label={false}
+            perPage={10}
+            pagination={<RoomPagination />}
+          >
             <Datagrid sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+              <ReferenceField
+                label="resources.users.fields.avatar"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+              </ReferenceField>
               <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
               <ReferenceField
                 label="resources.users.fields.displayname"
@@ -238,6 +254,42 @@ export const RoomShow = (props: ShowProps) => {
                 link=""
               >
                 <RaTextField source="displayname" sortable={false} />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.is_guest"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.deactivated"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.locked"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="locked" label="resources.users.fields.locked" />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.erased"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
               </ReferenceField>
             </Datagrid>
           </ReferenceManyField>
