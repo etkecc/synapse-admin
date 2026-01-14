@@ -870,6 +870,12 @@ const baseDataProvider: SynapseDataProvider = {
       method: create.method,
       body: JSON.stringify(create.body, filterNullValues),
     });
+
+    if (resource === "quarantine_media") {
+      // for quarantine media, the response is empty, so we return the input data as response
+      return { data: res.map(params.data) };
+    }
+
     return { data: res.map(json) };
   },
 

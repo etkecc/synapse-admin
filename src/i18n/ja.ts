@@ -391,7 +391,7 @@ const ja: SynapseTranslationMessages = {
         delete: "検疫に追加されています。検疫から取り出す",
         none: "検疫によって保護されています",
         send_success: "検疫に関する状態を変更しました。",
-        send_failure: "エラーが発生しました。",
+        send_failure: "エラーが発生しました: %{error}",
       },
     },
     pushers: {

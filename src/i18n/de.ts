@@ -421,7 +421,7 @@ const de: SynapseTranslationMessages = {
         delete: "In Quarantäne, Quarantäne aufheben",
         none: "Geschützt vor Quarantäne",
         send_success: "Erfolgreich den Quarantäne-Status geändert.",
-        send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
+        send_failure: "Beim Versenden ist ein Fehler aufgetreten: %{error}",
       },
     },
     pushers: {

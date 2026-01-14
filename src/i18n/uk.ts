@@ -377,7 +377,7 @@ const uk: SynapseTranslationMessages = {
         delete: "In quarantine, unquarantine",
         none: "Protected from quarantine",
         send_success: "Успішно змінено статус карантину.",
-        send_failure: "Сталася помилка.",
+        send_failure: "Сталася помилка: %{error}",
       },
     },
     pushers: {

@@ -421,7 +421,7 @@ const ru: SynapseTranslationMessages = {
         delete: "На карантине, снять карантин",
         none: "Защищено от карантина",
         send_success: "Статус карантина успешно изменён.",
-        send_failure: "Произошла ошибка.",
+        send_failure: "Произошла ошибка: %{error}",
       },
     },
     pushers: {

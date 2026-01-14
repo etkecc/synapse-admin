@@ -359,7 +359,7 @@ const fa: SynapseTranslationMessages = {
         delete: "در قرنطینه، غیر قرنطینه",
         none: "از قرنطینه محافظت می شود",
         send_success: "وضعیت قرنطینه با موفقیت تغییر کرد.",
-        send_failure: "خطایی رخ داده است.",
+        send_failure: "خطایی رخ داده است: %{error}",
       },
     },
     pushers: {

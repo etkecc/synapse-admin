@@ -299,10 +299,12 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
           notify("resources.quarantine_media.action.send_success");
           refresh();
         },
-        onError: () =>
+        onError: error => {
           notify("resources.quarantine_media.action.send_failure", {
             type: "error",
-          }),
+            messageArgs: { error: error },
+          });
+        },
       }
     );
   };
@@ -369,11 +371,11 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
   );
 };
 
-export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype }) => {
+export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype, preview }) => {
   const translate = useTranslate();
   const [loading, setLoading] = useState(false);
   const notify = useNotify();
-  const isImage = mimetype && mimetype.startsWith("image/");
+  const isImage = mimetype && mimetype.startsWith("image/") && preview;
 
   const openFileInNewTab = (blobURL: string) => {
     const anchorElement = document.createElement("a");
@@ -474,7 +476,20 @@ export const MediaIDField = ({ source }) => {
     mxcURL = `mxc://${homeserver}/${mediaID}`;
   }
 
-  return <ViewMediaButton mxcURL={mxcURL} label={mediaID} uploadName={uploadName} mimetype={record.media_type} />;
+  let preview = true;
+  if (get(record, "quarantined_by")) {
+    preview = false;
+  }
+
+  return (
+    <ViewMediaButton
+      mxcURL={mxcURL}
+      label={mediaID}
+      uploadName={uploadName}
+      mimetype={record.media_type}
+      preview={preview}
+    />
+  );
 };
 
 export const ReportMediaContent = ({ source }) => {

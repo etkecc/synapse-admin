@@ -389,7 +389,7 @@ const en: SynapseTranslationMessages = {
         delete: "In quarantine, unquarantine",
         none: "Protected from quarantine",
         send_success: "Successfully changed the quarantine status.",
-        send_failure: "An error has occurred.",
+        send_failure: "An error has occurred: %{error}",
       },
     },
     pushers: {

@@ -366,7 +366,7 @@ const fr: SynapseTranslationMessages = {
         delete: "Révoquer la mise en quarantaine",
         none: "Protégé contre la mise en quarantaine",
         send_success: "Le statut de la quarantaine a été modifié avec succès",
-        send_failure: "Une erreur s'est produite",
+        send_failure: "Une erreur s'est produite: %{error}",
       },
     },
     pushers: {
