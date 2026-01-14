@@ -1,0 +1,5 @@
+files:
+  - source: /src/i18n/*.ts
+    ignore:
+      - /src/i18n/index.d.ts
+    translation: /src/i18n/dist/%two_letters_code%.ts
