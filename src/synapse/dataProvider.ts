@@ -526,6 +526,16 @@ const resourceMap = {
     data: "joined_rooms",
     total: json => json.total,
   },
+  memberships: {
+    map: (m: string) => ({
+      id: m,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/memberships`,
+    }),
+    data: "memberships",
+    total: json => json.total,
+  },
   users_media: {
     map: (um: UserMedia) => ({
       ...um,
@@ -810,6 +820,16 @@ const baseDataProvider: SynapseDataProvider = {
       const { json } = await jsonClient(endpoint_url);
       jsonData = json[res.data];
       total = res.total(json, from, perPage);
+      // memberships need special handling
+      if (resource === "memberships") {
+        total = jsonData.length;
+        jsonData = Object.entries(jsonData).map(([room_id, membership]) => ({
+          id: room_id,
+          membership: membership,
+        }));
+
+        return { data: jsonData, total: total };
+      }
       if (resource === "joined_rooms") {
         // cache will be applied only for joined_rooms
         CACHED_MANY_REF[CACHE_KEY] = { data: jsonData, total: total };

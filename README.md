@@ -141,6 +141,7 @@ The following changes are already implemented:
 * 🪪 [OIDC Auth Support](https://github.com/etkecc/synapse-admin/pull/902)
 * 🗂️ [Add Public Rooms and Empty Rooms filters](https://github.com/etkecc/synapse-admin/pull/945)
 * 🗓️ [Localized date and time formatting](https://github.com/etkecc/synapse-admin/pull/989)
+* 📋 [Add User Memberships tab](https://github.com/etkecc/synapse-admin/issues/1002)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

@@ -132,6 +132,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
       email: string;
       msisdn: string;
       threepid: string;
+      membership: string;
       fields: {
         avatar: string;
         id: string;

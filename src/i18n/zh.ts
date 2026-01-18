@@ -167,6 +167,7 @@ const zh: SynapseTranslationMessages = {
       email: "邮箱",
       msisdn: "电话",
       threepid: "邮箱 / 电话",
+      membership: "成员资格 |||| 成员资格",
       fields: {
         avatar: "头像",
         id: "用户 ID",

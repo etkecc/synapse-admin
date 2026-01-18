@@ -135,6 +135,7 @@ const fa: SynapseTranslationMessages = {
       email: "ایمیل",
       msisdn: "شماره تلفن",
       threepid: "ایمیل / شماره تلفن",
+      membership: "عضویت |||| عضویت ها",
       fields: {
         avatar: "آواتار",
         id: "شناسه کاربر",

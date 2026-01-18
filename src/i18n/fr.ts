@@ -143,6 +143,7 @@ const fr: SynapseTranslationMessages = {
       email: "Adresse électronique",
       msisdn: "Numéro de téléphone",
       threepid: "Adresse électronique / Numéro de téléphone",
+      membership: "Adhésion |||| Adhésions",
       fields: {
         avatar: "Avatar",
         id: "Identifiant",

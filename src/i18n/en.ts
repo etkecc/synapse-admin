@@ -152,6 +152,7 @@ const en: SynapseTranslationMessages = {
       email: "Email",
       msisdn: "Phone",
       threepid: "Email / Phone",
+      membership: "Membership |||| Memberships",
       fields: {
         avatar: "Avatar",
         id: "User-ID",

@@ -2,6 +2,7 @@ import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DevicesIcon from "@mui/icons-material/Devices";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import UserIcon from "@mui/icons-material/Group";
 import LockClockIcon from "@mui/icons-material/LockClock";
@@ -715,6 +716,35 @@ export const UserEdit = (props: EditProps) => {
               <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                 <MakeAdminBtn />
               </ReferenceField>
+            </Datagrid>
+          </ReferenceManyField>
+        </FormTab>
+
+        <FormTab
+          label={translate("resources.users.membership", { smart_count: 2 })}
+          icon={<FormatListBulletedIcon />}
+          path="memberships"
+        >
+          <ReferenceManyField reference="memberships" target="user_id" label={false}>
+            <Datagrid sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
+              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+              </ReferenceField>
+              <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+              <ReferenceField
+                reference="rooms"
+                source="id"
+                label="resources.rooms.fields.name"
+                link={false}
+                sortable={false}
+              >
+                <TextField source="name" />
+              </ReferenceField>
+              <TextField
+                source="membership"
+                label={translate("resources.users.membership", { smart_count: 1 })}
+                sortable={false}
+              />
             </Datagrid>
           </ReferenceManyField>
         </FormTab>

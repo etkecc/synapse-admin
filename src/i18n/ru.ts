@@ -179,6 +179,7 @@ const ru: SynapseTranslationMessages = {
       email: "Почта",
       msisdn: "Телефон",
       threepid: "Почта / Телефон",
+      membership: "Участие |||| Участия",
       fields: {
         avatar: "Аватар",
         id: "ID пользователя",

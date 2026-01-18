@@ -154,6 +154,7 @@ const ja: SynapseTranslationMessages = {
       email: "メールアドレス",
       msisdn: "電話番号",
       threepid: "メールアドレスまたは電話番号",
+      membership: "メンバーシップ |||| メンバーシップ",
       fields: {
         avatar: "アバター",
         id: "ユーザーID",
