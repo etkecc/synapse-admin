@@ -41,7 +41,7 @@
     "@types/papaparse": "^5.5.2",
     "@types/react": "^19.2.8",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
-    "@typescript-eslint/parser": "^8.52.0",
+    "@typescript-eslint/parser": "^8.53.0",
     "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
