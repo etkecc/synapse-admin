@@ -622,7 +622,13 @@ export const UserEdit = (props: EditProps) => {
         </FormTab>
 
         <FormTab label={translate("resources.devices.name", { smart_count: 2 })} icon={<DevicesIcon />} path="devices">
-          <ReferenceManyField reference="devices" target="user_id" label={false}>
+          <ReferenceManyField
+            reference="devices"
+            target="user_id"
+            label={false}
+            pagination={<UserPagination />}
+            perPage={10}
+          >
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <TextField source="device_id" sortable={false} />
               <TextField source="display_name" sortable={false} />
@@ -725,7 +731,13 @@ export const UserEdit = (props: EditProps) => {
           icon={<FormatListBulletedIcon />}
           path="memberships"
         >
-          <ReferenceManyField reference="memberships" target="user_id" label={false}>
+          <ReferenceManyField
+            reference="memberships"
+            target="user_id"
+            label={false}
+            perPage={10}
+            pagination={<Pagination />}
+          >
             <Datagrid sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
               <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                 <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
@@ -754,7 +766,13 @@ export const UserEdit = (props: EditProps) => {
           icon={<NotificationsIcon />}
           path="pushers"
         >
-          <ReferenceManyField reference="pushers" target="user_id" label={false}>
+          <ReferenceManyField
+            reference="pushers"
+            target="user_id"
+            label={false}
+            pagination={<Pagination />}
+            perPage={10}
+          >
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <TextField source="kind" sortable={false} />
               <TextField source="app_display_name" sortable={false} />

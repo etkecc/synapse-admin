@@ -173,6 +173,11 @@ interface Connection {
   user_agent: string;
 }
 
+interface Membership {
+  id: string;
+  membership: string;
+}
+
 interface Whois {
   user_id: string;
   devices: Record<
@@ -527,8 +532,8 @@ const resourceMap = {
     total: json => json.total,
   },
   memberships: {
-    map: (m: string) => ({
-      id: m,
+    map: (m: Membership) => ({
+      ...m,
     }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/memberships`,
@@ -819,22 +824,18 @@ const baseDataProvider: SynapseDataProvider = {
     } else {
       const { json } = await jsonClient(endpoint_url);
       jsonData = json[res.data];
-      total = res.total(json, from, perPage);
-      // memberships need special handling
+
+      // memberships endpoint needs special handling
       if (resource === "memberships") {
-        total = jsonData.length;
         jsonData = Object.entries(jsonData).map(([room_id, membership]) => ({
           id: room_id,
           membership: membership,
         }));
+      }
 
-        return { data: jsonData, total: total };
-      }
-      if (resource === "joined_rooms") {
-        // cache will be applied only for joined_rooms
-        CACHED_MANY_REF[CACHE_KEY] = { data: jsonData, total: total };
-        jsonData = jsonData.slice(from, from + perPage);
-      }
+      total = res.total(json, from, perPage);
+      CACHED_MANY_REF[CACHE_KEY] = { data: jsonData, total: total };
+      jsonData = jsonData.slice(from, from + perPage);
     }
 
     return {

@@ -297,7 +297,13 @@ export const RoomShow = (props: ShowProps) => {
 
         <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
           <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
-          <ReferenceManyField reference="room_media" target="room_id" label={false}>
+          <ReferenceManyField
+            reference="room_media"
+            target="room_id"
+            label={false}
+            pagination={<Pagination />}
+            perPage={10}
+          >
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <MediaIDField source="media_id" />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
@@ -357,7 +363,13 @@ export const RoomShow = (props: ShowProps) => {
         </Tab>
 
         <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
-          <ReferenceManyField reference="room_state" target="room_id" label={false}>
+          <ReferenceManyField
+            reference="room_state"
+            target="room_id"
+            label={false}
+            pagination={<Pagination />}
+            perPage={10}
+          >
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
@@ -382,7 +394,13 @@ export const RoomShow = (props: ShowProps) => {
           >
             {translate("resources.rooms.helper.forward_extremities")}
           </Box>
-          <ReferenceManyField reference="forward_extremities" target="room_id" label={false}>
+          <ReferenceManyField
+            reference="forward_extremities"
+            target="room_id"
+            label={false}
+            pagination={<Pagination />}
+            perPage={10}
+          >
             <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="id" sortable={false} />
               <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
