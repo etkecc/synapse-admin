@@ -12,6 +12,13 @@ jest.mock("./synapse/authProvider", () => ({
 
 import App from "./App";
 
+jest.mock("./synapse/authProvider", () => ({
+  __esModule: true,
+  default: {
+    logout: jest.fn().mockResolvedValue(undefined),
+  },
+}));
+
 describe("App", () => {
   beforeEach(() => {
     // Reset all mocks before each test
