@@ -63,8 +63,9 @@ export const DestinationReconnectButton = () => {
           });
           refresh();
         },
-        onError: () => {
-          notify("ra.message.error", { type: "error" });
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) => {
+          notify(error?.message || "ra.message.error", { type: "error" });
         },
       }
     );

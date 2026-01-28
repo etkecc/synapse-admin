@@ -560,10 +560,12 @@ const resourceMap = {
     create: (params: UserMedia) => ({
       endpoint: `/_synapse/admin/v1/media/protect/${params.media_id}`,
       method: "POST",
+      empty_response: true,
     }),
     delete: (params: DeleteParams) => ({
       endpoint: `/_synapse/admin/v1/media/unprotect/${params.id}`,
       method: "POST",
+      empty_response: true,
     }),
   },
   quarantine_media: {
@@ -571,10 +573,12 @@ const resourceMap = {
     create: (params: UserMedia) => ({
       endpoint: `/_synapse/admin/v1/media/quarantine/${localStorage.getItem("home_server")}/${params.media_id}`,
       method: "POST",
+      empty_response: true,
     }),
     delete: (params: DeleteParams) => ({
       endpoint: `/_synapse/admin/v1/media/unquarantine/${localStorage.getItem("home_server")}/${params.id}`,
       method: "POST",
+      empty_response: true,
     }),
   },
   servernotices: {
@@ -615,7 +619,7 @@ const resourceMap = {
     }),
   },
   room_directory: {
-    path: "/_matrix/client/r0/publicRooms",
+    path: "/_matrix/client/v3/publicRooms",
     map: (rd: Room) => ({
       ...rd,
       id: rd.room_id,
@@ -626,12 +630,13 @@ const resourceMap = {
     data: "chunk",
     total: json => json.total_room_count_estimate,
     create: (params: RaRecord) => ({
-      endpoint: `/_matrix/client/r0/directory/list/room/${params.id}`,
+      endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
       body: { visibility: "public" },
       method: "PUT",
+      empty_response: true,
     }),
     delete: (params: DeleteParams) => ({
-      endpoint: `/_matrix/client/r0/directory/list/room/${params.id}`,
+      endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
       body: { visibility: "private" },
       method: "PUT",
     }),
@@ -892,9 +897,9 @@ const baseDataProvider: SynapseDataProvider = {
       body: JSON.stringify(create.body, filterNullValues),
     });
 
-    if (resource === "quarantine_media") {
-      // for quarantine media, the response is empty, so we return the input data as response
-      return { data: res.map(params.data) };
+    // for some resources, the response is empty, so we return the input data as response
+    if (create?.empty_response) {
+      return { data: params.data };
     }
 
     return { data: res.map(json) };
@@ -936,6 +941,10 @@ const baseDataProvider: SynapseDataProvider = {
         method: "method" in del ? del.method : "DELETE",
         body: "body" in del ? JSON.stringify(del.body) : null,
       });
+      if (del?.empty_response) {
+        return { data: params.previousData };
+      }
+
       return { data: json };
     } else {
       const endpoint_url = homeserver + res.path;

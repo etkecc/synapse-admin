@@ -81,8 +81,9 @@ export const RoomDirectoryBulkPublishButton = (props: ButtonProps) => {
       unselectAllRooms();
       refresh();
     },
-    onError: () =>
-      notify("resources.room_directory.action.send_failure", {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) =>
+      notify(error?.message || "resources.room_directory.action.send_failure", {
         type: "error",
       }),
   });
@@ -113,8 +114,9 @@ export const RoomDirectoryPublishButton = (props: ButtonProps) => {
           notify("resources.room_directory.action.send_success");
           refresh();
         },
-        onError: () =>
-          notify("resources.room_directory.action.send_failure", {
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "resources.room_directory.action.send_failure", {
             type: "error",
           }),
       }

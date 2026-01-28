@@ -74,8 +74,9 @@ export const DeleteMediaButton = (props: ButtonProps) => {
       notify("delete_media.action.send_success");
       closeDialog();
     },
-    onError: () => {
-      notify("delete_media.action.send_failure", {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) => {
+      notify(error?.message || "delete_media.action.send_failure", {
         type: "error",
       });
     },
@@ -149,8 +150,9 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
       notify("purge_remote_media.action.send_success");
       closeDialog();
     },
-    onError: () => {
-      notify("purge_remote_media.action.send_failure", {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) => {
+      notify(error?.message || "purge_remote_media.action.send_failure", {
         type: "error",
       });
     },
@@ -201,8 +203,9 @@ export const ProtectMediaButton = (props: ButtonProps) => {
           notify("resources.protect_media.action.send_success");
           refresh();
         },
-        onError: () =>
-          notify("resources.protect_media.action.send_failure", {
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "resources.protect_media.action.send_failure", {
             type: "error",
           }),
       }
@@ -218,8 +221,9 @@ export const ProtectMediaButton = (props: ButtonProps) => {
           notify("resources.protect_media.action.send_success");
           refresh();
         },
-        onError: () =>
-          notify("resources.protect_media.action.send_failure", {
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "resources.protect_media.action.send_failure", {
             type: "error",
           }),
       }
@@ -299,8 +303,9 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
           notify("resources.quarantine_media.action.send_success");
           refresh();
         },
-        onError: error => {
-          notify("resources.quarantine_media.action.send_failure", {
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) => {
+          notify(error?.message || "resources.quarantine_media.action.send_failure", {
             type: "error",
             messageArgs: { error: error },
           });
@@ -318,8 +323,9 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
           notify("resources.quarantine_media.action.send_success");
           refresh();
         },
-        onError: () =>
-          notify("resources.quarantine_media.action.send_failure", {
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "resources.quarantine_media.action.send_failure", {
             type: "error",
           }),
       }

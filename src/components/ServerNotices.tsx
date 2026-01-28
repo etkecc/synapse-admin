@@ -75,8 +75,9 @@ export const ServerNoticeButton = () => {
           notify("resources.servernotices.action.send_success");
           handleDialogClose();
         },
-        onError: () =>
-          notify("resources.servernotices.action.send_failure", {
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "resources.servernotices.action.send_failure", {
             type: "error",
           }),
       }
@@ -113,8 +114,9 @@ export const ServerNoticeBulkButton = () => {
       unselectAllUsers();
       closeDialog();
     },
-    onError: () =>
-      notify("resources.servernotices.action.send_failure", {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) =>
+      notify(error?.message || "resources.servernotices.action.send_failure", {
         type: "error",
       }),
   });

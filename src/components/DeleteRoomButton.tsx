@@ -49,7 +49,9 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
           unselectAll();
           redirect("/rooms");
         },
-        onError: _error => notify("resources.rooms.action.erase.failure", { type: "error" as NotificationType }),
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "resources.rooms.action.erase.failure", { type: "error" as NotificationType }),
       }
     );
   };

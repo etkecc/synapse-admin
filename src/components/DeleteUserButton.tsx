@@ -55,7 +55,9 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
           unselectAll();
           redirect("/users");
         },
-        onError: _error => notify("ra.notification.data_provider_error", { type: "error" as NotificationType }),
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        onError: (error: any) =>
+          notify(error?.message || "ra.notification.data_provider_error", { type: "error" as NotificationType }),
       }
     );
   };
