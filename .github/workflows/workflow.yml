@@ -6,7 +6,6 @@ on:
 env:
   bunny_version: v0.1.0
   base_path: ./
-  NODE_ENV: production
   NODE_OPTIONS: --max_old_space_size=4096
 permissions:
   checks: write
@@ -29,6 +28,8 @@ jobs:
         run: yarn install --immutable --network-timeout=300000 --pure-lockfile
       - name: Build
         run: yarn build --base=${{ env.base_path }}
+        env:
+          NODE_ENV: production
       - uses: actions/upload-artifact@v6
         with:
           path: dist/
