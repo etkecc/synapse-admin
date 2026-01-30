@@ -1,6 +1,10 @@
-FROM ghcr.io/static-web-server/static-web-server:2
+FROM ghcr.io/static-web-server/static-web-server:2-alpine
 
-ENV SERVER_ROOT=/app
-ENV SERVER_FALLBACK_PAGE=/app/index.html
+# You can set environment variables as `docker run` arguments too,
+# full list: https://static-web-server.net/configuration/environment-variables/
+ENV SERVER_FALLBACK_PAGE=/var/public/index.html
+ENV SERVER_PORT=8080
 
-COPY ./dist /app
+USER $SERVER_USER_NAME:$SERVER_GROUP_NAME
+
+COPY --chown=$SERVER_USER_NAME:$SERVER_GROUP_NAME ./dist /home/$SERVER_USER_NAME/public

@@ -1,12 +1,18 @@
 FROM node:lts AS builder
+ENV NODE_ENV=production
 ARG BASE_PATH=./
 WORKDIR /src
 COPY . /src
 RUN yarn config set enableTelemetry 0 && \
-    yarn install --immutable --network-timeout=300000 && \
+    yarn install --immutable --network-timeout=300000 --pure-lockfile &&
     yarn build --base=$BASE_PATH
 
-FROM ghcr.io/static-web-server/static-web-server:2
-ENV SERVER_ROOT=/app
-ENV SERVER_FALLBACK_PAGE=/app/index.html
-COPY --from=builder /src/dist /app
+FROM ghcr.io/static-web-server/static-web-server:2-alpine
+# You can set environment variables as `docker run` arguments too,
+# full list: https://static-web-server.net/configuration/environment-variables/
+ENV SERVER_FALLBACK_PAGE=/var/public/index.html
+ENV SERVER_PORT=8080
+
+USER $SERVER_USER_NAME:$SERVER_GROUP_NAME
+
+COPY --from=builder --chown=$SERVER_USER_NAME:$SERVER_GROUP_NAME /src/dist /home/$SERVER_USER_NAME/public

@@ -18,5 +18,5 @@ services:
     #    - NODE_OPTIONS="--max_old_space_size=1024"
     #    - BASE_PATH="/synapse-admin"
     ports:
-      - "8080:80"
+      - "8080:8080"
     restart: unless-stopped

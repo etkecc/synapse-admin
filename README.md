@@ -142,6 +142,7 @@ The following changes are already implemented:
 * 🗂️ [Add Public Rooms and Empty Rooms filters](https://github.com/etkecc/synapse-admin/pull/945)
 * 🗓️ [Localized date and time formatting](https://github.com/etkecc/synapse-admin/pull/989)
 * 📋 [Add User Memberships tab](https://github.com/etkecc/synapse-admin/issues/1002)
+* [Run rootless in Docker container](https://github.com/etkecc/synapse-admin/issues/1021)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
@@ -244,7 +245,7 @@ you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavio
 
 ### Supported Synapse
 
-It needs at least [Synapse](https://github.com/element-hq/synapse) v1.116.0 for all functions to work as expected!
+It needs at least [Synapse](https://github.com/element-hq/synapse) v1.145.0 for all functions to work as expected!
 
 You get your server version with the request `/_synapse/admin/v1/server_version`.
 See also [Synapse version API](https://element-hq.github.io/synapse/latest/admin_api/version_api.html).
@@ -299,7 +300,7 @@ You have three options:
 
 #### Steps for 3)
 
-- run the Docker container from the public docker registry: `docker run -p 8080:80 ghcr.io/etkecc/synapse-admin` or use the [docker-compose.yml](docker-compose.yml): `docker-compose up -d`
+- run the Docker container from the public docker registry: `docker run -p 8080:8080 ghcr.io/etkecc/synapse-admin` or use the [docker-compose.yml](docker-compose.yml): `docker-compose up -d`
 
   > note: if you're building on an architecture other than amd64 (for example a raspberry pi), make sure to define a maximum ram for node. otherwise the build will fail.
 
@@ -318,7 +319,7 @@ You have three options:
         #   - NODE_OPTIONS="--max_old_space_size=1024"
         #   - BASE_PATH="/synapse-admin"
       ports:
-        - "8080:80"
+        - "8080:8080"
       restart: unless-stopped
   ```
 
@@ -355,7 +356,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.admin.rule=Host(`example.com`) && PathPrefix(`/admin`)"
-      - "traefik.http.services.admin.loadbalancer.server.port=80"
+      - "traefik.http.services.admin.loadbalancer.server.port=8080"
       - "traefik.http.middlewares.admin-slashless-redirect.redirectregex.regex=(/admin)$$"
       - "traefik.http.middlewares.admin-slashless-redirect.redirectregex.replacement=$${1}/"
       - "traefik.http.middlewares.admin-strip-prefix.stripprefix.prefixes=/admin"
