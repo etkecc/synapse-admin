@@ -466,5 +466,46 @@ const it: SynapseTranslationMessages = {
       helper: { length: "Lunghezza del token se non viene dato alcun token." },
     },
   },
+  etkecc: {
+    billing: {
+      name: "Fatturazione",
+      title: "Cronologia pagamenti",
+      no_payments: "Nessun pagamento trovato.",
+      no_payments_helper: "Se ritieni che si tratti di un errore, contatta l’assistenza etke.cc a",
+      description1:
+        "Da qui puoi visualizzare i pagamenti e generare le fatture. Puoi saperne di più sulla gestione degli abbonamenti su",
+      description2:
+        "Se desideri modificare l’email di fatturazione o aggiungere i dati aziendali, contatta l’assistenza etke.cc a",
+      fields: {
+        transaction_id: "ID transazione",
+        email: "Email",
+        type: "Tipo",
+        amount: "Importo",
+        paid_at: "Pagato il",
+        invoice: "Fattura",
+      },
+      enums: {
+        type: {
+          subscription: "Abbonamento",
+          one_time: "Una tantum",
+        },
+      },
+      helper: {
+        download_invoice: "Scarica fattura",
+        downloading: "Download in corso...",
+        download_started: "Il download della fattura è iniziato.",
+        loading: "Caricamento delle informazioni di fatturazione...",
+        loading_failed1: "Si è verificato un problema durante il caricamento delle informazioni di fatturazione.",
+        loading_failed2: "Riprova più tardi.",
+        loading_failed3: "Se il problema persiste, contatta l’assistenza etke.cc a",
+        loading_failed4: "con il seguente messaggio di errore:",
+      },
+    },
+    maintenance: {
+      title: "Il sistema è attualmente in modalità manutenzione.",
+      try_again: "Riprova più tardi.",
+      note: "Non è necessario contattare l’assistenza per questo: ci stiamo già lavorando!",
+    },
+  },
 };
 export default it;

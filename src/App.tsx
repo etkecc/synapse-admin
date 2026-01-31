@@ -17,6 +17,7 @@ import ScheduledCommandShow from "./components/etke.cc/schedules/components/sche
 import UserImport from "./components/user-import/UserImport";
 import germanMessages from "./i18n/de";
 import englishMessages from "./i18n/en";
+import persianMessages from "./i18n/fa";
 import frenchMessages from "./i18n/fr";
 import italianMessages from "./i18n/it";
 import japaneseMessages from "./i18n/ja";
@@ -38,6 +39,7 @@ import dataProvider from "./synapse/dataProvider";
 const messages = {
   de: germanMessages,
   en: englishMessages,
+  fa: persianMessages,
   fr: frenchMessages,
   it: italianMessages,
   ja: japaneseMessages,

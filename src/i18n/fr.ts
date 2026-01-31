@@ -468,5 +468,46 @@ const fr: SynapseTranslationMessages = {
       },
     },
   },
+  etkecc: {
+    billing: {
+      name: "Facturation",
+      title: "Historique des paiements",
+      no_payments: "Aucun paiement trouvé.",
+      no_payments_helper: "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support etke.cc à l’adresse",
+      description1:
+        "Vous pouvez consulter les paiements et générer des factures ici. Pour en savoir plus sur la gestion des abonnements, rendez-vous sur",
+      description2:
+        "Si vous souhaitez modifier votre e-mail de facturation ou ajouter des informations d’entreprise, veuillez contacter le support etke.cc à l’adresse",
+      fields: {
+        transaction_id: "ID de transaction",
+        email: "E-mail",
+        type: "Type",
+        amount: "Montant",
+        paid_at: "Payé le",
+        invoice: "Facture",
+      },
+      enums: {
+        type: {
+          subscription: "Abonnement",
+          one_time: "Paiement unique",
+        },
+      },
+      helper: {
+        download_invoice: "Télécharger la facture",
+        downloading: "Téléchargement...",
+        download_started: "Le téléchargement de la facture a commencé.",
+        loading: "Chargement des informations de facturation...",
+        loading_failed1: "Un problème est survenu lors du chargement des informations de facturation.",
+        loading_failed2: "Veuillez réessayer plus tard.",
+        loading_failed3: "Si le problème persiste, veuillez contacter le support etke.cc à l’adresse",
+        loading_failed4: "avec le message d’erreur suivant :",
+      },
+    },
+    maintenance: {
+      title: "Le système est actuellement en mode maintenance.",
+      try_again: "Veuillez réessayer plus tard.",
+      note: "Vous n’avez pas besoin de contacter le support à ce sujet : nous nous en occupons déjà !",
+    },
+  },
 };
 export default fr;

@@ -368,6 +368,7 @@ export interface Payment {
 
 export interface PaymentsResponse {
   payments: Payment[];
+  maintenance: boolean;
   total: number;
 }
 

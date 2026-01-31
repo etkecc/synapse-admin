@@ -396,5 +396,44 @@ const zh: SynapseTranslationMessages = {
       },
     },
   },
+  etkecc: {
+    billing: {
+      name: "账单",
+      title: "付款记录",
+      no_payments: "未找到付款记录。",
+      no_payments_helper: "如果您认为这是错误，请通过以下方式联系 etke.cc 支持：",
+      description1: "您可以在此查看付款并生成发票。有关订阅管理的更多信息，请访问",
+      description2: "如果您想更改账单邮箱或添加公司信息，请通过以下方式联系 etke.cc 支持：",
+      fields: {
+        transaction_id: "交易ID",
+        email: "邮箱",
+        type: "类型",
+        amount: "金额",
+        paid_at: "付款时间",
+        invoice: "发票",
+      },
+      enums: {
+        type: {
+          subscription: "订阅",
+          one_time: "一次性",
+        },
+      },
+      helper: {
+        download_invoice: "下载发票",
+        downloading: "正在下载...",
+        download_started: "发票下载已开始。",
+        loading: "正在加载账单信息...",
+        loading_failed1: "加载账单信息时出现问题。",
+        loading_failed2: "请稍后再试。",
+        loading_failed3: "如果问题仍然存在，请通过以下方式联系 etke.cc 支持：",
+        loading_failed4: "并提供以下错误信息：",
+      },
+    },
+    maintenance: {
+      title: "系统当前处于维护模式。",
+      try_again: "请稍后再试。",
+      note: "无需就此联系支持团队——我们已在处理！",
+    },
+  },
 };
 export default zh;

@@ -9,6 +9,7 @@ export interface Config {
 
 export interface MenuItem {
   label: string;
+  i18n?: Record<string, string>;
   icon: string;
   url: string;
 }

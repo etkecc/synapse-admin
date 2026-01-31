@@ -503,6 +503,45 @@ const ja: SynapseTranslationMessages = {
       helper: { length: "トークンが与えられていない場合のトークンの長さ。" },
     },
   },
+  etkecc: {
+    billing: {
+      name: "請求",
+      title: "支払い履歴",
+      no_payments: "支払いが見つかりませんでした。",
+      no_payments_helper: "誤りだと思われる場合は、etke.cc サポート（",
+      description1: "ここから支払いの確認や請求書の作成ができます。サブスクリプション管理の詳細は",
+      description2: "請求先メールアドレスの変更や会社情報の追加をご希望の場合は、etke.cc サポート（",
+      fields: {
+        transaction_id: "取引ID",
+        email: "メール",
+        type: "種別",
+        amount: "金額",
+        paid_at: "支払日",
+        invoice: "請求書",
+      },
+      enums: {
+        type: {
+          subscription: "サブスクリプション",
+          one_time: "単発",
+        },
+      },
+      helper: {
+        download_invoice: "請求書をダウンロード",
+        downloading: "ダウンロード中...",
+        download_started: "請求書のダウンロードを開始しました。",
+        loading: "請求情報を読み込み中...",
+        loading_failed1: "請求情報の読み込み中に問題が発生しました。",
+        loading_failed2: "しばらくしてからもう一度お試しください。",
+        loading_failed3: "問題が解消しない場合は、etke.cc サポート（",
+        loading_failed4: "）まで、次のエラーメッセージを添えてご連絡ください:",
+      },
+    },
+    maintenance: {
+      title: "現在、システムはメンテナンスモードです。",
+      try_again: "しばらくしてからもう一度お試しください。",
+      note: "この件についてサポートに連絡する必要はありません。すでに対応中です！",
+    },
+  },
   scheduled_commands: {
     action: {
       create_success: "スケジュール済のコマンドを作成しました",

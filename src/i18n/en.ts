@@ -501,6 +501,47 @@ const en: SynapseTranslationMessages = {
       helper: { length: "Length of the token if no token is given." },
     },
   },
+  etkecc: {
+    billing: {
+      name: "Billing",
+      title: "Payment History",
+      no_payments: "No payments found.",
+      no_payments_helper: "If you believe that's an error, please contact etke.cc support on",
+      description1:
+        "View payments and generate invoices from here. You can learn more about subscription management on",
+      description2:
+        "If you'd like to change your billing email, or add company details, please contact etke.cc support on",
+      fields: {
+        transaction_id: "Transaction ID",
+        email: "Email",
+        type: "Type",
+        amount: "Amount",
+        paid_at: "Paid At",
+        invoice: "Invoice",
+      },
+      enums: {
+        type: {
+          subscription: "Subscription",
+          one_time: "One-time",
+        },
+      },
+      helper: {
+        download_invoice: "Download Invoice",
+        downloading: "Downloading...",
+        download_started: "Invoice download started.",
+        loading: "Loading billing information...",
+        loading_failed1: "There was a problem loading billing information.",
+        loading_failed2: "Please try again later.",
+        loading_failed3: "If the problem persists, please contact etke.cc support on",
+        loading_failed4: "with the following error message:",
+      },
+    },
+    maintenance: {
+      title: "The system is currently in maintenance mode.",
+      try_again: "Please try again later.",
+      note: "You don't need to contact support about this, we are already working on it!",
+    },
+  },
   scheduled_commands: {
     action: {
       create_success: "Scheduled command created successfully",

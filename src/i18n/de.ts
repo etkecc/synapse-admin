@@ -533,6 +533,48 @@ const de: SynapseTranslationMessages = {
       helper: { length: "Länge des Tokens, wenn kein Token vorgegeben wird." },
     },
   },
+  etkecc: {
+    billing: {
+      name: "Abrechnung",
+      title: "Zahlungshistorie",
+      no_payments: "Keine Zahlungen gefunden.",
+      no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support unter",
+      description1:
+        "Hier können Sie Zahlungen einsehen und Rechnungen erstellen. Mehr zur Verwaltung von Abonnements erfahren Sie unter",
+      description2:
+        "Wenn Sie Ihre Abrechnungs-E-Mail ändern oder Firmendaten hinzufügen möchten, kontaktieren Sie bitte den etke.cc-Support unter",
+      fields: {
+        transaction_id: "Transaktions-ID",
+        email: "E-Mail",
+        type: "Typ",
+        amount: "Betrag",
+        paid_at: "Bezahlt am",
+        invoice: "Rechnung",
+      },
+      enums: {
+        type: {
+          subscription: "Abonnement",
+          one_time: "Einmalig",
+        },
+      },
+      helper: {
+        download_invoice: "Rechnung herunterladen",
+        downloading: "Wird heruntergeladen...",
+        download_started: "Der Rechnungsdownload wurde gestartet.",
+        loading: "Abrechnungsinformationen werden geladen...",
+        loading_failed1: "Beim Laden der Abrechnungsinformationen ist ein Problem aufgetreten.",
+        loading_failed2: "Bitte versuchen Sie es später erneut.",
+        loading_failed3: "Wenn das Problem weiterhin besteht, kontaktieren Sie bitte den etke.cc-Support unter",
+        loading_failed4: "mit der folgenden Fehlermeldung:",
+      },
+    },
+    maintenance: {
+      title: "Das System befindet sich derzeit im Wartungsmodus.",
+      try_again: "Bitte versuchen Sie es später erneut.",
+      note: "Sie müssen den Support hierzu nicht kontaktieren — wir arbeiten bereits daran!",
+    },
+  },
+
   scheduled_commands: {
     action: {
       create_success: "Geplanter Befehl erfolgreich erstellt.",

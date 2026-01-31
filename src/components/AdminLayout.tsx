@@ -14,6 +14,7 @@ import {
   UserMenu,
   useStore,
   useLocaleState,
+  useLocale,
 } from "react-admin";
 
 import Footer from "./Footer";
@@ -83,6 +84,7 @@ const AdminAppBar = () => {
 };
 
 const AdminMenu = props => {
+  const locale = useLocale();
   const [menu, setMenu] = useState([] as MenuItem[]);
   const icfg = GetInstanceConfig();
   const [etkeRoutesEnabled, setEtkeRoutesEnabled] = useState(false);
@@ -131,20 +133,25 @@ const AdminMenu = props => {
       )}
       <Menu.ResourceItems />
       {etkeRoutesEnabled && !icfg.disabled.payments && (
-        <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="Billing" />
+        <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
       )}
       {menu &&
         menu.map((item, index) => {
-          const { url, icon, label } = item;
+          const { url, icon, label, i18n } = item;
           /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
+
+          let primaryText = label;
+          if (i18n && i18n[locale]) {
+            primaryText = i18n[locale];
+          }
 
           return (
             <Suspense key={index}>
               <Menu.Item
                 to={url}
                 target="_blank"
-                primaryText={label}
+                primaryText={primaryText}
                 leftIcon={IconComponent ? <IconComponent /> : <DefaultIcon />}
                 onClick={props.onMenuClick}
               />

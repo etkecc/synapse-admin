@@ -482,6 +482,45 @@ interface SynapseTranslationMessages extends TranslationMessages {
       };
     };
   };
+  etkecc: {
+    billing: {
+      name: string;
+      title: string;
+      no_payments: string;
+      no_payments_helper: string;
+      description1: string;
+      description2: string;
+      fields: {
+        transaction_id: string;
+        email: string;
+        type: string;
+        amount: string;
+        paid_at: string;
+        invoice: string;
+      };
+      enums: {
+        type: {
+          subscription: string;
+          one_time: string;
+        };
+      };
+      helper: {
+        download_invoice: string;
+        downloading: string;
+        download_started: string;
+        loading: string;
+        loading_failed1: string;
+        loading_failed2: string;
+        loading_failed3: string;
+        loading_failed4: string;
+      };
+    };
+    maintenance: {
+      title: string;
+      try_again: string;
+      note: string;
+    };
+  };
   scheduled_commands?: {
     action: {
       create_success: string;

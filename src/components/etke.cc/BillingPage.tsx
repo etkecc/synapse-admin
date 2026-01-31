@@ -19,7 +19,7 @@ import {
 import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
-import { useDataProvider, useLocale, useNotify } from "react-admin";
+import { useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
@@ -46,6 +46,7 @@ const BillingPage = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const notify = useNotify();
   const locale = useLocale();
+  const translate = useTranslate();
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [maintenance, setMaintenance] = useState(false);
@@ -78,7 +79,7 @@ const BillingPage = () => {
     try {
       setDownloadingInvoice(transactionId);
       await dataProvider.getInvoice(etkeccAdmin, transactionId);
-      notify("Invoice download started", { type: "info" });
+      notify("etkecc.billing.helper.download_started", { type: "info" });
     } catch (error) {
       // Use the specific error message from the dataProvider
       const errorMessage = error instanceof Error ? error.message : "Error downloading invoice";
@@ -92,20 +93,19 @@ const BillingPage = () => {
   const header = (
     <Box>
       <Typography variant="h4">
-        <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Billing
+        <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> {translate("etkecc.billing.name")}
       </Typography>
-      <Typography variant="body1">View payments and generate invoices from here.</Typography>
       <EtkeAttribution>
         <Typography variant="body1">
-          View payments and generate invoices from here. More details about billing can be found{" "}
-          <Link href="https://etke.cc/help/extras/scheduler/#payments" target="_blank">
-            here
+          {translate("etkecc.billing.description1")}{" "}
+          <Link href="https://etke.cc/help/payments/" target="_blank">
+            etke.cc/help/payments
           </Link>
           .
           <br />
-          If you'd like to change your billing email, or add company details, please{" "}
+          {translate("etkecc.billing.description2")}{" "}
           <Link href="https://etke.cc/contacts/" target="_blank">
-            contact etke.cc support
+            etke.cc/contacts
           </Link>
           .
         </Typography>
@@ -118,7 +118,7 @@ const BillingPage = () => {
       <Stack spacing={3} mt={3}>
         {header}
         <Box sx={{ mt: 3 }}>
-          <Typography>Loading billing information...</Typography>
+          <Typography>{translate("etkecc.billing.helper.loading")}</Typography>
         </Box>
       </Stack>
     );
@@ -130,18 +130,18 @@ const BillingPage = () => {
         {header}
         <Box sx={{ mt: 3 }}>
           <Typography>
-            There was a problem loading your billing information.
+            {translate("etkecc.billing.helper.loading_failed1")}
             <br />
-            This might be a temporary issue - please try again in a few minutes.
+            {translate("etkecc.billing.helper.loading_failed2")}
             <br />
           </Typography>
           <EtkeAttribution>
             <Typography>
-              If it persists, contact{" "}
+              {translate("etkecc.billing.helper.loading_failed3")}{" "}
               <Link href="https://etke.cc/contacts/" target="_blank">
-                etke.cc support team
+                etke.cc/contacts
               </Link>{" "}
-              with the following error message:
+              {translate("etkecc.billing.helper.loading_failed4")}
             </Typography>
           </EtkeAttribution>
           <Typography variant="body2" color="error" sx={{ mt: 1 }}>
@@ -158,11 +158,11 @@ const BillingPage = () => {
         {header}
         <Box sx={{ mt: 3 }}>
           <Alert severity="info">
-            The system is currently in maintenance mode.
+            {translate("etkecc.maintenance.title")}
             <br />
-            Please try again later.
+            {translate("etkecc.maintenance.try_again")}
             <br />
-            You don't need to contact support about this, we are already working on it!
+            {translate("etkecc.maintenance.note")}
           </Alert>
         </Box>
       </Stack>
@@ -174,16 +174,16 @@ const BillingPage = () => {
       {header}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
-          Payment History
+          {translate("etkecc.billing.title")}
         </Typography>
         {paymentsData.length === 0 ? (
           <Typography variant="body1">
-            No payments found.
+            {translate("etkecc.billing.no_payments")}
             <EtkeAttribution>
               <Typography>
-                If you believe that's an error, please{" "}
+                {translate("etkecc.billing.no_payments_helper")}{" "}
                 <Link href="https://etke.cc/contacts/" target="_blank">
-                  contact etke.cc support
+                  etke.cc/contacts
                 </Link>
                 .
               </Typography>
@@ -194,12 +194,12 @@ const BillingPage = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>Transaction ID</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Paid At</TableCell>
-                  <TableCell>Download Invoice</TableCell>
+                  <TableCell>{translate("etkecc.billing.fields.transaction_id")}</TableCell>
+                  <TableCell>{translate("etkecc.billing.fields.email")}</TableCell>
+                  <TableCell>{translate("etkecc.billing.fields.type")}</TableCell>
+                  <TableCell>{translate("etkecc.billing.fields.amount")}</TableCell>
+                  <TableCell>{translate("etkecc.billing.fields.paid_at")}</TableCell>
+                  <TableCell>{translate("etkecc.billing.helper.download_invoice")}</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -209,7 +209,9 @@ const BillingPage = () => {
                       <TruncatedUUID uuid={payment.transaction_id} />
                     </TableCell>
                     <TableCell>{payment.email}</TableCell>
-                    <TableCell>{payment.is_subscription ? "Subscription" : "One-time"}</TableCell>
+                    <TableCell>
+                      {translate(`etkecc.billing.enums.type.${payment.is_subscription ? "subscription" : "one_time"}`)}
+                    </TableCell>
                     <TableCell>${payment.amount.toFixed(2)}</TableCell>
                     <TableCell>{new Date(payment.paid_at).toLocaleDateString(locale)}</TableCell>
                     <TableCell>
@@ -220,7 +222,11 @@ const BillingPage = () => {
                         onClick={() => handleInvoiceDownload(payment.transaction_id)}
                         disabled={downloadingInvoice === payment.transaction_id}
                       >
-                        {downloadingInvoice === payment.transaction_id ? "Downloading..." : "Invoice"}
+                        {translate(
+                          downloadingInvoice === payment.transaction_id
+                            ? "etkecc.billing.helper.downloading"
+                            : "etkecc.billing.fields.invoice"
+                        )}
                       </Button>
                     </TableCell>
                   </TableRow>
