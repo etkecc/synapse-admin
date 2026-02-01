@@ -4,6 +4,28 @@ import { SynapseTranslationMessages } from ".";
 
 const fa: SynapseTranslationMessages = {
   ...farsiMessages,
+  ra: {
+    ...farsiMessages.ra,
+    action: {
+      ...farsiMessages.ra.action,
+      reset: "بازنشانی",
+      search_columns: "جستجوی ستون‌ها",
+      select_all_button: "انتخاب همه",
+    },
+    auth: {
+      ...farsiMessages.ra.auth,
+      email: "ایمیل",
+    },
+    message: {
+      ...farsiMessages.ra.message,
+      placeholder_data_warning: "مشکل شبکه: به‌روزرسانی داده‌ها ناموفق بود.",
+      select_all_limit_reached: "تعداد انتخاب‌ها زیاد است. فقط %{max} مورد اول انتخاب شد.",
+    },
+    notification: {
+      ...farsiMessages.ra.notification,
+      offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",
+    },
+  },
   synapseadmin: {
     auth: {
       base_url: "آدرس سرور",
@@ -15,6 +37,7 @@ const fa: SynapseTranslationMessages = {
       sso_sign_in: "با SSO وارد شوید",
       credentials: "اعتبارنامه",
       access_token: "توکن دسترسی",
+      supports_specs: "پشتیبانی از مشخصات Matrix",
       logout_acces_token_dialog: {
         title: "شما در حال استفاده از یک نشانه دسترسی ماتریکس موجود هستید.",
         content:
@@ -28,6 +51,7 @@ const fa: SynapseTranslationMessages = {
       tabs: { sso: "SSO", experimental: "تجربی", limits: "محدودیت ها", account_data: "داده های کاربر" },
     },
     rooms: {
+      details: "جزئیات اتاق",
       tabs: {
         basic: "اصلی",
         members: "اعضا",
@@ -161,6 +185,7 @@ const fa: SynapseTranslationMessages = {
         consent_version: "Consent نسخه",
         auth_provider: "ارائه دهنده",
         user_type: "نوع کاربر",
+        erased: "پاک‌شده (GDPR)",
       },
       helper: {
         password_required_for_reactivation: "برای فعالسازی مجدد حساب باید رمز عبور وارد کنید.",
@@ -302,7 +327,17 @@ const fa: SynapseTranslationMessages = {
             format: "قالب",
             formatted_body: "محتوای قالب بندی شده",
             algorithm: "الگوریتم",
+            url: "نشانی",
+            info: {
+              mimetype: "نوع",
+            },
           },
+        },
+      },
+      action: {
+        erase: {
+          title: "حذف رویداد گزارش‌شده",
+          content: "آیا مطمئن هستید که می‌خواهید رویداد گزارش‌شده را حذف کنید؟ این کار قابل بازگشت نیست.",
         },
       },
     },
@@ -342,6 +377,9 @@ const fa: SynapseTranslationMessages = {
         safe_from_quarantine: "امان از قرنطینه",
         created_ts: "ایجاد شده",
         last_access_ts: "آخرین دسترسی",
+      },
+      action: {
+        open: "باز کردن فایل رسانه در پنجره جدید",
       },
     },
     protect_media: {

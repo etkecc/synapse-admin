@@ -35,8 +35,27 @@ const fixedChineseMessages = {
   },
 };
 
+const { prev: _zhPrev, ...zhNavigation } = fixedChineseMessages.ra.navigation;
+
 const zh: SynapseTranslationMessages = {
   ...fixedChineseMessages,
+  ra: {
+    ...fixedChineseMessages.ra,
+    navigation: zhNavigation,
+    action: {
+      ...fixedChineseMessages.ra.action,
+      reset: "重置",
+      search_columns: "搜索列",
+    },
+    notification: {
+      ...fixedChineseMessages.ra.notification,
+      offline: "离线。无法获取数据。",
+    },
+    validation: {
+      ...fixedChineseMessages.ra.validation,
+      unique: "必须唯一",
+    },
+  },
   synapseadmin: {
     auth: {
       base_url: "服务器 URL",
@@ -48,6 +67,7 @@ const zh: SynapseTranslationMessages = {
       sso_sign_in: "使用 SSO 登录",
       credentials: "凭证",
       access_token: "访问令牌",
+      supports_specs: "支持 Matrix 规范",
       logout_acces_token_dialog: {
         title: "您正在使用现有的 Matrix 访问令牌。",
         content: "您想销毁此会话（可能在其他地方使用，例如在 Matrix 客户端中）还是仅从管理面板退出？",
@@ -60,6 +80,7 @@ const zh: SynapseTranslationMessages = {
       tabs: { sso: "SSO", experimental: "实验性", limits: "限制", account_data: "账户数据" },
     },
     rooms: {
+      details: "房间详情",
       tabs: {
         basic: "基本",
         members: "成员",
@@ -191,6 +212,9 @@ const zh: SynapseTranslationMessages = {
         address: "地址",
         creation_ts_ms: "创建时间戳",
         consent_version: "协议版本",
+        auth_provider: "身份提供方",
+        user_type: "用户类型",
+        erased: "已抹除（GDPR）",
       },
       helper: {
         password: "更改密码会使用户注销所有会话。",
@@ -247,6 +271,7 @@ const zh: SynapseTranslationMessages = {
         canonical_alias: "别名",
         joined_members: "成员",
         joined_local_members: "本地成员",
+        joined_local_devices: "本地设备",
         state_events: "状态事件",
         version: "版本",
         is_encrypted: "已经加密",
@@ -264,6 +289,10 @@ const zh: SynapseTranslationMessages = {
       filter: {
         public_rooms: "公开房间",
         empty_rooms: "空房间",
+      },
+      helper: {
+        forward_extremities:
+          "Forward extremities 是房间有向无环图（DAG）末端的叶子事件，也就是没有子事件的事件。数量越多，Synapse 需要进行的状态解析越多（这是一项昂贵的操作）。虽然 Synapse 有机制防止同一房间出现过多该类事件，但某些 Bug 仍可能导致其再次出现。如果房间的 forward extremities 超过 10 个，建议找出问题房间并根据 #1760 中提到的 SQL 查询进行清理。",
       },
       enums: {
         join_rules: {
@@ -283,6 +312,25 @@ const zh: SynapseTranslationMessages = {
           world_readable: "任何人",
         },
         unencrypted: "未加密",
+      },
+      action: {
+        erase: {
+          title: "删除房间",
+          content: "您确定要删除此房间吗？该操作不可撤销。房间内的所有消息和共享媒体都将从服务器删除！",
+          fields: {
+            block: "封禁并阻止用户加入房间",
+          },
+          success: "房间删除成功。",
+          failure: "房间无法删除。",
+        },
+        make_admin: {
+          assign_admin: "分配管理员",
+          title: "为 %{roomName} 分配房间管理员",
+          confirm: "设为管理员",
+          content: "请输入要设为管理员的用户完整 MXID。\n警告：要生效，房间中必须至少有一名本地成员为管理员。",
+          success: "用户已设为房间管理员。",
+          failure: "无法将用户设为房间管理员。%{errMsg}",
+        },
       },
     },
     reports: {
@@ -305,7 +353,17 @@ const zh: SynapseTranslationMessages = {
             format: "格式",
             formatted_body: "格式化的数据",
             algorithm: "算法",
+            url: "URL",
+            info: {
+              mimetype: "类型",
+            },
           },
+        },
+      },
+      action: {
+        erase: {
+          title: "删除被举报事件",
+          content: "确定要删除该被举报事件吗？此操作不可撤销。",
         },
       },
     },
@@ -346,6 +404,28 @@ const zh: SynapseTranslationMessages = {
         created_ts: "创建",
         last_access_ts: "上一次访问",
       },
+      action: {
+        open: "在新窗口打开媒体文件",
+      },
+    },
+    protect_media: {
+      action: {
+        create: "未保护，创建保护",
+        delete: "已保护，移除保护",
+        none: "处于隔离中",
+        send_success: "保护状态修改成功。",
+        send_failure: "发生错误。",
+      },
+    },
+    quarantine_media: {
+      action: {
+        name: "隔离",
+        create: "加入隔离",
+        delete: "已隔离，解除隔离",
+        none: "已保护不被隔离",
+        send_success: "隔离状态修改成功。",
+        send_failure: "发生错误：%{error}",
+      },
     },
     pushers: {
       name: "发布者",
@@ -383,6 +463,24 @@ const zh: SynapseTranslationMessages = {
         media_length: "媒体文件长度",
       },
     },
+    forward_extremities: {
+      name: "Forward Extremities",
+      fields: {
+        id: "事件 ID",
+        received_ts: "时间戳",
+        depth: "深度",
+        state_group: "状态组",
+      },
+    },
+    room_state: {
+      name: "状态事件",
+      fields: {
+        type: "类型",
+        content: "内容",
+        origin_server_ts: "发送时间",
+        sender: "发送者",
+      },
+    },
     room_media: {
       name: "媒体",
       fields: {
@@ -394,6 +492,46 @@ const zh: SynapseTranslationMessages = {
       action: {
         error: "%{errcode} (%{errstatus}) %{error}",
       },
+    },
+    room_directory: {
+      name: "房间目录",
+      fields: {
+        world_readable: "访客无需加入即可查看",
+        guest_can_join: "访客可以加入",
+      },
+      action: {
+        title: "从目录删除房间 |||| 从目录删除 %{smart_count} 个房间",
+        content: "确定要从目录移除此房间？ |||| 确定要从目录移除这 %{smart_count} 个房间？",
+        erase: "从房间目录删除",
+        create: "发布到房间目录",
+        send_success: "房间发布成功。",
+        send_failure: "发生错误。",
+      },
+    },
+    destinations: {
+      name: "联邦",
+      fields: {
+        destination: "目标",
+        failure_ts: "失败时间戳",
+        retry_last_ts: "上次重试时间戳",
+        retry_interval: "重试间隔",
+        last_successful_stream_ordering: "上次成功流",
+        stream_ordering: "流",
+      },
+      action: { reconnect: "重新连接" },
+    },
+    registration_tokens: {
+      name: "注册令牌",
+      fields: {
+        token: "令牌",
+        valid: "有效令牌",
+        uses_allowed: "允许使用次数",
+        pending: "待处理",
+        completed: "已完成",
+        expiry_time: "过期时间",
+        length: "长度",
+      },
+      helper: { length: "如果未提供令牌，则为生成令牌的长度。" },
     },
   },
   etkecc: {

@@ -30,8 +30,14 @@ const fixedRussianMessages = {
   },
 };
 
+const { prev: _ruPrev, ...ruNavigation } = fixedRussianMessages.ra.navigation;
+
 const ru: SynapseTranslationMessages = {
   ...fixedRussianMessages,
+  ra: {
+    ...fixedRussianMessages.ra,
+    navigation: ruNavigation,
+  },
   synapseadmin: {
     auth: {
       base_url: "Адрес домашнего сервера",

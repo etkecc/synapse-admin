@@ -15,6 +15,13 @@ import { SynapseTranslationMessages } from ".";
 
 const ja: SynapseTranslationMessages = {
   ...japaneseMessages,
+  ra: {
+    ...japaneseMessages.ra,
+    validation: {
+      ...japaneseMessages.ra.validation,
+      unique: "一意である必要があります",
+    },
+  },
   synapseadmin: {
     auth: {
       base_url: "ホームサーバーのURL",

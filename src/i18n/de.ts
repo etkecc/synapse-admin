@@ -45,8 +45,22 @@ const fixedGermanMessages = {
   },
 };
 
+const { add_filter: _deAddFilter, ...deNavigation } = fixedGermanMessages.ra.navigation;
+
 const de: SynapseTranslationMessages = {
   ...fixedGermanMessages,
+  ra: {
+    ...fixedGermanMessages.ra,
+    navigation: deNavigation,
+    action: {
+      ...fixedGermanMessages.ra.action,
+      reset: "Zurücksetzen",
+    },
+    validation: {
+      ...fixedGermanMessages.ra.validation,
+      unique: "Muss eindeutig sein",
+    },
+  },
   synapseadmin: {
     auth: {
       base_url: "Heimserver URL",

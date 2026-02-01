@@ -2,8 +2,124 @@ import italianMessages from "ra-language-italian";
 
 import { SynapseTranslationMessages } from ".";
 
+const { prev: _itPrev, ...itNavigation } = italianMessages.ra.navigation;
+const { password: _itPassword, ...itRaWithoutPassword } = italianMessages.ra;
+
 const it: SynapseTranslationMessages = {
   ...italianMessages,
+  ra: {
+    ...itRaWithoutPassword,
+    navigation: {
+      ...itNavigation,
+      clear_filters: "Rimuovi filtri",
+      current_page: "Pagina %{page}",
+      first: "Prima",
+      last: "Ultima",
+      no_filtered_results: "Nessun risultato",
+      page: "Pagina",
+      partial_page_range_info: "%{offsetBegin}-%{offsetEnd} di %{total}",
+      previous: "Precedente",
+    },
+    action: {
+      ...itRaWithoutPassword.action,
+      clear_array_input: "Svuota elenco",
+      create_item: "Crea elemento",
+      move_down: "Sposta giù",
+      move_up: "Sposta su",
+      open: "Apri",
+      remove_all_filters: "Rimuovi tutti i filtri",
+      reset: "Reimposta",
+      search_columns: "Cerca colonne",
+      select_all: "Seleziona tutto",
+      select_all_button: "Seleziona tutti",
+      select_columns: "Seleziona colonne",
+      select_row: "Seleziona riga",
+      toggle_theme: "Cambia tema",
+      update: "Aggiorna",
+      update_application: "Aggiorna applicazione",
+    },
+    auth: {
+      ...itRaWithoutPassword.auth,
+      email: "Email",
+    },
+    configurable: {
+      ...itRaWithoutPassword.configurable,
+      Datagrid: {
+        ...itRaWithoutPassword.configurable?.Datagrid,
+        title: "Personalizza tabella",
+        unlabeled: "Senza etichetta",
+      },
+      SimpleForm: {
+        ...itRaWithoutPassword.configurable?.SimpleForm,
+        title: "Personalizza modulo",
+        unlabeled: "Senza etichetta",
+      },
+      SimpleList: {
+        ...itRaWithoutPassword.configurable?.SimpleList,
+        primaryText: "Testo principale",
+        secondaryText: "Testo secondario",
+        tertiaryText: "Testo terziario",
+        title: "Personalizza elenco",
+      },
+      configureMode: "Modalità configurazione",
+      customize: "Personalizza",
+      inspector: {
+        ...itRaWithoutPassword.configurable?.inspector,
+        content: "Personalizza la tua vista",
+        hideAll: "Nascondi tutto",
+        reset: "Ripristina",
+        showAll: "Mostra tutto",
+        title: "Ispettore",
+      },
+    },
+    input: {
+      ...itRaWithoutPassword.input,
+      password: {
+        ...itRaWithoutPassword.input?.password,
+        toggle_hidden: "Nascondi password",
+        toggle_visible: "Mostra password",
+      },
+    },
+    message: {
+      ...itRaWithoutPassword.message,
+      access_denied: "Accesso negato",
+      auth_error: "Errore di autenticazione",
+      authentication_error:
+        "Il server di autenticazione ha restituito un errore e non è stato possibile verificare le credenziali.",
+      bulk_update_content: "Vuoi aggiornare %{smart_count} elementi? |||| Vuoi aggiornare %{smart_count} elementi?",
+      bulk_update_title: "Aggiornare %{smart_count} elementi? |||| Aggiornare %{smart_count} elementi?",
+      clear_array_input: "Svuota l'elenco",
+      placeholder_data_warning: "Problema di rete: aggiornamento dei dati non riuscito.",
+      select_all_limit_reached: "Troppi elementi da selezionare. Sono stati selezionati solo i primi %{max}.",
+    },
+    notification: {
+      ...itRaWithoutPassword.notification,
+      application_update_available: "È disponibile un aggiornamento dell'applicazione.",
+      not_authorized: "Non autorizzato",
+      offline: "Offline. Impossibile recuperare i dati.",
+    },
+    page: {
+      ...itRaWithoutPassword.page,
+      access_denied: "Accesso negato",
+      authentication_error: "Errore di autenticazione",
+    },
+    saved_queries: {
+      ...itRaWithoutPassword.saved_queries,
+      help: "Salva le ricerche per un uso futuro",
+      label: "Query salvate",
+      new_dialog_title: "Salvare questa ricerca?",
+      new_label: "Salva questa ricerca",
+      query_name: "Nome della ricerca",
+      remove_dialog_title: "Eliminare la ricerca salvata?",
+      remove_label: "Elimina",
+      remove_label_with_name: "Elimina \"%{name}\"",
+      remove_message: "La ricerca salvata verrà eliminata.",
+    },
+    validation: {
+      ...itRaWithoutPassword.validation,
+      unique: "Deve essere unico",
+    },
+  },
   synapseadmin: {
     auth: {
       base_url: "URL dell'homeserver",
@@ -15,6 +131,7 @@ const it: SynapseTranslationMessages = {
       sso_sign_in: "Accedi con SSO",
       credentials: "Credenziali",
       access_token: "Token di accesso",
+      supports_specs: "supporta le specifiche Matrix",
       logout_acces_token_dialog: {
         title: "Stai utilizzando un token di accesso Matrix esistente.",
         content:
@@ -28,6 +145,7 @@ const it: SynapseTranslationMessages = {
       tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti", account_data: "Dati del profilo" },
     },
     rooms: {
+      details: "Dettagli della stanza",
       tabs: {
         basic: "Semplice",
         members: "Membro",
@@ -161,6 +279,7 @@ const it: SynapseTranslationMessages = {
         consent_version: "Versione minima richiesta",
         auth_provider: "Provider",
         user_type: "Tipo d'utente",
+        erased: "Cancellato (GDPR)",
       },
       helper: {
         password: "Cambiando la password l'utente verrà disconnesso da tutte le sessioni attive.",
@@ -238,8 +357,8 @@ const it: SynapseTranslationMessages = {
         empty_rooms: "Stanze vuote",
       },
       helper: {
-        /*        forward_extremities:
-                  "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.", */
+        forward_extremities:
+          "Le estremità forward sono gli eventi foglia alla fine di un grafo diretto aciclico (DAG) in una stanza, cioè eventi senza figli. Più ce ne sono, più Synapse deve risolvere lo stato (operazione costosa). Anche se Synapse evita che ce ne siano troppi, a volte dei bug li fanno ricomparire. Se una stanza ha >10 forward extremities, vale la pena identificare la stanza problematica e rimuoverli con le query SQL citate in #1760.",
       },
       enums: {
         join_rules: {
@@ -265,6 +384,11 @@ const it: SynapseTranslationMessages = {
           title: "Cancella stanza",
           content:
             "Sei sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
+          fields: {
+            block: "Blocca e impedisci agli utenti di entrare nella stanza",
+          },
+          success: "Stanza/e eliminata/e con successo.",
+          failure: "Impossibile eliminare la stanza/le stanze.",
         },
         make_admin: {
           assign_admin: "Assegna un amministratore",
@@ -297,7 +421,17 @@ const it: SynapseTranslationMessages = {
             format: "formato",
             formatted_body: "contenuto formattato",
             algorithm: "algoritmo",
+            url: "URL",
+            info: {
+              mimetype: "Tipo",
+            },
           },
+        },
+      },
+      action: {
+        erase: {
+          title: "Elimina evento segnalato",
+          content: "Sei sicuro di voler eliminare l'evento segnalato? Questa azione è irreversibile.",
         },
       },
     },
@@ -337,6 +471,9 @@ const it: SynapseTranslationMessages = {
         safe_from_quarantine: "Protetto dalla quarantena",
         created_ts: "Creato",
         last_access_ts: "Ultimo accesso",
+      },
+      action: {
+        open: "Apri il file multimediale in una nuova finestra",
       },
     },
     protect_media: {

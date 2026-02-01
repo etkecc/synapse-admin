@@ -15,6 +15,7 @@ const fr: SynapseTranslationMessages = {
       sso_sign_in: "Se connecter avec l'authentification unique",
       credentials: "Identifiants",
       access_token: "Jeton d'accès",
+      supports_specs: "prend en charge les spécifications Matrix",
       logout_acces_token_dialog: {
         title: "Vous utilisez un jeton d'accès Matrix existant.",
         content:
@@ -33,6 +34,7 @@ const fr: SynapseTranslationMessages = {
       },
     },
     rooms: {
+      details: "Détails de la salle",
       tabs: {
         basic: "Informations de base",
         members: "Membres",
@@ -168,6 +170,8 @@ const fr: SynapseTranslationMessages = {
         creation_ts_ms: "Date de création",
         consent_version: "Version du consentement",
         auth_provider: "Fournisseur d'identité",
+        user_type: "Type d'utilisateur",
+        erased: "Effacé (RGPD)",
       },
       helper: {
         password: "Changer le mot de passe déconnectera l'utilisateur de toutes les sessions.",
@@ -309,7 +313,17 @@ const fr: SynapseTranslationMessages = {
             format: "Format",
             formatted_body: "Contenu mis en forme",
             algorithm: "Algorithme",
+            url: "URL",
+            info: {
+              mimetype: "Type",
+            },
           },
+        },
+      },
+      action: {
+        erase: {
+          title: "Supprimer l’événement signalé",
+          content: "Voulez-vous vraiment supprimer l’événement signalé ? Cette action est irréversible.",
         },
       },
     },
@@ -349,6 +363,9 @@ const fr: SynapseTranslationMessages = {
         safe_from_quarantine: "Protection contre la mise en quarantaine",
         created_ts: "Date de création",
         last_access_ts: "Dernier accès",
+      },
+      action: {
+        open: "Ouvrir le fichier média dans une nouvelle fenêtre",
       },
     },
     protect_media: {
@@ -451,6 +468,18 @@ const fr: SynapseTranslationMessages = {
         send_success: "Salon publié avec succès",
         send_failure: "Une erreur s'est produite",
       },
+    },
+    destinations: {
+      name: "Fédération",
+      fields: {
+        destination: "Destination",
+        failure_ts: "Horodatage d’échec",
+        retry_last_ts: "Horodatage de la dernière tentative",
+        retry_interval: "Intervalle de nouvelle tentative",
+        last_successful_stream_ordering: "Dernier flux réussi",
+        stream_ordering: "Flux",
+      },
+      action: { reconnect: "Reconnecter" },
     },
     registration_tokens: {
       name: "Jetons d'inscription",

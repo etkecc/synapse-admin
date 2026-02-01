@@ -2,8 +2,48 @@ import ukrainianMessages from "ra-language-ukrainian";
 
 import { SynapseTranslationMessages } from ".";
 
+const { prev: _ukPrev, ...ukNavigation } = ukrainianMessages.ra.navigation;
+
 const uk: SynapseTranslationMessages = {
   ...ukrainianMessages,
+  ra: {
+    ...ukrainianMessages.ra,
+    navigation: {
+      ...ukNavigation,
+      clear_filters: "Очистити всі фільтри",
+      no_filtered_results: "Немає результатів",
+    },
+    action: {
+      ...ukrainianMessages.ra.action,
+      reset: "Скинути",
+      search_columns: "Пошук по стовпцях",
+      select_all_button: "Вибрати всі",
+    },
+    auth: {
+      ...ukrainianMessages.ra.auth,
+      email: "Електронна пошта",
+    },
+    message: {
+      ...ukrainianMessages.ra.message,
+      access_denied: "Ви не маєте доступу до цієї сторінки.",
+      authentication_error: "Сервер автентифікації повернув помилку, перевірити ваші дані не вдалося.",
+      placeholder_data_warning: "Проблема з мережею: оновлення даних не вдалося.",
+      select_all_limit_reached: "Занадто багато елементів для вибору. Обрано лише перші %{max}.",
+    },
+    notification: {
+      ...ukrainianMessages.ra.notification,
+      offline: "Немає з’єднання. Дані не вдалося отримати.",
+    },
+    page: {
+      ...ukrainianMessages.ra.page,
+      access_denied: "Доступ заборонено",
+      authentication_error: "Помилка автентифікації",
+    },
+    validation: {
+      ...ukrainianMessages.ra.validation,
+      unique: "Має бути унікальним",
+    },
+  },
   synapseadmin: {
     auth: {
       base_url: "URL домашнього сервера",
@@ -172,10 +212,13 @@ const uk: SynapseTranslationMessages = {
       },
       helper: {
         password: "Зміна пароля призведе до виходу користувача з усіх сеансів.",
+        password_required_for_reactivation: "Для повторної активації облікового запису потрібно ввести пароль.",
         create_password: "Створіть надійний і надійний пароль за допомогою кнопки нижче.",
         deactivate: "Ви повинні ввести пароль, щоб повторно активувати обліковий запис.",
         suspend: "Призупинення користувача означає, що він переходить у режим лише читання.",
         erase: "Позначити користувача як вилученого GDPR",
+        admin: "Адміністратор сервера має повний контроль над сервером і його користувачами.",
+        lock: "Забороняє користувачу використовувати сервер. Це не руйнівна дія, яку можна скасувати.",
         erase_text:
           "This means messages sent by the user(-s) will still be visible by anyone who was in the room when these messages were sent, but hidden from users joining the room afterward.",
         erase_admin_error: "Видалення власного користувача заборонено.",

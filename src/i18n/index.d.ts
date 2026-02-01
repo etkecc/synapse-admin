@@ -6,7 +6,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
       base_url: string;
       welcome: string;
       server_version: string;
-      supports_specs?: string; // TODO: fa, fr, it, zh
+      supports_specs: string;
       username_error: string;
       protocol_error: string;
       url_error: string;
@@ -25,7 +25,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
       tabs: { sso: string; experimental: string; limits: string; account_data: string };
     };
     rooms: {
-      details?: string; // TODO: fa, fr, it, zh
+      details: string;
       tabs: {
         basic: string;
         members: string;
@@ -139,13 +139,13 @@ interface SynapseTranslationMessages extends TranslationMessages {
         name: string;
         is_guest: string;
         admin: string;
-        locked?: string; // TODO: fa, zh
+        locked: string;
         suspended: string;
         deactivated: string;
-        erased?: string; // TODO: fa, fr, it, zh
+        erased: string;
         show_guests: string;
         show_deactivated: string;
-        show_locked?: string; // TODO: de, fa, fr, it, zh
+        show_locked: string;
         show_suspended: string;
         user_id: string;
         displayname: string;
@@ -157,8 +157,8 @@ interface SynapseTranslationMessages extends TranslationMessages {
         address: string;
         creation_ts_ms: string;
         consent_version: string;
-        auth_provider?: string;
-        user_type?: string;
+        auth_provider: string;
+        user_type: string;
       };
       helper: {
         password: string;
@@ -214,7 +214,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         canonical_alias: string;
         joined_members: string;
         joined_local_members: string;
-        joined_local_devices?: string;
+        joined_local_devices: string;
         state_events: string;
         version: string;
         is_encrypted: string;
@@ -225,15 +225,15 @@ interface SynapseTranslationMessages extends TranslationMessages {
         join_rules: string;
         guest_access: string;
         history_visibility: string;
-        topic?: string;
-        avatar?: string;
+        topic: string;
+        avatar: string;
         actions: string;
       };
       filter: {
         public_rooms: string;
         empty_rooms: string;
       };
-      helper?: {
+      helper: {
         forward_extremities: string;
       };
       enums: {
@@ -255,7 +255,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         };
         unencrypted: string;
       };
-      action?: {
+      action: {
         erase: {
           title: string;
           content: string;
@@ -295,14 +295,14 @@ interface SynapseTranslationMessages extends TranslationMessages {
             format: string;
             formatted_body: string;
             algorithm: string;
-            url?: string;
-            info?: {
+            url: string;
+            info: {
               mimetype: string;
             };
           };
         };
       };
-      action?: {
+      action: {
         erase: {
           title: string;
           content: string;
@@ -346,11 +346,11 @@ interface SynapseTranslationMessages extends TranslationMessages {
         created_ts: string;
         last_access_ts: string;
       };
-      action?: {
+      action: {
         open: string;
       };
     };
-    protect_media?: {
+    protect_media: {
       action: {
         create: string;
         delete: string;
@@ -359,7 +359,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         send_failure: string;
       };
     };
-    quarantine_media?: {
+    quarantine_media: {
       action: {
         name: string;
         create: string;
@@ -407,7 +407,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         media_length: string;
       };
     };
-    forward_extremities?: {
+    forward_extremities: {
       name: string;
       fields: {
         id: string;
@@ -416,7 +416,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         state_group: string;
       };
     };
-    room_state?: {
+    room_state: {
       name: string;
       fields: {
         type: string;
@@ -425,7 +425,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         sender: string;
       };
     };
-    room_media?: {
+    room_media: {
       name: string;
       fields: {
         media_id: string;
@@ -437,7 +437,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         error: string;
       };
     };
-    room_directory?: {
+    room_directory: {
       name: string;
       fields: {
         world_readable: string;
@@ -452,7 +452,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         send_failure: string;
       };
     };
-    destinations?: {
+    destinations: {
       name: string;
       fields: {
         destination: string;
@@ -466,7 +466,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         reconnect: string;
       };
     };
-    registration_tokens?: {
+    registration_tokens: {
       name: string;
       fields: {
         token: string;
