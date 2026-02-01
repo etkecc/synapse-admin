@@ -6,7 +6,18 @@ export default defineConfig({
   base: "./",
   build: {
     target: "esnext",
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 1000, // react-admin itself is 500kb, @mui 350kb, and other vendor libs are 730kb+ at the moment of writing
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-admin") || id.includes("ra-")) return "ra";
+            if (id.includes("@mui")) return "mui";
+            return "vendor";
+          }
+        },
+      },
+    },
   },
   plugins: [
     react(),
