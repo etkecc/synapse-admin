@@ -304,6 +304,7 @@ const authProvider: AuthProvider = {
         return Promise.resolve({ redirectTo: pageToRedirectTo });
       } catch (err) {
         console.error("Failed to get user info:", err);
+        ClearConfig();
       }
     }
   },
