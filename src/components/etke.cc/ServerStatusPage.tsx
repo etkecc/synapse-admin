@@ -2,7 +2,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import { Box, Stack, Typography, Paper, Link, Chip, Divider, ChipProps } from "@mui/material";
-import { useStore } from "ra-core";
+import { useStore, useTranslate } from "ra-core";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { EtkeAttribution } from "./EtkeAttribution";
@@ -11,17 +11,19 @@ import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } fr
 const StatusChip = ({
   isOkay,
   size = "medium",
+  errorLabel = "Error",
   command,
 }: {
   isOkay: boolean;
   size?: "small" | "medium";
+  errorLabel?: string;
   command?: string;
 }) => {
   let label = "OK";
   let icon = <CheckIcon />;
   let color: ChipProps["color"] = "success";
   if (!isOkay) {
-    label = "Error";
+    label = errorLabel;
     icon = <CloseIcon />;
     color = "error";
   }
@@ -40,6 +42,8 @@ const ServerComponentText = ({ text }: { text: string }) => {
 };
 
 const ServerStatusPage = () => {
+  const translate = useTranslate();
+  const errorLabel = translate("etkecc.status.error");
   const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     ok: false,
     success: false,
@@ -72,9 +76,9 @@ const ServerStatusPage = () => {
       <Paper elevation={3} sx={{ p: 3, mt: 3 }}>
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography color="info">
-            The monitoring system is currently in maintenance mode. Please try again later.
+            {translate("etkecc.maintenance.title")}
             <br />
-            You don't need to contact support about that, we are already working on it!
+            {translate("etkecc.maintenance.note")}
           </Typography>
         </Stack>
       </Paper>
@@ -85,7 +89,7 @@ const ServerStatusPage = () => {
     return (
       <Paper elevation={3} sx={{ p: 3, mt: 3 }}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Typography color="info">Fetching real-time server health... Just a moment!</Typography>
+          <Typography color="info">{translate("etkecc.status.loading")}</Typography>
         </Stack>
       </Paper>
     );
@@ -95,8 +99,8 @@ const ServerStatusPage = () => {
     <Stack spacing={3} mt={3}>
       <Stack spacing={1} direction="row" alignItems="center">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="h4">Status:</Typography>
-          <StatusChip isOkay={isOkay} command={command} />
+          <Typography variant="h4">{translate("etkecc.status.status")}:</Typography>
+          <StatusChip isOkay={isOkay} command={command} errorLabel={errorLabel} />
         </Box>
         <Typography variant="h5" color="primary" fontWeight="medium">
           {host}
@@ -107,16 +111,18 @@ const ServerStatusPage = () => {
 
       <EtkeAttribution>
         <Typography variant="body1">
-          This is a{" "}
+          {translate("etkecc.status.intro1")}{" "}
           <Link href="https://etke.cc/services/monitoring/" target="_blank">
-            monitoring report
-          </Link>{" "}
-          of the server. If any of the checks below concern you, please check the{" "}
+            etke.cc/services/monitoring
+          </Link>
+          .
+          <br />
+          {translate("etkecc.status.intro2")}{" "}
           <Link
             href="https://etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues"
             target="_blank"
           >
-            suggested actions
+            etke.cc/services/monitoring/#what-to-do-if-the-monitoring-report-shows-issues
           </Link>
           .
         </Typography>
@@ -126,7 +132,7 @@ const ServerStatusPage = () => {
         {Object.keys(groupedResults).map((category, _idx) => (
           <Box key={`category_${category}`} sx={{ flex: 1 }}>
             <Typography variant="h5" mb={1}>
-              {category}
+              {translate(`etkecc.status.category.${category}`)}
             </Typography>
             <Paper elevation={2} sx={{ p: 3 }}>
               <Stack spacing={1} divider={<Divider />}>
@@ -134,7 +140,7 @@ const ServerStatusPage = () => {
                   <Box key={`${category}_${idx}`}>
                     <Stack spacing={2}>
                       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                        <StatusChip isOkay={result.ok} size="small" />
+                        <StatusChip isOkay={result.ok} size="small" errorLabel={errorLabel} />
                         {result.label.url ? (
                           <Link href={result.label.url} target="_blank" rel="noopener noreferrer">
                             <ServerComponentText text={result.label.text} />
@@ -149,7 +155,7 @@ const ServerStatusPage = () => {
                       {!result.ok && result.help && (
                         <EtkeAttribution>
                           <Link href={result.help} target="_blank" rel="noopener noreferrer" sx={{ mt: 1 }}>
-                            Learn more
+                            {translate("etkecc.status.help")}
                           </Link>
                         </EtkeAttribution>
                       )}

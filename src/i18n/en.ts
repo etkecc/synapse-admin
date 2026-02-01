@@ -536,6 +536,25 @@ const en: SynapseTranslationMessages = {
         loading_failed4: "with the following error message:",
       },
     },
+    status: {
+      name: "Server Status",
+      badge: {
+        default: "Click to view Server Status",
+        running: "Running: %{command}. %{text}",
+      },
+      category: {
+        "Host Metrics": "Host Metrics",
+        Network: "Network",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "Status",
+      error: "Error",
+      loading: "Fetching real-time server health... Just a moment!",
+      intro1: "This is a real-time monitoring report of your server. You may learn more about it on",
+      intro2: "If any of the checks below concern you, please check the suggested actions on",
+      help: "Help",
+    },
     maintenance: {
       title: "The system is currently in maintenance mode.",
       try_again: "Please try again later.",

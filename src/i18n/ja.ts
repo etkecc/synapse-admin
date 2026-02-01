@@ -536,6 +536,25 @@ const ja: SynapseTranslationMessages = {
         loading_failed4: "）まで、次のエラーメッセージを添えてご連絡ください:",
       },
     },
+    status: {
+      name: "サーバーステータス",
+      badge: {
+        default: "クリックしてサーバーステータスを表示",
+        running: "実行中: %{command}。%{text}",
+      },
+      category: {
+        "Host Metrics": "ホストメトリクス",
+        Network: "ネットワーク",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "ステータス",
+      error: "エラー",
+      loading: "リアルタイムのサーバー健全性を取得しています... 少々お待ちください！",
+      intro1: "これはサーバーのリアルタイム監視レポートです。詳しくは",
+      intro2: "以下のチェック内容が気になる場合は、推奨される対処方法を",
+      help: "ヘルプ",
+    },
     maintenance: {
       title: "現在、システムはメンテナンスモードです。",
       try_again: "しばらくしてからもう一度お試しください。",

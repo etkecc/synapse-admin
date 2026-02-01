@@ -568,6 +568,25 @@ const de: SynapseTranslationMessages = {
         loading_failed4: "mit der folgenden Fehlermeldung:",
       },
     },
+    status: {
+      name: "Serverstatus",
+      badge: {
+        default: "Klicken, um den Serverstatus anzuzeigen",
+        running: "Läuft: %{command}. %{text}",
+      },
+      category: {
+        "Host Metrics": "Host-Metriken",
+        Network: "Netzwerk",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "Status",
+      error: "Fehler",
+      loading: "Echtzeit-Serverzustand wird abgerufen... Einen Moment!",
+      intro1: "Dies ist ein Echtzeit-Monitoringbericht Ihres Servers. Mehr dazu finden Sie unter",
+      intro2: "Wenn Sie eine der folgenden Prüfungen beunruhigt, prüfen Sie bitte die empfohlenen Maßnahmen unter",
+      help: "Hilfe",
+    },
     maintenance: {
       title: "Das System befindet sich derzeit im Wartungsmodus.",
       try_again: "Bitte versuchen Sie es später erneut.",

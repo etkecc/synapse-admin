@@ -515,6 +515,25 @@ interface SynapseTranslationMessages extends TranslationMessages {
         loading_failed4: string;
       };
     };
+    status: {
+      name: string;
+      badge: {
+        default: string;
+        running: string;
+      };
+      category: {
+        "Host Metrics": string;
+        Network: string;
+        HTTP: string;
+        Matrix: string;
+      };
+      status: string;
+      error: string;
+      loading: string;
+      intro1: string;
+      intro2: string;
+      help: string;
+    };
     maintenance: {
       title: string;
       try_again: string;

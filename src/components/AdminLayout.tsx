@@ -120,7 +120,7 @@ const AdminMenu = props => {
               isLoaded={serverStatus.success}
             />
           }
-          primaryText="Server Status"
+          primaryText="etkecc.status.name"
         />
       )}
       {etkeRoutesEnabled && !icfg.disabled.actions && (

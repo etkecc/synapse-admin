@@ -429,6 +429,25 @@ const zh: SynapseTranslationMessages = {
         loading_failed4: "并提供以下错误信息：",
       },
     },
+    status: {
+      name: "服务器状态",
+      badge: {
+        default: "点击查看服务器状态",
+        running: "正在运行：%{command}。%{text}",
+      },
+      category: {
+        "Host Metrics": "主机指标",
+        Network: "网络",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "状态",
+      error: "错误",
+      loading: "正在获取实时服务器健康状况... 请稍候！",
+      intro1: "这是您的服务器实时监控报告。您可以在以下页面了解更多：",
+      intro2: "如果您对下方任意检查项有疑问，请在以下页面查看建议操作：",
+      help: "帮助",
+    },
     maintenance: {
       title: "系统当前处于维护模式。",
       try_again: "请稍后再试。",

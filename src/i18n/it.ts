@@ -501,6 +501,25 @@ const it: SynapseTranslationMessages = {
         loading_failed4: "con il seguente messaggio di errore:",
       },
     },
+    status: {
+      name: "Stato del server",
+      badge: {
+        default: "Clicca per visualizzare lo stato del server",
+        running: "In esecuzione: %{command}. %{text}",
+      },
+      category: {
+        "Host Metrics": "Metriche host",
+        Network: "Rete",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "Stato",
+      error: "Errore",
+      loading: "Recupero dello stato di salute del server in tempo reale... Un attimo!",
+      intro1: "Questo è un report di monitoraggio in tempo reale del tuo server. Puoi saperne di più su",
+      intro2: "Se uno dei controlli qui sotto ti preoccupa, consulta le azioni suggerite su",
+      help: "Aiuto",
+    },
     maintenance: {
       title: "Il sistema è attualmente in modalità manutenzione.",
       try_again: "Riprova più tardi.",

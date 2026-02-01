@@ -4,7 +4,7 @@ import { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import { useEffect } from "react";
-import { Button, useDataProvider, useStore } from "react-admin";
+import { Button, useDataProvider, useStore, useTranslate } from "react-admin";
 import { useNavigate } from "react-router";
 
 import { useAppContext } from "../../Context";
@@ -213,6 +213,7 @@ export const ServerStatusStyledBadge = ({
 };
 
 const ServerStatusBadge = () => {
+  const translate = useTranslate();
   const { isOkay, successCheck, maintenance } = useServerStatus();
   const { command, locked_at } = useCurrentServerProcess();
   const navigate = useNavigate();
@@ -225,10 +226,13 @@ const ServerStatusBadge = () => {
     navigate("/server_status");
   };
 
-  let tooltipText = "Click to view Server Status";
+  let tooltipText = translate("etkecc.status.badge.default");
 
   if (command && locked_at) {
-    tooltipText = `Running: ${command}; ${tooltipText}`;
+    tooltipText = translate("etkecc.status.badge.running", {
+      command: command,
+      text: tooltipText,
+    });
   }
 
   return (
