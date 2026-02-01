@@ -1,60 +1,59 @@
 import RestoreIcon from "@mui/icons-material/Restore";
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import { Box, Typography, Link } from "@mui/material";
-import { Stack } from "@mui/material";
+import { Box, Typography, Link, Stack } from "@mui/material";
+import { useTranslate } from "react-admin";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { EtkeAttribution } from "./EtkeAttribution";
 import ServerCommandsPanel from "./ServerCommandsPanel";
 import RecurringCommandsList from "./schedules/components/recurring/RecurringCommandsList";
 import ScheduledCommandsList from "./schedules/components/scheduled/ScheduledCommandsList";
-const ServerActionsPage = () => (
-  <Stack spacing={3} mt={3}>
-    <Stack direction="column">
-      <CurrentlyRunningCommand />
-      <ServerCommandsPanel />
-    </Stack>
 
-    <Box sx={{ mt: 2 }}>
-      <Typography variant="h5">
-        <ScheduleIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Scheduled commands
-      </Typography>
-      <Typography variant="body1">
-        The following commands are scheduled to run at specific times. You can view their details and modify them as
-        needed.
+const ServerActionsPage = () => {
+  const translate = useTranslate();
+
+  return (
+    <Stack spacing={3} mt={3}>
+      <Stack direction="column">
+        <CurrentlyRunningCommand />
+        <ServerCommandsPanel />
+      </Stack>
+
+      <Box sx={{ mt: 2 }}>
+        <Typography variant="h5">
+          <ScheduleIcon sx={{ verticalAlign: "middle", mr: 1 }} /> {translate("etkecc.actions.scheduled_title")}
+        </Typography>
+        <Typography variant="body1">{translate("etkecc.actions.scheduled_description")}</Typography>
         <EtkeAttribution>
           <Typography>
-            More details about the mode can be found{" "}
+            {translate("etkecc.actions.scheduled_help_intro")}{" "}
             <Link href="https://etke.cc/help/extras/scheduler/#schedule" target="_blank">
-              here
+              etke.cc/help/extras/scheduler/#schedule
             </Link>
             .
           </Typography>
         </EtkeAttribution>
-      </Typography>
-      <ScheduledCommandsList />
-    </Box>
+        <ScheduledCommandsList />
+      </Box>
 
-    <Box sx={{ mt: 2 }}>
-      <Typography variant="h5">
-        <RestoreIcon sx={{ verticalAlign: "middle", mr: 1 }} /> Recurring commands
-      </Typography>
-      <Typography variant="body1">
-        The following commands are set to run at specific weekday and time (weekly). You can view their details and
-        modify them as needed.
+      <Box sx={{ mt: 2 }}>
+        <Typography variant="h5">
+          <RestoreIcon sx={{ verticalAlign: "middle", mr: 1 }} /> {translate("etkecc.actions.recurring_title")}
+        </Typography>
+        <Typography variant="body1">{translate("etkecc.actions.recurring_description")}</Typography>
         <EtkeAttribution>
           <Typography>
-            More details about the mode can be found{" "}
+            {translate("etkecc.actions.recurring_help_intro")}{" "}
             <Link href="https://etke.cc/help/extras/scheduler/#recurring" target="_blank">
-              here
+              etke.cc/help/extras/scheduler/#recurring
             </Link>
             .
           </Typography>
         </EtkeAttribution>
-      </Typography>
-      <RecurringCommandsList />
-    </Box>
-  </Stack>
-);
+        <RecurringCommandsList />
+      </Box>
+    </Stack>
+  );
+};
 
 export default ServerActionsPage;

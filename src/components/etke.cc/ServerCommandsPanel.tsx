@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Button, Loading, useDataProvider, useCreatePath, useStore } from "react-admin";
+import { Button, Loading, useDataProvider, useCreatePath, useStore, useTranslate } from "react-admin";
 import { Link as RouterLink } from "react-router-dom";
 
 import { EtkeAttribution } from "./EtkeAttribution";
@@ -38,6 +38,7 @@ const ServerCommandsPanel = () => {
   }
 
   const createPath = useCreatePath();
+  const translate = useTranslate();
   const { isLoading, maintenance, serverCommands, setServerCommands } = useServerCommands();
   const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
@@ -74,8 +75,8 @@ const ServerCommandsPanel = () => {
         setCommandIsRunning(false);
         setCommandResult([
           <Box key="maintenance-warning">
-            The system is currently in maintenance mode. Commands cannot be run until maintenance mode is disabled. You
-            don't need to contact support about this, we are already working on it!
+            {translate("etkecc.actions.maintenance_title")} {translate("etkecc.actions.maintenance_commands_blocked")}{" "}
+            {translate("etkecc.actions.maintenance_note")}
           </Box>,
         ]);
         return;
@@ -104,17 +105,19 @@ const ServerCommandsPanel = () => {
   const buildCommandResultMessages = (command: string, additionalArgs: string): React.ReactNode[] => {
     const results: React.ReactNode[] = [];
 
-    let commandScheduledText = `Command scheduled: ${command}`;
+    let commandScheduledText = translate("etkecc.actions.command_scheduled", { command });
     if (additionalArgs) {
-      commandScheduledText += `, with additional args: ${additionalArgs}`;
+      commandScheduledText += `, ${translate("etkecc.actions.command_scheduled_args", { args: additionalArgs })}`;
     }
 
     results.push(<Box key="command-text">{commandScheduledText}</Box>);
     results.push(
       <Box key="notification-link">
-        Expect your result in the{" "}
-        <RouterLink to={createPath({ resource: "server_notifications", type: "list" })}>Notifications</RouterLink> page
-        soon.
+        {translate("etkecc.actions.expect_prefix")}{" "}
+        <RouterLink to={createPath({ resource: "server_notifications", type: "list" })}>
+          {translate("etkecc.actions.notifications_link")}
+        </RouterLink>{" "}
+        {translate("etkecc.actions.expect_suffix")}
       </Box>
     );
 
@@ -146,11 +149,11 @@ const ServerCommandsPanel = () => {
   if (maintenance) {
     return (
       <Alert severity="info">
-        The system is currently in maintenance mode.
+        {translate("etkecc.actions.maintenance_title")}
         <br />
-        Please try again later.
+        {translate("etkecc.actions.maintenance_try_again")}
         <br />
-        You don't need to contact support about this, we are already working on it!
+        {translate("etkecc.actions.maintenance_note")}
       </Alert>
     );
   }
@@ -158,13 +161,13 @@ const ServerCommandsPanel = () => {
   return (
     <>
       <Typography variant="h5">
-        <Construction sx={{ verticalAlign: "middle", mr: 1 }} /> Available Commands
+        <Construction sx={{ verticalAlign: "middle", mr: 1 }} /> {translate("etkecc.actions.available_title")}
       </Typography>
       <EtkeAttribution>
         <Typography variant="body1" sx={{ mt: 0 }}>
-          The following commands are available to run. More details about each of them can be found{" "}
+          {translate("etkecc.actions.available_description")} {translate("etkecc.actions.available_help_intro")}{" "}
           <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
-            here
+            etke.cc/help/extras/scheduler/#commands
           </Link>
           .
         </Typography>
@@ -173,9 +176,11 @@ const ServerCommandsPanel = () => {
         <Table sx={{ minWidth: { xs: 100, md: 450 } }} size="small" aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Command</TableCell>
+              <TableCell>{translate("etkecc.actions.table.command")}</TableCell>
               <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}></TableCell>
-              <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>Description</TableCell>
+              <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
+                {translate("etkecc.actions.table.description")}
+              </TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -190,7 +195,11 @@ const ServerCommandsPanel = () => {
                 </TableCell>
                 <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
                   <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
-                    <Button size="small" startIcon={<HelpCenter />} title={command + " help"} />
+                    <Button
+                      size="small"
+                      startIcon={<HelpCenter />}
+                      title={translate("etkecc.actions.command_help_title", { command })}
+                    />
                   </Link>
                 </TableCell>
                 <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>{description}</TableCell>
@@ -199,6 +208,7 @@ const ServerCommandsPanel = () => {
                     <TextField
                       size="small"
                       variant="standard"
+                      label={translate("etkecc.actions.table.arguments")}
                       onChange={e => {
                         setCommandAdditionalArgs(command, e.target.value);
                       }}
@@ -209,7 +219,7 @@ const ServerCommandsPanel = () => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    label="Run"
+                    label={translate("etkecc.actions.buttons.run")}
                     startIcon={<PlayArrow />}
                     onClick={() => {
                       runCommand(command);

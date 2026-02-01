@@ -10,6 +10,7 @@ import {
   DateField,
   RecordContextProvider,
   useLocale,
+  useTranslate,
 } from "react-admin";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -22,6 +23,7 @@ const ScheduledCommandShow = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const locale = useLocale();
+  const translate = useTranslate();
   const [command, setCommand] = useState<ScheduledCommand | null>(null);
   const [loading, setLoading] = useState(true);
   const { data: scheduledCommands, isLoading: isLoadingList } = useScheduledCommands();
@@ -46,19 +48,24 @@ const ScheduledCommandShow = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button label="Back" onClick={() => navigate("/server_actions")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
+      <Button
+        label={translate("etkecc.actions.buttons.back")}
+        onClick={() => navigate("/server_actions")}
+        startIcon={<ArrowBackIcon />}
+        sx={{ mb: 2 }}
+      />
 
       <RecordContextProvider value={command}>
         <Card>
-          <CardHeader title="Scheduled Command Details" />
+          <CardHeader title={translate("etkecc.actions.scheduled_details_title")} />
           <CardContent>
             {command && (
               <EtkeAttribution>
                 <Alert severity="info">
                   <Typography variant="body1" sx={{ px: 2 }}>
-                    You can find more details about the command{" "}
+                    {translate("etkecc.actions.command_details_intro")}{" "}
                     <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                      here
+                      {`etke.cc/help/extras/scheduler/#${command.command}`}
                     </Link>
                     .
                   </Typography>
@@ -66,18 +73,18 @@ const ScheduledCommandShow = () => {
               </EtkeAttribution>
             )}
             <SimpleShowLayout>
-              <TextField source="id" label="ID" />
-              <TextField source="command" label="Command" />
-              {command.args && <TextField source="args" label="Arguments" />}
-              <BooleanField source="is_recurring" label="Is recurring" />
-              <DateField source="scheduled_at" label="Scheduled at" showTime locales={locale} />
+              <TextField source="id" label={translate("etkecc.actions.form.id")} />
+              <TextField source="command" label={translate("etkecc.actions.form.command")} />
+              {command.args && <TextField source="args" label={translate("etkecc.actions.table.arguments")} />}
+              <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />
+              <DateField
+                source="scheduled_at"
+                label={translate("etkecc.actions.form.scheduled_at")}
+                showTime
+                locales={locale}
+              />
             </SimpleShowLayout>
-            {command.is_recurring && (
-              <Alert severity="warning">
-                Scheduled commands created from a recurring one are not editable as they will be regenerated
-                automatically. Please edit the recurring command instead.
-              </Alert>
-            )}
+            {command.is_recurring && <Alert severity="warning">{translate("etkecc.actions.recurring_warning")}</Alert>}
           </CardContent>
         </Card>
         <Box display="flex" justifyContent="flex-end" mt={2}>

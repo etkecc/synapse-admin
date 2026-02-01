@@ -559,23 +559,91 @@ interface SynapseTranslationMessages extends TranslationMessages {
       weeks: string;
       months: string;
     };
-  };
-  scheduled_commands?: {
-    action: {
-      create_success: string;
-      update_success: string;
-      update_failure: string;
-      delete_success: string;
-      delete_failure: string;
-    };
-  };
-  recurring_commands?: {
-    action: {
-      create_success: string;
-      update_success: string;
-      update_failure: string;
-      delete_success: string;
-      delete_failure: string;
+    actions: {
+      name: string;
+      available_title: string;
+      available_description: string;
+      available_help_intro: string;
+      scheduled_title: string;
+      scheduled_description: string;
+      recurring_title: string;
+      recurring_description: string;
+      scheduled_help_intro: string;
+      recurring_help_intro: string;
+      maintenance_title: string;
+      maintenance_try_again: string;
+      maintenance_note: string;
+      maintenance_commands_blocked: string;
+      table: {
+        command: string;
+        description: string;
+        arguments: string;
+        is_recurring: string;
+        run_at: string;
+        next_run_at: string;
+        time_utc: string;
+        time_local: string;
+      };
+      buttons: {
+        create: string;
+        update: string;
+        back: string;
+        delete: string;
+        run: string;
+      };
+      command_scheduled: string;
+      command_scheduled_args: string;
+      expect_prefix: string;
+      expect_suffix: string;
+      notifications_link: string;
+      command_help_title: string;
+      scheduled_title_create: string;
+      scheduled_title_edit: string;
+      recurring_title_create: string;
+      recurring_title_edit: string;
+      scheduled_details_title: string;
+      recurring_warning: string;
+      command_details_intro: string;
+      form: {
+        id: string;
+        command: string;
+        scheduled_at: string;
+        day_of_week: string;
+      };
+      delete_scheduled_title: string;
+      delete_recurring_title: string;
+      delete_confirm: string;
+      errors: {
+        unknown: string;
+        delete_failed: string;
+      };
+      days: {
+        monday: string;
+        tuesday: string;
+        wednesday: string;
+        thursday: string;
+        friday: string;
+        saturday: string;
+        sunday: string;
+      };
+      scheduled: {
+        action: {
+          create_success: string;
+          update_success: string;
+          update_failure: string;
+          delete_success: string;
+          delete_failure: string;
+        };
+      };
+      recurring: {
+        action: {
+          create_success: string;
+          update_success: string;
+          update_failure: string;
+          delete_success: string;
+          delete_failure: string;
+        };
+      };
     };
   };
 }

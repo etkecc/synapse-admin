@@ -128,7 +128,7 @@ const AdminMenu = props => {
           key="server_actions"
           to="/server_actions"
           leftIcon={<ManageHistoryIcon />}
-          primaryText="Server Actions"
+          primaryText="etkecc.actions.name"
         />
       )}
       <Menu.ResourceItems />

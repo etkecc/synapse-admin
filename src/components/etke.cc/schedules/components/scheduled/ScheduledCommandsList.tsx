@@ -1,6 +1,6 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
-import { Loading, Button, useLocale } from "react-admin";
+import { Loading, Button, useLocale, useTranslate } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
 import { Datagrid } from "react-admin";
@@ -12,6 +12,7 @@ import { DATE_FORMAT } from "../../../../../utils/date";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 const ListActions = () => {
   const navigate = useNavigate();
+  const translate = useTranslate();
 
   const handleCreate = () => {
     navigate("/server_actions/scheduled/create");
@@ -19,13 +20,14 @@ const ListActions = () => {
 
   return (
     <TopToolbar>
-      <Button label="Create" onClick={handleCreate} startIcon={<AddIcon />} />
+      <Button label={translate("etkecc.actions.buttons.create")} onClick={handleCreate} startIcon={<AddIcon />} />
     </TopToolbar>
   );
 };
 
 const ScheduledCommandsList = () => {
   const locale = useLocale();
+  const translate = useTranslate();
   const { data, isLoading } = useScheduledCommands();
 
   const listContext = useList({
@@ -59,13 +61,13 @@ const ScheduledCommandsList = () => {
             }}
           >
             <TextField source="command" />
-            <TextField source="args" label="Arguments" />
-            <BooleanField source="is_recurring" label="Is recurring?" />
+            <TextField source="args" label={translate("etkecc.actions.table.arguments")} />
+            <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />
             <DateField
               options={DATE_FORMAT}
               showTime
               source="scheduled_at"
-              label="Run at (local time)"
+              label={translate("etkecc.actions.table.run_at")}
               locales={locale}
             />
           </Datagrid>

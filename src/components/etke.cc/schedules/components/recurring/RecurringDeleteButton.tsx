@@ -1,7 +1,7 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
-import { useNotify, useDataProvider, useRecordContext } from "react-admin";
+import { useNotify, useDataProvider, useRecordContext, useTranslate } from "react-admin";
 import { Button, Confirm } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const RecurringDeleteButton = () => {
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const notify = useNotify();
+  const translate = useTranslate();
   const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -27,11 +28,11 @@ const RecurringDeleteButton = () => {
     setIsDeleting(true);
     try {
       await dataProvider.deleteRecurringCommand(etkeccAdmin, record.id);
-      notify("recurring_commands.action.delete_success", { type: "success" });
+      notify("etkecc.actions.recurring.action.delete_success", { type: "success" });
       navigate("/server_actions");
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      notify(`Error: ${errorMessage}`, { type: "error" });
+      const errorMessage = error instanceof Error ? error.message : translate("etkecc.actions.errors.unknown");
+      notify(translate("etkecc.actions.errors.delete_failed", { error: errorMessage }), { type: "error" });
     } finally {
       setIsDeleting(false);
       setOpen(false);
@@ -46,15 +47,15 @@ const RecurringDeleteButton = () => {
     <>
       <Button
         sx={{ color: theme.palette.error.main }}
-        label="Delete"
+        label={translate("etkecc.actions.buttons.delete")}
         onClick={handleClick}
         disabled={isDeleting}
         startIcon={<DeleteIcon />}
       />
       <Confirm
         isOpen={open}
-        title="Delete Recurring Command"
-        content={`Are you sure you want to delete the command: ${record?.command || ""}?`}
+        title={translate("etkecc.actions.delete_recurring_title")}
+        content={translate("etkecc.actions.delete_confirm", { command: record?.command || "" })}
         onConfirm={handleConfirm}
         onClose={handleCancel}
       />

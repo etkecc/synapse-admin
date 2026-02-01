@@ -12,6 +12,7 @@ import {
   Button,
   SelectInput,
   TimeInput,
+  useTranslate,
 } from "react-admin";
 import { useWatch } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
@@ -33,12 +34,13 @@ const transformCommandsToChoices = (commands: Record<string, any>) => {
 };
 
 const ArgumentsField = ({ serverCommands }) => {
+  const translate = useTranslate();
   const selectedCommand = useWatch({ name: "command" });
   const showArgs = selectedCommand && serverCommands[selectedCommand]?.args === true;
 
   if (!showArgs) return null;
 
-  return <TextInput required source="args" label="Arguments" fullWidth multiline />;
+  return <TextInput required source="args" label={translate("etkecc.actions.table.arguments")} fullWidth multiline />;
 };
 
 const RecurringCommandEdit = () => {
@@ -47,23 +49,26 @@ const RecurringCommandEdit = () => {
   const notify = useNotify();
   const dataProvider = useDataProvider();
   const queryClient = useQueryClient();
+  const translate = useTranslate();
   const { etkeccAdmin } = useAppContext();
   const [command, setCommand] = useState<RecurringCommand | undefined>(undefined);
   const isCreating = typeof id === "undefined";
   const [loading, setLoading] = useState(!isCreating);
   const { data: recurringCommands, isLoading: isLoadingList } = useRecurringCommands();
   const { serverCommands, isLoading: isLoadingServerCommands } = useServerCommands();
-  const pageTitle = isCreating ? "Create Recurring Command" : "Edit Recurring Command";
+  const pageTitle = isCreating
+    ? translate("etkecc.actions.recurring_title_create")
+    : translate("etkecc.actions.recurring_title_edit");
 
   const commandChoices = transformCommandsToChoices(serverCommands);
   const dayOfWeekChoices = [
-    { id: "Monday", name: "Monday" },
-    { id: "Tuesday", name: "Tuesday" },
-    { id: "Wednesday", name: "Wednesday" },
-    { id: "Thursday", name: "Thursday" },
-    { id: "Friday", name: "Friday" },
-    { id: "Saturday", name: "Saturday" },
-    { id: "Sunday", name: "Sunday" },
+    { id: "Monday", name: translate("etkecc.actions.days.monday") },
+    { id: "Tuesday", name: translate("etkecc.actions.days.tuesday") },
+    { id: "Wednesday", name: translate("etkecc.actions.days.wednesday") },
+    { id: "Thursday", name: translate("etkecc.actions.days.thursday") },
+    { id: "Friday", name: translate("etkecc.actions.days.friday") },
+    { id: "Saturday", name: translate("etkecc.actions.days.saturday") },
+    { id: "Sunday", name: translate("etkecc.actions.days.sunday") },
   ];
 
   useEffect(() => {
@@ -115,13 +120,13 @@ const RecurringCommandEdit = () => {
 
       if (isCreating) {
         await dataProvider.createRecurringCommand(etkeccAdmin, submissionData);
-        notify("recurring_commands.action.create_success", { type: "success" });
+        notify("etkecc.actions.recurring.action.create_success", { type: "success" });
       } else {
         await dataProvider.updateRecurringCommand(etkeccAdmin, {
           ...submissionData,
           id: id,
         });
-        notify("recurring_commands.action.update_success", { type: "success" });
+        notify("etkecc.actions.recurring.action.update_success", { type: "success" });
       }
 
       // Invalidate scheduled commands queries
@@ -130,7 +135,7 @@ const RecurringCommandEdit = () => {
       navigate("/server_actions");
     } catch (error) {
       console.error("Error saving recurring command:", error);
-      notify("recurring_commands.action.update_failure", { type: "error" });
+      notify("etkecc.actions.recurring.action.update_failure", { type: "error" });
     }
   };
 
@@ -140,7 +145,12 @@ const RecurringCommandEdit = () => {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button label="Back" onClick={() => navigate("/server_actions")} startIcon={<ArrowBackIcon />} sx={{ mb: 2 }} />
+      <Button
+        label={translate("etkecc.actions.buttons.back")}
+        onClick={() => navigate("/server_actions")}
+        startIcon={<ArrowBackIcon />}
+        sx={{ mb: 2 }}
+      />
 
       <Card>
         <CardHeader title={pageTitle} />
@@ -149,9 +159,9 @@ const RecurringCommandEdit = () => {
             <EtkeAttribution>
               <Alert severity="info">
                 <Typography variant="body1" sx={{ px: 2 }}>
-                  You can find more details about the command{" "}
+                  {translate("etkecc.actions.command_details_intro")}{" "}
                   <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                    here
+                    {`etke.cc/help/extras/scheduler/#${command.command}`}
                   </Link>
                   .
                 </Typography>
@@ -165,13 +175,36 @@ const RecurringCommandEdit = () => {
             warnWhenUnsavedChanges
           >
             <Box display="flex" flexDirection="column" gap={2}>
-              {!isCreating && <TextInput readOnly source="id" label="ID" fullWidth required />}
-              <SelectInput source="command" choices={commandChoices} label="Command" fullWidth required />
+              {!isCreating && (
+                <TextInput readOnly source="id" label={translate("etkecc.actions.form.id")} fullWidth required />
+              )}
+              <SelectInput
+                source="command"
+                choices={commandChoices}
+                label={translate("etkecc.actions.form.command")}
+                fullWidth
+                required
+              />
               <ArgumentsField serverCommands={serverCommands} />
-              <SelectInput source="day_of_week" choices={dayOfWeekChoices} label="Day of Week" fullWidth required />
-              <TimeInput source="execution_time" label="Time (UTC)" fullWidth required />
+              <SelectInput
+                source="day_of_week"
+                choices={dayOfWeekChoices}
+                label={translate("etkecc.actions.form.day_of_week")}
+                fullWidth
+                required
+              />
+              <TimeInput
+                source="execution_time"
+                label={translate("etkecc.actions.table.time_utc")}
+                fullWidth
+                required
+              />
               <Box mt={2} display="flex" justifyContent="space-between">
-                <SaveButton label={isCreating ? "Create" : "Update"} />
+                <SaveButton
+                  label={
+                    isCreating ? translate("etkecc.actions.buttons.create") : translate("etkecc.actions.buttons.update")
+                  }
+                />
                 {!isCreating && <RecurringDeleteButton />}
               </Box>
             </Box>
