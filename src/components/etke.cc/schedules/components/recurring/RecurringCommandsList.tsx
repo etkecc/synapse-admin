@@ -97,7 +97,7 @@ const RecurringCommandsList = () => {
               return `/server_actions/${resource}/${id}`;
             }}
           >
-            <TextField source="command" />
+            <TextField source="command" label={translate("etkecc.actions.table.command")} />
             <TextField source="args" label={translate("etkecc.actions.table.arguments")} />
             <RecurringTimeField label={translate("etkecc.actions.table.time_local")} />
             <DateField

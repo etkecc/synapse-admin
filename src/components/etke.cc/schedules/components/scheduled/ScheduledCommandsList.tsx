@@ -60,7 +60,7 @@ const ScheduledCommandsList = () => {
               return `/server_actions/${resource}/${id}`;
             }}
           >
-            <TextField source="command" />
+            <TextField source="command" label={translate("etkecc.actions.table.command")} />
             <TextField source="args" label={translate("etkecc.actions.table.arguments")} />
             <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />
             <DateField
