@@ -511,6 +511,26 @@ const fa: SynapseTranslationMessages = {
       try_again: "لطفاً بعداً دوباره تلاش کنید.",
       note: "نیازی نیست بابت این موضوع با پشتیبانی تماس بگیرید؛ ما از قبل در حال رسیدگی هستیم!",
     },
+    notifications: {
+      title: "اعلان‌ها",
+      new_notifications: "%{smart_count} اعلان جدید",
+      no_notifications: "هنوز اعلانی وجود ندارد",
+      see_all: "مشاهده همه اعلان‌ها",
+      clear_all: "حذف همه",
+      ago: "پیش",
+    },
+    currently_running: {
+      command: "در حال اجرا:",
+      started_ago: "(از %{time} پیش شروع شده)",
+    },
+    time: {
+      less_than_minute: "چند ثانیه",
+      minutes: "%{smart_count} دقیقه",
+      hours: "%{smart_count} ساعت",
+      days: "%{smart_count} روز",
+      weeks: "%{smart_count} هفته",
+      months: "%{smart_count} ماه",
+    },
   },
 };
 export default fa;

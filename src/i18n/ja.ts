@@ -541,6 +541,26 @@ const ja: SynapseTranslationMessages = {
       try_again: "しばらくしてからもう一度お試しください。",
       note: "この件についてサポートに連絡する必要はありません。すでに対応中です！",
     },
+    notifications: {
+      title: "通知",
+      new_notifications: "新しい通知 %{smart_count} 件",
+      no_notifications: "通知はまだありません",
+      see_all: "すべての通知を見る",
+      clear_all: "すべてクリア",
+      ago: "前",
+    },
+    currently_running: {
+      command: "現在実行中:",
+      started_ago: "（%{time} 前に開始）",
+    },
+    time: {
+      less_than_minute: "数秒",
+      minutes: "%{smart_count} 分",
+      hours: "%{smart_count} 時間",
+      days: "%{smart_count} 日",
+      weeks: "%{smart_count} 週間",
+      months: "%{smart_count} か月",
+    },
   },
   scheduled_commands: {
     action: {

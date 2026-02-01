@@ -574,6 +574,27 @@ const ru: SynapseTranslationMessages = {
       try_again: "Пожалуйста, попробуйте позже.",
       note: "Не нужно обращаться в поддержку по этому поводу — мы уже работаем над этим!",
     },
+    notifications: {
+      title: "Уведомления",
+      new_notifications:
+        "%{smart_count} новое уведомление |||| %{smart_count} новых уведомления |||| %{smart_count} новых уведомлений",
+      no_notifications: "Пока уведомлений нет",
+      see_all: "Посмотреть все уведомления",
+      clear_all: "Очистить все",
+      ago: "назад",
+    },
+    currently_running: {
+      command: "Сейчас запущено:",
+      started_ago: "(начато %{time} назад)",
+    },
+    time: {
+      less_than_minute: "несколько секунд",
+      minutes: "%{smart_count} минуту |||| %{smart_count} минуты |||| %{smart_count} минут",
+      hours: "%{smart_count} час |||| %{smart_count} часа |||| %{smart_count} часов",
+      days: "%{smart_count} день |||| %{smart_count} дня |||| %{smart_count} дней",
+      weeks: "%{smart_count} неделю |||| %{smart_count} недели |||| %{smart_count} недель",
+      months: "%{smart_count} месяц |||| %{smart_count} месяца |||| %{smart_count} месяцев",
+    },
   },
 };
 export default ru;

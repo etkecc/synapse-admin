@@ -508,6 +508,26 @@ const fr: SynapseTranslationMessages = {
       try_again: "Veuillez réessayer plus tard.",
       note: "Vous n’avez pas besoin de contacter le support à ce sujet : nous nous en occupons déjà !",
     },
+    notifications: {
+      title: "Notifications",
+      new_notifications: "%{smart_count} nouvelle notification |||| %{smart_count} nouvelles notifications",
+      no_notifications: "Aucune notification pour le moment",
+      see_all: "Voir toutes les notifications",
+      clear_all: "Tout effacer",
+      ago: "il y a",
+    },
+    currently_running: {
+      command: "En cours d’exécution :",
+      started_ago: "(démarré il y a %{time})",
+    },
+    time: {
+      less_than_minute: "quelques secondes",
+      minutes: "%{smart_count} minute |||| %{smart_count} minutes",
+      hours: "%{smart_count} heure |||| %{smart_count} heures",
+      days: "%{smart_count} jour |||| %{smart_count} jours",
+      weeks: "%{smart_count} semaine |||| %{smart_count} semaines",
+      months: "%{smart_count} mois |||| %{smart_count} mois",
+    },
   },
 };
 export default fr;

@@ -528,6 +528,27 @@ const uk: SynapseTranslationMessages = {
       try_again: "Будь ласка, спробуйте пізніше.",
       note: "Не потрібно звертатися до підтримки з цього приводу — ми вже працюємо над цим!",
     },
+    notifications: {
+      title: "Сповіщення",
+      new_notifications:
+        "%{smart_count} нове сповіщення |||| %{smart_count} нові сповіщення |||| %{smart_count} нових сповіщень",
+      no_notifications: "Поки сповіщень немає",
+      see_all: "Переглянути всі сповіщення",
+      clear_all: "Очистити все",
+      ago: "тому",
+    },
+    currently_running: {
+      command: "Зараз виконується:",
+      started_ago: "(запущено %{time} тому)",
+    },
+    time: {
+      less_than_minute: "кілька секунд",
+      minutes: "%{smart_count} хвилина |||| %{smart_count} хвилини |||| %{smart_count} хвилин",
+      hours: "%{smart_count} година |||| %{smart_count} години |||| %{smart_count} годин",
+      days: "%{smart_count} день |||| %{smart_count} дні |||| %{smart_count} днів",
+      weeks: "%{smart_count} тиждень |||| %{smart_count} тижні |||| %{smart_count} тижнів",
+      months: "%{smart_count} місяць |||| %{smart_count} місяці |||| %{smart_count} місяців",
+    },
   },
 };
 export default uk;

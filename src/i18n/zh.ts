@@ -434,6 +434,26 @@ const zh: SynapseTranslationMessages = {
       try_again: "请稍后再试。",
       note: "无需就此联系支持团队——我们已在处理！",
     },
+    notifications: {
+      title: "通知",
+      new_notifications: "%{smart_count} 条新通知",
+      no_notifications: "暂无通知",
+      see_all: "查看所有通知",
+      clear_all: "全部清除",
+      ago: "前",
+    },
+    currently_running: {
+      command: "当前正在运行：",
+      started_ago: "（%{time} 前开始）",
+    },
+    time: {
+      less_than_minute: "几秒钟",
+      minutes: "%{smart_count} 分钟",
+      hours: "%{smart_count} 小时",
+      days: "%{smart_count} 天",
+      weeks: "%{smart_count} 周",
+      months: "%{smart_count} 个月",
+    },
   },
 };
 export default zh;

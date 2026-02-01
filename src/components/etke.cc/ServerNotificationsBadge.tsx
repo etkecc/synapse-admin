@@ -18,7 +18,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
-import { useDataProvider, useStore } from "react-admin";
+import { useDataProvider, useStore, useTranslate } from "react-admin";
 import { useNavigate } from "react-router";
 
 import { useAppContext } from "../../Context";
@@ -97,6 +97,7 @@ export const ServerNotificationsBadge = () => {
   const navigate = useNavigate();
   const { success, notifications, deleteServerNotifications } = useServerNotifications();
   const theme = useTheme();
+  const translate = useTranslate();
 
   // Modify menu state to work with Popper
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -130,8 +131,8 @@ export const ServerNotificationsBadge = () => {
         <Tooltip
           title={
             notifications && notifications.length > 0
-              ? `${notifications.length} new notifications`
-              : `No notifications yet`
+              ? translate("etkecc.notifications.new_notifications", { smart_count: notifications.length })
+              : translate("etkecc.notifications.no_notifications")
           }
         >
           {(notifications && notifications.length > 0 && (
@@ -159,7 +160,7 @@ export const ServerNotificationsBadge = () => {
           >
             {!notifications || notifications.length === 0 ? (
               <Typography sx={{ p: 1 }} variant="body2">
-                No new notifications
+                {translate("etkecc.notifications.no_notifications")}
               </Typography>
             ) : (
               <List sx={{ p: 0 }} dense={true}>
@@ -171,16 +172,17 @@ export const ServerNotificationsBadge = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  <Typography variant="h6">Notifications</Typography>
+                  <Typography variant="h6">{translate("etkecc.notifications.title")}</Typography>
                   <Box
                     sx={{ cursor: "pointer", color: theme.palette.primary.main }}
                     onClick={() => handleSeeAllNotifications()}
                   >
-                    See all notifications
+                    {translate("etkecc.notifications.see_all")}
                   </Box>
                 </ListSubheader>
                 <Divider />
                 {notifications.map((notification, index) => {
+                  const { timeI18Nkey, timeI18Nparams } = getTimeSince(notification.sent_at);
                   return (
                     <Fragment key={notification.event_id ? notification.event_id + index : index}>
                       <ListItem
@@ -211,7 +213,7 @@ export const ServerNotificationsBadge = () => {
                         <ListItemText
                           primary={
                             <Typography variant="body2" sx={{ color: theme.palette.text.secondary }}>
-                              {getTimeSince(notification.sent_at) + " ago"}
+                              {translate(timeI18Nkey, timeI18Nparams) + " " + translate("etkecc.notifications.ago")}
                             </Typography>
                           }
                         />
@@ -233,7 +235,7 @@ export const ServerNotificationsBadge = () => {
                     }}
                   >
                     <DeleteIcon fontSize="small" sx={{ mr: 1 }} />
-                    Clear all
+                    {translate("etkecc.notifications.clear_all")}
                   </Button>
                 </ListItem>
               </List>

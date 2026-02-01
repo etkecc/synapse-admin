@@ -506,6 +506,26 @@ const it: SynapseTranslationMessages = {
       try_again: "Riprova più tardi.",
       note: "Non è necessario contattare l’assistenza per questo: ci stiamo già lavorando!",
     },
+    notifications: {
+      title: "Notifiche",
+      new_notifications: "%{smart_count} nuova notifica |||| %{smart_count} nuove notifiche",
+      no_notifications: "Nessuna notifica per ora",
+      see_all: "Vedi tutte le notifiche",
+      clear_all: "Cancella tutto",
+      ago: "fa",
+    },
+    currently_running: {
+      command: "Attualmente in esecuzione:",
+      started_ago: "(avviato %{time} fa)",
+    },
+    time: {
+      less_than_minute: "qualche secondo",
+      minutes: "%{smart_count} minuto |||| %{smart_count} minuti",
+      hours: "%{smart_count} ora |||| %{smart_count} ore",
+      days: "%{smart_count} giorno |||| %{smart_count} giorni",
+      weeks: "%{smart_count} settimana |||| %{smart_count} settimane",
+      months: "%{smart_count} mese |||| %{smart_count} mesi",
+    },
   },
 };
 export default it;

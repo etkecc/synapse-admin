@@ -520,6 +520,26 @@ interface SynapseTranslationMessages extends TranslationMessages {
       try_again: string;
       note: string;
     };
+    notifications: {
+      title: string;
+      new_notifications: string;
+      no_notifications: string;
+      see_all: string;
+      clear_all: string;
+      ago: string;
+    };
+    currently_running: {
+      command: string;
+      started_ago: string;
+    };
+    time: {
+      less_than_minute: string;
+      minutes: string;
+      hours: string;
+      days: string;
+      weeks: string;
+      months: string;
+    };
   };
   scheduled_commands?: {
     action: {

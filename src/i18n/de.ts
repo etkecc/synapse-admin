@@ -573,8 +573,27 @@ const de: SynapseTranslationMessages = {
       try_again: "Bitte versuchen Sie es später erneut.",
       note: "Sie müssen den Support hierzu nicht kontaktieren — wir arbeiten bereits daran!",
     },
+    notifications: {
+      title: "Benachrichtigungen",
+      new_notifications: "%{smart_count} neue Benachrichtigung |||| %{smart_count} neue Benachrichtigungen",
+      no_notifications: "Noch keine Benachrichtigungen",
+      see_all: "Alle Benachrichtigungen anzeigen",
+      clear_all: "Alle löschen",
+      ago: "vor",
+    },
+    currently_running: {
+      command: "Derzeit läuft:",
+      started_ago: "(vor %{time} gestartet)",
+    },
+    time: {
+      less_than_minute: "ein paar Sekunden",
+      minutes: "%{smart_count} Minute |||| %{smart_count} Minuten",
+      hours: "%{smart_count} Stunde |||| %{smart_count} Stunden",
+      days: "%{smart_count} Tag |||| %{smart_count} Tage",
+      weeks: "%{smart_count} Woche |||| %{smart_count} Wochen",
+      months: "%{smart_count} Monat |||| %{smart_count} Monate",
+    },
   },
-
   scheduled_commands: {
     action: {
       create_success: "Geplanter Befehl erfolgreich erstellt.",
