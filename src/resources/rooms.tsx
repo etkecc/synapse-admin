@@ -60,6 +60,7 @@ import {
 } from "./room_directory";
 import AvatarField from "../components/AvatarField";
 import DeleteRoomButton from "../components/DeleteRoomButton";
+import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField } from "../components/media";
 import { Room } from "../synapse/dataProvider";
 import { DATE_FORMAT } from "../utils/date";
@@ -69,24 +70,26 @@ const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 5
 const RoomTitle = () => {
   const record = useRecordContext();
   const translate = useTranslate();
-  if (!record) {
-    return null;
-  }
+  const baseTitle = translate("resources.rooms.name", 1);
 
   let name = "";
-  let recordIdentifier = record?.id as string;
-  if (record?.canonical_alias) {
-    recordIdentifier = record.canonical_alias;
-  }
-
   if (record) {
+    let recordIdentifier = record.id as string;
+    if (record.canonical_alias) {
+      recordIdentifier = record.canonical_alias;
+    }
+
     name = record.name ? `${record.name} (${recordIdentifier})` : recordIdentifier;
   }
 
+  const pageTitle = record ? `${baseTitle}: ${name}` : baseTitle;
+  useDocTitle(pageTitle);
+  if (!record) {
+    return null;
+  }
   return (
     <span>
-      {translate("resources.rooms.name", 1)} <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} />{" "}
-      {name}
+      {baseTitle} <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} /> {name}
     </span>
   );
 };
@@ -454,6 +457,8 @@ const RoomListActions = () => (
 
 export const RoomList = (props: ListProps) => {
   const theme = useTheme();
+  const translate = useTranslate();
+  useDocTitle(translate("resources.rooms.name", { smart_count: 2 }));
 
   return (
     <List

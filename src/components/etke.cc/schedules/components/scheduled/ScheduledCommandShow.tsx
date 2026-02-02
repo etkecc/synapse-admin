@@ -11,11 +11,13 @@ import {
   RecordContextProvider,
   useLocale,
   useTranslate,
+  Title,
 } from "react-admin";
 import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduledDeleteButton from "./ScheduledDeleteButton";
 import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
@@ -27,6 +29,7 @@ const ScheduledCommandShow = () => {
   const [command, setCommand] = useState<ScheduledCommand | null>(null);
   const [loading, setLoading] = useState(true);
   const { data: scheduledCommands, isLoading: isLoadingList } = useScheduledCommands();
+  useDocTitle(translate("etkecc.actions.scheduled_details_title"));
 
   useEffect(() => {
     if (scheduledCommands) {
@@ -47,51 +50,56 @@ const ScheduledCommandShow = () => {
   }
 
   return (
-    <Box sx={{ mt: 2 }}>
-      <Button
-        label={translate("etkecc.actions.buttons.back")}
-        onClick={() => navigate("/server_actions")}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      />
+    <>
+      <Title title={translate("etkecc.actions.scheduled_details_title")} />
+      <Box sx={{ mt: 2 }}>
+        <Button
+          label={translate("etkecc.actions.buttons.back")}
+          onClick={() => navigate("/server_actions")}
+          startIcon={<ArrowBackIcon />}
+          sx={{ mb: 2 }}
+        />
 
-      <RecordContextProvider value={command}>
-        <Card>
-          <CardHeader title={translate("etkecc.actions.scheduled_details_title")} />
-          <CardContent>
-            {command && (
-              <EtkeAttribution>
-                <Alert severity="info">
-                  <Typography variant="body1" sx={{ px: 2 }}>
-                    {translate("etkecc.actions.command_details_intro")}{" "}
-                    <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                      {`etke.cc/help/extras/scheduler/#${command.command}`}
-                    </Link>
-                    .
-                  </Typography>
-                </Alert>
-              </EtkeAttribution>
-            )}
-            <SimpleShowLayout>
-              <TextField source="id" label={translate("etkecc.actions.form.id")} />
-              <TextField source="command" label={translate("etkecc.actions.form.command")} />
-              {command.args && <TextField source="args" label={translate("etkecc.actions.table.arguments")} />}
-              <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />
-              <DateField
-                source="scheduled_at"
-                label={translate("etkecc.actions.form.scheduled_at")}
-                showTime
-                locales={locale}
-              />
-            </SimpleShowLayout>
-            {command.is_recurring && <Alert severity="warning">{translate("etkecc.actions.recurring_warning")}</Alert>}
-          </CardContent>
-        </Card>
-        <Box display="flex" justifyContent="flex-end" mt={2}>
-          <ScheduledDeleteButton />
-        </Box>
-      </RecordContextProvider>
-    </Box>
+        <RecordContextProvider value={command}>
+          <Card>
+            <CardHeader title={translate("etkecc.actions.scheduled_details_title")} />
+            <CardContent>
+              {command && (
+                <EtkeAttribution>
+                  <Alert severity="info">
+                    <Typography variant="body1" sx={{ px: 2 }}>
+                      {translate("etkecc.actions.command_details_intro")}{" "}
+                      <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                        {`etke.cc/help/extras/scheduler/#${command.command}`}
+                      </Link>
+                      .
+                    </Typography>
+                  </Alert>
+                </EtkeAttribution>
+              )}
+              <SimpleShowLayout>
+                <TextField source="id" label={translate("etkecc.actions.form.id")} />
+                <TextField source="command" label={translate("etkecc.actions.form.command")} />
+                {command.args && <TextField source="args" label={translate("etkecc.actions.table.arguments")} />}
+                <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />
+                <DateField
+                  source="scheduled_at"
+                  label={translate("etkecc.actions.form.scheduled_at")}
+                  showTime
+                  locales={locale}
+                />
+              </SimpleShowLayout>
+              {command.is_recurring && (
+                <Alert severity="warning">{translate("etkecc.actions.recurring_warning")}</Alert>
+              )}
+            </CardContent>
+          </Card>
+          <Box display="flex" justifyContent="flex-end" mt={2}>
+            <ScheduledDeleteButton />
+          </Box>
+        </RecordContextProvider>
+      </Box>
+    </>
   );
 };
 

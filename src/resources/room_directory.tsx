@@ -29,6 +29,7 @@ import {
 
 import { MakeAdminBtn } from "./rooms";
 import AvatarField from "../components/AvatarField";
+import { useDocTitle } from "../components/hooks/useDocTitle";
 const RoomDirectoryPagination = () => <Pagination rowsPerPageOptions={[100, 500, 1000, 2000]} />;
 
 export const RoomDirectoryUnpublishButton = (props: DeleteButtonProps) => {
@@ -137,25 +138,29 @@ const RoomDirectoryListActions = () => (
   </TopToolbar>
 );
 
-export const RoomDirectoryList = () => (
-  <List pagination={<RoomDirectoryPagination />} perPage={50} actions={<RoomDirectoryListActions />}>
-    <DatagridConfigurable
-      rowClick={id => "/rooms/" + id + "/show"}
-      bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
-      omit={["room_id", "canonical_alias", "topic"]}
-    >
-      <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} label="resources.rooms.fields.avatar" />
-      <TextField source="name" sortable={false} label="resources.rooms.fields.name" />
-      <TextField source="room_id" sortable={false} label="resources.rooms.fields.room_id" />
-      <TextField source="canonical_alias" sortable={false} label="resources.rooms.fields.canonical_alias" />
-      <TextField source="topic" sortable={false} label="resources.rooms.fields.topic" />
-      <NumberField source="num_joined_members" sortable={false} label="resources.rooms.fields.joined_members" />
-      <BooleanField source="world_readable" sortable={false} label="resources.room_directory.fields.world_readable" />
-      <BooleanField source="guest_can_join" sortable={false} label="resources.room_directory.fields.guest_can_join" />
-      <MakeAdminBtn />
-    </DatagridConfigurable>
-  </List>
-);
+export const RoomDirectoryList = () => {
+  const translate = useTranslate();
+  useDocTitle(translate("resources.room_directory.name", { smart_count: 2 }));
+  return (
+    <List pagination={<RoomDirectoryPagination />} perPage={50} actions={<RoomDirectoryListActions />}>
+      <DatagridConfigurable
+        rowClick={id => "/rooms/" + id + "/show"}
+        bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
+        omit={["room_id", "canonical_alias", "topic"]}
+      >
+        <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} label="resources.rooms.fields.avatar" />
+        <TextField source="name" sortable={false} label="resources.rooms.fields.name" />
+        <TextField source="room_id" sortable={false} label="resources.rooms.fields.room_id" />
+        <TextField source="canonical_alias" sortable={false} label="resources.rooms.fields.canonical_alias" />
+        <TextField source="topic" sortable={false} label="resources.rooms.fields.topic" />
+        <NumberField source="num_joined_members" sortable={false} label="resources.rooms.fields.joined_members" />
+        <BooleanField source="world_readable" sortable={false} label="resources.room_directory.fields.world_readable" />
+        <BooleanField source="guest_can_join" sortable={false} label="resources.room_directory.fields.guest_can_join" />
+        <MakeAdminBtn />
+      </DatagridConfigurable>
+    </List>
+  );
+};
 
 const resource: ResourceProps = {
   name: "room_directory",

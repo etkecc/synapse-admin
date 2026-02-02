@@ -13,6 +13,7 @@ import {
   Button,
   SelectInput,
   useTranslate,
+  Title,
 } from "react-admin";
 import { useWatch } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ScheduleDeleteButton from "./ScheduledDeleteButton";
 import { useAppContext } from "../../../../../Context";
 import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
@@ -58,6 +60,7 @@ const ScheduledCommandEdit = () => {
   const pageTitle = isCreating
     ? translate("etkecc.actions.scheduled_title_create")
     : translate("etkecc.actions.scheduled_title_edit");
+  useDocTitle(pageTitle);
 
   const commandChoices = transformCommandsToChoices(serverCommands);
 
@@ -97,66 +100,71 @@ const ScheduledCommandEdit = () => {
   }
 
   return (
-    <Box sx={{ mt: 2 }}>
-      <Button
-        label={translate("etkecc.actions.buttons.back")}
-        onClick={() => navigate("/server_actions")}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      />
+    <>
+      <Title title={pageTitle} />
+      <Box sx={{ mt: 2 }}>
+        <Button
+          label={translate("etkecc.actions.buttons.back")}
+          onClick={() => navigate("/server_actions")}
+          startIcon={<ArrowBackIcon />}
+          sx={{ mb: 2 }}
+        />
 
-      <Card>
-        <CardHeader title={pageTitle} />
-        {command && (
-          <EtkeAttribution>
-            <Typography variant="body1" sx={{ px: 2 }}>
-              {translate("etkecc.actions.command_details_intro")}{" "}
-              <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                {`etke.cc/help/extras/scheduler/#${command.command}`}
-              </Link>
-              .
-            </Typography>
-          </EtkeAttribution>
-        )}
-        <CardContent>
-          <Form
-            defaultValues={command || undefined}
-            onSubmit={handleSubmit}
-            record={command || undefined}
-            warnWhenUnsavedChanges
-          >
-            <Box display="flex" flexDirection="column" gap={2}>
-              {command && (
-                <TextInput readOnly source="id" label={translate("etkecc.actions.form.id")} fullWidth required />
-              )}
-              <SelectInput
-                readOnly={!isCreating}
-                source="command"
-                choices={commandChoices}
-                label={translate("etkecc.actions.form.command")}
-                fullWidth
-                required
-              />
-              <ArgumentsField serverCommands={serverCommands} />
-              <DateTimeInput
-                source="scheduled_at"
-                label={translate("etkecc.actions.form.scheduled_at")}
-                fullWidth
-                required
-              />
-              <Box mt={2} display="flex" justifyContent="space-between">
-                <SaveButton
-                  label={
-                    isCreating ? translate("etkecc.actions.buttons.create") : translate("etkecc.actions.buttons.update")
-                  }
+        <Card>
+          <CardHeader title={pageTitle} />
+          {command && (
+            <EtkeAttribution>
+              <Typography variant="body1" sx={{ px: 2 }}>
+                {translate("etkecc.actions.command_details_intro")}{" "}
+                <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                  {`etke.cc/help/extras/scheduler/#${command.command}`}
+                </Link>
+                .
+              </Typography>
+            </EtkeAttribution>
+          )}
+          <CardContent>
+            <Form
+              defaultValues={command || undefined}
+              onSubmit={handleSubmit}
+              record={command || undefined}
+              warnWhenUnsavedChanges
+            >
+              <Box display="flex" flexDirection="column" gap={2}>
+                {command && (
+                  <TextInput readOnly source="id" label={translate("etkecc.actions.form.id")} fullWidth required />
+                )}
+                <SelectInput
+                  readOnly={!isCreating}
+                  source="command"
+                  choices={commandChoices}
+                  label={translate("etkecc.actions.form.command")}
+                  fullWidth
+                  required
                 />
-                {!isCreating && <ScheduleDeleteButton />}
+                <ArgumentsField serverCommands={serverCommands} />
+                <DateTimeInput
+                  source="scheduled_at"
+                  label={translate("etkecc.actions.form.scheduled_at")}
+                  fullWidth
+                  required
+                />
+                <Box mt={2} display="flex" justifyContent="space-between">
+                  <SaveButton
+                    label={
+                      isCreating
+                        ? translate("etkecc.actions.buttons.create")
+                        : translate("etkecc.actions.buttons.update")
+                    }
+                  />
+                  {!isCreating && <ScheduleDeleteButton />}
+                </Box>
               </Box>
-            </Box>
-          </Form>
-        </CardContent>
-      </Card>
-    </Box>
+            </Form>
+          </CardContent>
+        </Card>
+      </Box>
+    </>
   );
 };
 

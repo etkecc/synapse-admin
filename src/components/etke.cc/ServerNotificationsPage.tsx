@@ -7,6 +7,7 @@ import { Title, useLocale, useStore, useTranslate } from "react-admin";
 import { useAppContext } from "../../Context";
 import dataProvider, { ServerNotificationsResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
+import { useDocTitle } from "../hooks/useDocTitle";
 
 const ServerNotificationsPage = () => {
   const locale = useLocale();
@@ -16,6 +17,8 @@ const ServerNotificationsPage = () => {
     notifications: [],
     success: false,
   });
+
+  useDocTitle(translate("etkecc.notifications.title"));
 
   const notifications = serverNotifications.notifications;
 

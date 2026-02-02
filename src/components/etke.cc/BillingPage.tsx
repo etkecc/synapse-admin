@@ -24,6 +24,7 @@ import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "reac
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, Payment } from "../../synapse/dataProvider";
+import { useDocTitle } from "../hooks/useDocTitle";
 
 const TruncatedUUID = ({ uuid }): React.ReactElement => {
   const short = `${uuid.slice(0, 8)}...${uuid.slice(-6)}`;
@@ -53,6 +54,7 @@ const BillingPage = () => {
   const [failure, setFailure] = useState<string | null>(null);
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
 
+  useDocTitle(translate("etkecc.billing.name"));
   useEffect(() => {
     const fetchBillingData = async () => {
       if (!etkeccAdmin) return;
