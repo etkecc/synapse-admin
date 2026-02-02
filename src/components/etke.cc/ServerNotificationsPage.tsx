@@ -21,7 +21,7 @@ const ServerNotificationsPage = () => {
 
   return (
     <>
-      <Title title={translate("etkecc.notifications.name")} />
+      <Title title={translate("etkecc.notifications.title")} />
       <Stack spacing={3} mt={3}>
         <Stack spacing={1} direction="row" alignItems="center">
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", gap: 1 }}>
