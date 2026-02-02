@@ -19,7 +19,7 @@ import {
 import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
-import { useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
+import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
@@ -91,26 +91,29 @@ const BillingPage = () => {
   };
 
   const header = (
-    <Box>
-      <Typography variant="h4">
-        <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> {translate("etkecc.billing.name")}
-      </Typography>
-      <EtkeAttribution>
-        <Typography variant="body1">
-          {translate("etkecc.billing.description1")}{" "}
-          <Link href="https://etke.cc/help/payments/" target="_blank">
-            etke.cc/help/payments
-          </Link>
-          .
-          <br />
-          {translate("etkecc.billing.description2")}{" "}
-          <Link href="https://etke.cc/contacts/" target="_blank">
-            etke.cc/contacts
-          </Link>
-          .
+    <>
+      <Title title={translate("etkecc.billing.name")} />
+      <Box>
+        <Typography variant="h4">
+          <PaymentIcon sx={{ verticalAlign: "middle", mr: 1 }} /> {translate("etkecc.billing.name")}
         </Typography>
-      </EtkeAttribution>
-    </Box>
+        <EtkeAttribution>
+          <Typography variant="body1">
+            {translate("etkecc.billing.description1")}{" "}
+            <Link href="https://etke.cc/help/payments/" target="_blank">
+              etke.cc/help/payments
+            </Link>
+            .
+            <br />
+            {translate("etkecc.billing.description2")}{" "}
+            <Link href="https://etke.cc/contacts/" target="_blank">
+              etke.cc/contacts
+            </Link>
+            .
+          </Typography>
+        </EtkeAttribution>
+      </Box>
+    </>
   );
 
   if (loading) {

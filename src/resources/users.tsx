@@ -394,13 +394,11 @@ const UserTitle = () => {
     return null;
   }
 
-  const username = record ? (record.displayname ? `"${record.displayname}"` : `"${record.name}"`) : "";
+  const username = record ? (record.displayname ? `${record.displayname} (${record.name})` : `${record.name}`) : "";
   return (
     <span>
-      {translate("resources.users.name", {
-        smart_count: 1,
-      })}{" "}
-      {username}
+      {translate("resources.users.name", { smart_count: 1 })}{" "}
+      <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} /> {username}
     </span>
   );
 };

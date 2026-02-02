@@ -2,7 +2,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Typography, Paper, Button } from "@mui/material";
 import { Stack } from "@mui/material";
 import { Tooltip } from "@mui/material";
-import { useLocale, useStore, useTranslate } from "react-admin";
+import { Title, useLocale, useStore, useTranslate } from "react-admin";
 
 import { useAppContext } from "../../Context";
 import dataProvider, { ServerNotificationsResponse } from "../../synapse/dataProvider";
@@ -20,49 +20,54 @@ const ServerNotificationsPage = () => {
   const notifications = serverNotifications.notifications;
 
   return (
-    <Stack spacing={3} mt={3}>
-      <Stack spacing={1} direction="row" alignItems="center">
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", gap: 1 }}>
-          <Typography variant="h4">{translate("etkecc.notifications.title")}</Typography>
-          <Button
-            variant="text"
-            color="error"
-            onClick={async () => {
-              await dataProvider.deleteServerNotifications(etkeccAdmin);
-              setServerNotifications({
-                notifications: [],
-                success: true,
-              });
-            }}
-          >
-            <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> {translate("etkecc.notifications.clear_all")}
-          </Button>
-        </Box>
-      </Stack>
+    <>
+      <Title title={translate("etkecc.notifications.name")} />
+      <Stack spacing={3} mt={3}>
+        <Stack spacing={1} direction="row" alignItems="center">
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", gap: 1 }}>
+            <Typography variant="h4">{translate("etkecc.notifications.title")}</Typography>
+            <Button
+              variant="text"
+              color="error"
+              onClick={async () => {
+                await dataProvider.deleteServerNotifications(etkeccAdmin);
+                setServerNotifications({
+                  notifications: [],
+                  success: true,
+                });
+              }}
+            >
+              <DeleteIcon fontSize="small" sx={{ mr: 1 }} /> {translate("etkecc.notifications.clear_all")}
+            </Button>
+          </Box>
+        </Stack>
 
-      {notifications.length === 0 ? (
-        <Paper sx={{ p: 2 }}>
-          <Typography>{translate("etkecc.notifications.no_notifications")}</Typography>
-        </Paper>
-      ) : (
-        notifications.map((notification, index) => {
-          const { timeI18Nkey, timeI18Nparams } = getTimeSince(notification.sent_at);
-          const tooltipTitle = new Date(notification.sent_at.replace(" ", "T") + "Z").toLocaleString(locale);
-          return (
-            <Paper key={notification.event_id ? notification.event_id : index} sx={{ p: 2 }}>
-              <Stack spacing={1}>
-                <Typography variant="subtitle1" fontWeight="bold" color="text.secondary">
-                  <Tooltip title={tooltipTitle}>
-                    <span>{translate(timeI18Nkey, timeI18Nparams) + " " + translate("etkecc.notifications.ago")}</span>
-                  </Tooltip>
-                </Typography>
-                <Typography dangerouslySetInnerHTML={{ __html: notification.output }} />
-              </Stack>
-            </Paper>
-          );
-        })
-      )}
-    </Stack>
+        {notifications.length === 0 ? (
+          <Paper sx={{ p: 2 }}>
+            <Typography>{translate("etkecc.notifications.no_notifications")}</Typography>
+          </Paper>
+        ) : (
+          notifications.map((notification, index) => {
+            const { timeI18Nkey, timeI18Nparams } = getTimeSince(notification.sent_at);
+            const tooltipTitle = new Date(notification.sent_at.replace(" ", "T") + "Z").toLocaleString(locale);
+            return (
+              <Paper key={notification.event_id ? notification.event_id : index} sx={{ p: 2 }}>
+                <Stack spacing={1}>
+                  <Typography variant="subtitle1" fontWeight="bold" color="text.secondary">
+                    <Tooltip title={tooltipTitle}>
+                      <span>
+                        {translate(timeI18Nkey, timeI18Nparams) + " " + translate("etkecc.notifications.ago")}
+                      </span>
+                    </Tooltip>
+                  </Typography>
+                  <Typography dangerouslySetInnerHTML={{ __html: notification.output }} />
+                </Stack>
+              </Paper>
+            );
+          })
+        )}
+      </Stack>
+    </>
   );
 };
 

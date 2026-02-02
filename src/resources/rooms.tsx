@@ -69,14 +69,24 @@ const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 5
 const RoomTitle = () => {
   const record = useRecordContext();
   const translate = useTranslate();
+  if (!record) {
+    return null;
+  }
+
   let name = "";
+  let recordIdentifier = record?.id as string;
+  if (record?.canonical_alias) {
+    recordIdentifier = record.canonical_alias;
+  }
+
   if (record) {
-    name = record.name !== "" ? record.name : record.id;
+    name = record.name ? `${record.name} (${recordIdentifier})` : recordIdentifier;
   }
 
   return (
     <span>
-      {translate("resources.rooms.name", 1)} {name}
+      {translate("resources.rooms.name", 1)} <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} />{" "}
+      {name}
     </span>
   );
 };

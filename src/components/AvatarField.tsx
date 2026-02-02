@@ -107,9 +107,11 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
   }
 
   return (
-    <Avatar alt={alt} classes={classes} sizes={sizes} src={src} sx={sx} variant={variant}>
-      {letter}
-    </Avatar>
+    <span style={{ display: "inline-block" }}>
+      <Avatar alt={alt} classes={classes} sizes={sizes} src={src} sx={sx} variant={variant}>
+        {letter}
+      </Avatar>
+    </span>
   );
 };
 
