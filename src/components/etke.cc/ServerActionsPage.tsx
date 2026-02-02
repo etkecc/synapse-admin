@@ -6,11 +6,13 @@ import { Title, useTranslate } from "react-admin";
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { EtkeAttribution } from "./EtkeAttribution";
 import ServerCommandsPanel from "./ServerCommandsPanel";
+import { useDocTitle } from "../hooks/useDocTitle";
 import RecurringCommandsList from "./schedules/components/recurring/RecurringCommandsList";
 import ScheduledCommandsList from "./schedules/components/scheduled/ScheduledCommandsList";
 
 const ServerActionsPage = () => {
   const translate = useTranslate();
+  useDocTitle(translate("etkecc.actions.name"));
 
   return (
     <>

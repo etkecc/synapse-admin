@@ -22,6 +22,7 @@ import {
   useTranslate,
 } from "react-admin";
 
+import { useDocTitle } from "../components/hooks/useDocTitle";
 import { ReportMediaContent } from "../components/media";
 import { DATE_FORMAT } from "../utils/date";
 
@@ -30,6 +31,7 @@ const ReportPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100,
 export const ReportShow = (props: ShowProps) => {
   const translate = useTranslate();
   const locale = useLocale();
+  useDocTitle(translate("resources.reports.name", { smart_count: 1 }));
   return (
     <Show {...props} actions={<ReportShowActions />}>
       <TabbedShowLayout>
@@ -98,6 +100,8 @@ const ReportShowActions = () => {
 
 export const ReportList = (props: ListProps) => {
   const locale = useLocale();
+  const translate = useTranslate();
+  useDocTitle(translate("resources.reports.name", { smart_count: 2 }));
   return (
     <List {...props} pagination={<ReportPagination />} perPage={50} sort={{ field: "received_ts", order: "DESC" }}>
       <DatagridConfigurable rowClick="show" bulkActionButtons={false}>

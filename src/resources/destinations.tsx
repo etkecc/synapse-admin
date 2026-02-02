@@ -34,6 +34,7 @@ import {
   useLocale,
 } from "react-admin";
 
+import { useDocTitle } from "../components/hooks/useDocTitle";
 import { DATE_FORMAT } from "../utils/date";
 
 const DestinationPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
@@ -87,11 +88,10 @@ const DestinationShowActions = () => (
 const DestinationTitle = () => {
   const record = useRecordContext();
   const translate = useTranslate();
-  return (
-    <span>
-      {translate("resources.destinations.name", 1)} {record?.destination}
-    </span>
-  );
+  const text = `${translate("resources.destinations.name", 1)} ${record?.destination}`;
+  useDocTitle(text);
+
+  return <span>{text}</span>;
 };
 
 const RetryDateField = (props: DateFieldProps) => {
@@ -117,6 +117,8 @@ const destinationFieldRender = (record: RaRecord) => {
 
 export const DestinationList = (props: ListProps) => {
   const locale = useLocale();
+  const translate = useTranslate();
+  useDocTitle(translate("resources.destinations.name", 2));
   return (
     <List
       {...props}

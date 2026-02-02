@@ -80,6 +80,7 @@ import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
 import UserAccountData from "../components/UserAccountData";
 import UserRateLimits from "../components/UserRateLimits";
+import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { User, UsernameAvailabilityResult } from "../synapse/dataProvider";
 import { GetConfig } from "../utils/config";
@@ -178,6 +179,8 @@ const UserBulkActionButtons = () => {
 
 export const UserList = (props: ListProps) => {
   const locale = useLocale();
+  const translate = useTranslate();
+  useDocTitle(translate("resources.users.name", { smart_count: 2 }));
   return (
     <List
       {...props}
@@ -272,6 +275,8 @@ export const UserCreate = (props: CreateProps) => {
   const redirect = useRedirect();
   const notify = useNotify();
   const theme = useTheme();
+
+  useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name") }));
 
   const [open, setOpen] = useState(false);
   const [userIsAvailable, setUserIsAvailable] = useState<boolean | undefined>();
@@ -390,15 +395,17 @@ export const UserCreate = (props: CreateProps) => {
 const UserTitle = () => {
   const record = useRecordContext();
   const translate = useTranslate();
+  const baseTitle = translate("resources.users.name", { smart_count: 1 });
+
+  const username = record ? (record.displayname ? `${record.displayname} (${record.name})` : `${record.name}`) : "";
+  const pageTitle = record ? `${baseTitle} ${username}` : baseTitle;
+  useDocTitle(pageTitle);
   if (!record) {
     return null;
   }
-
-  const username = record ? (record.displayname ? `${record.displayname} (${record.name})` : `${record.name}`) : "";
   return (
     <span>
-      {translate("resources.users.name", { smart_count: 1 })}{" "}
-      <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} /> {username}
+      {baseTitle} <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} /> {username}
     </span>
   );
 };

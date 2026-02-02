@@ -13,6 +13,7 @@ import {
   SelectInput,
   TimeInput,
   useTranslate,
+  Title,
 } from "react-admin";
 import { useWatch } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import RecurringDeleteButton from "./RecurringDeleteButton";
 import { useAppContext } from "../../../../../Context";
 import { RecurringCommand } from "../../../../../synapse/dataProvider";
+import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
@@ -59,6 +61,7 @@ const RecurringCommandEdit = () => {
   const pageTitle = isCreating
     ? translate("etkecc.actions.recurring_title_create")
     : translate("etkecc.actions.recurring_title_edit");
+  useDocTitle(pageTitle);
 
   const commandChoices = transformCommandsToChoices(serverCommands);
   const dayOfWeekChoices = [
@@ -144,74 +147,79 @@ const RecurringCommandEdit = () => {
   }
 
   return (
-    <Box sx={{ mt: 2 }}>
-      <Button
-        label={translate("etkecc.actions.buttons.back")}
-        onClick={() => navigate("/server_actions")}
-        startIcon={<ArrowBackIcon />}
-        sx={{ mb: 2 }}
-      />
+    <>
+      <Title title={pageTitle} />
+      <Box sx={{ mt: 2 }}>
+        <Button
+          label={translate("etkecc.actions.buttons.back")}
+          onClick={() => navigate("/server_actions")}
+          startIcon={<ArrowBackIcon />}
+          sx={{ mb: 2 }}
+        />
 
-      <Card>
-        <CardHeader title={pageTitle} />
-        <CardContent>
-          {command && (
-            <EtkeAttribution>
-              <Alert severity="info">
-                <Typography variant="body1" sx={{ px: 2 }}>
-                  {translate("etkecc.actions.command_details_intro")}{" "}
-                  <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
-                    {`etke.cc/help/extras/scheduler/#${command.command}`}
-                  </Link>
-                  .
-                </Typography>
-              </Alert>
-            </EtkeAttribution>
-          )}
-          <Form
-            defaultValues={command || undefined}
-            onSubmit={handleSubmit}
-            record={command || undefined}
-            warnWhenUnsavedChanges
-          >
-            <Box display="flex" flexDirection="column" gap={2}>
-              {!isCreating && (
-                <TextInput readOnly source="id" label={translate("etkecc.actions.form.id")} fullWidth required />
-              )}
-              <SelectInput
-                source="command"
-                choices={commandChoices}
-                label={translate("etkecc.actions.form.command")}
-                fullWidth
-                required
-              />
-              <ArgumentsField serverCommands={serverCommands} />
-              <SelectInput
-                source="day_of_week"
-                choices={dayOfWeekChoices}
-                label={translate("etkecc.actions.form.day_of_week")}
-                fullWidth
-                required
-              />
-              <TimeInput
-                source="execution_time"
-                label={translate("etkecc.actions.table.time_utc")}
-                fullWidth
-                required
-              />
-              <Box mt={2} display="flex" justifyContent="space-between">
-                <SaveButton
-                  label={
-                    isCreating ? translate("etkecc.actions.buttons.create") : translate("etkecc.actions.buttons.update")
-                  }
+        <Card>
+          <CardHeader title={pageTitle} />
+          <CardContent>
+            {command && (
+              <EtkeAttribution>
+                <Alert severity="info">
+                  <Typography variant="body1" sx={{ px: 2 }}>
+                    {translate("etkecc.actions.command_details_intro")}{" "}
+                    <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                      {`etke.cc/help/extras/scheduler/#${command.command}`}
+                    </Link>
+                    .
+                  </Typography>
+                </Alert>
+              </EtkeAttribution>
+            )}
+            <Form
+              defaultValues={command || undefined}
+              onSubmit={handleSubmit}
+              record={command || undefined}
+              warnWhenUnsavedChanges
+            >
+              <Box display="flex" flexDirection="column" gap={2}>
+                {!isCreating && (
+                  <TextInput readOnly source="id" label={translate("etkecc.actions.form.id")} fullWidth required />
+                )}
+                <SelectInput
+                  source="command"
+                  choices={commandChoices}
+                  label={translate("etkecc.actions.form.command")}
+                  fullWidth
+                  required
                 />
-                {!isCreating && <RecurringDeleteButton />}
+                <ArgumentsField serverCommands={serverCommands} />
+                <SelectInput
+                  source="day_of_week"
+                  choices={dayOfWeekChoices}
+                  label={translate("etkecc.actions.form.day_of_week")}
+                  fullWidth
+                  required
+                />
+                <TimeInput
+                  source="execution_time"
+                  label={translate("etkecc.actions.table.time_utc")}
+                  fullWidth
+                  required
+                />
+                <Box mt={2} display="flex" justifyContent="space-between">
+                  <SaveButton
+                    label={
+                      isCreating
+                        ? translate("etkecc.actions.buttons.create")
+                        : translate("etkecc.actions.buttons.update")
+                    }
+                  />
+                  {!isCreating && <RecurringDeleteButton />}
+                </Box>
               </Box>
-            </Box>
-          </Form>
-        </CardContent>
-      </Card>
-    </Box>
+            </Form>
+          </CardContent>
+        </Card>
+      </Box>
+    </>
   );
 };
 

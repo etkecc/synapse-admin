@@ -9,6 +9,7 @@ import StartImportCard from "./StartImportCard";
 import StatsCard from "./StatsCard";
 import UploadCard from "./UploadCard";
 import useImportFile from "./useImportFile";
+import { useDocTitle } from "../hooks/useDocTitle";
 
 const UserImport = () => {
   const {
@@ -31,6 +32,7 @@ const UserImport = () => {
   } = useImportFile();
 
   const translate = useTranslate();
+  useDocTitle(translate("import_users.title"));
 
   return (
     <Stack spacing={3} mt={3} direction="column">

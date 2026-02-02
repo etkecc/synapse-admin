@@ -8,6 +8,7 @@ import { Title } from "react-admin";
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { EtkeAttribution } from "./EtkeAttribution";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
+import { useDocTitle } from "../hooks/useDocTitle";
 
 const StatusChip = ({
   isOkay,
@@ -44,6 +45,7 @@ const ServerComponentText = ({ text }: { text: string }) => {
 
 const ServerStatusPage = () => {
   const translate = useTranslate();
+  useDocTitle(translate("etkecc.status.name"));
   const errorLabel = translate("etkecc.status.error");
   const [serverStatus, _setServerStatus] = useStore<ServerStatusResponse>("serverStatus", {
     ok: false,

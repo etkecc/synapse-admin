@@ -168,10 +168,14 @@ export const AdminLayout = ({ children }) => {
   const icfg = GetInstanceConfig();
   useEffect(() => {
     document.documentElement.lang = locale;
-    // set <title> based on instance name
-    if (icfg.name) {
+
+    // copy of the code from index.tsx to set base title dynamically
+    document.head.dataset.baseTitle = icfg.name || "Synapse Admin";
+    // set <title> based on instance name, only if it's not already set
+    if (icfg.name && !document.title.includes(icfg.name)) {
       document.title = icfg.name;
     }
+
     if (icfg.favicon_url) {
       const link: HTMLLinkElement | null = document.querySelector("link[rel~='icon']");
       if (link) {
