@@ -112,7 +112,7 @@ const it: SynapseTranslationMessages = {
       query_name: "Nome della ricerca",
       remove_dialog_title: "Eliminare la ricerca salvata?",
       remove_label: "Elimina",
-      remove_label_with_name: "Elimina \"%{name}\"",
+      remove_label_with_name: 'Elimina "%{name}"',
       remove_message: "La ricerca salvata verrà eliminata.",
     },
     validation: {
