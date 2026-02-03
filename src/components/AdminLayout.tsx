@@ -106,7 +106,29 @@ const AdminMenu = props => {
   });
 
   return (
-    <Menu {...props}>
+    <Menu
+      {...props}
+      sx={theme => ({
+        "& .RaMenuItemLink-root": {
+          justifyContent: "center",
+          padding: "0px 2px 0px 0px",
+          marginBottom: 0,
+        },
+        "& .RaMenuItemLink-icon": {
+          minWidth: 44,
+          width: 44,
+          height: 44,
+          backgroundColor: "transparent",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "box-shadow 150ms ease, transform 150ms ease",
+        },
+        "& .RaMenuItemLink-active": {
+          backgroundColor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.06)",
+        },
+      })}
+    >
       {etkeRoutesEnabled && !icfg.disabled.monitoring && (
         <Menu.Item
           key="server_status"
