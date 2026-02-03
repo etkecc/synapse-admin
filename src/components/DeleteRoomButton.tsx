@@ -13,6 +13,8 @@ import {
   useDeleteMany,
   Identifier,
   useUnselectAll,
+  useRecordContext,
+  useResourceContext,
 } from "react-admin";
 
 interface DeleteRoomButtonProps {
@@ -34,11 +36,20 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
   const [deleteMany, { isLoading }] = useDeleteMany();
   const unselectAll = useUnselectAll(resourceName);
   const recordIds = props.selectedIds;
+  const record = useRecordContext();
+  const resource = useResourceContext();
+
+  let redirectTo = "/rooms";
+  // If the room(-s) are being deleted from a user's joined rooms list,
+  // redirect back to that list after deletion
+  if (resource === "joined_rooms" && record?.id) {
+    redirectTo = `/users/${encodeURIComponent(record.id)}/rooms`;
+  }
 
   const handleDialogOpen = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
 
-  const handleDelete = (values: { block: boolean }) => {
+  const handleDelete = (values: { block: boolean }, redirectTo: string) => {
     deleteMany(
       resourceName,
       { ids: recordIds, meta: values },
@@ -47,7 +58,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
           notify("resources.rooms.action.erase.success");
           handleDialogClose();
           unselectAll();
-          redirect("/rooms");
+          redirect(redirectTo);
         },
         /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
         onError: (error: any) =>
@@ -58,7 +69,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
 
   const handleConfirm = () => {
     setOpen(false);
-    handleDelete({ block: block });
+    handleDelete({ block: block }, redirectTo);
   };
 
   return (

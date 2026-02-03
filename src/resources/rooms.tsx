@@ -427,7 +427,7 @@ export const RoomShow = (props: ShowProps) => {
   );
 };
 
-const RoomBulkActionButtons = () => {
+export const RoomBulkActionButtons = () => {
   const record = useListContext();
   return (
     <>

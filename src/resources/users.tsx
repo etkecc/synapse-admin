@@ -72,7 +72,7 @@ import {
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-import { MakeAdminBtn } from "./rooms";
+import { MakeAdminBtn, RoomBulkActionButtons } from "./rooms";
 import AvatarField from "../components/AvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import DeviceRemoveButton from "../components/DeviceRemoveButton";
@@ -695,7 +695,11 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <Datagrid sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
+            <Datagrid
+              sx={{ width: "100%" }}
+              rowClick={id => "/rooms/" + id + "/show"}
+              bulkActionButtons={<RoomBulkActionButtons />}
+            >
               <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                 <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
               </ReferenceField>
