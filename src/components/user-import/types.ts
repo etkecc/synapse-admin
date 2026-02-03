@@ -5,10 +5,10 @@ export interface ImportLine {
   displayname: string;
   user_type?: string;
   name?: string;
-  deactivated?: boolean;
-  is_guest?: boolean;
-  admin?: boolean;
-  is_admin?: boolean;
+  deactivated?: boolean | string;
+  is_guest?: boolean | string;
+  admin?: boolean | string;
+  is_admin?: boolean | string;
   password?: string;
   avatar_url?: string;
   threepids?: string; // Comma-separated list of 3PIDs, example: "email:one@example.com,msisdn:+1234567890"

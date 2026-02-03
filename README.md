@@ -200,7 +200,7 @@ services:
   synapse-admin:
     ...
     volumes:
-      - ./config.json:/app/config.json:ro
+      - ./config.json:/var/public/config.json:ro
     ...
 ```
 

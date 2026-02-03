@@ -12,6 +12,162 @@ const LOGGING = true;
 
 const EXPECTED_FIELDS = ["id", "displayname"].sort();
 
+const FALSE_VALUES = ["", "0", "false", "no", "off", "null", "undefined"];
+const TRUE_VALUES = ["1", "true", "yes", "on"];
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export const anyToBoolean = (value: any): boolean => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "number") {
+    if (!Number.isFinite(value)) {
+      return false;
+    }
+    return value !== 0;
+  }
+  if (typeof value === "string") {
+    const val = value.trim().toLowerCase();
+    if (TRUE_VALUES.includes(val)) {
+      return true;
+    }
+    if (FALSE_VALUES.includes(val)) {
+      return false;
+    }
+  }
+  return false;
+};
+
+export interface CsvValidationResult {
+  ok: boolean;
+  data: ImportLine[];
+  stats: ParsedStats | null;
+  errors: string[];
+}
+
+export const validateCsvImport = (
+  { data, meta, errors }: ParseResult<ImportLine>,
+  translate: (key: string, options?: Record<string, unknown>) => string
+): CsvValidationResult => {
+  /* First, verify the presence of required fields */
+  meta.fields = meta.fields?.map(f => f.trim().toLowerCase());
+  const missingFields = EXPECTED_FIELDS.filter(eF => !meta.fields?.find(mF => eF === mF));
+
+  if (missingFields.length > 0) {
+    return {
+      ok: false,
+      data: [],
+      stats: null,
+      errors: [translate("import_users.error.required_field", { field: missingFields[0] })],
+    };
+  }
+
+  /* Collect some stats to prevent sneaky csv files from adding admin
+     users or something.
+   */
+  const stats: ParsedStats = {
+    user_types: { default: 0 },
+    is_guest: 0,
+    admin: 0,
+    deactivated: 0,
+    password: 0,
+    avatar_url: 0,
+    id: 0,
+
+    total: data.length,
+  };
+
+  const errorMessages = errors.map(e => e.message);
+  // sanitize the data first
+  data = data.map(line => {
+    const newLine = {} as ImportLine;
+    for (const [key, value] of Object.entries(line)) {
+      const normalizedKey = key.trim().toLowerCase();
+      const normalizedValue = typeof value === "string" ? value.trim() : value;
+      newLine[normalizedKey] = normalizedValue;
+    }
+    return newLine;
+  });
+
+  // process the data
+  data.forEach((line, idx) => {
+    if (line.user_type === undefined || line.user_type === "") {
+      stats.user_types.default++;
+    } else {
+      if (stats.user_types[line.user_type] === undefined) {
+        stats.user_types[line.user_type] = 0;
+      }
+      stats.user_types[line.user_type] += 1;
+    }
+    /* XXX correct the csv export that react-admin offers for the users
+     * resource so it gives sensible field names and doesn't duplicate
+     * id as "name"?
+     */
+    if (meta.fields?.includes("name")) {
+      delete line.name;
+    }
+    if (meta.fields?.includes("user_type")) {
+      delete line.user_type;
+    }
+    if (meta.fields?.includes("is_admin")) {
+      delete line.is_admin;
+    }
+
+    ["is_guest", "admin", "deactivated"].forEach(f => {
+      const rawValue = line[f];
+      if (rawValue === undefined || rawValue === "") {
+        line[f] = false; // default values to false
+        return;
+      }
+      if (typeof rawValue === "boolean") {
+        if (rawValue) {
+          stats[f]++;
+        }
+        line[f] = rawValue;
+        return;
+      }
+
+      const normalizedValue = String(rawValue).trim().toLowerCase();
+      if (TRUE_VALUES.includes(normalizedValue)) {
+        stats[f]++;
+        line[f] = true; // we need true booleans instead of strings
+        return;
+      }
+      if (FALSE_VALUES.includes(normalizedValue)) {
+        line[f] = false;
+        return;
+      }
+
+      console.log("invalid value", rawValue, "for field " + f + " in row " + idx);
+      errorMessages.push(
+        translate("import_users.error.invalid_value", {
+          field: f,
+          row: idx,
+        })
+      );
+      line[f] = false; // default values to false
+    });
+
+    if (line.password !== undefined && line.password !== "") {
+      stats.password++;
+    }
+
+    if (line.avatar_url !== undefined && line.avatar_url !== "") {
+      stats.avatar_url++;
+    }
+
+    if (line.id !== undefined && line.id !== "") {
+      stats.id++;
+    }
+  });
+
+  if (errorMessages.length > 0) {
+    return { ok: false, data, stats: null, errors: errorMessages };
+  }
+
+  return { ok: true, data, stats, errors: [] };
+};
+
 const useImportFile = () => {
   const [csvData, setCsvData] = useState<ImportLine[]>([]);
   const [errors, setErrors] = useState<string[]>([]);
@@ -69,100 +225,14 @@ const useImportFile = () => {
   };
 
   const verifyCsv = ({ data, meta, errors }: ParseResult<ImportLine>) => {
-    /* First, verify the presence of required fields */
-    meta.fields = meta.fields?.map(f => f.trim().toLowerCase());
-    const missingFields = EXPECTED_FIELDS.filter(eF => !meta.fields?.find(mF => eF === mF));
-
-    if (missingFields.length > 0) {
-      setErrors([translate("import_users.error.required_field", { field: missingFields[0] })]);
+    const result = validateCsvImport({ data, meta, errors }, translate);
+    if (!result.ok) {
+      setErrors(result.errors);
       return false;
     }
 
-    /* Collect some stats to prevent sneaky csv files from adding admin
-       users or something.
-     */
-    const stats: ParsedStats = {
-      user_types: { default: 0 },
-      is_guest: 0,
-      admin: 0,
-      deactivated: 0,
-      password: 0,
-      avatar_url: 0,
-      id: 0,
-
-      total: data.length,
-    };
-
-    const errorMessages = errors.map(e => e.message);
-    // sanitize the data first
-    data = data.map(line => {
-      const newLine = {} as ImportLine;
-      for (const [key, value] of Object.entries(line)) {
-        newLine[key.trim().toLowerCase()] = value;
-      }
-      return newLine;
-    });
-
-    // process the data
-    data.forEach((line, idx) => {
-      if (line.user_type === undefined || line.user_type === "") {
-        stats.user_types.default++;
-      } else {
-        stats.user_types[line.user_type] += 1;
-      }
-      /* XXX correct the csv export that react-admin offers for the users
-       * resource so it gives sensible field names and doesn't duplicate
-       * id as "name"?
-       */
-      if (meta.fields?.includes("name")) {
-        delete line.name;
-      }
-      if (meta.fields?.includes("user_type")) {
-        delete line.user_type;
-      }
-      if (meta.fields?.includes("is_admin")) {
-        delete line.is_admin;
-      }
-
-      ["is_guest", "admin", "deactivated"].forEach(f => {
-        if (line[f] === "true") {
-          stats[f]++;
-          line[f] = true; // we need true booleans instead of strings
-        } else {
-          if (line[f] !== "false" && line[f] !== "") {
-            console.log("invalid value", line[f], "for field " + f + " in row " + idx);
-            errorMessages.push(
-              translate("import_users.error.invalid_value", {
-                field: f,
-                row: idx,
-              })
-            );
-          }
-          line[f] = false; // default values to false
-        }
-      });
-
-      if (line.password !== undefined && line.password !== "") {
-        stats.password++;
-      }
-
-      if (line.avatar_url !== undefined && line.avatar_url !== "") {
-        stats.avatar_url++;
-      }
-
-      if (line.id !== undefined && line.id !== "") {
-        stats.id++;
-      }
-    });
-
-    if (errorMessages.length > 0) {
-      setErrors(errorMessages);
-      return false;
-    }
-
-    setStats(stats);
-    setCsvData(data);
-
+    setStats(result.stats);
+    setCsvData(result.data);
     return true;
   };
 
@@ -232,6 +302,10 @@ const useImportFile = () => {
       setProgress({ done: entriesDone, limit: entriesCount });
       for (const entry of csvData) {
         const userRecord = { ...entry };
+        userRecord.deactivated = anyToBoolean(userRecord.deactivated);
+        userRecord.is_guest = anyToBoolean(userRecord.is_guest);
+        userRecord.admin = anyToBoolean(userRecord.admin);
+        userRecord.is_admin = anyToBoolean(userRecord.is_admin);
         // No need to do a bunch of cryptographic random number getting if
         // we are using neither a generated password nor a generated user id.
         if (useridMode === "ignore" || userRecord.id === undefined || userRecord.id === "") {
