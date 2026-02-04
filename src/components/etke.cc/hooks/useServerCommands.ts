@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDataProvider } from "react-admin";
+import { useDataProvider, useLocale } from "react-admin";
 
 import { useAppContext } from "../../../Context";
 import { ServerCommand } from "../../../synapse/dataProvider";
@@ -8,6 +8,7 @@ import { GetInstanceConfig } from "../InstanceConfig";
 export const useServerCommands = () => {
   const icfg = GetInstanceConfig();
   const { etkeccAdmin } = useAppContext();
+  const locale = useLocale();
   const [isLoading, setLoading] = useState(true);
   const [maintenance, setMaintenance] = useState(false);
   const [serverCommands, setServerCommands] = useState<Record<string, ServerCommand>>({});
@@ -15,7 +16,7 @@ export const useServerCommands = () => {
 
   useEffect(() => {
     const fetchServerCommands = async () => {
-      const serverCommandsResponse = await dataProvider.getServerCommands(etkeccAdmin);
+      const serverCommandsResponse = await dataProvider.getServerCommands(etkeccAdmin, locale);
       if (serverCommandsResponse?.maintenance) {
         setMaintenance(true);
         setLoading(false);
@@ -37,7 +38,7 @@ export const useServerCommands = () => {
       setLoading(false);
     };
     fetchServerCommands();
-  }, [dataProvider, etkeccAdmin]);
+  }, [dataProvider, etkeccAdmin, locale]);
 
   return { isLoading, maintenance, serverCommands, setServerCommands };
 };

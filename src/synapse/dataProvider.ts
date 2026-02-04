@@ -63,6 +63,23 @@ const jsonClient = async (url: string, options: Options = {}) => {
   }
 };
 
+const etkeClient = async (url: string, locale: string, options: RequestInit = {}) => {
+  const token = localStorage.getItem("access_token");
+  if (!token) {
+    return Promise.reject(new Error("Missing access token"));
+  }
+  const headers = new Headers(options.headers || {});
+  headers.set("Authorization", `Bearer ${token}`);
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+  if (locale) {
+    headers.set("Accept-Language", locale);
+  }
+
+  return fetch(url, { ...options, headers });
+};
+
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const filterUndefined = (obj: Record<string, any>) => {
   return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
@@ -387,21 +404,40 @@ export interface SynapseDataProvider extends DataProvider {
     suspendValue: boolean
   ) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
-  getServerRunningProcess: (etkeAdminUrl: string) => Promise<ServerProcessResponse>;
-  getServerStatus: (etkeAdminUrl: string) => Promise<ServerStatusResponse>;
-  getServerNotifications: (etkeAdminUrl: string) => Promise<ServerNotificationsResponse>;
-  deleteServerNotifications: (etkeAdminUrl: string) => Promise<{ success: boolean }>;
-  getServerCommands: (etkeAdminUrl: string) => Promise<{ maintenance: boolean; commands: ServerCommandsResponse[] }>;
-  getScheduledCommands: (etkeAdminUrl: string) => Promise<ScheduledCommand[]>;
-  getRecurringCommands: (etkeAdminUrl: string) => Promise<RecurringCommand[]>;
-  createScheduledCommand: (etkeAdminUrl: string, command: Partial<ScheduledCommand>) => Promise<ScheduledCommand>;
-  updateScheduledCommand: (etkeAdminUrl: string, command: ScheduledCommand) => Promise<ScheduledCommand>;
-  deleteScheduledCommand: (etkeAdminUrl: string, id: string) => Promise<{ success: boolean }>;
-  createRecurringCommand: (etkeAdminUrl: string, command: Partial<RecurringCommand>) => Promise<RecurringCommand>;
-  updateRecurringCommand: (etkeAdminUrl: string, command: RecurringCommand) => Promise<RecurringCommand>;
-  deleteRecurringCommand: (etkeAdminUrl: string, id: string) => Promise<{ success: boolean }>;
-  getPayments: (etkeAdminUrl: string) => Promise<PaymentsResponse>;
-  getInvoice: (etkeAdminUrl: string, transactionId: string) => Promise<void>;
+  getServerRunningProcess: (etkeAdminUrl: string, locale: string) => Promise<ServerProcessResponse>;
+  getServerStatus: (etkeAdminUrl: string, locale: string) => Promise<ServerStatusResponse>;
+  getServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<ServerNotificationsResponse>;
+  deleteServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<{ success: boolean }>;
+  getServerCommands: (
+    etkeAdminUrl: string,
+    locale: string
+  ) => Promise<{ maintenance: boolean; commands: ServerCommandsResponse[] }>;
+  getScheduledCommands: (etkeAdminUrl: string, locale: string) => Promise<ScheduledCommand[]>;
+  getRecurringCommands: (etkeAdminUrl: string, locale: string) => Promise<RecurringCommand[]>;
+  createScheduledCommand: (
+    etkeAdminUrl: string,
+    locale: string,
+    command: Partial<ScheduledCommand>
+  ) => Promise<ScheduledCommand>;
+  updateScheduledCommand: (
+    etkeAdminUrl: string,
+    locale: string,
+    command: ScheduledCommand
+  ) => Promise<ScheduledCommand>;
+  deleteScheduledCommand: (etkeAdminUrl: string, locale: string, id: string) => Promise<{ success: boolean }>;
+  createRecurringCommand: (
+    etkeAdminUrl: string,
+    locale: string,
+    command: Partial<RecurringCommand>
+  ) => Promise<RecurringCommand>;
+  updateRecurringCommand: (
+    etkeAdminUrl: string,
+    locale: string,
+    command: RecurringCommand
+  ) => Promise<RecurringCommand>;
+  deleteRecurringCommand: (etkeAdminUrl: string, locale: string, id: string) => Promise<{ success: boolean }>;
+  getPayments: (etkeAdminUrl: string, locale: string) => Promise<PaymentsResponse>;
+  getInvoice: (etkeAdminUrl: string, locale: string, transactionId: string) => Promise<void>;
 }
 
 const resourceMap = {
@@ -1145,7 +1181,11 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  getServerRunningProcess: async (etkeAdminUrl: string, burstCache = false): Promise<ServerProcessResponse> => {
+  getServerRunningProcess: async (
+    etkeAdminUrl: string,
+    locale: string,
+    burstCache = false
+  ): Promise<ServerProcessResponse> => {
     const locked_at = "";
     const command = "";
 
@@ -1155,11 +1195,7 @@ const baseDataProvider: SynapseDataProvider = {
     }
 
     try {
-      const response = await fetch(serverURL, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(serverURL, locale);
 
       if (response.status === 503) {
         return { locked_at, command, maintenance: true };
@@ -1184,18 +1220,14 @@ const baseDataProvider: SynapseDataProvider = {
 
     return { locked_at, command, maintenance: false };
   },
-  getServerStatus: async (etkeAdminUrl: string, burstCache = false): Promise<ServerStatusResponse> => {
+  getServerStatus: async (etkeAdminUrl: string, locale: string, burstCache = false): Promise<ServerStatusResponse> => {
     let serverURL = `${etkeAdminUrl}/status`;
     if (burstCache) {
       serverURL += `?time=${new Date().getTime()}`;
     }
 
     try {
-      const response = await fetch(serverURL, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(serverURL, locale);
 
       if (response.status === 503) {
         return { success: false, ok: false, host: "", results: [], maintenance: true };
@@ -1219,20 +1251,17 @@ const baseDataProvider: SynapseDataProvider = {
     return { success: false, ok: false, host: "", results: [] };
   },
   getServerNotifications: async (
-    serverNotificationsUrl: string,
+    etkeAdminUrl: string,
+    locale: string,
     burstCache = false
   ): Promise<ServerNotificationsResponse> => {
-    let serverURL = `${serverNotificationsUrl}/notifications`;
+    let serverURL = `${etkeAdminUrl}/notifications`;
     if (burstCache) {
       serverURL += `?time=${new Date().getTime()}`;
     }
 
     try {
-      const response = await fetch(serverURL, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(serverURL, locale);
       if (response.status === 503) {
         return { success: false, notifications: [] };
       }
@@ -1259,12 +1288,9 @@ const baseDataProvider: SynapseDataProvider = {
 
     return { success: false, notifications: [] };
   },
-  deleteServerNotifications: async (serverNotificationsUrl: string) => {
+  deleteServerNotifications: async (etkeAdminUrl: string, locale: string) => {
     try {
-      const response = await fetch(`${serverNotificationsUrl}/notifications`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
+      const response = await etkeClient(`${etkeAdminUrl}/notifications`, locale, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -1283,13 +1309,9 @@ const baseDataProvider: SynapseDataProvider = {
 
     return { success: false };
   },
-  getServerCommands: async (serverCommandsUrl: string) => {
+  getServerCommands: async (etkeAdminUrl: string, locale: string) => {
     try {
-      const response = await fetch(`${serverCommandsUrl}/commands`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(`${etkeAdminUrl}/commands`, locale);
 
       if (response.status === 503) {
         return { maintenance: true, commands: [] };
@@ -1358,13 +1380,9 @@ const baseDataProvider: SynapseDataProvider = {
       maintenance: false,
     };
   },
-  getScheduledCommands: async (scheduledCommandsUrl: string) => {
+  getScheduledCommands: async (etkeAdminUrl: string, locale: string) => {
     try {
-      const response = await fetch(`${scheduledCommandsUrl}/schedules`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(`${etkeAdminUrl}/schedules`, locale);
       if (response.status === 503) {
         return [];
       }
@@ -1387,13 +1405,9 @@ const baseDataProvider: SynapseDataProvider = {
     }
     return [];
   },
-  getRecurringCommands: async (recurringCommandsUrl: string) => {
+  getRecurringCommands: async (etkeAdminUrl: string, locale: string) => {
     try {
-      const response = await fetch(`${recurringCommandsUrl}/recurrings`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(`${etkeAdminUrl}/recurrings`, locale);
 
       if (response.status === 503) {
         return [];
@@ -1417,13 +1431,12 @@ const baseDataProvider: SynapseDataProvider = {
     }
     return [];
   },
-  createScheduledCommand: async (scheduledCommandsUrl: string, command: Partial<ScheduledCommand>) => {
+  createScheduledCommand: async (etkeAdminUrl: string, locale: string, command: Partial<ScheduledCommand>) => {
     try {
-      const response = await fetch(`${scheduledCommandsUrl}/schedules`, {
+      const response = await etkeClient(`${etkeAdminUrl}/schedules`, locale, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(command),
       });
@@ -1444,14 +1457,13 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  updateScheduledCommand: async (scheduledCommandsUrl: string, command: ScheduledCommand) => {
+  updateScheduledCommand: async (etkeAdminUrl: string, locale: string, command: ScheduledCommand) => {
     try {
       // Use the base endpoint without ID and use PUT for upsert
-      const response = await fetch(`${scheduledCommandsUrl}/schedules`, {
+      const response = await etkeClient(`${etkeAdminUrl}/schedules`, locale, {
         method: "PUT", // Using PUT on the base endpoint
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(command),
       });
@@ -1477,13 +1489,10 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  deleteScheduledCommand: async (scheduledCommandsUrl: string, id: string) => {
+  deleteScheduledCommand: async (etkeAdminUrl: string, locale: string, id: string) => {
     try {
-      const response = await fetch(`${scheduledCommandsUrl}/schedules/${id}`, {
+      const response = await etkeClient(`${etkeAdminUrl}/schedules/${id}`, locale, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
       });
 
       if (!response.ok) {
@@ -1497,13 +1506,12 @@ const baseDataProvider: SynapseDataProvider = {
       return { success: false };
     }
   },
-  createRecurringCommand: async (recurringCommandsUrl: string, command: Partial<RecurringCommand>) => {
+  createRecurringCommand: async (etkeAdminUrl: string, locale: string, command: Partial<RecurringCommand>) => {
     try {
-      const response = await fetch(`${recurringCommandsUrl}/recurrings`, {
+      const response = await etkeClient(`${etkeAdminUrl}/recurrings`, locale, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(command),
       });
@@ -1525,13 +1533,12 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  updateRecurringCommand: async (recurringCommandsUrl: string, command: RecurringCommand) => {
+  updateRecurringCommand: async (etkeAdminUrl: string, locale: string, command: RecurringCommand) => {
     try {
-      const response = await fetch(`${recurringCommandsUrl}/recurrings`, {
+      const response = await etkeClient(`${etkeAdminUrl}/recurrings`, locale, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(command),
       });
@@ -1553,13 +1560,10 @@ const baseDataProvider: SynapseDataProvider = {
       throw error;
     }
   },
-  deleteRecurringCommand: async (recurringCommandsUrl: string, id: string) => {
+  deleteRecurringCommand: async (etkeAdminUrl: string, locale: string, id: string) => {
     try {
-      const response = await fetch(`${recurringCommandsUrl}/recurrings/${id}`, {
+      const response = await etkeClient(`${etkeAdminUrl}/recurrings/${id}`, locale, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
       });
 
       if (!response.ok) {
@@ -1573,12 +1577,8 @@ const baseDataProvider: SynapseDataProvider = {
       return { success: false };
     }
   },
-  getPayments: async (etkeAdminUrl: string) => {
-    const response = await fetch(`${etkeAdminUrl}/payments`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    });
+  getPayments: async (etkeAdminUrl: string, locale: string) => {
+    const response = await etkeClient(`${etkeAdminUrl}/payments`, locale);
 
     if (response.status === 503) {
       return { payments: [], total: 0, maintenance: true };
@@ -1601,13 +1601,9 @@ const baseDataProvider: SynapseDataProvider = {
 
     throw new Error(`${response.status} ${response.statusText}`); // Handle unexpected status codes
   },
-  getInvoice: async (etkeAdminUrl: string, transactionId: string) => {
+  getInvoice: async (etkeAdminUrl: string, locale: string, transactionId: string) => {
     try {
-      const response = await fetch(`${etkeAdminUrl}/payments/${transactionId}/invoice`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await etkeClient(`${etkeAdminUrl}/payments/${transactionId}/invoice`, locale);
 
       if (!response.ok) {
         let errorMessage = `Error fetching invoice: ${response.status} ${response.statusText}`;

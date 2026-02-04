@@ -3,7 +3,7 @@ export interface Config {
   corsCredentials: string;
   asManagedUsers: RegExp[] | string[];
   menu: MenuItem[];
-  externalAuthProvider: boolean;
+  externalAuthProvider?: boolean;
   etkeccAdmin?: string;
 }
 
@@ -22,7 +22,6 @@ let config: Config = {
   corsCredentials: "same-origin",
   asManagedUsers: [],
   menu: [],
-  externalAuthProvider: false,
   etkeccAdmin: "",
 };
 
@@ -94,6 +93,10 @@ export const FetchConfig = async () => {
       console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
     }
   }
+
+  if (config.externalAuthProvider !== undefined) {
+    SetExternalAuthProvider(config.externalAuthProvider);
+  }
 };
 
 // load config from context
@@ -125,6 +128,13 @@ export const LoadConfig = (context: Config) => {
   if (context?.externalAuthProvider !== undefined) {
     config.externalAuthProvider = context.externalAuthProvider;
   }
+  // if not set in context, try to load from localStorage
+  if (config.externalAuthProvider === undefined) {
+    const storedExternalAuthProvider = localStorage.getItem("external_auth_provider");
+    if (storedExternalAuthProvider !== null) {
+      config.externalAuthProvider = storedExternalAuthProvider === "true";
+    }
+  }
 
   if (context?.etkeccAdmin) {
     config.etkeccAdmin = context.etkeccAdmin;
@@ -147,4 +157,5 @@ export const ClearConfig = () => {
 // workaround for external auth providers (like OIDC, LDAP, etc.) to signal that some functionality should be disabled
 export const SetExternalAuthProvider = (value: boolean) => {
   config.externalAuthProvider = value;
+  localStorage.setItem("external_auth_provider", value ? "true" : "false");
 };

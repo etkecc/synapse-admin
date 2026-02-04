@@ -1,7 +1,7 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
-import { useNotify, useDataProvider, useRecordContext, useTranslate } from "react-admin";
+import { useLocale, useNotify, useDataProvider, useRecordContext, useTranslate } from "react-admin";
 import { Button, Confirm } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,7 @@ const ScheduledDeleteButton = () => {
   const record = useRecordContext() as ScheduledCommand;
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
+  const locale = useLocale();
   const notify = useNotify();
   const translate = useTranslate();
   const theme = useTheme();
@@ -27,7 +28,7 @@ const ScheduledDeleteButton = () => {
   const handleConfirm = async () => {
     setIsDeleting(true);
     try {
-      await dataProvider.deleteScheduledCommand(etkeccAdmin, record.id);
+      await dataProvider.deleteScheduledCommand(etkeccAdmin, locale, record.id);
       notify("etkecc.actions.scheduled.action.delete_success", { type: "success" });
       navigate("/server_actions");
     } catch (error) {

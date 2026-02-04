@@ -18,7 +18,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
-import { useDataProvider, useStore, useTranslate } from "react-admin";
+import { useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
 import { useNavigate } from "react-router";
 
 import { useAppContext } from "../../Context";
@@ -42,11 +42,13 @@ const useServerNotifications = () => {
 
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
+  const locale = useLocale();
   const { notifications, success } = serverNotifications;
 
   const fetchNotifications = async () => {
     const notificationsResponse: ServerNotificationsResponse = await dataProvider.getServerNotifications(
       etkeccAdmin,
+      locale,
       command !== ""
     );
     const serverNotifications = [...notificationsResponse.notifications];
@@ -59,7 +61,7 @@ const useServerNotifications = () => {
   };
 
   const deleteServerNotifications = async () => {
-    const deleteResponse = await dataProvider.deleteServerNotifications(etkeccAdmin);
+    const deleteResponse = await dataProvider.deleteServerNotifications(etkeccAdmin, locale);
     if (deleteResponse.success) {
       setServerNotifications({
         notifications: [],
@@ -88,7 +90,7 @@ const useServerNotifications = () => {
         clearInterval(serverNotificationsInterval);
       }
     };
-  }, [etkeccAdmin, command, locked_at]);
+  }, [etkeccAdmin, locale, command, locked_at]);
 
   return { success, notifications, deleteServerNotifications };
 };

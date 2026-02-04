@@ -7,7 +7,7 @@ import { FetchInstanceConfig, GetInstanceConfig } from "./components/etke.cc/Ins
 import { FetchConfig, GetConfig } from "./utils/config";
 
 await FetchConfig();
-await FetchInstanceConfig(GetConfig().etkeccAdmin);
+await FetchInstanceConfig(GetConfig().etkeccAdmin, "");
 
 // we set base title here to be used in useDocTitle hook
 // as a tricky workaround since hooks can't be used outside components,

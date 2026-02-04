@@ -9,6 +9,7 @@ import {
   SaveButton,
   useNotify,
   useDataProvider,
+  useLocale,
   Loading,
   Button,
   SelectInput,
@@ -50,6 +51,7 @@ const ScheduledCommandEdit = () => {
   const navigate = useNavigate();
   const notify = useNotify();
   const dataProvider = useDataProvider();
+  const locale = useLocale();
   const translate = useTranslate();
   const { etkeccAdmin } = useAppContext();
   const [command, setCommand] = useState<ScheduledCommand | null>(null);
@@ -78,10 +80,10 @@ const ScheduledCommandEdit = () => {
     try {
       data.scheduled_at = new Date(data.scheduled_at).toISOString();
       if (isCreating) {
-        await dataProvider.createScheduledCommand(etkeccAdmin, data);
+        await dataProvider.createScheduledCommand(etkeccAdmin, locale, data);
         notify("etkecc.actions.scheduled.action.create_success", { type: "success" });
       } else {
-        await dataProvider.updateScheduledCommand(etkeccAdmin, {
+        await dataProvider.updateScheduledCommand(etkeccAdmin, locale, {
           ...data,
           id: id,
         });

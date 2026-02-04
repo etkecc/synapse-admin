@@ -4,7 +4,7 @@ import { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import { useEffect } from "react";
-import { Button, useDataProvider, useStore, useTranslate } from "react-admin";
+import { Button, useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
 import { useNavigate } from "react-router";
 
 import { useAppContext } from "../../Context";
@@ -68,12 +68,13 @@ const useServerStatus = () => {
   const { command } = serverProcess;
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
+  const locale = useLocale();
   const isOkay = serverStatus.ok;
   const successCheck = serverStatus.success;
   const maintenance = serverStatus.maintenance;
 
   const checkServerStatus = async () => {
-    const serverStatus: ServerStatusResponse = await dataProvider.getServerStatus(etkeccAdmin, command !== "");
+    const serverStatus: ServerStatusResponse = await dataProvider.getServerStatus(etkeccAdmin, locale, command !== "");
     setServerStatus({
       ok: serverStatus.ok,
       maintenance: serverStatus.maintenance,
@@ -105,7 +106,7 @@ const useServerStatus = () => {
         clearInterval(serverStatusInterval);
       }
     };
-  }, [etkeccAdmin, command]);
+  }, [etkeccAdmin, locale, command]);
 
   return { isOkay, successCheck, maintenance };
 };
@@ -118,11 +119,13 @@ const useCurrentServerProcess = () => {
   });
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
+  const locale = useLocale();
   const { command, locked_at, maintenance } = serverProcess;
 
   const checkServerRunningProcess = async () => {
     const serverProcess: ServerProcessResponse = await dataProvider.getServerRunningProcess(
       etkeccAdmin,
+      locale,
       command !== ""
     );
     setServerProcess({
@@ -154,7 +157,7 @@ const useCurrentServerProcess = () => {
         clearInterval(serverCheckInterval);
       }
     };
-  }, [etkeccAdmin, command]);
+  }, [etkeccAdmin, locale, command]);
 
   return { command, locked_at, maintenance };
 };

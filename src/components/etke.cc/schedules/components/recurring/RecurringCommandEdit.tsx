@@ -8,6 +8,7 @@ import {
   SaveButton,
   useNotify,
   useDataProvider,
+  useLocale,
   Loading,
   Button,
   SelectInput,
@@ -51,6 +52,7 @@ const RecurringCommandEdit = () => {
   const notify = useNotify();
   const dataProvider = useDataProvider();
   const queryClient = useQueryClient();
+  const locale = useLocale();
   const translate = useTranslate();
   const { etkeccAdmin } = useAppContext();
   const [command, setCommand] = useState<RecurringCommand | undefined>(undefined);
@@ -122,10 +124,10 @@ const RecurringCommandEdit = () => {
       }
 
       if (isCreating) {
-        await dataProvider.createRecurringCommand(etkeccAdmin, submissionData);
+        await dataProvider.createRecurringCommand(etkeccAdmin, locale, submissionData);
         notify("etkecc.actions.recurring.action.create_success", { type: "success" });
       } else {
-        await dataProvider.updateRecurringCommand(etkeccAdmin, {
+        await dataProvider.updateRecurringCommand(etkeccAdmin, locale, {
           ...submissionData,
           id: id,
         });

@@ -61,7 +61,7 @@ const BillingPage = () => {
 
       try {
         setLoading(true);
-        const response = await dataProvider.getPayments(etkeccAdmin);
+        const response = await dataProvider.getPayments(etkeccAdmin, locale);
         setPaymentsData(response.payments);
         setMaintenance(response.maintenance);
       } catch (error) {
@@ -73,14 +73,14 @@ const BillingPage = () => {
     };
 
     fetchBillingData();
-  }, [etkeccAdmin, dataProvider, notify]);
+  }, [etkeccAdmin, dataProvider, notify, locale]);
 
   const handleInvoiceDownload = async (transactionId: string) => {
     if (!etkeccAdmin || downloadingInvoice) return;
 
     try {
       setDownloadingInvoice(transactionId);
-      await dataProvider.getInvoice(etkeccAdmin, transactionId);
+      await dataProvider.getInvoice(etkeccAdmin, locale, transactionId);
       notify("etkecc.billing.helper.download_started", { type: "info" });
     } catch (error) {
       // Use the specific error message from the dataProvider

@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Button, Loading, useDataProvider, useCreatePath, useStore, useTranslate } from "react-admin";
+import { Button, Loading, useDataProvider, useCreatePath, useLocale, useStore, useTranslate } from "react-admin";
 import { Link as RouterLink } from "react-router-dom";
 
 import { EtkeAttribution } from "./EtkeAttribution";
@@ -48,6 +48,7 @@ const ServerCommandsPanel = () => {
   const [commandIsRunning, setCommandIsRunning] = useState<boolean>(serverProcess.command !== "");
   const [commandResult, setCommandResult] = useState<React.ReactNode[]>([]);
   const dataProvider = useDataProvider();
+  const locale = useLocale();
 
   useEffect(() => {
     if (serverProcess.command === "") {
@@ -132,7 +133,7 @@ const ServerCommandsPanel = () => {
 
   const updateServerProcessStatus = async (command: ServerCommand) => {
     const commandIsLocking = command.with_lock;
-    const serverProcess = await dataProvider.getServerRunningProcess(etkeccAdmin, true);
+    const serverProcess = await dataProvider.getServerRunningProcess(etkeccAdmin, locale, true);
     if (!commandIsLocking && serverProcess.command === "") {
       // if command is not locking, we simulate the "lock" mechanism so notifications will be refetched
       serverProcess["command"] = command.name;
