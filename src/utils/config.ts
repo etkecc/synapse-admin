@@ -83,11 +83,11 @@ export const FetchConfig = async () => {
       const configWK = await resp.json();
       if (!configWK[WellKnownKey]) {
         console.log(
-          `Loaded ${protocol}://${homeserver}.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`,
+          `Loaded ${protocol}://${homeserver}/.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`,
           configWK
         );
       } else {
-        console.log(`Loaded ${protocol}://${homeserver}.well-known/matrix/client`, configWK);
+        console.log(`Loaded ${protocol}://${homeserver}/.well-known/matrix/client`, configWK);
         LoadConfig(configWK[WellKnownKey]);
       }
     } catch (e) {
