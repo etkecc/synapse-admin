@@ -4,22 +4,22 @@ services:
     entrypoint: python
     command: "-m synapse.app.homeserver -c /config/homeserver.yaml"
     volumes:
-    - ./testdata/synapse:/config
-    - ./testdata/synapse.data:/media-store
+      - ./testdata/synapse:/config
+      - ./testdata/synapse.data:/media-store
 
   mas:
     image: ghcr.io/element-hq/matrix-authentication-service:latest
     ports:
-    - "8007:8007"
+      - "8007:8007"
     volumes:
-    - ./testdata/mas/config.yaml:/config.yaml:ro
+      - ./testdata/mas/config.yaml:/config.yaml:ro
 
   nginx:
     image: nginx:latest
     ports:
-    - "8008:8008"
+      - "8008:8008"
     volumes:
-    - ./testdata/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+      - ./testdata/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
 
   synapse-admin-prod:
     image: ghcr.io/etkecc/synapse-admin
@@ -31,17 +31,17 @@ services:
         condition: service_healthy
         restart: true
     ports:
-    - "8080:8080"
+      - "8080:8080"
     volumes:
-    - ./testdata/element/nginx.conf:/etc/nginx/nginx.conf:ro
-    - /dev/null:/etc/nginx/conf.d/default.conf:ro
-    - ./testdata/element/config.json:/app/config.json:ro
+      - ./testdata/element/nginx.conf:/etc/nginx/nginx.conf:ro
+      - /dev/null:/etc/nginx/conf.d/default.conf:ro
+      - ./testdata/element/config.json:/app/config.json:ro
 
   postgres:
     image: postgres:17-alpine
     volumes:
-    - ./testdata/postgres.data:/var/lib/postgresql/data
-    - ./testdata/postgres.initdb:/docker-entrypoint-initdb.d:ro
+      - ./testdata/postgres.data:/var/lib/postgresql/data
+      - ./testdata/postgres.initdb:/docker-entrypoint-initdb.d:ro
     environment:
       POSTGRES_USER: synapse
       POSTGRES_PASSWORD: synapse
