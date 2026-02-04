@@ -27,12 +27,14 @@ export default defineConfig({
       ifMeta: false,
       ifLog: false,
       ifGlobal: true,
-      outputFile: version => ({
-        path: "manifest.json",
-        content: JSON.stringify({
+      outputFile: version => {
+        const base = {
           name: "Synapse Admin",
+          short_name: "Synapse Admin",
           version: version,
           description: "Synapse Admin is an admin console for synapse Matrix homeserver with additional features.",
+          lang: "en",
+          dir: "auto",
           categories: ["productivity", "utilities"],
           orientation: "landscape",
           icons: [
@@ -49,11 +51,30 @@ export default defineConfig({
             },
           ],
           start_url: ".",
+          scope: ".",
+          id: ".",
           display: "standalone",
-          theme_color: "#000000",
-          background_color: "#ffffff",
-        }),
-      }),
+        };
+
+        return [
+          {
+            path: "manifest.json",
+            content: JSON.stringify({
+              ...base,
+              theme_color: "#fafafa",
+              background_color: "#fafafa",
+            }),
+          },
+          {
+            path: "manifest-dark.json",
+            content: JSON.stringify({
+              ...base,
+              theme_color: "#313131",
+              background_color: "#313131",
+            }),
+          },
+        ];
+      },
     }),
   ],
 });

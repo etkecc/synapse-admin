@@ -3,16 +3,41 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#313131" />
     <meta name="description" content="Synapse Admin" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="./manifest.json" />
+    <link
+      rel="manifest"
+      href="./manifest.json"
+      media="(prefers-color-scheme: light)"
+      data-scheme="light"
+    />
+    <link
+      rel="manifest"
+      href="./manifest-dark.json"
+      media="(prefers-color-scheme: dark)"
+      data-scheme="dark"
+    />
     <link rel="shortcut icon" href="./favicon.ico" />
     <title>Synapse Admin</title>
     <style>
+      :root {
+        color-scheme: light dark;
+        --loader-bg: #fafafa;
+        --loader-fg: #283593;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --loader-bg: #313131;
+          --loader-fg: #90caf9;
+        }
+      }
+
       body {
         margin: 0;
         padding: 0;
@@ -34,7 +59,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #fafafa;
+        background-color: var(--loader-bg);
       }
 
       /* CSS Spinner from https://projects.lukehaas.me/css-loaders/ */
@@ -46,7 +71,7 @@
       }
 
       .loader {
-        color: #283593;
+        color: var(--loader-fg);
         font-size: 11px;
         text-indent: -99999em;
         margin: 55px auto;
@@ -68,7 +93,7 @@
       .loader:before {
         width: 5.2em;
         height: 10.2em;
-        background: #fafafa;
+        background: var(--loader-bg);
         border-radius: 10.2em 0 0 10.2em;
         top: -0.1em;
         left: -0.1em;
@@ -81,7 +106,7 @@
       .loader:after {
         width: 5.2em;
         height: 10.2em;
-        background: #fafafa;
+        background: var(--loader-bg);
         border-radius: 0 10.2em 10.2em 0;
         top: -0.1em;
         left: 5.1em;
@@ -124,5 +149,43 @@
     <script type="module" src="/src/index.tsx"></script>
     <span id="js-version" style="display: none;"></span>
   </body>
-  <script>document.getElementById("js-version").textContent = __SYNAPSE_ADMIN_VERSION__</script>
+  <script>
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const schemeLinks = {
+      light: document.querySelector('link[rel="manifest"][data-scheme="light"]'),
+      dark: document.querySelector('link[rel="manifest"][data-scheme="dark"]'),
+    };
+    const schemeHrefs = {
+      light: schemeLinks.light?.getAttribute("href"),
+      dark: schemeLinks.dark?.getAttribute("href"),
+    };
+
+    const ensureManifestLink = () => {
+      let active = document.querySelector('link[rel="manifest"][data-active="true"]');
+      if (!active) {
+        active = document.createElement("link");
+        active.setAttribute("rel", "manifest");
+        active.setAttribute("data-active", "true");
+        document.head.appendChild(active);
+      }
+      return active;
+    };
+
+    const updateManifest = () => {
+      const nextHref = mediaQuery.matches ? schemeHrefs.dark : schemeHrefs.light;
+      if (!nextHref) return;
+      const active = ensureManifestLink();
+      active.setAttribute("href", nextHref);
+    };
+
+    updateManifest();
+    schemeLinks.light?.remove();
+    schemeLinks.dark?.remove();
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", updateManifest);
+    } else if (typeof mediaQuery.addListener === "function") {
+      mediaQuery.addListener(updateManifest);
+    }
+    document.getElementById("js-version").textContent = __SYNAPSE_ADMIN_VERSION__;
+  </script>
 </html>
