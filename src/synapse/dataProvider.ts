@@ -857,8 +857,8 @@ const baseDataProvider: SynapseDataProvider = {
 
     const endpoint_url = `${homeserver}${ref.endpoint}?${new URLSearchParams(filterUndefined(query)).toString()}`;
     const CACHE_KEY = ref.endpoint;
-    let jsonData = [];
-    let total = 0;
+    let jsonData: any[];
+    let total: number;
 
     if (CACHED_MANY_REF[CACHE_KEY]) {
       jsonData = CACHED_MANY_REF[CACHE_KEY]["data"].slice(from, from + perPage);

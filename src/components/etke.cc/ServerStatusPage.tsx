@@ -140,43 +140,49 @@ const ServerStatusPage = () => {
         </EtkeAttribution>
 
         <Stack spacing={2} direction={{ xs: "column", md: "row" }}>
-          {Object.keys(groupedResults).map((category, _idx) => (
-            <Box key={`category_${category}`} sx={{ flex: 1 }}>
-              <Typography variant="h5" mb={1}>
-                {translate(`etkecc.status.category.${category}`)}
-              </Typography>
-              <Paper elevation={2} sx={{ p: 3 }}>
-                <Stack spacing={1} divider={<Divider />}>
-                  {groupedResults[category].map((result, idx) => (
-                    <Box key={`${category}_${idx}`}>
-                      <Stack spacing={2}>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                          <StatusChip isOkay={result.ok} size="small" errorLabel={errorLabel} />
-                          {result.label.url ? (
-                            <Link href={result.label.url} target="_blank" rel="noopener noreferrer">
+          {Object.keys(groupedResults).map((category, _idx) => {
+            let categoryName = translate(`etkecc.status.category.${category}`);
+            if (categoryName.startsWith("etkecc.status.category.")) {
+              categoryName = category;
+            }
+            return (
+              <Box key={`category_${category}`} sx={{ flex: 1 }}>
+                <Typography variant="h5" mb={1}>
+                  {categoryName}
+                </Typography>
+                <Paper elevation={2} sx={{ p: 3 }}>
+                  <Stack spacing={1} divider={<Divider />}>
+                    {groupedResults[category].map((result, idx) => (
+                      <Box key={`${category}_${idx}`}>
+                        <Stack spacing={2}>
+                          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                            <StatusChip isOkay={result.ok} size="small" errorLabel={errorLabel} />
+                            {result.label.url ? (
+                              <Link href={result.label.url} target="_blank" rel="noopener noreferrer">
+                                <ServerComponentText text={result.label.text} />
+                              </Link>
+                            ) : (
                               <ServerComponentText text={result.label.text} />
-                            </Link>
-                          ) : (
-                            <ServerComponentText text={result.label.text} />
+                            )}
+                          </Box>
+                          {result.reason && (
+                            <Typography color="text.secondary" dangerouslySetInnerHTML={{ __html: result.reason }} />
                           )}
-                        </Box>
-                        {result.reason && (
-                          <Typography color="text.secondary" dangerouslySetInnerHTML={{ __html: result.reason }} />
-                        )}
-                        {!result.ok && result.help && (
-                          <EtkeAttribution>
-                            <Link href={result.help} target="_blank" rel="noopener noreferrer" sx={{ mt: 1 }}>
-                              {translate("etkecc.status.help")}
-                            </Link>
-                          </EtkeAttribution>
-                        )}
-                      </Stack>
-                    </Box>
-                  ))}
-                </Stack>
-              </Paper>
-            </Box>
-          ))}
+                          {!result.ok && result.help && (
+                            <EtkeAttribution>
+                              <Link href={result.help} target="_blank" rel="noopener noreferrer" sx={{ mt: 1 }}>
+                                {translate("etkecc.status.help")}
+                              </Link>
+                            </EtkeAttribution>
+                          )}
+                        </Stack>
+                      </Box>
+                    ))}
+                  </Stack>
+                </Paper>
+              </Box>
+            );
+          })}
         </Stack>
       </Stack>
     </>

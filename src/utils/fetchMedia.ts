@@ -21,7 +21,7 @@ export const fetchAuthenticatedMedia = async (mxcUrl: string, type: MediaType): 
     return new Response(null, { status: 400, statusText: "Invalid mxcUrl" });
   }
 
-  let url = "";
+  let url: string;
   if (type === "thumbnail") {
     // ref: https://spec.matrix.org/latest/client-server-api/#thumbnails
     url = `${homeserver}/_matrix/client/v1/media/thumbnail/${serverName}/${mediaId}?width=320&height=240&method=scale`;

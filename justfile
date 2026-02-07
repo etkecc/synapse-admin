@@ -48,11 +48,12 @@ stop-dev:
 register-user localpart password *admin:
     docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes {{ if admin =="1" {"--admin"} else {"--no-admin"} }} -p {{ password }} {{ localpart }}
 
-# run yarn {fix,format,test} commands
+# run fixers, formatters, linters, and tests in a strict order
 test:
-    @-yarn run fix
-    @-yarn run format
-    @-yarn run test
+    @yarn -s run fix --quiet
+    @yarn -s run format --log-level warn
+    @yarn -s run lint --quiet
+    @yarn -s run test --silent
 
 # run the app in a production mode
 run-prod: build

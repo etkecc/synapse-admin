@@ -30,25 +30,26 @@
     "url": "https://liberapay.com/etkecc"
   },
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.23",
-    "@types/node": "^25.2.0",
+    "@types/node": "^25.2.1",
     "@types/papaparse": "^5.5.2",
-    "@types/react": "^19.2.10",
-    "@typescript-eslint/eslint-plugin": "^8.54.0",
-    "@typescript-eslint/parser": "^8.54.0",
-    "@vitejs/plugin-react": "^5.1.2",
-    "eslint": "^9.39.2",
+    "@types/react": "^19.2.13",
+    "@typescript-eslint/eslint-plugin": "^8.57.0",
+    "@typescript-eslint/parser": "^8.57.0",
+    "@vitejs/plugin-react": "^5.1.3",
+    "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-unused-imports": "^4.3.0",
+    "globals": "^17.3.0",
     "jest": "^30.2.0",
     "jest-environment-jsdom": "^30.2.0",
     "jest-fetch-mock": "^3.0.3",
@@ -57,7 +58,7 @@
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.54.0",
+    "typescript-eslint": "^8.57.0",
     "vite": "^7.3.1",
     "vite-plugin-version-mark": "^0.2.2"
   },
@@ -96,79 +97,11 @@
   "scripts": {
     "start": "vite serve",
     "build": "vite build",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --ignore-path .gitignore --ignore-pattern testdata/ --ext .ts,.tsx .",
+    "lint": "eslint .",
     "format": "prettier --write \"src/**/*\"",
     "fix": "yarn lint --fix",
     "test": "yarn jest",
     "test:watch": "yarn jest --watch"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true
-    },
-    "plugins": [
-      "import",
-      "prettier",
-      "unused-imports",
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@typescript-eslint/stylistic",
-      "plugin:import/typescript"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "project": "./tsconfig.eslint.json"
-    },
-    "root": true,
-    "rules": {
-      "prettier/prettier": "error",
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          "args": "all",
-          "argsIgnorePattern": "^_",
-          "caughtErrors": "all",
-          "caughtErrorsIgnorePattern": "^_",
-          "destructuredArrayIgnorePattern": "^_",
-          "varsIgnorePattern": "^_",
-          "ignoreRestSiblings": true
-        }
-      ],
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "**/vite.config.ts",
-            "**/jest.setup.ts",
-            "**/*.test.ts",
-            "**/*.test.tsx"
-          ]
-        }
-      ],
-      "import/order": [
-        "error",
-        {
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": false
-          },
-          "newlines-between": "always",
-          "groups": [
-            "external",
-            "builtin",
-            "internal",
-            [
-              "parent",
-              "sibling",
-              "index"
-            ]
-          ]
-        }
-      ]
-    }
   },
   "prettier": {
     "printWidth": 120,
