@@ -1,6 +1,6 @@
 services:
   synapse:
-    image: ghcr.io/element-hq/synapse:develop
+    image: ghcr.io/element-hq/synapse:latest
     entrypoint: python
     command: "-m synapse.app.homeserver -c /config/homeserver.yaml"
     volumes:
