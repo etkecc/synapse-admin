@@ -876,8 +876,12 @@ const baseDataProvider: SynapseDataProvider = {
       }
 
       total = res.total(json, from, perPage);
-      CACHED_MANY_REF[CACHE_KEY] = { data: jsonData, total: total };
-      jsonData = jsonData.slice(from, from + perPage);
+
+      // only cache if the endpoint returned all data (no server-side pagination)
+      if (jsonData.length >= total) {
+        CACHED_MANY_REF[CACHE_KEY] = { data: jsonData, total: total };
+        jsonData = jsonData.slice(from, from + perPage);
+      }
     }
 
     return {
