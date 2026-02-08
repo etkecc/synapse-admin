@@ -21,6 +21,18 @@ import { returnMXID } from "../utils/mxid";
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const CACHED_MANY_REF: Record<string, any> = {};
 
+/**
+ * Invalidate cached getManyReference data for keys containing the given pattern.
+ * @param pattern - substring to match against cache keys (e.g., "joined_rooms")
+ */
+const invalidateManyRefCache = (pattern: string) => {
+  for (const key of Object.keys(CACHED_MANY_REF)) {
+    if (key.includes(pattern)) {
+      delete CACHED_MANY_REF[key];
+    }
+  }
+};
+
 // Adds the access token to all requests
 const jsonClient = async (url: string, options: Options = {}) => {
   // Check if token needs refresh before making the request
@@ -814,7 +826,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     const endpoint_url = base_url + res.path;
     const responses = await Promise.all(
-      params.ids.map(id => {
+      params.ids.map(async id => {
         // edge case: when user is external / federated, homeserver will return error, as querying external users via
         // /_synapse/admin/v2/users is not allowed.
         // That leads to an issue when a user is referenced (e.g., in room state datagrid) - the user cell is just empty.
@@ -824,10 +836,20 @@ const baseDataProvider: SynapseDataProvider = {
             const json = {
               name: id,
             };
-            return Promise.resolve({ json });
+            return { json };
           }
         }
-        return jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
+        try {
+          return await jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
+        } catch (error) {
+          // Handle deleted/non-existent resources gracefully by returning minimal data
+          // This can happen when a room is deleted but still referenced in joined_rooms
+          if (error instanceof HttpError && error.status === 404) {
+            const json = resource === "rooms" ? { room_id: id, name: id } : { id };
+            return { json };
+          }
+          throw error;
+        }
       })
     );
     return {
@@ -1666,6 +1688,19 @@ const baseDataProvider: SynapseDataProvider = {
 };
 
 const dataProvider = withLifecycleCallbacks(baseDataProvider, [
+  {
+    resource: "rooms",
+    afterDelete: async result => {
+      // Invalidate the joined_rooms cache after room deletion
+      invalidateManyRefCache("joined_rooms");
+      return result;
+    },
+    afterDeleteMany: async result => {
+      // Invalidate the joined_rooms cache after room deletion
+      invalidateManyRefCache("joined_rooms");
+      return result;
+    },
+  },
   {
     resource: "users",
     beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
