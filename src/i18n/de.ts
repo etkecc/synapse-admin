@@ -469,7 +469,7 @@ const de: SynapseTranslationMessages = {
       },
     },
     user_media_statistics: {
-      name: "Dateien je Benutzer",
+      name: "Benutzer Dateien",
       fields: {
         media_count: "Anzahl der Dateien",
         media_length: "Größe der Dateien",
@@ -598,7 +598,7 @@ const de: SynapseTranslationMessages = {
       error: "Fehler",
       loading: "Echtzeit-Serverzustand wird abgerufen... Einen Moment!",
       intro1: "Dies ist ein Echtzeit-Monitoringbericht Ihres Servers. Mehr dazu finden Sie unter",
-      intro2: "Wenn Sie eine der folgenden Prüfungen beunruhigt, prüfen Sie bitte die empfohlenen Maßnahmen unter",
+      intro2: 'Falls ein Status nicht "OK" anzeigen sollte, prüfen Sie bitte die empfohlenen Maßnahmen unter',
       help: "Hilfe",
     },
     maintenance: {
@@ -699,7 +699,7 @@ const de: SynapseTranslationMessages = {
       title: "Benachrichtigungen",
       new_notifications: "%{smart_count} neue Benachrichtigung |||| %{smart_count} neue Benachrichtigungen",
       no_notifications: "Noch keine Benachrichtigungen",
-      see_all: "Alle Benachrichtigungen anzeigen",
+      see_all: "Alle anzeigen",
       clear_all: "Alle löschen",
       ago: "vor",
     },
