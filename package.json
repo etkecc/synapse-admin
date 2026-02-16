@@ -37,7 +37,7 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.23",
-    "@types/node": "^25.2.2",
+    "@types/node": "^25.2.3",
     "@types/papaparse": "^5.5.2",
     "@types/react": "^19.2.13",
     "@typescript-eslint/eslint-plugin": "^8.55.0",
