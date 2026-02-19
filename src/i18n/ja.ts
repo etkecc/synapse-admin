@@ -679,7 +679,8 @@ const ja: SynapseTranslationMessages = {
     support: {
       name: "サポート",
       menu_label: "サポートに連絡",
-      description: "サポートリクエストを開くか、既存のリクエストをフォローアップしてください。チームができるだけ早く対応します。",
+      description:
+        "サポートリクエストを開くか、既存のリクエストをフォローアップしてください。チームができるだけ早く対応します。",
       create_title: "新しいサポートリクエスト",
       no_requests: "まだサポートリクエストはありません。",
       no_messages: "まだメッセージはありません。",

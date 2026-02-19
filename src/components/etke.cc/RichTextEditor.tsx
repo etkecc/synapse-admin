@@ -64,7 +64,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
           <span>
             <IconButton
               size="small"
-              onMouseDown={e => { e.preventDefault(); editor?.chain().focus().toggleBold().run(); }}
+              onMouseDown={e => {
+                e.preventDefault();
+                editor?.chain().focus().toggleBold().run();
+              }}
               disabled={disabled}
               color={editor?.isActive("bold") ? "primary" : "default"}
             >
@@ -76,7 +79,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
           <span>
             <IconButton
               size="small"
-              onMouseDown={e => { e.preventDefault(); editor?.chain().focus().toggleItalic().run(); }}
+              onMouseDown={e => {
+                e.preventDefault();
+                editor?.chain().focus().toggleItalic().run();
+              }}
               disabled={disabled}
               color={editor?.isActive("italic") ? "primary" : "default"}
             >
@@ -89,7 +95,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
           <span>
             <IconButton
               size="small"
-              onMouseDown={e => { e.preventDefault(); editor?.chain().focus().toggleBulletList().run(); }}
+              onMouseDown={e => {
+                e.preventDefault();
+                editor?.chain().focus().toggleBulletList().run();
+              }}
               disabled={disabled}
               color={editor?.isActive("bulletList") ? "primary" : "default"}
             >
@@ -101,7 +110,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
           <span>
             <IconButton
               size="small"
-              onMouseDown={e => { e.preventDefault(); editor?.chain().focus().toggleOrderedList().run(); }}
+              onMouseDown={e => {
+                e.preventDefault();
+                editor?.chain().focus().toggleOrderedList().run();
+              }}
               disabled={disabled}
               color={editor?.isActive("orderedList") ? "primary" : "default"}
             >

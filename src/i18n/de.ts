@@ -718,11 +718,13 @@ const de: SynapseTranslationMessages = {
     support: {
       name: "Support",
       menu_label: "Support kontaktieren",
-      description: "Öffnen Sie eine Support-Anfrage oder verfolgen Sie eine bestehende. Unser Team wird so schnell wie möglich antworten.",
+      description:
+        "Öffnen Sie eine Support-Anfrage oder verfolgen Sie eine bestehende. Unser Team wird so schnell wie möglich antworten.",
       create_title: "Neue Support-Anfrage",
       no_requests: "Noch keine Support-Anfragen.",
       no_messages: "Noch keine Nachrichten.",
-      closed_message: "Diese Anfrage ist geschlossen. Wenn Sie weiterhin ein Problem haben, öffnen Sie bitte eine neue.",
+      closed_message:
+        "Diese Anfrage ist geschlossen. Wenn Sie weiterhin ein Problem haben, öffnen Sie bitte eine neue.",
       fields: {
         subject: "Betreff",
         message: "Nachricht",
@@ -747,7 +749,8 @@ const de: SynapseTranslationMessages = {
       helper: {
         loading: "Support-Anfragen werden geladen...",
         reply_hint: "Strg+Eingabe zum Senden",
-        reply_placeholder: "Bitte geben Sie so viele Details wie möglich an. Beachten Sie, dass die Antwortzeiten von Ihrem Support-Plan abhängen.",
+        reply_placeholder:
+          "Bitte geben Sie so viele Details wie möglich an. Beachten Sie, dass die Antwortzeiten von Ihrem Support-Plan abhängen.",
       },
       actions: {
         create_success: "Support-Anfrage erfolgreich erstellt.",

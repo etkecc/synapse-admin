@@ -476,7 +476,12 @@ export interface SynapseDataProvider extends DataProvider {
   getInvoice: (etkeAdminUrl: string, locale: string, transactionId: string) => Promise<void>;
   getSupportRequests: (etkeAdminUrl: string, locale: string) => Promise<SupportRequest[]>;
   getSupportRequest: (etkeAdminUrl: string, locale: string, id: string) => Promise<SupportRequestDetail>;
-  createSupportRequest: (etkeAdminUrl: string, locale: string, subject: string, message: string) => Promise<SupportRequest>;
+  createSupportRequest: (
+    etkeAdminUrl: string,
+    locale: string,
+    subject: string,
+    message: string
+  ) => Promise<SupportRequest>;
   postSupportMessage: (etkeAdminUrl: string, locale: string, id: string, message: string) => Promise<SupportMessage>;
 }
 

@@ -246,9 +246,7 @@ const SupportRequestPage = () => {
           <ArrowBackIcon />
         </IconButton>
         <Box>
-          <Typography variant="h5">
-            {request?.subject || translate("etkecc.support.name")}
-          </Typography>
+          <Typography variant="h5">{request?.subject || translate("etkecc.support.name")}</Typography>
           <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap" mt={0.5}>
             {request?.updated_at && (
               <Typography variant="caption" color="text.secondary">
@@ -323,31 +321,33 @@ const SupportRequestPage = () => {
 
       {request?.status === "closed" ? (
         <Alert severity="info">{translate("etkecc.support.closed_message")}</Alert>
-      ) : request?.status !== "spam" && (
-        <Paper elevation={1} sx={{ p: 2, border: "1px solid", borderColor: "action.selected" }}>
-          <Typography variant="subtitle2" sx={{ mb: 1 }}>
-            {translate("etkecc.support.fields.reply")}
-          </Typography>
-          <Stack spacing={1}>
-            <RichTextEditor
-              value={newMessage}
-              onChange={setNewMessage}
-              placeholder={translate("etkecc.support.helper.reply_placeholder")}
-              disabled={sending}
-              minRows={6}
-            />
-            <Box>
-              <Button
-                variant="contained"
-                endIcon={sending ? <CircularProgress size={16} /> : <SendIcon />}
-                onClick={handleSend}
-                disabled={sending || !newMessage.trim()}
-              >
-                {translate("etkecc.support.buttons.send")}
-              </Button>
-            </Box>
-          </Stack>
-        </Paper>
+      ) : (
+        request?.status !== "spam" && (
+          <Paper elevation={1} sx={{ p: 2, border: "1px solid", borderColor: "action.selected" }}>
+            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+              {translate("etkecc.support.fields.reply")}
+            </Typography>
+            <Stack spacing={1}>
+              <RichTextEditor
+                value={newMessage}
+                onChange={setNewMessage}
+                placeholder={translate("etkecc.support.helper.reply_placeholder")}
+                disabled={sending}
+                minRows={6}
+              />
+              <Box>
+                <Button
+                  variant="contained"
+                  endIcon={sending ? <CircularProgress size={16} /> : <SendIcon />}
+                  onClick={handleSend}
+                  disabled={sending || !newMessage.trim()}
+                >
+                  {translate("etkecc.support.buttons.send")}
+                </Button>
+              </Box>
+            </Stack>
+          </Paper>
+        )
       )}
     </Stack>
   );

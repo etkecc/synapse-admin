@@ -185,12 +185,7 @@ const SupportPage = () => {
         <CreateRequestForm onSubmit={handleCreate} onCancel={() => setShowCreateForm(false)} />
       ) : (
         <Box>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => setShowCreateForm(true)}
-            sx={{ mb: 2 }}
-          >
+          <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowCreateForm(true)} sx={{ mb: 2 }}>
             {translate("etkecc.support.buttons.new_request")}
           </Button>
         </Box>
@@ -213,28 +208,25 @@ const SupportPage = () => {
             </TableHead>
             <TableBody>
               {requests.map(req => (
-                <TableRow
-                  key={req.id}
-                  hover
-                  sx={{ cursor: "pointer" }}
-                  onClick={() => navigate(`/support/${req.id}`)}
-                >
+                <TableRow key={req.id} hover sx={{ cursor: "pointer" }} onClick={() => navigate(`/support/${req.id}`)}>
                   <TableCell>{req.subject || req.id}</TableCell>
                   <TableCell>
                     {req.status && (
                       <Chip
                         label={translate(`etkecc.support.status.${req.status}`, { _: req.status })}
                         size="small"
-                        color={req.status === "active" || req.status === "open" ? "success" : req.status === "closed" ? "default" : "info"}
+                        color={
+                          req.status === "active" || req.status === "open"
+                            ? "success"
+                            : req.status === "closed"
+                              ? "default"
+                              : "info"
+                        }
                       />
                     )}
                   </TableCell>
-                  <TableCell>
-                    {req.created_at ? new Date(req.created_at).toLocaleString(locale) : ""}
-                  </TableCell>
-                  <TableCell>
-                    {req.updated_at ? new Date(req.updated_at).toLocaleString(locale) : ""}
-                  </TableCell>
+                  <TableCell>{req.created_at ? new Date(req.created_at).toLocaleString(locale) : ""}</TableCell>
+                  <TableCell>{req.updated_at ? new Date(req.updated_at).toLocaleString(locale) : ""}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

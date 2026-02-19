@@ -774,7 +774,8 @@ const it: SynapseTranslationMessages = {
     support: {
       name: "Supporto",
       menu_label: "Contatta l'assistenza",
-      description: "Apri una richiesta di supporto o segui una esistente. Il nostro team risponderà il prima possibile.",
+      description:
+        "Apri una richiesta di supporto o segui una esistente. Il nostro team risponderà il prima possibile.",
       create_title: "Nuova richiesta di supporto",
       no_requests: "Nessuna richiesta di supporto ancora.",
       no_messages: "Nessun messaggio ancora.",
@@ -803,7 +804,8 @@ const it: SynapseTranslationMessages = {
       helper: {
         loading: "Caricamento delle richieste di supporto...",
         reply_hint: "Ctrl+Invio per inviare",
-        reply_placeholder: "Includi quanti più dettagli possibili. I tempi di risposta dipendono dal tuo piano di supporto.",
+        reply_placeholder:
+          "Includi quanti più dettagli possibili. I tempi di risposta dipendono dal tuo piano di supporto.",
       },
       actions: {
         create_success: "Richiesta di supporto creata con successo.",

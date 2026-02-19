@@ -669,7 +669,8 @@ const fr: SynapseTranslationMessages = {
     support: {
       name: "Support",
       menu_label: "Contacter le support",
-      description: "Ouvrez une demande de support ou faites un suivi d'une demande existante. Notre équipe répondra dans les plus brefs délais.",
+      description:
+        "Ouvrez une demande de support ou faites un suivi d'une demande existante. Notre équipe répondra dans les plus brefs délais.",
       create_title: "Nouvelle demande de support",
       no_requests: "Aucune demande de support pour l'instant.",
       no_messages: "Aucun message pour l'instant.",
@@ -698,7 +699,8 @@ const fr: SynapseTranslationMessages = {
       helper: {
         loading: "Chargement des demandes de support...",
         reply_hint: "Ctrl+Entrée pour envoyer",
-        reply_placeholder: "Incluez autant de détails que possible. Les délais de réponse dépendent de votre plan de support.",
+        reply_placeholder:
+          "Incluez autant de détails que possible. Les délais de réponse dépendent de votre plan de support.",
       },
       actions: {
         create_success: "Demande de support créée avec succès.",
