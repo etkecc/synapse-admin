@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import importPlugin from "eslint-plugin-import";
 import prettierPlugin from "eslint-plugin-prettier";
+import reactHooks from "eslint-plugin-react-hooks";
 import unusedImports from "eslint-plugin-unused-imports";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -54,6 +55,7 @@ export default [
     plugins: {
       import: importPlugin,
       prettier: prettierPlugin,
+      "react-hooks": reactHooks,
       "unused-imports": unusedImports,
       "ts-compat": tsCompat,
     },
@@ -78,6 +80,7 @@ export default [
           ignoreRestSiblings: true,
         },
       ],
+      "react-hooks/exhaustive-deps": "error",
       "import/no-extraneous-dependencies": [
         "error",
         {
@@ -89,17 +92,9 @@ export default [
           ],
         },
       ],
-      "import/order": [
-        "error",
-        {
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: false,
-          },
-          "newlines-between": "always",
-          groups: ["external", "builtin", "internal", ["parent", "sibling", "index"]],
-        },
-      ],
+      // eslint-plugin-import@2.32.0 is not compatible with ESLint 10 (see TypeError in lint output).
+      // Re-enable when the plugin supports ESLint 10.
+      "import/order": "off",
     },
   },
 ];
