@@ -4,8 +4,11 @@ import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Chip,
   CircularProgress,
+  FormControlLabel,
+  Link,
   Paper,
   Stack,
   Table,
@@ -38,6 +41,7 @@ const CreateRequestForm = ({
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [confirmedScope, setConfirmedScope] = useState(false);
 
   const handleSubmit = async () => {
     if (!subject.trim() || !message.trim()) return;
@@ -55,6 +59,35 @@ const CreateRequestForm = ({
         {translate("etkecc.support.create_title")}
       </Typography>
       <Stack spacing={2}>
+        <Paper variant="outlined" sx={{ p: 1.5, bgcolor: "background.default" }}>
+          <Stack spacing={0.5}>
+            <Typography variant="subtitle2">{translate("etkecc.support.helper.before_contact_title")}</Typography>
+            <Typography variant="body2" color="text.secondary">
+              {translate("etkecc.support.helper.help_pages_prompt")}{" "}
+              <Link href="https://etke.cc/help/" target="_blank" rel="noreferrer">
+                etke.cc/help
+              </Link>{" "}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {translate("etkecc.support.helper.services_prompt")}{" "}
+              <Link href="https://etke.cc/services/" target="_blank" rel="noreferrer">
+                etke.cc/services
+              </Link>
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {translate("etkecc.support.helper.topics_prompt")}{" "}
+              <Link href="https://etke.cc/services/support/#topics" target="_blank" rel="noreferrer">
+                etke.cc/services/support/#topics
+              </Link>
+            </Typography>
+            <FormControlLabel
+              control={
+                <Checkbox checked={confirmedScope} onChange={event => setConfirmedScope(event.target.checked)} />
+              }
+              label={translate("etkecc.support.helper.scope_confirm_label")}
+            />
+          </Stack>
+        </Paper>
         <TextField
           label={translate("etkecc.support.fields.subject")}
           value={subject}
@@ -79,7 +112,7 @@ const CreateRequestForm = ({
           <Button
             variant="contained"
             onClick={handleSubmit}
-            disabled={submitting || !subject.trim() || !message.trim()}
+            disabled={submitting || !subject.trim() || !message.trim() || !confirmedScope}
             startIcon={submitting ? <CircularProgress size={16} /> : undefined}
           >
             {translate("etkecc.support.buttons.submit")}

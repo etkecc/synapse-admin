@@ -699,8 +699,15 @@ const fr: SynapseTranslationMessages = {
       helper: {
         loading: "Chargement des demandes de support...",
         reply_hint: "Ctrl+Entrée pour envoyer",
-        reply_placeholder:
-          "Incluez autant de détails que possible. Les délais de réponse dépendent de votre plan de support.",
+        reply_placeholder: "Incluez autant de détails que possible.",
+        before_contact_title: "Avant de nous contacter",
+        help_pages_prompt: "Veuillez d’abord consulter nos pages d’aide :",
+        services_prompt: "Nous ne fournissons que les services listés sur la page Services :",
+        topics_prompt: "Nous ne pouvons aider que sur les sujets pris en charge :",
+        scope_confirm_label:
+          "J’ai consulté les pages d’aide et je confirme que cette demande correspond aux sujets pris en charge.",
+        english_only_notice: "Le support est fourni uniquement en anglais.",
+        response_time_prompt: "Réponse sous 48 heures. Besoin de délais plus rapides ? Voir :",
       },
       actions: {
         create_success: "Demande de support créée avec succès.",

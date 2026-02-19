@@ -709,7 +709,14 @@ const ja: SynapseTranslationMessages = {
       helper: {
         loading: "サポートリクエストを読み込み中...",
         reply_hint: "Ctrl+Enterで送信",
-        reply_placeholder: "できる限り詳細な情報をご提供ください。なお、応答時間はサポートプランによって異なります。",
+        reply_placeholder: "できる限り詳細な情報をご提供ください。",
+        before_contact_title: "お問い合わせの前に",
+        help_pages_prompt: "まずヘルプページをご確認ください：",
+        services_prompt: "提供するサービスはサービスページに記載されたもののみです：",
+        topics_prompt: "対応できるのは対応トピックのみです：",
+        scope_confirm_label: "ヘルプページを確認し、この依頼が対応トピックに該当することを確認しました。",
+        english_only_notice: "サポートは英語のみで提供されます。",
+        response_time_prompt: "48時間以内に回答します。より早い対応が必要ですか？こちらをご覧ください：",
       },
       actions: {
         create_success: "サポートリクエストが正常に作成されました。",

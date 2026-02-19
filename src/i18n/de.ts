@@ -749,8 +749,15 @@ const de: SynapseTranslationMessages = {
       helper: {
         loading: "Support-Anfragen werden geladen...",
         reply_hint: "Strg+Eingabe zum Senden",
-        reply_placeholder:
-          "Bitte geben Sie so viele Details wie möglich an. Beachten Sie, dass die Antwortzeiten von Ihrem Support-Plan abhängen.",
+        reply_placeholder: "Bitte geben Sie so viele Details wie möglich an.",
+        before_contact_title: "Bevor Sie uns kontaktieren",
+        help_pages_prompt: "Bitte lesen Sie zuerst unsere Hilfeseiten:",
+        services_prompt: "Wir bieten nur die auf der Serviceseite aufgeführten Leistungen an:",
+        topics_prompt: "Wir können nur zu unterstützten Themen helfen:",
+        scope_confirm_label:
+          "Ich habe die Hilfeseiten gelesen und bestätige, dass diese Anfrage zu den unterstützten Themen gehört.",
+        english_only_notice: "Support wird nur auf Englisch angeboten.",
+        response_time_prompt: "Antwort innerhalb von 48 Stunden. Benötigen Sie schnellere Antwortzeiten? Siehe:",
       },
       actions: {
         create_success: "Support-Anfrage erfolgreich erstellt.",

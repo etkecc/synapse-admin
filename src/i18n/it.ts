@@ -804,8 +804,15 @@ const it: SynapseTranslationMessages = {
       helper: {
         loading: "Caricamento delle richieste di supporto...",
         reply_hint: "Ctrl+Invio per inviare",
-        reply_placeholder:
-          "Includi quanti più dettagli possibili. I tempi di risposta dipendono dal tuo piano di supporto.",
+        reply_placeholder: "Includi quanti più dettagli possibili.",
+        before_contact_title: "Prima di contattarci",
+        help_pages_prompt: "Per favore, consulta prima le nostre pagine di aiuto:",
+        services_prompt: "Forniamo solo i servizi elencati nella pagina dei Servizi:",
+        topics_prompt: "Possiamo aiutarti solo con gli argomenti supportati:",
+        scope_confirm_label:
+          "Ho consultato le pagine di aiuto e confermo che questa richiesta riguarda gli argomenti supportati.",
+        english_only_notice: "Il supporto è disponibile solo in inglese.",
+        response_time_prompt: "Risposta entro 48 ore. Hai bisogno di tempi di risposta più rapidi? Vedi:",
       },
       actions: {
         create_success: "Richiesta di supporto creata con successo.",

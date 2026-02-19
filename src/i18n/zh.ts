@@ -729,7 +729,14 @@ const zh: SynapseTranslationMessages = {
       helper: {
         loading: "正在加载支持请求...",
         reply_hint: "Ctrl+Enter 发送",
-        reply_placeholder: "请提供尽可能多的详细信息。请注意，响应时间取决于您的支持计划。",
+        reply_placeholder: "请提供尽可能多的详细信息。",
+        before_contact_title: "在联系之前",
+        help_pages_prompt: "请先查看帮助页面：",
+        services_prompt: "我们只提供服务页面中列出的服务：",
+        topics_prompt: "我们仅能协助支持的主题：",
+        scope_confirm_label: "我已查看帮助页面，并确认此请求符合支持的主题。",
+        english_only_notice: "仅提供英文支持。",
+        response_time_prompt: "48 小时内回复。需要更快的响应？请查看：",
       },
       actions: {
         create_success: "支持请求创建成功。",

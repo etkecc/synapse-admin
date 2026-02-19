@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Divider,
   IconButton,
+  Link,
   Paper,
   Stack,
   Typography,
@@ -334,6 +335,15 @@ const SupportRequestPage = () => {
       ) : (
         request?.status !== "spam" && (
           <Paper elevation={1} sx={{ p: 2, border: "1px solid", borderColor: "action.selected" }}>
+            <Stack spacing={1} sx={{ mb: 2 }}>
+              <Alert severity="info">{translate("etkecc.support.helper.english_only_notice")}</Alert>
+              <Typography variant="caption" color="text.secondary">
+                {translate("etkecc.support.helper.response_time_prompt")}{" "}
+                <Link href="https://etke.cc/services/support/" target="_blank" rel="noreferrer">
+                  etke.cc/services/support
+                </Link>
+              </Typography>
+            </Stack>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               {translate("etkecc.support.fields.reply")}
             </Typography>

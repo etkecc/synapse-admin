@@ -701,7 +701,14 @@ const en: SynapseTranslationMessages = {
       helper: {
         loading: "Loading support requests...",
         reply_hint: "Ctrl+Enter to send",
-        reply_placeholder: "Include as much detail as possible. Note that response times depend on your support plan.",
+        reply_placeholder: "Include as much detail as possible.",
+        before_contact_title: "Before you contact us",
+        help_pages_prompt: "Please check our Help pages first:",
+        services_prompt: "We only provide services listed on:",
+        topics_prompt: "We can help only with supported topics:",
+        scope_confirm_label: "I checked the Help pages and confirm this request matches the supported topics.",
+        english_only_notice: "Support is provided in English only.",
+        response_time_prompt: "Response within 48 hours. Need faster response times? See:",
       },
       actions: {
         create_success: "Support request created successfully.",
