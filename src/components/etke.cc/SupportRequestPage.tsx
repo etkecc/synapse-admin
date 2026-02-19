@@ -118,8 +118,6 @@ const SupportRequestPage = () => {
   const fetchedMxids = useRef<Set<string>>(new Set());
   const blobUrlsRef = useRef<string[]>([]);
 
-  useDocTitle(translate("etkecc.support.name"));
-
   const fetchRequest = async () => {
     if (!etkeccAdmin || !id) return;
     try {
@@ -249,9 +247,10 @@ const SupportRequestPage = () => {
     />
   ) : null;
 
+  useDocTitle(request?.subject || translate("etkecc.support.name"));
   const header = (
     <>
-      <Title title={translate("etkecc.support.name")} />
+      <Title title={request?.subject || translate("etkecc.support.name")} />
       <Stack direction="row" alignItems="flex-start" spacing={1}>
         <IconButton onClick={() => navigate("/support")} size="small" sx={{ mt: 0.5 }}>
           <ArrowBackIcon />

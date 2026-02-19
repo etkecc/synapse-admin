@@ -158,6 +158,7 @@ The following list contains such features - they are only available for [etke.cc
 * 🛠️ [Server Commands panel](https://github.com/etkecc/synapse-admin/pull/365)
 * 🚀 [Server Actions page](https://github.com/etkecc/synapse-admin/pull/457)
 * 💳 [Billing page](https://github.com/etkecc/synapse-admin/pull/691)
+* 🆘 [Support page](https://github.com/etkecc/synapse-admin/pull/1050)
 * ⚙️ [Instance config](./src/components/etke.cc/README.md#instance-config)
 
 ### Development
