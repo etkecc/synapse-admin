@@ -401,6 +401,30 @@ export interface PaymentsResponse {
   total: number;
 }
 
+export interface SupportRequest {
+  id: number;
+  subject: string;
+  status?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface SupportMessage {
+  id?: number;
+  type: string;
+  text: string;
+  created_by?: {
+    firstName: string;
+    avatarUrl?: string;
+    email?: string;
+  };
+  created_at?: string;
+}
+
+export interface SupportRequestDetail extends SupportRequest {
+  messages: SupportMessage[];
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -450,6 +474,10 @@ export interface SynapseDataProvider extends DataProvider {
   deleteRecurringCommand: (etkeAdminUrl: string, locale: string, id: string) => Promise<{ success: boolean }>;
   getPayments: (etkeAdminUrl: string, locale: string) => Promise<PaymentsResponse>;
   getInvoice: (etkeAdminUrl: string, locale: string, transactionId: string) => Promise<void>;
+  getSupportRequests: (etkeAdminUrl: string, locale: string) => Promise<SupportRequest[]>;
+  getSupportRequest: (etkeAdminUrl: string, locale: string, id: string) => Promise<SupportRequestDetail>;
+  createSupportRequest: (etkeAdminUrl: string, locale: string, subject: string, message: string) => Promise<SupportRequest>;
+  postSupportMessage: (etkeAdminUrl: string, locale: string, id: string, message: string) => Promise<SupportMessage>;
 }
 
 const resourceMap = {
@@ -1684,6 +1712,50 @@ const baseDataProvider: SynapseDataProvider = {
       console.error("Error downloading invoice:", error);
       throw error; // Re-throw to let the UI handle the error
     }
+  },
+  getSupportRequests: async (etkeAdminUrl: string, locale: string) => {
+    const response = await etkeClient(`${etkeAdminUrl}/support`, locale);
+    if (response.status === 204) {
+      return [];
+    }
+    if (!response.ok) {
+      throw new Error(`Failed to fetch support requests: ${response.status} ${response.statusText}`);
+    }
+    const json = await response.json();
+    return (json.requests ?? json) as SupportRequest[];
+  },
+  getSupportRequest: async (etkeAdminUrl: string, locale: string, id: string) => {
+    const response = await etkeClient(`${etkeAdminUrl}/support/${id}`, locale);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch support request: ${response.status} ${response.statusText}`);
+    }
+    const json = await response.json();
+    return json as SupportRequestDetail;
+  },
+  createSupportRequest: async (etkeAdminUrl: string, locale: string, subject: string, message: string) => {
+    const response = await etkeClient(`${etkeAdminUrl}/support`, locale, {
+      method: "POST",
+      body: JSON.stringify({ subject, message }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to create support request: ${response.status} ${response.statusText}`);
+    }
+    const json = await response.json();
+    return json as SupportRequest;
+  },
+  postSupportMessage: async (etkeAdminUrl: string, locale: string, id: string, message: string) => {
+    const response = await etkeClient(`${etkeAdminUrl}/support/${id}`, locale, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to post support message: ${response.status} ${response.statusText}`);
+    }
+    if (response.status === 204 || response.headers.get("content-length") === "0") {
+      return {} as SupportMessage;
+    }
+    const json = await response.json();
+    return json as SupportMessage;
   },
 };
 

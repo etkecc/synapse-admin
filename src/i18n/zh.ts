@@ -697,6 +697,44 @@ const zh: SynapseTranslationMessages = {
       weeks: "%{smart_count} 周",
       months: "%{smart_count} 个月",
     },
+    support: {
+      name: "支持",
+      description: "提交支持请求或跟进现有请求。我们的团队将尽快回复。",
+      create_title: "新建支持请求",
+      no_requests: "暂无支持请求。",
+      no_messages: "暂无消息。",
+      fields: {
+        subject: "主题",
+        message: "消息",
+        reply: "回复",
+        status: "状态",
+        created_at: "创建时间",
+        updated_at: "最后更新",
+      },
+      status: {
+        active: "活跃",
+        open: "开放",
+        closed: "已关闭",
+        pending: "待处理",
+      },
+      buttons: {
+        new_request: "新建请求",
+        submit: "提交",
+        cancel: "取消",
+        send: "发送",
+        back: "返回支持",
+      },
+      helper: {
+        loading: "正在加载支持请求...",
+        reply_hint: "Ctrl+Enter 发送",
+        reply_placeholder: "请提供尽可能多的详细信息。请注意，响应时间取决于您的支持计划。",
+      },
+      actions: {
+        create_success: "支持请求创建成功。",
+        create_failure: "支持请求创建失败。",
+        send_failure: "消息发送失败。",
+      },
+    },
   },
 };
 export default zh;

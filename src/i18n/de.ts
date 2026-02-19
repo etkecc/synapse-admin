@@ -715,6 +715,44 @@ const de: SynapseTranslationMessages = {
       weeks: "%{smart_count} Woche |||| %{smart_count} Wochen",
       months: "%{smart_count} Monat |||| %{smart_count} Monate",
     },
+    support: {
+      name: "Support",
+      description: "Öffnen Sie eine Support-Anfrage oder verfolgen Sie eine bestehende. Unser Team wird so schnell wie möglich antworten.",
+      create_title: "Neue Support-Anfrage",
+      no_requests: "Noch keine Support-Anfragen.",
+      no_messages: "Noch keine Nachrichten.",
+      fields: {
+        subject: "Betreff",
+        message: "Nachricht",
+        reply: "Antwort",
+        status: "Status",
+        created_at: "Erstellt",
+        updated_at: "Zuletzt aktualisiert",
+      },
+      status: {
+        active: "Aktiv",
+        open: "Offen",
+        closed: "Geschlossen",
+        pending: "Ausstehend",
+      },
+      buttons: {
+        new_request: "Neue Anfrage",
+        submit: "Absenden",
+        cancel: "Abbrechen",
+        send: "Senden",
+        back: "Zurück zum Support",
+      },
+      helper: {
+        loading: "Support-Anfragen werden geladen...",
+        reply_hint: "Strg+Eingabe zum Senden",
+        reply_placeholder: "Bitte geben Sie so viele Details wie möglich an. Beachten Sie, dass die Antwortzeiten von Ihrem Support-Plan abhängen.",
+      },
+      actions: {
+        create_success: "Support-Anfrage erfolgreich erstellt.",
+        create_failure: "Support-Anfrage konnte nicht erstellt werden.",
+        send_failure: "Nachricht konnte nicht gesendet werden.",
+      },
+    },
   },
 };
 export default de;

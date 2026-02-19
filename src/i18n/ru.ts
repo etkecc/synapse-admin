@@ -14,6 +14,12 @@ const fixedRussianMessages = {
     action: {
       ...russianMessages.ra.action,
       select_all_button: "Выбрать все",
+      reset: "Сбросить",
+      search_columns: "Поиск по столбцам",
+    },
+    auth: {
+      ...russianMessages.ra.auth,
+      email: "Электронная почта",
     },
     page: {
       ...russianMessages.ra.page,
@@ -26,6 +32,11 @@ const fixedRussianMessages = {
       access_denied: "У вас нет прав доступа к этой странице.",
       authentication_error: "Сервер аутентификации вернул ошибку и не смог проверить ваши учетные данные.",
       select_all_limit_reached: "Слишком много элементов для выбора. Были выбраны только первые %{max} элементов.",
+      placeholder_data_warning: "Проблема с сетью: не удалось обновить данные.",
+    },
+    notification: {
+      ...russianMessages.ra.notification,
+      offline: "Нет подключения. Не удалось загрузить данные.",
     },
   },
 };
@@ -708,6 +719,44 @@ const ru: SynapseTranslationMessages = {
       days: "%{smart_count} день |||| %{smart_count} дня |||| %{smart_count} дней",
       weeks: "%{smart_count} неделю |||| %{smart_count} недели |||| %{smart_count} недель",
       months: "%{smart_count} месяц |||| %{smart_count} месяца |||| %{smart_count} месяцев",
+    },
+    support: {
+      name: "Поддержка",
+      description: "Откройте запрос в поддержку или продолжите работу с существующим. Наша команда ответит как можно скорее.",
+      create_title: "Новый запрос в поддержку",
+      no_requests: "Запросов в поддержку пока нет.",
+      no_messages: "Сообщений пока нет.",
+      fields: {
+        subject: "Тема",
+        message: "Сообщение",
+        reply: "Ответ",
+        status: "Статус",
+        created_at: "Создан",
+        updated_at: "Последнее обновление",
+      },
+      status: {
+        active: "Активен",
+        open: "Открыт",
+        closed: "Закрыт",
+        pending: "В ожидании",
+      },
+      buttons: {
+        new_request: "Новый запрос",
+        submit: "Отправить",
+        cancel: "Отмена",
+        send: "Отправить",
+        back: "Вернуться в поддержку",
+      },
+      helper: {
+        loading: "Загрузка запросов в поддержку...",
+        reply_hint: "Ctrl+Enter для отправки",
+        reply_placeholder: "Укажите как можно больше деталей. Обратите внимание, что время ответа зависит от вашего тарифного плана поддержки.",
+      },
+      actions: {
+        create_success: "Запрос в поддержку успешно создан.",
+        create_failure: "Не удалось создать запрос в поддержку.",
+        send_failure: "Не удалось отправить сообщение.",
+      },
     },
   },
 };

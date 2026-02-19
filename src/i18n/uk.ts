@@ -700,6 +700,44 @@ const uk: SynapseTranslationMessages = {
       weeks: "%{smart_count} тиждень |||| %{smart_count} тижні |||| %{smart_count} тижнів",
       months: "%{smart_count} місяць |||| %{smart_count} місяці |||| %{smart_count} місяців",
     },
+    support: {
+      name: "Підтримка",
+      description: "Відкрийте запит до підтримки або продовжте роботу з існуючим. Наша команда відповість якнайшвидше.",
+      create_title: "Новий запит до підтримки",
+      no_requests: "Запитів до підтримки ще немає.",
+      no_messages: "Повідомлень ще немає.",
+      fields: {
+        subject: "Тема",
+        message: "Повідомлення",
+        reply: "Відповідь",
+        status: "Статус",
+        created_at: "Створено",
+        updated_at: "Останнє оновлення",
+      },
+      status: {
+        active: "Активний",
+        open: "Відкрито",
+        closed: "Закрито",
+        pending: "В очікуванні",
+      },
+      buttons: {
+        new_request: "Новий запит",
+        submit: "Надіслати",
+        cancel: "Скасувати",
+        send: "Надіслати",
+        back: "Повернутися до підтримки",
+      },
+      helper: {
+        loading: "Завантаження запитів до підтримки...",
+        reply_hint: "Ctrl+Enter для надсилання",
+        reply_placeholder: "Вкажіть якомога більше деталей. Зверніть увагу, що час відповіді залежить від вашого тарифного плану підтримки.",
+      },
+      actions: {
+        create_success: "Запит до підтримки успішно створено.",
+        create_failure: "Не вдалося створити запит до підтримки.",
+        send_failure: "Не вдалося надіслати повідомлення.",
+      },
+    },
   },
 };
 export default uk;

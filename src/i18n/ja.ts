@@ -676,6 +676,44 @@ const ja: SynapseTranslationMessages = {
       weeks: "%{smart_count} 週間",
       months: "%{smart_count} か月",
     },
+    support: {
+      name: "サポート",
+      description: "サポートリクエストを開くか、既存のリクエストをフォローアップしてください。チームができるだけ早く対応します。",
+      create_title: "新しいサポートリクエスト",
+      no_requests: "まだサポートリクエストはありません。",
+      no_messages: "まだメッセージはありません。",
+      fields: {
+        subject: "件名",
+        message: "メッセージ",
+        reply: "返信",
+        status: "ステータス",
+        created_at: "作成日",
+        updated_at: "最終更新",
+      },
+      status: {
+        active: "アクティブ",
+        open: "オープン",
+        closed: "クローズ",
+        pending: "保留中",
+      },
+      buttons: {
+        new_request: "新しいリクエスト",
+        submit: "送信",
+        cancel: "キャンセル",
+        send: "送信",
+        back: "サポートに戻る",
+      },
+      helper: {
+        loading: "サポートリクエストを読み込み中...",
+        reply_hint: "Ctrl+Enterで送信",
+        reply_placeholder: "できる限り詳細な情報をご提供ください。なお、応答時間はサポートプランによって異なります。",
+      },
+      actions: {
+        create_success: "サポートリクエストが正常に作成されました。",
+        create_failure: "サポートリクエストの作成に失敗しました。",
+        send_failure: "メッセージの送信に失敗しました。",
+      },
+    },
   },
 };
 export default ja;

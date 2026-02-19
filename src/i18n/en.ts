@@ -669,6 +669,44 @@ const en: SynapseTranslationMessages = {
       weeks: "%{smart_count} week |||| %{smart_count} weeks",
       months: "%{smart_count} month |||| %{smart_count} months",
     },
+    support: {
+      name: "Support",
+      description: "Open a support request or follow up on an existing one. Our team will respond as soon as possible.",
+      create_title: "New Support Request",
+      no_requests: "No support requests yet.",
+      no_messages: "No messages yet.",
+      fields: {
+        subject: "Subject",
+        message: "Message",
+        reply: "Reply",
+        status: "Status",
+        created_at: "Created",
+        updated_at: "Last updated",
+      },
+      status: {
+        active: "Active",
+        open: "Open",
+        closed: "Closed",
+        pending: "Pending",
+      },
+      buttons: {
+        new_request: "New Request",
+        submit: "Submit",
+        cancel: "Cancel",
+        send: "Send",
+        back: "Back to Support",
+      },
+      helper: {
+        loading: "Loading support requests...",
+        reply_hint: "Ctrl+Enter to send",
+        reply_placeholder: "Include as much detail as possible. Note that response times depend on your support plan.",
+      },
+      actions: {
+        create_success: "Support request created successfully.",
+        create_failure: "Failed to create support request.",
+        send_failure: "Failed to send message.",
+      },
+    },
   },
 };
 export default en;

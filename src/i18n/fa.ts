@@ -677,6 +677,44 @@ const fa: SynapseTranslationMessages = {
       weeks: "%{smart_count} هفته",
       months: "%{smart_count} ماه",
     },
+    support: {
+      name: "پشتیبانی",
+      description: "یک درخواست پشتیبانی باز کنید یا درخواست موجود را پیگیری کنید. تیم ما در اسرع وقت پاسخ خواهد داد.",
+      create_title: "درخواست پشتیبانی جدید",
+      no_requests: "هنوز درخواست پشتیبانی وجود ندارد.",
+      no_messages: "هنوز پیامی وجود ندارد.",
+      fields: {
+        subject: "موضوع",
+        message: "پیام",
+        reply: "پاسخ",
+        status: "وضعیت",
+        created_at: "ایجاد شده",
+        updated_at: "آخرین به‌روزرسانی",
+      },
+      status: {
+        active: "فعال",
+        open: "باز",
+        closed: "بسته",
+        pending: "در انتظار",
+      },
+      buttons: {
+        new_request: "درخواست جدید",
+        submit: "ارسال",
+        cancel: "لغو",
+        send: "ارسال",
+        back: "بازگشت به پشتیبانی",
+      },
+      helper: {
+        loading: "در حال بارگذاری درخواست‌های پشتیبانی...",
+        reply_hint: "Ctrl+Enter برای ارسال",
+        reply_placeholder: "لطفاً تا حد امکان جزئیات بیشتری ارائه دهید. توجه داشته باشید که زمان پاسخگویی به پلان پشتیبانی شما بستگی دارد.",
+      },
+      actions: {
+        create_success: "درخواست پشتیبانی با موفقیت ایجاد شد.",
+        create_failure: "ایجاد درخواست پشتیبانی ناموفق بود.",
+        send_failure: "ارسال پیام ناموفق بود.",
+      },
+    },
   },
 };
 export default fa;

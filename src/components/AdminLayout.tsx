@@ -1,5 +1,6 @@
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import PaymentIcon from "@mui/icons-material/Payment";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -156,6 +157,9 @@ const AdminMenu = props => {
       <Menu.ResourceItems />
       {etkeRoutesEnabled && !icfg.disabled.payments && (
         <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
+      )}
+      {etkeRoutesEnabled && !icfg.disabled.support && (
+        <Menu.Item key="support" to="/support" leftIcon={<SupportAgentIcon />} primaryText="etkecc.support.name" />
       )}
       {menu &&
         menu.map((item, index) => {
