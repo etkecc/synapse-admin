@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import DOMPurify from "dompurify";
 import { useEffect, useRef, useState } from "react";
-import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
+import { Title, useDataProvider, useLocale, useNotify, useStore, useTranslate } from "react-admin";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useAppContext } from "../../Context";
@@ -110,7 +110,8 @@ const SupportRequestPage = () => {
   const [request, setRequest] = useState<SupportRequestDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [failure, setFailure] = useState<string | null>(null);
-  const [newMessage, setNewMessage] = useState("");
+  const draftKey = id ? `supportRequests.${id}.draft` : "supportRequests.unknown.draft";
+  const [newMessage, setNewMessage] = useStore<string>(draftKey, "");
   const [sending, setSending] = useState(false);
   const [profiles, setProfiles] = useState<Record<string, ResolvedProfile>>({});
   const fetchedMxids = useRef<Set<string>>(new Set());
@@ -133,6 +134,15 @@ const SupportRequestPage = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    setRequest(null);
+    setFailure(null);
+    setProfiles({});
+    fetchedMxids.current = new Set();
+    for (const url of blobUrlsRef.current) {
+      URL.revokeObjectURL(url);
+    }
+    blobUrlsRef.current = [];
     fetchRequest();
   }, [id, etkeccAdmin, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -208,13 +218,13 @@ const SupportRequestPage = () => {
     const messageText = newMessage.trim();
     try {
       await dataProvider.postSupportMessage(etkeccAdmin, locale, id, messageText);
+      setNewMessage("");
       const optimisticMsg: SupportMessage = {
         text: messageText,
         type: "operator",
         created_at: new Date().toISOString(),
       };
       setRequest(prev => (prev ? { ...prev, messages: [...prev.messages, optimisticMsg] } : prev));
-      setNewMessage("");
       fetchRequest();
     } catch (error) {
       console.error("Error sending message:", error);
