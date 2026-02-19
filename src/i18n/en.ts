@@ -671,10 +671,12 @@ const en: SynapseTranslationMessages = {
     },
     support: {
       name: "Support",
+      menu_label: "Contact support",
       description: "Open a support request or follow up on an existing one. Our team will respond as soon as possible.",
       create_title: "New Support Request",
       no_requests: "No support requests yet.",
       no_messages: "No messages yet.",
+      closed_message: "This request is closed. If you still have a problem, please open a new one.",
       fields: {
         subject: "Subject",
         message: "Message",
@@ -684,10 +686,10 @@ const en: SynapseTranslationMessages = {
         updated_at: "Last updated",
       },
       status: {
-        active: "Active",
+        active: "Waiting for operator",
         open: "Open",
         closed: "Closed",
-        pending: "Pending",
+        pending: "Waiting for you",
       },
       buttons: {
         new_request: "New Request",

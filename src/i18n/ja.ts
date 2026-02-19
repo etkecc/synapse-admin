@@ -678,10 +678,12 @@ const ja: SynapseTranslationMessages = {
     },
     support: {
       name: "サポート",
+      menu_label: "サポートに連絡",
       description: "サポートリクエストを開くか、既存のリクエストをフォローアップしてください。チームができるだけ早く対応します。",
       create_title: "新しいサポートリクエスト",
       no_requests: "まだサポートリクエストはありません。",
       no_messages: "まだメッセージはありません。",
+      closed_message: "このリクエストは終了しました。まだ問題がある場合は、新しいリクエストを開いてください。",
       fields: {
         subject: "件名",
         message: "メッセージ",
@@ -691,10 +693,10 @@ const ja: SynapseTranslationMessages = {
         updated_at: "最終更新",
       },
       status: {
-        active: "アクティブ",
+        active: "オペレーター待ち",
         open: "オープン",
         closed: "クローズ",
-        pending: "保留中",
+        pending: "あなたの返答待ち",
       },
       buttons: {
         new_request: "新しいリクエスト",

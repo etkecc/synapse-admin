@@ -668,10 +668,12 @@ const fr: SynapseTranslationMessages = {
     },
     support: {
       name: "Support",
+      menu_label: "Contacter le support",
       description: "Ouvrez une demande de support ou faites un suivi d'une demande existante. Notre équipe répondra dans les plus brefs délais.",
       create_title: "Nouvelle demande de support",
       no_requests: "Aucune demande de support pour l'instant.",
       no_messages: "Aucun message pour l'instant.",
+      closed_message: "Cette demande est clôturée. Si vous avez toujours un problème, veuillez en ouvrir une nouvelle.",
       fields: {
         subject: "Sujet",
         message: "Message",
@@ -681,10 +683,10 @@ const fr: SynapseTranslationMessages = {
         updated_at: "Dernière mise à jour",
       },
       status: {
-        active: "Actif",
+        active: "En attente de l'opérateur",
         open: "Ouvert",
         closed: "Fermé",
-        pending: "En attente",
+        pending: "En attente de votre réponse",
       },
       buttons: {
         new_request: "Nouvelle demande",

@@ -722,10 +722,12 @@ const ru: SynapseTranslationMessages = {
     },
     support: {
       name: "Поддержка",
+      menu_label: "Связаться с поддержкой",
       description: "Откройте запрос в поддержку или продолжите работу с существующим. Наша команда ответит как можно скорее.",
       create_title: "Новый запрос в поддержку",
       no_requests: "Запросов в поддержку пока нет.",
       no_messages: "Сообщений пока нет.",
+      closed_message: "Этот запрос закрыт. Если у вас всё ещё есть проблема, пожалуйста, создайте новый.",
       fields: {
         subject: "Тема",
         message: "Сообщение",
@@ -735,10 +737,10 @@ const ru: SynapseTranslationMessages = {
         updated_at: "Последнее обновление",
       },
       status: {
-        active: "Активен",
+        active: "Ожидание оператора",
         open: "Открыт",
         closed: "Закрыт",
-        pending: "В ожидании",
+        pending: "Ожидание вашего ответа",
       },
       buttons: {
         new_request: "Новый запрос",

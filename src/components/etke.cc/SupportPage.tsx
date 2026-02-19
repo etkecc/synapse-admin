@@ -22,6 +22,7 @@ import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "reac
 import { useNavigate } from "react-router-dom";
 
 import { EtkeAttribution } from "./EtkeAttribution";
+import RichTextEditor from "./RichTextEditor";
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, SupportRequest } from "../../synapse/dataProvider";
 import { useDocTitle } from "../hooks/useDocTitle";
@@ -62,16 +63,18 @@ const CreateRequestForm = ({
           required
           disabled={submitting}
         />
-        <TextField
-          label={translate("etkecc.support.fields.message")}
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-          fullWidth
-          required
-          multiline
-          rows={4}
-          disabled={submitting}
-        />
+        <Box>
+          <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+            {translate("etkecc.support.fields.message")} *
+          </Typography>
+          <RichTextEditor
+            value={message}
+            onChange={setMessage}
+            placeholder={translate("etkecc.support.helper.reply_placeholder")}
+            disabled={submitting}
+            minRows={4}
+          />
+        </Box>
         <Stack direction="row" spacing={1}>
           <Button
             variant="contained"

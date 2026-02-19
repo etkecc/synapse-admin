@@ -699,10 +699,12 @@ const zh: SynapseTranslationMessages = {
     },
     support: {
       name: "支持",
+      menu_label: "联系支持",
       description: "提交支持请求或跟进现有请求。我们的团队将尽快回复。",
       create_title: "新建支持请求",
       no_requests: "暂无支持请求。",
       no_messages: "暂无消息。",
+      closed_message: "此请求已关闭。如果您仍有问题，请提交新的请求。",
       fields: {
         subject: "主题",
         message: "消息",
@@ -712,10 +714,10 @@ const zh: SynapseTranslationMessages = {
         updated_at: "最后更新",
       },
       status: {
-        active: "活跃",
+        active: "等待运营商",
         open: "开放",
         closed: "已关闭",
-        pending: "待处理",
+        pending: "等待您的回复",
       },
       buttons: {
         new_request: "新建请求",

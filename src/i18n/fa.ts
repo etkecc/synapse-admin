@@ -679,10 +679,12 @@ const fa: SynapseTranslationMessages = {
     },
     support: {
       name: "پشتیبانی",
+      menu_label: "تماس با پشتیبانی",
       description: "یک درخواست پشتیبانی باز کنید یا درخواست موجود را پیگیری کنید. تیم ما در اسرع وقت پاسخ خواهد داد.",
       create_title: "درخواست پشتیبانی جدید",
       no_requests: "هنوز درخواست پشتیبانی وجود ندارد.",
       no_messages: "هنوز پیامی وجود ندارد.",
+      closed_message: "این درخواست بسته شده است. اگر هنوز مشکلی دارید، لطفاً یک درخواست جدید باز کنید.",
       fields: {
         subject: "موضوع",
         message: "پیام",
@@ -692,10 +694,10 @@ const fa: SynapseTranslationMessages = {
         updated_at: "آخرین به‌روزرسانی",
       },
       status: {
-        active: "فعال",
+        active: "در انتظار اپراتور",
         open: "باز",
         closed: "بسته",
-        pending: "در انتظار",
+        pending: "در انتظار شما",
       },
       buttons: {
         new_request: "درخواست جدید",

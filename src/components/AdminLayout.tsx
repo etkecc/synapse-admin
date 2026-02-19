@@ -159,7 +159,7 @@ const AdminMenu = props => {
         <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
       )}
       {etkeRoutesEnabled && !icfg.disabled.support && (
-        <Menu.Item key="support" to="/support" leftIcon={<SupportAgentIcon />} primaryText="etkecc.support.name" />
+        <Menu.Item key="support" to="/support" leftIcon={<SupportAgentIcon />} primaryText="etkecc.support.menu_label" />
       )}
       {menu &&
         menu.map((item, index) => {

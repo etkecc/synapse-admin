@@ -773,10 +773,12 @@ const it: SynapseTranslationMessages = {
     },
     support: {
       name: "Supporto",
+      menu_label: "Contatta l'assistenza",
       description: "Apri una richiesta di supporto o segui una esistente. Il nostro team risponderà il prima possibile.",
       create_title: "Nuova richiesta di supporto",
       no_requests: "Nessuna richiesta di supporto ancora.",
       no_messages: "Nessun messaggio ancora.",
+      closed_message: "Questa richiesta è chiusa. Se hai ancora un problema, aprine una nuova.",
       fields: {
         subject: "Oggetto",
         message: "Messaggio",
@@ -786,10 +788,10 @@ const it: SynapseTranslationMessages = {
         updated_at: "Ultimo aggiornamento",
       },
       status: {
-        active: "Attivo",
+        active: "In attesa dell'operatore",
         open: "Aperto",
         closed: "Chiuso",
-        pending: "In attesa",
+        pending: "In attesa di una tua risposta",
       },
       buttons: {
         new_request: "Nuova richiesta",

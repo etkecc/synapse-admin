@@ -1,6 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import {
   Alert,
   Avatar,
@@ -12,7 +11,6 @@ import {
   IconButton,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import DOMPurify from "dompurify";
@@ -24,6 +22,7 @@ import { useAppContext } from "../../Context";
 import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../synapse/dataProvider";
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
 import { useDocTitle } from "../hooks/useDocTitle";
+import RichTextEditor from "./RichTextEditor";
 
 interface ResolvedProfile {
   displayName: string;
@@ -38,11 +37,14 @@ const MessageRow = ({
   msg,
   locale,
   resolvedProfile,
+  mxid,
 }: {
   msg: SupportMessage;
   locale: string;
   resolvedProfile?: ResolvedProfile;
+  mxid?: string;
 }) => {
+  const navigate = useNavigate();
   const isCustomer = msg.type === "customer";
   const author = resolvedProfile?.displayName ?? msg.created_by?.firstName ?? msg.type;
   const avatarUrl = resolvedProfile?.avatarSrc ?? msg.created_by?.avatarUrl;
@@ -59,6 +61,7 @@ const MessageRow = ({
     >
       <Stack direction="row">
         <Box
+          onClick={mxid ? () => navigate(`/users/${encodeURIComponent(mxid)}`) : undefined}
           sx={{
             width: 150,
             flexShrink: 0,
@@ -70,6 +73,8 @@ const MessageRow = ({
             flexDirection: "column",
             alignItems: "center",
             gap: 0.5,
+            cursor: mxid ? "pointer" : undefined,
+            "&:hover": mxid ? { bgcolor: "action.selected" } : undefined,
           }}
         >
           <Avatar src={avatarUrl} sx={{ width: 40, height: 40 }}>
@@ -198,10 +203,17 @@ const SupportRequestPage = () => {
   const handleSend = async () => {
     if (!newMessage.trim() || !etkeccAdmin || !id) return;
     setSending(true);
+    const messageText = newMessage.trim();
     try {
-      await dataProvider.postSupportMessage(etkeccAdmin, locale, id, newMessage.trim());
+      await dataProvider.postSupportMessage(etkeccAdmin, locale, id, messageText);
+      const optimisticMsg: SupportMessage = {
+        text: messageText,
+        type: "operator",
+        created_at: new Date().toISOString(),
+      };
+      setRequest(prev => (prev ? { ...prev, messages: [...prev.messages, optimisticMsg] } : prev));
       setNewMessage("");
-      await fetchRequest();
+      fetchRequest();
     } catch (error) {
       console.error("Error sending message:", error);
       notify(error instanceof Error ? error.message : "etkecc.support.actions.send_failure", { type: "error" });
@@ -217,26 +229,23 @@ const SupportRequestPage = () => {
         <IconButton onClick={() => navigate("/support")} size="small">
           <ArrowBackIcon />
         </IconButton>
+        {request?.status && (
+          <Chip
+            label={translate(`etkecc.support.status.${request.status}`, { _: request.status })}
+            size="small"
+            color={
+              request.status === "active" || request.status === "open"
+                ? "success"
+                : request.status === "closed"
+                  ? "default"
+                  : "info"
+            }
+          />
+        )}
         <Box>
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="h5">
-              <SupportAgentIcon sx={{ verticalAlign: "middle", mr: 1 }} />
-              {request?.subject || translate("etkecc.support.name")}
-            </Typography>
-            {request?.status && (
-              <Chip
-                label={translate(`etkecc.support.status.${request.status}`, { _: request.status })}
-                size="small"
-                color={
-                  request.status === "active" || request.status === "open"
-                    ? "success"
-                    : request.status === "closed"
-                      ? "default"
-                      : "info"
-                }
-              />
-            )}
-          </Stack>
+          <Typography variant="h5">
+            {request?.subject || translate("etkecc.support.name")}
+          </Typography>
           {request?.updated_at && (
             <Typography variant="caption" color="text.secondary">
               {translate("etkecc.support.fields.updated_at")}: {new Date(request.updated_at).toLocaleString(locale)}
@@ -291,26 +300,35 @@ const SupportRequestPage = () => {
       ) : (
         <Stack spacing={2}>
           {messages.map((msg, index) => (
-            <MessageRow key={msg.id ?? index} msg={msg} locale={locale} resolvedProfile={getResolvedProfile(msg)} />
+            <MessageRow
+              key={msg.id ?? index}
+              msg={msg}
+              locale={locale}
+              resolvedProfile={getResolvedProfile(msg)}
+              mxid={
+                msg.type === "customer" && msg.created_by?.firstName && isMXID(msg.created_by.firstName)
+                  ? msg.created_by.firstName
+                  : undefined
+              }
+            />
           ))}
         </Stack>
       )}
 
-      {request?.status !== "closed" && request?.status !== "spam" && (
+      {request?.status === "closed" ? (
+        <Alert severity="info">{translate("etkecc.support.closed_message")}</Alert>
+      ) : request?.status !== "spam" && (
         <Paper variant="outlined" sx={{ p: 2 }}>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>
             {translate("etkecc.support.fields.reply")}
           </Typography>
           <Stack spacing={1}>
-            <TextField
+            <RichTextEditor
               value={newMessage}
-              onChange={e => setNewMessage(e.target.value)}
+              onChange={setNewMessage}
               placeholder={translate("etkecc.support.helper.reply_placeholder")}
-              fullWidth
-              multiline
-              minRows={6}
-              maxRows={16}
               disabled={sending}
+              minRows={6}
             />
             <Box>
               <Button

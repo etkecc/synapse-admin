@@ -702,10 +702,12 @@ const uk: SynapseTranslationMessages = {
     },
     support: {
       name: "Підтримка",
+      menu_label: "Зв'язатися з підтримкою",
       description: "Відкрийте запит до підтримки або продовжте роботу з існуючим. Наша команда відповість якнайшвидше.",
       create_title: "Новий запит до підтримки",
       no_requests: "Запитів до підтримки ще немає.",
       no_messages: "Повідомлень ще немає.",
+      closed_message: "Цей запит закрито. Якщо у вас все ще є проблема, будь ласка, відкрийте новий.",
       fields: {
         subject: "Тема",
         message: "Повідомлення",
@@ -715,10 +717,10 @@ const uk: SynapseTranslationMessages = {
         updated_at: "Останнє оновлення",
       },
       status: {
-        active: "Активний",
+        active: "Очікування оператора",
         open: "Відкрито",
         closed: "Закрито",
-        pending: "В очікуванні",
+        pending: "Очікування вашої відповіді",
       },
       buttons: {
         new_request: "Новий запит",
