@@ -50,7 +50,7 @@ const CreateRequestForm = ({
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
+    <Paper elevation={2} sx={{ p: 3 }}>
       <Typography variant="h6" sx={{ mb: 2 }}>
         {translate("etkecc.support.create_title")}
       </Typography>
@@ -197,11 +197,11 @@ const SupportPage = () => {
       )}
 
       {requests.length === 0 ? (
-        <Paper sx={{ p: 2 }}>
+        <Paper elevation={2} sx={{ p: 2 }}>
           <Typography>{translate("etkecc.support.no_requests")}</Typography>
         </Paper>
       ) : (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} elevation={2}>
           <Table>
             <TableHead>
               <TableRow>

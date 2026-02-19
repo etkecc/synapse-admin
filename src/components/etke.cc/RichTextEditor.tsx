@@ -40,8 +40,10 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
 
   return (
     <Paper
-      variant="outlined"
+      elevation={4}
       sx={{
+        border: "1px solid",
+        borderColor: "action.selected",
         "&:focus-within": { borderColor: "primary.main", borderWidth: "2px" },
         opacity: disabled ? 0.6 : 1,
       }}
@@ -55,7 +57,7 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
           px: 0.5,
           py: 0.25,
           borderBottom: "1px solid",
-          borderColor: "divider",
+          borderColor: "action.selected",
         }}
       >
         <Tooltip title="Bold">

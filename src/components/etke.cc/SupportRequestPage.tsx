@@ -52,9 +52,11 @@ const MessageRow = ({
 
   return (
     <Paper
-      variant="outlined"
+      elevation={2}
       sx={{
         overflow: "hidden",
+        border: "1px solid",
+        borderColor: "action.selected",
         borderLeft: !isCustomer ? "4px solid" : undefined,
         borderLeftColor: !isCustomer ? "primary.main" : undefined,
       }}
@@ -67,14 +69,14 @@ const MessageRow = ({
             flexShrink: 0,
             p: 1.5,
             borderRight: "1px solid",
-            borderColor: "divider",
-            bgcolor: "action.hover",
+            borderColor: "action.selected",
+            bgcolor: "background.default",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             gap: 0.5,
             cursor: mxid ? "pointer" : undefined,
-            "&:hover": mxid ? { bgcolor: "action.selected" } : undefined,
+            "&:hover": mxid ? { bgcolor: "action.hover" } : undefined,
           }}
         >
           <Avatar src={avatarUrl} sx={{ width: 40, height: 40 }}>
@@ -222,35 +224,39 @@ const SupportRequestPage = () => {
     }
   };
 
+  const statusChip = request?.status ? (
+    <Chip
+      label={translate(`etkecc.support.status.${request.status}`, { _: request.status })}
+      size="small"
+      color={
+        request.status === "active" || request.status === "open"
+          ? "success"
+          : request.status === "closed"
+            ? "default"
+            : "info"
+      }
+    />
+  ) : null;
+
   const header = (
     <>
       <Title title={translate("etkecc.support.name")} />
-      <Stack direction="row" alignItems="center" spacing={1}>
-        <IconButton onClick={() => navigate("/support")} size="small">
+      <Stack direction="row" alignItems="flex-start" spacing={1}>
+        <IconButton onClick={() => navigate("/support")} size="small" sx={{ mt: 0.5 }}>
           <ArrowBackIcon />
         </IconButton>
-        {request?.status && (
-          <Chip
-            label={translate(`etkecc.support.status.${request.status}`, { _: request.status })}
-            size="small"
-            color={
-              request.status === "active" || request.status === "open"
-                ? "success"
-                : request.status === "closed"
-                  ? "default"
-                  : "info"
-            }
-          />
-        )}
         <Box>
           <Typography variant="h5">
             {request?.subject || translate("etkecc.support.name")}
           </Typography>
-          {request?.updated_at && (
-            <Typography variant="caption" color="text.secondary">
-              {translate("etkecc.support.fields.updated_at")}: {new Date(request.updated_at).toLocaleString(locale)}
-            </Typography>
-          )}
+          <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap" mt={0.5}>
+            {request?.updated_at && (
+              <Typography variant="caption" color="text.secondary">
+                {translate("etkecc.support.fields.updated_at")}: {new Date(request.updated_at).toLocaleString(locale)}
+              </Typography>
+            )}
+            {statusChip}
+          </Stack>
         </Box>
       </Stack>
     </>
@@ -318,7 +324,7 @@ const SupportRequestPage = () => {
       {request?.status === "closed" ? (
         <Alert severity="info">{translate("etkecc.support.closed_message")}</Alert>
       ) : request?.status !== "spam" && (
-        <Paper variant="outlined" sx={{ p: 2 }}>
+        <Paper elevation={1} sx={{ p: 2, border: "1px solid", borderColor: "action.selected" }}>
           <Typography variant="subtitle2" sx={{ mb: 1 }}>
             {translate("etkecc.support.fields.reply")}
           </Typography>
