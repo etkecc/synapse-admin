@@ -709,7 +709,7 @@ const ja: SynapseTranslationMessages = {
       helper: {
         loading: "サポートリクエストを読み込んでいます...",
         reply_hint: "Ctrl+Enterで送信",
-        reply_placeholder: "できる限り詳細な情報をご提供ください。",
+        reply_placeholder: "できる限り詳細な情報を記入してください。",
         before_contact_title: "お問い合わせの前に",
         help_pages_prompt: "まずヘルプページをご確認ください：",
         services_prompt: "提供するサービスはサービスページに記載されたもののみです：",
