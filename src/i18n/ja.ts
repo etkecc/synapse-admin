@@ -707,7 +707,7 @@ const ja: SynapseTranslationMessages = {
         back: "サポートに戻る",
       },
       helper: {
-        loading: "サポートリクエストを読み込み中...",
+        loading: "サポートリクエストを読み込んでいます...",
         reply_hint: "Ctrl+Enterで送信",
         reply_placeholder: "できる限り詳細な情報をご提供ください。",
         before_contact_title: "お問い合わせの前に",
