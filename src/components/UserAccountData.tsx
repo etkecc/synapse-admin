@@ -23,7 +23,7 @@ const UserAccountData = () => {
       setRoomsAccountData(accountData.account_data.rooms);
     };
     fetchAccountData();
-  }, []);
+  }, [dataProvider, record.id]);
 
   if (Object.keys(globalAccountData).length === 0 && Object.keys(roomsAccountData).length === 0) {
     return (

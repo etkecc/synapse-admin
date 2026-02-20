@@ -3,7 +3,7 @@ import { Avatar, Badge, Box, Theme, Tooltip } from "@mui/material";
 import { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Button, useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
 import { useNavigate } from "react-router";
 
@@ -73,7 +73,7 @@ const useServerStatus = () => {
   const successCheck = serverStatus.success;
   const maintenance = serverStatus.maintenance;
 
-  const checkServerStatus = async () => {
+  const checkServerStatus = useCallback(async () => {
     const serverStatus: ServerStatusResponse = await dataProvider.getServerStatus(etkeccAdmin, locale, command !== "");
     setServerStatus({
       ok: serverStatus.ok,
@@ -82,7 +82,7 @@ const useServerStatus = () => {
       host: serverStatus.host,
       results: serverStatus.results,
     });
-  };
+  }, [dataProvider, etkeccAdmin, locale, command, setServerStatus]);
 
   useEffect(() => {
     let serverStatusInterval: NodeJS.Timeout | null = null;
@@ -106,7 +106,7 @@ const useServerStatus = () => {
         clearInterval(serverStatusInterval);
       }
     };
-  }, [etkeccAdmin, locale, command]);
+  }, [etkeccAdmin, checkServerStatus, setServerStatus]);
 
   return { isOkay, successCheck, maintenance };
 };
@@ -122,7 +122,7 @@ const useCurrentServerProcess = () => {
   const locale = useLocale();
   const { command, locked_at, maintenance } = serverProcess;
 
-  const checkServerRunningProcess = async () => {
+  const checkServerRunningProcess = useCallback(async () => {
     const serverProcess: ServerProcessResponse = await dataProvider.getServerRunningProcess(
       etkeccAdmin,
       locale,
@@ -134,7 +134,7 @@ const useCurrentServerProcess = () => {
       locked_at: serverProcess.locked_at,
       maintenance: serverProcess.maintenance,
     });
-  };
+  }, [dataProvider, etkeccAdmin, locale, command, setServerProcess]);
 
   useEffect(() => {
     let serverCheckInterval: NodeJS.Timeout | null = null;
@@ -157,7 +157,7 @@ const useCurrentServerProcess = () => {
         clearInterval(serverCheckInterval);
       }
     };
-  }, [etkeccAdmin, locale, command]);
+  }, [etkeccAdmin, checkServerRunningProcess, setServerProcess]);
 
   return { command, locked_at, maintenance };
 };

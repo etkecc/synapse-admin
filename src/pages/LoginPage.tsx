@@ -128,6 +128,7 @@ const LoginPage = () => {
     if (base_url) {
       checkServerInfo(base_url as string);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -159,7 +160,7 @@ const LoginPage = () => {
         console.error(error);
       });
     }
-  }, [loginToken]);
+  }, [loginToken, login]);
 
   const validateBaseUrl = value => {
     if (!value.match(/^(http|https):\/\//)) {
@@ -359,6 +360,7 @@ const LoginPage = () => {
       }, 0);
 
       return () => clearTimeout(timer);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

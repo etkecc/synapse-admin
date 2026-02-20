@@ -161,7 +161,7 @@ const UserBulkActionButtons = () => {
   useEffect(() => {
     setOwnUserIsSelected(selectedIds.includes(ownUserId));
     setAsManagedUserIsSelected(selectedIds.some(id => isASManaged(id)));
-  }, [selectedIds]);
+  }, [selectedIds, ownUserId]);
 
   return (
     <>
@@ -529,7 +529,7 @@ const ErasedBooleanInput = props => {
     if (erasedFromRecord === true && erased === false) {
       form.setValue("deactivated", false);
     }
-  }, [deactivatedFromRecord, erased, erasedFromRecord]);
+  }, [deactivatedFromRecord, erased, erasedFromRecord, form]);
 
   return <UserBooleanInput disabled={!deactivated} {...props} />;
 };

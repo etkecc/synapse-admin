@@ -218,7 +218,7 @@ export const AdminLayout = ({ children }) => {
         document.getElementsByTagName("head")[0].appendChild(newLink);
       }
     }
-  }, [locale]);
+  }, [locale, icfg.name, icfg.favicon_url]);
 
   return (
     <>

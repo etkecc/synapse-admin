@@ -17,7 +17,7 @@ import {
   Divider,
   Tooltip,
 } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
 import { useNavigate } from "react-router";
 
@@ -45,7 +45,7 @@ const useServerNotifications = () => {
   const locale = useLocale();
   const { notifications, success } = serverNotifications;
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     const notificationsResponse: ServerNotificationsResponse = await dataProvider.getServerNotifications(
       etkeccAdmin,
       locale,
@@ -58,7 +58,7 @@ const useServerNotifications = () => {
       notifications: serverNotifications,
       success: notificationsResponse.success,
     });
-  };
+  }, [dataProvider, etkeccAdmin, locale, command, setServerNotifications]);
 
   const deleteServerNotifications = async () => {
     const deleteResponse = await dataProvider.deleteServerNotifications(etkeccAdmin, locale);
@@ -90,7 +90,7 @@ const useServerNotifications = () => {
         clearInterval(serverNotificationsInterval);
       }
     };
-  }, [etkeccAdmin, locale, command, locked_at]);
+  }, [etkeccAdmin, fetchNotifications, locked_at]);
 
   return { success, notifications, deleteServerNotifications };
 };

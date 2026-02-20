@@ -1,6 +1,6 @@
 import { Avatar, AvatarProps, Badge, Tooltip } from "@mui/material";
 import { get } from "lodash";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { FieldProps, useRecordContext, useTranslate } from "react-admin";
 
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -12,11 +12,13 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
   const mxcURL = get(record, source)?.toString();
 
   const [src, setSrc] = useState<string>("");
+  const srcRef = useRef<string>("");
 
   const fetchAvatar = useCallback(async (mxcURL: string) => {
     const response = await fetchAuthenticatedMedia(mxcURL, "thumbnail");
     const blob = await response.blob();
     const blobURL = URL.createObjectURL(blob);
+    srcRef.current = blobURL;
     setSrc(blobURL);
   }, []);
 
@@ -25,10 +27,9 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
       fetchAvatar(mxcURL);
     }
 
-    // Cleanup function to revoke the object URL
     return () => {
-      if (src) {
-        URL.revokeObjectURL(src);
+      if (srcRef.current) {
+        URL.revokeObjectURL(srcRef.current);
       }
     };
   }, [mxcURL, fetchAvatar]);

@@ -38,7 +38,7 @@ export const useServerCommands = () => {
       setLoading(false);
     };
     fetchServerCommands();
-  }, [dataProvider, etkeccAdmin, locale]);
+  }, [dataProvider, etkeccAdmin, locale, icfg.disabled.attributions, icfg.disabled.payments]);
 
   return { isLoading, maintenance, serverCommands, setServerCommands };
 };
