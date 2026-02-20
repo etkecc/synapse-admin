@@ -389,6 +389,7 @@ export interface RecurringCommand {
 
 export interface Payment {
   amount: number;
+  currency: string;
   email: string;
   is_subscription: boolean;
   paid_at: string;
