@@ -10,25 +10,18 @@ SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = [".dockerignore"]
-SPDX-FileCopyrightText = [
-  "2024-2025 Nikita Chernyi",
-  "2019-2024 Manuel Stahl",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = [".editorconfig"]
-SPDX-FileCopyrightText = [
-  "2024 Manuel Stahl",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = [".gitattributes"]
-SPDX-FileCopyrightText = [
-  "2024 Manuel Stahl",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = [".github/CONTRIBUTING.md"]
@@ -83,28 +76,18 @@ SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = [".gitignore"]
-SPDX-FileCopyrightText = [
-  "2024-2026 Nikita Chernyi",
-  "2024 Manuel Stahl",
-  "2020 Michael Albert",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = [".prettierignore"]
-SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi",
-  "2024 Manuel Stahl",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = [".watchmanconfig"]
-SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi",
-  "2024 Borislav Pantaleev",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = ["Dockerfile"]
@@ -1336,16 +1319,5 @@ SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = ["yarn.lock"]
-SPDX-FileCopyrightText = [
-  "2024-2026 Nikita Chernyi",
-  "2024-2026 Borislav Pantaleev",
-  "2023 Charlie Calendre",
-  "2022-2025 Dirk Klimpel",
-  "2024 Fateme Shamohammadi",
-  "2023 Francesco Carmelo Capria",
-  "2020-2024 Manuel Stahl",
-  "2020-2021 Michael Albert",
-  "2021 Nya Candy",
-  "2024 rkfg",
-]
-SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "CC0-1.0"
