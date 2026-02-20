@@ -69,7 +69,7 @@ export const ExperimentalFeaturesList = () => {
     };
 
     fetchFeatures();
-  }, []);
+  }, [dataProvider, record.id]);
 
   const updateFeature = async (feature_name: string, feature_value: boolean) => {
     const updatedFeatures = { ...features, [feature_name]: feature_value } as ExperimentalFeaturesModel;

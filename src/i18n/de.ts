@@ -715,6 +715,56 @@ const de: SynapseTranslationMessages = {
       weeks: "%{smart_count} Woche |||| %{smart_count} Wochen",
       months: "%{smart_count} Monat |||| %{smart_count} Monate",
     },
+    support: {
+      name: "Support",
+      menu_label: "Support kontaktieren",
+      description:
+        "Öffnen Sie eine Support-Anfrage oder verfolgen Sie eine bestehende. Unser Team wird so schnell wie möglich antworten.",
+      create_title: "Neue Support-Anfrage",
+      no_requests: "Noch keine Support-Anfragen.",
+      no_messages: "Noch keine Nachrichten.",
+      closed_message:
+        "Diese Anfrage ist geschlossen. Wenn Sie weiterhin ein Problem haben, öffnen Sie bitte eine neue.",
+      fields: {
+        subject: "Betreff",
+        message: "Nachricht",
+        reply: "Antwort",
+        status: "Status",
+        created_at: "Erstellt",
+        updated_at: "Zuletzt aktualisiert",
+      },
+      status: {
+        active: "Warte auf Betreiber",
+        open: "Offen",
+        closed: "Geschlossen",
+        pending: "Wartet auf Sie",
+      },
+      buttons: {
+        new_request: "Neue Anfrage",
+        submit: "Absenden",
+        cancel: "Abbrechen",
+        send: "Senden",
+        back: "Zurück zum Support",
+      },
+      helper: {
+        loading: "Support-Anfragen werden geladen...",
+        reply_hint: "Strg+Eingabe zum Senden",
+        reply_placeholder: "Bitte geben Sie so viele Details wie möglich an.",
+        before_contact_title: "Bevor Sie uns kontaktieren",
+        help_pages_prompt: "Bitte lesen Sie zuerst unsere Hilfeseiten:",
+        services_prompt: "Wir bieten nur die auf der Serviceseite aufgeführten Leistungen an:",
+        topics_prompt: "Wir können nur zu unterstützten Themen helfen:",
+        scope_confirm_label:
+          "Ich habe die Hilfeseiten gelesen und bestätige, dass diese Anfrage zu den unterstützten Themen gehört.",
+        english_only_notice: "Support wird nur auf Englisch angeboten.",
+        response_time_prompt: "Antwort innerhalb von 48 Stunden. Benötigen Sie schnellere Antwortzeiten? Siehe:",
+      },
+      actions: {
+        create_success: "Support-Anfrage erfolgreich erstellt.",
+        create_failure: "Support-Anfrage konnte nicht erstellt werden.",
+        send_failure: "Nachricht konnte nicht gesendet werden.",
+      },
+    },
   },
 };
 export default de;

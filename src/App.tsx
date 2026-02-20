@@ -9,6 +9,8 @@ import AdminLayout from "./components/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
 import { GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
+import SupportPage from "./components/etke.cc/SupportPage";
+import SupportRequestPage from "./components/etke.cc/SupportRequestPage";
 import ServerNotificationsPage from "./components/etke.cc/ServerNotificationsPage";
 import ServerStatusPage from "./components/etke.cc/ServerStatusPage";
 import RecurringCommandEdit from "./components/etke.cc/schedules/components/recurring/RecurringCommandEdit";
@@ -140,6 +142,8 @@ export const App = () => {
           )}
           {!icfg.disabled.actions && <Route path="/server_notifications" element={<ServerNotificationsPage />} />}
           {!icfg.disabled.payments && <Route path="/billing" element={<BillingPage />} />}
+          {!icfg.disabled.support && <Route path="/support" element={<SupportPage />} />}
+          {!icfg.disabled.support && <Route path="/support/:id" element={<SupportRequestPage />} />}
         </CustomRoutes>
         <Resource {...users} />
         <Resource {...rooms} />

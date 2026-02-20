@@ -17,6 +17,7 @@ Due to the specifics mentioned above, these components are documented here rathe
 * [Server Actions Page](#server-actions-page)
 * [Server Commands Panel](#server-commands-panel)
 * [Billing Page](#billing-page)
+* [Support Page](#support-page)
 * [Instance config](#instance-config)
 
 <!-- vim-markdown-toc -->
@@ -85,6 +86,16 @@ Once command is finished, you will get a notification about the result.
 
 When you click on the `Billing` sidebar menu item, you will be see the Billing page.
 On this page you can see the list of successful payments and invoices.
+
+### Support Page
+
+![Support Page](../../../screenshots/etke.cc/support/page.webp)
+
+When you click on the `Contact support` sidebar menu item, you will be see the Support page,
+where you can see the list of your support tickets, and create a new one if needed.
+
+This is a convenient interface for the existing support system, previously available only via email.
+All communication with support is duplicated to email, so you can use both interfaces simultaneously.
 
 ### Instance config
 

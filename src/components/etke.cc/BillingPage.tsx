@@ -217,7 +217,9 @@ const BillingPage = () => {
                     <TableCell>
                       {translate(`etkecc.billing.enums.type.${payment.is_subscription ? "subscription" : "one_time"}`)}
                     </TableCell>
-                    <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                    <TableCell>
+                      {payment.amount.toFixed(2)} {payment.currency}
+                    </TableCell>
                     <TableCell>{new Date(payment.paid_at).toLocaleDateString(locale)}</TableCell>
                     <TableCell>
                       <Button

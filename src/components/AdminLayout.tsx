@@ -1,5 +1,6 @@
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import PaymentIcon from "@mui/icons-material/Payment";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -157,6 +158,14 @@ const AdminMenu = props => {
       {etkeRoutesEnabled && !icfg.disabled.payments && (
         <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
       )}
+      {etkeRoutesEnabled && !icfg.disabled.support && (
+        <Menu.Item
+          key="support"
+          to="/support"
+          leftIcon={<SupportAgentIcon />}
+          primaryText="etkecc.support.menu_label"
+        />
+      )}
       {menu &&
         menu.map((item, index) => {
           const { url, icon, label, i18n } = item;
@@ -209,7 +218,7 @@ export const AdminLayout = ({ children }) => {
         document.getElementsByTagName("head")[0].appendChild(newLink);
       }
     }
-  }, [locale]);
+  }, [locale, icfg.name, icfg.favicon_url]);
 
   return (
     <>

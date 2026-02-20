@@ -74,7 +74,7 @@ const UserRateLimits = () => {
     };
 
     fetchRateLimits();
-  }, []);
+  }, [dataProvider, record.id]);
 
   const updateRateLimit = async (limit: string, value: integer | null) => {
     const updatedRateLimits = { ...rateLimits, [limit]: value };
