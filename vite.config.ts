@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { vitePluginVersionMark } from "vite-plugin-version-mark";
 
+<<<<<<< HEAD
 export default defineConfig({
   base: "./",
   build: {
@@ -76,5 +77,26 @@ export default defineConfig({
         ];
       },
     }),
+=======
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+>>>>>>> master
   ],
-});
+  server: {
+    host: true,
+  },
+  base: './',
+  build: {
+    chunkSizeWarningLimit: 1500,
+    sourcemap: mode === 'development',
+  },
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: "./src/vitest.setup.ts",
+  },
+  ssr: {
+    noExternal: ['react-dropzone', 'react-admin', 'ra-ui-materialui'],
+  },
+}));
