@@ -3,6 +3,8 @@ import { HttpError } from "ra-core";
 
 import authProvider from "./authProvider";
 
+fetchMock.enableMocks();
+
 describe("authProvider", () => {
   beforeEach(() => {
     fetchMock.resetMocks();

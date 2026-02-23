@@ -1,4 +1,8 @@
+import fetchMock from "jest-fetch-mock";
+
 import dataProvider from "./dataProvider";
+
+fetchMock.enableMocks();
 
 beforeEach(() => {
   fetchMock.resetMocks();

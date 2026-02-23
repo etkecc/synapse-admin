@@ -105,8 +105,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*\"",
     "fix": "yarn lint --fix",
-    "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test": "yarn jest",
+    "test:watch": "yarn jest --watch"
   },
   "prettier": {
     "printWidth": 120,
