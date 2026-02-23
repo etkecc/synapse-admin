@@ -2,11 +2,12 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { vitePluginVersionMark } from "vite-plugin-version-mark";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   base: "./",
   build: {
     target: "esnext",
-    chunkSizeWarningLimit: 1000, // react-admin itself is 500kb, @mui 350kb, and other vendor libs are 730kb+ at the moment of writing
+    chunkSizeWarningLimit: 1500, // react-admin itself is 500kb, @mui 350kb, and other vendor libs are 730kb+ at the moment of writing
+    sourcemap: mode === "development",
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -77,4 +78,7 @@ export default defineConfig({
       },
     }),
   ],
-});
+  ssr: {
+    noExternal: ["react-dropzone", "react-admin", "ra-ui-materialui"],
+  },
+}));
