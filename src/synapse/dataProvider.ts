@@ -21,6 +21,29 @@ import { returnMXID } from "../utils/mxid";
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const CACHED_MANY_REF: Record<string, any> = {};
 
+// Cache for registration tokens resource to determine if using MAS
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+let cachedRegistrationTokensResource: any = null;
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+let registrationTokensResourcePromise: Promise<any> | null = null;
+
+// Get or initialize the registration tokens resource configuration
+const getRegistrationTokensResourceCached = async () => {
+  if (cachedRegistrationTokensResource !== null) {
+    return cachedRegistrationTokensResource;
+  }
+
+  if (registrationTokensResourcePromise) {
+    return registrationTokensResourcePromise;
+  }
+
+  registrationTokensResourcePromise = getRegistrationTokensResource();
+  cachedRegistrationTokensResource = await registrationTokensResourcePromise;
+  registrationTokensResourcePromise = null;
+
+  return cachedRegistrationTokensResource;
+};
+
 /**
  * Invalidate cached getManyReference data for keys containing the given pattern.
  * @param pattern - substring to match against cache keys (e.g., "joined_rooms")
@@ -92,9 +115,180 @@ const etkeClient = async (url: string, locale: string, options: RequestInit = {}
   return fetch(url, { ...options, headers });
 };
 
+/**
+ * Detect if the homeserver is using Matrix Authentication Service (MAS)
+ * by checking the token endpoint stored during authentication
+ */
+const isMasInstance = (): boolean => {
+  const tokenEndpoint = localStorage.getItem("token_endpoint");
+  if (!tokenEndpoint) return false;
+  // MAS uses /oauth2/token endpoint
+  return tokenEndpoint.includes("/oauth2/token");
+};
+
+/**
+ * Extract the MAS base URL from the token endpoint
+ * e.g., "http://localhost:8007/oauth2/token" -> "http://localhost:8007"
+ */
+const getMasBaseUrl = (): string | null => {
+  const tokenEndpoint = localStorage.getItem("token_endpoint");
+  if (!tokenEndpoint) return null;
+
+  // Remove trailing /oauth2/token to get the base URL
+  const baseUrl = tokenEndpoint.replace(/\/oauth2\/token$/, "");
+  return baseUrl;
+};
+
+/**
+ * Convert Unix timestamp (milliseconds) to RFC 3339 formatted string
+ * Used for MAS API which expects RFC 3339 format for expiry dates
+ */
+const toRfc3339 = (timestamp: number | undefined | null): string | undefined => {
+  if (!timestamp) return undefined;
+  const date = new Date(timestamp);
+  return date.toISOString();
+};
+
+/**
+ * Check if MAS admin API is available by attempting a health check
+ */
+const checkMasAdminApiAvailable = async (): Promise<boolean> => {
+  const masBaseUrl = getMasBaseUrl();
+  if (!masBaseUrl) return false;
+
+  try {
+    const token = localStorage.getItem("access_token");
+    if (!token) return false;
+
+    const response = await fetch(`${masBaseUrl}/api/admin/v1/site-config`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.status === 200;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Convert MAS registration token format to Synapse format
+ */
+const getMasTokenResource = (
+  token: MASRegistrationToken | MASRegistrationTokenResource
+): MASRegistrationTokenResource => {
+  return "data" in token ? token.data : token;
+};
+
+const convertMasTokenToSynapse = (masToken: MASRegistrationToken | MASRegistrationTokenResource) => {
+  const resource = getMasTokenResource(masToken);
+  return {
+    token: resource.attributes.token,
+    valid: resource.attributes.valid ?? true,
+    uses_allowed: resource.attributes.usage_limit || null,
+    pending: 0, // MAS doesn't provide pending count, use 0
+    completed: resource.attributes.times_used ?? 0,
+    expiry_time: resource.attributes.expires_at || null,
+    // Additional fields for MAS
+    last_used_at: resource.attributes.last_used_at,
+    revoked_at: resource.attributes.revoked_at,
+  };
+};
+
+/**
+ * Helper function to get resource configuration
+ * Handles special case of registration_tokens which can use either Synapse or MAS API
+ */
+const getResourceConfig = async (resource: string, resourceMap: Record<string, any>) => {
+  if (resource === "registration_tokens") {
+    return getRegistrationTokensResourceCached();
+  }
+  return resourceMap[resource];
+};
+
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const filterUndefined = (obj: Record<string, any>) => {
   return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
+};
+
+/**
+ * Get the registration tokens resource configuration
+ * Dynamically chooses between MAS and Synapse APIs based on homeserver type
+ */
+const getRegistrationTokensResource = async () => {
+  const isMas = isMasInstance();
+  const adminApiAvailable = isMas ? await checkMasAdminApiAvailable() : true;
+
+  if (isMas && adminApiAvailable) {
+    // Use MAS API
+    return {
+      path: "/api/admin/v1/user-registration-tokens",
+      isMas: true,
+      map: (token: MASRegistrationToken | MASRegistrationTokenResource) => {
+        // Handle JSONAPI format for list and single responses
+        const resource = getMasTokenResource(token);
+        const converted = convertMasTokenToSynapse(resource);
+        return {
+          ...converted,
+          id: resource.id || converted.token,
+        };
+      },
+      data: "data",
+      total: (json: MASRegistrationTokenListResponse) => json.meta?.count || 0,
+      create: (params: RaRecord) => ({
+        endpoint: "/api/admin/v1/user-registration-tokens",
+        body: {
+          token: params.token || undefined,
+          usage_limit: params.uses_allowed || undefined,
+          expires_at: toRfc3339(params.expiry_time),
+        },
+        method: "POST",
+      }),
+      // Special handler for MAS create response
+      handleCreateResponse: (token: MASRegistrationToken) => {
+        const resource = getMasTokenResource(token);
+        const converted = convertMasTokenToSynapse(resource);
+        return {
+          ...converted,
+          id: resource.id || converted.token,
+        };
+      },
+      delete: (params: DeleteParams) => ({
+        endpoint: `/api/admin/v1/user-registration-tokens/${params.id}/revoke`,
+        method: "POST",
+      }),
+      update: (params: UpdateParams) => ({
+        endpoint: `/api/admin/v1/user-registration-tokens/${params.id}`,
+        body: {
+          usage_limit: params.data.uses_allowed || undefined,
+          expires_at: toRfc3339(params.data.expiry_time),
+        },
+        method: "PUT",
+      }),
+    };
+  } else {
+    // Use Synapse API (default)
+    return {
+      path: "/_synapse/admin/v1/registration_tokens",
+      isMas: false,
+      map: (rt: RegistrationToken) => ({
+        ...rt,
+        id: rt.token,
+      }),
+      data: "registration_tokens",
+      total: json => json.registration_tokens.length,
+      create: (params: RaRecord) => ({
+        endpoint: "/_synapse/admin/v1/registration_tokens/new",
+        body: params,
+        method: "POST",
+      }), // Synapse accepts Unix timestamps as-is
+      delete: (params: DeleteParams) => ({
+        endpoint: `/_synapse/admin/v1/registration_tokens/${params.id}`,
+      }),
+    };
+  }
 };
 
 export interface Room {
@@ -259,6 +453,43 @@ interface RegistrationToken {
   pending: number;
   completed: number;
   expiry_time?: number;
+}
+
+interface MASRegistrationTokenAttributes {
+  token: string;
+  valid: boolean;
+  usage_limit?: number;
+  times_used: number;
+  created_at: string;
+  last_used_at?: string;
+  expires_at?: string;
+  revoked_at?: string;
+}
+
+interface MASRegistrationTokenResource {
+  type: string;
+  id: string;
+  attributes: MASRegistrationTokenAttributes;
+  links: {
+    self: string;
+  };
+}
+
+interface MASRegistrationToken {
+  data: MASRegistrationTokenResource;
+  links: {
+    self: string;
+  };
+}
+
+interface MASRegistrationTokenListResponse {
+  data: MASRegistrationTokenResource[];
+  meta?: {
+    count?: number;
+  };
+  links?: {
+    self?: string;
+  };
 }
 
 interface RaServerNotice {
@@ -748,6 +979,9 @@ const resourceMap = {
     data: "rooms",
     total: json => json.total,
   },
+  // registration_tokens resource is handled dynamically via getResourceConfig()
+  // to support both Synapse and MAS admin APIs
+  // This entry exists for backward compatibility but is not used directly
   registration_tokens: {
     path: "/_synapse/admin/v1/registration_tokens",
     map: (rt: RegistrationToken) => ({
@@ -788,6 +1022,13 @@ function getSearchOrder(order: "ASC" | "DESC") {
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource, params);
+    const homeserver = localStorage.getItem("base_url");
+    if (!homeserver) throw Error("Homeserver not set");
+
+    // Get resource config (handles registration_tokens special case)
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res) throw Error(`Resource ${resource} not found`);
+
     const {
       user_id,
       name,
@@ -804,33 +1045,43 @@ const baseDataProvider: SynapseDataProvider = {
     const { page, perPage } = params.pagination as PaginationPayload;
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
-    const query = {
-      from: from,
-      limit: perPage,
-      user_id: user_id,
-      search_term: search_term,
-      name: name,
-      destination: destination,
-      guests: guests,
-      deactivated: deactivated,
-      locked: locked,
-      suspended: suspended,
-      valid: valid,
-      order_by: field,
-      dir: getSearchOrder(order),
-      public_rooms: public_rooms,
-      empty_rooms: empty_rooms,
-    };
-    const homeserver = localStorage.getItem("base_url");
-    if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
+    // Build query based on API type
+    let query: Record<string, any>;
+    if (res.isMas) {
+      // MAS API uses different pagination parameters
+      query = {
+        "page[first]": perPage,
+        "filter[valid]": valid,
+        count: "true",
+      };
+    } else {
+      // Synapse API
+      query = {
+        from: from,
+        limit: perPage,
+        user_id: user_id,
+        search_term: search_term,
+        name: name,
+        destination: destination,
+        guests: guests,
+        deactivated: deactivated,
+        locked: locked,
+        suspended: suspended,
+        valid: valid,
+        order_by: field,
+        dir: getSearchOrder(order),
+        public_rooms: public_rooms,
+        empty_rooms: empty_rooms,
+      };
+    }
 
-    const endpoint_url = homeserver + res.path;
+    const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+    const endpoint_url = baseUrl + res.path;
     const url = `${endpoint_url}?${new URLSearchParams(filterUndefined(query)).toString()}`;
 
     const { json } = await jsonClient(url);
-    const formattedData = await json[res.data].map(res.map);
+    const formattedData = json[res.data].map(res.map);
 
     return {
       data: formattedData,
@@ -843,9 +1094,11 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res) throw Error(`Resource ${resource} not found`);
 
-    const endpoint_url = homeserver + res.path;
+    const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+    const endpoint_url = baseUrl + res.path;
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`);
     return { data: res.map(json) };
   },
@@ -951,9 +1204,21 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res) throw Error(`Resource ${resource} not found`);
 
-    const endpoint_url = homeserver + res.path;
+    const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+    const endpoint_url = baseUrl + res.path;
+
+    // Handle special case for MAS registration tokens which have custom update method
+    if (res.update) {
+      const upd = res.update(params);
+      const { json } = await jsonClient(baseUrl + upd.endpoint, {
+        method: upd.method,
+        body: JSON.stringify(upd.body, filterNullValues),
+      });
+      return { data: res.map(json) };
+    }
 
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`, {
       method: "PUT",
@@ -967,7 +1232,8 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res) throw Error(`Resource ${resource} not found`);
 
     const endpoint_url = homeserver + res.path;
     const responses = await Promise.all(
@@ -984,11 +1250,12 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
-    if (!("create" in res)) return Promise.reject();
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res || !("create" in res)) return Promise.reject(new Error(`Create not supported for ${resource}`));
 
     const create = res.create(params.data);
-    const endpoint_url = homeserver + create.endpoint;
+    const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+    const endpoint_url = baseUrl + create.endpoint;
     const { json } = await jsonClient(endpoint_url, {
       method: create.method,
       body: JSON.stringify(create.body, filterNullValues),
@@ -997,6 +1264,12 @@ const baseDataProvider: SynapseDataProvider = {
     // for some resources, the response is empty, so we return the input data as response
     if (create?.empty_response) {
       return { data: params.data };
+    }
+
+    // Use custom response handler if provided (e.g., for MAS)
+    if (res.handleCreateResponse) {
+      const converted = res.handleCreateResponse(json);
+      return { data: converted };
     }
 
     return { data: res.map(json) };
@@ -1029,11 +1302,13 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res) throw Error(`Resource ${resource} not found`);
 
     if ("delete" in res) {
       const del = res.delete(params);
-      const endpoint_url = homeserver + del.endpoint;
+      const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+      const endpoint_url = baseUrl + del.endpoint;
       const { json } = await jsonClient(endpoint_url, {
         method: "method" in del ? del.method : "DELETE",
         body: "body" in del ? JSON.stringify(del.body) : null,
@@ -1044,7 +1319,8 @@ const baseDataProvider: SynapseDataProvider = {
 
       return { data: json };
     } else {
-      const endpoint_url = homeserver + res.path;
+      const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+      const endpoint_url = baseUrl + res.path;
       const { json } = await jsonClient(`${endpoint_url}/${params.id}`, {
         method: "DELETE",
         body: JSON.stringify(params.previousData, filterNullValues),
@@ -1058,13 +1334,15 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = resourceMap[resource];
+    const res = await getResourceConfig(resource, resourceMap);
+    if (!res) throw Error(`Resource ${resource} not found`);
 
     if ("delete" in res) {
+      const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
       const responses = await Promise.all(
         params.ids.map(id => {
           const del = res.delete({ ...params, id: id });
-          const endpoint_url = homeserver + del.endpoint;
+          const endpoint_url = baseUrl + del.endpoint;
           return jsonClient(endpoint_url, {
             method: "method" in del ? del.method : "DELETE",
             body: "body" in del ? JSON.stringify(del.body) : null,
@@ -1076,7 +1354,8 @@ const baseDataProvider: SynapseDataProvider = {
         data: responses.map(({ json }) => json),
       };
     } else {
-      const endpoint_url = homeserver + res.path;
+      const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+      const endpoint_url = baseUrl + res.path;
       const responses = await Promise.all(
         params.ids.map(id =>
           jsonClient(`${endpoint_url}/${id}`, {

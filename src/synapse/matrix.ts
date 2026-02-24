@@ -211,6 +211,7 @@ export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: stri
     "urn:matrix:org.matrix.msc2967.client:api:*",
     `urn:matrix:org.matrix.msc2967.client:device:${deviceId}`,
     "urn:synapse:admin:*",
+    "urn:mas:admin", // Required for MAS registration tokens
   ];
 
   return {
