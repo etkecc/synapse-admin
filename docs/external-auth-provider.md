@@ -11,6 +11,24 @@ behavior to better suit setups with external auth providers. Currently, the foll
 
 Note: for OIDC ("next-gen auth"), Synapse Admin adjusts its behavior automatically, so this config option is not required.
 
+## Matrix Authentication Service (MAS)
+
+When Synapse uses Matrix Authentication Service (MAS) for OIDC, Synapse Admin uses the MAS admin API for registration
+token management. The MAS admin API is not exposed by default, so it must be reachable from the Synapse Admin UI.
+If the MAS admin API is not exposed, registration token list/create/update/delete operations will fail.
+
+```yaml
+http:
+  listeners:
+  - name: web
+    resources:
+    # ...
+    - name: adminapi # Add this
+    binds:
+    - address: '0.0.0.0:8080'
+# ...
+```
+
 ## Configuration
 
 `externalAuthProvider` accepts a boolean value:
