@@ -8,7 +8,7 @@ export const splitMxid = mxid => {
   return re.exec(mxid)?.groups;
 };
 
-export const isValidBaseUrl = baseUrl => /^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?$/.test(baseUrl);
+export const isValidBaseUrl = baseUrl => /^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?\/?$/.test(baseUrl);
 
 /**
  * Resolve the homeserver URL using the well-known lookup
