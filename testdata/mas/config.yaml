@@ -8,6 +8,7 @@ http:
     - name: compat
     - name: graphql
     - name: assets
+    - name: adminapi
     binds:
     - address: '[::]:8007'
     proxy_protocol: false
