@@ -92,6 +92,32 @@ const BillingPage = () => {
     }
   };
 
+  const downloadInvoiceButton = (payment: Payment) => {
+    const isInvoiceAvailable = typeof payment.invoice_id === "string" && /^[0-9]+$/.test(payment.invoice_id);
+
+    if (!isInvoiceAvailable) {
+      return (
+        <Typography variant="body2" color="text.secondary">
+          {translate("etkecc.billing.helper.invoice_not_available")}
+        </Typography>
+      );
+    }
+
+    const isDownloading = downloadingInvoice === payment.transaction_id;
+
+    return (
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<DownloadIcon />}
+        onClick={() => handleInvoiceDownload(payment.transaction_id)}
+        disabled={isDownloading}
+      >
+        {translate(isDownloading ? "etkecc.billing.helper.downloading" : "etkecc.billing.fields.invoice")}
+      </Button>
+    );
+  };
+
   const header = (
     <>
       <Title title={translate("etkecc.billing.name")} />
@@ -221,21 +247,7 @@ const BillingPage = () => {
                       {payment.amount.toFixed(2)} {payment.currency}
                     </TableCell>
                     <TableCell>{new Date(payment.paid_at).toLocaleDateString(locale)}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        startIcon={<DownloadIcon />}
-                        onClick={() => handleInvoiceDownload(payment.transaction_id)}
-                        disabled={downloadingInvoice === payment.transaction_id}
-                      >
-                        {translate(
-                          downloadingInvoice === payment.transaction_id
-                            ? "etkecc.billing.helper.downloading"
-                            : "etkecc.billing.fields.invoice"
-                        )}
-                      </Button>
-                    </TableCell>
+                    <TableCell>{downloadInvoiceButton(payment)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

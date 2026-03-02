@@ -34,6 +34,12 @@ const fixedRussianMessages = {
       select_all_limit_reached: "Слишком много элементов для выбора. Были выбраны только первые %{max} элементов.",
       placeholder_data_warning: "Проблема с сетью: не удалось обновить данные.",
     },
+    guesser: {
+      empty: {
+        title: "Нет данных для отображения",
+        message: "Проверьте ваш провайдер данных",
+      },
+    },
     notification: {
       ...russianMessages.ra.notification,
       offline: "Нет подключения. Не удалось загрузить данные.",
@@ -579,6 +585,7 @@ const ru: SynapseTranslationMessages = {
         download_invoice: "Скачать счёт",
         downloading: "Скачивание...",
         download_started: "Скачивание счёта началось.",
+        invoice_not_available: "В ожидании",
         loading: "Загрузка биллинговой информации...",
         loading_failed1: "Возникла проблема при загрузке биллинговой информации.",
         loading_failed2: "Пожалуйста, попробуйте позже.",

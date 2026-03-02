@@ -519,6 +519,7 @@ const en: SynapseTranslationMessages = {
         download_invoice: "Download Invoice",
         downloading: "Downloading...",
         download_started: "Invoice download started.",
+        invoice_not_available: "Invoice pending",
         loading: "Loading billing information...",
         loading_failed1: "There was a problem loading billing information.",
         loading_failed2: "Please try again later.",

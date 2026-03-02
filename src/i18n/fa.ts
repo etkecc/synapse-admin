@@ -21,6 +21,12 @@ const fa: SynapseTranslationMessages = {
       placeholder_data_warning: "مشکل شبکه: به‌روزرسانی داده‌ها ناموفق بود.",
       select_all_limit_reached: "تعداد انتخاب‌ها زیاد است. فقط %{max} مورد اول انتخاب شد.",
     },
+    guesser: {
+      empty: {
+        title: "داده‌ای برای نمایش وجود ندارد",
+        message: "لطفاً ارائه‌دهندهٔ داده را بررسی کنید",
+      },
+    },
     notification: {
       ...farsiMessages.ra.notification,
       offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",
@@ -537,6 +543,7 @@ const fa: SynapseTranslationMessages = {
         download_invoice: "دانلود فاکتور",
         downloading: "در حال دانلود...",
         download_started: "دانلود فاکتور آغاز شد.",
+        invoice_not_available: "در انتظار",
         loading: "در حال بارگذاری اطلاعات صورتحساب...",
         loading_failed1: "در بارگذاری اطلاعات صورتحساب مشکلی پیش آمد.",
         loading_failed2: "لطفاً بعداً دوباره تلاش کنید.",

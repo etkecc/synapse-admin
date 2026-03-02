@@ -32,6 +32,12 @@ const fixedChineseMessages = {
       select_all_limit_reached: "选择的元素太多。只选择了前 %{max} 个元素。",
       placeholder_data_warning: "网络问题：数据刷新失败。",
     },
+    guesser: {
+      empty: {
+        title: "没有可显示的数据",
+        message: "请检查你的数据提供程序",
+      },
+    },
   },
 };
 
@@ -560,6 +566,7 @@ const zh: SynapseTranslationMessages = {
         download_invoice: "下载发票",
         downloading: "正在下载...",
         download_started: "发票下载已开始。",
+        invoice_not_available: "待处理",
         loading: "正在加载账单信息...",
         loading_failed1: "加载账单信息时出现问题。",
         loading_failed2: "请稍后再试。",

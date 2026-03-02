@@ -394,6 +394,7 @@ export interface Payment {
   is_subscription: boolean;
   paid_at: string;
   transaction_id: string;
+  invoice_id: string;
 }
 
 export interface PaymentsResponse {

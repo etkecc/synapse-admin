@@ -525,6 +525,7 @@ const fr: SynapseTranslationMessages = {
         download_invoice: "Télécharger la facture",
         downloading: "Téléchargement...",
         download_started: "Le téléchargement de la facture a commencé.",
+        invoice_not_available: "En attente",
         loading: "Chargement des informations de facturation...",
         loading_failed1: "Un problème est survenu lors du chargement des informations de facturation.",
         loading_failed2: "Veuillez réessayer plus tard.",

@@ -508,6 +508,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
         download_invoice: string;
         downloading: string;
         download_started: string;
+        invoice_not_available: string;
         loading: string;
         loading_failed1: string;
         loading_failed2: string;

@@ -37,6 +37,12 @@ const fixedGermanMessages = {
         "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
       placeholder_data_warning: "Netzwerkproblem: Datenaktualisierung fehlgeschlagen.",
     },
+    guesser: {
+      empty: {
+        title: "Keine Daten zum Anzeigen",
+        message: "Bitte überprüfen Sie Ihren Datenanbieter",
+      },
+    },
     notification: {
       ...formalGermanMessages.ra.notification,
       application_update_available: "Eine neue Version ist verfügbar.",
@@ -575,6 +581,7 @@ const de: SynapseTranslationMessages = {
         download_invoice: "Rechnung herunterladen",
         downloading: "Wird heruntergeladen...",
         download_started: "Der Rechnungsdownload wurde gestartet.",
+        invoice_not_available: "Ausstehend",
         loading: "Abrechnungsinformationen werden geladen...",
         loading_failed1: "Beim Laden der Abrechnungsinformationen ist ein Problem aufgetreten.",
         loading_failed2: "Bitte versuchen Sie es später erneut.",

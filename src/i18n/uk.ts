@@ -30,6 +30,12 @@ const uk: SynapseTranslationMessages = {
       placeholder_data_warning: "Проблема з мережею: оновлення даних не вдалося.",
       select_all_limit_reached: "Занадто багато елементів для вибору. Обрано лише перші %{max}.",
     },
+    guesser: {
+      empty: {
+        title: "Немає даних для відображення",
+        message: "Перевірте ваш постачальник даних",
+      },
+    },
     notification: {
       ...ukrainianMessages.ra.notification,
       offline: "Немає з’єднання. Дані не вдалося отримати.",
@@ -559,6 +565,7 @@ const uk: SynapseTranslationMessages = {
         download_invoice: "Завантажити рахунок",
         downloading: "Завантаження...",
         download_started: "Завантаження рахунку розпочато.",
+        invoice_not_available: "В очікуванні",
         loading: "Завантаження інформації про білінг...",
         loading_failed1: "Виникла проблема під час завантаження інформації про білінг.",
         loading_failed2: "Будь ласка, спробуйте пізніше.",

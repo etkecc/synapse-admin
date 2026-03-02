@@ -10,6 +10,12 @@ const ja: SynapseTranslationMessages = {
       ...japaneseMessages.ra.validation,
       unique: "一意である必要があります",
     },
+    guesser: {
+      empty: {
+        title: "表示するデータがありません",
+        message: "データプロバイダーを確認してください",
+      },
+    },
   },
   synapseadmin: {
     auth: {
@@ -525,6 +531,7 @@ const ja: SynapseTranslationMessages = {
         download_invoice: "請求書をダウンロード",
         downloading: "ダウンロード中...",
         download_started: "請求書のダウンロードを開始しました。",
+        invoice_not_available: "保留中",
         loading: "請求情報を読み込み中...",
         loading_failed1: "請求情報の読み込み中に問題が発生しました。",
         loading_failed2: "しばらくしてからもう一度お試しください。",
