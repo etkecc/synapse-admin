@@ -30,7 +30,7 @@ jobs:
         run: yarn build --base=${{ env.base_path }}
         env:
           NODE_ENV: production
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           path: dist/
           name: dist
