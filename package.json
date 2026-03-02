@@ -83,7 +83,7 @@
     "oidc-client-ts": "^3.4.1",
     "papaparse": "^5.5.3",
     "ra-core": "^5.14.2",
-    "ra-i18n-polyglot": "^5.14.2",
+    "ra-i18n-polyglot": "^5.14.3",
     "ra-language-english": "^5.14.2",
     "ra-language-farsi": "^5.1.0",
     "ra-language-french": "^5.14.2",
