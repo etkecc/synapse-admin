@@ -2,6 +2,7 @@ import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
+import { initRegistrationTokens } from "./dataProvider";
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { ClearConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
@@ -134,6 +135,7 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
+      await initRegistrationTokens();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
       const error = err as HttpError;
@@ -301,6 +303,7 @@ const authProvider: AuthProvider = {
           pageToRedirectTo = "/server_status";
         }
 
+        await initRegistrationTokens();
         return Promise.resolve({ redirectTo: pageToRedirectTo });
       } catch (err) {
         console.error("Failed to get user info:", err);

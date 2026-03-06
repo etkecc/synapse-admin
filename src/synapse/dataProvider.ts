@@ -21,29 +21,6 @@ import { returnMXID } from "../utils/mxid";
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const CACHED_MANY_REF: Record<string, any> = {};
 
-// Cache for registration tokens resource to determine if using MAS
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-let cachedRegistrationTokensResource: any = null;
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-let registrationTokensResourcePromise: Promise<any> | null = null;
-
-// Get or initialize the registration tokens resource configuration
-const getRegistrationTokensResourceCached = async () => {
-  if (cachedRegistrationTokensResource !== null) {
-    return cachedRegistrationTokensResource;
-  }
-
-  if (registrationTokensResourcePromise) {
-    return registrationTokensResourcePromise;
-  }
-
-  registrationTokensResourcePromise = getRegistrationTokensResource();
-  cachedRegistrationTokensResource = await registrationTokensResourcePromise;
-  registrationTokensResourcePromise = null;
-
-  return cachedRegistrationTokensResource;
-};
-
 /**
  * Invalidate cached getManyReference data for keys containing the given pattern.
  * @param pattern - substring to match against cache keys (e.g., "joined_rooms")
@@ -123,7 +100,7 @@ const isMasInstance = (): boolean => {
   const tokenEndpoint = localStorage.getItem("token_endpoint");
   if (!tokenEndpoint) return false;
   // MAS uses /oauth2/token endpoint
-  return tokenEndpoint.includes("/oauth2/token");
+  return tokenEndpoint.endsWith("/oauth2/token");
 };
 
 /**
@@ -187,7 +164,7 @@ const convertMasTokenToSynapse = (masToken: MASRegistrationToken | MASRegistrati
   return {
     token: resource.attributes.token,
     valid: resource.attributes.valid ?? true,
-    uses_allowed: resource.attributes.usage_limit || null,
+    uses_allowed: resource.attributes.usage_limit ?? null,
     pending: 0, // MAS doesn't provide pending count, use 0
     completed: resource.attributes.times_used ?? 0,
     expiry_time: resource.attributes.expires_at || null,
@@ -197,98 +174,116 @@ const convertMasTokenToSynapse = (masToken: MASRegistrationToken | MASRegistrati
   };
 };
 
-/**
- * Helper function to get resource configuration
- * Handles special case of registration_tokens which can use either Synapse or MAS API
- */
-const getResourceConfig = async (resource: string, resourceMap: Record<string, any>) => {
-  if (resource === "registration_tokens") {
-    return getRegistrationTokensResourceCached();
-  }
-  return resourceMap[resource];
-};
-
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const filterUndefined = (obj: Record<string, any>) => {
   return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
 };
 
-/**
- * Get the registration tokens resource configuration
- * Dynamically chooses between MAS and Synapse APIs based on homeserver type
- */
-const getRegistrationTokensResource = async () => {
-  const isMas = isMasInstance();
-  const adminApiAvailable = isMas ? await checkMasAdminApiAvailable() : true;
+interface BaseRegistrationTokensResource {
+  path: string;
+  data: string;
+  create: (params: RaRecord) => { endpoint: string; body: object; method: string };
+  delete: (params: DeleteParams) => { endpoint: string; method?: string; body?: object };
+}
 
-  if (isMas && adminApiAvailable) {
-    // Use MAS API
-    return {
-      path: "/api/admin/v1/user-registration-tokens",
-      isMas: true,
-      map: (token: MASRegistrationToken | MASRegistrationTokenResource) => {
-        // Handle JSONAPI format for list and single responses
-        const resource = getMasTokenResource(token);
-        const converted = convertMasTokenToSynapse(resource);
-        return {
-          ...converted,
-          id: resource.id || converted.token,
-        };
-      },
-      data: "data",
-      total: (json: MASRegistrationTokenListResponse) => json.meta?.count || 0,
-      create: (params: RaRecord) => ({
-        endpoint: "/api/admin/v1/user-registration-tokens",
-        body: {
-          token: params.token || undefined,
-          usage_limit: params.uses_allowed || undefined,
-          expires_at: toRfc3339(params.expiry_time),
-        },
-        method: "POST",
-      }),
-      // Special handler for MAS create response
-      handleCreateResponse: (token: MASRegistrationToken) => {
-        const resource = getMasTokenResource(token);
-        const converted = convertMasTokenToSynapse(resource);
-        return {
-          ...converted,
-          id: resource.id || converted.token,
-        };
-      },
-      delete: (params: DeleteParams) => ({
-        endpoint: `/api/admin/v1/user-registration-tokens/${params.id}/revoke`,
-        method: "POST",
-      }),
-      update: (params: UpdateParams) => ({
-        endpoint: `/api/admin/v1/user-registration-tokens/${params.id}`,
-        body: {
-          usage_limit: params.data.uses_allowed || undefined,
-          expires_at: toRfc3339(params.data.expiry_time),
-        },
-        method: "PUT",
-      }),
-    };
-  } else {
-    // Use Synapse API (default)
-    return {
-      path: "/_synapse/admin/v1/registration_tokens",
-      isMas: false,
-      map: (rt: RegistrationToken) => ({
-        ...rt,
-        id: rt.token,
-      }),
-      data: "registration_tokens",
-      total: json => json.registration_tokens.length,
-      create: (params: RaRecord) => ({
-        endpoint: "/_synapse/admin/v1/registration_tokens/new",
-        body: params,
-        method: "POST",
-      }), // Synapse accepts Unix timestamps as-is
-      delete: (params: DeleteParams) => ({
-        endpoint: `/_synapse/admin/v1/registration_tokens/${params.id}`,
-      }),
-    };
+interface SynapseRegistrationTokensResourceType extends BaseRegistrationTokensResource {
+  isMas: false;
+  map: (token: RegistrationToken) => object;
+  total: (json: { registration_tokens: unknown[] }) => number;
+}
+
+interface MASRegistrationTokensResourceType extends BaseRegistrationTokensResource {
+  isMas: true;
+  map: (token: MASRegistrationToken | MASRegistrationTokenResource) => object;
+  total: (json: MASRegistrationTokenListResponse) => number;
+  handleCreateResponse: (token: MASRegistrationToken) => object;
+  update: (params: UpdateParams) => { endpoint: string; body: object; method: string };
+}
+
+type RegistrationTokensResource = SynapseRegistrationTokensResourceType | MASRegistrationTokensResourceType;
+
+const synapseRegistrationTokensResource: SynapseRegistrationTokensResourceType = {
+  path: "/_synapse/admin/v1/registration_tokens",
+  isMas: false,
+  map: (rt: RegistrationToken) => ({
+    ...rt,
+    id: rt.token,
+  }),
+  data: "registration_tokens",
+  total: json => json.registration_tokens.length,
+  create: (params: RaRecord) => ({
+    endpoint: "/_synapse/admin/v1/registration_tokens/new",
+    body: params,
+    method: "POST",
+  }), // Synapse accepts Unix timestamps as-is
+  delete: (params: DeleteParams) => ({
+    endpoint: `/_synapse/admin/v1/registration_tokens/${params.id}`,
+  }),
+};
+
+const getRegistrationTokensResource = async (): Promise<RegistrationTokensResource> => {
+  if (!isMasInstance()) {
+    return synapseRegistrationTokensResource;
   }
+
+  if (!(await checkMasAdminApiAvailable())) {
+    return synapseRegistrationTokensResource;
+  }
+
+  // Use MAS API
+  return {
+    path: "/api/admin/v1/user-registration-tokens",
+    isMas: true,
+    map: (token: MASRegistrationToken | MASRegistrationTokenResource) => {
+      // Handle JSONAPI format for list and single responses
+      const resource = getMasTokenResource(token);
+      const converted = convertMasTokenToSynapse(resource);
+      return {
+        ...converted,
+        id: resource.id || converted.token,
+      };
+    },
+    data: "data",
+    total: (json: MASRegistrationTokenListResponse) => json.meta?.count || 0,
+    create: (params: RaRecord) => ({
+      endpoint: "/api/admin/v1/user-registration-tokens",
+      body: {
+        token: params.token || undefined,
+        usage_limit: params.uses_allowed ?? undefined,
+        expires_at: toRfc3339(params.expiry_time),
+      },
+      method: "POST",
+    }),
+    handleCreateResponse: (token: MASRegistrationToken) => {
+      const resource = getMasTokenResource(token);
+      const converted = convertMasTokenToSynapse(resource);
+      return {
+        ...converted,
+        id: resource.id || converted.token,
+      };
+    },
+    delete: (params: DeleteParams) => ({
+      endpoint: `/api/admin/v1/user-registration-tokens/${params.id}/revoke`,
+      method: "POST",
+    }),
+    update: (params: UpdateParams) => ({
+      endpoint: `/api/admin/v1/user-registration-tokens/${params.id}`,
+      body: {
+        usage_limit: params.data.uses_allowed ?? undefined,
+        expires_at: toRfc3339(params.data.expiry_time),
+      },
+      method: "PUT",
+    }),
+  };
+};
+
+/**
+ * Initialize the registration tokens resource config and patch it into resourceMap.
+ * Must be called after login so localStorage (token_endpoint) is populated.
+ * Also called at module load to handle page refreshes when already logged in.
+ */
+export const initRegistrationTokens = async () => {
+  resourceMap.registration_tokens = await getRegistrationTokensResource();
 };
 
 export interface Room {
@@ -980,27 +975,14 @@ const resourceMap = {
     data: "rooms",
     total: json => json.total,
   },
-  // registration_tokens resource is handled dynamically via getResourceConfig()
-  // to support both Synapse and MAS admin APIs
-  // This entry exists for backward compatibility but is not used directly
-  registration_tokens: {
-    path: "/_synapse/admin/v1/registration_tokens",
-    map: (rt: RegistrationToken) => ({
-      ...rt,
-      id: rt.token,
-    }),
-    data: "registration_tokens",
-    total: json => json.registration_tokens.length,
-    create: (params: RaRecord) => ({
-      endpoint: "/_synapse/admin/v1/registration_tokens/new",
-      body: params,
-      method: "POST",
-    }),
-    delete: (params: DeleteParams) => ({
-      endpoint: `/_synapse/admin/v1/registration_tokens/${params.id}`,
-    }),
-  },
+  // Default to Synapse API; patched to MAS API at login/page-load via initRegistrationTokens()
+  registration_tokens: synapseRegistrationTokensResource as RegistrationTokensResource,
 };
+
+// Initialize on module load to handle page refresh when already logged in
+if (localStorage.getItem("token_endpoint")) {
+  initRegistrationTokens();
+}
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 function filterNullValues(key: string, value: any) {
@@ -1024,10 +1006,9 @@ const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource, params);
     const homeserver = localStorage.getItem("base_url");
-    if (!homeserver) throw Error("Homeserver not set");
+    if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    // Get resource config (handles registration_tokens special case)
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
     const {
@@ -1095,7 +1076,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
     const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
@@ -1205,7 +1186,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
     const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
@@ -1233,7 +1214,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
     const endpoint_url = homeserver + res.path;
@@ -1251,7 +1232,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res || !("create" in res)) return Promise.reject(new Error(`Create not supported for ${resource}`));
 
     const create = res.create(params.data);
@@ -1303,7 +1284,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
     if ("delete" in res) {
@@ -1335,7 +1316,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
-    const res = await getResourceConfig(resource, resourceMap);
+    const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
     if ("delete" in res) {
