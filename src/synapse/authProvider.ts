@@ -2,6 +2,7 @@ import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
+import { initRegistrationTokens } from "./dataProvider";
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { ClearConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
@@ -134,6 +135,7 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
+      await initRegistrationTokens();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
       const error = err as HttpError;
@@ -185,63 +187,34 @@ const authProvider: AuthProvider = {
   },
   handleCallback: async () => {
     console.log("handleCallback");
-    // Get the authorization code and state from the callback URL
-    const { searchParams } = new URL(window.location.href);
-    const code = searchParams.get("code");
-    const state = searchParams.get("state");
-    const error = searchParams.get("error");
-
-    if (error) {
-      console.error("Error during authentication:", error);
-      return Promise.reject(new Error(`Authentication error: ${error}`));
-    }
-
-    if (!code) {
-      console.error("No authorization code in callback");
-      return Promise.reject(new Error("No authorization code received"));
-    }
-
-    const stateKey = `oidc.${state}`;
-    const { code_verifier } = JSON.parse(localStorage.getItem(stateKey) || "{}");
-
-    if (!code_verifier) {
-      console.error("No code verifier found in storage");
-      return Promise.reject(new Error("PKCE code verifier not found"));
-    }
-
-    const tokenEndpoint = localStorage.getItem("token_endpoint");
     const clientId = localStorage.getItem("clientId");
+    const issuer = localStorage.getItem("oidc_issuer");
+    const scope = localStorage.getItem("oidc_scope") || "openid";
+    const redirectUri = localStorage.getItem("oidc_redirect_uri") || `${window.location.origin}/auth-callback`;
 
-    if (!tokenEndpoint || !clientId) {
-      console.error("Missing token endpoint or client ID");
+    if (!clientId || !issuer) {
+      console.error("Missing OIDC configuration in storage");
       return Promise.reject(new Error("Missing OAuth configuration"));
     }
 
-    // Build form-urlencoded body (OAuth 2.0 token endpoints require this format)
-    const tokenParams = new URLSearchParams({
-      grant_type: "authorization_code",
+    const userManager = new UserManager({
+      authority: issuer,
       client_id: clientId,
-      code: code,
-      code_verifier: code_verifier,
-      redirect_uri: `${window.location.origin}/auth-callback`,
+      redirect_uri: redirectUri,
+      response_type: "code",
+      scope,
     });
 
-    // Exchange code for tokens
-    const response = await fetchUtils.fetchJson(tokenEndpoint, {
-      method: "POST",
-      headers: new Headers({
-        Accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      }),
-      body: tokenParams.toString(),
-    });
+    const user = await userManager.signinRedirectCallback(window.location.href);
 
     // Save tokens to localStorage
-    const { access_token, refresh_token, id_token, expires_in } = response.json;
+    const { access_token, refresh_token, id_token, expires_in } = user;
 
-    if (access_token) {
-      localStorage.setItem("access_token", access_token);
+    if (!access_token) {
+      throw new Error("Missing access token in callback response");
     }
+
+    localStorage.setItem("access_token", access_token);
 
     if (refresh_token) {
       SetExternalAuthProvider(true); // refresh token is only present for external auth providers
@@ -262,50 +235,52 @@ const authProvider: AuthProvider = {
 
     if (!decoded_base_url) {
       console.error("No base_url found in storage");
-      return Promise.reject(new Error("Base URL not found"));
+      throw new Error("Base URL not found");
     }
 
     // Get user_id from whoami endpoint
-    if (access_token && decoded_base_url) {
-      const whoamiUrl = `${decoded_base_url}/_matrix/client/v3/account/whoami`;
-      try {
-        const whoamiResponse = await fetchUtils.fetchJson(whoamiUrl, {
-          headers: new Headers({
-            Accept: "application/json",
-            Authorization: `Bearer ${access_token}`,
-          }),
-        });
-        const json = whoamiResponse.json;
-        const userId = json.user_id;
-        const deviceId = json.device_id;
+    const whoamiUrl = `${decoded_base_url}/_matrix/client/v3/account/whoami`;
+    try {
+      const whoamiResponse = await fetchUtils.fetchJson(whoamiUrl, {
+        headers: new Headers({
+          Accept: "application/json",
+          Authorization: `Bearer ${access_token}`,
+        }),
+      });
+      const json = whoamiResponse.json;
+      const userId = json.user_id;
+      const deviceId = json.device_id;
 
-        if (userId) {
-          localStorage.setItem("user_id", userId);
-        }
-        if (deviceId) {
-          localStorage.setItem("device_id", deviceId);
-        }
-
-        // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
-        // like "@user:example.com:8008" or "@user:[2001:db8::1]"
-        const mxidParts = userId.split(":");
-        mxidParts.shift();
-        localStorage.setItem("home_server", mxidParts.join(":"));
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
-
-        const cfg = GetConfig();
-        const icfg = GetInstanceConfig();
-        let pageToRedirectTo = "/";
-        if (cfg.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
-          pageToRedirectTo = "/server_status";
-        }
-
-        return Promise.resolve({ redirectTo: pageToRedirectTo });
-      } catch (err) {
-        console.error("Failed to get user info:", err);
-        ClearConfig();
+      if (!userId) {
+        throw new Error("Missing user_id in whoami response");
       }
+
+      localStorage.setItem("user_id", userId);
+      if (deviceId) {
+        localStorage.setItem("device_id", deviceId);
+      }
+
+      // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
+      // like "@user:example.com:8008" or "@user:[2001:db8::1]"
+      const mxidParts = userId.split(":");
+      mxidParts.shift();
+      localStorage.setItem("home_server", mxidParts.join(":"));
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
+
+      const cfg = GetConfig();
+      const icfg = GetInstanceConfig();
+      let pageToRedirectTo = "/";
+      if (cfg.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
+        pageToRedirectTo = "/server_status";
+      }
+
+      await initRegistrationTokens();
+      return Promise.resolve({ redirectTo: pageToRedirectTo });
+    } catch (err) {
+      console.error("Failed to get user info:", err);
+      ClearConfig();
+      throw err;
     }
   },
   // called when the user clicks on the logout button
