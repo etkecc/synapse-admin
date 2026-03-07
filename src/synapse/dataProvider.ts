@@ -275,8 +275,23 @@ const getRegistrationTokensResource = async (): Promise<RegistrationTokensResour
  * Must be called after login so localStorage (token_endpoint) is populated.
  * Also called at module load to handle page refreshes when already logged in.
  */
+let registrationTokensInitPromise: Promise<void> | null = null;
+
 export const initRegistrationTokens = async () => {
-  resourceMap.registration_tokens = await getRegistrationTokensResource();
+  if (registrationTokensInitPromise) {
+    return registrationTokensInitPromise;
+  }
+
+  registrationTokensInitPromise = (async () => {
+    resourceMap.registration_tokens = await getRegistrationTokensResource();
+  })();
+
+  return registrationTokensInitPromise;
+};
+
+const ensureRegistrationTokensInitialized = async (resource: string) => {
+  if (resource !== "registration_tokens") return;
+  await initRegistrationTokens();
 };
 
 export interface Room {
@@ -974,7 +989,7 @@ const resourceMap = {
 
 // Initialize on module load to handle page refresh when already logged in
 if (localStorage.getItem("token_endpoint")) {
-  initRegistrationTokens();
+  void initRegistrationTokens();
 }
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -1001,6 +1016,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
@@ -1069,6 +1085,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
@@ -1084,6 +1101,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("home_server");
     if (!base_url || !(resource in resourceMap)) throw Error("base_url not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
 
     const endpoint_url = base_url + res.path;
@@ -1135,6 +1153,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
 
     const ref = res.reference(params.id);
@@ -1179,6 +1198,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
@@ -1207,6 +1227,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
@@ -1225,6 +1246,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res || !("create" in res)) return Promise.reject(new Error(`Create not supported for ${resource}`));
 
@@ -1255,6 +1277,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!("create" in res)) throw Error(`Create ${resource} is not allowed`);
 
@@ -1277,6 +1300,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 
@@ -1309,6 +1333,7 @@ const baseDataProvider: SynapseDataProvider = {
     const homeserver = localStorage.getItem("base_url");
     if (!homeserver || !(resource in resourceMap)) throw Error("Homeserver not set");
 
+    await ensureRegistrationTokensInitialized(resource);
     const res = resourceMap[resource];
     if (!res) throw Error(`Resource ${resource} not found`);
 

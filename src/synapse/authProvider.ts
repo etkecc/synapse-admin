@@ -210,9 +210,11 @@ const authProvider: AuthProvider = {
     // Save tokens to localStorage
     const { access_token, refresh_token, id_token, expires_in } = user;
 
-    if (access_token) {
-      localStorage.setItem("access_token", access_token);
+    if (!access_token) {
+      throw new Error("Missing access token in callback response");
     }
+
+    localStorage.setItem("access_token", access_token);
 
     if (refresh_token) {
       SetExternalAuthProvider(true); // refresh token is only present for external auth providers
@@ -233,51 +235,52 @@ const authProvider: AuthProvider = {
 
     if (!decoded_base_url) {
       console.error("No base_url found in storage");
-      return Promise.reject(new Error("Base URL not found"));
+      throw new Error("Base URL not found");
     }
 
     // Get user_id from whoami endpoint
-    if (access_token && decoded_base_url) {
-      const whoamiUrl = `${decoded_base_url}/_matrix/client/v3/account/whoami`;
-      try {
-        const whoamiResponse = await fetchUtils.fetchJson(whoamiUrl, {
-          headers: new Headers({
-            Accept: "application/json",
-            Authorization: `Bearer ${access_token}`,
-          }),
-        });
-        const json = whoamiResponse.json;
-        const userId = json.user_id;
-        const deviceId = json.device_id;
+    const whoamiUrl = `${decoded_base_url}/_matrix/client/v3/account/whoami`;
+    try {
+      const whoamiResponse = await fetchUtils.fetchJson(whoamiUrl, {
+        headers: new Headers({
+          Accept: "application/json",
+          Authorization: `Bearer ${access_token}`,
+        }),
+      });
+      const json = whoamiResponse.json;
+      const userId = json.user_id;
+      const deviceId = json.device_id;
 
-        if (userId) {
-          localStorage.setItem("user_id", userId);
-        }
-        if (deviceId) {
-          localStorage.setItem("device_id", deviceId);
-        }
-
-        // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
-        // like "@user:example.com:8008" or "@user:[2001:db8::1]"
-        const mxidParts = userId.split(":");
-        mxidParts.shift();
-        localStorage.setItem("home_server", mxidParts.join(":"));
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
-
-        const cfg = GetConfig();
-        const icfg = GetInstanceConfig();
-        let pageToRedirectTo = "/";
-        if (cfg.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
-          pageToRedirectTo = "/server_status";
-        }
-
-        await initRegistrationTokens();
-        return Promise.resolve({ redirectTo: pageToRedirectTo });
-      } catch (err) {
-        console.error("Failed to get user info:", err);
-        ClearConfig();
+      if (!userId) {
+        throw new Error("Missing user_id in whoami response");
       }
+
+      localStorage.setItem("user_id", userId);
+      if (deviceId) {
+        localStorage.setItem("device_id", deviceId);
+      }
+
+      // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
+      // like "@user:example.com:8008" or "@user:[2001:db8::1]"
+      const mxidParts = userId.split(":");
+      mxidParts.shift();
+      localStorage.setItem("home_server", mxidParts.join(":"));
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
+
+      const cfg = GetConfig();
+      const icfg = GetInstanceConfig();
+      let pageToRedirectTo = "/";
+      if (cfg.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
+        pageToRedirectTo = "/server_status";
+      }
+
+      await initRegistrationTokens();
+      return Promise.resolve({ redirectTo: pageToRedirectTo });
+    } catch (err) {
+      console.error("Failed to get user info:", err);
+      ClearConfig();
+      throw err;
     }
   },
   // called when the user clicks on the logout button
