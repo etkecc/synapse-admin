@@ -1,6 +1,6 @@
 {
   "name": "synapse-admin",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "Feature-packed and visually customizable admin GUI for Matrix Synapse servers.",
   "keywords": [
     "matrix",
@@ -98,6 +98,10 @@
     "react-router": "^7.13.1",
     "react-router-dom": "^7.13.1",
     "ts-jest-mock-import-meta": "^1.3.1"
+  },
+  "resolutions": {
+    "react-router": "7.13.1",
+    "react-router-dom": "7.13.1"
   },
   "scripts": {
     "start": "vite serve",
