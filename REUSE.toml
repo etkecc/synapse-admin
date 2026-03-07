@@ -186,6 +186,7 @@ SPDX-License-Identifier = "Apache-2.0"
 path = ["docs/external-auth-provider.md"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi",
+  "2026 cy1der",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
@@ -1138,6 +1139,7 @@ SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi",
   "2024-2026 Borislav Pantaleev",
   "2023 Charlie Calendre",
+  "2026 cy1der",
   "2020-2025 Dirk Klimpel",
   "2025 Huw Carpenter",
   "2020 Lukas Winkler",
@@ -1162,6 +1164,7 @@ SPDX-FileCopyrightText = [
   "2024-2025 Nikita Chernyi",
   "2024 Alexander Tumin",
   "2024 Borislav Pantaleev",
+  "2026 cy1der",
   "2024 Manuel Stahl",
 ]
 SPDX-License-Identifier = "Apache-2.0"
@@ -1248,6 +1251,7 @@ SPDX-License-Identifier = "Apache-2.0"
 path = ["testdata/mas/config.yaml"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi",
+  "2026 cy1der",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 

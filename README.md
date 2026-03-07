@@ -145,9 +145,9 @@ The following changes are already implemented:
 * 🐋 [Run rootless in Docker container](https://github.com/etkecc/synapse-admin/issues/1021)
 * 🇮🇷 [Fix loading of Persian localization](https://github.com/etkecc/synapse-admin/commit/737ec69b16da62e515be12778c46823f6525df4e#diff-26ad4b834941d9b19ebf9db8082bd202aaf72ea0ddea85f5a8a0cb3c729cc6f2)
 * 🔖 [Sync page title and document title](https://github.com/etkecc/synapse-admin/pull/1032)
-* [Restyle Sidebar Menu](https://github.com/etkecc/synapse-admin/pull/1036)
-* [Make loader screen honor preferred color scheme](https://github.com/etkecc/synapse-admin/pull/1037)
-* [Add support for issuing registration tokens with MAS](https://github.com/etkecc/synapse-admin/pull/1067)
+* 🎨 [Restyle Sidebar Menu](https://github.com/etkecc/synapse-admin/pull/1036)
+* 🌗 [Make loader screen honor preferred color scheme](https://github.com/etkecc/synapse-admin/pull/1037)
+* 🔑 [Add support for issuing registration tokens with MAS](https://github.com/etkecc/synapse-admin/pull/1067)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
