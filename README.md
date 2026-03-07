@@ -147,6 +147,7 @@ The following changes are already implemented:
 * 🔖 [Sync page title and document title](https://github.com/etkecc/synapse-admin/pull/1032)
 * [Restyle Sidebar Menu](https://github.com/etkecc/synapse-admin/pull/1036)
 * [Make loader screen honor preferred color scheme](https://github.com/etkecc/synapse-admin/pull/1037)
+* [Add support for issuing registration tokens with MAS](https://github.com/etkecc/synapse-admin/pull/1067)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

@@ -1,13 +1,33 @@
+jest.mock("oidc-client-ts", () => {
+  return {
+    UserManager: jest.fn().mockImplementation(() => ({
+      signinRedirectCallback: jest.fn().mockResolvedValue({
+        access_token: "oidc_access_token",
+        refresh_token: "oidc_refresh_token",
+        id_token: "oidc_id_token",
+        expires_in: 3600,
+      }),
+    })),
+  };
+});
+
+jest.mock("./dataProvider", () => ({
+  initRegistrationTokens: jest.fn().mockResolvedValue(undefined),
+}));
+
 import fetchMock from "jest-fetch-mock";
 import { HttpError } from "ra-core";
 
 import authProvider from "./authProvider";
+import { initRegistrationTokens } from "./dataProvider";
+import { UserManager } from "oidc-client-ts";
 
 fetchMock.enableMocks();
 
 describe("authProvider", () => {
   beforeEach(() => {
     fetchMock.resetMocks();
+    jest.clearAllMocks();
     localStorage.clear();
   });
 
@@ -74,6 +94,39 @@ describe("authProvider", () => {
     expect(localStorage.getItem("user_id")).toEqual("@user:example.com");
     expect(localStorage.getItem("access_token")).toEqual("foobar");
     expect(localStorage.getItem("device_id")).toEqual("some_device");
+  });
+
+  it("handles OIDC callback via oidc-client-ts", async () => {
+    localStorage.setItem("clientId", "client_id");
+    localStorage.setItem("oidc_issuer", "https://issuer.example");
+    localStorage.setItem("oidc_scope", "openid profile");
+    localStorage.setItem("oidc_redirect_uri", "http://localhost:5173/auth-callback");
+    localStorage.setItem("decoded_base_url", "http://example.com");
+
+    fetchMock.once(
+      JSON.stringify({
+        user_id: "@user:example.com",
+        device_id: "DEVICE",
+      })
+    );
+
+    const result = await authProvider.handleCallback?.();
+
+    expect(UserManager).toHaveBeenCalledWith({
+      authority: "https://issuer.example",
+      client_id: "client_id",
+      redirect_uri: "http://localhost:5173/auth-callback",
+      response_type: "code",
+      scope: "openid profile",
+    });
+    const userManagerInstance = (UserManager as jest.Mock).mock.results[0].value;
+    expect(userManagerInstance.signinRedirectCallback).toHaveBeenCalledTimes(1);
+    expect(localStorage.getItem("access_token")).toBe("oidc_access_token");
+    expect(localStorage.getItem("refresh_token")).toBe("oidc_refresh_token");
+    expect(localStorage.getItem("id_token")).toBe("oidc_id_token");
+    expect(localStorage.getItem("login_type")).toBe("credentials");
+    expect(initRegistrationTokens).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({ redirectTo: "/" });
   });
 
   describe("logout", () => {

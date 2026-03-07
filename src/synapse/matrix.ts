@@ -213,12 +213,16 @@ export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: stri
     "urn:synapse:admin:*",
     "urn:mas:admin", // Required for MAS registration tokens
   ];
+  const scope = scopes.join(" ");
+  localStorage.setItem("oidc_issuer", authMetadata.issuer);
+  localStorage.setItem("oidc_scope", scope);
+  localStorage.setItem("oidc_redirect_uri", registrationJson.redirect_uris[0]);
 
   return {
     clientId,
     redirectUri: registrationJson.redirect_uris[0],
     issuer: authMetadata.issuer,
-    scope: scopes.join(" "),
+    scope,
     responseType: "code",
   };
 };

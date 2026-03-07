@@ -99,4 +99,13 @@ describe("dataProvider", () => {
     const [url] = fetchMock.mock.calls[0];
     expect(url).toBe("http://mas.example/api/admin/v1/site-config");
   });
+
+  it("skips MAS availability check when no access token", async () => {
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    localStorage.removeItem("access_token");
+
+    await initRegistrationTokens();
+
+    expect(fetch).not.toHaveBeenCalled();
+  });
 });

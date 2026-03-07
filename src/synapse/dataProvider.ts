@@ -132,6 +132,8 @@ const toRfc3339 = (timestamp: number | undefined | null): string | undefined => 
 const checkMasAdminApiAvailable = async (): Promise<boolean> => {
   const masBaseUrl = getMasBaseUrl();
   if (!masBaseUrl) return false;
+  const token = localStorage.getItem("access_token");
+  if (!token) return false;
 
   try {
     await jsonClient(`${masBaseUrl}/api/admin/v1/site-config`, { method: "GET" });
