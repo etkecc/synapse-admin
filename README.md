@@ -8,6 +8,9 @@
     <a href="./LICENSE">
       <img alt="License" src="https://img.shields.io/github/license/etkecc/synapse-admin">
     </a>
+    <a href="https://api.reuse.software/info/github.com/etkecc/synapse-admin">
+      <img alt="REUSE compliance" src="https://api.reuse.software/badge/github.com/etkecc/synapse-admin">
+    </a>
   </h3>
   <p align="center">Feature-packed and visually customizable: A better way to manage your Synapse homeserver.</p>
 </p>
