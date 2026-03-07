@@ -2,8 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { merge } from "lodash";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { useEffect, useRef, useState } from "react";
-import { Admin, CustomRoutes, Loading, Resource, resolveBrowserLocale } from "react-admin";
-import { Route } from "react-router-dom";
+import { Admin, CustomRoutes, Loading, Resource, resolveBrowserLocale, reactRouterProvider } from "react-admin";
 
 import AdminLayout from "./components/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
@@ -65,6 +64,7 @@ const i18nProvider = polyglotI18nProvider(
   ]
 );
 
+const Route = reactRouterProvider.Route;
 const queryClient = new QueryClient();
 
 export const App = () => {
