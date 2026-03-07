@@ -134,17 +134,8 @@ const checkMasAdminApiAvailable = async (): Promise<boolean> => {
   if (!masBaseUrl) return false;
 
   try {
-    const token = localStorage.getItem("access_token");
-    if (!token) return false;
-
-    const response = await fetch(`${masBaseUrl}/api/admin/v1/site-config`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return response.status === 200;
+    await jsonClient(`${masBaseUrl}/api/admin/v1/site-config`, { method: "GET" });
+    return true;
   } catch {
     return false;
   }

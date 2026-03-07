@@ -1,16 +1,22 @@
+jest.mock("./matrix", () => ({
+  refreshAccessToken: jest.fn().mockResolvedValue(undefined),
+}));
+
 import fetchMock from "jest-fetch-mock";
-import dataProvider from "./dataProvider";
+import dataProvider, { initRegistrationTokens } from "./dataProvider";
+import { refreshAccessToken } from "./matrix";
 
 fetchMock.enableMocks();
 
 beforeEach(() => {
   fetchMock.resetMocks();
+  jest.clearAllMocks();
+  localStorage.clear();
+  localStorage.setItem("base_url", "http://localhost");
+  localStorage.setItem("access_token", "access_token");
 });
 
 describe("dataProvider", () => {
-  localStorage.setItem("base_url", "http://localhost");
-  localStorage.setItem("access_token", "access_token");
-
   it("fetches all users", async () => {
     fetchMock.mockResponseOnce(
       JSON.stringify({
@@ -77,5 +83,20 @@ describe("dataProvider", () => {
     expect(user.data.id).toEqual("@user_id1:provider");
     expect(user.data.displayname).toEqual("User");
     expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("refreshes token before MAS admin availability check", async () => {
+    const now = Date.now();
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    localStorage.setItem("refresh_token", "refresh_token");
+    localStorage.setItem("access_token_expires_at", `${now - 1000}`);
+
+    fetchMock.mockResponseOnce(JSON.stringify({}));
+
+    await initRegistrationTokens();
+
+    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
+    const [url] = fetchMock.mock.calls[0];
+    expect(url).toBe("http://mas.example/api/admin/v1/site-config");
   });
 });
