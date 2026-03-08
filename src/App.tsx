@@ -1,8 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { merge } from "lodash";
 import polyglotI18nProvider from "ra-i18n-polyglot";
-import { useEffect, useRef, useState } from "react";
-import { Admin, CustomRoutes, Loading, Resource, resolveBrowserLocale, reactRouterProvider } from "react-admin";
+import { Admin, CustomRoutes, Resource, resolveBrowserLocale, reactRouterProvider } from "react-admin";
 
 import AdminLayout from "./components/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
@@ -68,52 +67,6 @@ const Route = reactRouterProvider.Route;
 const queryClient = new QueryClient();
 
 export const App = () => {
-  const normalizedPathname = window.location.pathname.replace(/\/+$/, "");
-  const isCallbackPath = normalizedPathname.endsWith("/auth-callback");
-  const hasAuthCode = new URLSearchParams(window.location.search).has("code");
-  const shouldHandleCallback = isCallbackPath && hasAuthCode;
-  const [isHandlingCallback, setIsHandlingCallback] = useState(shouldHandleCallback);
-  const hasHandledCallbackRef = useRef(false);
-
-  useEffect(() => {
-    // Check if we're on the OAuth callback path, we need to do it this way,
-    // because react-admin by default uses HashRouter and "/#/auth-callback" URI is not accepted by MAS
-    if (shouldHandleCallback && !hasHandledCallbackRef.current) {
-      hasHandledCallbackRef.current = true;
-      // Clean up the URL to remove /auth-callback for further processing,
-      // considering that in some cases (especially bugged older versions) there could be multiple /auth-callback segments.
-      // Also ensure there are no double slashes in the URL.
-      let cleanedPathname = normalizedPathname.replaceAll("/auth-callback", "");
-      if (cleanedPathname.endsWith("/")) {
-        cleanedPathname = cleanedPathname.slice(0, -1);
-      }
-      let href = new URL(cleanedPathname || "/", window.location.origin).toString();
-      if (href.endsWith("/")) {
-        href = href.slice(0, -1);
-      }
-      setIsHandlingCallback(true);
-
-      // Handle the OAuth callback
-      authProvider
-        .handleCallback?.()
-        .then(result => {
-          // Redirect to the appropriate page after successful auth
-          const redirectTo = result?.redirectTo || "/";
-          window.location.href = `${href}/#${redirectTo}`;
-        })
-        .catch(error => {
-          console.error(`OAuth callback to ${window.location} error: ${error}`);
-          // Redirect to login on error
-          window.location.href = `${href}/#/login`;
-        });
-    }
-  }, [shouldHandleCallback, normalizedPathname]);
-
-  // Show loading state while handling callback
-  if (isHandlingCallback) {
-    return <Loading loadingPrimary="" loadingSecondary="" />;
-  }
-
   const icfg = useInstanceConfig();
   let title = "Synapse Admin";
   if (icfg.name) {

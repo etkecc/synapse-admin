@@ -1,14 +1,24 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { resolve, join, dirname } from "node:path";
+import { promises as fs } from "node:fs";
 import { vitePluginVersionMark } from "vite-plugin-version-mark";
 
+let resolvedOutDir = "dist";
+let resolvedBase = "./";
+
 export default defineConfig(({ mode }) => ({
+  appType: "mpa",
   base: "./",
   build: {
     target: "esnext",
     chunkSizeWarningLimit: 1500, // react-admin itself is 500kb, @mui 350kb, and other vendor libs are 730kb+ at the moment of writing
     sourcemap: mode === "development",
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, "src/entrypoints/index.html"),
+        "auth-callback/index": resolve(__dirname, "src/entrypoints/auth-callback.html"),
+      },
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
@@ -21,6 +31,88 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [
+    {
+      name: "entrypoint-output-paths",
+      apply: "build",
+      configResolved(config) {
+        resolvedOutDir = config.build.outDir;
+        resolvedBase = config.base || "./";
+      },
+      async closeBundle() {
+        const outDir = resolvedOutDir;
+        const sourceIndex = join(outDir, "src/entrypoints/index.html");
+        const sourceAuth = join(outDir, "src/entrypoints/auth-callback.html");
+        const targetIndex = join(outDir, "index.html");
+        const targetAuth = join(outDir, "auth-callback/index.html");
+        const normalizedBase =
+          resolvedBase === "" || resolvedBase === "./"
+            ? "./"
+            : resolvedBase.endsWith("/")
+              ? resolvedBase
+              : `${resolvedBase}/`;
+        const expectedAssetsPrefix = normalizedBase === "./" ? "./assets/" : `${normalizedBase}assets/`;
+
+        const moveIfExists = async (from: string, to: string) => {
+          try {
+            await fs.access(from);
+          } catch {
+            return;
+          }
+          await fs.mkdir(dirname(to), { recursive: true });
+          await fs.rm(to, { force: true });
+          await fs.rename(from, to);
+        };
+
+        const rewriteAssets = async (filePath: string, assetsPrefix: string) => {
+          try {
+            const content = await fs.readFile(filePath, "utf8");
+            const updated = content.replace(/(["'])(?:\.\.\/)+assets\//g, `$1${assetsPrefix}`);
+            if (updated !== content) {
+              await fs.writeFile(filePath, updated);
+            }
+          } catch {
+            return;
+          }
+        };
+
+        const assertAssetPrefix = async (filePath: string, assetsPrefix: string) => {
+          const content = await fs.readFile(filePath, "utf8");
+          const hasAssets = content.includes("assets/");
+          if (!hasAssets) {
+            return;
+          }
+          const invalidAssets = new RegExp(`["'](?!${assetsPrefix.replace(/\//g, "\\/")})[^"']*assets\\/`);
+          if (invalidAssets.test(content)) {
+            throw new Error(`Unexpected assets path in ${filePath}`);
+          }
+        };
+
+        await moveIfExists(sourceIndex, targetIndex);
+        await moveIfExists(sourceAuth, targetAuth);
+        if (normalizedBase === "./") {
+          await rewriteAssets(targetIndex, "./assets/");
+          await rewriteAssets(targetAuth, "./assets/");
+        }
+        await assertAssetPrefix(targetIndex, expectedAssetsPrefix);
+        await assertAssetPrefix(targetAuth, expectedAssetsPrefix);
+        await fs.rm(join(outDir, "src/entrypoints"), { recursive: true, force: true });
+      },
+    },
+    {
+      name: "auth-callback-dev-rewrite",
+      configureServer(server) {
+        server.middlewares.use((req, _res, next) => {
+          if (!req.url) return next();
+          const [path] = req.url.split("?");
+          if (path === "/auth-callback" || path === "/auth-callback/" || path === "/auth-callback/index.html") {
+            req.url = req.url.replace(path, "/src/entrypoints/auth-callback.html");
+          } else if (path === "/" || path === "/index.html") {
+            req.url = req.url.replace(path, "/src/entrypoints/index.html");
+          }
+          next();
+        });
+      },
+    },
     react(),
     vitePluginVersionMark({
       name: "Synapse Admin",

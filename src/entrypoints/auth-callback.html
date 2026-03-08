@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#313131" />
+    <meta name="description" content="Synapse Admin" />
+    <base href="../" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="./manifest.json" media="(prefers-color-scheme: light)" data-scheme="light" />
+    <link rel="manifest" href="./manifest-dark.json" media="(prefers-color-scheme: dark)" data-scheme="dark" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="modulepreload" href="/src/auth-callback-error.tsx" />
+    <title>Synapse Admin</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --loader-bg: #fafafa;
+        --loader-fg: #283593;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --loader-bg: #313131;
+          --loader-fg: #90caf9;
+        }
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+
+      .layout {
+        min-height: 90vh !important;
+        height: 90vh;
+      }
+
+      .loader-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--loader-bg);
+      }
+
+      /* CSS Spinner from https://projects.lukehaas.me/css-loaders/ */
+
+      .loader,
+      .loader:before,
+      .loader:after {
+        border-radius: 50%;
+      }
+
+      .loader {
+        color: var(--loader-fg);
+        font-size: 11px;
+        text-indent: -99999em;
+        margin: 55px auto;
+        position: relative;
+        width: 10em;
+        height: 10em;
+        box-shadow: inset 0 0 0 1em;
+        -webkit-transform: translateZ(0);
+        -ms-transform: translateZ(0);
+        transform: translateZ(0);
+      }
+
+      .loader:before,
+      .loader:after {
+        position: absolute;
+        content: "";
+      }
+
+      .loader:before {
+        width: 5.2em;
+        height: 10.2em;
+        background: var(--loader-bg);
+        border-radius: 10.2em 0 0 10.2em;
+        top: -0.1em;
+        left: -0.1em;
+        -webkit-transform-origin: 5.2em 5.1em;
+        transform-origin: 5.2em 5.1em;
+        -webkit-animation: load2 2s infinite ease 1.5s;
+        animation: load2 2s infinite ease 1.5s;
+      }
+
+      .loader:after {
+        width: 5.2em;
+        height: 10.2em;
+        background: var(--loader-bg);
+        border-radius: 0 10.2em 10.2em 0;
+        top: -0.1em;
+        left: 5.1em;
+        -webkit-transform-origin: 0px 5.1em;
+        transform-origin: 0px 5.1em;
+        -webkit-animation: load2 2s infinite ease;
+        animation: load2 2s infinite ease;
+      }
+
+      .auth-callback-error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 32px;
+        min-height: 100vh;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: var(--loader-bg);
+        color: #1f1f1f;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .auth-callback-error {
+          color: #f2f2f2;
+        }
+      }
+
+      .auth-callback-error__title {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .auth-callback-error__message {
+        margin: 0;
+        max-width: 520px;
+        font-size: 14px;
+        opacity: 0.9;
+        word-break: break-word;
+      }
+
+      .auth-callback-error__button {
+        border: none;
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-size: 14px;
+        cursor: pointer;
+        background: var(--loader-fg);
+        color: #fff;
+      }
+
+      .auth-callback-error__button:focus-visible {
+        outline: 2px solid var(--loader-fg);
+        outline-offset: 2px;
+      }
+
+      @-webkit-keyframes load2 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes load2 {
+        0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="loader-container">
+        <div class="loader">Loading...</div>
+      </div>
+    </div>
+    <span id="js-version" style="display: none"></span>
+    <script>
+      window.__SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__ = true;
+    </script>
+    <script type="module" src="/src/auth-callback.tsx"></script>
+  </body>
+  <script>
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const schemeLinks = {
+      light: document.querySelector('link[rel="manifest"][data-scheme="light"]'),
+      dark: document.querySelector('link[rel="manifest"][data-scheme="dark"]'),
+    };
+    const schemeHrefs = {
+      light: schemeLinks.light?.getAttribute("href"),
+      dark: schemeLinks.dark?.getAttribute("href"),
+    };
+
+    const ensureManifestLink = () => {
+      let active = document.querySelector('link[rel="manifest"][data-active="true"]');
+      if (!active) {
+        active = document.createElement("link");
+        active.setAttribute("rel", "manifest");
+        active.setAttribute("data-active", "true");
+        document.head.appendChild(active);
+      }
+      return active;
+    };
+
+    const updateManifest = () => {
+      const nextHref = mediaQuery.matches ? schemeHrefs.dark : schemeHrefs.light;
+      if (!nextHref) return;
+      const active = ensureManifestLink();
+      active.setAttribute("href", nextHref);
+    };
+
+    updateManifest();
+    schemeLinks.light?.remove();
+    schemeLinks.dark?.remove();
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", updateManifest);
+    } else if (typeof mediaQuery.addListener === "function") {
+      mediaQuery.addListener(updateManifest);
+    }
+    document.getElementById("js-version").textContent = __SYNAPSE_ADMIN_VERSION__;
+  </script>
+</html>

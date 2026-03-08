@@ -27,13 +27,26 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable --network-timeout=300000 --pure-lockfile
       - name: Build
-        run: yarn build --base=${{ env.base_path }}
+        run: |
+          yarn build --base=${{ env.base_path }}
+          mv dist dist-root
+          yarn build --base=/admin/
+          mv dist dist-admin
         env:
           NODE_ENV: production
       - uses: actions/upload-artifact@v7
         with:
-          path: dist/
-          name: dist
+          path: dist-root/
+          name: dist-root
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 0
+          overwrite: true
+          include-hidden-files: true
+      - uses: actions/upload-artifact@v7
+        with:
+          path: dist-admin/
+          name: dist-admin
           if-no-files-found: error
           retention-days: 1
           compression-level: 0
@@ -48,7 +61,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v8
         with:
-          name: dist
+          name: dist-root
           path: dist/
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
@@ -92,7 +105,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v8
         with:
-          name: dist
+          name: dist-root
           path: dist/
       - name: Upload
         run: |
@@ -100,10 +113,8 @@ jobs:
           tar -xzf bunny-upload.tar.gz
           echo "${{ secrets.BUNNY_CONFIG }}" > bunny-config.yaml
           sed -i "s|<head>|<head>${{ secrets.CDN_HEAD }}|g" dist/index.html
+          sed -i "s|<head>|<head>${{ secrets.CDN_HEAD }}|g" dist/auth-callback/index.html
           rm dist/robots.txt
-          mkdir -p dist/auth-callback
-          cp dist/index.html dist/auth-callback/index.html
-          sed -i "s|\./|/|g" dist/auth-callback/index.html
           ./bunny-upload -c bunny-config.yaml
 
   github-release:
@@ -115,15 +126,23 @@ jobs:
       - uses: actions/checkout@v6
       - uses: actions/download-artifact@v8
         with:
-          name: dist
-          path: dist/
+          name: dist-root
+          path: dist-root/
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist-admin
+          path: dist-admin/
       - name: Prepare release
         run: |
-          mv dist synapse-admin
+          mv dist-root synapse-admin
           tar chvzf synapse-admin.tar.gz synapse-admin
+          mv dist-admin synapse-admin-subpath-admin
+          tar chvzf synapse-admin-subpath-admin.tar.gz synapse-admin-subpath-admin
       - uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
-          files: synapse-admin.tar.gz
+          files: |
+            synapse-admin.tar.gz
+            synapse-admin-subpath-admin.tar.gz
           generate_release_notes: true
           make_latest: "true"
           draft: false

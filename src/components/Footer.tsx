@@ -2,7 +2,7 @@ import { Avatar, Box, Link } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 
-const Footer = () => {
+const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
   const [version, setVersion] = useState<string | null>(null);
   const theme = useTheme();
 
@@ -31,10 +31,7 @@ const Footer = () => {
         gap: "10px",
       }}
     >
-      <Avatar
-        src="./images/logo.webp"
-        sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }}
-      />{" "}
+      <Avatar src={logoSrc} sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }} />{" "}
       <Link href="https://github.com/etkecc/synapse-admin" target="_blank">
         Synapse Admin {version}
       </Link>{" "}
