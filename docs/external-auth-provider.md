@@ -56,6 +56,7 @@ Alternatively, you can copy the `index.html` file to `auth-callback/index.html` 
 
 ```bash
 cp index.html auth-callback/index.html
+sed -i "s|./|/|g" auth-callback/index.html # Adjust relative paths in the copied index.html
 ```
 
 This method is used in Synapse Admin's CDN deployment.

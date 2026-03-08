@@ -103,6 +103,7 @@ jobs:
           rm dist/robots.txt
           mkdir -p dist/auth-callback
           cp dist/index.html dist/auth-callback/index.html
+          sed -i "s|./|/|g" dist/auth-callback/index.html
           ./bunny-upload -c bunny-config.yaml
 
   github-release:
