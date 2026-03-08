@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from "react";
+
 export interface InstanceConfig {
   name?: string;
   logo_url?: string;
@@ -25,6 +27,14 @@ let instanceConfig: InstanceConfig = {
   disabled: {},
 };
 
+type InstanceConfigListener = () => void;
+
+const instanceConfigListeners = new Set<InstanceConfigListener>();
+
+const notifyInstanceConfigListeners = () => {
+  instanceConfigListeners.forEach(listener => listener());
+};
+
 export const FetchInstanceConfig = async (etkeccAdminUrl: string | undefined, locale = "") => {
   if (!etkeccAdminUrl || etkeccAdminUrl === "") {
     return;
@@ -40,6 +50,7 @@ export const FetchInstanceConfig = async (etkeccAdminUrl: string | undefined, lo
       const configJSON = (await resp.json()) as InstanceConfig;
       instanceConfig = configJSON;
       console.log("Fetched instance config:", instanceConfig);
+      notifyInstanceConfigListeners();
       return;
     }
 
@@ -66,4 +77,14 @@ export const ClearInstanceConfig = () => {
     background_url: "",
     disabled: {},
   };
+  notifyInstanceConfigListeners();
 };
+
+export const SubscribeInstanceConfig = (listener: InstanceConfigListener) => {
+  instanceConfigListeners.add(listener);
+  return () => {
+    instanceConfigListeners.delete(listener);
+  };
+};
+
+export const useInstanceConfig = () => useSyncExternalStore(SubscribeInstanceConfig, GetInstanceConfig);

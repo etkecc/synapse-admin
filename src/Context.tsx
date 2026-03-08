@@ -1,7 +1,19 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { Config } from "./utils/config";
+import { Config, GetConfig, SubscribeConfig } from "./utils/config";
 
 export const AppContext = createContext<Config>({} as Config);
 
 export const useAppContext = () => useContext(AppContext) as Config;
+
+export const ConfigProvider = ({ children }: { children: React.ReactNode }) => {
+  const [config, setConfig] = useState<Config>(GetConfig());
+
+  useEffect(() => {
+    return SubscribeConfig(() => {
+      setConfig(GetConfig());
+    });
+  }, []);
+
+  return <AppContext.Provider value={config}>{children}</AppContext.Provider>;
+};

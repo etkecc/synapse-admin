@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App";
-import { AppContext } from "./Context";
+import { ConfigProvider } from "./Context";
 import { FetchInstanceConfig, GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
 import { FetchConfig, GetConfig } from "./utils/config";
 
@@ -21,8 +21,8 @@ if (icfg.name && !document.title.includes(icfg.name)) {
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AppContext.Provider value={GetConfig()}>
+    <ConfigProvider>
       <App />
-    </AppContext.Provider>
+    </ConfigProvider>
   </React.StrictMode>
 );

@@ -6,7 +6,7 @@ import { Admin, CustomRoutes, Loading, Resource, resolveBrowserLocale, reactRout
 
 import AdminLayout from "./components/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
-import { GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
+import { useInstanceConfig } from "./components/etke.cc/InstanceConfig";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import SupportPage from "./components/etke.cc/SupportPage";
 import SupportRequestPage from "./components/etke.cc/SupportRequestPage";
@@ -109,7 +109,7 @@ export const App = () => {
     return <Loading loadingPrimary="" loadingSecondary="" />;
   }
 
-  const icfg = GetInstanceConfig();
+  const icfg = useInstanceConfig();
   let title = "Synapse Admin";
   if (icfg.name) {
     title = icfg.name;

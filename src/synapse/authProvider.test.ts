@@ -41,6 +41,7 @@ describe("authProvider", () => {
           device_id: "some_device",
         })
       );
+      fetchMock.once(JSON.stringify({}));
 
       const ret = await authProvider.login({
         base_url: "http://example.com",
@@ -74,6 +75,7 @@ describe("authProvider", () => {
         device_id: "some_device",
       })
     );
+    fetchMock.once(JSON.stringify({}));
 
     const ret = await authProvider.login({
       base_url: "https://example.com/",
@@ -109,6 +111,7 @@ describe("authProvider", () => {
         device_id: "DEVICE",
       })
     );
+    fetchMock.once(JSON.stringify({}));
 
     const result = await authProvider.handleCallback?.();
 

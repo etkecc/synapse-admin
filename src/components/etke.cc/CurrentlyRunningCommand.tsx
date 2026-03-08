@@ -3,7 +3,7 @@ import { Tooltip, Typography, Link, Alert } from "@mui/material";
 import { useStore, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
-import { GetInstanceConfig } from "./InstanceConfig";
+import { useInstanceConfig } from "./InstanceConfig";
 import { ServerProcessResponse } from "../../synapse/dataProvider";
 import { getTimeSince } from "../../utils/date";
 
@@ -20,7 +20,7 @@ const CurrentlyRunningCommand = () => {
     return null;
   }
 
-  const icfg = GetInstanceConfig();
+  const icfg = useInstanceConfig();
   const { timeI18Nkey, timeI18Nparams } = getTimeSince(locked_at);
   const timeSince = translate(timeI18Nkey, timeI18Nparams);
   return (

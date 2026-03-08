@@ -16,6 +16,14 @@ export interface MenuItem {
 
 export const WellKnownKey = "cc.etke.synapse-admin";
 
+type ConfigListener = () => void;
+
+const configListeners = new Set<ConfigListener>();
+
+const notifyConfigListeners = () => {
+  configListeners.forEach(listener => listener());
+};
+
 // current configuration
 let config: Config = {
   restrictBaseUrl: "",
@@ -41,6 +49,14 @@ export const FetchConfig = async () => {
     console.error(e);
   }
 
+  await FetchWellKnownConfig();
+
+  if (config.externalAuthProvider !== undefined) {
+    SetExternalAuthProvider(config.externalAuthProvider);
+  }
+};
+
+export const FetchWellKnownConfig = async () => {
   let protocol = "https";
   const baseURL = localStorage.getItem("base_url");
   if (baseURL && baseURL.startsWith("http://")) {
@@ -76,26 +92,27 @@ export const FetchConfig = async () => {
     }
   }
 
-  if (homeserver) {
-    try {
-      const resp = await fetch(`${protocol}://${homeserver}/.well-known/matrix/client`);
-      const configWK = await resp.json();
-      if (!configWK[WellKnownKey]) {
-        console.log(
-          `Loaded ${protocol}://${homeserver}/.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`,
-          configWK
-        );
-      } else {
-        console.log(`Loaded ${protocol}://${homeserver}/.well-known/matrix/client`, configWK);
-        LoadConfig(configWK[WellKnownKey]);
-      }
-    } catch (e) {
-      console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
-    }
+  if (!homeserver) {
+    return false;
   }
 
-  if (config.externalAuthProvider !== undefined) {
-    SetExternalAuthProvider(config.externalAuthProvider);
+  try {
+    const resp = await fetch(`${protocol}://${homeserver}/.well-known/matrix/client`);
+    const configWK = await resp.json();
+    if (!configWK[WellKnownKey]) {
+      console.log(
+        `Loaded ${protocol}://${homeserver}/.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`,
+        configWK
+      );
+      return false;
+    }
+
+    console.log(`Loaded ${protocol}://${homeserver}/.well-known/matrix/client`, configWK);
+    LoadConfig(configWK[WellKnownKey]);
+    return true;
+  } catch (e) {
+    console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
+    return false;
   }
 };
 
@@ -103,18 +120,23 @@ export const FetchConfig = async () => {
 // we deliberately processing each key separately to avoid overwriting the whole config, losing some keys, and messing
 // with typescript types
 export const LoadConfig = (context: Config) => {
+  const nextConfig: Config = { ...config };
+  let changed = false;
   if (context?.restrictBaseUrl) {
-    config.restrictBaseUrl = context.restrictBaseUrl as string | string[];
+    nextConfig.restrictBaseUrl = context.restrictBaseUrl as string | string[];
+    changed = true;
   }
 
   if (context?.corsCredentials) {
-    config.corsCredentials = context.corsCredentials;
+    nextConfig.corsCredentials = context.corsCredentials;
+    changed = true;
   }
 
   if (context?.asManagedUsers) {
-    config.asManagedUsers = context.asManagedUsers.map((regex: string | RegExp) =>
+    nextConfig.asManagedUsers = context.asManagedUsers.map((regex: string | RegExp) =>
       typeof regex === "string" ? new RegExp(regex) : regex
     );
+    changed = true;
   }
 
   let menu: MenuItem[] = [];
@@ -122,22 +144,31 @@ export const LoadConfig = (context: Config) => {
     menu = context.menu as MenuItem[];
   }
   if (menu.length > 0) {
-    config.menu = menu;
+    nextConfig.menu = menu;
+    changed = true;
   }
 
   if (context?.externalAuthProvider !== undefined) {
-    config.externalAuthProvider = context.externalAuthProvider;
+    nextConfig.externalAuthProvider = context.externalAuthProvider;
+    changed = true;
   }
   // if not set in context, try to load from localStorage
-  if (config.externalAuthProvider === undefined) {
+  if (nextConfig.externalAuthProvider === undefined) {
     const storedExternalAuthProvider = localStorage.getItem("external_auth_provider");
     if (storedExternalAuthProvider !== null) {
-      config.externalAuthProvider = storedExternalAuthProvider === "true";
+      nextConfig.externalAuthProvider = storedExternalAuthProvider === "true";
+      changed = true;
     }
   }
 
   if (context?.etkeccAdmin) {
-    config.etkeccAdmin = context.etkeccAdmin;
+    nextConfig.etkeccAdmin = context.etkeccAdmin;
+    changed = true;
+  }
+
+  if (changed) {
+    config = nextConfig;
+    notifyConfigListeners();
   }
 };
 
@@ -152,10 +183,19 @@ export const ClearConfig = () => {
   config = {} as Config;
   // session
   localStorage.clear();
+  notifyConfigListeners();
 };
 
 // workaround for external auth providers (like OIDC, LDAP, etc.) to signal that some functionality should be disabled
 export const SetExternalAuthProvider = (value: boolean) => {
-  config.externalAuthProvider = value;
+  config = { ...config, externalAuthProvider: value };
   localStorage.setItem("external_auth_provider", value ? "true" : "false");
+  notifyConfigListeners();
+};
+
+export const SubscribeConfig = (listener: ConfigListener) => {
+  configListeners.add(listener);
+  return () => {
+    configListeners.delete(listener);
+  };
 };

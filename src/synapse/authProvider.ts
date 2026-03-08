@@ -3,8 +3,8 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
 import { initRegistrationTokens } from "./dataProvider";
-import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
-import { ClearConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
+import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
+import { ClearConfig, FetchWellKnownConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -131,7 +131,14 @@ const authProvider: AuthProvider = {
       localStorage.setItem("login_type", accessToken ? "accessToken" : "credentials");
       let pageToRedirectTo = "/";
 
-      if (config.etkeccAdmin && icfg && !icfg.disabled.monitoring) {
+      await FetchWellKnownConfig();
+      const cfg = GetConfig();
+      if (cfg.etkeccAdmin) {
+        await FetchInstanceConfig(cfg.etkeccAdmin, "");
+      }
+      const updatedIcfg = GetInstanceConfig();
+
+      if (cfg.etkeccAdmin && updatedIcfg && !updatedIcfg.disabled.monitoring) {
         pageToRedirectTo = "/server_status";
       }
 
@@ -268,7 +275,11 @@ const authProvider: AuthProvider = {
       localStorage.setItem("access_token", access_token);
       localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
 
+      await FetchWellKnownConfig();
       const cfg = GetConfig();
+      if (cfg.etkeccAdmin) {
+        await FetchInstanceConfig(cfg.etkeccAdmin, "");
+      }
       const icfg = GetInstanceConfig();
       let pageToRedirectTo = "/";
       if (cfg.etkeccAdmin && icfg && !icfg.disabled.monitoring) {

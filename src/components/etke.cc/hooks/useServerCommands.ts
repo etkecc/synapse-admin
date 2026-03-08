@@ -3,10 +3,10 @@ import { useDataProvider, useLocale } from "react-admin";
 
 import { useAppContext } from "../../../Context";
 import { ServerCommand } from "../../../synapse/dataProvider";
-import { GetInstanceConfig } from "../InstanceConfig";
+import { useInstanceConfig } from "../InstanceConfig";
 
 export const useServerCommands = () => {
-  const icfg = GetInstanceConfig();
+  const icfg = useInstanceConfig();
   const { etkeccAdmin } = useAppContext();
   const locale = useLocale();
   const [isLoading, setLoading] = useState(true);

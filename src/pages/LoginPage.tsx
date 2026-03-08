@@ -32,7 +32,7 @@ import { useAppContext } from "../Context";
 import Footer from "../components/Footer";
 import LoginFormBox from "../components/LoginFormBox";
 import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
-import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
+import { useInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import {
   getServerVersion,
   getSupportedFeatures,
@@ -270,7 +270,7 @@ const LoginPage = () => {
     }
   };
 
-  const icfg = GetInstanceConfig();
+  const icfg = useInstanceConfig();
   let welcomeTo = "Synapse Admin";
   let logoUrl = "./images/logo.webp";
   let backgroundUrl = "./images/floating-cogs.svg";

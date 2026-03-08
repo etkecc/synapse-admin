@@ -21,13 +21,14 @@ import {
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
 import { ServerProcessResponse, ServerStatusResponse } from "../synapse/dataProvider";
-import { MenuItem, GetConfig, ClearConfig } from "../utils/config";
+import { ClearConfig } from "../utils/config";
 import { Icons, DefaultIcon } from "../utils/icons";
 import { EtkeAttribution } from "./etke.cc/EtkeAttribution";
-import { GetInstanceConfig, ClearInstanceConfig } from "./etke.cc/InstanceConfig";
+import { ClearInstanceConfig, useInstanceConfig } from "./etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
+import { useAppContext } from "../Context";
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -73,7 +74,7 @@ const AdminUserMenu = () => {
 };
 
 const AdminAppBar = () => {
-  const icfg = GetInstanceConfig();
+  const icfg = useInstanceConfig();
   return (
     <AppBar userMenu={<AdminUserMenu />}>
       <TitlePortal />
@@ -86,15 +87,9 @@ const AdminAppBar = () => {
 
 const AdminMenu = props => {
   const locale = useLocale();
-  const [menu, setMenu] = useState([] as MenuItem[]);
-  const icfg = GetInstanceConfig();
-  const [etkeRoutesEnabled, setEtkeRoutesEnabled] = useState(false);
-  useEffect(() => {
-    setMenu(GetConfig().menu);
-    if (GetConfig().etkeccAdmin) {
-      setEtkeRoutesEnabled(true);
-    }
-  }, []);
+  const icfg = useInstanceConfig();
+  const { menu, etkeccAdmin } = useAppContext();
+  const etkeRoutesEnabled = Boolean(etkeccAdmin);
   const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
@@ -196,7 +191,7 @@ const AdminMenu = props => {
 export const AdminLayout = ({ children }) => {
   // Set the document language based on the selected locale
   const [locale, _setLocale] = useLocaleState();
-  const icfg = GetInstanceConfig();
+  const icfg = useInstanceConfig();
   useEffect(() => {
     document.documentElement.lang = locale;
 
