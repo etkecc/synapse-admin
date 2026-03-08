@@ -11,6 +11,34 @@ export const splitMxid = mxid => {
 export const isValidBaseUrl = baseUrl => /^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?\/?$/.test(baseUrl);
 
 /**
+ * Resolve a base URL using /.well-known/matrix/client if present.
+ * Falls back to the provided URL if lookup fails or is invalid.
+ */
+export const resolveBaseUrlWithWellKnown = async (baseUrl: string): Promise<string> => {
+  if (!baseUrl) return baseUrl;
+  const cleaned = baseUrl.replace(/\/+$/g, "");
+  let origin: string;
+  try {
+    origin = new URL(cleaned).origin;
+  } catch {
+    return cleaned;
+  }
+
+  const wellKnownUrl = `${origin}/.well-known/matrix/client`;
+  try {
+    const response = await fetchUtils.fetchJson(wellKnownUrl, { method: "GET" });
+    const wkBaseUrl = response.json?.["m.homeserver"]?.base_url;
+    if (typeof wkBaseUrl === "string" && wkBaseUrl.trim() !== "") {
+      return wkBaseUrl.replace(/\/+$/g, "");
+    }
+  } catch {
+    // ignore and fall back to the provided URL
+  }
+
+  return cleaned;
+};
+
+/**
  * Resolve the homeserver URL using the well-known lookup
  * @param domain  the domain part of an MXID
  * @returns homeserver base URL

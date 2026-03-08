@@ -1,4 +1,12 @@
-import { isValidBaseUrl, splitMxid } from "./matrix";
+import { fetchUtils } from "react-admin";
+
+import { isValidBaseUrl, splitMxid, resolveBaseUrlWithWellKnown } from "./matrix";
+
+jest.mock("react-admin", () => ({
+  fetchUtils: {
+    fetchJson: jest.fn(),
+  },
+}));
 
 describe("splitMxid", () => {
   it("splits valid MXIDs", () =>
@@ -20,4 +28,29 @@ describe("isValidBaseUrl", () => {
   it("rejects base URLs without protocol", () => expect(isValidBaseUrl("foo.bar")).toBeFalsy());
   it("rejects base URLs with path", () => expect(isValidBaseUrl("http://foo.bar/path")).toBeFalsy());
   it("rejects invalid base URLs", () => expect(isValidBaseUrl("http:/foo.bar")).toBeFalsy());
+});
+
+describe("resolveBaseUrlWithWellKnown", () => {
+  const fetchJsonMock = fetchUtils.fetchJson as jest.Mock;
+
+  afterEach(() => {
+    fetchJsonMock.mockReset();
+  });
+
+  it("returns well-known base_url when present", async () => {
+    fetchJsonMock.mockResolvedValueOnce({
+      json: {
+        "m.homeserver": { base_url: "https://api.example.com" },
+      },
+    });
+
+    await expect(resolveBaseUrlWithWellKnown("https://example.com")).resolves.toBe("https://api.example.com");
+    expect(fetchJsonMock).toHaveBeenCalledWith("https://example.com/.well-known/matrix/client", { method: "GET" });
+  });
+
+  it("falls back to provided URL when well-known fails", async () => {
+    fetchJsonMock.mockRejectedValueOnce(new Error("nope"));
+
+    await expect(resolveBaseUrlWithWellKnown("https://example.com/")).resolves.toBe("https://example.com");
+  });
 });

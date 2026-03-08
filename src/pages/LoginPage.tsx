@@ -41,6 +41,7 @@ import {
   splitMxid,
   getSupportedLoginFlows,
   getAuthMetadata,
+  resolveBaseUrlWithWellKnown,
 } from "../synapse/matrix";
 import { SetExternalAuthProvider } from "../utils/config";
 
@@ -119,6 +120,7 @@ const LoginPage = () => {
   const [oidcUrl, setOIDCUrl] = useState("");
   const [ssoBaseUrl, setSSOBaseUrl] = useState("");
   const [baseUrl, setBaseUrl] = useState(base_url || "");
+  const [resolvedBaseUrl, setResolvedBaseUrl] = useState(base_url || "");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
   const [serverVersion, setServerVersion] = useState("");
@@ -126,7 +128,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (base_url) {
-      checkServerInfo(base_url as string);
+      resolveAndCheckServerInfo(base_url as string);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -177,7 +179,12 @@ const LoginPage = () => {
     const cleanUrl = window.location.href.replace(window.location.search, "");
     window.history.replaceState({}, "", cleanUrl);
 
-    login(auth).catch(error => {
+    const authWithResolved = {
+      ...auth,
+      base_url: resolvedBaseUrl || auth.base_url,
+    };
+
+    login(authWithResolved).catch(error => {
       setLoading(false);
       notify(
         typeof error === "string"
@@ -213,6 +220,7 @@ const LoginPage = () => {
       setMatrixVersions("");
       setOIDCUrl("");
       setBaseUrl("");
+      setResolvedBaseUrl("");
       setSupportPassAuth(false);
       return;
     }
@@ -237,6 +245,7 @@ const LoginPage = () => {
       const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
       const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
       setBaseUrl(url);
+      setResolvedBaseUrl(url);
       setSupportPassAuth(supportPass);
       setSSOBaseUrl(supportSSO ? url : "");
 
@@ -267,7 +276,25 @@ const LoginPage = () => {
       setSSOBaseUrl("");
       setOIDCUrl("");
       setBaseUrl("");
+      setResolvedBaseUrl("");
     }
+  };
+
+  const resolveAndCheckServerInfo = async (url: string, updateFormValue?: (nextUrl: string) => void) => {
+    if (!url) {
+      return;
+    }
+
+    if (!isValidBaseUrl(url)) {
+      checkServerInfo(url);
+      return;
+    }
+
+    const resolvedUrl = await resolveBaseUrlWithWellKnown(url);
+    if (resolvedUrl !== url && updateFormValue) {
+      updateFormValue(resolvedUrl);
+    }
+    checkServerInfo(resolvedUrl);
   };
 
   const icfg = useInstanceConfig();
@@ -300,6 +327,7 @@ const LoginPage = () => {
             shouldValidate: true,
             shouldDirty: true,
           });
+          setResolvedBaseUrl(url);
           checkServerInfo(url);
         }
       }
@@ -315,7 +343,15 @@ const LoginPage = () => {
 
       // Trigger validation only when user finishes typing/selecting
       form.trigger("base_url");
-      checkServerInfo(value);
+      const updateFormValue =
+        restrictBaseUrlMultiple || restrictBaseUrlSingle
+          ? undefined
+          : (nextUrl: string) =>
+              form.setValue("base_url", nextUrl, {
+                shouldValidate: true,
+                shouldDirty: true,
+              });
+      resolveAndCheckServerInfo(value, updateFormValue);
     };
 
     useEffect(() => {
@@ -355,7 +391,15 @@ const LoginPage = () => {
             shouldValidate: true,
             shouldDirty: true,
           });
-          checkServerInfo(serverURL);
+          const updateFormValue =
+            restrictBaseUrlMultiple || restrictBaseUrlSingle
+              ? undefined
+              : (nextUrl: string) =>
+                  form.setValue("base_url", nextUrl, {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  });
+          resolveAndCheckServerInfo(serverURL, updateFormValue);
         }
       }, 0);
 
