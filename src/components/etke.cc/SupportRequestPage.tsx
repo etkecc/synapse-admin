@@ -119,7 +119,15 @@ const SupportRequestPage = () => {
   const blobUrlsRef = useRef<string[]>([]);
 
   const fetchRequest = async () => {
-    if (!etkeccAdmin || !id) return;
+    if (!etkeccAdmin || !id) {
+      setFailure(
+        translate("etkecc.support.helper.not_configured", {
+          _: "Support is not configured for this server.",
+        })
+      );
+      setLoading(false);
+      return;
+    }
     try {
       setFailure(null);
       const data = await dataProvider.getSupportRequest(etkeccAdmin, locale, id);

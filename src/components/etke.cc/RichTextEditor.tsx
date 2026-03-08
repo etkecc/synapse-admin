@@ -27,8 +27,17 @@ const RichTextEditor = ({ value, onChange, placeholder, disabled, minRows = 6 }:
   });
 
   useEffect(() => {
-    if (editor && value === "" && !editor.isEmpty) {
-      editor.commands.clearContent();
+    if (!editor) return;
+
+    if (value === "") {
+      if (!editor.isEmpty) {
+        editor.commands.clearContent();
+      }
+      return;
+    }
+
+    if (editor.getHTML() !== value) {
+      editor.commands.setContent(value, false);
     }
   }, [value, editor]);
 
