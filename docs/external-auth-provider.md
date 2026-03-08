@@ -44,7 +44,7 @@ If you are using a web server (like nginx) to serve the Synapse Admin UI, you ca
 ```nginx
 location / {
     try_files $uri $uri/ /index.html;
-    }
+}
 ```
 
 This method is used in Synapse Admin's [Docker image (dist)](../Dockerfile) / [Docker image
