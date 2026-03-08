@@ -319,9 +319,9 @@ const useImportFile = () => {
         userRecord.id = returnMXID(userRecord.id);
 
         // if there are 3PIDs, convert them to objects ("medium:address,..." -> [{medium,address},...])
-        if (userRecord.threepids !== undefined && userRecord.threepids !== "") {
+        if (typeof userRecord.threepids === "string" && userRecord.threepids !== "") {
           const threepids = userRecord.threepids.split(",").map(m => m.trim());
-          const threepidObjs = [];
+          const threepidObjs: { medium: string; address: string }[] = [];
           for (const threepid of threepids) {
             const parts = threepid.split(":");
             if (parts.length !== 2) {

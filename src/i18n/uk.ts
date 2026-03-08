@@ -4,7 +4,7 @@ import { SynapseTranslationMessages } from ".";
 
 const { prev: _ukPrev, ...ukNavigation } = ukrainianMessages.ra.navigation;
 
-const uk: SynapseTranslationMessages = {
+const fixedUkrainianMessages = {
   ...ukrainianMessages,
   ra: {
     ...ukrainianMessages.ra,
@@ -30,12 +30,6 @@ const uk: SynapseTranslationMessages = {
       placeholder_data_warning: "Проблема з мережею: оновлення даних не вдалося.",
       select_all_limit_reached: "Занадто багато елементів для вибору. Обрано лише перші %{max}.",
     },
-    guesser: {
-      empty: {
-        title: "Немає даних для відображення",
-        message: "Перевірте ваш постачальник даних",
-      },
-    },
     notification: {
       ...ukrainianMessages.ra.notification,
       offline: "Немає з’єднання. Дані не вдалося отримати.",
@@ -50,6 +44,10 @@ const uk: SynapseTranslationMessages = {
       unique: "Має бути унікальним",
     },
   },
+};
+
+const uk: SynapseTranslationMessages = {
+  ...fixedUkrainianMessages,
   synapseadmin: {
     auth: {
       base_url: "URL домашнього сервера",

@@ -2,7 +2,7 @@ import japaneseMessages from "@bicstone/ra-language-japanese";
 
 import { SynapseTranslationMessages } from ".";
 
-const ja: SynapseTranslationMessages = {
+const fixedJapaneseMessages = {
   ...japaneseMessages,
   ra: {
     ...japaneseMessages.ra,
@@ -10,13 +10,11 @@ const ja: SynapseTranslationMessages = {
       ...japaneseMessages.ra.validation,
       unique: "一意である必要があります",
     },
-    guesser: {
-      empty: {
-        title: "表示するデータがありません",
-        message: "データプロバイダーを確認してください",
-      },
-    },
   },
+};
+
+const ja: SynapseTranslationMessages = {
+  ...fixedJapaneseMessages,
   synapseadmin: {
     auth: {
       base_url: "ホームサーバーのURL",

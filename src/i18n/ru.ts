@@ -34,12 +34,6 @@ const fixedRussianMessages = {
       select_all_limit_reached: "Слишком много элементов для выбора. Были выбраны только первые %{max} элементов.",
       placeholder_data_warning: "Проблема с сетью: не удалось обновить данные.",
     },
-    guesser: {
-      empty: {
-        title: "Нет данных для отображения",
-        message: "Проверьте ваш провайдер данных",
-      },
-    },
     notification: {
       ...russianMessages.ra.notification,
       offline: "Нет подключения. Не удалось загрузить данные.",
@@ -47,7 +41,8 @@ const fixedRussianMessages = {
   },
 };
 
-const { prev: _ruPrev, ...ruNavigation } = fixedRussianMessages.ra.navigation;
+const { prev: _ruPrev, ...ruNavigation } = fixedRussianMessages.ra
+  .navigation as typeof fixedRussianMessages.ra.navigation & { prev?: unknown };
 
 const ru: SynapseTranslationMessages = {
   ...fixedRussianMessages,

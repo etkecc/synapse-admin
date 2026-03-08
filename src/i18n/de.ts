@@ -37,12 +37,6 @@ const fixedGermanMessages = {
         "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
       placeholder_data_warning: "Netzwerkproblem: Datenaktualisierung fehlgeschlagen.",
     },
-    guesser: {
-      empty: {
-        title: "Keine Daten zum Anzeigen",
-        message: "Bitte überprüfen Sie Ihren Datenanbieter",
-      },
-    },
     notification: {
       ...formalGermanMessages.ra.notification,
       application_update_available: "Eine neue Version ist verfügbar.",

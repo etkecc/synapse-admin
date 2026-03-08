@@ -2,7 +2,7 @@ import farsiMessages from "ra-language-farsi";
 
 import { SynapseTranslationMessages } from ".";
 
-const fa: SynapseTranslationMessages = {
+const fixedFarsiMessages = {
   ...farsiMessages,
   ra: {
     ...farsiMessages.ra,
@@ -21,17 +21,15 @@ const fa: SynapseTranslationMessages = {
       placeholder_data_warning: "مشکل شبکه: به‌روزرسانی داده‌ها ناموفق بود.",
       select_all_limit_reached: "تعداد انتخاب‌ها زیاد است. فقط %{max} مورد اول انتخاب شد.",
     },
-    guesser: {
-      empty: {
-        title: "داده‌ای برای نمایش وجود ندارد",
-        message: "لطفاً ارائه‌دهندهٔ داده را بررسی کنید",
-      },
-    },
     notification: {
       ...farsiMessages.ra.notification,
       offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",
     },
   },
+};
+
+const fa: SynapseTranslationMessages = {
+  ...fixedFarsiMessages,
   synapseadmin: {
     auth: {
       base_url: "آدرس سرور",

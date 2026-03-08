@@ -92,12 +92,6 @@ const it: SynapseTranslationMessages = {
       placeholder_data_warning: "Problema di rete: aggiornamento dei dati non riuscito.",
       select_all_limit_reached: "Troppi elementi da selezionare. Sono stati selezionati solo i primi %{max}.",
     },
-    guesser: {
-      empty: {
-        title: "Nessun dato da mostrare",
-        message: "Controlla il tuo data provider",
-      },
-    },
     notification: {
       ...itRaWithoutPassword.notification,
       application_update_available: "È disponibile un aggiornamento dell'applicazione.",

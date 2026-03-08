@@ -11,7 +11,7 @@ const RateLimitRow = ({
 }: {
   limit: string;
   value: object;
-  updateRateLimit: (limit: string, value: integer | null) => void;
+  updateRateLimit: (limit: string, value: number | null) => void;
 }) => {
   const translate = useTranslate();
 
@@ -76,7 +76,7 @@ const UserRateLimits = () => {
     fetchRateLimits();
   }, [dataProvider, record.id]);
 
-  const updateRateLimit = async (limit: string, value: integer | null) => {
+  const updateRateLimit = async (limit: string, value: number | null) => {
     const updatedRateLimits = { ...rateLimits, [limit]: value };
     setRateLimits(updatedRateLimits);
     form.setValue(`rates.${limit}`, value, { shouldDirty: true });

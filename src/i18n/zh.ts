@@ -32,16 +32,11 @@ const fixedChineseMessages = {
       select_all_limit_reached: "选择的元素太多。只选择了前 %{max} 个元素。",
       placeholder_data_warning: "网络问题：数据刷新失败。",
     },
-    guesser: {
-      empty: {
-        title: "没有可显示的数据",
-        message: "请检查你的数据提供程序",
-      },
-    },
   },
 };
 
-const { prev: _zhPrev, ...zhNavigation } = fixedChineseMessages.ra.navigation;
+const { prev: _zhPrev, ...zhNavigation } = fixedChineseMessages.ra
+  .navigation as typeof fixedChineseMessages.ra.navigation & { prev?: unknown };
 
 const zh: SynapseTranslationMessages = {
   ...fixedChineseMessages,
