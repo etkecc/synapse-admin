@@ -1,0 +1,301 @@
+import { DeleteParams, Identifier, RaRecord } from "react-admin";
+
+import {
+  Destination,
+  DestinationRoom,
+  Device,
+  EventReport,
+  ForwardExtremity,
+  Membership,
+  Pusher,
+  RaServerNotice,
+  Room,
+  RoomState,
+  User,
+  UserMedia,
+  UserMediaStatistic,
+  Whois,
+} from "./types";
+import { RegistrationTokensResource, synapseRegistrationTokensResource } from "./registrationTokens";
+import { returnMXID } from "../utils/mxid";
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export const CACHED_MANY_REF: Record<string, any> = {};
+
+/**
+ * Invalidate cached getManyReference data for keys containing the given pattern.
+ * @param pattern - substring to match against cache keys (e.g., "joined_rooms")
+ */
+export const invalidateManyRefCache = (pattern: string) => {
+  for (const key of Object.keys(CACHED_MANY_REF)) {
+    if (key.includes(pattern)) {
+      delete CACHED_MANY_REF[key];
+    }
+  }
+};
+
+export const resourceMap = {
+  users: {
+    path: "/_synapse/admin/v2/users",
+    map: async (u: User) => ({
+      ...u,
+      id: returnMXID(u.name),
+      avatar_src: u.avatar_url ? u.avatar_url : undefined,
+      is_guest: !!u.is_guest,
+      admin: !!u.admin,
+      deactivated: !!u.deactivated,
+      // need timestamp in milliseconds
+      creation_ts_ms: u.creation_ts * 1000,
+    }),
+    data: "users",
+    total: (json: { total: number }) => json.total,
+    create: (data: RaRecord) => ({
+      endpoint: `/_synapse/admin/v2/users/${encodeURIComponent(returnMXID(data.id))}`,
+      body: data,
+      method: "PUT",
+    }),
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/deactivate/${encodeURIComponent(returnMXID(params.id))}`,
+      body: { erase: true },
+      method: "POST",
+    }),
+  },
+  rooms: {
+    path: "/_synapse/admin/v1/rooms",
+    map: (r: Room) => ({
+      ...r,
+      id: r.room_id,
+      alias: r.canonical_alias,
+      members: r.joined_members,
+      is_encrypted: !!r.encryption,
+      federatable: !!r.federatable,
+      public: !!r.public,
+    }),
+    data: "rooms",
+    total: (json: { total_rooms: number }) => json.total_rooms,
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v2/rooms/${params.id}`,
+      body: { block: params.meta?.block ?? false },
+    }),
+  },
+  reports: {
+    path: "/_synapse/admin/v1/event_reports",
+    map: (er: EventReport) => ({ ...er }),
+    data: "event_reports",
+    total: (json: { total: number }) => json.total,
+  },
+  devices: {
+    map: (d: Device) => ({
+      ...d,
+      id: d.device_id,
+    }),
+    data: "devices",
+    total: (json: { total: number }) => json.total,
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v2/users/${encodeURIComponent(id)}/devices`,
+    }),
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v2/users/${encodeURIComponent(params.previousData.user_id)}/devices/${params.id}`,
+    }),
+  },
+  connections: {
+    path: "/_synapse/admin/v1/whois",
+    map: (c: Whois) => ({
+      ...c,
+      id: c.user_id,
+    }),
+    data: "connections",
+  },
+  room_members: {
+    map: (m: string) => ({
+      id: m,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/rooms/${id}/members`,
+    }),
+    data: "members",
+    total: (json: { total: number }) => json.total,
+  },
+  room_media: {
+    map: (mediaId: string) => ({
+      id: mediaId.replace("mxc://" + localStorage.getItem("home_server") + "/", ""),
+      media_id: mediaId.replace("mxc://" + localStorage.getItem("home_server") + "/", ""),
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/room/${id}/media`,
+    }),
+    total: (json: { total: number }) => json.total,
+    data: "local",
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/media/${localStorage.getItem("home_server")}/${params.id}`,
+    }),
+  },
+  room_state: {
+    map: (rs: RoomState) => ({
+      ...rs,
+      id: rs.event_id,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/rooms/${id}/state`,
+    }),
+    data: "state",
+    total: (json: { state: unknown[] }) => json.state.length,
+  },
+  pushers: {
+    map: (p: Pusher) => ({
+      ...p,
+      id: p.pushkey,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/pushers`,
+    }),
+    data: "pushers",
+    total: (json: { total: number }) => json.total,
+  },
+  joined_rooms: {
+    map: (jr: string) => ({
+      id: jr,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/joined_rooms`,
+    }),
+    data: "joined_rooms",
+    total: (json: { total: number }) => json.total,
+  },
+  memberships: {
+    map: (m: Membership) => ({
+      ...m,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/memberships`,
+    }),
+    data: "memberships",
+    total: (json: { total: number }) => json.total,
+  },
+  users_media: {
+    map: (um: UserMedia) => ({
+      ...um,
+      id: um.media_id,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`,
+    }),
+    data: "media",
+    total: (json: { total: number }) => json.total,
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/media/${localStorage.getItem("home_server")}/${params.id}`,
+    }),
+  },
+  protect_media: {
+    map: (pm: UserMedia) => ({ id: pm.media_id }),
+    create: (params: UserMedia) => ({
+      endpoint: `/_synapse/admin/v1/media/protect/${params.media_id}`,
+      method: "POST",
+      empty_response: true,
+    }),
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/media/unprotect/${params.id}`,
+      method: "POST",
+      empty_response: true,
+    }),
+  },
+  quarantine_media: {
+    map: (qm: UserMedia) => ({ id: qm.media_id }),
+    create: (params: UserMedia) => ({
+      endpoint: `/_synapse/admin/v1/media/quarantine/${localStorage.getItem("home_server")}/${params.media_id}`,
+      method: "POST",
+      empty_response: true,
+    }),
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/media/unquarantine/${localStorage.getItem("home_server")}/${params.id}`,
+      method: "POST",
+      empty_response: true,
+    }),
+  },
+  servernotices: {
+    map: (n: { event_id: string }) => ({ id: n.event_id }),
+    create: (data: RaServerNotice) => ({
+      endpoint: "/_synapse/admin/v1/send_server_notice",
+      body: {
+        user_id: returnMXID(data.id),
+        content: {
+          msgtype: "m.text",
+          body: data.body,
+        },
+      },
+      method: "POST",
+    }),
+  },
+  user_media_statistics: {
+    path: "/_synapse/admin/v1/statistics/users/media",
+    map: (usms: UserMediaStatistic) => ({
+      ...usms,
+      id: returnMXID(usms.user_id),
+    }),
+    data: "users",
+    total: (json: { total: number }) => json.total,
+  },
+  forward_extremities: {
+    map: (fe: ForwardExtremity) => ({
+      ...fe,
+      id: fe.event_id,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/rooms/${id}/forward_extremities`,
+    }),
+    data: "results",
+    total: (json: { count: number }) => json.count,
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/rooms/${params.id}/forward_extremities`,
+    }),
+  },
+  room_directory: {
+    path: "/_matrix/client/v3/publicRooms",
+    map: (rd: Room) => ({
+      ...rd,
+      id: rd.room_id,
+      public: !!rd.public,
+      guest_access: !!rd.guest_access,
+      avatar_src: rd.avatar_url ? rd.avatar_url : undefined,
+    }),
+    data: "chunk",
+    total: (json: { total_room_count_estimate: number }) => json.total_room_count_estimate,
+    create: (params: RaRecord) => ({
+      endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
+      body: { visibility: "public" },
+      method: "PUT",
+      empty_response: true,
+    }),
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
+      body: { visibility: "private" },
+      method: "PUT",
+    }),
+  },
+  destinations: {
+    path: "/_synapse/admin/v1/federation/destinations",
+    map: (dst: Destination) => ({
+      ...dst,
+      id: dst.destination,
+    }),
+    data: "destinations",
+    total: (json: { total: number }) => json.total,
+    delete: (params: DeleteParams) => ({
+      endpoint: `/_synapse/admin/v1/federation/destinations/${params.id}/reset_connection`,
+      method: "POST",
+    }),
+  },
+  destination_rooms: {
+    map: (dstroom: DestinationRoom) => ({
+      ...dstroom,
+      id: dstroom.room_id,
+    }),
+    reference: (id: Identifier) => ({
+      endpoint: `/_synapse/admin/v1/federation/destinations/${id}/rooms`,
+    }),
+    data: "rooms",
+    total: (json: { total: number }) => json.total,
+  },
+  // Default to Synapse API; patched to MAS API at login/page-load via initRegistrationTokens()
+  registration_tokens: synapseRegistrationTokensResource as RegistrationTokensResource,
+};
