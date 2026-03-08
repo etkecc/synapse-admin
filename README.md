@@ -36,6 +36,7 @@
   * [Protecting appservice managed users](#protecting-appservice-managed-users)
   * [Adding custom menu items](#adding-custom-menu-items)
   * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
+    * [Matrix Authentication Service (MAS) specifics](#matrix-authentication-service-mas-specifics)
 * [Usage](#usage)
   * [Supported Synapse](#supported-synapse)
   * [Prerequisites](#prerequisites)
@@ -249,6 +250,10 @@ If you use an external authentication provider (like OIDC, LDAP, etc.) for your 
 you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavior accordingly.
 
 [Documentation](./docs/external-auth-provider.md)
+
+#### Matrix Authentication Service (MAS) specifics
+
+Please see [designated documentation section](./docs/external-auth-provider.md#matrix-authentication-service-mas) for details about using MAS - there are some specific changes that may be needed to enable admin API support in MAS.
 
 ## Usage
 

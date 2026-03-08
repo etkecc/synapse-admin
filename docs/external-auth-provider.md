@@ -29,6 +29,37 @@ http:
 # ...
 ```
 
+### /auth-callback
+
+When using MAS, the `/auth-callback` endpoint is used for handling OIDC callbacks.
+Depending on your deployment method of Synapse Admin, you may need to either configure your web server to fallback to
+`index.html` for this endpoint, or copy the `index.html` file to `auth-callback/index.html` to ensure the endpoint works
+correctly.
+
+**Option 1: Web server fallback**
+
+If you are using a web server (like nginx) to serve the Synapse Admin UI, you can configure it to fallback to
+`index.html` for the `/auth-callback` endpoint. For example, in nginx:
+
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+    }
+```
+
+This method is used in Synapse Admin's [Docker image (dist)](../Dockerfile) / [Docker image
+(build)](../Dockerfile.build) and is recommended for production deployments.
+
+**Option 2: Copy index.html**
+
+Alternatively, you can copy the `index.html` file to `auth-callback/index.html` in the Synapse Admin UI build directory. This way, when the `/auth-callback` endpoint is accessed, it will serve the correct HTML file without needing additional web server configuration.
+
+```bash
+cp index.html auth-callback/index.html
+```
+
+This method is used in Synapse Admin's CDN deployment.
+
 ## Configuration
 
 `externalAuthProvider` accepts a boolean value:
