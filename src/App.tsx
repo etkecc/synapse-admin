@@ -68,7 +68,8 @@ const Route = reactRouterProvider.Route;
 const queryClient = new QueryClient();
 
 export const App = () => {
-  const isCallbackPath = window.location.pathname.endsWith("/auth-callback");
+  const normalizedPathname = window.location.pathname.replace(/\/+$/, "");
+  const isCallbackPath = normalizedPathname.endsWith("/auth-callback");
   const hasAuthCode = new URLSearchParams(window.location.search).has("code");
   const shouldHandleCallback = isCallbackPath && hasAuthCode;
   const [isHandlingCallback, setIsHandlingCallback] = useState(shouldHandleCallback);
@@ -82,7 +83,11 @@ export const App = () => {
       // Clean up the URL to remove /auth-callback for further processing,
       // considering that in some cases (especially bugged older versions) there could be multiple /auth-callback segments.
       // Also ensure there are no double slashes in the URL.
-      let href = window.location.origin + window.location.pathname.replaceAll("/auth-callback", "");
+      let cleanedPathname = normalizedPathname.replaceAll("/auth-callback", "");
+      if (cleanedPathname.endsWith("/")) {
+        cleanedPathname = cleanedPathname.slice(0, -1);
+      }
+      let href = new URL(cleanedPathname || "/", window.location.origin).toString();
       if (href.endsWith("/")) {
         href = href.slice(0, -1);
       }
@@ -102,7 +107,7 @@ export const App = () => {
           window.location.href = `${href}/#/login`;
         });
     }
-  }, [shouldHandleCallback]);
+  }, [shouldHandleCallback, normalizedPathname]);
 
   // Show loading state while handling callback
   if (isHandlingCallback) {
