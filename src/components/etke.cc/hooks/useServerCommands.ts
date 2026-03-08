@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDataProvider, useLocale } from "react-admin";
 
 import { useAppContext } from "../../../Context";
-import { ServerCommand } from "../../../synapse/dataProvider";
+import { ServerCommand } from "../../../synapse/types";
 import { useInstanceConfig } from "../InstanceConfig";
 
 export const useServerCommands = () => {

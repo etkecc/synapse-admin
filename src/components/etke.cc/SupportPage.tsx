@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
 import { EtkeAttribution } from "./EtkeAttribution";
 import RichTextEditor from "./RichTextEditor";
 import { useAppContext } from "../../Context";
-import { SynapseDataProvider, SupportRequest } from "../../synapse/dataProvider";
+import { SynapseDataProvider, SupportRequest } from "../../synapse/types";
 import { useDocTitle } from "../hooks/useDocTitle";
 
 const CreateRequestForm = ({

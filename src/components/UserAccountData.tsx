@@ -3,7 +3,7 @@ import { Typography, Box, Stack, Accordion, AccordionSummary, AccordionDetails }
 import { useEffect, useState } from "react";
 import { useDataProvider, useRecordContext, useTranslate } from "react-admin";
 
-import { SynapseDataProvider } from "../synapse/dataProvider";
+import { SynapseDataProvider } from "../synapse/types";
 
 const UserAccountData = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;

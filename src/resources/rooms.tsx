@@ -62,7 +62,7 @@ import AvatarField from "../components/AvatarField";
 import DeleteRoomButton from "../components/DeleteRoomButton";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField } from "../components/media";
-import { Room } from "../synapse/dataProvider";
+import { Room } from "../synapse/types";
 import { DATE_FORMAT } from "../utils/date";
 
 const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;

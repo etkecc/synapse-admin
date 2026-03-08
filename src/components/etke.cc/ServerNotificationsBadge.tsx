@@ -22,7 +22,7 @@ import { useDataProvider, useLocale, useStore, useTranslate } from "react-admin"
 import { useNavigate } from "react-router";
 
 import { useAppContext } from "../../Context";
-import { ServerNotificationsResponse, ServerProcessResponse } from "../../synapse/dataProvider";
+import { ServerNotificationsResponse, ServerProcessResponse } from "../../synapse/types";
 import { getTimeSince } from "../../utils/date";
 
 // 5 minutes
