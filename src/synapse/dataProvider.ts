@@ -172,6 +172,61 @@ const filterUndefined = (obj: Record<string, any>) => {
   return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
 };
 
+interface MasPaginationLinks {
+  self?: string;
+  first?: string;
+  last?: string;
+  next?: string;
+  prev?: string;
+}
+
+interface MasPageMeta {
+  page?: {
+    cursor?: string;
+  };
+}
+
+const masRegistrationTokensPageCursors = new Map<string, Map<number, string>>();
+
+const getMasRegistrationTokensCursorKey = (params: PaginationPayload, valid?: boolean) => {
+  return JSON.stringify({
+    perPage: params.perPage,
+    valid,
+  });
+};
+
+const getMasRegistrationTokensPageCursor = (cacheKey: string, page: number) => {
+  return masRegistrationTokensPageCursors.get(cacheKey)?.get(page);
+};
+
+const setMasRegistrationTokensPageCursor = (cacheKey: string, page: number, cursor: string) => {
+  const cache = masRegistrationTokensPageCursors.get(cacheKey) ?? new Map<number, string>();
+  cache.set(page, cursor);
+  masRegistrationTokensPageCursors.set(cacheKey, cache);
+};
+
+const getMasNextPageCursor = (json: MASRegistrationTokenListResponse) => {
+  if (json.links?.next) {
+    try {
+      const url = new URL(json.links.next, "https://example.invalid");
+      const cursor = url.searchParams.get("page[after]");
+      if (cursor) {
+        return cursor;
+      }
+    } catch {
+      // Ignore malformed pagination links.
+    }
+  }
+
+  const data = json.data;
+  if (!Array.isArray(data) || data.length === 0) {
+    return undefined;
+  }
+
+  const last = data[data.length - 1];
+  return last?.meta?.page?.cursor ?? last?.id;
+};
+
 interface BaseRegistrationTokensResource {
   path: string;
   data: string;
@@ -473,6 +528,7 @@ interface MASRegistrationTokenResource {
   type: string;
   id: string;
   attributes: MASRegistrationTokenAttributes;
+  meta?: MasPageMeta;
   links: {
     self: string;
   };
@@ -490,9 +546,7 @@ interface MASRegistrationTokenListResponse {
   meta?: {
     count?: number;
   };
-  links?: {
-    self?: string;
-  };
+  links?: MasPaginationLinks;
 }
 
 interface RaServerNotice {
@@ -1040,9 +1094,13 @@ const baseDataProvider: SynapseDataProvider = {
     // Build query based on API type
     let query: Record<string, any>;
     if (res.isMas) {
+      const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
+      const pageAfter = page > 1 ? getMasRegistrationTokensPageCursor(cursorKey, page) : undefined;
+
       // MAS API uses different pagination parameters
       query = {
         "page[first]": perPage,
+        "page[after]": pageAfter,
         "filter[valid]": valid,
         count: "true",
       };
@@ -1073,6 +1131,14 @@ const baseDataProvider: SynapseDataProvider = {
 
     const { json } = await jsonClient(url);
     const formattedData = json[res.data].map(res.map);
+
+    if (res.isMas) {
+      const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
+      const nextCursor = getMasNextPageCursor(json as MASRegistrationTokenListResponse);
+      if (nextCursor) {
+        setMasRegistrationTokensPageCursor(cursorKey, page + 1, nextCursor);
+      }
+    }
 
     return {
       data: formattedData,

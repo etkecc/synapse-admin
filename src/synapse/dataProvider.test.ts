@@ -108,4 +108,78 @@ describe("dataProvider", () => {
 
     expect(fetch).not.toHaveBeenCalled();
   });
+
+  it("uses MAS pagination cursor on page 2", async () => {
+    jest.resetModules();
+    // Re-import after reset so MAS registration tokens init isn't cached from prior tests.
+    const { default: freshDataProvider } = await import("./dataProvider");
+
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+
+    const masListPage1 = {
+      links: {
+        self: "/api/admin/v1/user-registration-tokens?page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V&page%5Bfirst%5D=10",
+        first: "/api/admin/v1/user-registration-tokens?page%5Bfirst%5D=10",
+        last: "/api/admin/v1/user-registration-tokens?page%5Bafter%5D=01JB4PAPG3N9FS0YVQTMYV0NG&page%5Bfirst%5D=10",
+        next: "/api/admin/v1/user-registration-tokens?page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V&page%5Bfirst%5D=10",
+        prev: null,
+      },
+      data: [
+        {
+          type: "user-registration-token",
+          id: "01JB4PAPAMESEFX6CNP1JA5M6V",
+          attributes: {
+            token: "5lQl96lyEJwMRx1c1Vx0Q2O93",
+            valid: true,
+            usage_limit: null,
+            times_used: 0,
+            created_at: "2024-06-10T10:12:21.184Z",
+            last_used_at: null,
+            expires_at: null,
+            revoked_at: null,
+          },
+        },
+      ],
+      meta: {
+        count: 1,
+      },
+    };
+
+    const masListPage2 = {
+      links: {
+        self: "/api/admin/v1/user-registration-tokens?page%5Bafter%5D=01JB4PAPG3N9FS0YVQTMYV0NG&page%5Bfirst%5D=10",
+        first: "/api/admin/v1/user-registration-tokens?page%5Bfirst%5D=10",
+        last: "/api/admin/v1/user-registration-tokens?page%5Bafter%5D=01JB4PAPG3N9FS0YVQTMYV0NG&page%5Bfirst%5D=10",
+        next: null,
+        prev: "/api/admin/v1/user-registration-tokens?page%5Bbefore%5D=01JB4PAPG3N9FS0YVQTMYV0NG&page%5Bfirst%5D=10",
+      },
+      data: [],
+      meta: {
+        count: 1,
+      },
+    };
+
+    fetchMock
+      .mockResponseOnce(JSON.stringify({}))
+      .mockResponseOnce(JSON.stringify(masListPage1))
+      .mockResponseOnce(JSON.stringify(masListPage2));
+
+    await freshDataProvider.getList("registration_tokens", {
+      pagination: { page: 1, perPage: 10 },
+      sort: { field: "token", order: "ASC" },
+      filter: { valid: true },
+    });
+
+    await freshDataProvider.getList("registration_tokens", {
+      pagination: { page: 2, perPage: 10 },
+      sort: { field: "token", order: "ASC" },
+      filter: { valid: true },
+    });
+
+    const [page2Url] = fetchMock.mock.calls[2];
+    expect(page2Url).toContain("http://mas.example/api/admin/v1/user-registration-tokens?");
+    expect(page2Url).toContain("page%5Bfirst%5D=10");
+    expect(page2Url).toContain("page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V");
+    expect(page2Url).toContain("filter%5Bvalid%5D=true");
+  });
 });
