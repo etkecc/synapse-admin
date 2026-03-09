@@ -31,7 +31,7 @@ import {
   useTranslate,
 } from "react-admin";
 
-import { DeleteMediaParams, SynapseDataProvider } from "../synapse/types";
+import { DeleteMediaParams, SynapseDataProvider } from "../providers/types";
 import { dateParser } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";

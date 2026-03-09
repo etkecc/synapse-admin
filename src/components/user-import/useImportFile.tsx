@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useTranslate, useNotify, HttpError } from "react-admin";
 
 import { ImportLine, ParsedStats, Progress, ImportResult, ChangeStats } from "./types";
-import dataProvider from "../../synapse/dataProvider";
+import dataProvider from "../../providers/dataProvider";
 import { returnMXID } from "../../utils/mxid";
 import { generateRandomMXID } from "../../utils/mxid";
 import { generateRandomPassword } from "../../utils/password";

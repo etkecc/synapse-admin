@@ -20,7 +20,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { useServerCommands } from "./hooks/useServerCommands";
-import { ServerCommand, ServerProcessResponse } from "../../synapse/types";
+import { ServerCommand, ServerProcessResponse } from "../../providers/types";
 import { Icons } from "../../utils/icons";
 
 const renderIcon = (icon: string) => {

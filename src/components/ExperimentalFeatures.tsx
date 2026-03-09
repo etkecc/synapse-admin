@@ -4,7 +4,7 @@ import { useRecordContext } from "react-admin";
 import { useNotify } from "react-admin";
 import { useDataProvider } from "react-admin";
 
-import { ExperimentalFeaturesModel, SynapseDataProvider } from "../synapse/types";
+import { ExperimentalFeaturesModel, SynapseDataProvider } from "../providers/types";
 
 const experimentalFeaturesMap = {
   msc3881: "enable remotely toggling push notifications for another client",

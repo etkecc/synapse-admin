@@ -20,7 +20,7 @@ import {
 
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
-import { ServerProcessResponse, ServerStatusResponse } from "../synapse/types";
+import { ServerProcessResponse, ServerStatusResponse } from "../providers/types";
 import { ClearConfig } from "../utils/config";
 import { Icons, DefaultIcon } from "../utils/icons";
 import { EtkeAttribution } from "./etke.cc/EtkeAttribution";

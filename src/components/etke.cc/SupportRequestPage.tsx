@@ -20,7 +20,7 @@ import { Title, useDataProvider, useLocale, useNotify, useStore, useTranslate } 
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useAppContext } from "../../Context";
-import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../synapse/types";
+import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../providers/types";
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
 import { useDocTitle } from "../hooks/useDocTitle";
 import RichTextEditor from "./RichTextEditor";

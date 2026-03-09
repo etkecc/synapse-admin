@@ -1,4 +1,4 @@
-import { DataProvider, Identifier } from "react-admin";
+import { DataProvider, DeleteParams, Identifier, RaRecord, UpdateParams } from "react-admin";
 
 export interface MasPaginationLinks {
   self?: string;
@@ -213,6 +213,29 @@ export interface MASRegistrationTokenListResponse {
   };
   links?: MasPaginationLinks;
 }
+
+export interface BaseRegistrationTokensResource {
+  path: string;
+  data: string;
+  create: (params: RaRecord) => { endpoint: string; body: object; method: string };
+  delete: (params: DeleteParams) => { endpoint: string; method?: string; body?: object };
+}
+
+export interface SynapseRegistrationTokensResourceType extends BaseRegistrationTokensResource {
+  isMas: false;
+  map: (token: RegistrationToken) => object;
+  total: (json: { registration_tokens: unknown[] }) => number;
+}
+
+export interface MASRegistrationTokensResourceType extends BaseRegistrationTokensResource {
+  isMas: true;
+  map: (token: MASRegistrationToken | MASRegistrationTokenResource) => object;
+  total: (json: MASRegistrationTokenListResponse) => number;
+  handleCreateResponse: (token: MASRegistrationToken) => object;
+  update: (params: UpdateParams) => { endpoint: string; body: object; method: string };
+}
+
+export type RegistrationTokensResource = SynapseRegistrationTokensResourceType | MASRegistrationTokensResourceType;
 
 export interface RaServerNotice {
   id: string;

@@ -5,8 +5,8 @@ import { Tooltip } from "@mui/material";
 import { Title, useLocale, useStore, useTranslate } from "react-admin";
 
 import { useAppContext } from "../../Context";
-import dataProvider from "../../synapse/dataProvider";
-import { ServerNotificationsResponse } from "../../synapse/types";
+import dataProvider from "../../providers/dataProvider";
+import { ServerNotificationsResponse } from "../../providers/types";
 import { getTimeSince } from "../../utils/date";
 import { useDocTitle } from "../hooks/useDocTitle";
 

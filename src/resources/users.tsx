@@ -82,7 +82,7 @@ import UserAccountData from "../components/UserAccountData";
 import UserRateLimits from "../components/UserRateLimits";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
-import { User, UsernameAvailabilityResult } from "../synapse/types";
+import { User, UsernameAvailabilityResult } from "../providers/types";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";

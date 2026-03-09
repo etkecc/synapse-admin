@@ -6,7 +6,7 @@ import { Button, Confirm } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
 import { useAppContext } from "../../../../../Context";
-import { RecurringCommand } from "../../../../../synapse/types";
+import { RecurringCommand } from "../../../../../providers/types";
 
 const RecurringDeleteButton = () => {
   const record = useRecordContext() as RecurringCommand;

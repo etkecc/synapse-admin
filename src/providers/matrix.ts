@@ -1,4 +1,6 @@
-import { fetchUtils } from "react-admin";
+import { DeleteParams, RaRecord, fetchUtils } from "react-admin";
+
+import { Room } from "./types";
 
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { generateDeviceId } from "../utils/password";
@@ -52,17 +54,6 @@ export const getWellKnownUrl = async domain => {
     // if there is no .well-known entry, return the domain itself
     return `https://${domain}`;
   }
-};
-
-/**
- * Get synapse server version
- * @param base_url  the base URL of the homeserver
- * @returns server version
- */
-export const getServerVersion = async baseUrl => {
-  const versionUrl = `${baseUrl}/_synapse/admin/v1/server_version`;
-  const response = await fetchUtils.fetchJson(versionUrl, { method: "GET" });
-  return response.json.server_version;
 };
 
 /** Get supported Matrix features */
@@ -253,4 +244,28 @@ export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: stri
     scope,
     responseType: "code",
   };
+};
+
+export const roomDirectoryResource = {
+  path: "/_matrix/client/v3/publicRooms",
+  map: (rd: Room) => ({
+    ...rd,
+    id: rd.room_id,
+    public: !!rd.public,
+    guest_access: !!rd.guest_access,
+    avatar_src: rd.avatar_url ? rd.avatar_url : undefined,
+  }),
+  data: "chunk",
+  total: (json: { total_room_count_estimate: number }) => json.total_room_count_estimate,
+  create: (params: RaRecord) => ({
+    endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
+    body: { visibility: "public" },
+    method: "PUT",
+    empty_response: true,
+  }),
+  delete: (params: DeleteParams) => ({
+    endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
+    body: { visibility: "private" },
+    method: "PUT",
+  }),
 };

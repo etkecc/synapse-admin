@@ -8,7 +8,7 @@ import { Button, useDataProvider, useLocale, useStore, useTranslate } from "reac
 import { useNavigate } from "react-router";
 
 import { useAppContext } from "../../Context";
-import { ServerProcessResponse, ServerStatusResponse } from "../../synapse/types";
+import { ServerProcessResponse, ServerStatusResponse } from "../../providers/types";
 
 interface StyledBadgeProps extends BadgeProps {
   backgroundColor: string;

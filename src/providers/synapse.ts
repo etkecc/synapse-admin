@@ -1,4 +1,4 @@
-import { DeleteParams, Identifier, RaRecord } from "react-admin";
+import { DeleteParams, Identifier, RaRecord, fetchUtils } from "react-admin";
 
 import {
   Destination,
@@ -9,23 +9,28 @@ import {
   Membership,
   Pusher,
   RaServerNotice,
+  RegistrationToken,
   Room,
   RoomState,
+  SynapseRegistrationTokensResourceType,
   User,
   UserMedia,
   UserMediaStatistic,
   Whois,
 } from "./types";
-import { RegistrationTokensResource, synapseRegistrationTokensResource } from "./registrationTokens";
 import { returnMXID } from "../utils/mxid";
+
+/**
+ * Get Synapse server version via /_synapse/admin/v1/server_version
+ */
+export const getServerVersion = async (baseUrl: string): Promise<string> => {
+  const response = await fetchUtils.fetchJson(`${baseUrl}/_synapse/admin/v1/server_version`, { method: "GET" });
+  return response.json.server_version;
+};
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export const CACHED_MANY_REF: Record<string, any> = {};
 
-/**
- * Invalidate cached getManyReference data for keys containing the given pattern.
- * @param pattern - substring to match against cache keys (e.g., "joined_rooms")
- */
 export const invalidateManyRefCache = (pattern: string) => {
   for (const key of Object.keys(CACHED_MANY_REF)) {
     if (key.includes(pattern)) {
@@ -34,7 +39,23 @@ export const invalidateManyRefCache = (pattern: string) => {
   }
 };
 
-export const resourceMap = {
+export const synapseRegistrationTokensResource: SynapseRegistrationTokensResourceType = {
+  path: "/_synapse/admin/v1/registration_tokens",
+  isMas: false,
+  map: (rt: RegistrationToken) => ({ ...rt, id: rt.token }),
+  data: "registration_tokens",
+  total: json => json.registration_tokens.length,
+  create: (params: RaRecord) => ({
+    endpoint: "/_synapse/admin/v1/registration_tokens/new",
+    body: params,
+    method: "POST",
+  }), // Synapse accepts Unix timestamps as-is
+  delete: (params: DeleteParams) => ({
+    endpoint: `/_synapse/admin/v1/registration_tokens/${params.id}`,
+  }),
+};
+
+export const synapseResourceMap = {
   users: {
     path: "/_synapse/admin/v2/users",
     map: async (u: User) => ({
@@ -85,10 +106,7 @@ export const resourceMap = {
     total: (json: { total: number }) => json.total,
   },
   devices: {
-    map: (d: Device) => ({
-      ...d,
-      id: d.device_id,
-    }),
+    map: (d: Device) => ({ ...d, id: d.device_id }),
     data: "devices",
     total: (json: { total: number }) => json.total,
     reference: (id: Identifier) => ({
@@ -100,19 +118,12 @@ export const resourceMap = {
   },
   connections: {
     path: "/_synapse/admin/v1/whois",
-    map: (c: Whois) => ({
-      ...c,
-      id: c.user_id,
-    }),
+    map: (c: Whois) => ({ ...c, id: c.user_id }),
     data: "connections",
   },
   room_members: {
-    map: (m: string) => ({
-      id: m,
-    }),
-    reference: (id: Identifier) => ({
-      endpoint: `/_synapse/admin/v1/rooms/${id}/members`,
-    }),
+    map: (m: string) => ({ id: m }),
+    reference: (id: Identifier) => ({ endpoint: `/_synapse/admin/v1/rooms/${id}/members` }),
     data: "members",
     total: (json: { total: number }) => json.total,
   },
@@ -121,9 +132,7 @@ export const resourceMap = {
       id: mediaId.replace("mxc://" + localStorage.getItem("home_server") + "/", ""),
       media_id: mediaId.replace("mxc://" + localStorage.getItem("home_server") + "/", ""),
     }),
-    reference: (id: Identifier) => ({
-      endpoint: `/_synapse/admin/v1/room/${id}/media`,
-    }),
+    reference: (id: Identifier) => ({ endpoint: `/_synapse/admin/v1/room/${id}/media` }),
     total: (json: { total: number }) => json.total,
     data: "local",
     delete: (params: DeleteParams) => ({
@@ -131,21 +140,13 @@ export const resourceMap = {
     }),
   },
   room_state: {
-    map: (rs: RoomState) => ({
-      ...rs,
-      id: rs.event_id,
-    }),
-    reference: (id: Identifier) => ({
-      endpoint: `/_synapse/admin/v1/rooms/${id}/state`,
-    }),
+    map: (rs: RoomState) => ({ ...rs, id: rs.event_id }),
+    reference: (id: Identifier) => ({ endpoint: `/_synapse/admin/v1/rooms/${id}/state` }),
     data: "state",
     total: (json: { state: unknown[] }) => json.state.length,
   },
   pushers: {
-    map: (p: Pusher) => ({
-      ...p,
-      id: p.pushkey,
-    }),
+    map: (p: Pusher) => ({ ...p, id: p.pushkey }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/pushers`,
     }),
@@ -153,9 +154,7 @@ export const resourceMap = {
     total: (json: { total: number }) => json.total,
   },
   joined_rooms: {
-    map: (jr: string) => ({
-      id: jr,
-    }),
+    map: (jr: string) => ({ id: jr }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/joined_rooms`,
     }),
@@ -163,9 +162,7 @@ export const resourceMap = {
     total: (json: { total: number }) => json.total,
   },
   memberships: {
-    map: (m: Membership) => ({
-      ...m,
-    }),
+    map: (m: Membership) => ({ ...m }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(id)}/memberships`,
     }),
@@ -173,10 +170,7 @@ export const resourceMap = {
     total: (json: { total: number }) => json.total,
   },
   users_media: {
-    map: (um: UserMedia) => ({
-      ...um,
-      id: um.media_id,
-    }),
+    map: (um: UserMedia) => ({ ...um, id: um.media_id }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`,
     }),
@@ -218,28 +212,19 @@ export const resourceMap = {
       endpoint: "/_synapse/admin/v1/send_server_notice",
       body: {
         user_id: returnMXID(data.id),
-        content: {
-          msgtype: "m.text",
-          body: data.body,
-        },
+        content: { msgtype: "m.text", body: data.body },
       },
       method: "POST",
     }),
   },
   user_media_statistics: {
     path: "/_synapse/admin/v1/statistics/users/media",
-    map: (usms: UserMediaStatistic) => ({
-      ...usms,
-      id: returnMXID(usms.user_id),
-    }),
+    map: (usms: UserMediaStatistic) => ({ ...usms, id: returnMXID(usms.user_id) }),
     data: "users",
     total: (json: { total: number }) => json.total,
   },
   forward_extremities: {
-    map: (fe: ForwardExtremity) => ({
-      ...fe,
-      id: fe.event_id,
-    }),
+    map: (fe: ForwardExtremity) => ({ ...fe, id: fe.event_id }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/rooms/${id}/forward_extremities`,
     }),
@@ -249,35 +234,9 @@ export const resourceMap = {
       endpoint: `/_synapse/admin/v1/rooms/${params.id}/forward_extremities`,
     }),
   },
-  room_directory: {
-    path: "/_matrix/client/v3/publicRooms",
-    map: (rd: Room) => ({
-      ...rd,
-      id: rd.room_id,
-      public: !!rd.public,
-      guest_access: !!rd.guest_access,
-      avatar_src: rd.avatar_url ? rd.avatar_url : undefined,
-    }),
-    data: "chunk",
-    total: (json: { total_room_count_estimate: number }) => json.total_room_count_estimate,
-    create: (params: RaRecord) => ({
-      endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
-      body: { visibility: "public" },
-      method: "PUT",
-      empty_response: true,
-    }),
-    delete: (params: DeleteParams) => ({
-      endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
-      body: { visibility: "private" },
-      method: "PUT",
-    }),
-  },
   destinations: {
     path: "/_synapse/admin/v1/federation/destinations",
-    map: (dst: Destination) => ({
-      ...dst,
-      id: dst.destination,
-    }),
+    map: (dst: Destination) => ({ ...dst, id: dst.destination }),
     data: "destinations",
     total: (json: { total: number }) => json.total,
     delete: (params: DeleteParams) => ({
@@ -286,16 +245,11 @@ export const resourceMap = {
     }),
   },
   destination_rooms: {
-    map: (dstroom: DestinationRoom) => ({
-      ...dstroom,
-      id: dstroom.room_id,
-    }),
+    map: (dstroom: DestinationRoom) => ({ ...dstroom, id: dstroom.room_id }),
     reference: (id: Identifier) => ({
       endpoint: `/_synapse/admin/v1/federation/destinations/${id}/rooms`,
     }),
     data: "rooms",
     total: (json: { total: number }) => json.total,
   },
-  // Default to Synapse API; patched to MAS API at login/page-load via initRegistrationTokens()
-  registration_tokens: synapseRegistrationTokensResource as RegistrationTokensResource,
 };

@@ -19,8 +19,9 @@ import {
   getMasRegistrationTokensPageCursor,
   setMasRegistrationTokensPageCursor,
   filterUndefined,
-} from "./masUtils";
-import { getRegistrationTokensResource } from "./registrationTokens";
+} from "./mas";
+import { synapseRegistrationTokensResource } from "./synapse";
+import { checkMasAdminApiAvailable, getMasRegistrationTokensResource, isMasInstance } from "./mas";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
 import { etkeProviderMethods } from "./etkeProvider";
 import { returnMXID } from "../utils/mxid";
@@ -49,7 +50,11 @@ export const initRegistrationTokens = async () => {
   }
 
   registrationTokensInitPromise = (async () => {
-    resourceMap.registration_tokens = await getRegistrationTokensResource();
+    if (isMasInstance() && (await checkMasAdminApiAvailable())) {
+      resourceMap.registration_tokens = getMasRegistrationTokensResource();
+    } else {
+      resourceMap.registration_tokens = synapseRegistrationTokensResource;
+    }
   })();
 
   return registrationTokensInitPromise;

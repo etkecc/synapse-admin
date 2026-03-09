@@ -1,6 +1,11 @@
-import { PaginationPayload } from "react-admin";
+import { DeleteParams, PaginationPayload, RaRecord, UpdateParams } from "react-admin";
 
-import { MASRegistrationToken, MASRegistrationTokenListResponse, MASRegistrationTokenResource } from "./types";
+import {
+  MASRegistrationToken,
+  MASRegistrationTokenListResponse,
+  MASRegistrationTokenResource,
+  MASRegistrationTokensResourceType,
+} from "./types";
 import { jsonClient } from "./httpClients";
 
 /**
@@ -122,3 +127,41 @@ export const getMasNextPageCursor = (json: MASRegistrationTokenListResponse) => 
   const last = data[data.length - 1];
   return last?.meta?.page?.cursor ?? last?.id;
 };
+
+export const getMasRegistrationTokensResource = (): MASRegistrationTokensResourceType => ({
+  path: "/api/admin/v1/user-registration-tokens",
+  isMas: true,
+  map: (token: MASRegistrationToken | MASRegistrationTokenResource) => {
+    const resource = getMasTokenResource(token);
+    const converted = convertMasTokenToSynapse(resource);
+    return { ...converted, id: resource.id || converted.token };
+  },
+  data: "data",
+  total: (json: MASRegistrationTokenListResponse) => json.meta?.count || 0,
+  create: (params: RaRecord) => ({
+    endpoint: "/api/admin/v1/user-registration-tokens",
+    body: {
+      token: params.token || undefined,
+      usage_limit: params.uses_allowed ?? undefined,
+      expires_at: toRfc3339(params.expiry_time),
+    },
+    method: "POST",
+  }),
+  handleCreateResponse: (token: MASRegistrationToken) => {
+    const resource = getMasTokenResource(token);
+    const converted = convertMasTokenToSynapse(resource);
+    return { ...converted, id: resource.id || converted.token };
+  },
+  delete: (params: DeleteParams) => ({
+    endpoint: `/api/admin/v1/user-registration-tokens/${params.id}/revoke`,
+    method: "POST",
+  }),
+  update: (params: UpdateParams) => ({
+    endpoint: `/api/admin/v1/user-registration-tokens/${params.id}`,
+    body: {
+      usage_limit: params.data.uses_allowed ?? undefined,
+      expires_at: toRfc3339(params.data.expiry_time),
+    },
+    method: "PUT",
+  }),
+});

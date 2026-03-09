@@ -7,7 +7,7 @@ import { Title } from "react-admin";
 
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { EtkeAttribution } from "./EtkeAttribution";
-import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/types";
+import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../providers/types";
 import { useDocTitle } from "../hooks/useDocTitle";
 
 const StatusChip = ({
