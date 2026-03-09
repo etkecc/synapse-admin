@@ -23,29 +23,30 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Fork differences](#fork-differences)
-  * [Availability](#availability)
-    * [IPFS](#ipfs)
-  * [Changes](#changes)
-    * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
-  * [Development](#development)
-  * [Support](#support)
+    * [Availability](#availability)
+        * [Prebuilt distributions](#prebuilt-distributions)
+        * [IPFS](#ipfs)
+    * [Changes](#changes)
+        * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
+    * [Development](#development)
+    * [Support](#support)
 * [Configuration](#configuration)
-  * [Prefilling login form](#prefilling-login-form)
-  * [Restricting available homeserver](#restricting-available-homeserver)
-  * [Configuring CORS credentials](#configuring-cors-credentials)
-  * [Protecting appservice managed users](#protecting-appservice-managed-users)
-  * [Adding custom menu items](#adding-custom-menu-items)
-  * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
-    * [Matrix Authentication Service (MAS) specifics](#matrix-authentication-service-mas-specifics)
+    * [Prefilling login form](#prefilling-login-form)
+    * [Restricting available homeserver](#restricting-available-homeserver)
+    * [Configuring CORS credentials](#configuring-cors-credentials)
+    * [Protecting appservice managed users](#protecting-appservice-managed-users)
+    * [Adding custom menu items](#adding-custom-menu-items)
+    * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
+        * [Matrix Authentication Service (MAS) specifics](#matrix-authentication-service-mas-specifics)
 * [Usage](#usage)
-  * [Supported Synapse](#supported-synapse)
-  * [Prerequisites](#prerequisites)
-  * [Use without install](#use-without-install)
-  * [Step-By-Step install](#step-by-step-install)
-    * [Steps for 1)](#steps-for-1)
-    * [Steps for 2)](#steps-for-2)
-    * [Steps for 3)](#steps-for-3)
-  * [Serving Synapse Admin on a different path](#serving-synapse-admin-on-a-different-path)
+    * [Supported Synapse](#supported-synapse)
+    * [Prerequisites](#prerequisites)
+    * [Use without install](#use-without-install)
+    * [Step-by-step installation](#step-by-step-installation)
+        * [Steps for 1)](#steps-for-1)
+        * [Steps for 2)](#steps-for-2)
+        * [Steps for 3)](#steps-for-3)
+    * [Serving Synapse Admin on a different path](#serving-synapse-admin-on-a-different-path)
 * [Development](#development-1)
 
 <!-- vim-markdown-toc -->
@@ -61,11 +62,22 @@ The full list is described below in the [Changes](#changes) section.
 
 * As a core/default component on [etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=synapse-admin)
 * As a standalone app on [admin.etke.cc](https://admin.etke.cc)
-* As a prebuilt distribution on [GitHub Releases](https://github.com/etkecc/synapse-admin/releases)
+* As a prebuilt distribution on [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) for root-path (e.g., `https://admin.example.com`, `synapse-admin.tar.gz`) and `admin` subpath (e.g., `https://example.com/admin`, `synapse-admin-subpath-admin.tar.gz`) deployment
+* As a prebuilt snapshot of the latest development version from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) (click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-admin` artifact depending on your desired deployment path)
 * As a Docker container on [Docker Hub](https://hub.docker.com/r/etkecc/synapse-admin) and [GitHub Container Registry](https://github.com/etkecc/synapse-admin/pkgs/container/synapse-admin)
 * As a component in [Matrix-Docker-Ansible-Deploy Playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)
 * As a [Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc) maintained by [@Defelo](https://github.com/Defelo)
 * As a [Arch Linux AUR package](https://aur.archlinux.org/packages/synapse-admin-etke-git) maintained by [@drygdryg](https://github.com/drygdryg)
+
+#### Prebuilt distributions
+
+We offer two prebuilt distributions for different deployment paths:
+* (default) for root path (e.g., `https://admin.example.com`) as `synapse-admin.tar.gz`
+* for `admin` subpath (e.g., `https://example.com/admin`) as `synapse-admin-subpath-admin.tar.gz`
+
+You can find the latest **released** versions on the [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) - download the appropriate `.tar.gz` file and follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
+
+You can find the latest **development (nightly)** versions in the [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) - click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-admin` artifact depending on your desired deployment path. After that, follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
 
 #### IPFS
 
@@ -283,9 +295,9 @@ via [admin.etke.cc](https://admin.etke.cc).
 **Note:**
 If you want to use the deployment, you have to make sure that the admin endpoints (`/_synapse/admin`) are accessible for your browser.
 **Remember: You have no need to expose these endpoints to the internet but to your network.**
-If you want your own deployment, follow the [Step-By-Step Install Guide](#step-by-step-install) below.
+If you want your own deployment, follow the [step-by-step installation guide](#step-by-step-installation) below.
 
-### Step-By-Step install
+### Step-by-step installation
 
 You have three options:
 
@@ -297,9 +309,11 @@ You have three options:
 
 - make sure you have a webserver installed that can serve static files (any webserver like nginx or apache will do)
 - configure a vhost for synapse admin on your webserver
-- download the .tar.gz [from the latest release](https://github.com/etkecc/synapse-admin/releases/latest)
+- download the appropriate `.tar.gz` file [from the latest release](https://github.com/etkecc/synapse-admin/releases/latest):
+- `synapse-admin.tar.gz` for root path (e.g., `https://admin.example.com`)
+- `synapse-admin-subpath-admin.tar.gz` for `/admin` subpath (e.g., `https://example.com/admin`)
 - unpack the .tar.gz
-- move or symlink the `synapse-admin` into your vhosts root dir
+- move or symlink the unpacked directory into your vhost's root directory (`synapse-admin` for root path, `synapse-admin-subpath-admin` for `/admin`)
 - open the url of the vhost in your browser
 
 [Reverse Proxy Documentation with Examples](./docs/reverse-proxy.md)
@@ -342,6 +356,10 @@ You have three options:
 ### Serving Synapse Admin on a different path
 
 The path prefix where synapse-admin is served can only be changed during the build step.
+
+If you need `/admin` specifically, use the prebuilt `synapse-admin-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
+If you need the root path, use the prebuilt `synapse-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
+For any other prefix, you must build your own distribution.
 
 If you downloaded the source code, use `yarn build --base=/my-prefix` to set a path prefix.
 

@@ -4,12 +4,12 @@ When you use an external authentication provider (like OIDC, LDAP, etc.) your Sy
 but unfortunately, the API does not expose which provider is used (and if it is used at all), especially if you use a
 seamless/hidden password provider that does not announce itself.
 
-To workaround such cases, the `externalAuthProvider` config option can be set to `true` to change Synapse Admin's
+To work around such cases, the `externalAuthProvider` config option can be set to `true` to change Synapse Admin's
 behavior to better suit setups with external auth providers. Currently, the following changes are made:
 * Do not require a new password when reactivating a user
-* Do not show guests filter in the users list
+* Do not show the guests filter in the users list
 
-Note: for OIDC ("next-gen auth"), Synapse Admin adjusts its behavior automatically, so this config option is not required.
+Note: For OIDC ("next-gen auth"), Synapse Admin adjusts its behavior automatically, so this config option is not required.
 
 ## Matrix Authentication Service (MAS)
 
@@ -46,7 +46,7 @@ location / {
 }
 ```
 
-This method is used in Synapse Admin's [Docker image (dist)](../Dockerfile) / [Docker image
+This method is used in Synapse Admin's [Docker images (dist)](../Dockerfile) and [Docker image
 (build)](../Dockerfile.build) and is recommended for production deployments.
 
 ## Configuration

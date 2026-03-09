@@ -1,6 +1,6 @@
 # Restricting available homeserver
 
-If you want to have your Synapse Admin instance work only with specific homeserver(-s),
+If you want to have your Synapse Admin instance work only with specific homeserver(s),
 you can do that by setting `restrictBaseUrl` in the configuration.
 
 ## Configuration

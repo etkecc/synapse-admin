@@ -1,7 +1,10 @@
 # Serving Synapse Admin behind a reverse proxy
 
-Your are supposed to do so for any service you want to expose to the internet,
+You are supposed to do so for any service you want to expose to the internet,
 and here you can find specific instructions and example configurations for Synapse Admin.
+
+If you need `/admin`, use the prebuilt `synapse-admin-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
+For the root path, use the prebuilt `synapse-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
 
 ## Nginx
 
@@ -18,6 +21,33 @@ server {
         try_files $uri $uri/ /index.html;
     }
     location ~* \.(?:css|js|jpg|jpeg|gif|png|svg|ico|woff|woff2|ttf|eot|webp)$ {
+        expires 30d; # Set caching for static assets
+        add_header Cache-Control "public";
+    }
+
+    gzip on;
+    gzip_types text/plain application/javascript application/json text/css text/xml application/xml+rss;
+    gzip_min_length 1000;
+}
+```
+
+If you are serving Synapse Admin under `/admin`, use this variant (note the `root` directory should be the extracted `synapse-admin-subpath-admin`):
+
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com; # REPLACE with your domain
+    index index.html;
+    location = /admin {
+        return 301 /admin/;
+    }
+    location /admin/ {
+        alias /var/www/synapse-admin-subpath-admin/; # REPLACE with path where you extracted synapse admin
+        try_files $uri $uri/ /index.html;
+    }
+    location ~* ^/admin/.*\.(?:css|js|jpg|jpeg|gif|png|svg|ico|woff|woff2|ttf|eot|webp)$ {
+        alias /var/www/synapse-admin-subpath-admin/; # REPLACE with path where you extracted synapse admin
         expires 30d; # Set caching for static assets
         add_header Cache-Control "public";
     }
@@ -50,4 +80,4 @@ services:
 
 ## Other reverse proxies
 
-There is no examples for other reverse proxies yet, and so PRs are greatly appreciated.
+There are no examples for other reverse proxies yet, and PRs are greatly appreciated.

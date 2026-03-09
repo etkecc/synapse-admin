@@ -1,6 +1,6 @@
 # Documentation
 
-Synapse Admin documentation is under construction right now, so PRs are greatly appreciated!
+Synapse Admin documentation is currently under construction, so PRs are greatly appreciated!
 
 Table of contents:
 <!-- vim-markdown-toc GFM -->
@@ -27,7 +27,7 @@ Specific configuration options:
 * [User Badges](./user-badges.md)
 * [Prefilling the Login Form](./prefill-login-form.md)
 
-for [etke.cc](https://etke.cc) customers only:
+For [etke.cc](https://etke.cc) customers only:
 
 > **Note:** The following features are only available for etke.cc customers. Due to specifics of the implementation,
 they are not available for any other Synapse Admin deployments.

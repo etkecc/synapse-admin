@@ -8,7 +8,7 @@ These badges are displayed on the user's avatar and have a handy tooltip that ex
 ### 🧙‍ You
 
 This badge is displayed on your user's avatar.
-Tooltip for this badge will contain additional information, e.g.: `You (Admin)`.
+The tooltip for this badge contains additional information, e.g.: `You (Admin)`.
 
 ### 👑 Admin
 
@@ -17,8 +17,8 @@ Tooltip for this badge is `Admin`.
 
 ### 🛡️ Appservice/System-managed
 
-This badge is displayed on users that are managed by an appservices (or system), [more details](./system-users.md).
-Tooltip for this badge will contain additional information, e.g.: `System-managed (Bot)`.
+This badge is displayed on users that are managed by an appservice (or system), [more details](./system-users.md).
+The tooltip for this badge contains additional information, e.g.: `System-managed (Bot)`.
 
 ### 🤖 Bot
 

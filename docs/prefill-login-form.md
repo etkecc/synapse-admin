@@ -4,9 +4,9 @@ In some cases you may wish to prefill/preset the login form fields when sharing 
 This can be done by adding the following query parameters to the URL:
 
 * `username` - The username to prefill in the username field.
-* `server` - The server to prefill in the homeserver url field.
+* `server` - The server to prefill in the homeserver URL field.
 
-The following query params will work only if the Synapse Admin is loaded from `localhost` or `127.0.0.1`:
+These query params only work when Synapse Admin is loaded from `localhost` or `127.0.0.1`:
 
 * `password` - The password to prefill in the password field (credentials auth). **NEVER** use this in production.
 * `accessToken` - The access token to prefill in the access token field (access token auth). **NEVER** use this in production.
@@ -26,7 +26,7 @@ https://admin.etke.cc?username=admin&server=https://matrix.example.com
 This will open `Credentials` (username/password) login form with the username field prefilled with `admin` and the
 Homeserver URL field prefilled with `https://matrix.example.com`.
 
-### Development and Local environments
+### Development and local environments
 
 **With Password**
 

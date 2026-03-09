@@ -1,10 +1,10 @@
 # etke.cc-specific components
 
-This directory contains [etke.cc](https://etke.cc)-specific components, unusable for any other purposes and/or configuration.
+This directory contains [etke.cc](https://etke.cc)-specific components that are unusable for any other purpose or configuration.
 
-We at [etke.cc](https://etke.cc) attempting to develop everything open-source, but some things are too specific to be used by anyone else. This directory contains such components - they are only available for [etke.cc](https://etke.cc) customers.
+We at [etke.cc](https://etke.cc) are attempting to develop everything open-source, but some things are too specific to be used by anyone else. This directory contains such components; they are only available for [etke.cc](https://etke.cc) customers.
 
-Due to the specifics mentioned above, these components are documented here rather than in the [docs](../../../docs/README.md), plus they are not supported as part of the Synapse Admin open-source project (i.e.: no issues, no PRs, no support, no requests, etc.).
+Due to the specifics mentioned above, these components are documented here rather than in the [docs](../../../docs/README.md). They are not supported as part of the Synapse Admin open-source project (i.e.: no issues, no PRs, no support, no requests, etc.).
 
 ## Components
 
@@ -26,7 +26,7 @@ Due to the specifics mentioned above, these components are documented here rathe
 
 ![Server Status icon](../../../screenshots/etke.cc/server-status/indicator.webp)
 
-In the application bar the new monitoring icon is displayed that shows the current server status, and has the following color dot (and tooltip indicators):
+In the application bar, a new monitoring icon is displayed that shows the current server status and uses the following color dot (and tooltip indicators):
 
 * 🟢 (green) - the server is up and running, everything is fine, no issues detected
 * 🟡 (yellow) - the server is up and running, but there is a command in progress (likely [maintenance](https://etke.cc/help/extras/scheduler/#maintenance)), so some temporary issues may occur - that's totally fine
@@ -34,7 +34,7 @@ In the application bar the new monitoring icon is displayed that shows the curre
 
 ![Server Status icon in sidebar](../../../screenshots/etke.cc/server-status/indicator-sidebar.webp)
 
-The same icon (and link to the [Server Status page](#server-status-page)) is displayed in the sidebar.
+The same icon, with a link to the [Server Status page](#server-status-page), is displayed in the sidebar.
 
 ### Server Status page
 
@@ -47,19 +47,19 @@ Server Status page. This page contains the following information:
 * Details about the currently running command (if any)
 * Details about the server's components statuses (up/down with error details and suggested actions) by categories
 
-This is [a Monitoring report](https://etke.cc/services/monitoring/)
+This is [a monitoring report](https://etke.cc/services/monitoring/)
 
 ### Server Notifications icon
 
 ![Server Notifications icon](../../../screenshots/etke.cc/server-notifications/badge.webp)
 
-In the application bar the new notifications icon is displayed that shows the number of unread (not removed) notifications
+In the application bar, a new notifications icon is displayed that shows the number of unread (not removed) notifications
 
 ### Server Notifications page
 
 ![Server Notifications Page](../../../screenshots/etke.cc/server-notifications/page.webp)
 
-When you click on a notification from the [Server Notifications icon](#server-notifications-icon)'s list in the application bar, you will be redirected to the Server Notifications page. This page contains the full text of all the notifications you have about your server.
+When you click a notification in the [Server Notifications icon](#server-notifications-icon)'s list in the application bar, you will be redirected to the Server Notifications page. This page contains the full text of all the notifications you have about your server.
 
 ### Server Actions Page
 
@@ -76,22 +76,22 @@ On this page you can do the following:
 
 ![Server Commands Panel](../../../screenshots/etke.cc/server-commands/panel.webp)
 
-When you open [Server Actions page](#server-status-page), you will see the Server Commands panel.
-This panel contains all [the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in 1 click.
-Once command is finished, you will get a notification about the result.
+When you open the [Server Actions page](#server-status-page), you will see the Server Commands panel.
+This panel contains all [the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in one click.
+Once a command is finished, you will get a notification about the result.
 
 ### Billing Page
 
 ![Billing Page](../../../screenshots/etke.cc/billing/page.webp)
 
-When you click on the `Billing` sidebar menu item, you will be see the Billing page.
+When you click on the `Billing` sidebar menu item, you will see the Billing page.
 On this page you can see the list of successful payments and invoices.
 
 ### Support Page
 
 ![Support Page](../../../screenshots/etke.cc/support/page.webp)
 
-When you click on the `Contact support` sidebar menu item, you will be see the Support page,
+When you click on the `Contact support` sidebar menu item, you will see the Support page,
 where you can see the list of your support tickets, and create a new one if needed.
 
 This is a convenient interface for the existing support system, previously available only via email.
@@ -99,9 +99,9 @@ All communication with support is duplicated to email, so you can use both inter
 
 ### Instance config
 
-With instance config you can whitelabel Synapse Admin, and disable some features you don't need.
+With instance config, you can white-label Synapse Admin and disable some features you don't need.
 
-**Whitelabelling** - the following customizations are available:
+**White-labeling** - the following customizations are available:
 
 * Application name (browser tab title, error pages)
 * Logo (login page)

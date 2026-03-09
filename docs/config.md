@@ -1,22 +1,22 @@
 # Configuration
 
-Synapse Admin could be configured using the following ways (both are optional, and both could be used together):
+Synapse Admin can be configured in the following ways (both are optional, and both can be used together):
 
-* By providing the `config.json` file alongside with the Synapse Admin deployment, example: [admin.etke.cc/config.json](https://admin.etke.cc/config.json)
+* By providing the `config.json` file alongside the Synapse Admin deployment, example: [admin.etke.cc/config.json](https://admin.etke.cc/config.json)
 * By providing configuration under the `cc.etke.synapse-admin` key in the `/.well-known/matrix/client` file, example:
 [demo.etke.host/.well-known/matrix/client](https://demo.etke.host/.well-known/matrix/client)
 
-In case you are an [etke.cc](https://etke.cc) customer,
+If you are an [etke.cc](https://etke.cc) customer,
 or use [spantaleev/matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy),
 or [etkecc/ansible](https://github.com/etkecc/ansible),
-configuration will be automatically added to the `/.well-known/matrix/client` file.
+configuration is added automatically to the `/.well-known/matrix/client` file.
 
 **Why `/.well-known/matrix/client`?**
 
 Because any instance of Synapse Admin will automatically pick up the configuration from the homeserver.
-Common use case when you have a Synapse server running, but don't want (or can't) deploy Synapse Admin alongside with it.
+A common use case is when you have a Synapse server running, but don't want (or can't) to deploy Synapse Admin alongside it.
 In this case, you could provide the configuration in the `/.well-known/matrix/client` file,
-and any Synapse Admin instance (e.g., [admin.etke.cc](https://admin.etke.cc) will pick it up.
+and any Synapse Admin instance (e.g., [admin.etke.cc](https://admin.etke.cc)) will pick it up.
 
 Another common case is when you have multiple Synapse servers running and want to use a single Synapse Admin instance to manage them all.
 In this case, you could provide the configuration in the `/.well-known/matrix/client` file for each of the servers.
