@@ -42,6 +42,12 @@ const it: SynapseTranslationMessages = {
       ...itRaWithoutPassword.auth,
       email: "Email",
     },
+    guesser: {
+      empty: {
+        title: "Nessun dato da visualizzare",
+        message: "Controlla il provider dei dati",
+      },
+    },
     configurable: {
       ...itRaWithoutPassword.configurable,
       Datagrid: {

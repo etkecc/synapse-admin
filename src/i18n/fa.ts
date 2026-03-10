@@ -21,6 +21,12 @@ const fixedFarsiMessages = {
       placeholder_data_warning: "مشکل شبکه: به‌روزرسانی داده‌ها ناموفق بود.",
       select_all_limit_reached: "تعداد انتخاب‌ها زیاد است. فقط %{max} مورد اول انتخاب شد.",
     },
+    guesser: {
+      empty: {
+        title: "داده‌ای برای نمایش نیست",
+        message: "لطفاً ارائه‌دهندهٔ داده را بررسی کنید",
+      },
+    },
     notification: {
       ...farsiMessages.ra.notification,
       offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",

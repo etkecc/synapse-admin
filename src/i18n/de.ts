@@ -56,6 +56,12 @@ const de: SynapseTranslationMessages = {
       ...fixedGermanMessages.ra.action,
       reset: "Zurücksetzen",
     },
+    guesser: {
+      empty: {
+        title: "Keine Daten zum Anzeigen",
+        message: "Bitte prüfen Sie Ihren Datenanbieter",
+      },
+    },
     validation: {
       ...fixedGermanMessages.ra.validation,
       unique: "Muss eindeutig sein",

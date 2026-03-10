@@ -34,6 +34,12 @@ const fixedRussianMessages = {
       select_all_limit_reached: "Слишком много элементов для выбора. Были выбраны только первые %{max} элементов.",
       placeholder_data_warning: "Проблема с сетью: не удалось обновить данные.",
     },
+    guesser: {
+      empty: {
+        title: "Нет данных для отображения",
+        message: "Проверьте поставщика данных",
+      },
+    },
     notification: {
       ...russianMessages.ra.notification,
       offline: "Нет подключения. Не удалось загрузить данные.",

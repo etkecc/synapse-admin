@@ -30,6 +30,12 @@ const fixedUkrainianMessages = {
       placeholder_data_warning: "Проблема з мережею: оновлення даних не вдалося.",
       select_all_limit_reached: "Занадто багато елементів для вибору. Обрано лише перші %{max}.",
     },
+    guesser: {
+      empty: {
+        title: "Немає даних для відображення",
+        message: "Перевірте постачальника даних",
+      },
+    },
     notification: {
       ...ukrainianMessages.ra.notification,
       offline: "Немає з’єднання. Дані не вдалося отримати.",

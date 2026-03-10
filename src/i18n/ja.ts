@@ -6,6 +6,12 @@ const fixedJapaneseMessages = {
   ...japaneseMessages,
   ra: {
     ...japaneseMessages.ra,
+    guesser: {
+      empty: {
+        title: "表示するデータがありません",
+        message: "データプロバイダーを確認してください",
+      },
+    },
     validation: {
       ...japaneseMessages.ra.validation,
       unique: "一意である必要があります",
