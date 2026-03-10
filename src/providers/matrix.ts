@@ -1,6 +1,7 @@
 import { DeleteParams, RaRecord, fetchUtils } from "react-admin";
 
-import { Room } from "./types";
+import { jsonClient } from "./httpClients";
+import { Room, UploadMediaParams, UploadMediaResult } from "./types";
 
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { generateDeviceId } from "../utils/password";
@@ -244,6 +245,19 @@ export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: stri
     scope,
     responseType: "code",
   };
+};
+
+export const uploadMedia = async ({ file, filename, content_type }: UploadMediaParams): Promise<UploadMediaResult> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(`${base_url}/_matrix/media/v3/upload?filename=${filename}`, {
+    method: "POST",
+    body: file,
+    headers: new Headers({
+      Accept: "application/json",
+      "Content-Type": content_type,
+    }) as Headers,
+  });
+  return json as UploadMediaResult;
 };
 
 export const roomDirectoryResource = {

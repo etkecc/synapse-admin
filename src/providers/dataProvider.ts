@@ -20,22 +20,27 @@ import {
   setMasRegistrationTokensPageCursor,
   filterUndefined,
 } from "./mas";
-import { synapseRegistrationTokensResource } from "./synapse";
+import {
+  synapseRegistrationTokensResource,
+  deleteMedia,
+  purgeRemoteMedia,
+  getFeatures,
+  updateFeatures,
+  getRateLimits,
+  setRateLimits,
+  getAccountData,
+  checkUsernameAvailability,
+  makeRoomAdmin,
+  suspendUser,
+  eraseUser,
+  deleteUserMedia,
+  redactUserEvents,
+} from "./synapse";
+import { uploadMedia } from "./matrix";
 import { checkMasAdminApiAvailable, getMasRegistrationTokensResource, isMasInstance } from "./mas";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
 import { etkeProviderMethods } from "./etkeProvider";
-import { returnMXID } from "../utils/mxid";
-import {
-  AccountDataModel,
-  DeleteMediaResult,
-  ExperimentalFeaturesModel,
-  MASRegistrationTokenListResponse,
-  RateLimitsModel,
-  SynapseDataProvider,
-  UploadMediaParams,
-  UploadMediaResult,
-  UsernameAvailabilityResult,
-} from "./types";
+import { MASRegistrationTokenListResponse, SynapseDataProvider } from "./types";
 
 /**
  * Initialize the registration tokens resource config and patch it into resourceMap.
@@ -419,152 +424,18 @@ const baseDataProvider: SynapseDataProvider = {
    *
    * @link https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#delete-local-media-by-date-or-size
    */
-  deleteMedia: async ({ before_ts, size_gt = 0, keep_profiles = true }) => {
-    const homeserver = localStorage.getItem("home_server"); // TODO only required for synapse < 1.78.0
-    const endpoint = `/_synapse/admin/v1/media/${homeserver}/delete?before_ts=${before_ts}&size_gt=${size_gt}&keep_profiles=${keep_profiles}`;
-
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = base_url + endpoint;
-    const { json } = await jsonClient(endpoint_url, { method: "POST" });
-    return json as DeleteMediaResult;
-  },
-
-  /**
-   * Purge remote media by date
-   *
-   * @link https://element-hq.github.io/synapse/latest/admin_api/media_admin_api.html#purge-remote-media-api
-   */
-  purgeRemoteMedia: async ({ before_ts }) => {
-    const endpoint = `/_synapse/admin/v1/purge_media_cache?before_ts=${before_ts}`;
-
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = base_url + endpoint;
-    const { json } = await jsonClient(endpoint_url, { method: "POST" });
-    return json as DeleteMediaResult;
-  },
-
-  uploadMedia: async ({ file, filename, content_type }: UploadMediaParams) => {
-    const base_url = localStorage.getItem("base_url");
-    const uploadMediaURL = `${base_url}/_matrix/media/v3/upload`;
-
-    const { json } = await jsonClient(`${uploadMediaURL}?filename=${filename}`, {
-      method: "POST",
-      body: file,
-      headers: new Headers({
-        Accept: "application/json",
-        "Content-Type": content_type,
-      }) as Headers,
-    });
-    return json as UploadMediaResult;
-  },
-
-  getFeatures: async (id: Identifier) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
-    const { json } = await jsonClient(endpoint_url);
-    return json.features as ExperimentalFeaturesModel;
-  },
-
-  updateFeatures: async (id: Identifier, features: ExperimentalFeaturesModel) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`;
-    await jsonClient(endpoint_url, { method: "PUT", body: JSON.stringify({ features }) });
-  },
-
-  getRateLimits: async (id: Identifier) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
-    const { json } = await jsonClient(endpoint_url);
-    return json as RateLimitsModel;
-  },
-
-  getAccountData: async (id: Identifier) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/accountdata`;
-    const { json } = await jsonClient(endpoint_url);
-    return json as AccountDataModel;
-  },
-
-  setRateLimits: async (id: Identifier, rateLimits: RateLimitsModel) => {
-    const filtered = Object.entries(rateLimits)
-      .filter(([_key, value]) => value !== null && value !== undefined)
-      .reduce((obj, [key, value]) => {
-        obj[key] = value;
-        return obj;
-      }, {});
-
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
-    if (Object.keys(filtered).length === 0) {
-      await jsonClient(endpoint_url, { method: "DELETE" });
-      return;
-    }
-
-    await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
-  },
-
-  checkUsernameAvailability: async (username: string) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/username_available?username=${encodeURIComponent(username)}`;
-    try {
-      const { json } = await jsonClient(endpoint_url);
-      return json as UsernameAvailabilityResult;
-    } catch (error) {
-      if (error instanceof HttpError) {
-        return { available: false, error: error.body.error, errcode: error.body.errcode } as UsernameAvailabilityResult;
-      }
-      throw error;
-    }
-  },
-
-  makeRoomAdmin: async (room_id: string, user_id: string) => {
-    const base_url = localStorage.getItem("base_url");
-
-    const endpoint_url = `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`;
-    try {
-      await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ user_id }) });
-      return { success: true };
-    } catch (error) {
-      if (error instanceof HttpError) {
-        return { success: false, error: error.body.error, errcode: error.body.errcode };
-      }
-      throw error;
-    }
-  },
-
-  suspendUser: async (id: Identifier, suspendValue: boolean) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/suspend/${encodeURIComponent(returnMXID(id))}`;
-    try {
-      await jsonClient(endpoint_url, {
-        method: "PUT",
-        body: JSON.stringify({ suspend: suspendValue }),
-      });
-      return { success: true };
-    } catch (error) {
-      if (error instanceof HttpError) {
-        return { success: false, error: error.body.error, errcode: error.body.errcode };
-      }
-      throw error;
-    }
-  },
-
-  eraseUser: async (id: Identifier) => {
-    const base_url = localStorage.getItem("base_url");
-    const endpoint_url = `${base_url}/_synapse/admin/v1/deactivate/${encodeURIComponent(returnMXID(id))}`;
-    try {
-      await jsonClient(endpoint_url, {
-        method: "POST",
-        body: JSON.stringify({ erase: true }),
-      });
-      return { success: true };
-    } catch (error) {
-      if (error instanceof HttpError) {
-        return { success: false, error: error.body.error, errcode: error.body.errcode };
-      }
-      throw error;
-    }
-  },
+  deleteMedia,
+  purgeRemoteMedia,
+  uploadMedia,
+  getFeatures,
+  updateFeatures,
+  getRateLimits,
+  setRateLimits,
+  getAccountData,
+  checkUsernameAvailability,
+  makeRoomAdmin,
+  suspendUser,
+  eraseUser,
 
   ...etkeProviderMethods,
 };
@@ -626,34 +497,15 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       return params;
     },
     beforeDelete: async (params: DeleteParams<any>, _dataProvider: DataProvider) => {
-      if (params.meta?.deleteMedia) {
-        const base_url = localStorage.getItem("base_url");
-        const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(params.id))}/media`;
-        await jsonClient(endpoint_url, { method: "DELETE" });
-      }
-
-      if (params.meta?.redactEvents) {
-        const base_url = localStorage.getItem("base_url");
-        const endpoint_url = `${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(params.id))}/redact`;
-        await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ rooms: [] }) });
-      }
-
+      if (params.meta?.deleteMedia) await deleteUserMedia(params.id);
+      if (params.meta?.redactEvents) await redactUserEvents(params.id);
       return params;
     },
     beforeDeleteMany: async (params: DeleteManyParams<any>, _dataProvider: DataProvider) => {
       await Promise.all(
         params.ids.map(async id => {
-          if (params.meta?.deleteMedia) {
-            const base_url = localStorage.getItem("base_url");
-            const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`;
-            await jsonClient(endpoint_url, { method: "DELETE" });
-          }
-
-          if (params.meta?.redactEvents) {
-            const base_url = localStorage.getItem("base_url");
-            const endpoint_url = `${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(id))}/redact`;
-            await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify({ rooms: [] }) });
-          }
+          if (params.meta?.deleteMedia) await deleteUserMedia(id);
+          if (params.meta?.redactEvents) await redactUserEvents(id);
         })
       );
       return params;

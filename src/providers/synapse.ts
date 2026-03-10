@@ -1,6 +1,13 @@
-import { DeleteParams, Identifier, RaRecord, fetchUtils } from "react-admin";
+import { DeleteParams, HttpError, Identifier, RaRecord, fetchUtils } from "react-admin";
 
+import { jsonClient } from "./httpClients";
 import {
+  AccountDataModel,
+  DeleteMediaParams,
+  DeleteMediaResult,
+  ExperimentalFeaturesModel,
+  RateLimitsModel,
+  UsernameAvailabilityResult,
   Destination,
   DestinationRoom,
   Device,
@@ -252,4 +259,151 @@ export const synapseResourceMap = {
     data: "rooms",
     total: (json: { total: number }) => json.total,
   },
+};
+
+export const deleteMedia = async ({
+  before_ts,
+  size_gt = 0,
+  keep_profiles = true,
+}: DeleteMediaParams): Promise<DeleteMediaResult> => {
+  const homeserver = localStorage.getItem("home_server"); // TODO only required for synapse < 1.78.0
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(
+    `${base_url}/_synapse/admin/v1/media/${homeserver}/delete?before_ts=${before_ts}&size_gt=${size_gt}&keep_profiles=${keep_profiles}`,
+    { method: "POST" }
+  );
+  return json as DeleteMediaResult;
+};
+
+export const purgeRemoteMedia = async ({
+  before_ts,
+}: Pick<DeleteMediaParams, "before_ts">): Promise<DeleteMediaResult> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/purge_media_cache?before_ts=${before_ts}`, {
+    method: "POST",
+  });
+  return json as DeleteMediaResult;
+};
+
+export const getFeatures = async (id: Identifier): Promise<ExperimentalFeaturesModel> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(
+    `${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`
+  );
+  return json.features as ExperimentalFeaturesModel;
+};
+
+export const updateFeatures = async (id: Identifier, features: ExperimentalFeaturesModel): Promise<void> => {
+  const base_url = localStorage.getItem("base_url");
+  await jsonClient(`${base_url}/_synapse/admin/v1/experimental_features/${encodeURIComponent(returnMXID(id))}`, {
+    method: "PUT",
+    body: JSON.stringify({ features }),
+  });
+};
+
+export const getRateLimits = async (id: Identifier): Promise<RateLimitsModel> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(
+    `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`
+  );
+  return json as RateLimitsModel;
+};
+
+export const setRateLimits = async (id: Identifier, rateLimits: RateLimitsModel): Promise<void> => {
+  const filtered = Object.fromEntries(
+    Object.entries(rateLimits).filter(([_key, value]) => value !== null && value !== undefined)
+  );
+  const base_url = localStorage.getItem("base_url");
+  const endpoint_url = `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/override_ratelimit`;
+  if (Object.keys(filtered).length === 0) {
+    await jsonClient(endpoint_url, { method: "DELETE" });
+    return;
+  }
+  await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
+};
+
+export const getAccountData = async (id: Identifier): Promise<AccountDataModel> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(
+    `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/accountdata`
+  );
+  return json as AccountDataModel;
+};
+
+export const checkUsernameAvailability = async (username: string): Promise<UsernameAvailabilityResult> => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/username_available?username=${encodeURIComponent(username)}`
+    );
+    return json as UsernameAvailabilityResult;
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { available: false, error: error.body.error, errcode: error.body.errcode } as UsernameAvailabilityResult;
+    }
+    throw error;
+  }
+};
+
+export const makeRoomAdmin = async (room_id: string, user_id: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(room_id)}/make_room_admin`, {
+      method: "POST",
+      body: JSON.stringify({ user_id }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const suspendUser = async (id: Identifier, suspendValue: boolean) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/suspend/${encodeURIComponent(returnMXID(id))}`, {
+      method: "PUT",
+      body: JSON.stringify({ suspend: suspendValue }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const eraseUser = async (id: Identifier) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/deactivate/${encodeURIComponent(returnMXID(id))}`, {
+      method: "POST",
+      body: JSON.stringify({ erase: true }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const deleteUserMedia = async (id: Identifier): Promise<void> => {
+  const base_url = localStorage.getItem("base_url");
+  await jsonClient(`${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`, {
+    method: "DELETE",
+  });
+};
+
+export const redactUserEvents = async (id: Identifier): Promise<void> => {
+  const base_url = localStorage.getItem("base_url");
+  await jsonClient(`${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(id))}/redact`, {
+    method: "POST",
+    body: JSON.stringify({ rooms: [] }),
+  });
 };
