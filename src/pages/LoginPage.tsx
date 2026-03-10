@@ -41,6 +41,7 @@ import {
   splitMxid,
   getSupportedLoginFlows,
   getAuthMetadata,
+  resolveBaseUrlWithWellKnown,
 } from "../providers/matrix";
 import { SetExternalAuthProvider } from "../utils/config";
 
