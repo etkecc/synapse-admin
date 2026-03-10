@@ -566,7 +566,6 @@ const baseDataProvider: SynapseDataProvider = {
     }
   },
 
-  // etke.io server management methods
   ...etkeProviderMethods,
 };
 
