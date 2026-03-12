@@ -31,23 +31,19 @@ server {
 }
 ```
 
-If you are serving Synapse Admin under `/admin`, use this variant (note the `root` directory should be the extracted `synapse-admin-subpath-admin`):
+If you are serving Synapse Admin under `/admin`, extract the `synapse-admin-subpath-admin` tarball into an `admin/` subdirectory of your web root (e.g. extract into `/var/www/html/admin/`):
 
 ```nginx
 server {
     listen 80;
     listen [::]:80;
     server_name example.com; # REPLACE with your domain
+    root /var/www/html; # REPLACE with the parent of the admin/ directory
     index index.html;
-    location = /admin {
-        return 301 /admin/;
-    }
     location /admin/ {
-        alias /var/www/synapse-admin-subpath-admin/; # REPLACE with path where you extracted synapse admin
-        try_files $uri $uri/ /index.html;
+        try_files $uri $uri/ /admin/index.html;
     }
     location ~* ^/admin/.*\.(?:css|js|jpg|jpeg|gif|png|svg|ico|woff|woff2|ttf|eot|webp)$ {
-        alias /var/www/synapse-admin-subpath-admin/; # REPLACE with path where you extracted synapse admin
         expires 30d; # Set caching for static assets
         add_header Cache-Control "public";
     }
