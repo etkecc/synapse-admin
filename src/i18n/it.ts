@@ -42,6 +42,12 @@ const it: SynapseTranslationMessages = {
       ...itRaWithoutPassword.auth,
       email: "Email",
     },
+    guesser: {
+      empty: {
+        title: "Nessun dato da visualizzare",
+        message: "Controlla il provider dei dati",
+      },
+    },
     configurable: {
       ...itRaWithoutPassword.configurable,
       Datagrid: {
@@ -91,12 +97,6 @@ const it: SynapseTranslationMessages = {
       clear_array_input: "Svuota l'elenco",
       placeholder_data_warning: "Problema di rete: aggiornamento dei dati non riuscito.",
       select_all_limit_reached: "Troppi elementi da selezionare. Sono stati selezionati solo i primi %{max}.",
-    },
-    guesser: {
-      empty: {
-        title: "Nessun dato da mostrare",
-        message: "Controlla il tuo data provider",
-      },
     },
     notification: {
       ...itRaWithoutPassword.notification,

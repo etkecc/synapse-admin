@@ -11,7 +11,7 @@ export interface ImportLine {
   is_admin?: boolean | string;
   password?: string;
   avatar_url?: string;
-  threepids?: string; // Comma-separated list of 3PIDs, example: "email:one@example.com,msisdn:+1234567890"
+  threepids?: string | { medium: string; address: string }[]; // CSV: comma-separated "medium:address" pairs; after parsing: array of objects
 }
 
 export interface ParsedStats {

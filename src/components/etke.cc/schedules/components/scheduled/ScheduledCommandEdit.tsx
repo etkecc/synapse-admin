@@ -21,7 +21,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduleDeleteButton from "./ScheduledDeleteButton";
 import { useAppContext } from "../../../../../Context";
-import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { ScheduledCommand } from "../../../../../providers/types";
 import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";

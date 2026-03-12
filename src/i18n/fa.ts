@@ -2,7 +2,7 @@ import farsiMessages from "ra-language-farsi";
 
 import { SynapseTranslationMessages } from ".";
 
-const fa: SynapseTranslationMessages = {
+const fixedFarsiMessages = {
   ...farsiMessages,
   ra: {
     ...farsiMessages.ra,
@@ -23,7 +23,7 @@ const fa: SynapseTranslationMessages = {
     },
     guesser: {
       empty: {
-        title: "داده‌ای برای نمایش وجود ندارد",
+        title: "داده‌ای برای نمایش نیست",
         message: "لطفاً ارائه‌دهندهٔ داده را بررسی کنید",
       },
     },
@@ -32,6 +32,10 @@ const fa: SynapseTranslationMessages = {
       offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",
     },
   },
+};
+
+const fa: SynapseTranslationMessages = {
+  ...fixedFarsiMessages,
   synapseadmin: {
     auth: {
       base_url: "آدرس سرور",

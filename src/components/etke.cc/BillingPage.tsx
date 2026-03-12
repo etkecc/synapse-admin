@@ -23,7 +23,7 @@ import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "reac
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
-import { SynapseDataProvider, Payment } from "../../synapse/dataProvider";
+import { SynapseDataProvider, Payment } from "../../providers/types";
 import { useDocTitle } from "../hooks/useDocTitle";
 
 const TruncatedUUID = ({ uuid }): React.ReactElement => {

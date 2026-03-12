@@ -37,7 +37,7 @@ const fixedRussianMessages = {
     guesser: {
       empty: {
         title: "Нет данных для отображения",
-        message: "Проверьте ваш провайдер данных",
+        message: "Проверьте поставщика данных",
       },
     },
     notification: {
@@ -47,7 +47,8 @@ const fixedRussianMessages = {
   },
 };
 
-const { prev: _ruPrev, ...ruNavigation } = fixedRussianMessages.ra.navigation;
+const { prev: _ruPrev, ...ruNavigation } = fixedRussianMessages.ra
+  .navigation as typeof fixedRussianMessages.ra.navigation & { prev?: unknown };
 
 const ru: SynapseTranslationMessages = {
   ...fixedRussianMessages,

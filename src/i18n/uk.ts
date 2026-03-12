@@ -4,7 +4,7 @@ import { SynapseTranslationMessages } from ".";
 
 const { prev: _ukPrev, ...ukNavigation } = ukrainianMessages.ra.navigation;
 
-const uk: SynapseTranslationMessages = {
+const fixedUkrainianMessages = {
   ...ukrainianMessages,
   ra: {
     ...ukrainianMessages.ra,
@@ -33,7 +33,7 @@ const uk: SynapseTranslationMessages = {
     guesser: {
       empty: {
         title: "Немає даних для відображення",
-        message: "Перевірте ваш постачальник даних",
+        message: "Перевірте постачальника даних",
       },
     },
     notification: {
@@ -50,6 +50,10 @@ const uk: SynapseTranslationMessages = {
       unique: "Має бути унікальним",
     },
   },
+};
+
+const uk: SynapseTranslationMessages = {
+  ...fixedUkrainianMessages,
   synapseadmin: {
     auth: {
       base_url: "URL домашнього сервера",

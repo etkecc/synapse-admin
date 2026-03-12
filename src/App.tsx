@@ -32,8 +32,8 @@ import roomDirectory from "./resources/room_directory";
 import rooms from "./resources/rooms";
 import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
-import authProvider from "./synapse/authProvider";
-import dataProvider from "./synapse/dataProvider";
+import authProvider from "./providers/authProvider";
+import dataProvider from "./providers/dataProvider";
 
 // TODO: Can we use lazy loading together with browser locale?
 const messages = {

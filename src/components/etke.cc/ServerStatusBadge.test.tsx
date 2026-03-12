@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { memoryStore } from "ra-core";
 import polyglotI18nProvider from "ra-i18n-polyglot";
-import { AdminContext } from "react-admin";
+import { AdminContext, DataProvider } from "react-admin";
 import { useNavigate } from "react-router";
 
 import ServerStatusBadge from "./ServerStatusBadge";
@@ -65,7 +65,7 @@ const renderBadge = async ({
   await act(async () => {
     render(
       <AppContext.Provider value={config}>
-        <AdminContext i18nProvider={i18nProvider} store={store} dataProvider={dataProvider}>
+        <AdminContext i18nProvider={i18nProvider} store={store} dataProvider={dataProvider as unknown as DataProvider}>
           <ServerStatusBadge />
         </AdminContext>
       </AppContext.Provider>

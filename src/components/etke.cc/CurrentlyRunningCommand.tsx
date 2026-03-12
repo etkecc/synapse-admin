@@ -4,7 +4,7 @@ import { useStore, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useInstanceConfig } from "./InstanceConfig";
-import { ServerProcessResponse } from "../../synapse/dataProvider";
+import { ServerProcessResponse } from "../../providers/types";
 import { getTimeSince } from "../../utils/date";
 
 const CurrentlyRunningCommand = () => {

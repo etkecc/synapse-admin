@@ -21,7 +21,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import RecurringDeleteButton from "./RecurringDeleteButton";
 import { useAppContext } from "../../../../../Context";
-import { RecurringCommand } from "../../../../../synapse/dataProvider";
+import { RecurringCommand } from "../../../../../providers/types";
 import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";

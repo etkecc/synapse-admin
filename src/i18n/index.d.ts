@@ -560,6 +560,53 @@ interface SynapseTranslationMessages extends TranslationMessages {
       weeks: string;
       months: string;
     };
+    support: {
+      name: string;
+      menu_label: string;
+      description: string;
+      create_title: string;
+      no_requests: string;
+      no_messages: string;
+      closed_message: string;
+      fields: {
+        subject: string;
+        message: string;
+        reply: string;
+        status: string;
+        created_at: string;
+        updated_at: string;
+      };
+      status: {
+        active: string;
+        open: string;
+        closed: string;
+        pending: string;
+      };
+      buttons: {
+        new_request: string;
+        submit: string;
+        cancel: string;
+        send: string;
+        back: string;
+      };
+      helper: {
+        loading: string;
+        reply_hint: string;
+        reply_placeholder: string;
+        before_contact_title: string;
+        help_pages_prompt: string;
+        services_prompt: string;
+        topics_prompt: string;
+        scope_confirm_label: string;
+        english_only_notice: string;
+        response_time_prompt: string;
+      };
+      actions: {
+        create_success: string;
+        create_failure: string;
+        send_failure: string;
+      };
+    };
     actions: {
       name: string;
       available_title: string;

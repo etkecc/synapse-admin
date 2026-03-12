@@ -5,7 +5,7 @@ import { AdminContext } from "react-admin";
 
 import ServerStatusPage from "./ServerStatusPage";
 import englishMessages from "../../i18n/en";
-import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../synapse/dataProvider";
+import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../providers/types";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
 

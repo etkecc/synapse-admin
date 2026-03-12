@@ -35,13 +35,14 @@ const fixedChineseMessages = {
     guesser: {
       empty: {
         title: "没有可显示的数据",
-        message: "请检查你的数据提供程序",
+        message: "请检查数据提供程序",
       },
     },
   },
 };
 
-const { prev: _zhPrev, ...zhNavigation } = fixedChineseMessages.ra.navigation;
+const { prev: _zhPrev, ...zhNavigation } = fixedChineseMessages.ra
+  .navigation as typeof fixedChineseMessages.ra.navigation & { prev?: unknown };
 
 const zh: SynapseTranslationMessages = {
   ...fixedChineseMessages,

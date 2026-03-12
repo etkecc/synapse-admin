@@ -33,8 +33,8 @@ import Footer from "../components/Footer";
 import LoginFormBox from "../components/LoginFormBox";
 import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
 import { useInstanceConfig } from "../components/etke.cc/InstanceConfig";
+import { getServerVersion } from "../providers/synapse";
 import {
-  getServerVersion,
   getSupportedFeatures,
   getWellKnownUrl,
   isValidBaseUrl,
@@ -42,7 +42,7 @@ import {
   getSupportedLoginFlows,
   getAuthMetadata,
   resolveBaseUrlWithWellKnown,
-} from "../synapse/matrix";
+} from "../providers/matrix";
 import { SetExternalAuthProvider } from "../utils/config";
 
 export type LoginMethod = "credentials" | "accessToken";

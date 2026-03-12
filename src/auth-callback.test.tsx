@@ -5,7 +5,7 @@ describe("auth-callback entrypoint", () => {
     jest.resetModules();
     jest.unmock("./utils/config");
     jest.unmock("./components/etke.cc/InstanceConfig");
-    jest.unmock("./synapse/authProvider");
+    jest.unmock("./providers/authProvider");
   });
 
   it("redirects to provided path on success", async () => {
@@ -93,7 +93,7 @@ describe("auth-callback entrypoint", () => {
       FetchInstanceConfig: fetchInstanceConfig,
       GetInstanceConfig: () => ({ name: "" }),
     }));
-    jest.doMock("./synapse/authProvider", () => ({
+    jest.doMock("./providers/authProvider", () => ({
       __esModule: true,
       default: { handleCallback },
     }));

@@ -31,7 +31,7 @@ import {
   useTranslate,
 } from "react-admin";
 
-import { DeleteMediaParams, SynapseDataProvider } from "../synapse/dataProvider";
+import { DeleteMediaParams, SynapseDataProvider } from "../providers/types";
 import { dateParser } from "../utils/date";
 import decodeURLComponent from "../utils/decodeURLComponent";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
@@ -377,7 +377,7 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
   );
 };
 
-export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype, preview }) => {
+export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype, preview = false }) => {
   const translate = useTranslate();
   const [loading, setLoading] = useState(false);
   const notify = useNotify();

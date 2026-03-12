@@ -6,7 +6,7 @@ import { Button, Confirm } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
 import { useAppContext } from "../../../../../Context";
-import { ScheduledCommand } from "../../../../../synapse/dataProvider";
+import { ScheduledCommand } from "../../../../../providers/types";
 
 const ScheduledDeleteButton = () => {
   const record = useRecordContext() as ScheduledCommand;
