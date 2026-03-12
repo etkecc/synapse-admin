@@ -169,12 +169,14 @@ const ja: SynapseTranslationMessages = {
         admin: "サーバーの管理者",
         locked: "ロック",
         suspended: "停止",
+        shadow_banned: "シャドウBAN",
         deactivated: "無効化",
         erased: "消去",
         show_guests: "ゲストを表示",
         show_deactivated: "無効化されたユーザーを表示",
         show_locked: "ロックされたユーザーを表示",
         show_suspended: "停止されたユーザーを表示",
+        show_shadow_banned: "シャドウBANされたユーザーを表示",
         user_id: "ユーザーを検索",
         displayname: "表示名",
         password: "パスワード",
@@ -195,6 +197,8 @@ const ja: SynapseTranslationMessages = {
         lock: "ユーザーにアカウントを使用できないよう設定。これは後から取り消せます。",
         deactivate: "アカウントを再度有効にするにはパスワードを設定する必要があります。",
         suspend: "ユーザーを停止すると、ユーザーは読み込み限定のモードに設定されます。",
+        shadow_ban:
+          "シャドウBANされたユーザーは正常なレスポンスを受け取りますが、イベントはルームに配信されません。最終手段として使用してください。",
         erase: "ユーザーをGDPRに準拠した形で消去",
         admin: "サーバーの管理者には、サーバーとユーザーに対する完全なコントロールの権利が与えられています。",
         erase_text:

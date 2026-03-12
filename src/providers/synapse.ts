@@ -72,6 +72,7 @@ export const synapseResourceMap = {
       is_guest: !!u.is_guest,
       admin: !!u.admin,
       deactivated: !!u.deactivated,
+      shadow_banned: !!u.shadow_banned,
       // need timestamp in milliseconds
       creation_ts_ms: u.creation_ts * 1000,
     }),
@@ -367,6 +368,21 @@ export const suspendUser = async (id: Identifier, suspendValue: boolean) => {
     await jsonClient(`${base_url}/_synapse/admin/v1/suspend/${encodeURIComponent(returnMXID(id))}`, {
       method: "PUT",
       body: JSON.stringify({ suspend: suspendValue }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const shadowBanUser = async (id: Identifier, shadowBan: boolean) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/shadow_ban`, {
+      method: shadowBan ? "POST" : "DELETE",
     });
     return { success: true };
   } catch (error) {

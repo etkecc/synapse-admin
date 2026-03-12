@@ -210,12 +210,14 @@ const de: SynapseTranslationMessages = {
         admin: "Server Administrator",
         locked: "Gesperrt",
         suspended: "Suspendiert",
+        shadow_banned: "Schattengebannt",
         deactivated: "Deaktiviert",
         erased: "Gelöscht",
         show_guests: "Zeige Gäste",
         show_deactivated: "Zeige deaktivierte Benutzer",
         show_locked: "Zeige gesperrte Benutzer",
         show_suspended: "Zeige suspendierte Benutzer",
+        show_shadow_banned: "Zeige schattengebannte Benutzer",
         user_id: "Suche Benutzer",
         displayname: "Anzeigename",
         password: "Passwort",
@@ -236,6 +238,8 @@ const de: SynapseTranslationMessages = {
         deactivate: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
         suspend:
           "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
+        shadow_ban:
+          "Ein schattengebannter Benutzer erhält erfolgreiche Antworten, aber seine Ereignisse werden nicht in Räume übertragen. Nur als letztes Mittel verwenden.",
         erase: "DSGVO konformes Löschen der Benutzerdaten.",
         admin: "Ein Serveradministrator hat volle Kontrolle über den Server und seine Benutzer.",
         lock: "Verhindert, dass der Benutzer den Server nutzen kann. Dies ist eine nicht-destruktive Aktion, die rückgängig gemacht werden kann.",

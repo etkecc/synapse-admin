@@ -151,12 +151,14 @@ const en: SynapseTranslationMessages = {
         admin: "Server Administrator",
         locked: "Locked",
         suspended: "Suspended",
+        shadow_banned: "Shadow banned",
         deactivated: "Deactivated",
         erased: "Erased",
         show_guests: "Show guests",
         show_deactivated: "Show deactivated users",
         show_locked: "Show locked users",
         show_suspended: "Show suspended users",
+        show_shadow_banned: "Show shadow banned users",
         user_id: "Search user",
         displayname: "Displayname",
         password: "Password",
@@ -177,6 +179,8 @@ const en: SynapseTranslationMessages = {
         lock: "Prevent the user from usefully using their account. This is a non-destructive action that can be reversed.",
         deactivate: "You must provide a password to re-activate an account.",
         suspend: "Suspending user means they are put into a read-only mode.",
+        shadow_ban:
+          "Shadow-banned user receives successful responses, but their events are not propagated into rooms. Use as a last resort.",
         erase: "In addition to deactivating the user, mark the user as GDPR-erased.",
         admin: "A server administrator has full control over the server and its users.",
         erase_text:

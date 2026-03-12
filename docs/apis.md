@@ -77,8 +77,8 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
 | `/_synapse/admin/v1/users/<user_id>/override_ratelimit` | POST | Set user ratelimit overrides | ✅ |
 | `/_synapse/admin/v1/users/<user_id>/override_ratelimit` | DELETE | Delete user ratelimit overrides | ✅ |
 | `/_synapse/admin/v1/users/<user_id>/login` | POST | Login as user (get access token) | ❌ |
-| `/_synapse/admin/v1/users/<user_id>/shadow_ban` | POST | Shadow-ban a user | ❌ |
-| `/_synapse/admin/v1/users/<user_id>/shadow_ban` | DELETE | Remove shadow-ban from user | ❌ |
+| `/_synapse/admin/v1/users/<user_id>/shadow_ban` | POST | Shadow-ban a user | ✅ |
+| `/_synapse/admin/v1/users/<user_id>/shadow_ban` | DELETE | Remove shadow-ban from user | ✅ |
 | `/_synapse/admin/v1/users/<user_id>/_allow_cross_signing_replacement_without_uia` | POST | Allow cross-signing replacement without UIA | ❌ |
 | `/_synapse/admin/v1/users/<user_id>/sent_invite_count` | GET | Count invites sent by user | ❌ |
 | `/_synapse/admin/v1/users/<user_id>/cumulative_joined_room_count` | GET | Cumulative joined room count | ❌ |
