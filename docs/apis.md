@@ -104,7 +104,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/rooms` | GET | List rooms on server | ✅ |
-| `/_synapse/admin/v1/rooms/<room_id>` | GET | Get room details | ❌ |
+| `/_synapse/admin/v1/rooms/<room_id>` | GET | Get room details | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/members` | GET | Get room members | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/state` | GET | Get room state events | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/messages` | GET | Get messages from a room | ❌ |
@@ -121,14 +121,14 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
 | `/_synapse/admin/v1/rooms/<room_id_or_alias>/forward_extremities` | GET | Check forward extremities | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id_or_alias>/forward_extremities` | DELETE | Delete forward extremities | ✅ |
 
-### 🟡 Registration Tokens
+### ✅ Registration Tokens
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/registration_tokens` | GET | List all registration tokens | ✅ |
-| `/_synapse/admin/v1/registration_tokens/<token>` | GET | Get specific registration token | ❌ |
+| `/_synapse/admin/v1/registration_tokens/<token>` | GET | Get specific registration token | ✅ |
 | `/_synapse/admin/v1/registration_tokens/new` | POST | Create a registration token | ✅ |
-| `/_synapse/admin/v1/registration_tokens/<token>` | PUT | Update a registration token | ❌ |
+| `/_synapse/admin/v1/registration_tokens/<token>` | PUT | Update a registration token | ✅ |
 | `/_synapse/admin/v1/registration_tokens/<token>` | DELETE | Delete a registration token | ✅ |
 
 ### 🟡 Media
@@ -149,13 +149,13 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
 | `/_synapse/admin/v1/media/protect/<media_id>` | POST | Protect media from quarantine | ✅ |
 | `/_synapse/admin/v1/media/unprotect/<media_id>` | POST | Unprotect media from quarantine | ✅ |
 
-### 🟡 Event Reports
+### ✅ Event Reports
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/event_reports` | GET | List reported events | ✅ |
-| `/_synapse/admin/v1/event_reports/<report_id>` | GET | Get specific event report details | ❌ |
-| `/_synapse/admin/v1/event_reports/<report_id>` | DELETE | Delete a specific event report | ❌ |
+| `/_synapse/admin/v1/event_reports/<report_id>` | GET | Get specific event report details | ✅ |
+| `/_synapse/admin/v1/event_reports/<report_id>` | DELETE | Delete a specific event report | ✅ |
 
 ### ✅ Server Notices
 
@@ -164,12 +164,12 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
 | `/_synapse/admin/v1/send_server_notice` | POST | Send a server notice to a user | ✅ |
 | `/_synapse/admin/v1/send_server_notice/{txnId}` | PUT | Send server notice with transaction ID | ❌ |
 
-### 🟡 Federation
+### ✅ Federation
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/federation/destinations` | GET | List federation destinations | ✅ |
-| `/_synapse/admin/v1/federation/destinations/<destination>` | GET | Get destination details | ❌ |
+| `/_synapse/admin/v1/federation/destinations/<destination>` | GET | Get destination details | ✅ |
 | `/_synapse/admin/v1/federation/destinations/<destination>/rooms` | GET | List rooms for destination | ✅ |
 | `/_synapse/admin/v1/federation/destinations/<destination>/reset_connection` | POST | Reset federation connection | ✅ |
 
