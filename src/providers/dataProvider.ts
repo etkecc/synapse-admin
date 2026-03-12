@@ -32,6 +32,7 @@ import {
   checkUsernameAvailability,
   makeRoomAdmin,
   suspendUser,
+  shadowBanUser,
   eraseUser,
   deleteUserMedia,
   redactUserEvents,
@@ -116,6 +117,7 @@ const baseDataProvider: SynapseDataProvider = {
       deactivated,
       locked,
       suspended,
+      shadow_banned,
       search_term,
       destination,
       valid,
@@ -152,6 +154,7 @@ const baseDataProvider: SynapseDataProvider = {
         deactivated: deactivated,
         locked: locked,
         suspended: suspended,
+        shadow_banned: shadow_banned,
         valid: valid,
         order_by: field,
         dir: getSearchOrder(order),
@@ -435,6 +438,7 @@ const baseDataProvider: SynapseDataProvider = {
   checkUsernameAvailability,
   makeRoomAdmin,
   suspendUser,
+  shadowBanUser,
   eraseUser,
 
   ...etkeProviderMethods,
@@ -462,6 +466,8 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       const rates = params.data.rates;
       const suspended = params.data.suspended;
       const previousSuspended = params.previousData?.suspended;
+      const shadowBanned = params.data.shadow_banned;
+      const previousShadowBanned = params.previousData?.shadow_banned;
       const deactivated = params.data.deactivated;
       const erased = params.data.erased;
 
@@ -473,6 +479,11 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
       if (suspended !== undefined && suspended !== previousSuspended) {
         await (dataProvider as SynapseDataProvider).suspendUser(params.id, suspended);
         delete params.data.suspended;
+      }
+
+      if (shadowBanned !== undefined && shadowBanned !== previousShadowBanned) {
+        await (dataProvider as SynapseDataProvider).shadowBanUser(params.id, shadowBanned);
+        delete params.data.shadow_banned;
       }
 
       if (deactivated !== undefined && erased !== undefined) {

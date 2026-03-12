@@ -165,6 +165,7 @@ The following changes are already implemented:
 * 🎨 [Restyle Sidebar Menu](https://github.com/etkecc/synapse-admin/pull/1036)
 * 🌗 [Make loader screen honor preferred color scheme](https://github.com/etkecc/synapse-admin/pull/1037)
 * 🔑 [Add support for issuing registration tokens with MAS](https://github.com/etkecc/synapse-admin/pull/1067)
+* 👻 [Add support for shadow banning](https://github.com/etkecc/synapse-admin/pull/1081)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

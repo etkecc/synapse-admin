@@ -121,6 +121,8 @@ const userFilters = () => {
     <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
     // waiting for https://github.com/element-hq/synapse/issues/18016
     // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
+    // as of Synapse v1.149.1, filter doesn't work yet, showing all users instead of only shadow banned ones
+    // <BooleanInput label="resources.users.fields.show_shadow_banned" source="shadow_banned" alwaysOn />,
   ];
   if (!GetConfig().externalAuthProvider) {
     filters.push(<BooleanInput label="resources.users.fields.show_guests" source="guests" alwaysOn />);
@@ -185,7 +187,7 @@ export const UserList = (props: ListProps) => {
     <List
       {...props}
       filters={userFilters()}
-      filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }}
+      filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }} // shadow_banned: no API yet
       sort={{ field: "name", order: "ASC" }}
       actions={<UserListActions />}
       pagination={<UserPagination />}
@@ -222,6 +224,7 @@ export const UserList = (props: ListProps) => {
         <BooleanField source="admin" label="resources.users.fields.admin" />
         <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
         <BooleanField source="locked" label="resources.users.fields.locked" />
+        <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
         <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
         <DateField
           source="creation_ts"
@@ -583,6 +586,7 @@ export const UserEdit = (props: EditProps) => {
           <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable />
           <BooleanInput source="admin" helperText="resources.users.helper.admin" />
           <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
+          <UserBooleanInput source="shadow_banned" helperText="resources.users.helper.shadow_ban" />
           <UserBooleanInput
             sx={{ color: theme.palette.warning.main }}
             source="locked"
