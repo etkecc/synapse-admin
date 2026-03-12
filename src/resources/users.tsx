@@ -121,7 +121,7 @@ const userFilters = () => {
     <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
     // waiting for https://github.com/element-hq/synapse/issues/18016
     // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
-    // as of Synapse v1.149.1, filter doesn't work properly, showing all users instead of only shadow banned ones
+    // as of Synapse v1.149.1, filter doesn't work yet, showing all users instead of only shadow banned ones
     // <BooleanInput label="resources.users.fields.show_shadow_banned" source="shadow_banned" alwaysOn />,
   ];
   if (!GetConfig().externalAuthProvider) {
@@ -187,7 +187,7 @@ export const UserList = (props: ListProps) => {
     <List
       {...props}
       filters={userFilters()}
-      filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false, shadow_banned: false }}
+      filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }} // shadow_banned: no API yet
       sort={{ field: "name", order: "ASC" }}
       actions={<UserListActions />}
       pagination={<UserPagination />}
