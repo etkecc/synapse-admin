@@ -21,6 +21,11 @@ Specific configuration options:
 * [Restricting available homeserver](./restrict-hs.md)
 * [System / Appservice-managed Users](./system-users.md)
 * [Custom Menu Items](./custom-menu.md)
+* [External Auth Provider](./external-auth-provider.md)
+
+## APIs
+
+* [Supported APIs](./apis.md)
 
 ## Features
 
@@ -38,6 +43,9 @@ they are not available for any other Synapse Admin deployments.
 * [Server Commands Panel](../src/components/etke.cc/README.md#server-commands-panel)
 * [Server Notifications icon](../src/components/etke.cc/README.md#server-notifications-icon)
 * [Server Notifications page](../src/components/etke.cc/README.md#server-notifications-page)
+* [Billing Page](../src/components/etke.cc/README.md#billing-page)
+* [Support Page](../src/components/etke.cc/README.md#support-page)
+* [Instance config](../src/components/etke.cc/README.md#instance-config)
 
 ## Deployment
 

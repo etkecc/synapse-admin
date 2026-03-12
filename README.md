@@ -23,30 +23,31 @@
 <!-- vim-markdown-toc GFM -->
 
 * [Fork differences](#fork-differences)
-    * [Availability](#availability)
-        * [Prebuilt distributions](#prebuilt-distributions)
-        * [IPFS](#ipfs)
-    * [Changes](#changes)
-        * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
-    * [Development](#development)
-    * [Support](#support)
+  * [Availability](#availability)
+    * [Prebuilt distributions](#prebuilt-distributions)
+    * [IPFS](#ipfs)
+  * [Changes](#changes)
+    * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
+  * [Development](#development)
+  * [Support](#support)
 * [Configuration](#configuration)
-    * [Prefilling login form](#prefilling-login-form)
-    * [Restricting available homeserver](#restricting-available-homeserver)
-    * [Configuring CORS credentials](#configuring-cors-credentials)
-    * [Protecting appservice managed users](#protecting-appservice-managed-users)
-    * [Adding custom menu items](#adding-custom-menu-items)
-    * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
-        * [Matrix Authentication Service (MAS) specifics](#matrix-authentication-service-mas-specifics)
+  * [Prefilling login form](#prefilling-login-form)
+  * [Restricting available homeserver](#restricting-available-homeserver)
+  * [Configuring CORS credentials](#configuring-cors-credentials)
+  * [Protecting appservice managed users](#protecting-appservice-managed-users)
+  * [Adding custom menu items](#adding-custom-menu-items)
+  * [Enabling external auth provider-compatible mode](#enabling-external-auth-provider-compatible-mode)
+    * [Matrix Authentication Service (MAS) specifics](#matrix-authentication-service-mas-specifics)
 * [Usage](#usage)
-    * [Supported Synapse](#supported-synapse)
-    * [Prerequisites](#prerequisites)
-    * [Use without install](#use-without-install)
-    * [Step-by-step installation](#step-by-step-installation)
-        * [Steps for 1)](#steps-for-1)
-        * [Steps for 2)](#steps-for-2)
-        * [Steps for 3)](#steps-for-3)
-    * [Serving Synapse Admin on a different path](#serving-synapse-admin-on-a-different-path)
+  * [Supported APIs](#supported-apis)
+  * [Supported Synapse](#supported-synapse)
+  * [Prerequisites](#prerequisites)
+  * [Use without install](#use-without-install)
+  * [Step-by-step installation](#step-by-step-installation)
+    * [Steps for 1)](#steps-for-1)
+    * [Steps for 2)](#steps-for-2)
+    * [Steps for 3)](#steps-for-3)
+  * [Serving Synapse Admin on a different path](#serving-synapse-admin-on-a-different-path)
 * [Development](#development-1)
 
 <!-- vim-markdown-toc -->
@@ -268,6 +269,10 @@ you can enable the `externalAuthProvider` mode to adjust Synapse Admin's behavio
 Please see [designated documentation section](./docs/external-auth-provider.md#matrix-authentication-service-mas) for details about using MAS - there are some specific changes that may be needed to enable admin API support in MAS.
 
 ## Usage
+
+### Supported APIs
+
+See [Supported APIs](./docs/apis.md) for a full list of API endpoints used by Synapse Admin.
 
 ### Supported Synapse
 
