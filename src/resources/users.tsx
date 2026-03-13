@@ -34,6 +34,7 @@ import {
   FormTab,
   BooleanField,
   BooleanInput,
+  NullableBooleanInput,
   PasswordInput,
   TextField,
   TextInput,
@@ -117,7 +118,7 @@ const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 5
 const userFilters = () => {
   const filters = [
     <SearchInput source="name" alwaysOn />,
-    <BooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
+    <NullableBooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
     <BooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
     // waiting for https://github.com/element-hq/synapse/issues/18016
     // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
@@ -187,7 +188,7 @@ export const UserList = (props: ListProps) => {
     <List
       {...props}
       filters={userFilters()}
-      filterDefaultValues={{ guests: false, deactivated: false, locked: false, suspended: false }} // shadow_banned: no API yet
+      filterDefaultValues={{ guests: false, locked: false, suspended: false }} // shadow_banned: no API yet
       sort={{ field: "name", order: "ASC" }}
       actions={<UserListActions />}
       pagination={<UserPagination />}

@@ -207,7 +207,7 @@ const zh: SynapseTranslationMessages = {
         suspended: "被锁定",
         shadow_banned: "影子封禁",
         show_guests: "显示访客",
-        show_deactivated: "显示被禁用的账户",
+        show_deactivated: "仅显示已禁用",
         show_locked: "显示被锁定的账户",
         show_suspended: "显示被锁定的账户",
         show_shadow_banned: "显示被影子封禁的用户",

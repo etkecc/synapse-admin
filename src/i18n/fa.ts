@@ -181,7 +181,7 @@ const fa: SynapseTranslationMessages = {
         suspended: "معلق",
         shadow_banned: "مسدود پنهان",
         show_guests: "نمایش مهمانان",
-        show_deactivated: "نمایش کاربران غیرفعال شده",
+        show_deactivated: "فقط غیرفعال‌شده‌ها",
         show_locked: "نمایش کاربران قفل شده",
         show_suspended: "نمایش کاربران معلق",
         show_shadow_banned: "نمایش کاربران مسدود پنهان",

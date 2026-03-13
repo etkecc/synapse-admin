@@ -64,7 +64,7 @@ export const synapseRegistrationTokensResource: SynapseRegistrationTokensResourc
 
 export const synapseResourceMap = {
   users: {
-    path: "/_synapse/admin/v2/users",
+    path: "/_synapse/admin/v3/users",
     map: async (u: User) => ({
       ...u,
       id: returnMXID(u.name),

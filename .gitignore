@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,yarn,react,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,yarn,react,visualstudiocode
 
+## local docs for admin APIs
+docs/apis/*
+
 ### Node ###
 # Logs
 logs

@@ -6,7 +6,7 @@ This document lists all supported APIs and their usage status.
 > **Note:** This file was compiled based on Synapse v1.149.1 and MAS v1.13.0 documentation.
 > It is not updated often and is provided just for reference purposes.
 
-Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
+Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ superseded (newer version available)
 
 
 <!-- vim-markdown-toc GFM -->
@@ -57,8 +57,8 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v2/users` | GET | List all local user accounts | ✅ |
-| `/_synapse/admin/v3/users` | GET | List all local user accounts (v3) | ❌ |
+| `/_synapse/admin/v2/users` | GET | List all local user accounts | ⏭️ |
+| `/_synapse/admin/v3/users` | GET | List all local user accounts (v3) | ✅ |
 | `/_synapse/admin/v2/users/<user_id>` | GET | Query user account details | ✅ |
 | `/_synapse/admin/v2/users/<user_id>` | PUT | Create or modify user account | ✅ |
 | `/_synapse/admin/v1/whois/<user_id>` | GET | Query user sessions/connections | ✅ |

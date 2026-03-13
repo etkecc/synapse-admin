@@ -271,7 +271,7 @@ const it: SynapseTranslationMessages = {
         shadow_banned: "Shadowbannato",
         deactivated: "Disattivato",
         show_guests: "Mostra gli ospiti",
-        show_deactivated: "Mostra gli utenti disattivati",
+        show_deactivated: "Mostra solo i disattivati",
         show_locked: "Mostra gli utenti bloccati",
         show_suspended: "Mostra gli utenti sospesi",
         show_shadow_banned: "Mostra utenti shadowbannati",

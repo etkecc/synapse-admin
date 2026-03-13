@@ -157,7 +157,7 @@ const fr: SynapseTranslationMessages = {
         shadow_banned: "Banni fantôme",
         deactivated: "Désactivé",
         show_guests: "Afficher les visiteurs",
-        show_deactivated: "Afficher les utilisateurs désactivés",
+        show_deactivated: "Afficher uniquement les désactivés",
         show_locked: "Afficher les utilisateurs verrouillés",
         show_suspended: "Afficher les utilisateurs suspendus",
         show_shadow_banned: "Afficher les utilisateurs bannis fantôme",

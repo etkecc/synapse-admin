@@ -205,7 +205,7 @@ const uk: SynapseTranslationMessages = {
         deactivated: "Деактивований",
         erased: "Вилучений",
         show_guests: "Показати гостей",
-        show_deactivated: "Показати дезактивованих",
+        show_deactivated: "Лише дезактивовані",
         show_locked: "Показати заблокованих",
         show_suspended: "Показати призупинених",
         show_shadow_banned: "Показати з тіньовим баном",
