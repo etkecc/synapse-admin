@@ -183,6 +183,16 @@ interface SynapseTranslationMessages extends TranslationMessages {
         delete_media: string;
         redact_events: string;
         generate_password: string;
+        reset_password: {
+          label: string;
+          title: string;
+          helper: string;
+          password: string;
+          logout_devices: string;
+          success: string;
+          failure: string;
+          error_no_password: string;
+        };
         overwrite_title: string;
         overwrite_content: string;
         overwrite_cancel: string;

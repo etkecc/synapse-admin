@@ -33,6 +33,7 @@ import {
   makeRoomAdmin,
   suspendUser,
   shadowBanUser,
+  resetPassword,
   eraseUser,
   deleteUserMedia,
   redactUserEvents,
@@ -439,6 +440,7 @@ const baseDataProvider: SynapseDataProvider = {
   makeRoomAdmin,
   suspendUser,
   shadowBanUser,
+  resetPassword,
   eraseUser,
 
   ...etkeProviderMethods,

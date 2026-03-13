@@ -264,6 +264,16 @@ const de: SynapseTranslationMessages = {
         delete_media: "Alle von dem/den Benutzer(n) hochgeladenen Medien löschen",
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
         generate_password: "Passwort generieren",
+        reset_password: {
+          label: "Passwort zurücksetzen",
+          title: "Passwort zurücksetzen",
+          helper: "Passwort von %{user} ändern",
+          password: "Passwort",
+          logout_devices: "Von allen Geräten abmelden",
+          success: "Passwort wurde erfolgreich zurückgesetzt",
+          failure: "Passwort konnte nicht zurückgesetzt werden",
+          error_no_password: "Passwort ist erforderlich",
+        },
         overwrite_title: "Warnung!",
         overwrite_content:
           "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",

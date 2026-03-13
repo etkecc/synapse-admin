@@ -394,6 +394,22 @@ export const shadowBanUser = async (id: Identifier, shadowBan: boolean) => {
   }
 };
 
+export const resetPassword = async (id: Identifier, newPassword: string, logoutDevices = true) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/reset_password/${encodeURIComponent(returnMXID(id))}`, {
+      method: "POST",
+      body: JSON.stringify({ new_password: newPassword, logout_devices: logoutDevices }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const eraseUser = async (id: Identifier) => {
   const base_url = localStorage.getItem("base_url");
   try {

@@ -245,6 +245,16 @@ const uk: SynapseTranslationMessages = {
         delete_media: "Видалити всі медіафайли, завантажені користувачем(ами)",
         redact_events: "Redact all events sent by the user(-s)",
         generate_password: "Згенерувати пароль",
+        reset_password: {
+          label: "Скинути пароль",
+          title: "Скинути пароль",
+          helper: "Змінити пароль %{user}",
+          password: "Пароль",
+          logout_devices: "Вийти з усіх пристроїв",
+          success: "Пароль успішно скинуто",
+          failure: "Не вдалося скинути пароль",
+          error_no_password: "Необхідно вказати пароль",
+        },
         overwrite_title: "УВАГА!",
         overwrite_content:
           "Це ім'я користувача вже зайняте. Ви впевнені, що хочете перезаписати існуючого користувача?",

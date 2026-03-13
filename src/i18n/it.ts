@@ -321,6 +321,16 @@ const it: SynapseTranslationMessages = {
         delete_media: "Elimina tutti i media caricati dall'utente(-s)",
         redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
         generate_password: "Genera password",
+        reset_password: {
+          label: "Reimposta password",
+          title: "Reimposta password",
+          helper: "Cambia la password di %{user}",
+          password: "Password",
+          logout_devices: "Disconnetti tutti i dispositivi",
+          success: "Password reimpostata con successo",
+          failure: "Impossibile reimpostare la password",
+          error_no_password: "La password è obbligatoria",
+        },
         overwrite_title: "Attenzione!",
         overwrite_content:
           "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",

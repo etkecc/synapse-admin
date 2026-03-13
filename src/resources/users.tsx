@@ -78,6 +78,7 @@ import AvatarField from "../components/AvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import DeviceRemoveButton from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
+import { ResetPasswordButton } from "../components/ResetPasswordButton";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
 import UserAccountData from "../components/UserAccountData";
 import UserRateLimits from "../components/UserRateLimits";
@@ -259,6 +260,7 @@ const UserEditActions = () => {
 
   return (
     <TopToolbar>
+      {!record?.deactivated && <ResetPasswordButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (
         <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>

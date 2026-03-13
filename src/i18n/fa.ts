@@ -231,6 +231,16 @@ const fa: SynapseTranslationMessages = {
         delete_media: "حذف جميع الوسائط التي تم تحميلها بواسطة المستخدم (المستخدمين)",
         redact_events: "تنقيح جميع الأحداث المرسلة من قبل المستخدم (-s)",
         generate_password: "توليد رمز عبور",
+        reset_password: {
+          label: "بازنشانی رمز عبور",
+          title: "بازنشانی رمز عبور",
+          helper: "تغییر رمز عبور %{user}",
+          password: "رمز عبور",
+          logout_devices: "خروج از تمام دستگاه‌ها",
+          success: "رمز عبور با موفقیت بازنشانی شد",
+          failure: "بازنشانی رمز عبور ناموفق بود",
+          error_no_password: "رمز عبور الزامی است",
+        },
         overwrite_title: "هشدار!",
         overwrite_content:
           "این نام کاربری قبلا استفاده شده است. آیا مطمئن هستید که می خواهید کاربر موجود را بازنویسی کنید؟",

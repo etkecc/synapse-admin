@@ -64,7 +64,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/whois/<user_id>` | GET | Query user sessions/connections | ✅ |
 | `/_synapse/admin/v1/deactivate/<user_id>` | POST | Deactivate/erase user account | ✅ |
 | `/_synapse/admin/v1/suspend/<user_id>` | PUT | Suspend or unsuspend user | ✅ |
-| `/_synapse/admin/v1/reset_password/<user_id>` | POST | Reset user password | ❌ |
+| `/_synapse/admin/v1/reset_password/<user_id>` | POST | Reset user password | ✅ |
 | `/_synapse/admin/v1/users/<user_id>/admin` | GET | Check if user is admin | ❌ |
 | `/_synapse/admin/v1/users/<user_id>/admin` | PUT | Change user admin status | ❌ |
 | `/_synapse/admin/v1/users/<user_id>/joined_rooms` | GET | List user's joined rooms | ✅ |

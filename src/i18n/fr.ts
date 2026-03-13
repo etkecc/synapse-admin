@@ -207,6 +207,16 @@ const fr: SynapseTranslationMessages = {
         delete_media: "Supprimer tous les médias téléchargés par le(s) utilisateur(s)",
         redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
         generate_password: "Générer un mot de passe",
+        reset_password: {
+          label: "Réinitialiser le mot de passe",
+          title: "Réinitialiser le mot de passe",
+          helper: "Changer le mot de passe de %{user}",
+          password: "Mot de passe",
+          logout_devices: "Déconnecter tous les appareils",
+          success: "Le mot de passe a été réinitialisé avec succès",
+          failure: "Échec de la réinitialisation du mot de passe",
+          error_no_password: "Le mot de passe est requis",
+        },
         overwrite_title: "Attention !",
         overwrite_content:
           "Ce nom d'utilisateur est déjà pris. Êtes-vous sûr de vouloir écraser l'utilisateur existant ?",
