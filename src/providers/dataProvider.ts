@@ -163,7 +163,7 @@ const baseDataProvider: SynapseDataProvider = {
       };
     }
 
-    const endpoint_url = baseUrl + res.path;
+    const endpoint_url = baseUrl + (res.listPath || res.path);
     const url = `${endpoint_url}?${new URLSearchParams(filterUndefined(query)).toString()}`;
 
     const { json } = await jsonClient(url);
