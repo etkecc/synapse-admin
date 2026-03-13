@@ -412,6 +412,10 @@ export interface SynapseDataProvider extends DataProvider {
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
   getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
+  blockRoom: (roomId: string, block: boolean) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  getRoomBlockStatus: (
+    roomId: string
+  ) => Promise<{ success: boolean; block: boolean; error?: string; errcode?: string }>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   suspendUser: (
     id: Identifier,

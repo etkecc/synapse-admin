@@ -59,6 +59,12 @@ import {
   RoomDirectoryPublishButton,
 } from "./room_directory";
 import AvatarField from "../components/AvatarField";
+import {
+  BlockRoomButton,
+  BlockRoomBulkButton,
+  UnblockRoomBulkButton,
+  BlockRoomByIdButton,
+} from "../components/BlockRoomButton";
 import DeleteRoomButton from "../components/DeleteRoomButton";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField } from "../components/media";
@@ -104,6 +110,7 @@ const RoomShowActions = () => {
   return (
     <TopToolbar>
       {publishButton}
+      <BlockRoomButton />
       <MakeAdminBtn />
       <DeleteRoomButton
         selectedIds={[record.id]}
@@ -431,6 +438,8 @@ export const RoomBulkActionButtons = () => {
   const record = useListContext();
   return (
     <>
+      <BlockRoomBulkButton />
+      <UnblockRoomBulkButton />
       <RoomDirectoryBulkPublishButton />
       <RoomDirectoryBulkUnpublishButton />
       <DeleteRoomButton
@@ -450,6 +459,7 @@ const roomFilters = [
 
 const RoomListActions = () => (
   <TopToolbar>
+    <BlockRoomByIdButton />
     <SelectColumnsButton />
     <ExportButton />
   </TopToolbar>

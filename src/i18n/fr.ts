@@ -317,6 +317,22 @@ const fr: SynapseTranslationMessages = {
           success: "L'utilisateur a été désigné comme administrateur de la salle.",
           failure: "L'utilisateur n'a pas pu être désigné comme administrateur de la salle. %{errMsg}",
         },
+        block: {
+          label: "Bloquer",
+          title: "Bloquer %{room}",
+          title_bulk: "Bloquer %{smart_count} salon |||| Bloquer %{smart_count} salons",
+          title_by_id: "Bloquer un salon",
+          content: "Les utilisateurs ne pourront pas rejoindre ce salon.",
+          content_bulk:
+            "Les utilisateurs ne pourront pas rejoindre %{smart_count} salon. |||| Les utilisateurs ne pourront pas rejoindre %{smart_count} salons.",
+          success: "Salon bloqué avec succès. |||| Salons bloqués avec succès.",
+          failure: "Échec du blocage du salon. |||| Échec du blocage des salons.",
+        },
+        unblock: {
+          label: "Débloquer",
+          success: "Salon débloqué avec succès. |||| Salons débloqués avec succès.",
+          failure: "Échec du déblocage du salon. |||| Échec du déblocage des salons.",
+        },
       },
     },
     reports: {

@@ -347,6 +347,35 @@ export const checkUsernameAvailability = async (username: string): Promise<Usern
   }
 };
 
+export const blockRoom = async (roomId: string, block: boolean) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(roomId)}/block`, {
+      method: "PUT",
+      body: JSON.stringify({ block }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const getRoomBlockStatus = async (roomId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(roomId)}/block`);
+    return { success: true, block: json.block as boolean };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, block: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const makeRoomAdmin = async (room_id: string, user_id: string) => {
   const base_url = localStorage.getItem("base_url");
   try {

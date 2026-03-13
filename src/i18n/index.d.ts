@@ -297,6 +297,21 @@ interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        block: {
+          label: string;
+          title: string;
+          title_bulk: string;
+          title_by_id: string;
+          content: string;
+          content_bulk: string;
+          success: string;
+          failure: string;
+        };
+        unblock: {
+          label: string;
+          success: string;
+          failure: string;
+        };
       };
     };
     reports: {

@@ -374,6 +374,22 @@ const de: SynapseTranslationMessages = {
           success: "Der/die Benutzer wurde/n als Raumadministrator gesetzt.",
           failure: "Der/die Benutzer konnte/n nicht als Raumadministrator gesetzt werden. %{errMsg}",
         },
+        block: {
+          label: "Sperren",
+          title: "%{room} sperren",
+          title_bulk: "%{smart_count} Raum sperren |||| %{smart_count} Räume sperren",
+          title_by_id: "Raum sperren",
+          content: "Benutzer werden daran gehindert, diesem Raum beizutreten.",
+          content_bulk:
+            "Benutzer werden daran gehindert, %{smart_count} Raum beizutreten. |||| Benutzer werden daran gehindert, %{smart_count} Räumen beizutreten.",
+          success: "Raum erfolgreich gesperrt. |||| Räume erfolgreich gesperrt.",
+          failure: "Raum konnte nicht gesperrt werden. |||| Räume konnten nicht gesperrt werden.",
+        },
+        unblock: {
+          label: "Entsperren",
+          success: "Raum erfolgreich entsperrt. |||| Räume erfolgreich entsperrt.",
+          failure: "Raum konnte nicht entsperrt werden. |||| Räume konnten nicht entsperrt werden.",
+        },
       },
     },
     reports: {

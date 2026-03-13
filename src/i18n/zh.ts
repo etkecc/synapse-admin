@@ -363,6 +363,21 @@ const zh: SynapseTranslationMessages = {
           success: "用户已设为房间管理员。",
           failure: "无法将用户设为房间管理员。%{errMsg}",
         },
+        block: {
+          label: "封锁",
+          title: "封锁 %{room}",
+          title_bulk: "封锁 %{smart_count} 个房间",
+          title_by_id: "封锁房间",
+          content: "用户将无法加入此房间。",
+          content_bulk: "用户将无法加入 %{smart_count} 个房间。",
+          success: "房间封锁成功。",
+          failure: "封锁房间失败。",
+        },
+        unblock: {
+          label: "解封",
+          success: "房间解封成功。",
+          failure: "解封房间失败。",
+        },
       },
     },
     reports: {

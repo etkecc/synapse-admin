@@ -65,8 +65,8 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/deactivate/<user_id>` | POST | Deactivate/erase user account | ✅ |
 | `/_synapse/admin/v1/suspend/<user_id>` | PUT | Suspend or unsuspend user | ✅ |
 | `/_synapse/admin/v1/reset_password/<user_id>` | POST | Reset user password | ✅ |
-| `/_synapse/admin/v1/users/<user_id>/admin` | GET | Check if user is admin | ❌ |
-| `/_synapse/admin/v1/users/<user_id>/admin` | PUT | Change user admin status | ❌ |
+| `/_synapse/admin/v1/users/<user_id>/admin` | GET | Check if user is admin | ⏭️ |
+| `/_synapse/admin/v1/users/<user_id>/admin` | PUT | Change user admin status | ⏭️ |
 | `/_synapse/admin/v1/users/<user_id>/joined_rooms` | GET | List user's joined rooms | ✅ |
 | `/_synapse/admin/v1/users/<user_id>/memberships` | GET | List user's room memberships | ✅ |
 | `/_synapse/admin/v1/users/<user_id>/media` | GET | List media uploaded by user | ✅ |
@@ -111,8 +111,8 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/rooms/<room_id>/timestamp_to_event` | GET | Find event by timestamp | ❌ |
 | `/_synapse/admin/v1/rooms/<room_id>/context/<event_id>` | GET | Get event context | ❌ |
 | `/_synapse/admin/v1/rooms/<room_id>/hierarchy` | GET | Get space/room hierarchy | ❌ |
-| `/_synapse/admin/v1/rooms/<room_id>/block` | PUT | Block or unblock a room | ❌ |
-| `/_synapse/admin/v1/rooms/<room_id>/block` | GET | Get room block status | ❌ |
+| `/_synapse/admin/v1/rooms/<room_id>/block` | PUT | Block or unblock a room | ✅ |
+| `/_synapse/admin/v1/rooms/<room_id>/block` | GET | Get room block status | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>` | DELETE | Delete a room (v1, synchronous) | ❌ |
 | `/_synapse/admin/v2/rooms/<room_id>` | DELETE | Delete a room (v2, asynchronous) | ✅ |
 | `/_synapse/admin/v2/rooms/<room_id>/delete_status` | GET | Query room delete status | ❌ |
@@ -136,7 +136,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/room/<room_id>/media` | GET | List all media in a room | ✅ |
-| `/_synapse/admin/v1/media/<origin>/<media_id>` | GET | Query media by ID | ❌ |
+| `/_synapse/admin/v1/media/<origin>/<media_id>` | GET | Query media by ID | ⏭️ |
 | `/_synapse/admin/v1/media/<server_name>/<media_id>` | DELETE | Delete specific local media | ✅ |
 | `/_synapse/admin/v1/media/delete` | POST | Delete local media by date or size | ❌ |
 | `/_synapse/admin/v1/media/<server_name>/delete` | POST | Delete local media by date or size (deprecated) | ✅ |

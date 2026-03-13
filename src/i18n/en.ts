@@ -313,6 +313,22 @@ const en: SynapseTranslationMessages = {
           success: "The user has been set as room admin.",
           failure: "The user could not be set as room admin. %{errMsg}",
         },
+        block: {
+          label: "Block",
+          title: "Block %{room}",
+          title_bulk: "Block %{smart_count} room |||| Block %{smart_count} rooms",
+          title_by_id: "Block a room",
+          content: "Users will be prevented from joining this room.",
+          content_bulk:
+            "Users will be prevented from joining %{smart_count} room. |||| Users will be prevented from joining %{smart_count} rooms.",
+          success: "Room blocked successfully. |||| Rooms blocked successfully.",
+          failure: "Failed to block room. |||| Failed to block rooms.",
+        },
+        unblock: {
+          label: "Unblock",
+          success: "Room unblocked successfully. |||| Rooms unblocked successfully.",
+          failure: "Failed to unblock room. |||| Failed to unblock rooms.",
+        },
       },
     },
     reports: {

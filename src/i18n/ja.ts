@@ -331,6 +331,21 @@ const ja: SynapseTranslationMessages = {
           success: "ユーザーをルームの管理者に設定しました。",
           failure: "ユーザーをルームの管理者に設定できませんでした。%{errMsg}",
         },
+        block: {
+          label: "ブロック",
+          title: "%{room} をブロック",
+          title_bulk: "%{smart_count} 件のルームをブロック",
+          title_by_id: "ルームをブロック",
+          content: "ユーザーはこのルームに参加できなくなります。",
+          content_bulk: "ユーザーは %{smart_count} 件のルームに参加できなくなります。",
+          success: "ルームのブロックに成功しました。",
+          failure: "ルームのブロックに失敗しました。",
+        },
+        unblock: {
+          label: "ブロック解除",
+          success: "ルームのブロック解除に成功しました。",
+          failure: "ルームのブロック解除に失敗しました。",
+        },
       },
     },
     reports: {

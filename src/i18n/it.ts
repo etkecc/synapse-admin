@@ -431,6 +431,22 @@ const it: SynapseTranslationMessages = {
           success: "L'utente è stato designato come amministratore della stanza.",
           failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
         },
+        block: {
+          label: "Blocca",
+          title: "Blocca %{room}",
+          title_bulk: "Blocca %{smart_count} stanza |||| Blocca %{smart_count} stanze",
+          title_by_id: "Blocca una stanza",
+          content: "Gli utenti non potranno unirsi a questa stanza.",
+          content_bulk:
+            "Gli utenti non potranno unirsi a %{smart_count} stanza. |||| Gli utenti non potranno unirsi a %{smart_count} stanze.",
+          success: "Stanza bloccata con successo. |||| Stanze bloccate con successo.",
+          failure: "Impossibile bloccare la stanza. |||| Impossibile bloccare le stanze.",
+        },
+        unblock: {
+          label: "Sblocca",
+          success: "Stanza sbloccata con successo. |||| Stanze sbloccate con successo.",
+          failure: "Impossibile sbloccare la stanza. |||| Impossibile sbloccare le stanze.",
+        },
       },
     },
     reports: {
