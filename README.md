@@ -166,6 +166,8 @@ The following changes are already implemented:
 * 🌗 [Make loader screen honor preferred color scheme](https://github.com/etkecc/synapse-admin/pull/1037)
 * 🔑 [Add support for issuing registration tokens with MAS](https://github.com/etkecc/synapse-admin/pull/1067)
 * 👻 [Add support for shadow banning](https://github.com/etkecc/synapse-admin/pull/1081)
+* 🔐 [Add "Reset password" button](https://github.com/etkecc/synapse-admin/commit/bac08c0c0c28be28ad6422127e77fd2cd97bedfd)
+* 🔓 [Add "Login as user" button](https://github.com/etkecc/synapse-admin/commit/8c287cc2807788eccaa5f8b39a478fc027f4d7f0)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
