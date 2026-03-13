@@ -217,6 +217,18 @@ const fr: SynapseTranslationMessages = {
           failure: "Échec de la réinitialisation du mot de passe",
           error_no_password: "Le mot de passe est requis",
         },
+        login_as: {
+          label: "Se connecter en tant qu'utilisateur",
+          title: "Se connecter en tant qu'utilisateur",
+          helper:
+            "Obtenir un jeton d'accès pour s'authentifier en tant que %{user}. Cette action ne crée pas de nouvel appareil pour l'utilisateur et n'apparaîtra donc pas dans la liste des appareils/sessions. L'utilisateur cible ne devrait généralement pas pouvoir détecter cette connexion.",
+          valid_until: "Définir une date d'expiration",
+          success: "Jeton d'accès généré avec succès",
+          failure: "Échec de la génération du jeton d'accès",
+          result_title: "Jeton d'accès de %{user}",
+          access_token: "Jeton d'accès",
+          expires_at: "Ce jeton d'accès expirera le %{date}",
+        },
         overwrite_title: "Attention !",
         overwrite_content:
           "Ce nom d'utilisateur est déjà pris. Êtes-vous sûr de vouloir écraser l'utilisateur existant ?",

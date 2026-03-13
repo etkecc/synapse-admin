@@ -205,6 +205,18 @@ const en: SynapseTranslationMessages = {
           failure: "Failed to reset password",
           error_no_password: "Password is required",
         },
+        login_as: {
+          label: "Login as user",
+          title: "Login as user",
+          helper:
+            "Get an access token that can be used to authenticate as %{user}. This action does not generate a new device for the user, and so will not appear their devices/sessions list, and in general the target user should not be able to tell they have been logged in as.",
+          valid_until: "Set expiry date",
+          success: "Access token generated successfully",
+          failure: "Failed to generate access token",
+          result_title: "%{user} access token",
+          access_token: "Access token",
+          expires_at: "This access token will expire %{date}",
+        },
         overwrite_title: "Warning!",
         overwrite_content: "This username is already taken. Are you sure that you want to overwrite the existing user?",
         overwrite_cancel: "Cancel",

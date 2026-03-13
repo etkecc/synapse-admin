@@ -331,6 +331,18 @@ const it: SynapseTranslationMessages = {
           failure: "Impossibile reimpostare la password",
           error_no_password: "La password è obbligatoria",
         },
+        login_as: {
+          label: "Accedi come utente",
+          title: "Accedi come utente",
+          helper:
+            "Ottieni un token di accesso per autenticarsi come %{user}. Questa azione non genera un nuovo dispositivo per l'utente, quindi non apparirà nella lista dei dispositivi/sessioni. L'utente di destinazione generalmente non dovrebbe essere in grado di rilevare questo accesso.",
+          valid_until: "Imposta data di scadenza",
+          success: "Token di accesso generato con successo",
+          failure: "Impossibile generare il token di accesso",
+          result_title: "Token di accesso di %{user}",
+          access_token: "Token di accesso",
+          expires_at: "Questo token di accesso scadrà il %{date}",
+        },
         overwrite_title: "Attenzione!",
         overwrite_content:
           "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",

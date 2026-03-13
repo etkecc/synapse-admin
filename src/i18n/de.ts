@@ -274,6 +274,18 @@ const de: SynapseTranslationMessages = {
           failure: "Passwort konnte nicht zurückgesetzt werden",
           error_no_password: "Passwort ist erforderlich",
         },
+        login_as: {
+          label: "Als Benutzer anmelden",
+          title: "Als Benutzer anmelden",
+          helper:
+            "Zugriffstoken erhalten, um sich als %{user} zu authentifizieren. Diese Aktion erstellt kein neues Gerät für den Benutzer und erscheint daher nicht in der Geräte-/Sitzungsliste. Der Zielbenutzer sollte in der Regel nicht erkennen können, dass jemand sich als er angemeldet hat.",
+          valid_until: "Ablaufdatum festlegen",
+          success: "Zugriffstoken erfolgreich erstellt",
+          failure: "Zugriffstoken konnte nicht erstellt werden",
+          result_title: "Zugriffstoken von %{user}",
+          access_token: "Zugriffstoken",
+          expires_at: "Dieses Zugriffstoken läuft am %{date} ab",
+        },
         overwrite_title: "Warnung!",
         overwrite_content:
           "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",

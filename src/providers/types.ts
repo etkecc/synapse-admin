@@ -426,6 +426,10 @@ export interface SynapseDataProvider extends DataProvider {
     newPassword: string,
     logoutDevices?: boolean
   ) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  loginAsUser: (
+    id: Identifier,
+    validUntilMs?: number
+  ) => Promise<{ success: boolean; access_token?: string; error?: string; errcode?: string }>;
   eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUrl: string, locale: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string, locale: string) => Promise<ServerStatusResponse>;

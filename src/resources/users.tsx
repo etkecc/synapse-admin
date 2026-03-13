@@ -78,6 +78,7 @@ import AvatarField from "../components/AvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import DeviceRemoveButton from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
+import { LoginAsUserButton } from "../components/LoginAsUserButton";
 import { ResetPasswordButton } from "../components/ResetPasswordButton";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
 import UserAccountData from "../components/UserAccountData";
@@ -260,6 +261,7 @@ const UserEditActions = () => {
 
   return (
     <TopToolbar>
+      {!record?.deactivated && <LoginAsUserButton />}
       {!record?.deactivated && <ResetPasswordButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (

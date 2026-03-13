@@ -266,6 +266,18 @@ const zh: SynapseTranslationMessages = {
           failure: "重置密码失败",
           error_no_password: "密码为必填项",
         },
+        login_as: {
+          label: "以用户身份登录",
+          title: "以用户身份登录",
+          helper:
+            "获取可用于以 %{user} 身份进行认证的访问令牌。此操作不会为用户生成新设备，因此不会出现在其设备/会话列表中，目标用户通常无法察觉此登录。",
+          valid_until: "设置过期时间",
+          success: "访问令牌已成功生成",
+          failure: "生成访问令牌失败",
+          result_title: "%{user} 的访问令牌",
+          access_token: "访问令牌",
+          expires_at: "此访问令牌将于 %{date} 过期",
+        },
         overwrite_title: "警告！",
         overwrite_content: "这个用户名已经被占用。您确定要覆盖现有的用户吗？",
         overwrite_cancel: "取消",

@@ -410,6 +410,29 @@ export const resetPassword = async (id: Identifier, newPassword: string, logoutD
   }
 };
 
+export const loginAsUser = async (id: Identifier, validUntilMs?: number) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const body: Record<string, unknown> = {};
+    if (validUntilMs !== undefined) {
+      body.valid_until_ms = validUntilMs;
+    }
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/login`,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+      }
+    );
+    return { success: true, access_token: json.access_token };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const eraseUser = async (id: Identifier) => {
   const base_url = localStorage.getItem("base_url");
   try {

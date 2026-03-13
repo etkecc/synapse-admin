@@ -223,6 +223,18 @@ const ja: SynapseTranslationMessages = {
           failure: "パスワードのリセットに失敗しました",
           error_no_password: "パスワードは必須です",
         },
+        login_as: {
+          label: "ユーザーとしてログイン",
+          title: "ユーザーとしてログイン",
+          helper:
+            "%{user} として認証するためのアクセストークンを取得します。この操作はユーザーの新しいデバイスを生成しないため、デバイス/セッション一覧には表示されず、対象ユーザーは通常ログインされたことを検知できません。",
+          valid_until: "有効期限を設定",
+          success: "アクセストークンが正常に生成されました",
+          failure: "アクセストークンの生成に失敗しました",
+          result_title: "%{user} のアクセストークン",
+          access_token: "アクセストークン",
+          expires_at: "このアクセストークンは %{date} に期限切れになります",
+        },
         overwrite_title: "注意！",
         overwrite_content: "このユーザー名はすでに取得されています。既存のユーザーを上書きしてもよろしいですか？",
         overwrite_cancel: "キャンセル",

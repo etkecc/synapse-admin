@@ -34,6 +34,7 @@ import {
   suspendUser,
   shadowBanUser,
   resetPassword,
+  loginAsUser,
   eraseUser,
   deleteUserMedia,
   redactUserEvents,
@@ -441,6 +442,7 @@ const baseDataProvider: SynapseDataProvider = {
   suspendUser,
   shadowBanUser,
   resetPassword,
+  loginAsUser,
   eraseUser,
 
   ...etkeProviderMethods,

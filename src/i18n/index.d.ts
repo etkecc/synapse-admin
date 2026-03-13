@@ -193,6 +193,17 @@ interface SynapseTranslationMessages extends TranslationMessages {
           failure: string;
           error_no_password: string;
         };
+        login_as: {
+          label: string;
+          title: string;
+          helper: string;
+          valid_until: string;
+          success: string;
+          failure: string;
+          result_title: string;
+          access_token: string;
+          expires_at: string;
+        };
         overwrite_title: string;
         overwrite_content: string;
         overwrite_cancel: string;
