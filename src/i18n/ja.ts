@@ -412,7 +412,9 @@ const ja: SynapseTranslationMessages = {
       action: {
         erase: {
           title: "%{id}を削除",
+          title_bulk: "%{smart_count} 件のデバイスを削除",
           content: "「%{name}」を削除してよろしいですか？",
+          content_bulk: "%{smart_count} 件のデバイスを削除しますか？",
           success: "端末を削除しました。",
           failure: "エラーが発生しました。",
         },

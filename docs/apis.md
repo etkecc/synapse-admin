@@ -97,7 +97,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | GET | Get single device info | ⏭️ |
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | PUT | Update device metadata | ❌ |
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | DELETE | Delete a device | ✅ |
-| `/_synapse/admin/v2/users/<user_id>/delete_devices` | POST | Delete multiple devices | ❌ |
+| `/_synapse/admin/v2/users/<user_id>/delete_devices` | POST | Delete multiple devices | ✅ |
 
 ### 🟡 Rooms
 

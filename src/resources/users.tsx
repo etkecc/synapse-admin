@@ -77,7 +77,7 @@ import { Link } from "react-router-dom";
 import { MakeAdminBtn, RoomBulkActionButtons } from "./rooms";
 import AvatarField from "../components/AvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
-import DeviceRemoveButton from "../components/DeviceRemoveButton";
+import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
 import { LoginAsUserButton } from "../components/LoginAsUserButton";
 import { ResetPasswordButton } from "../components/ResetPasswordButton";
@@ -645,7 +645,10 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
           >
             <Box sx={{ width: "100%" }}>
-              <DatagridConfigurable bulkActionButtons={false} omit={["last_seen_user_agent", "dehydrated"]}>
+              <DatagridConfigurable
+                bulkActionButtons={<DeviceBulkRemoveButton />}
+                omit={["last_seen_user_agent", "dehydrated"]}
+              >
                 <TextField source="device_id" sortable={false} />
                 <TextField source="display_name" sortable={false} />
                 <TextField source="last_seen_ip" sortable={false} />

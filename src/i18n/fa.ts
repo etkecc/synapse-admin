@@ -423,7 +423,10 @@ const fa: SynapseTranslationMessages = {
       action: {
         erase: {
           title: "حذف کردن %{id}",
+          title_bulk: "حذف %{smart_count} دستگاه |||| حذف %{smart_count} دستگاه",
           content: 'آیا مطمئن هستید که می خواهید دستگاه را حذف کنید؟ "%{name}"?',
+          content_bulk:
+            "آیا مطمئن هستید که می‌خواهید %{smart_count} دستگاه را حذف کنید؟ |||| آیا مطمئن هستید که می‌خواهید %{smart_count} دستگاه را حذف کنید؟",
           success: "دستگاه با موفقیت حذف شد.",
           failure: "خطایی رخ داده است.",
         },

@@ -423,8 +423,8 @@ const uk: SynapseTranslationMessages = {
       },
       action: {
         erase: {
-          title: "Delete reported event",
-          content: "Are you sure you want to delete the reported event? This cannot be undone.",
+          title: "Видалити повідомлення про подію",
+          content: "Ви впевнені, що хочете видалити повідомлення про подію? Цю дію не можна скасувати.",
         },
       },
     },
@@ -448,8 +448,12 @@ const uk: SynapseTranslationMessages = {
       },
       action: {
         erase: {
-          title: "Removing %{id}",
-          content: 'Are you sure you want to remove the device "%{name}"?',
+          title: "Видалення %{id}",
+          title_bulk:
+            "Видалення %{smart_count} пристрою |||| Видалення %{smart_count} пристроїв |||| Видалення %{smart_count} пристроїв",
+          content: 'Ви впевнені, що хочете видалити пристрій "%{name}"?',
+          content_bulk:
+            "Ви впевнені, що хочете видалити %{smart_count} пристрій? |||| Ви впевнені, що хочете видалити %{smart_count} пристрої? |||| Ви впевнені, що хочете видалити %{smart_count} пристроїв?",
           success: "Device successfully removed.",
           failure: "An error has occurred.",
         },

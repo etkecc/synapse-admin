@@ -399,7 +399,10 @@ const fr: SynapseTranslationMessages = {
       action: {
         erase: {
           title: "Suppression de %{id}",
+          title_bulk: "Suppression de %{smart_count} appareil |||| Suppression de %{smart_count} appareils",
           content: "Voulez-vous vraiment supprimer l'appareil « %{name} » ?",
+          content_bulk:
+            "Voulez-vous vraiment supprimer %{smart_count} appareil ? |||| Voulez-vous vraiment supprimer %{smart_count} appareils ?",
           success: "Appareil supprimé avec succès",
           failure: "Une erreur s'est produite",
         },

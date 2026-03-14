@@ -443,7 +443,9 @@ const zh: SynapseTranslationMessages = {
       action: {
         erase: {
           title: "移除 %{id}",
+          title_bulk: "移除 %{smart_count} 个设备",
           content: '您确定要移除设备 "%{name}"?',
+          content_bulk: "您确定要移除 %{smart_count} 个设备？",
           success: "设备移除成功。",
           failure: "出现了一个错误。",
         },

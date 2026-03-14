@@ -377,7 +377,9 @@ interface SynapseTranslationMessages extends TranslationMessages {
       action: {
         erase: {
           title: string;
+          title_bulk: string;
           content: string;
+          content_bulk: string;
           success: string;
           failure: string;
         };

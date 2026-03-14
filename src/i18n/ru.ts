@@ -460,13 +460,17 @@ const ru: SynapseTranslationMessages = {
         display_name: "Название",
         last_seen_ts: "Дата и время",
         last_seen_ip: "IP адрес",
-        last_seen_user_agent: "User agent",
+        last_seen_user_agent: "Юзер-агент",
         dehydrated: "Дегидратировано",
       },
       action: {
         erase: {
           title: "Удаление %{id}",
+          title_bulk:
+            "Удаление %{smart_count} устройства |||| Удаление %{smart_count} устройств |||| Удаление %{smart_count} устройств",
           content: 'Действительно удалить устройство "%{name}"?',
+          content_bulk:
+            "Действительно удалить %{smart_count} устройство? |||| Действительно удалить %{smart_count} устройства? |||| Действительно удалить %{smart_count} устройств?",
           success: "Устройство успешно удалено.",
           failure: "Произошла ошибка.",
         },

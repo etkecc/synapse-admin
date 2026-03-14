@@ -457,7 +457,10 @@ const de: SynapseTranslationMessages = {
       action: {
         erase: {
           title: "Entferne %{id}",
+          title_bulk: "%{smart_count} Gerät entfernen |||| %{smart_count} Geräte entfernen",
           content: 'Möchten Sie das Gerät "%{name}" wirklich entfernen?',
+          content_bulk:
+            "Möchten Sie wirklich %{smart_count} Gerät entfernen? |||| Möchten Sie wirklich %{smart_count} Geräte entfernen?",
           success: "Gerät erfolgreich entfernt.",
           failure: "Beim Entfernen ist ein Fehler aufgetreten.",
         },
