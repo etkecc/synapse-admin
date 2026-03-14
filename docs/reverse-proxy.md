@@ -6,9 +6,28 @@ and here you can find specific instructions and example configurations for Synap
 If you need `/admin`, use the prebuilt `synapse-admin-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
 For the root path, use the prebuilt `synapse-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
 
+
+<!-- vim-markdown-toc GFM -->
+
+* [Nginx](#nginx)
+  * [Prebuilt tarball](#prebuilt-tarball)
+    * [Root path](#root-path)
+    * [`/admin` subpath](#admin-subpath)
+  * [Docker](#docker)
+    * [Root path](#root-path-1)
+    * [`/admin` subpath](#admin-subpath-1)
+* [Traefik (docker labels)](#traefik-docker-labels)
+* [Other reverse proxies](#other-reverse-proxies)
+
+<!-- vim-markdown-toc -->
+
 ## Nginx
 
 ### Prebuilt tarball
+
+#### Root path
+
+For example, `https://example.com`.
 
 Place the config below into `/etc/nginx/conf.d/synapse-admin.conf` (don't forget to replace `server_name` and `root`):
 
@@ -32,6 +51,10 @@ server {
     gzip_min_length 1000;
 }
 ```
+
+#### `/admin` subpath
+
+For example, `https://example.com/admin`.
 
 If you are serving Synapse Admin under `/admin`, extract the `synapse-admin-subpath-admin` tarball into an `admin/` subdirectory of your web root (e.g. extract into `/var/www/html/admin/`):
 
@@ -58,7 +81,13 @@ server {
 
 ### Docker
 
-The following snippets assume the Docker nginx is used and is in the same network as Synapse Admin.
+The following snippets assume the nginx docker container is used and it is in the same network as Synapse Admin docker container.
+
+#### Root path
+
+For example, `https://example.com`.
+
+Use Synapse Admin docker tag **without** the `-subpath-admin` suffix (e.g., `latest`)
 
 ```nginx
 server {
@@ -77,7 +106,11 @@ server {
 }
 ```
 
-If you are serving Synapse Admin under `/admin`:
+#### `/admin` subpath
+
+For example, `https://example.com/admin`.
+
+Use Synapse Admin docker tag **with** the `-subpath-admin` suffix (e.g., `latest-subpath-admin`)
 
 ```nginx
 server {
