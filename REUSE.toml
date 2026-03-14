@@ -207,7 +207,8 @@ SPDX-License-Identifier = "Apache-2.0"
 [[annotations]]
 path = ["docs/reverse-proxy.md"]
 SPDX-FileCopyrightText = [
-  "2024 Nikita Chernyi",
+  "2024-2026 Nikita Chernyi",
+  "2026 cy1der",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
