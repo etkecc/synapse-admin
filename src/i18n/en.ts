@@ -313,6 +313,15 @@ const en: SynapseTranslationMessages = {
           success: "The user has been set as room admin.",
           failure: "The user could not be set as room admin. %{errMsg}",
         },
+        join: {
+          label: "Join user",
+          title: "Join user to %{roomName}",
+          confirm: "Join",
+          content:
+            "Put the full MXID of the user to join to this room.\nNote: you must be in the room and have permission to invite users.",
+          success: "User joined to the room successfully.",
+          failure: "Failed to join user to the room. %{errMsg}",
+        },
         block: {
           label: "Block",
           title: "Block %{room}",

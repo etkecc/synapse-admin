@@ -331,6 +331,15 @@ const ja: SynapseTranslationMessages = {
           success: "ユーザーをルームの管理者に設定しました。",
           failure: "ユーザーをルームの管理者に設定できませんでした。%{errMsg}",
         },
+        join: {
+          label: "ユーザーを参加",
+          title: "%{roomName} にユーザーを参加させる",
+          confirm: "参加",
+          content:
+            "このルームに参加させるユーザーのMXIDを入力してください。\n注意：ルームに参加しており、ユーザーを招待する権限が必要です。",
+          success: "ユーザーをルームに参加させました。",
+          failure: "ユーザーをルームに参加させることができませんでした。%{errMsg}",
+        },
         block: {
           label: "ブロック",
           title: "%{room} をブロック",

@@ -363,6 +363,14 @@ const zh: SynapseTranslationMessages = {
           success: "用户已设为房间管理员。",
           failure: "无法将用户设为房间管理员。%{errMsg}",
         },
+        join: {
+          label: "加入用户",
+          title: "将用户加入 %{roomName}",
+          confirm: "加入",
+          content: "请输入要加入此房间的用户完整 MXID。\n注意：您必须在房间中并具有邀请用户的权限。",
+          success: "用户已成功加入房间。",
+          failure: "无法将用户加入房间。%{errMsg}",
+        },
         block: {
           label: "封锁",
           title: "封锁 %{room}",

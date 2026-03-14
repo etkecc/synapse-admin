@@ -297,6 +297,14 @@ interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        join: {
+          label: string;
+          title: string;
+          confirm: string;
+          content: string;
+          success: string;
+          failure: string;
+        };
         block: {
           label: string;
           title: string;

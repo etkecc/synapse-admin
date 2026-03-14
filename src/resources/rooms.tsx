@@ -5,6 +5,7 @@ import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
 import PageviewIcon from "@mui/icons-material/Pageview";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonIcon from "@mui/icons-material/Person";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
@@ -111,6 +112,7 @@ const RoomShowActions = () => {
     <TopToolbar>
       {publishButton}
       <BlockRoomButton />
+      <JoinUserBtn />
       <MakeAdminBtn />
       <DeleteRoomButton
         selectedIds={[record.id]}
@@ -203,6 +205,99 @@ export const MakeAdminBtn = () => {
           <>
             <Typography sx={{ marginBottom: 2, whiteSpace: "pre-line" }}>
               {translate("resources.rooms.action.make_admin.content")}
+            </Typography>
+            <TextField
+              type="text"
+              variant="filled"
+              value={userIdValue}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              label={"Matrix ID"}
+            />
+          </>
+        }
+      />
+    </>
+  );
+};
+
+export const JoinUserBtn = () => {
+  const record = useRecordContext() as Room;
+
+  if (!record) {
+    return null;
+  }
+
+  const [open, setOpen] = useState(false);
+  const [userIdValue, setUserIdValue] = useState("");
+  const dataProvider = useDataProvider();
+  const notify = useNotify();
+  const translate = useTranslate();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async () => {
+      const result = await dataProvider.joinUserToRoom(record.room_id, userIdValue);
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+    },
+    onSuccess: () => {
+      notify("resources.rooms.action.join.success", { type: "success" });
+      setOpen(false);
+      setUserIdValue("");
+    },
+    onError: err => {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      notify("resources.rooms.action.join.failure", { type: "error", messageArgs: { errMsg: errorMessage } });
+      setOpen(false);
+      setUserIdValue("");
+    },
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserIdValue(event.target.value);
+  };
+
+  const handleConfirm = async () => {
+    mutate();
+    setOpen(false);
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleConfirm();
+    }
+  };
+
+  return (
+    <>
+      <Button
+        size="small"
+        onClick={e => {
+          e.stopPropagation();
+          setOpen(true);
+        }}
+        disabled={isPending}
+      >
+        <PersonAddIcon /> {translate("resources.rooms.action.join.label")}
+      </Button>
+      <Confirm
+        isOpen={open}
+        onConfirm={handleConfirm}
+        onClose={handleDialogClose}
+        confirm="resources.rooms.action.join.confirm"
+        cancel="ra.action.cancel"
+        title={translate("resources.rooms.action.join.title", {
+          roomName: record.name ? record.name : record.room_id,
+        })}
+        content={
+          <>
+            <Typography sx={{ marginBottom: 2, whiteSpace: "pre-line" }}>
+              {translate("resources.rooms.action.join.content")}
             </Typography>
             <TextField
               type="text"

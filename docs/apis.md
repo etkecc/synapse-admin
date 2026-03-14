@@ -27,7 +27,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [❌ Purge History](#-purge-history)
     * [❌ Fetch Event](#-fetch-event)
     * [❌ Register (Shared-Secret Registration)](#-register-shared-secret-registration)
-    * [❌ Room Membership](#-room-membership)
+    * [✅ Room Membership](#-room-membership)
     * [❌ Scheduled Tasks](#-scheduled-tasks)
     * [❌ Client-Server API Extensions](#-client-server-api-extensions)
 * [Matrix Authentication Service (MAS) Admin API](#matrix-authentication-service-mas-admin-api)
@@ -213,11 +213,11 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/register` | GET | Get registration nonce | ❌ |
 | `/_synapse/admin/v1/register` | POST | Create user via shared-secret | ❌ |
 
-### ❌ Room Membership
+### ✅ Room Membership
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v1/join/<room_id_or_alias>` | POST | Join a user to a room | ❌ |
+| `/_synapse/admin/v1/join/<room_id_or_alias>` | POST | Join a user to a room | ✅ |
 
 ### ❌ Scheduled Tasks
 

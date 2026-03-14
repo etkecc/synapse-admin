@@ -374,6 +374,15 @@ const de: SynapseTranslationMessages = {
           success: "Der/die Benutzer wurde/n als Raumadministrator gesetzt.",
           failure: "Der/die Benutzer konnte/n nicht als Raumadministrator gesetzt werden. %{errMsg}",
         },
+        join: {
+          label: "Benutzer beitreten",
+          title: "Benutzer zu %{roomName} beitreten lassen",
+          confirm: "Beitreten",
+          content:
+            "Geben Sie die vollständige MXID des Benutzers ein, der diesem Raum beitreten soll.\nHinweis: Sie müssen im Raum sein und die Berechtigung haben, Benutzer einzuladen.",
+          success: "Benutzer ist dem Raum erfolgreich beigetreten.",
+          failure: "Benutzer konnte dem Raum nicht beitreten. %{errMsg}",
+        },
         block: {
           label: "Sperren",
           title: "%{room} sperren",

@@ -431,6 +431,15 @@ const it: SynapseTranslationMessages = {
           success: "L'utente è stato designato come amministratore della stanza.",
           failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
         },
+        join: {
+          label: "Unisci utente",
+          title: "Unisci un utente a %{roomName}",
+          confirm: "Unisci",
+          content:
+            "Inserisci la MXID completa dell'utente da unire a questa stanza.\nNota: devi essere nella stanza e avere il permesso di invitare utenti.",
+          success: "L'utente è stato unito alla stanza con successo.",
+          failure: "Impossibile unire l'utente alla stanza. %{errMsg}",
+        },
         block: {
           label: "Blocca",
           title: "Blocca %{room}",

@@ -416,6 +416,7 @@ export interface SynapseDataProvider extends DataProvider {
   getRoomBlockStatus: (
     roomId: string
   ) => Promise<{ success: boolean; block: boolean; error?: string; errcode?: string }>;
+  joinUserToRoom: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   makeRoomAdmin: (room_id: string, user_id: string) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   suspendUser: (
     id: Identifier,

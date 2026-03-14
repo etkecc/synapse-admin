@@ -317,6 +317,15 @@ const fr: SynapseTranslationMessages = {
           success: "L'utilisateur a été désigné comme administrateur de la salle.",
           failure: "L'utilisateur n'a pas pu être désigné comme administrateur de la salle. %{errMsg}",
         },
+        join: {
+          label: "Joindre utilisateur",
+          title: "Joindre un utilisateur à %{roomName}",
+          confirm: "Joindre",
+          content:
+            "Entrez la MXID complète de l'utilisateur à joindre à ce salon.\nNote : vous devez être dans le salon et avoir la permission d'inviter des utilisateurs.",
+          success: "L'utilisateur a rejoint le salon avec succès.",
+          failure: "L'utilisateur n'a pas pu rejoindre le salon. %{errMsg}",
+        },
         block: {
           label: "Bloquer",
           title: "Bloquer %{room}",

@@ -376,6 +376,22 @@ export const getRoomBlockStatus = async (roomId: string) => {
   }
 };
 
+export const joinUserToRoom = async (room_id: string, user_id: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    await jsonClient(`${base_url}/_synapse/admin/v1/join/${encodeURIComponent(room_id)}`, {
+      method: "POST",
+      body: JSON.stringify({ user_id }),
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const makeRoomAdmin = async (room_id: string, user_id: string) => {
   const base_url = localStorage.getItem("base_url");
   try {
