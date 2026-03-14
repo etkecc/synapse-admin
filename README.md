@@ -168,7 +168,8 @@ The following changes are already implemented:
 * 👻 [Add support for shadow banning](https://github.com/etkecc/synapse-admin/pull/1081)
 * 🔐 [Add "Reset password" button](https://github.com/etkecc/synapse-admin/commit/bac08c0c0c28be28ad6422127e77fd2cd97bedfd)
 * 🔓 [Add "Login as user" button](https://github.com/etkecc/synapse-admin/commit/8c287cc2807788eccaa5f8b39a478fc027f4d7f0)
-* [Add "Block room"/"Unblock room" buttons](https://github.com/etkecc/synapse-admin/commit/ba86f1af4414964bbd779f21811419ea94f79833)
+* 🚫 [Add "Block room"/"Unblock room" buttons](https://github.com/etkecc/synapse-admin/commit/ba86f1af4414964bbd779f21811419ea94f79833)
+* 🚪 [Add "Join user to room" button](https://github.com/etkecc/synapse-admin/commit/4f520ab36742cf59f222837ffa064616f08ee44f)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
