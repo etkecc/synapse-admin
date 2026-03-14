@@ -371,6 +371,8 @@ interface SynapseTranslationMessages extends TranslationMessages {
         display_name: string;
         last_seen_ts: string;
         last_seen_ip: string;
+        last_seen_user_agent: string;
+        dehydrated: string;
       };
       action: {
         erase: {

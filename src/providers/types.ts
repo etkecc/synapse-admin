@@ -111,6 +111,7 @@ export interface Device {
   last_seen_user_agent?: string;
   last_seen_ts?: number;
   user_id: string;
+  dehydrated?: boolean;
 }
 
 export interface Connection {

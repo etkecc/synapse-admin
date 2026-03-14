@@ -406,6 +406,8 @@ const ja: SynapseTranslationMessages = {
         display_name: "端末の名称",
         last_seen_ts: "タイムスタンプ",
         last_seen_ip: "IPアドレス",
+        last_seen_user_agent: "ユーザーエージェント",
+        dehydrated: "デハイドレート",
       },
       action: {
         erase: {

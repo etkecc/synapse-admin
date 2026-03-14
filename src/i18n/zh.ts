@@ -437,6 +437,8 @@ const zh: SynapseTranslationMessages = {
         display_name: "设备名",
         last_seen_ts: "时间戳",
         last_seen_ip: "IP 地址",
+        last_seen_user_agent: "用户代理",
+        dehydrated: "脱水设备",
       },
       action: {
         erase: {

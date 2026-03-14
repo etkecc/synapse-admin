@@ -12,7 +12,7 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import ScienceIcon from "@mui/icons-material/Science";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import { Alert, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import {
@@ -49,6 +49,7 @@ import {
   required,
   useRecordContext,
   useTranslate,
+  WrapperField,
   Pagination,
   SaveButton,
   CreateButton,
@@ -643,13 +644,19 @@ export const UserEdit = (props: EditProps) => {
             pagination={<UserPagination />}
             perPage={10}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
-              <TextField source="device_id" sortable={false} />
-              <TextField source="display_name" sortable={false} />
-              <TextField source="last_seen_ip" sortable={false} />
-              <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-              <DeviceRemoveButton />
-            </Datagrid>
+            <Box sx={{ width: "100%" }}>
+              <DatagridConfigurable bulkActionButtons={false} omit={["last_seen_user_agent", "dehydrated"]}>
+                <TextField source="device_id" sortable={false} />
+                <TextField source="display_name" sortable={false} />
+                <TextField source="last_seen_ip" sortable={false} />
+                <TextField source="last_seen_user_agent" sortable={false} />
+                <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                <BooleanField source="dehydrated" sortable={false} />
+                <WrapperField label="resources.rooms.fields.actions">
+                  <DeviceRemoveButton />
+                </WrapperField>
+              </DatagridConfigurable>
+            </Box>
           </ReferenceManyField>
         </FormTab>
 

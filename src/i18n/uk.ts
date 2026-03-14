@@ -443,6 +443,8 @@ const uk: SynapseTranslationMessages = {
         display_name: "Назва пристрою",
         last_seen_ts: "Мітка часу",
         last_seen_ip: "IP адреса",
+        last_seen_user_agent: "User agent",
+        dehydrated: "Дегідратовано",
       },
       action: {
         erase: {

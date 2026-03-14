@@ -460,6 +460,8 @@ const ru: SynapseTranslationMessages = {
         display_name: "Название",
         last_seen_ts: "Дата и время",
         last_seen_ip: "IP адрес",
+        last_seen_user_agent: "User agent",
+        dehydrated: "Дегидратировано",
       },
       action: {
         erase: {

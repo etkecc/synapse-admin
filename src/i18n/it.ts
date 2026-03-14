@@ -507,6 +507,8 @@ const it: SynapseTranslationMessages = {
         display_name: "Nome del dispositivo",
         last_seen_ts: "Timestamp",
         last_seen_ip: "Indirizzo IP",
+        last_seen_user_agent: "User agent",
+        dehydrated: "Disidratato",
       },
       action: {
         erase: {

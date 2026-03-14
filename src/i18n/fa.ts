@@ -417,6 +417,8 @@ const fa: SynapseTranslationMessages = {
         display_name: "نام دستگاه",
         last_seen_ts: "مهر زمان",
         last_seen_ip: "آدرس آی پی",
+        last_seen_user_agent: "عامل کاربر",
+        dehydrated: "کم‌آب",
       },
       action: {
         erase: {
