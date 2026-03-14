@@ -31,7 +31,7 @@ jobs:
           yarn build --base=${{ env.base_path }}
           mv dist dist-root
           yarn build --base=/admin/
-          mv dist dist-admin
+          mv dist dist-subpath-admin
         env:
           NODE_ENV: production
       - uses: actions/upload-artifact@v7
@@ -45,8 +45,8 @@ jobs:
           include-hidden-files: true
       - uses: actions/upload-artifact@v7
         with:
-          path: dist-admin/
-          name: dist-admin
+          path: dist-subpath-admin/
+          name: dist-subpath-admin
           if-no-files-found: error
           retention-days: 1
           compression-level: 0
@@ -97,6 +97,48 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+  docker-subpath-admin:
+    name: Docker (subpath /admin)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist-subpath-admin
+          path: dist/
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+      - name: Login to ghcr.io
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to hub.docker.com
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
+        with:
+          username: etkecc
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6.0.0
+        with:
+          images: |
+            ${{ github.repository }}
+            ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=latest-subpath-admin,enable=${{ github.ref_name == 'main' }}
+            type=semver,pattern={{raw}}-subpath-admin
+      - name: Build and push
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        with:
+          platforms: linux/amd64,linux/arm64
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
   cdn:
     name: CDN
     needs: build
@@ -130,13 +172,13 @@ jobs:
           path: dist-root/
       - uses: actions/download-artifact@v8
         with:
-          name: dist-admin
-          path: dist-admin/
+          name: dist-subpath-admin
+          path: dist-subpath-admin/
       - name: Prepare release
         run: |
           mv dist-root synapse-admin
           tar chvzf synapse-admin.tar.gz synapse-admin
-          mv dist-admin synapse-admin-subpath-admin
+          mv dist-subpath-admin synapse-admin-subpath-admin
           tar chvzf synapse-admin-subpath-admin.tar.gz synapse-admin-subpath-admin
       - uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:

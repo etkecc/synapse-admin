@@ -64,7 +64,7 @@ The full list is described below in the [Changes](#changes) section.
 * As a core/default component on [etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=synapse-admin)
 * As a standalone app on [admin.etke.cc](https://admin.etke.cc)
 * As a prebuilt distribution on [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) for root-path (e.g., `https://admin.example.com`, `synapse-admin.tar.gz`) and `admin` subpath (e.g., `https://example.com/admin`, `synapse-admin-subpath-admin.tar.gz`) deployment
-* As a prebuilt snapshot of the latest development version from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) (click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-admin` artifact depending on your desired deployment path)
+* As a prebuilt snapshot of the latest development version from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) (click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin` artifact depending on your desired deployment path)
 * As a Docker container on [Docker Hub](https://hub.docker.com/r/etkecc/synapse-admin) and [GitHub Container Registry](https://github.com/etkecc/synapse-admin/pkgs/container/synapse-admin)
 * As a component in [Matrix-Docker-Ansible-Deploy Playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)
 * As a [Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc) maintained by [@Defelo](https://github.com/Defelo)
@@ -78,7 +78,7 @@ We offer two prebuilt distributions for different deployment paths:
 
 You can find the latest **released** versions on the [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) - download the appropriate `.tar.gz` file and follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
 
-You can find the latest **development (nightly)** versions in the [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) - click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-admin` artifact depending on your desired deployment path. After that, follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
+You can find the latest **development (nightly)** versions in the [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) - click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin` artifact depending on your desired deployment path. After that, follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
 
 #### IPFS
 
@@ -366,7 +366,7 @@ You have three options:
 
 The path prefix where synapse-admin is served can only be changed during the build step.
 
-If you need `/admin` specifically, use the prebuilt `synapse-admin-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
+If you need `/admin` specifically, use the prebuilt `synapse-admin-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-subpath-admin` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml), or `*-subpath-admin` tag of the Docker image.
 If you need the root path, use the prebuilt `synapse-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
 For any other prefix, you must build your own distribution.
 
