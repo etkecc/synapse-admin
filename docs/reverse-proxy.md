@@ -8,6 +8,8 @@ For the root path, use the prebuilt `synapse-admin` tarball from [GitHub Release
 
 ## Nginx
 
+### Prebuilt tarball
+
 Place the config below into `/etc/nginx/conf.d/synapse-admin.conf` (don't forget to replace `server_name` and `root`):
 
 ```nginx
@@ -51,6 +53,46 @@ server {
     gzip on;
     gzip_types text/plain application/javascript application/json text/css text/xml application/xml+rss;
     gzip_min_length 1000;
+}
+```
+
+### Docker
+
+The following snippets assume the Docker nginx is used and is in the same network as Synapse Admin.
+
+```nginx
+server {
+  listen 80;
+
+  server_name example.com; # REPLACE with your domain
+
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_pass http://synapse-admin:8080;
+  }
+}
+```
+
+If you are serving Synapse Admin under `/admin`:
+
+```nginx
+server {
+  listen 80;
+
+  server_name example.com; # REPLACE with your domain
+
+  location /admin/ { # Trailing slash required here
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_pass http://synapse-admin:8080; # NO trailing slash here
+  }
 }
 ```
 
