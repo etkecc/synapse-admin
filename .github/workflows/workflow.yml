@@ -136,6 +136,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: .
           push: true
+          file: Dockerfile.subpath-admin
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
