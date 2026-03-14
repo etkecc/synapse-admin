@@ -496,6 +496,13 @@ const fa: SynapseTranslationMessages = {
         send: "اعلان سرور را برای کاربران انتخاب شده ارسال می کند. ویژگی 'اعلامیه های سرور' باید در سرور فعال شود.",
       },
     },
+    database_room_statistics: {
+      name: "آمار پایگاه داده اتاق‌ها",
+      fields: {
+        room_id: "شناسه اتاق",
+        estimated_size: "اندازه تخمینی",
+      },
+    },
     user_media_statistics: {
       name: "رسانه کاربران",
       fields: {

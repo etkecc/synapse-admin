@@ -523,6 +523,13 @@ const uk: SynapseTranslationMessages = {
         send: 'Надсилає повідомлення сервера вибраним користувачам. На сервері має бути активовано функцію "Повідомлення сервера".',
       },
     },
+    database_room_statistics: {
+      name: "Статистика БД по кімнатах",
+      fields: {
+        room_id: "ID кімнати",
+        estimated_size: "Приблизний розмір",
+      },
+    },
     user_media_statistics: {
       name: "Медіа користувачів",
       fields: {

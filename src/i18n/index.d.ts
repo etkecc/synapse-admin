@@ -451,6 +451,13 @@ interface SynapseTranslationMessages extends TranslationMessages {
         send: string;
       };
     };
+    database_room_statistics: {
+      name: string;
+      fields: {
+        room_id: string;
+        estimated_size: string;
+      };
+    };
     user_media_statistics: {
       name: string;
       fields: {

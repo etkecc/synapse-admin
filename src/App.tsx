@@ -25,6 +25,7 @@ import russianMessages from "./i18n/ru";
 import ukrainianMessages from "./i18n/uk";
 import chineseMessages from "./i18n/zh";
 import LoginPage from "./pages/LoginPage";
+import { DatabaseRoomStatsList } from "./resources/database_room_statistics";
 import destinations from "./resources/destinations";
 import registrationToken from "./resources/registration_tokens";
 import reports from "./resources/reports";
@@ -104,10 +105,12 @@ export const App = () => {
           {!icfg.disabled.payments && <Route path="/billing" element={<BillingPage />} />}
           {!icfg.disabled.support && <Route path="/support" element={<SupportPage />} />}
           {!icfg.disabled.support && <Route path="/support/:id" element={<SupportRequestPage />} />}
+          <Route path="/database_room_statistics" element={<DatabaseRoomStatsList />} />
         </CustomRoutes>
         <Resource {...users} />
         <Resource {...rooms} />
         <Resource {...userMediaStats} />
+        <Resource name="database_room_statistics" />
         <Resource {...reports} />
         <Resource {...roomDirectory} />
         {!icfg.disabled.federation && <Resource {...destinations} />}

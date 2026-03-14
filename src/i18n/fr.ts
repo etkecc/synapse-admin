@@ -472,6 +472,13 @@ const fr: SynapseTranslationMessages = {
         send: "Envoie une annonce au nom du serveur aux utilisateurs sélectionnés. La fonction « Annonces du serveur » doit être activée sur le serveur.",
       },
     },
+    database_room_statistics: {
+      name: "Statistiques de la base de données des salons",
+      fields: {
+        room_id: "ID du salon",
+        estimated_size: "Taille estimée",
+      },
+    },
     user_media_statistics: {
       name: "Médias des utilisateurs",
       fields: {

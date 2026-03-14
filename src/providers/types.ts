@@ -164,6 +164,11 @@ export interface UserMedia {
   upload_name?: string;
 }
 
+export interface DatabaseRoomStatistic {
+  room_id: string;
+  estimated_size: number;
+}
+
 export interface UserMediaStatistic {
   displayname: string;
   media_count: number;

@@ -515,6 +515,13 @@ const zh: SynapseTranslationMessages = {
         send: '向选中的用户发送服务器提示。服务器配置中的 "服务器提示(Server Notices)" 选项需要被设置为启用。',
       },
     },
+    database_room_statistics: {
+      name: "数据库房间统计",
+      fields: {
+        room_id: "房间 ID",
+        estimated_size: "估计大小",
+      },
+    },
     user_media_statistics: {
       name: "用户的媒体文件",
       fields: {

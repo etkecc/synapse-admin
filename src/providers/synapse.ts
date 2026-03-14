@@ -8,6 +8,7 @@ import {
   ExperimentalFeaturesModel,
   RateLimitsModel,
   UsernameAvailabilityResult,
+  DatabaseRoomStatistic,
   Destination,
   DestinationRoom,
   Device,
@@ -225,6 +226,13 @@ export const synapseResourceMap = {
       },
       method: "POST",
     }),
+  },
+  database_room_statistics: {
+    path: "/_synapse/admin/v1/statistics/database/rooms",
+    map: (drs: DatabaseRoomStatistic) => ({ ...drs, id: drs.room_id }),
+    data: "rooms",
+    total: (json: { rooms: DatabaseRoomStatistic[] }) => json.rooms.length,
+    noQueryParams: true,
   },
   user_media_statistics: {
     path: "/_synapse/admin/v1/statistics/users/media",
