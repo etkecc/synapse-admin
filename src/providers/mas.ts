@@ -1,4 +1,4 @@
-import { DeleteParams, PaginationPayload, RaRecord, UpdateParams } from "react-admin";
+import { DeleteParams, HttpError, PaginationPayload, RaRecord, UpdateParams } from "react-admin";
 
 import {
   MASRegistrationToken,
@@ -58,6 +58,30 @@ export const checkMasAdminApiAvailable = async (): Promise<boolean> => {
 };
 
 /**
+ * Revoke or unrevoke a MAS registration token
+ */
+export const revokeRegistrationToken = async (
+  id: string,
+  revoke: boolean
+): Promise<{ success: boolean; error?: string }> => {
+  const masBaseUrl = getMasBaseUrl();
+  if (!masBaseUrl) return { success: false, error: "MAS base URL not found" };
+
+  const action = revoke ? "revoke" : "unrevoke";
+  try {
+    await jsonClient(`${masBaseUrl}/api/admin/v1/user-registration-tokens/${encodeURIComponent(id)}/${action}`, {
+      method: "POST",
+    });
+    return { success: true };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body?.errors?.[0]?.title || error.message };
+    }
+    throw error;
+  }
+};
+
+/**
  * Convert MAS registration token format to Synapse format
  */
 export const getMasTokenResource = (
@@ -75,7 +99,7 @@ export const convertMasTokenToSynapse = (masToken: MASRegistrationToken | MASReg
     pending: 0, // MAS doesn't provide pending count, use 0
     completed: resource.attributes.times_used ?? 0,
     expiry_time: resource.attributes.expires_at || null,
-    // Additional fields for MAS
+    created_at: resource.attributes.created_at,
     last_used_at: resource.attributes.last_used_at,
     revoked_at: resource.attributes.revoked_at,
   };

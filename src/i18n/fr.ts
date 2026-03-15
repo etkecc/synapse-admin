@@ -547,9 +547,22 @@ const fr: SynapseTranslationMessages = {
         completed: "Nombre d'inscription accomplie",
         expiry_time: "Date d'expiration",
         length: "Longueur",
+        created_at: "Date de création",
+        last_used_at: "Dernière utilisation",
+        revoked_at: "Date de révocation",
       },
       helper: {
         length: "Longueur du jeton généré aléatoirement si aucun jeton n'est pas spécifié",
+      },
+      action: {
+        revoke: {
+          label: "Révoquer",
+          success: "Jeton révoqué",
+        },
+        unrevoke: {
+          label: "Restaurer",
+          success: "Jeton restauré",
+        },
       },
     },
   },

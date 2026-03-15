@@ -1,6 +1,10 @@
+import BlockIcon from "@mui/icons-material/Block";
 import RegistrationTokenIcon from "@mui/icons-material/ConfirmationNumber";
+import RestoreIcon from "@mui/icons-material/RestoreFromTrash";
+import { useState } from "react";
 import {
   BooleanInput,
+  Button,
   Create,
   CreateProps,
   DatagridConfigurable,
@@ -21,11 +25,17 @@ import {
   TextInput,
   TextField,
   Toolbar,
+  useDataProvider,
   useLocale,
+  useNotify,
+  useRecordContext,
+  useRefresh,
   useTranslate,
 } from "react-admin";
 
 import { useDocTitle } from "../components/hooks/useDocTitle";
+import { isMasInstance } from "../providers/mas";
+import { SynapseDataProvider } from "../providers/types";
 import { DATE_FORMAT, dateFormatter, dateParser } from "../utils/date";
 
 const validateToken = [regex(/^[A-Za-z0-9._~-]{0,64}$/)];
@@ -37,6 +47,7 @@ const registrationTokenFilters = [<BooleanInput source="valid" alwaysOn />];
 export const RegistrationTokenList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
+  const isMas = isMasInstance();
   useDocTitle(translate("resources.registration_tokens.name", { smart_count: 2 }));
   return (
     <List
@@ -59,6 +70,36 @@ export const RegistrationTokenList = (props: ListProps) => {
           label="resources.registration_tokens.fields.expiry_time"
           locales={locale}
         />
+        {isMas && (
+          <DateField
+            source="created_at"
+            showTime
+            options={DATE_FORMAT}
+            sortable={false}
+            label="resources.registration_tokens.fields.created_at"
+            locales={locale}
+          />
+        )}
+        {isMas && (
+          <DateField
+            source="last_used_at"
+            showTime
+            options={DATE_FORMAT}
+            sortable={false}
+            label="resources.registration_tokens.fields.last_used_at"
+            locales={locale}
+          />
+        )}
+        {isMas && (
+          <DateField
+            source="revoked_at"
+            showTime
+            options={DATE_FORMAT}
+            sortable={false}
+            label="resources.registration_tokens.fields.revoked_at"
+            locales={locale}
+          />
+        )}
       </DatagridConfigurable>
     </List>
   );
@@ -92,18 +133,76 @@ export const RegistrationTokenCreate = (props: CreateProps) => {
   );
 };
 
+const RevokeTokenButton = () => {
+  const record = useRecordContext();
+  const [loading, setLoading] = useState(false);
+  const notify = useNotify();
+  const refresh = useRefresh();
+  const dataProvider = useDataProvider() as SynapseDataProvider;
+
+  if (!record || !isMasInstance()) return null;
+
+  const isRevoked = !!record.revoked_at;
+
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      const result = await dataProvider.revokeRegistrationToken(record.id as string, !isRevoked);
+      if (result.success) {
+        notify(
+          isRevoked
+            ? "resources.registration_tokens.action.unrevoke.success"
+            : "resources.registration_tokens.action.revoke.success"
+        );
+        refresh();
+      } else {
+        notify(result.error || "ra.notification.http_error", { type: "error" });
+      }
+    } catch {
+      notify("ra.notification.http_error", { type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Button
+      label={
+        isRevoked
+          ? "resources.registration_tokens.action.unrevoke.label"
+          : "resources.registration_tokens.action.revoke.label"
+      }
+      onClick={handleClick}
+      disabled={loading}
+    >
+      {isRevoked ? <RestoreIcon /> : <BlockIcon />}
+    </Button>
+  );
+};
+
+const RegistrationTokenEditToolbar = () => (
+  <Toolbar>
+    <SaveButton />
+    <RevokeTokenButton />
+  </Toolbar>
+);
+
 export const RegistrationTokenEdit = (props: EditProps) => {
   const translate = useTranslate();
+  const isMas = isMasInstance();
   useDocTitle(`${translate("ra.action.edit")} ${translate("resources.registration_tokens.name")}`);
 
   return (
     <Edit {...props}>
-      <SimpleForm>
+      <SimpleForm toolbar={<RegistrationTokenEditToolbar />}>
         <TextInput source="token" disabled />
         <NumberInput source="pending" disabled />
         <NumberInput source="completed" disabled />
         <NumberInput source="uses_allowed" validate={validateUsesAllowed} step={1} />
         <DateTimeInput source="expiry_time" parse={dateParser} format={dateFormatter} />
+        {isMas && <DateTimeInput source="created_at" disabled />}
+        {isMas && <DateTimeInput source="last_used_at" disabled />}
+        {isMas && <DateTimeInput source="revoked_at" disabled />}
       </SimpleForm>
     </Edit>
   );

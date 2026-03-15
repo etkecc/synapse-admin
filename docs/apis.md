@@ -253,9 +253,11 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/api/admin/v1/user-registration-tokens` | GET | List registration tokens | ✅ |
+| `/api/admin/v1/user-registration-tokens/{id}` | GET | Get a registration token | ✅ |
 | `/api/admin/v1/user-registration-tokens` | POST | Create a registration token | ✅ |
 | `/api/admin/v1/user-registration-tokens/{id}` | PUT | Update a registration token | ✅ |
 | `/api/admin/v1/user-registration-tokens/{id}/revoke` | POST | Revoke a registration token | ✅ |
+| `/api/admin/v1/user-registration-tokens/{id}/unrevoke` | POST | Unrevoke a registration token | ✅ |
 
 ### ❌ Users
 

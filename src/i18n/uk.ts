@@ -598,8 +598,21 @@ const uk: SynapseTranslationMessages = {
         completed: "Завершений",
         expiry_time: "Термін придатності",
         length: "Довжина",
+        created_at: "Дата створення",
+        last_used_at: "Останнє використання",
+        revoked_at: "Дата відкликання",
       },
       helper: { length: "Довжина токена, якщо токен не вказано." },
+      action: {
+        revoke: {
+          label: "Відкликати",
+          success: "Токен відкликано",
+        },
+        unrevoke: {
+          label: "Відновити",
+          success: "Токен відновлено",
+        },
+      },
     },
   },
   etkecc: {

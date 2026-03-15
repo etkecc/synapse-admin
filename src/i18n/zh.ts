@@ -589,8 +589,21 @@ const zh: SynapseTranslationMessages = {
         completed: "已完成",
         expiry_time: "过期时间",
         length: "长度",
+        created_at: "创建时间",
+        last_used_at: "最后使用时间",
+        revoked_at: "撤销时间",
       },
       helper: { length: "如果未提供令牌，则为生成令牌的长度。" },
+      action: {
+        revoke: {
+          label: "撤销",
+          success: "令牌已撤销",
+        },
+        unrevoke: {
+          label: "恢复",
+          success: "令牌已恢复",
+        },
+      },
     },
   },
   etkecc: {

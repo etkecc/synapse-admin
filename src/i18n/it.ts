@@ -661,8 +661,21 @@ const it: SynapseTranslationMessages = {
         completed: "Completato",
         expiry_time: "Data della scadenza",
         length: "Lunghezza",
+        created_at: "Data di creazione",
+        last_used_at: "Ultimo utilizzo",
+        revoked_at: "Data di revoca",
       },
       helper: { length: "Lunghezza del token se non viene dato alcun token." },
+      action: {
+        revoke: {
+          label: "Revoca",
+          success: "Token revocato",
+        },
+        unrevoke: {
+          label: "Ripristina",
+          success: "Token ripristinato",
+        },
+      },
     },
   },
   etkecc: {

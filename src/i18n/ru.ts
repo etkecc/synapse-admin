@@ -616,8 +616,21 @@ const ru: SynapseTranslationMessages = {
         completed: "Завершено",
         expiry_time: "Дата окончания",
         length: "Длина",
+        created_at: "Дата создания",
+        last_used_at: "Последнее использование",
+        revoked_at: "Дата отзыва",
       },
       helper: { length: "Длина токена, если токен не задан." },
+      action: {
+        revoke: {
+          label: "Отозвать",
+          success: "Токен отозван",
+        },
+        unrevoke: {
+          label: "Восстановить",
+          success: "Токен восстановлен",
+        },
+      },
     },
   },
   etkecc: {

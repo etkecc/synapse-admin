@@ -543,8 +543,21 @@ const en: SynapseTranslationMessages = {
         completed: "Completed",
         expiry_time: "Expiry time",
         length: "Length",
+        created_at: "Created at",
+        last_used_at: "Last used at",
+        revoked_at: "Revoked at",
       },
       helper: { length: "Length of the token if no token is given." },
+      action: {
+        revoke: {
+          label: "Revoke",
+          success: "Token revoked",
+        },
+        unrevoke: {
+          label: "Unrevoke",
+          success: "Token unrevoked",
+        },
+      },
     },
   },
   etkecc: {

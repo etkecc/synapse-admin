@@ -527,9 +527,22 @@ interface SynapseTranslationMessages extends TranslationMessages {
         completed: string;
         expiry_time: string;
         length: string;
+        created_at: string;
+        last_used_at: string;
+        revoked_at: string;
       };
       helper: {
         length: string;
+      };
+      action: {
+        revoke: {
+          label: string;
+          success: string;
+        };
+        unrevoke: {
+          label: string;
+          success: string;
+        };
       };
     };
   };

@@ -571,8 +571,21 @@ const fa: SynapseTranslationMessages = {
         completed: "تکمیل شد",
         expiry_time: "زمان انقضا",
         length: "طول",
+        created_at: "تاریخ ایجاد",
+        last_used_at: "آخرین استفاده",
+        revoked_at: "تاریخ ابطال",
       },
       helper: { length: "طول توکن در صورت عدم ارائه توکن." },
+      action: {
+        revoke: {
+          label: "ابطال",
+          success: "توکن ابطال شد",
+        },
+        unrevoke: {
+          label: "بازگردانی",
+          success: "توکن بازگردانی شد",
+        },
+      },
     },
   },
   etkecc: {

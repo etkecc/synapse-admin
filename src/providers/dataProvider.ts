@@ -19,6 +19,7 @@ import {
   getMasRegistrationTokensPageCursor,
   setMasRegistrationTokensPageCursor,
   filterUndefined,
+  revokeRegistrationToken,
 } from "./mas";
 import {
   synapseRegistrationTokensResource,
@@ -452,6 +453,7 @@ const baseDataProvider: SynapseDataProvider = {
   resetPassword,
   loginAsUser,
   eraseUser,
+  revokeRegistrationToken,
 
   ...etkeProviderMethods,
 };

@@ -559,8 +559,21 @@ const ja: SynapseTranslationMessages = {
         completed: "完了",
         expiry_time: "期限切れとなる日時",
         length: "長さ",
+        created_at: "作成日時",
+        last_used_at: "最終使用日時",
+        revoked_at: "失効日時",
       },
       helper: { length: "トークンが与えられていない場合のトークンの長さ。" },
+      action: {
+        revoke: {
+          label: "失効",
+          success: "トークンを失効しました",
+        },
+        unrevoke: {
+          label: "失効解除",
+          success: "トークンの失効を解除しました",
+        },
+      },
     },
   },
   etkecc: {
