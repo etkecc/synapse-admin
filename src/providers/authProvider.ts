@@ -3,6 +3,7 @@ import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
 import { initRegistrationTokens } from "./dataProvider";
+import { fetchServerVersions, clearServerVersions } from "./serverVersion";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { ClearConfig, FetchWellKnownConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
 import decodeURLComponent from "../utils/decodeURLComponent";
@@ -143,6 +144,7 @@ const authProvider: AuthProvider = {
       }
 
       await initRegistrationTokens();
+      fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
       const error = err as HttpError;
@@ -287,6 +289,7 @@ const authProvider: AuthProvider = {
       }
 
       await initRegistrationTokens();
+      fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
       console.error("Failed to get user info:", err);
@@ -320,6 +323,7 @@ const authProvider: AuthProvider = {
       } catch (err) {
         console.log("Error logging out", err);
       } finally {
+        clearServerVersions();
         ClearConfig();
       }
     }
@@ -341,6 +345,9 @@ const authProvider: AuthProvider = {
     if (typeof access_token !== "string") {
       return Promise.reject();
     }
+
+    // Ensure server versions are fetched (handles page reload)
+    fetchServerVersions();
 
     // Check if token has expired
     const expiresAt = localStorage.getItem("access_token_expires_at");

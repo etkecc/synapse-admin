@@ -2,9 +2,12 @@ import { Avatar, Box, Link } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 
+import { useServerVersions } from "../providers/serverVersion";
+
 const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
   const [version, setVersion] = useState<string | null>(null);
   const theme = useTheme();
+  const serverVersions = useServerVersions();
 
   useEffect(() => {
     const version = document.getElementById("js-version")?.textContent;
@@ -46,6 +49,16 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
       <Link sx={{ fontWeight: "bold" }} href="https://matrix.to/#/#synapse-admin:etke.cc" target="_blank">
         #synapse-admin:etke.cc
       </Link>
+      {serverVersions.synapse && (
+        <>
+          {" | "}Synapse v{serverVersions.synapse}
+        </>
+      )}
+      {serverVersions.mas && (
+        <>
+          {" | "}MAS {serverVersions.mas}
+        </>
+      )}
     </Box>
   );
 };

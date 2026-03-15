@@ -58,6 +58,20 @@ export const checkMasAdminApiAvailable = async (): Promise<boolean> => {
 };
 
 /**
+ * Get the MAS server version
+ */
+export const getMasVersion = async (): Promise<string> => {
+  const masBaseUrl = getMasBaseUrl();
+  if (!masBaseUrl) return "";
+  try {
+    const { json } = await jsonClient(`${masBaseUrl}/api/admin/v1/version`);
+    return json.version as string;
+  } catch {
+    return "";
+  }
+};
+
+/**
  * Revoke or unrevoke a MAS registration token
  */
 export const revokeRegistrationToken = async (

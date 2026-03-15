@@ -32,7 +32,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [❌ Client-Server API Extensions](#-client-server-api-extensions)
 * [Matrix Authentication Service (MAS) Admin API](#matrix-authentication-service-mas-admin-api)
     * [✅ OAuth 2.0](#-oauth-20)
-    * [🟡 Server](#-server)
+    * [✅ Server](#-server)
     * [✅ Registration Tokens](#-registration-tokens-1)
     * [❌ Users](#-users-1)
     * [❌ User Emails](#-user-emails)
@@ -241,12 +241,12 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 |----------|--------|-------------|:------:|
 | `/oauth2/token` | POST | Refresh access token | ✅ |
 
-### 🟡 Server
+### ✅ Server
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/api/admin/v1/site-config` | GET | Retrieve instance configuration | ✅ |
-| `/api/admin/v1/version` | GET | Retrieve the currently running version | ❌ |
+| `/api/admin/v1/version` | GET | Retrieve the currently running version | ✅ |
 
 ### ✅ Registration Tokens
 
