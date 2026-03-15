@@ -386,6 +386,18 @@ const zh: SynapseTranslationMessages = {
           success: "房间解封成功。",
           failure: "解封房间失败。",
         },
+        purge_history: {
+          label: "清除历史",
+          title: "清除 %{roomName} 的历史",
+          content:
+            "所选日期之前的所有事件将从数据库中删除。房间状态（加入、离开、主题）始终保留。至少保留一条消息。\n注意：对于大型房间，此操作可能需要几分钟。",
+          date_label: "清除此日期之前的事件",
+          delete_local: "同时删除本地用户发送的事件",
+          in_progress: "清除进行中…",
+          background_note: "您可以安全地关闭此窗口，清除将在后台继续进行。",
+          success: "房间历史清除成功。",
+          failure: "清除房间历史失败。%{errMsg}",
+        },
       },
     },
     reports: {

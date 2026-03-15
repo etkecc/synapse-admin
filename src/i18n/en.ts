@@ -338,6 +338,18 @@ const en: SynapseTranslationMessages = {
           success: "Room unblocked successfully. |||| Rooms unblocked successfully.",
           failure: "Failed to unblock room. |||| Failed to unblock rooms.",
         },
+        purge_history: {
+          label: "Purge history",
+          title: "Purge history of %{roomName}",
+          content:
+            "All events before the selected date will be deleted from the database. Room state (joins, leaves, topic) is always preserved. At least one message is always retained.\nNote: this operation may take several minutes for large rooms.",
+          date_label: "Purge events before",
+          delete_local: "Also delete events sent by local users",
+          in_progress: "Purge in progress…",
+          background_note: "You can safely close this window, the purge will continue in the background.",
+          success: "Room history purged successfully.",
+          failure: "Failed to purge room history. %{errMsg}",
+        },
       },
     },
     reports: {

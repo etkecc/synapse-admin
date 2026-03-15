@@ -320,6 +320,17 @@ interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        purge_history: {
+          label: string;
+          title: string;
+          content: string;
+          date_label: string;
+          delete_local: string;
+          in_progress: string;
+          background_note: string;
+          success: string;
+          failure: string;
+        };
       };
     };
     reports: {

@@ -446,6 +446,14 @@ export interface SynapseDataProvider extends DataProvider {
     validUntilMs?: number
   ) => Promise<{ success: boolean; access_token?: string; error?: string; errcode?: string }>;
   eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  purgeHistory: (
+    roomId: string,
+    purge_up_to_ts: number,
+    delete_local_events: boolean
+  ) => Promise<{ success: boolean; purge_id?: string; error?: string; errcode?: string }>;
+  getPurgeHistoryStatus: (
+    purgeId: string
+  ) => Promise<{ success: boolean; status?: string; error?: string; errcode?: string }>;
   getServerRunningProcess: (etkeAdminUrl: string, locale: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string, locale: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<ServerNotificationsResponse>;

@@ -67,6 +67,7 @@ import {
   BlockRoomByIdButton,
 } from "../components/BlockRoomButton";
 import DeleteRoomButton from "../components/DeleteRoomButton";
+import { PurgeHistoryButton } from "../components/PurgeHistoryButton";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField } from "../components/media";
 import { Room } from "../providers/types";
@@ -112,6 +113,7 @@ const RoomShowActions = () => {
     <TopToolbar>
       {publishButton}
       <BlockRoomButton />
+      <PurgeHistoryButton />
       <JoinUserBtn />
       <MakeAdminBtn />
       <DeleteRoomButton

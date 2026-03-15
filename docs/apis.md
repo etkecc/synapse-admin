@@ -24,7 +24,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Experimental Features](#-experimental-features)
     * [🟡 Statistics](#-statistics)
     * [❌ Account Validity](#-account-validity)
-    * [❌ Purge History](#-purge-history)
+    * [✅ Purge History](#-purge-history)
     * [❌ Fetch Event](#-fetch-event)
     * [❌ Register (Shared-Secret Registration)](#-register-shared-secret-registration)
     * [✅ Room Membership](#-room-membership)
@@ -193,12 +193,12 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/account_validity/validity` | POST | Renew account validity | ❌ |
 
-### ❌ Purge History
+### ✅ Purge History
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v1/purge_history/<room_id>[/<event_id>]` | POST | Purge room history | ❌ |
-| `/_synapse/admin/v1/purge_history_status/<purge_id>` | GET | Query purge status | ❌ |
+| `/_synapse/admin/v1/purge_history/<room_id>[/<event_id>]` | POST | Purge room history | ✅ |
+| `/_synapse/admin/v1/purge_history_status/<purge_id>` | GET | Query purge status | ✅ |
 
 ### ❌ Fetch Event
 

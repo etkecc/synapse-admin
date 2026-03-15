@@ -399,6 +399,19 @@ const de: SynapseTranslationMessages = {
           success: "Raum erfolgreich entsperrt. |||| Räume erfolgreich entsperrt.",
           failure: "Raum konnte nicht entsperrt werden. |||| Räume konnten nicht entsperrt werden.",
         },
+        purge_history: {
+          label: "Verlauf bereinigen",
+          title: "Verlauf von %{roomName} bereinigen",
+          content:
+            "Alle Ereignisse vor dem ausgewählten Datum werden aus der Datenbank gelöscht. Raumstatus (Beitritte, Austritte, Thema) bleibt erhalten. Mindestens eine Nachricht bleibt immer erhalten.\nHinweis: Dieser Vorgang kann bei großen Räumen mehrere Minuten dauern.",
+          date_label: "Ereignisse bereinigen vor",
+          delete_local: "Auch von lokalen Benutzern gesendete Ereignisse löschen",
+          in_progress: "Bereinigung läuft…",
+          background_note:
+            "Sie können dieses Fenster bedenkenlos schließen, die Bereinigung wird im Hintergrund fortgesetzt.",
+          success: "Raumverlauf erfolgreich bereinigt.",
+          failure: "Bereinigung des Raumverlaufs fehlgeschlagen. %{errMsg}",
+        },
       },
     },
     reports: {

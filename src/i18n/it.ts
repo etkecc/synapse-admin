@@ -456,6 +456,18 @@ const it: SynapseTranslationMessages = {
           success: "Stanza sbloccata con successo. |||| Stanze sbloccate con successo.",
           failure: "Impossibile sbloccare la stanza. |||| Impossibile sbloccare le stanze.",
         },
+        purge_history: {
+          label: "Elimina cronologia",
+          title: "Elimina cronologia di %{roomName}",
+          content:
+            "Tutti gli eventi prima della data selezionata verranno eliminati dal database. Lo stato della stanza (ingressi, uscite, argomento) viene sempre preservato. Almeno un messaggio viene sempre mantenuto.\nNota: questa operazione potrebbe richiedere diversi minuti per stanze grandi.",
+          date_label: "Elimina eventi prima di",
+          delete_local: "Elimina anche gli eventi inviati dagli utenti locali",
+          in_progress: "Eliminazione in corso…",
+          background_note: "Puoi chiudere questa finestra in sicurezza, l'eliminazione continuerà in background.",
+          success: "Cronologia della stanza eliminata con successo.",
+          failure: "Impossibile eliminare la cronologia della stanza. %{errMsg}",
+        },
       },
     },
     reports: {

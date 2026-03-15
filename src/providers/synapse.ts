@@ -510,6 +510,37 @@ export const eraseUser = async (id: Identifier) => {
   }
 };
 
+export const purgeHistory = async (roomId: string, purge_up_to_ts: number, delete_local_events: boolean) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/purge_history/${encodeURIComponent(roomId)}`, {
+      method: "POST",
+      body: JSON.stringify({ purge_up_to_ts, delete_local_events }),
+    });
+    return { success: true, purge_id: json.purge_id as string };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const getPurgeHistoryStatus = async (purgeId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/purge_history_status/${encodeURIComponent(purgeId)}`
+    );
+    return { success: true, status: json.status as string, error: json.error as string | undefined };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, status: "failed", error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const deleteUserMedia = async (id: Identifier): Promise<void> => {
   const base_url = localStorage.getItem("base_url");
   await jsonClient(`${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`, {

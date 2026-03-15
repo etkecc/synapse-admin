@@ -342,6 +342,18 @@ const fr: SynapseTranslationMessages = {
           success: "Salon débloqué avec succès. |||| Salons débloqués avec succès.",
           failure: "Échec du déblocage du salon. |||| Échec du déblocage des salons.",
         },
+        purge_history: {
+          label: "Purger l'historique",
+          title: "Purger l'historique de %{roomName}",
+          content:
+            "Tous les événements avant la date sélectionnée seront supprimés de la base de données. L'état du salon (adhésions, départs, sujet) est toujours préservé. Au moins un message est toujours conservé.\nNote : cette opération peut prendre plusieurs minutes pour les grands salons.",
+          date_label: "Purger les événements avant",
+          delete_local: "Supprimer aussi les événements envoyés par les utilisateurs locaux",
+          in_progress: "Purge en cours…",
+          background_note: "Vous pouvez fermer cette fenêtre en toute sécurité, la purge continuera en arrière-plan.",
+          success: "Historique du salon purgé avec succès.",
+          failure: "Échec de la purge de l'historique du salon. %{errMsg}",
+        },
       },
     },
     reports: {
