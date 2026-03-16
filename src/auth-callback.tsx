@@ -87,7 +87,7 @@ export const bootstrapAuthCallback = (
         return;
       }
       const { renderAuthCallbackError } = await import("./auth-callback-error");
-      renderAuthCallbackError(root, { message, onBack: () => redirectToApp(location, "/login") });
+      await renderAuthCallbackError(root, { message, onBack: () => redirectToApp(location, "/login") });
     });
 };
 
