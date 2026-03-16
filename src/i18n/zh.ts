@@ -1,6 +1,10 @@
-import chineseMessages from "@haxqer/ra-language-chinese";
+import _chineseMessages from "@haxqer/ra-language-chinese";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const chineseMessages = (
+  "default" in _chineseMessages ? _chineseMessages.default : _chineseMessages
+) as typeof _chineseMessages;
 
 const fixedChineseMessages = {
   ...chineseMessages,

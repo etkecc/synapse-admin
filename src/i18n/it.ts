@@ -1,6 +1,6 @@
 import italianMessages from "ra-language-italian";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const { prev: _itPrev, ...itNavigation } = italianMessages.ra.navigation;
 const { password: _itPassword, ...itRaWithoutPassword } = italianMessages.ra;

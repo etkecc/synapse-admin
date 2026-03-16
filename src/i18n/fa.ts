@@ -1,6 +1,8 @@
-import farsiMessages from "ra-language-farsi";
+import _farsiMessages from "ra-language-farsi";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const farsiMessages = ("default" in _farsiMessages ? _farsiMessages.default : _farsiMessages) as typeof _farsiMessages;
 
 const fixedFarsiMessages = {
   ...farsiMessages,

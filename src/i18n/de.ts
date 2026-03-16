@@ -1,6 +1,6 @@
 import { formalGermanMessages } from "@haleos/ra-language-german";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const fixedGermanMessages = {
   ...formalGermanMessages,

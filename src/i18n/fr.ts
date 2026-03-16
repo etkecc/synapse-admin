@@ -1,6 +1,6 @@
 import frenchMessages from "ra-language-french";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const fr: SynapseTranslationMessages = {
   ...frenchMessages,

@@ -1,6 +1,10 @@
-import russianMessages from "ra-language-russian";
+import _russianMessages from "ra-language-russian";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const russianMessages = (
+  "default" in _russianMessages ? _russianMessages.default : _russianMessages
+) as typeof _russianMessages;
 
 const fixedRussianMessages = {
   ...russianMessages,

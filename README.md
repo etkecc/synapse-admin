@@ -171,6 +171,7 @@ The following changes are already implemented:
 * 🚫 [Add "Block room"/"Unblock room" buttons](https://github.com/etkecc/synapse-admin/commit/ba86f1af4414964bbd779f21811419ea94f79833)
 * 🚪 [Add "Join user to room" button](https://github.com/etkecc/synapse-admin/commit/4f520ab36742cf59f222837ffa064616f08ee44f)
 * 🧹 [Add "Purge History" room button](https://github.com/etkecc/synapse-admin/commit/43b620833ac8c64da404c1894ae0eb808635fd77)
+* 🌐 [Lazy-load translations with per-locale code splitting](https://github.com/etkecc/synapse-admin/commit/2f460e54719d7079d52472c7f3992aff0ace6024)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

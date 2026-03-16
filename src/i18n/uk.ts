@@ -1,6 +1,10 @@
-import ukrainianMessages from "ra-language-ukrainian";
+import _ukrainianMessages from "ra-language-ukrainian";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const ukrainianMessages = (
+  "default" in _ukrainianMessages ? _ukrainianMessages.default : _ukrainianMessages
+) as typeof _ukrainianMessages;
 
 const { prev: _ukPrev, ...ukNavigation } = ukrainianMessages.ra.navigation;
 

@@ -1,6 +1,10 @@
-import japaneseMessages from "@bicstone/ra-language-japanese";
+import _japaneseMessages from "@bicstone/ra-language-japanese";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const japaneseMessages = (
+  "default" in _japaneseMessages ? _japaneseMessages.default : _japaneseMessages
+) as typeof _japaneseMessages;
 
 const fixedJapaneseMessages = {
   ...japaneseMessages,

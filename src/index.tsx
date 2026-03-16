@@ -4,10 +4,12 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { ConfigProvider } from "./Context";
 import { FetchInstanceConfig, GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
+import { createI18nProvider } from "./i18n";
 import { FetchConfig, GetConfig } from "./utils/config";
 
 await FetchConfig();
 await FetchInstanceConfig(GetConfig().etkeccAdmin, "");
+const i18nProvider = await createI18nProvider();
 
 // we set base title here to be used in useDocTitle hook
 // as a tricky workaround since hooks can't be used outside components,
@@ -22,7 +24,7 @@ if (icfg.name && !document.title.includes(icfg.name)) {
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ConfigProvider>
-      <App />
+      <App i18nProvider={i18nProvider} />
     </ConfigProvider>
   </React.StrictMode>
 );

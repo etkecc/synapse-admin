@@ -1,6 +1,6 @@
 import { TranslationMessages } from "ra-core";
 
-interface SynapseTranslationMessages extends TranslationMessages {
+export interface SynapseTranslationMessages extends TranslationMessages {
   synapseadmin: {
     auth: {
       base_url: string;

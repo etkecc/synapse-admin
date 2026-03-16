@@ -14,18 +14,18 @@ export default defineConfig(({ mode }) => ({
     target: "esnext",
     chunkSizeWarningLimit: 1500, // react-admin itself is 500kb, @mui 350kb, and other vendor libs are 730kb+ at the moment of writing
     sourcemap: mode === "development",
-    rollupOptions: {
+    rolldownOptions: {
       input: {
         main: resolve(__dirname, "src/entrypoints/index.html"),
         "auth-callback/index": resolve(__dirname, "src/entrypoints/auth-callback.html"),
       },
       output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (id.includes("react-admin") || id.includes("ra-")) return "ra";
-            if (id.includes("@mui")) return "mui";
-            return "vendor";
-          }
+        codeSplitting: {
+          groups: [
+            { name: "ra", test: /node_modules[\\/].*(react-admin|ra-)/, priority: 20 },
+            { name: "mui", test: /node_modules[\\/]@mui/, priority: 15 },
+            { name: "vendor", test: /node_modules/, priority: 5 },
+          ],
         },
       },
     },
