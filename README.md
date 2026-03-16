@@ -168,10 +168,10 @@ The following changes are already implemented:
 * 👻 [Add support for shadow banning](https://github.com/etkecc/synapse-admin/pull/1081)
 * 🔐 [Add "Reset password" button](https://github.com/etkecc/synapse-admin/commit/bac08c0c0c28be28ad6422127e77fd2cd97bedfd)
 * 🔓 [Add "Login as user" button](https://github.com/etkecc/synapse-admin/commit/8c287cc2807788eccaa5f8b39a478fc027f4d7f0)
-* 🚫 [Add "Block room"/"Unblock room" buttons](https://github.com/etkecc/synapse-admin/commit/ba86f1af4414964bbd779f21811419ea94f79833)
+* 🚫 [Add "Block room"/"Unblock room" buttons](https://github.com/etkecc/synapse-admin/commit/fbb84746b0ef37b4f4b75a3f1401deafbe2f3909)
 * 🚪 [Add "Join user to room" button](https://github.com/etkecc/synapse-admin/commit/4f520ab36742cf59f222837ffa064616f08ee44f)
-* 🧹 [Add "Purge History" room button](https://github.com/etkecc/synapse-admin/commit/43b620833ac8c64da404c1894ae0eb808635fd77)
-* 🌐 [Lazy-load translations with per-locale code splitting](https://github.com/etkecc/synapse-admin/commit/2f460e54719d7079d52472c7f3992aff0ace6024)
+* 🧹 [Add "Purge History" room button](https://github.com/etkecc/synapse-admin/commit/ceadcc243441b74d6da5e8b9f3385a17d9872d57)
+* 🌐 [Lazy-load translations with per-locale code splitting](https://github.com/etkecc/synapse-admin/commit/fc9669f2beeee345ff094610571ecec6db649a94)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
