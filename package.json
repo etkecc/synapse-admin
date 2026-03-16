@@ -82,7 +82,7 @@
     "lodash": "^4.17.23",
     "oidc-client-ts": "^3.4.1",
     "papaparse": "^5.5.3",
-    "ra-core": "^5.14.3",
+    "ra-core": "^5.14.4",
     "ra-i18n-polyglot": "^5.14.3",
     "ra-language-english": "^5.14.3",
     "ra-language-farsi": "^5.1.0",
