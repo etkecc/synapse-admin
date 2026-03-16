@@ -552,6 +552,13 @@ const ru: SynapseTranslationMessages = {
         send: 'Отправить серверное уведомление выбранным пользователям. На сервере должна быть активна функция "Server Notices".',
       },
     },
+    database_room_statistics: {
+      name: "Статистика БД по комнатам",
+      fields: {
+        room_id: "ID комнаты",
+        estimated_size: "Примерный размер",
+      },
+    },
     user_media_statistics: {
       name: "Файлы пользователей",
       fields: {

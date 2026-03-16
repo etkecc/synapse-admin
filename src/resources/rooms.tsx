@@ -7,6 +7,7 @@ import PageviewIcon from "@mui/icons-material/Pageview";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonIcon from "@mui/icons-material/Person";
+import StorageIcon from "@mui/icons-material/Storage";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -49,9 +50,11 @@ import {
   DeleteButton,
   NullableBooleanInput,
   useLocale,
+  Button as RaButton,
 } from "react-admin";
 import { useDataProvider } from "react-admin";
 import { Confirm } from "react-admin";
+import { Link } from "react-router-dom";
 
 import {
   RoomDirectoryBulkUnpublishButton,
@@ -556,6 +559,9 @@ const roomFilters = [
 
 const RoomListActions = () => (
   <TopToolbar>
+    <RaButton component={Link} to="/database_room_statistics" label="resources.database_room_statistics.name">
+      <StorageIcon />
+    </RaButton>
     <BlockRoomByIdButton />
     <SelectColumnsButton />
     <ExportButton />
