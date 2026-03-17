@@ -2,7 +2,8 @@ import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
-import { initRegistrationTokens } from "./dataProvider";
+import { detectAndSetMAS } from "./mas";
+import { initResources } from "./dataProvider";
 import { fetchServerVersions, clearServerVersions } from "./serverVersion";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { ClearConfig, FetchWellKnownConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
@@ -143,7 +144,8 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
-      await initRegistrationTokens();
+      await detectAndSetMAS();
+      initResources();
       fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
@@ -288,7 +290,8 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
-      await initRegistrationTokens();
+      await detectAndSetMAS();
+      initResources();
       fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {

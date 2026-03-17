@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getServerVersion } from "./synapse";
-import { getMasVersion, isMasInstance } from "./mas";
+import { getMASVersion, isMAS } from "./mas";
 
 interface ServerVersions {
   synapse: string;
@@ -37,9 +37,9 @@ export const fetchServerVersions = async (): Promise<ServerVersions> => {
       }
     }
 
-    if (isMasInstance()) {
+    if (isMAS()) {
       try {
-        mas = await getMasVersion();
+        mas = await getMASVersion();
       } catch {
         /* ignore */
       }

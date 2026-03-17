@@ -48,7 +48,7 @@ export const invalidateManyRefCache = (pattern: string) => {
 
 export const synapseRegistrationTokensResource: SynapseRegistrationTokensResourceType = {
   path: "/_synapse/admin/v1/registration_tokens",
-  isMas: false,
+  isMAS: false,
   map: (rt: RegistrationToken) => ({ ...rt, id: rt.token }),
   data: "registration_tokens",
   total: json => json.registration_tokens.length,

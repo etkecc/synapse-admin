@@ -1,4 +1,5 @@
 import { DeleteParams, HttpError, PaginationPayload, RaRecord, UpdateParams } from "react-admin";
+import { useStore } from "react-admin";
 
 import {
   MASRegistrationToken,
@@ -9,21 +10,37 @@ import {
 import { jsonClient } from "./httpClients";
 
 /**
- * Detect if the homeserver is using Matrix Authentication Service (MAS)
- * by checking the token endpoint stored during authentication
+ * Read the cached MAS flag from localStorage.
+ * react-admin's useStore persists under the "RaStore." prefix,
+ * so useStore<boolean>('mas', false) reads/writes "RaStore.isMAS".
+ * This function is for non-React code (dataProvider, serverVersion).
  */
-export const isMasInstance = (): boolean => {
-  const tokenEndpoint = localStorage.getItem("token_endpoint");
-  if (!tokenEndpoint) return false;
-  // MAS uses /oauth2/token endpoint
-  return tokenEndpoint.endsWith("/oauth2/token");
+export const isMAS = (): boolean => {
+  // react-admin's useStore serialises values as JSON under "RaStore.<key>"
+  return localStorage.getItem("RaStore.isMAS") === "true";
+};
+
+/**
+ * React hook for components — reactive, backed by react-admin store.
+ */
+export const useIsMAS = (): boolean => {
+  const [value] = useStore<boolean>("isMAS", false);
+  return value;
+};
+
+/**
+ * Set the MAS flag in react-admin store's localStorage slot.
+ * The flag means "is MAS AND admin API is available".
+ */
+export const setIsMAS = (value: boolean): void => {
+  localStorage.setItem("RaStore.isMAS", JSON.stringify(value));
 };
 
 /**
  * Extract the MAS base URL from the token endpoint
  * e.g., "http://localhost:8007/oauth2/token" -> "http://localhost:8007"
  */
-export const getMasBaseUrl = (): string | null => {
+export const getMASBaseUrl = (): string | null => {
   const tokenEndpoint = localStorage.getItem("token_endpoint");
   if (!tokenEndpoint) return null;
 
@@ -41,10 +58,11 @@ export const toRfc3339 = (timestamp: number | undefined | null): string | undefi
 };
 
 /**
- * Check if MAS admin API is available by attempting a health check
+ * Check if MAS admin API is available by attempting a health check.
+ * Only called once at login time, never on page refresh.
  */
-export const checkMasAdminApiAvailable = async (): Promise<boolean> => {
-  const masBaseUrl = getMasBaseUrl();
+export const checkMASAdminApiAvailable = async (): Promise<boolean> => {
+  const masBaseUrl = getMASBaseUrl();
   if (!masBaseUrl) return false;
   const token = localStorage.getItem("access_token");
   if (!token) return false;
@@ -58,10 +76,26 @@ export const checkMasAdminApiAvailable = async (): Promise<boolean> => {
 };
 
 /**
+ * Detect MAS, check admin API availability, set the cached flag,
+ * and initialize the registration tokens resource.
+ * Called once at login / OIDC callback.
+ */
+export const detectAndSetMAS = async (): Promise<void> => {
+  const tokenEndpoint = localStorage.getItem("token_endpoint");
+  const isMasEndpoint = !!tokenEndpoint && tokenEndpoint.endsWith("/oauth2/token");
+
+  if (isMasEndpoint && (await checkMASAdminApiAvailable())) {
+    setIsMAS(true);
+  } else {
+    setIsMAS(false);
+  }
+};
+
+/**
  * Get the MAS server version
  */
-export const getMasVersion = async (): Promise<string> => {
-  const masBaseUrl = getMasBaseUrl();
+export const getMASVersion = async (): Promise<string> => {
+  const masBaseUrl = getMASBaseUrl();
   if (!masBaseUrl) return "";
   try {
     const { json } = await jsonClient(`${masBaseUrl}/api/admin/v1/version`);
@@ -78,7 +112,7 @@ export const revokeRegistrationToken = async (
   id: string,
   revoke: boolean
 ): Promise<{ success: boolean; error?: string }> => {
-  const masBaseUrl = getMasBaseUrl();
+  const masBaseUrl = getMASBaseUrl();
   if (!masBaseUrl) return { success: false, error: "MAS base URL not found" };
 
   const action = revoke ? "revoke" : "unrevoke";
@@ -166,9 +200,9 @@ export const getMasNextPageCursor = (json: MASRegistrationTokenListResponse) => 
   return last?.meta?.page?.cursor ?? last?.id;
 };
 
-export const getMasRegistrationTokensResource = (): MASRegistrationTokensResourceType => ({
+export const getMASRegistrationTokensResource = (): MASRegistrationTokensResourceType => ({
   path: "/api/admin/v1/user-registration-tokens",
-  isMas: true,
+  isMAS: true,
   map: (token: MASRegistrationToken | MASRegistrationTokenResource) => {
     const resource = getMasTokenResource(token);
     const converted = convertMasTokenToSynapse(resource);

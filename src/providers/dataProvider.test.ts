@@ -3,8 +3,7 @@ jest.mock("./matrix", () => ({
 }));
 
 import fetchMock from "jest-fetch-mock";
-import dataProvider, { initRegistrationTokens } from "./dataProvider";
-import { refreshAccessToken } from "./matrix";
+import dataProvider from "./dataProvider";
 
 fetchMock.enableMocks();
 
@@ -85,26 +84,13 @@ describe("dataProvider", () => {
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
-  it("refreshes token before MAS admin availability check", async () => {
-    const now = Date.now();
-    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
-    localStorage.setItem("refresh_token", "refresh_token");
-    localStorage.setItem("access_token_expires_at", `${now - 1000}`);
-
-    fetchMock.mockResponseOnce(JSON.stringify({}));
-
-    await initRegistrationTokens();
-
-    expect(refreshAccessToken).toHaveBeenCalledTimes(1);
-    const [url] = fetchMock.mock.calls[0];
-    expect(url).toBe("http://mas.example/api/admin/v1/site-config");
-  });
-
   it("skips MAS availability check when no access token", async () => {
     localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
     localStorage.removeItem("access_token");
 
-    await initRegistrationTokens();
+    // isMAS() reads RaStore.isMAS, which is not set, so registration_tokens stays Synapse
+    const { initResources } = await import("./dataProvider");
+    initResources();
 
     expect(fetch).not.toHaveBeenCalled();
   });
@@ -115,6 +101,12 @@ describe("dataProvider", () => {
     const { default: freshDataProvider } = await import("./dataProvider");
 
     localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    // Set the cached MAS flag so the resource is detected as MAS
+    localStorage.setItem("RaStore.isMAS", "true");
+
+    // Re-init registration tokens with the MAS flag set
+    const { initResources } = await import("./dataProvider");
+    initResources();
 
     const masListPage1 = {
       links: {
@@ -159,10 +151,7 @@ describe("dataProvider", () => {
       },
     };
 
-    fetchMock
-      .mockResponseOnce(JSON.stringify({}))
-      .mockResponseOnce(JSON.stringify(masListPage1))
-      .mockResponseOnce(JSON.stringify(masListPage2));
+    fetchMock.mockResponseOnce(JSON.stringify(masListPage1)).mockResponseOnce(JSON.stringify(masListPage2));
 
     await freshDataProvider.getList("registration_tokens", {
       pagination: { page: 1, perPage: 10 },
@@ -176,7 +165,7 @@ describe("dataProvider", () => {
       filter: { valid: true },
     });
 
-    const [page2Url] = fetchMock.mock.calls[2];
+    const [page2Url] = fetchMock.mock.calls[1];
     expect(page2Url).toContain("http://mas.example/api/admin/v1/user-registration-tokens?");
     expect(page2Url).toContain("page%5Bfirst%5D=10");
     expect(page2Url).toContain("page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V");

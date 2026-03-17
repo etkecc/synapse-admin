@@ -13,13 +13,15 @@ import {
 
 import { jsonClient } from "./httpClients";
 import {
-  getMasBaseUrl,
+  getMASBaseUrl,
   getMasNextPageCursor,
   getMasRegistrationTokensCursorKey,
   getMasRegistrationTokensPageCursor,
   setMasRegistrationTokensPageCursor,
   filterUndefined,
   revokeRegistrationToken,
+  isMAS,
+  getMASRegistrationTokensResource,
 } from "./mas";
 import {
   synapseRegistrationTokensResource,
@@ -47,52 +49,35 @@ import {
   redactUserEvents,
 } from "./synapse";
 import { uploadMedia } from "./matrix";
-import { checkMasAdminApiAvailable, getMasRegistrationTokensResource, isMasInstance } from "./mas";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
 import { etkeProviderMethods } from "./etkeProvider";
 import { MASRegistrationTokenListResponse, SynapseDataProvider } from "./types";
 
 /**
- * Initialize the registration tokens resource config and patch it into resourceMap.
- * Must be called after login so localStorage (token_endpoint) is populated.
- * Also called at module load to handle page refreshes when already logged in.
+ * Initialize all flag-dependent resources and patch them into resourceMap.
+ * Reads the cached MAS flag synchronously — no HTTP calls needed.
+ * Add new MAS-dependent resources here as they are introduced.
  */
-let registrationTokensInitPromise: Promise<void> | null = null;
-
-export const initRegistrationTokens = async () => {
-  if (registrationTokensInitPromise) {
-    return registrationTokensInitPromise;
+export const initResources = () => {
+  if (isMAS()) {
+    resourceMap.registration_tokens = getMASRegistrationTokensResource();
+  } else {
+    resourceMap.registration_tokens = synapseRegistrationTokensResource;
   }
-
-  registrationTokensInitPromise = (async () => {
-    if (isMasInstance() && (await checkMasAdminApiAvailable())) {
-      resourceMap.registration_tokens = getMasRegistrationTokensResource();
-    } else {
-      resourceMap.registration_tokens = synapseRegistrationTokensResource;
-    }
-  })();
-
-  return registrationTokensInitPromise;
-};
-
-const ensureRegistrationTokensInitialized = async (resource: string) => {
-  if (resource !== "registration_tokens") return;
-  await initRegistrationTokens();
 };
 
 // Initialize on module load to handle page refresh when already logged in
-if (localStorage.getItem("token_endpoint")) {
-  void initRegistrationTokens();
+if (localStorage.getItem("access_token")) {
+  initResources();
 }
 
-const resolveResource = async (resource: string) => {
+const resolveResource = (resource: string) => {
   const homeserver = localStorage.getItem("base_url");
   if (!homeserver) throw Error("Homeserver not set");
   if (!(resource in resourceMap)) throw Error(`Resource ${resource} not found`);
-  await ensureRegistrationTokensInitialized(resource);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const res = resourceMap[resource as keyof typeof resourceMap] as any;
-  const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+  const baseUrl = res.isMAS ? getMASBaseUrl() : homeserver;
   return { res, baseUrl, homeserver };
 };
 
@@ -117,7 +102,7 @@ function getSearchOrder(order: "ASC" | "DESC") {
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource, params);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
 
     const {
       user_id,
@@ -139,7 +124,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     // Build query based on API type
     let query: Record<string, any>;
-    if (res.isMas) {
+    if (res.isMAS) {
       const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
       const pageAfter = page > 1 ? getMasRegistrationTokensPageCursor(cursorKey, page) : undefined;
 
@@ -178,7 +163,7 @@ const baseDataProvider: SynapseDataProvider = {
     const { json } = await jsonClient(url);
     const formattedData = json[res.data].map(res.map);
 
-    if (res.isMas) {
+    if (res.isMAS) {
       const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
       const nextCursor = getMasNextPageCursor(json as MASRegistrationTokenListResponse);
       if (nextCursor) {
@@ -194,7 +179,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getOne: async (resource, params) => {
     console.log("getOne " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     const endpoint_url = baseUrl + res.path;
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`);
     return { data: res.map(json) };
@@ -202,7 +187,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getMany: async (resource, params) => {
     console.log("getMany " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     const homeserver = localStorage.getItem("home_server");
     const endpoint_url = baseUrl + res.path;
     const responses = await Promise.all(
@@ -240,7 +225,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getManyReference: async (resource, params) => {
     console.log("getManyReference " + resource);
-    const { res, homeserver } = await resolveResource(resource);
+    const { res, homeserver } = resolveResource(resource);
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
     const from = (page - 1) * perPage;
@@ -290,7 +275,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   update: async (resource, params) => {
     console.log("update " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     const endpoint_url = baseUrl + res.path;
 
     // Handle special case for MAS registration tokens which have custom update method
@@ -312,7 +297,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   updateMany: async (resource, params) => {
     console.log("updateMany " + resource);
-    const { res, homeserver } = await resolveResource(resource);
+    const { res, homeserver } = resolveResource(resource);
     const endpoint_url = homeserver + res.path;
     const responses = await Promise.all(
       params.ids.map(id =>
@@ -327,7 +312,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   create: async (resource, params) => {
     console.log("create " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     if (!("create" in res)) return Promise.reject(new Error(`Create not supported for ${resource}`));
 
     const create = res.create(params.data);
@@ -353,7 +338,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   createMany: async (resource: string, params: { ids: Identifier[]; data: RaRecord }) => {
     console.log("createMany " + resource);
-    const { res, homeserver } = await resolveResource(resource);
+    const { res, homeserver } = resolveResource(resource);
     if (!("create" in res)) throw Error(`Create ${resource} is not allowed`);
 
     const responses = await Promise.all(
@@ -372,7 +357,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   delete: async (resource, params) => {
     console.log("delete " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
 
     if ("delete" in res) {
       const del = res.delete(params);
@@ -398,7 +383,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   deleteMany: async (resource, params) => {
     console.log("deleteMany " + resource, "params", params);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
 
     if ("delete" in res) {
       const responses = await Promise.all(

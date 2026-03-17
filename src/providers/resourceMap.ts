@@ -12,6 +12,6 @@ export { CACHED_MANY_REF, invalidateManyRefCache };
 export const resourceMap = {
   ...synapseResourceMap,
   room_directory: roomDirectoryResource,
-  // Default to Synapse API; patched to MAS API at login/page-load via initRegistrationTokens()
+  // Default to Synapse API; patched to MAS API at login/page-load via initResources()
   registration_tokens: synapseRegistrationTokensResource as RegistrationTokensResource,
 };

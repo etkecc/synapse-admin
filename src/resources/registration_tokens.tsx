@@ -34,7 +34,7 @@ import {
 } from "react-admin";
 
 import { useDocTitle } from "../components/hooks/useDocTitle";
-import { isMasInstance } from "../providers/mas";
+import { useIsMAS } from "../providers/mas";
 import { SynapseDataProvider } from "../providers/types";
 import { DATE_FORMAT, dateFormatter, dateParser } from "../utils/date";
 
@@ -47,7 +47,7 @@ const registrationTokenFilters = [<BooleanInput source="valid" alwaysOn />];
 export const RegistrationTokenList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
-  const isMas = isMasInstance();
+  const isMAS = useIsMAS();
   useDocTitle(translate("resources.registration_tokens.name", { smart_count: 2 }));
   return (
     <List
@@ -70,7 +70,7 @@ export const RegistrationTokenList = (props: ListProps) => {
           label="resources.registration_tokens.fields.expiry_time"
           locales={locale}
         />
-        {isMas && (
+        {isMAS && (
           <DateField
             source="created_at"
             showTime
@@ -80,7 +80,7 @@ export const RegistrationTokenList = (props: ListProps) => {
             locales={locale}
           />
         )}
-        {isMas && (
+        {isMAS && (
           <DateField
             source="last_used_at"
             showTime
@@ -90,7 +90,7 @@ export const RegistrationTokenList = (props: ListProps) => {
             locales={locale}
           />
         )}
-        {isMas && (
+        {isMAS && (
           <DateField
             source="revoked_at"
             showTime
@@ -139,8 +139,9 @@ const RevokeTokenButton = () => {
   const notify = useNotify();
   const refresh = useRefresh();
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const isMAS = useIsMAS();
 
-  if (!record || !isMasInstance()) return null;
+  if (!record || !isMAS) return null;
 
   const isRevoked = !!record.revoked_at;
 
@@ -189,7 +190,7 @@ const RegistrationTokenEditToolbar = () => (
 
 export const RegistrationTokenEdit = (props: EditProps) => {
   const translate = useTranslate();
-  const isMas = isMasInstance();
+  const isMAS = useIsMAS();
   useDocTitle(`${translate("ra.action.edit")} ${translate("resources.registration_tokens.name")}`);
 
   return (
@@ -200,9 +201,9 @@ export const RegistrationTokenEdit = (props: EditProps) => {
         <NumberInput source="completed" disabled />
         <NumberInput source="uses_allowed" validate={validateUsesAllowed} step={1} />
         <DateTimeInput source="expiry_time" parse={dateParser} format={dateFormatter} />
-        {isMas && <DateTimeInput source="created_at" disabled />}
-        {isMas && <DateTimeInput source="last_used_at" disabled />}
-        {isMas && <DateTimeInput source="revoked_at" disabled />}
+        {isMAS && <DateTimeInput source="created_at" disabled />}
+        {isMAS && <DateTimeInput source="last_used_at" disabled />}
+        {isMAS && <DateTimeInput source="revoked_at" disabled />}
       </SimpleForm>
     </Edit>
   );

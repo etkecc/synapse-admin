@@ -227,13 +227,13 @@ export interface BaseRegistrationTokensResource {
 }
 
 export interface SynapseRegistrationTokensResourceType extends BaseRegistrationTokensResource {
-  isMas: false;
+  isMAS: false;
   map: (token: RegistrationToken) => object;
   total: (json: { registration_tokens: unknown[] }) => number;
 }
 
 export interface MASRegistrationTokensResourceType extends BaseRegistrationTokensResource {
-  isMas: true;
+  isMAS: true;
   map: (token: MASRegistrationToken | MASRegistrationTokenResource) => object;
   total: (json: MASRegistrationTokenListResponse) => number;
   handleCreateResponse: (token: MASRegistrationToken) => object;
