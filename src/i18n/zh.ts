@@ -485,8 +485,8 @@ const zh: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "未保护，创建保护",
-        delete: "已保护，移除保护",
+        create: "保护",
+        delete: "取消保护",
         none: "处于隔离中",
         send_success: "保护状态修改成功。",
         send_failure: "发生错误。",
@@ -495,9 +495,9 @@ const zh: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "隔离",
-        create: "加入隔离",
-        delete: "已隔离，解除隔离",
-        none: "已保护不被隔离",
+        create: "隔离",
+        delete: "解除隔离",
+        none: "已保护",
         send_success: "隔离状态修改成功。",
         send_failure: "发生错误：%{error}",
       },

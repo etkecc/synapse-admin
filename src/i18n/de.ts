@@ -497,8 +497,8 @@ const de: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Ungeschützt, Schutz aktivieren",
-        delete: "Geschützt, Schutz deaktivieren",
+        create: "Schützen",
+        delete: "Schutz aufheben",
         none: "In Quarantäne",
         send_success: "Erfolgreich den Schutz-Status geändert.",
         send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
@@ -507,9 +507,9 @@ const de: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Quarantäne",
-        create: "Zur Quarantäne hinzufügen",
-        delete: "In Quarantäne, Quarantäne aufheben",
-        none: "Geschützt vor Quarantäne",
+        create: "Quarantäne",
+        delete: "Freigeben",
+        none: "Geschützt",
         send_success: "Erfolgreich den Quarantäne-Status geändert.",
         send_failure: "Beim Versenden ist ein Fehler aufgetreten: %{error}",
       },

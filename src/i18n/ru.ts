@@ -510,8 +510,8 @@ const ru: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Не защищён, установить защиту",
-        delete: "Защищён, снять защиту",
+        create: "Защитить",
+        delete: "Снять защиту",
         none: "На карантине",
         send_success: "Статус защиты успешно изменён.",
         send_failure: "Произошла ошибка.",
@@ -520,9 +520,9 @@ const ru: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Карантин",
-        create: "Поместить на карантин",
-        delete: "На карантине, снять карантин",
-        none: "Защищено от карантина",
+        create: "Карантин",
+        delete: "Снять карантин",
+        none: "Защищено",
         send_success: "Статус карантина успешно изменён.",
         send_failure: "Произошла ошибка: %{error}",
       },

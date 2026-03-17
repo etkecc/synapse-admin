@@ -194,12 +194,12 @@ export const synapseResourceMap = {
     create: (params: UserMedia) => ({
       endpoint: `/_synapse/admin/v1/media/protect/${params.media_id}`,
       method: "POST",
-      empty_response: true,
+      response: (data: RaRecord) => ({ ...data, safe_from_quarantine: true }),
     }),
     delete: (params: DeleteParams) => ({
       endpoint: `/_synapse/admin/v1/media/unprotect/${params.id}`,
       method: "POST",
-      empty_response: true,
+      response: (data: RaRecord) => ({ ...data, safe_from_quarantine: false }),
     }),
   },
   quarantine_media: {
@@ -207,12 +207,12 @@ export const synapseResourceMap = {
     create: (params: UserMedia) => ({
       endpoint: `/_synapse/admin/v1/media/quarantine/${localStorage.getItem("home_server")}/${params.media_id}`,
       method: "POST",
-      empty_response: true,
+      response: (data: RaRecord) => ({ ...data, quarantined_by: localStorage.getItem("user_id") || "admin" }),
     }),
     delete: (params: DeleteParams) => ({
       endpoint: `/_synapse/admin/v1/media/unquarantine/${localStorage.getItem("home_server")}/${params.id}`,
       method: "POST",
-      empty_response: true,
+      response: (data: RaRecord) => ({ ...data, quarantined_by: "" }),
     }),
   },
   servernotices: {

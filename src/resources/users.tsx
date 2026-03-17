@@ -699,8 +699,8 @@ export const UserEdit = (props: EditProps) => {
                 render={record => (record.upload_name ? decodeURLComponent(record.upload_name) : "")}
               />
               <TextField source="quarantined_by" />
-              <QuarantineMediaButton label="resources.quarantine_media.action.name" />
-              <ProtectMediaButton label="resources.users_media.fields.safe_from_quarantine" />
+              <QuarantineMediaButton />
+              <ProtectMediaButton />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
             </Datagrid>
           </ReferenceManyField>

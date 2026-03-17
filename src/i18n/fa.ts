@@ -464,8 +464,8 @@ const fa: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "محافظت نشده، حفاظت ایجاد کنید",
-        delete: "محافظت شده، حفاظت را بردارید",
+        create: "محافظت",
+        delete: "لغو محافظت",
         none: "در قرنطینه",
         send_success: "وضعیت حفاظت با موفقیت تغییر کرد.",
         send_failure: "خطایی رخ داده است.",
@@ -474,9 +474,9 @@ const fa: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "قرنطینه",
-        create: "به قرنطینه اضافه کنید",
-        delete: "در قرنطینه، غیر قرنطینه",
-        none: "از قرنطینه محافظت می شود",
+        create: "قرنطینه",
+        delete: "رفع قرنطینه",
+        none: "محافظت شده",
         send_success: "وضعیت قرنطینه با موفقیت تغییر کرد.",
         send_failure: "خطایی رخ داده است: %{error}",
       },

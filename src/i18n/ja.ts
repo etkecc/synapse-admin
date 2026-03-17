@@ -454,8 +454,8 @@ const ja: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "未保護。保護を実行",
-        delete: "保護済。保護を削除",
+        create: "保護する",
+        delete: "保護解除",
         none: "検疫済",
         send_success: "保護に関する状態を変更しました。",
         send_failure: "エラーが発生しました。",
@@ -464,9 +464,9 @@ const ja: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "検疫",
-        create: "検疫に追加",
-        delete: "検疫に追加されています。検疫から取り出す",
-        none: "検疫によって保護されています",
+        create: "検疫",
+        delete: "検疫解除",
+        none: "保護済",
         send_success: "検疫に関する状態を変更しました。",
         send_failure: "エラーが発生しました: %{error}",
       },

@@ -439,7 +439,7 @@ const fr: SynapseTranslationMessages = {
     protect_media: {
       action: {
         create: "Protéger",
-        delete: "Révoquer la protection",
+        delete: "Déprotéger",
         none: "En quarantaine",
         send_success: "Le statut de protection a été modifié avec succès",
         send_failure: "Une erreur s'est produite",
@@ -448,9 +448,9 @@ const fr: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Quarantaine",
-        create: "Mettre en quarantaine",
-        delete: "Révoquer la mise en quarantaine",
-        none: "Protégé contre la mise en quarantaine",
+        create: "Quarantaine",
+        delete: "Déquarantainer",
+        none: "Protégé(e)",
         send_success: "Le statut de la quarantaine a été modifié avec succès",
         send_failure: "Une erreur s'est produite: %{error}",
       },

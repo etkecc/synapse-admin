@@ -322,9 +322,9 @@ const baseDataProvider: SynapseDataProvider = {
       body: JSON.stringify(create.body, filterNullValues),
     });
 
-    // for some resources, the response is empty, so we return the input data as response
-    if (create?.empty_response) {
-      return { data: params.data };
+    // for some resources, the response is empty, so we return the adjusted input data as response
+    if (create?.response) {
+      return { data: create.response(params.data) };
     }
 
     // Use custom response handler if provided (e.g., for MAS)
@@ -366,8 +366,8 @@ const baseDataProvider: SynapseDataProvider = {
         method: "method" in del ? del.method : "DELETE",
         body: "body" in del ? JSON.stringify(del.body) : null,
       });
-      if (del?.empty_response) {
-        return { data: params.previousData };
+      if (del?.response) {
+        return { data: del.response(params.previousData) };
       }
 
       return { data: json };

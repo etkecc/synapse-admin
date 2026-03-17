@@ -493,19 +493,19 @@ const uk: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Unprotected, create protection",
-        delete: "Protected, remove protection",
-        none: "In quarantine",
-        send_success: "Successfully changed the protection status.",
-        send_failure: "An error has occurred.",
+        create: "Захистити",
+        delete: "Зняти захист",
+        none: "На карантині",
+        send_success: "Статус захисту успішно змінено.",
+        send_failure: "Сталася помилка.",
       },
     },
     quarantine_media: {
       action: {
         name: "Карантин",
-        create: "Додати на карантин",
-        delete: "In quarantine, unquarantine",
-        none: "Protected from quarantine",
+        create: "Карантин",
+        delete: "Зняти карантин",
+        none: "Захищено",
         send_success: "Успішно змінено статус карантину.",
         send_failure: "Сталася помилка: %{error}",
       },

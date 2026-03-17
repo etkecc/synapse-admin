@@ -275,7 +275,7 @@ export const roomDirectoryResource = {
     endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
     body: { visibility: "public" },
     method: "PUT",
-    empty_response: true,
+    response: (data: RaRecord) => data,
   }),
   delete: (params: DeleteParams) => ({
     endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,

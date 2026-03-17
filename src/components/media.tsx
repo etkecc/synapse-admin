@@ -7,6 +7,7 @@ import DownloadingIcon from "@mui/icons-material/Downloading";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Tooltip } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useMutation } from "@tanstack/react-query";
@@ -22,12 +23,9 @@ import {
   SimpleForm,
   Toolbar,
   ToolbarProps,
-  useCreate,
   useDataProvider,
-  useDelete,
   useNotify,
   useRecordContext,
-  useRefresh,
   useTranslate,
 } from "react-admin";
 
@@ -187,48 +185,34 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
 export const ProtectMediaButton = (props: ButtonProps) => {
   const record = useRecordContext();
   const translate = useTranslate();
-  const refresh = useRefresh();
   const notify = useNotify();
-  const [create, { isLoading }] = useCreate();
-  const [deleteOne] = useDelete();
+  const dataProvider = useDataProvider();
+  const [isProtected, setIsProtected] = useState<boolean | null>(null);
+
+  const { mutate: protect, isPending: isProtecting } = useMutation({
+    mutationFn: () => dataProvider.create("protect_media", { data: record! }),
+    onSuccess: () => {
+      notify("resources.protect_media.action.send_success");
+      setIsProtected(true);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) => notify(error?.message || "resources.protect_media.action.send_failure", { type: "error" }),
+  });
+
+  const { mutate: unprotect, isPending: isUnprotecting } = useMutation({
+    mutationFn: () => dataProvider.delete("protect_media", { id: record!.id, previousData: record }),
+    onSuccess: () => {
+      notify("resources.protect_media.action.send_success");
+      setIsProtected(false);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) => notify(error?.message || "resources.protect_media.action.send_failure", { type: "error" }),
+  });
 
   if (!record) return null;
 
-  const handleProtect = () => {
-    create(
-      "protect_media",
-      { data: record },
-      {
-        onSuccess: () => {
-          notify("resources.protect_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) =>
-          notify(error?.message || "resources.protect_media.action.send_failure", {
-            type: "error",
-          }),
-      }
-    );
-  };
-
-  const handleUnprotect = () => {
-    deleteOne(
-      "protect_media",
-      { id: record.id },
-      {
-        onSuccess: () => {
-          notify("resources.protect_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) =>
-          notify(error?.message || "resources.protect_media.action.send_failure", {
-            type: "error",
-          }),
-      }
-    );
-  };
+  const isLoading = isProtecting || isUnprotecting;
+  const safeFromQuarantine = isProtected ?? record.safe_from_quarantine;
 
   return (
     /*
@@ -243,17 +227,13 @@ export const ProtectMediaButton = (props: ButtonProps) => {
           })}
         >
           <div>
-            {/*
-            Button instead BooleanField for
-            consistent appearance and position in the column
-            */}
-            <Button {...props} disabled={true}>
+            <Button {...props} label="resources.protect_media.action.none" disabled={true}>
               <ClearIcon />
             </Button>
           </div>
         </Tooltip>
       )}
-      {record.safe_from_quarantine && (
+      {safeFromQuarantine && !record.quarantined_by && (
         <Tooltip
           title={translate("resources.protect_media.action.delete", {
             _: "resources.protect_media.action.delete",
@@ -261,21 +241,31 @@ export const ProtectMediaButton = (props: ButtonProps) => {
           arrow
         >
           <div>
-            <Button {...props} onClick={handleUnprotect} disabled={isLoading}>
-              <LockIcon />
+            <Button
+              {...props}
+              label="resources.protect_media.action.delete"
+              onClick={() => unprotect()}
+              disabled={isLoading}
+            >
+              <LockOpenIcon />
             </Button>
           </div>
         </Tooltip>
       )}
-      {!record.safe_from_quarantine && !record.quarantined_by && (
+      {!safeFromQuarantine && !record.quarantined_by && (
         <Tooltip
           title={translate("resources.protect_media.action.create", {
             _: "resources.protect_media.action.create",
           })}
         >
           <div>
-            <Button {...props} onClick={handleProtect} disabled={isLoading}>
-              <LockOpenIcon />
+            <Button
+              {...props}
+              label="resources.protect_media.action.create"
+              onClick={() => protect()}
+              disabled={isLoading}
+            >
+              <LockIcon />
             </Button>
           </div>
         </Tooltip>
@@ -287,50 +277,40 @@ export const ProtectMediaButton = (props: ButtonProps) => {
 export const QuarantineMediaButton = (props: ButtonProps) => {
   const record = useRecordContext();
   const translate = useTranslate();
-  const refresh = useRefresh();
   const notify = useNotify();
-  const [create, { isLoading }] = useCreate();
-  const [deleteOne] = useDelete();
+  const dataProvider = useDataProvider();
+  const [isQuarantined, setIsQuarantined] = useState<boolean | null>(null);
+
+  const { mutate: quarantine, isPending: isQuarantining } = useMutation({
+    mutationFn: () => dataProvider.create("quarantine_media", { data: record! }),
+    onSuccess: () => {
+      notify("resources.quarantine_media.action.send_success");
+      setIsQuarantined(true);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) =>
+      notify(error?.message || "resources.quarantine_media.action.send_failure", {
+        type: "error",
+        messageArgs: { error: error },
+      }),
+  });
+
+  const { mutate: unquarantine, isPending: isUnquarantining } = useMutation({
+    mutationFn: () => dataProvider.delete("quarantine_media", { id: record!.id, previousData: record }),
+    onSuccess: () => {
+      notify("resources.quarantine_media.action.send_success");
+      setIsQuarantined(false);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) =>
+      notify(error?.message || "resources.quarantine_media.action.send_failure", { type: "error" }),
+  });
 
   if (!record) return null;
 
-  const handleQuarantaine = () => {
-    create(
-      "quarantine_media",
-      { data: record },
-      {
-        onSuccess: () => {
-          notify("resources.quarantine_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) => {
-          notify(error?.message || "resources.quarantine_media.action.send_failure", {
-            type: "error",
-            messageArgs: { error: error },
-          });
-        },
-      }
-    );
-  };
-
-  const handleRemoveQuarantaine = () => {
-    deleteOne(
-      "quarantine_media",
-      { id: record.id, previousData: record },
-      {
-        onSuccess: () => {
-          notify("resources.quarantine_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) =>
-          notify(error?.message || "resources.quarantine_media.action.send_failure", {
-            type: "error",
-          }),
-      }
-    );
-  };
+  const isLoading = isQuarantining || isUnquarantining;
+  const quarantinedBy =
+    isQuarantined === null ? record.quarantined_by : isQuarantined ? localStorage.getItem("user_id") || "admin" : "";
 
   return (
     <>
@@ -341,33 +321,43 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
           })}
         >
           <div>
-            <Button {...props} disabled={true}>
+            <Button {...props} label="resources.quarantine_media.action.none" disabled={true}>
               <ClearIcon />
             </Button>
           </div>
         </Tooltip>
       )}
-      {record.quarantined_by && (
+      {quarantinedBy && (
         <Tooltip
           title={translate("resources.quarantine_media.action.delete", {
             _: "resources.quarantine_media.action.delete",
           })}
         >
           <div>
-            <Button {...props} onClick={handleRemoveQuarantaine} disabled={isLoading}>
-              <BlockIcon color="error" />
+            <Button
+              {...props}
+              label="resources.quarantine_media.action.delete"
+              onClick={() => unquarantine()}
+              disabled={isLoading}
+            >
+              <RemoveCircleOutlineIcon color="error" />
             </Button>
           </div>
         </Tooltip>
       )}
-      {!record.safe_from_quarantine && !record.quarantined_by && (
+      {!record.safe_from_quarantine && !quarantinedBy && (
         <Tooltip
           title={translate("resources.quarantine_media.action.create", {
             _: "resources.quarantine_media.action.create",
           })}
         >
           <div>
-            <Button {...props} onClick={handleQuarantaine} disabled={isLoading}>
+            <Button
+              {...props}
+              label="resources.quarantine_media.action.create"
+              onClick={() => quarantine()}
+              disabled={isLoading}
+            >
               <BlockIcon />
             </Button>
           </div>
