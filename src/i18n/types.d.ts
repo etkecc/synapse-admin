@@ -159,6 +159,8 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         address: string;
         creation_ts_ms: string;
         consent_version: string;
+        sent_invite_count: string;
+        cumulative_joined_room_count: string;
         auth_provider: string;
         user_type: string;
       };
@@ -176,6 +178,8 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         erase_admin_error: string;
         modify_managed_user_error: string;
         username_available: string;
+        sent_invite_count: string;
+        cumulative_joined_room_count: string;
       };
       action: {
         erase: string;

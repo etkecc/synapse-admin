@@ -83,6 +83,7 @@ import { LoginAsUserButton } from "../components/LoginAsUserButton";
 import { ResetPasswordButton } from "../components/ResetPasswordButton";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
 import UserAccountData from "../components/UserAccountData";
+import UserCounts from "../components/UserCounts";
 import UserRateLimits from "../components/UserRateLimits";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
@@ -617,6 +618,7 @@ export const UserEdit = (props: EditProps) => {
             locales={locale}
           />
           <TextField source="consent_version" />
+          <UserCounts />
         </FormTab>
 
         <FormTab label="resources.users.threepid" icon={<ContactMailIcon />} path="threepid">

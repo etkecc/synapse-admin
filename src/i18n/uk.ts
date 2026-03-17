@@ -223,6 +223,8 @@ const uk: SynapseTranslationMessages = {
         address: "Адреса",
         creation_ts_ms: "Мітка часу створення",
         consent_version: "Consent version",
+        sent_invite_count: "Надіслані запрошення",
+        cumulative_joined_room_count: "Всього кімнат",
         auth_provider: "Провайдер",
         user_type: "Тип користувача",
       },
@@ -242,6 +244,9 @@ const uk: SynapseTranslationMessages = {
         erase_admin_error: "Видалення власного користувача заборонено.",
         modify_managed_user_error: "Modifying a system-managed user is not allowed.",
         username_available: "Ім'я користувача доступне",
+        sent_invite_count: "Загальна кількість запрошень, надісланих цим користувачем у всіх кімнатах.",
+        cumulative_joined_room_count:
+          "Загальна кількість кімнат, до яких користувач коли-небудь приєднувався, включаючи ті, які він покинув або з яких був забанений.",
       },
       action: {
         erase: "Видалити дані користувача",

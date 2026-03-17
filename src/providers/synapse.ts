@@ -323,6 +323,22 @@ export const setRateLimits = async (id: Identifier, rateLimits: RateLimitsModel)
   await jsonClient(endpoint_url, { method: "POST", body: JSON.stringify(filtered) });
 };
 
+export const getSentInviteCount = async (id: Identifier, fromTs = 0): Promise<number> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(
+    `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/sent_invite_count?from_ts=${fromTs}`
+  );
+  return json.invite_count as number;
+};
+
+export const getCumulativeJoinedRoomCount = async (id: Identifier, fromTs = 0): Promise<number> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(
+    `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/cumulative_joined_room_count?from_ts=${fromTs}`
+  );
+  return json.cumulative_joined_room_count as number;
+};
+
 export const getAccountData = async (id: Identifier): Promise<AccountDataModel> => {
   const base_url = localStorage.getItem("base_url");
   const { json } = await jsonClient(

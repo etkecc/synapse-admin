@@ -169,6 +169,8 @@ const en: SynapseTranslationMessages = {
         address: "Address",
         creation_ts_ms: "Creation timestamp",
         consent_version: "Consent version",
+        sent_invite_count: "Sent invites",
+        cumulative_joined_room_count: "Cumulative joined rooms",
         auth_provider: "Provider",
         user_type: "User type",
       },
@@ -188,6 +190,9 @@ const en: SynapseTranslationMessages = {
         erase_admin_error: "Deleting own user is not allowed.",
         modify_managed_user_error: "Modifying a system-managed user is not allowed.",
         username_available: "Username is available",
+        sent_invite_count: "Total number of invites sent by this user across all rooms.",
+        cumulative_joined_room_count:
+          "Total number of rooms this user has ever joined, including rooms they have since left or been banned from.",
       },
       action: {
         erase: "Erase user data",

@@ -234,6 +234,8 @@ const ru: SynapseTranslationMessages = {
         address: "Адрес",
         creation_ts_ms: "Дата создания",
         consent_version: "Версия соглашения",
+        sent_invite_count: "Отправленные приглашения",
+        cumulative_joined_room_count: "Всего комнат",
         auth_provider: "Провайдер",
         user_type: "Тип пользователя",
       },
@@ -254,6 +256,9 @@ const ru: SynapseTranslationMessages = {
         erase_admin_error: "Удаление собственного пользователя запрещено.",
         modify_managed_user_error: "Изменение пользователя, управляемого системой, не допускается.",
         username_available: "Имя пользователя доступно",
+        sent_invite_count: "Общее количество приглашений, отправленных этим пользователем во всех комнатах.",
+        cumulative_joined_room_count:
+          "Общее количество комнат, в которые пользователь когда-либо входил, включая те, которые он покинул или из которых был забанен.",
       },
       badge: {
         you: "Вы",

@@ -285,6 +285,8 @@ const it: SynapseTranslationMessages = {
         address: "Indirizzo",
         creation_ts_ms: "Creazione del timestamp",
         consent_version: "Versione minima richiesta",
+        sent_invite_count: "Inviti inviati",
+        cumulative_joined_room_count: "Stanze totali raggiunte",
         auth_provider: "Provider",
         user_type: "Tipo d'utente",
         erased: "Cancellato (GDPR)",
@@ -305,6 +307,9 @@ const it: SynapseTranslationMessages = {
         erase_admin_error: "Non è consentito eliminare il proprio utente.",
         modify_managed_user_error: "La modifica di un utente gestito dal sistema non è consentita.",
         username_available: "Nome utente disponibile",
+        sent_invite_count: "Numero totale di inviti inviati da questo utente in tutte le stanze.",
+        cumulative_joined_room_count:
+          "Numero totale di stanze a cui questo utente si è unito, incluse quelle che ha lasciato o da cui è stato bannato.",
       },
       badge: {
         you: "Tu",

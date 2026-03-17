@@ -197,6 +197,8 @@ const fa: SynapseTranslationMessages = {
         address: "آدرس",
         creation_ts_ms: "ساخته شده در",
         consent_version: "Consent نسخه",
+        sent_invite_count: "دعوت‌های ارسال شده",
+        cumulative_joined_room_count: "تعداد کل اتاق‌های پیوسته",
         auth_provider: "ارائه دهنده",
         user_type: "نوع کاربر",
         erased: "پاک‌شده (GDPR)",
@@ -217,6 +219,9 @@ const fa: SynapseTranslationMessages = {
         erase_admin_error: "حذف المستخدم الخاص غير مسموح به.",
         modify_managed_user_error: "لا يُسمح بتغيير المستخدم الذي يديره النظام.",
         username_available: "نام کاربری موجود",
+        sent_invite_count: "تعداد کل دعوت‌های ارسال شده توسط این کاربر در تمام اتاق‌ها.",
+        cumulative_joined_room_count:
+          "تعداد کل اتاق‌هایی که این کاربر تاکنون به آن‌ها پیوسته، شامل اتاق‌هایی که ترک کرده یا از آن‌ها محروم شده است.",
       },
       badge: {
         you: "شما",

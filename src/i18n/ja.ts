@@ -191,6 +191,8 @@ const ja: SynapseTranslationMessages = {
         address: "アドレス",
         creation_ts_ms: "作成日時",
         consent_version: "同意のバージョン",
+        sent_invite_count: "送信した招待数",
+        cumulative_joined_room_count: "累計参加ルーム数",
         auth_provider: "プロバイダー",
         user_type: "ユーザーの種類",
       },
@@ -210,6 +212,8 @@ const ja: SynapseTranslationMessages = {
         erase_admin_error: "自分自身のユーザーは削除できません。",
         modify_managed_user_error: "システムが管理しているユーザーは変更できません。",
         username_available: "ユーザー名は利用できます",
+        sent_invite_count: "このユーザーが全ルームで送信した招待の合計数。",
+        cumulative_joined_room_count: "このユーザーが参加したことのあるルームの累計数（退出・BANされたルームを含む）。",
       },
       action: {
         erase: "ユーザーのデータを消去",

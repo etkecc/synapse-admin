@@ -415,6 +415,8 @@ export interface SynapseDataProvider extends DataProvider {
   updateFeatures: (id: Identifier, features: ExperimentalFeaturesModel) => Promise<void>;
   getRateLimits: (id: Identifier) => Promise<RateLimitsModel>;
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
+  getSentInviteCount: (id: Identifier, fromTs?: number) => Promise<number>;
+  getCumulativeJoinedRoomCount: (id: Identifier, fromTs?: number) => Promise<number>;
   getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
   revokeRegistrationToken: (id: string, revoke: boolean) => Promise<{ success: boolean; error?: string }>;

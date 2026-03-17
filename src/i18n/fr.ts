@@ -171,6 +171,8 @@ const fr: SynapseTranslationMessages = {
         address: "Adresse",
         creation_ts_ms: "Date de création",
         consent_version: "Version du consentement",
+        sent_invite_count: "Invitations envoyées",
+        cumulative_joined_room_count: "Salons rejoints cumulés",
         auth_provider: "Fournisseur d'identité",
         user_type: "Type d'utilisateur",
         erased: "Effacé (RGPD)",
@@ -191,6 +193,9 @@ const fr: SynapseTranslationMessages = {
         erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",
         modify_managed_user_error: "La modification d'un utilisateur géré par le système n'est pas autorisée.",
         username_available: "Nom d'utilisateur disponible",
+        sent_invite_count: "Nombre total d'invitations envoyées par cet utilisateur dans tous les salons.",
+        cumulative_joined_room_count:
+          "Nombre total de salons que cet utilisateur a rejoint, y compris ceux qu'il a quittés ou dont il a été banni.",
       },
       badge: {
         you: "Vous",

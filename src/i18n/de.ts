@@ -228,6 +228,8 @@ const de: SynapseTranslationMessages = {
         address: "Adresse",
         creation_ts_ms: "Zeitpunkt der Erstellung",
         consent_version: "Zugestimmte Geschäftsbedingungen",
+        sent_invite_count: "Gesendete Einladungen",
+        cumulative_joined_room_count: "Kumulierte beigetretene Räume",
         auth_provider: "Provider",
         user_type: "Benutzertyp",
       },
@@ -248,6 +250,9 @@ const de: SynapseTranslationMessages = {
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",
         modify_managed_user_error: "Das Ändern eines vom System verwalteten Benutzers ist nicht zulässig.",
         username_available: "Benutzername verfügbar",
+        sent_invite_count: "Gesamtzahl der von diesem Benutzer in allen Räumen gesendeten Einladungen.",
+        cumulative_joined_room_count:
+          "Gesamtzahl der Räume, denen dieser Benutzer jemals beigetreten ist, einschließlich Räume, die er verlassen hat oder aus denen er verbannt wurde.",
       },
       badge: {
         you: "Sie",

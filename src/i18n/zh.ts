@@ -225,6 +225,8 @@ const zh: SynapseTranslationMessages = {
         address: "地址",
         creation_ts_ms: "创建时间戳",
         consent_version: "协议版本",
+        sent_invite_count: "已发送邀请数",
+        cumulative_joined_room_count: "累计加入房间数",
         auth_provider: "身份提供方",
         user_type: "用户类型",
         erased: "已抹除（GDPR）",
@@ -244,6 +246,8 @@ const zh: SynapseTranslationMessages = {
         erase_admin_error: "不允许删除自己的用户",
         modify_managed_user_error: "不允许修改系统管理的用户。",
         username_available: "用户名可用",
+        sent_invite_count: "该用户在所有房间中发送的邀请总数。",
+        cumulative_joined_room_count: "该用户曾经加入过的房间总数，包括已离开或被封禁的房间。",
       },
       badge: {
         you: "您",
