@@ -12,7 +12,7 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import ScienceIcon from "@mui/icons-material/Science";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import { Alert, Box, Typography } from "@mui/material";
+import { Alert, Box, Divider, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import {
@@ -83,7 +83,7 @@ import { LoginAsUserButton } from "../components/LoginAsUserButton";
 import { ResetPasswordButton } from "../components/ResetPasswordButton";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
 import UserAccountData from "../components/UserAccountData";
-import UserCounts from "../components/UserCounts";
+import UserInfoChips from "../components/UserCounts";
 import UserRateLimits from "../components/UserRateLimits";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
@@ -564,61 +564,88 @@ export const UserEdit = (props: EditProps) => {
     >
       <TabbedForm toolbar={<UserEditToolbar />}>
         <FormTab label={translate("resources.users.name", { smart_count: 1 })} icon={<PersonPinIcon />}>
-          <AvatarField source="avatar_src" sx={{ height: "120px", width: "120px" }} />
-          <BooleanInput source="avatar_erase" label="resources.users.action.erase_avatar" />
-          <ImageInput
-            source="avatar_file"
-            label="resources.users.fields.avatar"
-            accept={{ "image/*": [".png", ".jpg"] }}
+          <Box
+            sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%", mb: 2, mt: 1 }}
           >
-            <ImageField
-              source="src"
-              title="Avatar"
+            <Box
               sx={{
-                "& img": {
-                  width: "120px !important",
-                  height: "120px !important",
-                  objectFit: "cover !important",
-                  borderRadius: "50% !important",
-                },
+                display: "flex",
+                flexDirection: "column",
+                alignItems: { xs: "flex-start", sm: "center" },
+                minWidth: 140,
               }}
-            />
-          </ImageInput>
-          <TextInput source="id" readOnly />
-          <TextInput source="displayname" />
-          <UserPasswordInput
-            source="password"
-            autoComplete="new-password"
-            helperText="resources.users.helper.password"
-          />
-          <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable />
-          <BooleanInput source="admin" helperText="resources.users.helper.admin" />
-          <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
-          <UserBooleanInput source="shadow_banned" helperText="resources.users.helper.shadow_ban" />
-          <UserBooleanInput
-            sx={{ color: theme.palette.warning.main }}
-            source="locked"
-            helperText="resources.users.helper.lock"
-          />
-          <UserBooleanInput
-            sx={{ color: theme.palette.error.main }}
-            source="deactivated"
-            helperText="resources.users.helper.deactivate"
-          />
-          <ErasedBooleanInput
-            sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
-            source="erased"
-            helperText="resources.users.helper.erase"
-          />
-          <DateField
-            sx={{ marginTop: "20px" }}
-            source="creation_ts_ms"
-            showTime
-            options={DATE_FORMAT}
-            locales={locale}
-          />
-          <TextField source="consent_version" />
-          <UserCounts />
+            >
+              <AvatarField source="avatar_src" sx={{ height: "120px", width: "120px" }} />
+              <BooleanInput source="avatar_erase" label="resources.users.action.erase_avatar" sx={{ mt: 1 }} />
+              <ImageInput
+                source="avatar_file"
+                label="resources.users.fields.avatar"
+                accept={{ "image/*": [".png", ".jpg"] }}
+              >
+                <ImageField
+                  source="src"
+                  title="Avatar"
+                  sx={{
+                    "& img": {
+                      width: "120px !important",
+                      height: "120px !important",
+                      objectFit: "cover !important",
+                      borderRadius: "50% !important",
+                    },
+                  }}
+                />
+              </ImageInput>
+              <UserInfoChips />
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <TextInput source="id" readOnly fullWidth />
+              <TextInput source="displayname" fullWidth />
+              <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable fullWidth />
+              <UserPasswordInput
+                source="password"
+                autoComplete="new-password"
+                helperText="resources.users.helper.password"
+              />
+            </Box>
+          </Box>
+
+          <Divider sx={{ width: "100%", my: 2 }} />
+
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%" }}>
+            <Box sx={{ flex: 1 }}>
+              <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
+              <UserBooleanInput source="shadow_banned" helperText="resources.users.helper.shadow_ban" />
+              <UserBooleanInput
+                sx={{ color: theme.palette.warning.main }}
+                source="locked"
+                helperText="resources.users.helper.lock"
+              />
+            </Box>
+            <Paper
+              variant="outlined"
+              sx={{
+                flex: 1,
+                p: 2,
+                borderColor: theme.palette.error.main,
+                borderStyle: "dashed",
+              }}
+            >
+              <Typography variant="subtitle2" color="error" sx={{ mb: 1 }}>
+                {translate("synapseadmin.users.danger_zone")}
+              </Typography>
+              <BooleanInput source="admin" helperText="resources.users.helper.admin" />
+              <UserBooleanInput
+                sx={{ color: theme.palette.error.main }}
+                source="deactivated"
+                helperText="resources.users.helper.deactivate"
+              />
+              <ErasedBooleanInput
+                sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
+                source="erased"
+                helperText="resources.users.helper.erase"
+              />
+            </Paper>
+          </Box>
         </FormTab>
 
         <FormTab label="resources.users.threepid" icon={<ContactMailIcon />} path="threepid">

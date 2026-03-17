@@ -32,6 +32,7 @@ const en: SynapseTranslationMessages = {
         limits: "Rate Limits",
         account_data: "Account Data",
       },
+      danger_zone: "Danger zone",
     },
     rooms: {
       details: "Room details",

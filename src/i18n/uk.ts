@@ -86,6 +86,7 @@ const uk: SynapseTranslationMessages = {
         limits: "Обмеження",
         account_data: "Дані облікового запису",
       },
+      danger_zone: "Небезпечна зона",
     },
     rooms: {
       details: "Деталі кімнати",

@@ -89,6 +89,7 @@ const zh: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "必须要是一个有效的 Matrix 用户 ID ，例如 @user_id:homeserver",
       tabs: { sso: "SSO", experimental: "实验性", limits: "限制", account_data: "账户数据" },
+      danger_zone: "危险区域",
     },
     rooms: {
       details: "房间详情",

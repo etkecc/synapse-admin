@@ -53,6 +53,7 @@ const ja: SynapseTranslationMessages = {
         limits: "レート制限",
         account_data: "アカウントのデータ",
       },
+      danger_zone: "危険ゾーン",
     },
     rooms: {
       details: "ルームの詳細",

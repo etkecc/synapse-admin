@@ -90,6 +90,7 @@ const de: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "Lokaler Anteil der Matrix Benutzer-ID ohne Homeserver.",
       tabs: { sso: "SSO", experimental: "Experimentell", limits: "Rate Limits", account_data: "Kontodaten" },
+      danger_zone: "Gefahrenzone",
     },
     rooms: {
       details: "Raumdetails",

@@ -149,6 +149,7 @@ const it: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "ID utente non valido su questo homeserver.",
       tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti", account_data: "Dati del profilo" },
+      danger_zone: "Zona pericolosa",
     },
     rooms: {
       details: "Dettagli della stanza",

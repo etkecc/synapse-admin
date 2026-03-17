@@ -1,15 +1,21 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import GavelIcon from "@mui/icons-material/Gavel";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import { Box, Chip, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useDataProvider, useRecordContext, useTranslate } from "react-admin";
+import { useDataProvider, useLocale, useRecordContext, useTranslate } from "react-admin";
 
 import { SynapseDataProvider } from "../providers/types";
+import { DATE_FORMAT } from "../utils/date";
 
 const tooltipSx = { tooltip: { sx: { fontSize: "0.875rem" } } };
 
-const UserCounts = () => {
+const UserInfoChips = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const record = useRecordContext();
   const translate = useTranslate();
+  const locale = useLocale();
   const [inviteCount, setInviteCount] = useState<number | null>(null);
   const [joinedRoomCount, setJoinedRoomCount] = useState<number | null>(null);
 
@@ -33,28 +39,52 @@ const UserCounts = () => {
     fetchCounts();
   }, [dataProvider, record.id]);
 
-  if (inviteCount === null && joinedRoomCount === null) {
-    return null;
-  }
+  const createdDate = record.creation_ts_ms
+    ? new Date(record.creation_ts_ms).toLocaleDateString(locale, DATE_FORMAT)
+    : null;
 
   return (
-    <Box sx={{ display: "flex", gap: 4, marginTop: "8px" }}>
+    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", width: "100%" }}>
+      {createdDate && (
+        <Chip
+          icon={<CalendarTodayIcon />}
+          label={`${translate("resources.users.fields.creation_ts_ms")}: ${createdDate}`}
+          variant="outlined"
+          size="small"
+        />
+      )}
+      {record.consent_version && (
+        <Chip
+          icon={<GavelIcon />}
+          label={`${translate("resources.users.fields.consent_version")}: ${record.consent_version}`}
+          variant="outlined"
+          size="small"
+        />
+      )}
       {inviteCount !== null && (
         <Tooltip title={translate("resources.users.helper.sent_invite_count")} arrow slotProps={tooltipSx}>
-          <Typography variant="body1" sx={{ cursor: "help" }}>
-            {translate("resources.users.fields.sent_invite_count")}: {inviteCount}
-          </Typography>
+          <Chip
+            icon={<MailOutlineIcon />}
+            label={`${translate("resources.users.fields.sent_invite_count")}: ${inviteCount}`}
+            variant="outlined"
+            size="small"
+            sx={{ cursor: "help" }}
+          />
         </Tooltip>
       )}
       {joinedRoomCount !== null && (
         <Tooltip title={translate("resources.users.helper.cumulative_joined_room_count")} arrow slotProps={tooltipSx}>
-          <Typography variant="body1" sx={{ cursor: "help" }}>
-            {translate("resources.users.fields.cumulative_joined_room_count")}: {joinedRoomCount}
-          </Typography>
+          <Chip
+            icon={<MeetingRoomIcon />}
+            label={`${translate("resources.users.fields.cumulative_joined_room_count")}: ${joinedRoomCount}`}
+            variant="outlined"
+            size="small"
+            sx={{ cursor: "help" }}
+          />
         </Tooltip>
       )}
     </Box>
   );
 };
 
-export default UserCounts;
+export default UserInfoChips;

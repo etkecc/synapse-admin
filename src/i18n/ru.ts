@@ -88,6 +88,7 @@ const ru: SynapseTranslationMessages = {
         limits: "Ограничения",
         account_data: "Данные пользователя",
       },
+      danger_zone: "Опасная зона",
     },
     rooms: {
       details: "Данные комнаты",

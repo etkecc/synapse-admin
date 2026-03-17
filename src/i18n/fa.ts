@@ -61,6 +61,7 @@ const fa: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "بخش محلی یک شناسه کاربری ماتریکس بدون سرور خانگی.",
       tabs: { sso: "SSO", experimental: "تجربی", limits: "محدودیت ها", account_data: "داده های کاربر" },
+      danger_zone: "منطقه خطرناک",
     },
     rooms: {
       details: "جزئیات اتاق",

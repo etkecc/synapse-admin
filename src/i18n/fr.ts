@@ -32,6 +32,7 @@ const fr: SynapseTranslationMessages = {
         limits: "Limites",
         account_data: "Données du compte",
       },
+      danger_zone: "Zone dangereuse",
     },
     rooms: {
       details: "Détails de la salle",
