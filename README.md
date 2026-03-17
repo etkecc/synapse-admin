@@ -174,6 +174,7 @@ The following changes are already implemented:
 * 🌐 [Lazy-load translations with per-locale code splitting](https://github.com/etkecc/synapse-admin/commit/fc9669f2beeee345ff094610571ecec6db649a94)
 * 🛡️ [Add "Quarantine All" buttons to user and room media lists](https://github.com/etkecc/synapse-admin/commit/34036a8bb8c239e7719df70219a8c2ac1fc5082e)
 * 📊 [Show cumulative amounts of joined rooms and sent invites by a user](https://github.com/etkecc/synapse-admin/commit/d6c64a5371d1ec604a543792b29cd15f8c914a7b)
+* 🎨 [Restyle user edit page](https://github.com/etkecc/synapse-admin/commit/3dd9098d0475ea3c77ed22c5d1d18f87f22f4cce)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
