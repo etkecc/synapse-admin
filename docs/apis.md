@@ -17,7 +17,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [🟡 User Devices](#-user-devices)
     * [🟡 Rooms](#-rooms)
     * [✅ Registration Tokens](#-registration-tokens)
-    * [🟡 Media](#-media)
+    * [✅ Media](#-media)
     * [✅ Event Reports](#-event-reports)
     * [✅ Server Notices](#-server-notices)
     * [✅ Federation](#-federation)
@@ -131,21 +131,21 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/registration_tokens/<token>` | PUT | Update a registration token | ✅ |
 | `/_synapse/admin/v1/registration_tokens/<token>` | DELETE | Delete a registration token | ✅ |
 
-### 🟡 Media
+### ✅ Media
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/room/<room_id>/media` | GET | List all media in a room | ✅ |
 | `/_synapse/admin/v1/media/<origin>/<media_id>` | GET | Query media by ID | ⏭️ |
 | `/_synapse/admin/v1/media/<server_name>/<media_id>` | DELETE | Delete specific local media | ✅ |
-| `/_synapse/admin/v1/media/delete` | POST | Delete local media by date or size | ❌ |
-| `/_synapse/admin/v1/media/<server_name>/delete` | POST | Delete local media by date or size (deprecated) | ✅ |
+| `/_synapse/admin/v1/media/delete` | POST | Delete local media by date or size | ✅ |
+| `/_synapse/admin/v1/media/<server_name>/delete` | POST | Delete local media by date or size (deprecated) | ⏭️ |
 | `/_synapse/admin/v1/purge_media_cache` | POST | Purge old cached remote media | ✅ |
 | `/_synapse/admin/v1/media/quarantine/<server_name>/<media_id>` | POST | Quarantine media by ID | ✅ |
 | `/_synapse/admin/v1/media/unquarantine/<server_name>/<media_id>` | POST | Remove media from quarantine | ✅ |
-| `/_synapse/admin/v1/room/<room_id>/media/quarantine` | POST | Quarantine all media in a room | ❌ |
-| `/_synapse/admin/v1/quarantine_media/<room_id>` | POST | Quarantine room media (deprecated) | ❌ |
-| `/_synapse/admin/v1/user/<user_id>/media/quarantine` | POST | Quarantine all media of a user | ❌ |
+| `/_synapse/admin/v1/room/<room_id>/media/quarantine` | POST | Quarantine all media in a room | ✅ |
+| `/_synapse/admin/v1/quarantine_media/<room_id>` | POST | Quarantine room media (deprecated) | ⏭️ |
+| `/_synapse/admin/v1/user/<user_id>/media/quarantine` | POST | Quarantine all media of a user | ✅ |
 | `/_synapse/admin/v1/media/protect/<media_id>` | POST | Protect media from quarantine | ✅ |
 | `/_synapse/admin/v1/media/unprotect/<media_id>` | POST | Unprotect media from quarantine | ✅ |
 
@@ -162,7 +162,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/send_server_notice` | POST | Send a server notice to a user | ✅ |
-| `/_synapse/admin/v1/send_server_notice/{txnId}` | PUT | Send server notice with transaction ID | ❌ |
+| `/_synapse/admin/v1/send_server_notice/{txnId}` | PUT | Send server notice with transaction ID | ⏭️ |
 
 ### ✅ Federation
 

@@ -243,6 +243,14 @@ const ja: SynapseTranslationMessages = {
         overwrite_content: "このユーザー名はすでに取得されています。既存のユーザーを上書きしてもよろしいですか？",
         overwrite_cancel: "キャンセル",
         overwrite_confirm: "上書きする",
+        quarantine_all: {
+          label: "すべてのメディアを検疫",
+          title: "%{userName} のすべてのメディアを検疫",
+          content:
+            "このユーザーがアップロードしたすべてのローカルメディアを検疫します。検疫されたメディアは他のユーザーからアクセスできなくなります。",
+          success: "%{smart_count} 件のメディアを検疫しました。",
+          failure: "メディアの検疫に失敗しました。%{errMsg}",
+        },
       },
       badge: {
         you: "あなた",
@@ -370,6 +378,14 @@ const ja: SynapseTranslationMessages = {
           background_note: "このウィンドウを閉じても問題ありません。削除処理はバックグラウンドで続行されます。",
           success: "ルームの履歴が正常に削除されました。",
           failure: "ルームの履歴の削除に失敗しました。%{errMsg}",
+        },
+        quarantine_all: {
+          label: "すべてのメディアを検疫",
+          title: "%{roomName} のすべてのメディアを検疫",
+          content:
+            "このルームのすべてのローカルおよびリモートメディアを検疫します。検疫されたメディアはユーザーからアクセスできなくなります。",
+          success: "%{smart_count} 件のメディアを検疫しました。",
+          failure: "メディアの検疫に失敗しました。%{errMsg}",
         },
       },
     },

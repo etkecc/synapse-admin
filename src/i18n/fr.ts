@@ -234,6 +234,15 @@ const fr: SynapseTranslationMessages = {
           "Ce nom d'utilisateur est déjà pris. Êtes-vous sûr de vouloir écraser l'utilisateur existant ?",
         overwrite_cancel: "Annuler",
         overwrite_confirm: "Écraser",
+        quarantine_all: {
+          label: "Quarantaine de tous les médias",
+          title: "Mettre en quarantaine tous les médias de %{userName}",
+          content:
+            "Tous les médias locaux de cet utilisateur seront mis en quarantaine. Les médias en quarantaine ne seront plus accessibles aux autres utilisateurs.",
+          success:
+            "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
+          failure: "Échec de la mise en quarantaine. %{errMsg}",
+        },
       },
       limits: {
         messages_per_second: "Messages par seconde",
@@ -353,6 +362,15 @@ const fr: SynapseTranslationMessages = {
           background_note: "Vous pouvez fermer cette fenêtre en toute sécurité, la purge continuera en arrière-plan.",
           success: "Historique du salon purgé avec succès.",
           failure: "Échec de la purge de l'historique du salon. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Quarantaine de tous les médias",
+          title: "Mettre en quarantaine tous les médias de %{roomName}",
+          content:
+            "Tous les médias locaux et distants de ce salon seront mis en quarantaine. Les médias en quarantaine ne seront plus accessibles aux utilisateurs.",
+          success:
+            "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
+          failure: "Échec de la mise en quarantaine. %{errMsg}",
         },
       },
     },

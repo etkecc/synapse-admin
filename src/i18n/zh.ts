@@ -286,6 +286,13 @@ const zh: SynapseTranslationMessages = {
         overwrite_content: "这个用户名已经被占用。您确定要覆盖现有的用户吗？",
         overwrite_cancel: "取消",
         overwrite_confirm: "覆盖",
+        quarantine_all: {
+          label: "隔离所有媒体",
+          title: "隔离 %{userName} 的所有媒体",
+          content: "这将隔离该用户上传的所有本地媒体。被隔离的媒体将无法被其他用户访问。",
+          success: "已成功隔离 %{smart_count} 个媒体项。",
+          failure: "隔离媒体失败。%{errMsg}",
+        },
       },
       limits: {
         messages_per_second: "每秒消息数",
@@ -401,6 +408,13 @@ const zh: SynapseTranslationMessages = {
           background_note: "您可以安全地关闭此窗口，清除将在后台继续进行。",
           success: "房间历史清除成功。",
           failure: "清除房间历史失败。%{errMsg}",
+        },
+        quarantine_all: {
+          label: "隔离所有媒体",
+          title: "隔离 %{roomName} 中的所有媒体",
+          content: "这将隔离此房间中的所有本地和远程媒体。被隔离的媒体将无法被用户访问。",
+          success: "已成功隔离 %{smart_count} 个媒体项。",
+          failure: "隔离媒体失败。%{errMsg}",
         },
       },
     },

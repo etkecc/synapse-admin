@@ -291,6 +291,15 @@ const de: SynapseTranslationMessages = {
           "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",
         overwrite_cancel: "Abbrechen",
         overwrite_confirm: "Überschreiben",
+        quarantine_all: {
+          label: "Alle Medien unter Quarantäne stellen",
+          title: "Alle Medien von %{userName} unter Quarantäne stellen",
+          content:
+            "Alle lokalen Medien dieses Benutzers werden unter Quarantäne gestellt. Unter Quarantäne gestellte Medien sind für andere Benutzer nicht mehr zugänglich.",
+          success:
+            "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
+          failure: "Quarantäne fehlgeschlagen. %{errMsg}",
+        },
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",
@@ -411,6 +420,15 @@ const de: SynapseTranslationMessages = {
             "Sie können dieses Fenster bedenkenlos schließen, die Bereinigung wird im Hintergrund fortgesetzt.",
           success: "Raumverlauf erfolgreich bereinigt.",
           failure: "Bereinigung des Raumverlaufs fehlgeschlagen. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Alle Medien unter Quarantäne stellen",
+          title: "Alle Medien in %{roomName} unter Quarantäne stellen",
+          content:
+            "Alle lokalen und remote Medien in diesem Raum werden unter Quarantäne gestellt. Unter Quarantäne gestellte Medien sind für Benutzer nicht mehr zugänglich.",
+          success:
+            "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
+          failure: "Quarantäne fehlgeschlagen. %{errMsg}",
         },
       },
     },

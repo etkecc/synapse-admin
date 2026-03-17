@@ -348,6 +348,15 @@ const it: SynapseTranslationMessages = {
           "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",
         overwrite_cancel: "Annulla",
         overwrite_confirm: "Sovrascrivi",
+        quarantine_all: {
+          label: "Metti in quarantena tutti i media",
+          title: "Metti in quarantena tutti i media di %{userName}",
+          content:
+            "Tutti i media locali di questo utente verranno messi in quarantena. I media in quarantena non saranno più accessibili agli altri utenti.",
+          success:
+            "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
+          failure: "Impossibile mettere in quarantena i media. %{errMsg}",
+        },
       },
       limits: {
         messages_per_second: "Messaggi al secondo",
@@ -467,6 +476,15 @@ const it: SynapseTranslationMessages = {
           background_note: "Puoi chiudere questa finestra in sicurezza, l'eliminazione continuerà in background.",
           success: "Cronologia della stanza eliminata con successo.",
           failure: "Impossibile eliminare la cronologia della stanza. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Metti in quarantena tutti i media",
+          title: "Metti in quarantena tutti i media in %{roomName}",
+          content:
+            "Tutti i media locali e remoti in questa stanza verranno messi in quarantena. I media in quarantena non saranno più accessibili agli utenti.",
+          success:
+            "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
+          failure: "Impossibile mettere in quarantena i media. %{errMsg}",
         },
       },
     },

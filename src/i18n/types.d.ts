@@ -208,6 +208,13 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         overwrite_content: string;
         overwrite_cancel: string;
         overwrite_confirm: string;
+        quarantine_all: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+          failure: string;
+        };
       };
       badge: {
         you: string;
@@ -328,6 +335,13 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           delete_local: string;
           in_progress: string;
           background_note: string;
+          success: string;
+          failure: string;
+        };
+        quarantine_all: {
+          label: string;
+          title: string;
+          content: string;
           success: string;
           failure: string;
         };

@@ -86,6 +86,7 @@ import UserAccountData from "../components/UserAccountData";
 import UserRateLimits from "../components/UserRateLimits";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
+import { QuarantineUserMediaButton } from "../components/QuarantineAllMediaButton";
 import { User, UsernameAvailabilityResult } from "../providers/types";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
@@ -680,6 +681,7 @@ export const UserEdit = (props: EditProps) => {
           icon={<PermMediaIcon />}
           path="media"
         >
+          <QuarantineUserMediaButton />
           <ReferenceManyField
             reference="users_media"
             target="user_id"

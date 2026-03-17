@@ -221,6 +221,15 @@ const en: SynapseTranslationMessages = {
         overwrite_content: "This username is already taken. Are you sure that you want to overwrite the existing user?",
         overwrite_cancel: "Cancel",
         overwrite_confirm: "Overwrite",
+        quarantine_all: {
+          label: "Quarantine all media",
+          title: "Quarantine all media of %{userName}",
+          content:
+            "This will quarantine ALL local media uploaded by this user. Quarantined media will no longer be accessible to other users.",
+          success:
+            "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
+          failure: "Failed to quarantine media. %{errMsg}",
+        },
       },
       badge: {
         you: "You",
@@ -349,6 +358,15 @@ const en: SynapseTranslationMessages = {
           background_note: "You can safely close this window, the purge will continue in the background.",
           success: "Room history purged successfully.",
           failure: "Failed to purge room history. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Quarantine all media",
+          title: "Quarantine all media in %{roomName}",
+          content:
+            "This will quarantine ALL local and remote media in this room. Quarantined media will no longer be accessible to users.",
+          success:
+            "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
+          failure: "Failed to quarantine media. %{errMsg}",
         },
       },
     },

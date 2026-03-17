@@ -68,6 +68,7 @@ import {
 } from "../components/BlockRoomButton";
 import DeleteRoomButton from "../components/DeleteRoomButton";
 import { PurgeHistoryButton } from "../components/PurgeHistoryButton";
+import { QuarantineRoomMediaButton } from "../components/QuarantineAllMediaButton";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField } from "../components/media";
 import { Room } from "../providers/types";
@@ -414,6 +415,7 @@ export const RoomShow = (props: ShowProps) => {
 
         <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
           <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
+          <QuarantineRoomMediaButton />
           <ReferenceManyField
             reference="room_media"
             target="room_id"

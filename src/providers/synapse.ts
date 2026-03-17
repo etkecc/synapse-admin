@@ -268,10 +268,9 @@ export const deleteMedia = async ({
   size_gt = 0,
   keep_profiles = true,
 }: DeleteMediaParams): Promise<DeleteMediaResult> => {
-  const homeserver = localStorage.getItem("home_server"); // TODO only required for synapse < 1.78.0
   const base_url = localStorage.getItem("base_url");
   const { json } = await jsonClient(
-    `${base_url}/_synapse/admin/v1/media/${homeserver}/delete?before_ts=${before_ts}&size_gt=${size_gt}&keep_profiles=${keep_profiles}`,
+    `${base_url}/_synapse/admin/v1/media/delete?before_ts=${before_ts}&size_gt=${size_gt}&keep_profiles=${keep_profiles}`,
     { method: "POST" }
   );
   return json as DeleteMediaResult;
@@ -505,6 +504,38 @@ export const eraseUser = async (id: Identifier) => {
   } catch (error) {
     if (error instanceof HttpError) {
       return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const quarantineRoomMedia = async (roomId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/room/${encodeURIComponent(roomId)}/media/quarantine`,
+      { method: "POST", body: "{}" }
+    );
+    return { success: true, num_quarantined: json.num_quarantined as number };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, num_quarantined: 0, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const quarantineUserMedia = async (userId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/user/${encodeURIComponent(userId)}/media/quarantine`,
+      { method: "POST", body: "{}" }
+    );
+    return { success: true, num_quarantined: json.num_quarantined as number };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, num_quarantined: 0, error: error.body.error, errcode: error.body.errcode };
     }
     throw error;
   }
