@@ -325,7 +325,12 @@ const it: SynapseTranslationMessages = {
         erase: "Cancella i dati dell'utente",
         erase_avatar: "Cancella l'avatar dell'utente",
         delete_media: "Elimina tutti i media caricati dall'utente(-s)",
-        redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
+        redact_events: "Oscura tutti gli eventi inviati dall'utente(-i)",
+        redact_in_progress: "Oscuramento in corso\u2026",
+        redact_background_note: "Puoi chiudere questa finestra in sicurezza, l'oscuramento continuerà in background.",
+        redact_success: "Tutti gli eventi sono stati oscurati con successo.",
+        redact_failure:
+          "Oscuramento completato con %{smart_count} evento fallito. |||| Oscuramento completato con %{smart_count} eventi falliti.",
         generate_password: "Genera password",
         reset_password: {
           label: "Reimposta password",

@@ -222,6 +222,10 @@ const ja: SynapseTranslationMessages = {
         erase_avatar: "アバターを消去",
         delete_media: "このユーザーがアップロードしたメディアファイルを削除",
         redact_events: "このユーザーが送信したイベントを削除",
+        redact_in_progress: "イベントの削除処理中\u2026",
+        redact_background_note: "このウィンドウを閉じても問題ありません。削除処理はバックグラウンドで続行されます。",
+        redact_success: "すべてのイベントを削除しました。",
+        redact_failure: "%{smart_count} 件のイベントの削除に失敗しました。",
         generate_password: "パスワードを生成",
         reset_password: {
           label: "パスワードをリセット",

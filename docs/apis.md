@@ -86,7 +86,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/auth_providers/<provider>/users/<external_id>` | GET | Find user by auth provider ID | ❌ |
 | `/_synapse/admin/v1/threepid/<medium>/users/<address>` | GET | Find user by third-party ID | ❌ |
 | `/_synapse/admin/v1/user/<user_id>/redact` | POST | Redact all events from a user | ✅ |
-| `/_synapse/admin/v1/user/redact_status/<redact_id>` | GET | Check user redaction status | ❌ |
+| `/_synapse/admin/v1/user/redact_status/<redact_id>` | GET | Check user redaction status | ✅ |
 
 ### 🟡 User Devices
 

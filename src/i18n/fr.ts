@@ -212,6 +212,12 @@ const fr: SynapseTranslationMessages = {
         erase_avatar: "Effacer l'avatar",
         delete_media: "Supprimer tous les médias téléchargés par le(s) utilisateur(s)",
         redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
+        redact_in_progress: "Expurgation en cours\u2026",
+        redact_background_note:
+          "Vous pouvez fermer cette fenêtre en toute sécurité, l'expurgation continuera en arrière-plan.",
+        redact_success: "Tous les événements ont été expurgés avec succès.",
+        redact_failure:
+          "Expurgation terminée avec %{smart_count} événement échoué. |||| Expurgation terminée avec %{smart_count} événements échoués.",
         generate_password: "Générer un mot de passe",
         reset_password: {
           label: "Réinitialiser le mot de passe",

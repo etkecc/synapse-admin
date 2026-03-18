@@ -237,7 +237,12 @@ const fa: SynapseTranslationMessages = {
         erase: "پاک کردن اطلاعات کاربر",
         erase_avatar: "محو الصورة الرمزية",
         delete_media: "حذف جميع الوسائط التي تم تحميلها بواسطة المستخدم (المستخدمين)",
-        redact_events: "تنقيح جميع الأحداث المرسلة من قبل المستخدم (-s)",
+        redact_events: "ویرایش حذفی تمام رویدادهای ارسال‌شده توسط کاربر(ها)",
+        redact_in_progress: "حذف رویدادها در حال انجام\u2026",
+        redact_background_note:
+          "می‌توانید این پنجره را با خیال راحت ببندید، حذف رویدادها در پس‌زمینه ادامه خواهد یافت.",
+        redact_success: "تمام رویدادها با موفقیت حذف شدند.",
+        redact_failure: "حذف با %{smart_count} رویداد ناموفق به پایان رسید.",
         generate_password: "توليد رمز عبور",
         reset_password: {
           label: "بازنشانی رمز عبور",

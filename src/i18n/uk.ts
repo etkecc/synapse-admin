@@ -253,7 +253,12 @@ const uk: SynapseTranslationMessages = {
         erase: "Видалити дані користувача",
         erase_avatar: "Видалити аватар",
         delete_media: "Видалити всі медіафайли, завантажені користувачем(ами)",
-        redact_events: "Redact all events sent by the user(-s)",
+        redact_events: "Видалити всі події, надіслані користувачем(ами)",
+        redact_in_progress: "Видалення подій виконується\u2026",
+        redact_background_note: "Ви можете закрити це вікно, видалення подій продовжиться у фоновому режимі.",
+        redact_success: "Усі події успішно видалено.",
+        redact_failure:
+          "Видалення завершено з %{smart_count} невдалою подією. |||| Видалення завершено з %{smart_count} невдалими подіями.",
         generate_password: "Згенерувати пароль",
         reset_password: {
           label: "Скинути пароль",

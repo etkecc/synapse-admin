@@ -187,6 +187,10 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         erase_avatar: string;
         delete_media: string;
         redact_events: string;
+        redact_in_progress: string;
+        redact_background_note: string;
+        redact_success: string;
+        redact_failure: string;
         generate_password: string;
         reset_password: {
           label: string;

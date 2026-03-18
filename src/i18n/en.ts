@@ -200,6 +200,11 @@ const en: SynapseTranslationMessages = {
         erase_avatar: "Erase avatar",
         delete_media: "Delete all media uploaded by the user(-s)",
         redact_events: "Redact all events sent by the user(-s)",
+        redact_in_progress: "Redaction in progress\u2026",
+        redact_background_note: "You can safely close this dialog, the redaction will continue in the background.",
+        redact_success: "All events redacted successfully.",
+        redact_failure:
+          "Redaction completed with %{smart_count} failed event. |||| Redaction completed with %{smart_count} failed events.",
         generate_password: "Generate password",
         reset_password: {
           label: "Reset password",

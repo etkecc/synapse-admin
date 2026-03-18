@@ -263,7 +263,11 @@ const zh: SynapseTranslationMessages = {
         erase: "抹除用户信息",
         erase_avatar: "抹掉头像",
         delete_media: "删除用户上传的所有媒体",
-        redact_events: "重新编辑用户（-s）发送的所有事件",
+        redact_events: "编辑删除用户发送的所有事件",
+        redact_in_progress: "事件删除进行中\u2026",
+        redact_background_note: "您可以安全地关闭此窗口，删除操作将在后台继续进行。",
+        redact_success: "所有事件已成功删除。",
+        redact_failure: "删除完成，但有 %{smart_count} 个事件删除失败。",
         generate_password: "生成密码",
         reset_password: {
           label: "重置密码",

@@ -269,6 +269,12 @@ const de: SynapseTranslationMessages = {
         erase_avatar: "Avatar löschen",
         delete_media: "Alle von dem/den Benutzer(n) hochgeladenen Medien löschen",
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
+        redact_in_progress: "Schwärzung läuft\u2026",
+        redact_background_note:
+          "Sie können diesen Dialog bedenkenlos schließen, die Schwärzung wird im Hintergrund fortgesetzt.",
+        redact_success: "Alle Ereignisse wurden erfolgreich geschwärzt.",
+        redact_failure:
+          "Schwärzung mit %{smart_count} fehlgeschlagenem Ereignis abgeschlossen. |||| Schwärzung mit %{smart_count} fehlgeschlagenen Ereignissen abgeschlossen.",
         generate_password: "Passwort generieren",
         reset_password: {
           label: "Passwort zurücksetzen",

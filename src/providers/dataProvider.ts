@@ -51,6 +51,7 @@ import {
   eraseUser,
   deleteUserMedia,
   redactUserEvents,
+  getRedactStatus,
   fetchEvent,
 } from "./synapse";
 import { uploadMedia } from "./matrix";
@@ -447,6 +448,8 @@ const baseDataProvider: SynapseDataProvider = {
   quarantineUserMedia,
   purgeHistory,
   getPurgeHistoryStatus,
+  redactUserEvents,
+  getRedactStatus,
   suspendUser,
   shadowBanUser,
   resetPassword,
@@ -522,14 +525,12 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
     },
     beforeDelete: async (params: DeleteParams<any>, _dataProvider: DataProvider) => {
       if (params.meta?.deleteMedia) await deleteUserMedia(params.id);
-      if (params.meta?.redactEvents) await redactUserEvents(params.id);
       return params;
     },
     beforeDeleteMany: async (params: DeleteManyParams<any>, _dataProvider: DataProvider) => {
       await Promise.all(
         params.ids.map(async id => {
           if (params.meta?.deleteMedia) await deleteUserMedia(id);
-          if (params.meta?.redactEvents) await redactUserEvents(id);
         })
       );
       return params;

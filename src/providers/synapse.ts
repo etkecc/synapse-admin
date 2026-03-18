@@ -601,10 +601,36 @@ export const fetchEvent = async (eventId: string) => {
   return json.event;
 };
 
-export const redactUserEvents = async (id: Identifier): Promise<void> => {
+export const redactUserEvents = async (id: Identifier) => {
   const base_url = localStorage.getItem("base_url");
-  await jsonClient(`${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(id))}/redact`, {
+  const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(id))}/redact`, {
     method: "POST",
     body: JSON.stringify({ rooms: [] }),
   });
+  return { redact_id: json.redact_id as string };
+};
+
+export const getRedactStatus = async (redactId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/user/redact_status/${encodeURIComponent(redactId)}`
+    );
+    return {
+      success: true,
+      status: json.status as string,
+      failed_redactions: json.failed_redactions as Record<string, string>,
+    };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return {
+        success: false,
+        status: "failed",
+        failed_redactions: {},
+        error: error.body.error,
+        errcode: error.body.errcode,
+      };
+    }
+    throw error;
+  }
 };
