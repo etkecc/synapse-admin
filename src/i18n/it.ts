@@ -499,33 +499,24 @@ const it: SynapseTranslationMessages = {
       fields: {
         id: "ID",
         received_ts: "Orario del report",
-        user_id: "richiedente",
-        name: "nome della stanza",
-        score: "punteggio",
-        reason: "ragione",
+        user_id: "Richiedente",
+        name: "Nome della stanza",
+        score: "Punteggio",
+        reason: "Ragione",
         event_id: "ID dell'evento",
-        event_json: {
-          origin: "server di origine",
-          origin_server_ts: "ora dell'invio",
-          type: "tipo di evento",
-          content: {
-            msgtype: "tipo di contenuto",
-            body: "contenuto",
-            format: "formato",
-            formatted_body: "contenuto formattato",
-            algorithm: "algoritmo",
-            url: "URL",
-            info: {
-              mimetype: "Tipo",
-            },
-          },
-        },
+        sender: "Mittente",
       },
       action: {
         erase: {
           title: "Elimina evento segnalato",
           content: "Sei sicuro di voler eliminare l'evento segnalato? Questa azione è irreversibile.",
         },
+        event_lookup: {
+          label: "Ricerca evento",
+          title: "Recupera evento per ID",
+          fetch: "Recupera",
+        },
+        fetch_event_error: "Impossibile recuperare l'evento",
       },
     },
     connections: {

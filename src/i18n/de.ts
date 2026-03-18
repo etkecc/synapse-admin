@@ -445,25 +445,10 @@ const de: SynapseTranslationMessages = {
         received_ts: "Meldezeit",
         user_id: "Meldender",
         name: "Raumname",
-        score: "Wert",
+        score: "Bewertung",
         reason: "Grund",
         event_id: "Event-ID",
-        event_json: {
-          origin: "Ursprungsserver",
-          origin_server_ts: "Sendezeit",
-          type: "Eventtyp",
-          content: {
-            msgtype: "Inhaltstyp",
-            body: "Nachrichteninhalt",
-            format: "Nachrichtenformat",
-            formatted_body: "Formatierter Nachrichteninhalt",
-            algorithm: "Verschlüsselungsalgorithmus",
-            info: {
-              mimetype: "Typ",
-            },
-            url: "URL",
-          },
-        },
+        sender: "Absender",
       },
       action: {
         erase: {
@@ -471,6 +456,12 @@ const de: SynapseTranslationMessages = {
           content:
             "Sind Sie sicher, dass Sie das gemeldete Event löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
         },
+        event_lookup: {
+          label: "Event-Suche",
+          title: "Event nach ID abrufen",
+          fetch: "Abrufen",
+        },
+        fetch_event_error: "Fehler beim Abrufen des Events",
       },
     },
     connections: {

@@ -25,7 +25,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [🟡 Statistics](#-statistics)
     * [❌ Account Validity](#-account-validity)
     * [✅ Purge History](#-purge-history)
-    * [❌ Fetch Event](#-fetch-event)
+    * [✅ Fetch Event](#-fetch-event)
     * [❌ Register (Shared-Secret Registration)](#-register-shared-secret-registration)
     * [✅ Room Membership](#-room-membership)
     * [❌ Scheduled Tasks](#-scheduled-tasks)
@@ -200,11 +200,11 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/purge_history/<room_id>[/<event_id>]` | POST | Purge room history | ✅ |
 | `/_synapse/admin/v1/purge_history_status/<purge_id>` | GET | Query purge status | ✅ |
 
-### ❌ Fetch Event
+### ✅ Fetch Event
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v1/fetch_event/<event_id>` | GET | Fetch event by ID | ❌ |
+| `/_synapse/admin/v1/fetch_event/<event_id>` | GET | Fetch event by ID | ✅ |
 
 ### ❌ Register (Shared-Secret Registration)
 

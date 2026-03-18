@@ -595,6 +595,12 @@ export const deleteUserMedia = async (id: Identifier): Promise<void> => {
   });
 };
 
+export const fetchEvent = async (eventId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/fetch_event/${encodeURIComponent(eventId)}`);
+  return json.event;
+};
+
 export const redactUserEvents = async (id: Identifier): Promise<void> => {
   const base_url = localStorage.getItem("base_url");
   await jsonClient(`${base_url}/_synapse/admin/v1/user/${encodeURIComponent(returnMXID(id))}/redact`, {

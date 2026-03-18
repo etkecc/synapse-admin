@@ -419,6 +419,8 @@ export interface SynapseDataProvider extends DataProvider {
   getCumulativeJoinedRoomCount: (id: Identifier, fromTs?: number) => Promise<number>;
   getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  fetchEvent: (eventId: string) => Promise<Record<string, any>>;
   revokeRegistrationToken: (id: string, revoke: boolean) => Promise<{ success: boolean; error?: string }>;
   blockRoom: (roomId: string, block: boolean) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getRoomBlockStatus: (

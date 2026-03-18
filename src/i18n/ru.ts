@@ -455,34 +455,25 @@ const ru: SynapseTranslationMessages = {
       name: "Жалоба |||| Жалобы",
       fields: {
         id: "ID",
-        received_ts: "Дата и время жалобы",
-        user_id: "Автор жалобы",
+        received_ts: "Время жалобы",
+        user_id: "Заявитель",
         name: "Название комнаты",
-        score: "Баллы",
+        score: "Оценка",
         reason: "Причина",
         event_id: "ID события",
-        event_json: {
-          origin: "Исходнный сервер",
-          origin_server_ts: "Дата и время отправки",
-          type: "Тип события",
-          content: {
-            msgtype: "Тип содержимого",
-            body: "Содержимое",
-            format: "Формат",
-            formatted_body: "Форматированное содержимое",
-            algorithm: "Алгоритм",
-            url: "Ссылка",
-            info: {
-              mimetype: "Тип",
-            },
-          },
-        },
+        sender: "Отправитель",
       },
       action: {
         erase: {
           title: "Удалить жалобу",
           content: "Действительно удалить жалобу? Это действие будет невозможно отменить.",
         },
+        event_lookup: {
+          label: "Поиск события",
+          title: "Получить событие по ID",
+          fetch: "Получить",
+        },
+        fetch_event_error: "Не удалось получить событие",
       },
     },
     connections: {

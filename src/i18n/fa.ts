@@ -414,28 +414,19 @@ const fa: SynapseTranslationMessages = {
         score: "نمره",
         reason: "دلیل",
         event_id: "شناسه رویداد",
-        event_json: {
-          origin: "سرور مبدا",
-          origin_server_ts: "زمان ارسال",
-          type: "نوع رویداد",
-          content: {
-            msgtype: "نوع محتوا",
-            body: "محتوا",
-            format: "قالب",
-            formatted_body: "محتوای قالب بندی شده",
-            algorithm: "الگوریتم",
-            url: "نشانی",
-            info: {
-              mimetype: "نوع",
-            },
-          },
-        },
+        sender: "فرستنده",
       },
       action: {
         erase: {
           title: "حذف رویداد گزارش‌شده",
           content: "آیا مطمئن هستید که می‌خواهید رویداد گزارش‌شده را حذف کنید؟ این کار قابل بازگشت نیست.",
         },
+        event_lookup: {
+          label: "جستجوی رویداد",
+          title: "دریافت رویداد با شناسه",
+          fetch: "دریافت",
+        },
+        fetch_event_error: "دریافت رویداد با خطا مواجه شد",
       },
     },
     connections: {

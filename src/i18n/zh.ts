@@ -433,28 +433,19 @@ const zh: SynapseTranslationMessages = {
         score: "分数",
         reason: "原因",
         event_id: "事件 ID",
-        event_json: {
-          origin: "原始服务器",
-          origin_server_ts: "发送时间",
-          type: "事件类型",
-          content: {
-            msgtype: "内容类型",
-            body: "内容",
-            format: "格式",
-            formatted_body: "格式化的数据",
-            algorithm: "算法",
-            url: "URL",
-            info: {
-              mimetype: "类型",
-            },
-          },
-        },
+        sender: "发送者",
       },
       action: {
         erase: {
           title: "删除被举报事件",
           content: "确定要删除该被举报事件吗？此操作不可撤销。",
         },
+        event_lookup: {
+          label: "事件查询",
+          title: "按ID获取事件",
+          fetch: "获取",
+        },
+        fetch_event_error: "获取事件失败",
       },
     },
     connections: {

@@ -51,6 +51,7 @@ import {
   eraseUser,
   deleteUserMedia,
   redactUserEvents,
+  fetchEvent,
 } from "./synapse";
 import { uploadMedia } from "./matrix";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
@@ -428,6 +429,7 @@ const baseDataProvider: SynapseDataProvider = {
   deleteMedia,
   purgeRemoteMedia,
   uploadMedia,
+  fetchEvent,
   getFeatures,
   updateFeatures,
   getRateLimits,

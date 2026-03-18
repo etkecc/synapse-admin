@@ -214,7 +214,8 @@ const ja: SynapseTranslationMessages = {
         modify_managed_user_error: "システムが管理しているユーザーは変更できません。",
         username_available: "ユーザー名を利用できます",
         sent_invite_count: "このユーザーが全ルームで送信した招待の合計数。",
-        cumulative_joined_room_count: "このユーザーが参加したことのあるルームの累計数（退出、追放されたルームを含む）。",
+        cumulative_joined_room_count:
+          "このユーザーが参加したことのあるルームの累計数（退出、追放されたルームを含む）。",
       },
       action: {
         erase: "ユーザーのデータを消去",
@@ -404,28 +405,19 @@ const ja: SynapseTranslationMessages = {
         score: "点数",
         reason: "理由",
         event_id: "イベントのID",
-        event_json: {
-          origin: "送信元のサーバー",
-          origin_server_ts: "送信日時",
-          type: "イベントの種類",
-          content: {
-            msgtype: "内容の種類",
-            body: "内容",
-            format: "形式",
-            formatted_body: "フォーマット済の内容",
-            algorithm: "アルゴリズム",
-            url: "URL",
-            info: {
-              mimetype: "種類",
-            },
-          },
-        },
+        sender: "送信者",
       },
       action: {
         erase: {
           title: "報告されたイベントを削除",
           content: "報告されたイベントを削除してよろしいですか？これは取り消せません。",
         },
+        event_lookup: {
+          label: "イベント検索",
+          title: "IDでイベントを取得",
+          fetch: "取得",
+        },
+        fetch_event_error: "イベントの取得に失敗しました",
       },
     },
     connections: {
@@ -783,8 +775,7 @@ const ja: SynapseTranslationMessages = {
     support: {
       name: "サポート",
       menu_label: "サポートに連絡",
-      description:
-        "サポートリクエストを開くか、既存のリクエストに情報を追加してください。チームが早急に対応します。",
+      description: "サポートリクエストを開くか、既存のリクエストに情報を追加してください。チームが早急に対応します。",
       create_title: "新しいサポートリクエスト",
       no_requests: "サポートリクエストはありません。",
       no_messages: "メッセージはありません。",

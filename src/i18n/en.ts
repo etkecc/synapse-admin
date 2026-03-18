@@ -380,34 +380,25 @@ const en: SynapseTranslationMessages = {
       name: "Reported event |||| Reported events",
       fields: {
         id: "ID",
-        received_ts: "report time",
-        user_id: "announcer",
-        name: "name of the room",
-        score: "score",
-        reason: "reason",
-        event_id: "event ID",
-        event_json: {
-          origin: "origin server",
-          origin_server_ts: "time of send",
-          type: "event type",
-          content: {
-            msgtype: "content type",
-            body: "content",
-            format: "format",
-            formatted_body: "formatted content",
-            algorithm: "algorithm",
-            url: "URL",
-            info: {
-              mimetype: "Type",
-            },
-          },
-        },
+        received_ts: "Report Time",
+        user_id: "Announcer",
+        name: "Room Name",
+        score: "Score",
+        reason: "Reason",
+        event_id: "Event ID",
+        sender: "Sender",
       },
       action: {
         erase: {
           title: "Delete reported event",
           content: "Are you sure you want to delete the reported event? This cannot be undone.",
         },
+        event_lookup: {
+          label: "Event Lookup",
+          title: "Fetch Event by ID",
+          fetch: "Fetch",
+        },
+        fetch_event_error: "Failed to fetch event",
       },
     },
     connections: {

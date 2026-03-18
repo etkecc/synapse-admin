@@ -362,28 +362,19 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         score: string;
         reason: string;
         event_id: string;
-        event_json: {
-          origin: string;
-          origin_server_ts: string;
-          type: string;
-          content: {
-            msgtype: string;
-            body: string;
-            format: string;
-            formatted_body: string;
-            algorithm: string;
-            url: string;
-            info: {
-              mimetype: string;
-            };
-          };
-        };
+        sender: string;
       };
       action: {
         erase: {
           title: string;
           content: string;
         };
+        event_lookup: {
+          label: string;
+          title: string;
+          fetch: string;
+        };
+        fetch_event_error: string;
       };
     };
     connections: {
