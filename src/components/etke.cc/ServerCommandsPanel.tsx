@@ -9,6 +9,7 @@ import {
   Paper,
   Alert,
   TextField,
+  Autocomplete,
   Box,
   Link,
   Typography,
@@ -20,6 +21,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { useServerCommands } from "./hooks/useServerCommands";
+import { useUnits } from "./hooks/useUnits";
 import { ServerCommand, ServerProcessResponse } from "../../providers/types";
 import { Icons } from "../../utils/icons";
 
@@ -33,13 +35,10 @@ const renderIcon = (icon: string) => {
 
 const ServerCommandsPanel = () => {
   const { etkeccAdmin } = useAppContext();
-  if (!etkeccAdmin) {
-    return null;
-  }
-
   const createPath = useCreatePath();
   const translate = useTranslate();
   const { isLoading, maintenance, serverCommands, setServerCommands } = useServerCommands();
+  const { units } = useUnits();
   const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
@@ -55,6 +54,10 @@ const ServerCommandsPanel = () => {
       setCommandIsRunning(false);
     }
   }, [serverProcess]);
+
+  if (!etkeccAdmin) {
+    return null;
+  }
 
   const setCommandAdditionalArgs = (command: string, additionalArgs: string) => {
     const updatedServerCommands = { ...serverCommands };
@@ -205,7 +208,21 @@ const ServerCommandsPanel = () => {
                 </TableCell>
                 <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>{description}</TableCell>
                 <TableCell sx={{ display: { xs: "table-cell", md: "table-cell" } }}>
-                  {args && (
+                  {args && command === "restart" && (
+                    <Autocomplete
+                      freeSolo
+                      size="small"
+                      options={Object.keys(units)}
+                      inputValue={additionalArgs || ""}
+                      onInputChange={(_e, value) => {
+                        setCommandAdditionalArgs(command, units[value] || value);
+                      }}
+                      renderInput={params => (
+                        <TextField {...params} variant="standard" label={translate("etkecc.actions.table.arguments")} />
+                      )}
+                    />
+                  )}
+                  {args && command !== "restart" && (
                     <TextField
                       size="small"
                       variant="standard"

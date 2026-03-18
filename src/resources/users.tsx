@@ -62,8 +62,6 @@ import {
   useNotify,
   Identifier,
   ToolbarClasses,
-  ImageInput,
-  ImageField,
   FunctionField,
   useDataProvider,
   Confirm,
@@ -76,6 +74,7 @@ import { Link } from "react-router-dom";
 
 import { MakeAdminBtn, RoomBulkActionButtons } from "./rooms";
 import AvatarField from "../components/AvatarField";
+import EditableAvatarField from "../components/EditableAvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
@@ -573,28 +572,10 @@ export const UserEdit = (props: EditProps) => {
                 flexDirection: "column",
                 alignItems: { xs: "flex-start", sm: "center" },
                 minWidth: 140,
+                gap: 2,
               }}
             >
-              <AvatarField source="avatar_src" sx={{ height: "120px", width: "120px" }} />
-              <BooleanInput source="avatar_erase" label="resources.users.action.erase_avatar" sx={{ mt: 1 }} />
-              <ImageInput
-                source="avatar_file"
-                label="resources.users.fields.avatar"
-                accept={{ "image/*": [".png", ".jpg"] }}
-              >
-                <ImageField
-                  source="src"
-                  title="Avatar"
-                  sx={{
-                    "& img": {
-                      width: "120px !important",
-                      height: "120px !important",
-                      objectFit: "cover !important",
-                      borderRadius: "50% !important",
-                    },
-                  }}
-                />
-              </ImageInput>
+              <EditableAvatarField source="avatar_src" />
               <UserInfoChips />
             </Box>
             <Box sx={{ flex: 1 }}>

@@ -141,6 +141,30 @@ export const etkeProviderMethods = {
     return { success: false };
   },
 
+  getUnits: async (etkeAdminUrl: string, locale: string): Promise<string[]> => {
+    try {
+      const response = await etkeClient(`${etkeAdminUrl}/units`, locale);
+
+      if (!response.ok) {
+        console.error(`Error fetching units: ${response.status} ${response.statusText}`);
+        return [];
+      }
+
+      if (response.status === 204) {
+        return [];
+      }
+
+      if (response.status === 200) {
+        const json = await response.json();
+        return json as string[];
+      }
+    } catch (error) {
+      console.error("Error fetching units:", error);
+    }
+
+    return [];
+  },
+
   getServerCommands: async (etkeAdminUrl: string, locale: string) => {
     try {
       const response = await etkeClient(`${etkeAdminUrl}/commands`, locale);

@@ -9,6 +9,7 @@ import { isMXID, isASManaged } from "../utils/mxid";
 const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
   const { alt, classes, sizes, sx, variant } = rest;
   const record = useRecordContext(rest);
+  const translate = useTranslate();
   const mxcURL = get(record, source)?.toString();
 
   const [src, setSrc] = useState<string>("");
@@ -52,7 +53,6 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
   let badge = "";
   let tooltip = "";
   if (isMXID(record?.id)) {
-    const translate = useTranslate();
     switch (record?.user_type) {
       case "bot":
         badge = "🤖";
@@ -86,14 +86,23 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
     }
   }
 
+  // scale badge to avatar size
+  const sxObj = (sx && typeof sx === "object" && !Array.isArray(sx) ? sx : {}) as Record<string, unknown>;
+  const avatarHeight = sxObj.height || sxObj.width || 40;
+  const avatarSize = typeof avatarHeight === "string" ? parseInt(avatarHeight, 10) : (avatarHeight as number);
+  const badgeFontSize = Math.max(10, Math.round(avatarSize * 0.18));
+
   // if there is a badge, wrap the Avatar in a Badge and a Tooltip
   if (badge) {
     return (
-      <Tooltip title={tooltip}>
+      <Tooltip
+        title={tooltip}
+        slotProps={{ tooltip: { sx: { fontSize: Math.max(11, Math.round(avatarSize * 0.08)) } } }}
+      >
         <Badge
           badgeContent={badge}
           overlap="circular"
-          sx={{ "& .MuiBadge-badge": { width: "10px" } }} // we deliberately set a very small width here, to make the badge actually circular
+          sx={{ "& .MuiBadge-badge": { width: "10px", fontSize: badgeFontSize } }}
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "right",

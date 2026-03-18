@@ -1,5 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Card, CardContent, CardHeader, Box } from "@mui/material";
+import { Card, CardContent, CardHeader, Box, Autocomplete, TextField } from "@mui/material";
 import { Typography, Link } from "@mui/material";
 import { useState, useEffect } from "react";
 import {
@@ -16,7 +16,7 @@ import {
   useTranslate,
   Title,
 } from "react-admin";
-import { useWatch } from "react-hook-form";
+import { useWatch, useFormContext } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduleDeleteButton from "./ScheduledDeleteButton";
@@ -25,6 +25,7 @@ import { ScheduledCommand } from "../../../../../providers/types";
 import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
+import { useUnits } from "../../../hooks/useUnits";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -36,12 +37,30 @@ const transformCommandsToChoices = (commands: Record<string, any>) => {
   }));
 };
 
-const ArgumentsField = ({ serverCommands }) => {
+const ArgumentsField = ({ serverCommands, units }) => {
   const translate = useTranslate();
+  const { setValue } = useFormContext();
   const selectedCommand = useWatch({ name: "command" });
+  const argsValue = useWatch({ name: "args" });
   const showArgs = selectedCommand && serverCommands[selectedCommand]?.args === true;
 
   if (!showArgs) return null;
+
+  if (selectedCommand === "restart") {
+    return (
+      <Autocomplete
+        freeSolo
+        options={Object.keys(units)}
+        inputValue={argsValue || ""}
+        onInputChange={(_e, value) => {
+          setValue("args", units[value] || value, { shouldDirty: true });
+        }}
+        renderInput={params => (
+          <TextField {...params} label={translate("etkecc.actions.table.arguments")} required fullWidth />
+        )}
+      />
+    );
+  }
 
   return <TextInput required source="args" label={translate("etkecc.actions.table.arguments")} fullWidth multiline />;
 };
@@ -59,6 +78,7 @@ const ScheduledCommandEdit = () => {
   const [loading, setLoading] = useState(!isCreating);
   const { data: scheduledCommands, isLoading: isLoadingList } = useScheduledCommands();
   const { serverCommands } = useServerCommands();
+  const { units } = useUnits();
   const pageTitle = isCreating
     ? translate("etkecc.actions.scheduled_title_create")
     : translate("etkecc.actions.scheduled_title_edit");
@@ -144,7 +164,7 @@ const ScheduledCommandEdit = () => {
                   fullWidth
                   required
                 />
-                <ArgumentsField serverCommands={serverCommands} />
+                <ArgumentsField serverCommands={serverCommands} units={units} />
                 <DateTimeInput
                   source="scheduled_at"
                   label={translate("etkecc.actions.form.scheduled_at")}

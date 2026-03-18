@@ -44,13 +44,12 @@ const UserInfoChips = () => {
     : null;
 
   return (
-    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", width: "100%" }}>
+    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexDirection: "column", width: "100%" }}>
       {createdDate && (
         <Chip
           icon={<CalendarTodayIcon />}
           label={`${translate("resources.users.fields.creation_ts_ms")}: ${createdDate}`}
           variant="outlined"
-          size="small"
         />
       )}
       {record.consent_version && (
@@ -58,7 +57,6 @@ const UserInfoChips = () => {
           icon={<GavelIcon />}
           label={`${translate("resources.users.fields.consent_version")}: ${record.consent_version}`}
           variant="outlined"
-          size="small"
         />
       )}
       {inviteCount !== null && (
@@ -67,7 +65,6 @@ const UserInfoChips = () => {
             icon={<MailOutlineIcon />}
             label={`${translate("resources.users.fields.sent_invite_count")}: ${inviteCount}`}
             variant="outlined"
-            size="small"
             sx={{ cursor: "help" }}
           />
         </Tooltip>
@@ -78,7 +75,6 @@ const UserInfoChips = () => {
             icon={<MeetingRoomIcon />}
             label={`${translate("resources.users.fields.cumulative_joined_room_count")}: ${joinedRoomCount}`}
             variant="outlined"
-            size="small"
             sx={{ cursor: "help" }}
           />
         </Tooltip>

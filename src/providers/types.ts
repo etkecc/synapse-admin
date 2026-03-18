@@ -466,6 +466,7 @@ export interface SynapseDataProvider extends DataProvider {
   getServerStatus: (etkeAdminUrl: string, locale: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<ServerNotificationsResponse>;
   deleteServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<{ success: boolean }>;
+  getUnits: (etkeAdminUrl: string, locale: string) => Promise<string[]>;
   getServerCommands: (
     etkeAdminUrl: string,
     locale: string
