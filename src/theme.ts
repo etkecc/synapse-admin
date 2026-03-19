@@ -183,7 +183,9 @@ const sharedComponents: ThemeOptions["components"] = {
   MuiBackdrop: {
     styleOverrides: {
       root: {
-        backdropFilter: "blur(4px)",
+        "&:not(.MuiBackdrop-invisible)": {
+          backdropFilter: "blur(4px)",
+        },
       },
     },
   },
@@ -382,7 +384,7 @@ export const lightTheme = createTheme({
     primary: { main: "#1858D5" },
     secondary: { main: "#334258" },
     error: { main: "#DC3545", light: "#FEF2F2" },
-    warning: { main: "#D97706", light: "#FFFBEB" },
+    warning: { main: "#D97706", light: "#FFFBEB", contrastText: "#7C2D12" },
     success: { main: "#248E39", light: "#F0FDF4" },
     info: { main: "#1858D5" },
     background: { default: "#F5F5F5", paper: "#FFFFFF" },
