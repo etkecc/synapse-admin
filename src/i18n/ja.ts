@@ -341,6 +341,8 @@ const ja: SynapseTranslationMessages = {
           fields: {
             block: "ユーザーがルームに参加できないように設定",
           },
+          in_progress: "削除中…",
+          background_note: "このウィンドウを閉じても、削除はバックグラウンドで続行されます。",
           success: "ルームを削除しました。",
           failure: "ルームを削除できませんでした。",
         },

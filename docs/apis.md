@@ -115,8 +115,8 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/rooms/<room_id>/block` | GET | Get room block status | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>` | DELETE | Delete a room (v1, synchronous) | ⏭️ |
 | `/_synapse/admin/v2/rooms/<room_id>` | DELETE | Delete a room (v2, asynchronous) | ✅ |
-| `/_synapse/admin/v2/rooms/<room_id>/delete_status` | GET | Query room delete status | ❌ |
-| `/_synapse/admin/v2/rooms/delete_status/<delete_id>` | GET | Query delete status by ID | ❌ |
+| `/_synapse/admin/v2/rooms/<room_id>/delete_status` | GET | Query room delete status | ⏭️ |
+| `/_synapse/admin/v2/rooms/delete_status/<delete_id>` | GET | Query delete status by ID | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id_or_alias>/make_room_admin` | POST | Grant user highest power level | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id_or_alias>/forward_extremities` | GET | Check forward extremities | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id_or_alias>/forward_extremities` | DELETE | Delete forward extremities | ✅ |

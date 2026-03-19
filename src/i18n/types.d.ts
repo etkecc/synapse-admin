@@ -302,6 +302,8 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           fields: {
             block: string;
           };
+          in_progress: string;
+          background_note: string;
           success: string;
           failure: string;
         };

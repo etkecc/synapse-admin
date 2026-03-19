@@ -383,6 +383,9 @@ const de: SynapseTranslationMessages = {
           fields: {
             block: "Blockieren und Benutzer daran hindern, dem Raum beizutreten",
           },
+          in_progress: "Löschung läuft…",
+          background_note:
+            "Sie können dieses Fenster bedenkenlos schließen, die Löschung wird im Hintergrund fortgesetzt.",
           success: "Raum/Räume erfolgreich gelöscht.",
           failure: "Der/die Raum/Räume konnten nicht gelöscht werden.",
         },

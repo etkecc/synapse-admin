@@ -376,6 +376,8 @@ const uk: SynapseTranslationMessages = {
           fields: {
             block: "Block and prevent users from joining the room",
           },
+          in_progress: "Видалення виконується…",
+          background_note: "Ви можете закрити це вікно, видалення продовжиться у фоновому режимі.",
           success: "Кімнату(и) успішно видалено.",
           failure: "Не вдалося видалити кімнату(и).",
         },

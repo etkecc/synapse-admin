@@ -350,6 +350,8 @@ const fa: SynapseTranslationMessages = {
           fields: {
             block: "حذف",
           },
+          in_progress: "حذف در حال انجام…",
+          background_note: "می‌توانید این پنجره را ببندید، حذف در پس‌زمینه ادامه خواهد یافت.",
           success: "اتاق با موفقیت حذف شد.",
           failure: "خطایی رخ داده است.",
         },

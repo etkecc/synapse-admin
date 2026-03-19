@@ -464,6 +464,13 @@ export interface SynapseDataProvider extends DataProvider {
   getPurgeHistoryStatus: (
     purgeId: string
   ) => Promise<{ success: boolean; status?: string; error?: string; errcode?: string }>;
+  deleteRoom: (
+    roomId: string,
+    block: boolean
+  ) => Promise<{ success: boolean; delete_id?: string; error?: string; errcode?: string }>;
+  getRoomDeleteStatus: (
+    deleteId: string
+  ) => Promise<{ success: boolean; status?: string; error?: string; errcode?: string }>;
   redactUserEvents: (id: Identifier) => Promise<{ redact_id: string }>;
   getRedactStatus: (redactId: string) => Promise<{
     success: boolean;

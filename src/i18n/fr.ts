@@ -326,6 +326,8 @@ const fr: SynapseTranslationMessages = {
           fields: {
             block: "Bloquer et empêcher les utilisateurs de rejoindre la salle",
           },
+          in_progress: "Suppression en cours…",
+          background_note: "Vous pouvez fermer cette fenêtre, la suppression continuera en arrière-plan.",
           success: "Salle/s supprimées avec succès.",
           failure: "La/les salle/s n'ont pas pu être supprimées.",
         },

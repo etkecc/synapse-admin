@@ -372,6 +372,8 @@ const zh: SynapseTranslationMessages = {
           fields: {
             block: "封禁并阻止用户加入房间",
           },
+          in_progress: "正在删除…",
+          background_note: "您可以安全地关闭此窗口，删除将在后台继续进行。",
           success: "房间删除成功。",
           failure: "房间无法删除。",
         },

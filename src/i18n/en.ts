@@ -321,6 +321,8 @@ const en: SynapseTranslationMessages = {
           fields: {
             block: "Block and prevent users from joining the room",
           },
+          in_progress: "Deletion in progress…",
+          background_note: "You can safely close this window, the deletion will continue in the background.",
           success: "Room/s successfully deleted.",
           failure: "The room/s could not be deleted.",
         },

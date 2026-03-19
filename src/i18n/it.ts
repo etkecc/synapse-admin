@@ -439,6 +439,8 @@ const it: SynapseTranslationMessages = {
           fields: {
             block: "Blocca e impedisci agli utenti di entrare nella stanza",
           },
+          in_progress: "Eliminazione in corso…",
+          background_note: "Puoi chiudere questa finestra, l'eliminazione continuerà in background.",
           success: "Stanza/e eliminata/e con successo.",
           failure: "Impossibile eliminare la stanza/le stanze.",
         },

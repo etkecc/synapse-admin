@@ -610,6 +610,37 @@ export const redactUserEvents = async (id: Identifier) => {
   return { redact_id: json.redact_id as string };
 };
 
+export const deleteRoom = async (roomId: string, block: boolean) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(`${base_url}/_synapse/admin/v2/rooms/${encodeURIComponent(roomId)}`, {
+      method: "DELETE",
+      body: JSON.stringify({ block }),
+    });
+    return { success: true, delete_id: json.delete_id as string };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const getRoomDeleteStatus = async (deleteId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v2/rooms/delete_status/${encodeURIComponent(deleteId)}`
+    );
+    return { success: true, status: json.status as string, error: json.error as string | undefined };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, status: "failed", error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const getRedactStatus = async (redactId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {
