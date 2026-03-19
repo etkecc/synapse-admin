@@ -2,6 +2,7 @@ import PageviewIcon from "@mui/icons-material/Pageview";
 import SearchIcon from "@mui/icons-material/Search";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ReportIcon from "@mui/icons-material/Warning";
+import EmptyState from "../components/EmptyState";
 import AlertError from "@mui/icons-material/ErrorOutline";
 import ActionCheck from "@mui/icons-material/CheckCircle";
 import {
@@ -315,6 +316,7 @@ export const ReportList = (props: ListProps) => {
       perPage={50}
       sort={{ field: "received_ts", order: "DESC" }}
       actions={<ReportListActions />}
+      empty={<EmptyState />}
     >
       {isSmall ? (
         <SimpleList

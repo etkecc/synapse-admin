@@ -1,6 +1,8 @@
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import PaymentIcon from "@mui/icons-material/Payment";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import { Divider, ListItemIcon, ListItemText, MenuItem, Typography } from "@mui/material";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -21,14 +23,45 @@ import {
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
 import { ServerProcessResponse, ServerStatusResponse } from "../providers/types";
+import { useServerVersions } from "../providers/serverVersion";
 import { ClearConfig } from "../utils/config";
 import { Icons, DefaultIcon } from "../utils/icons";
 import { EtkeAttribution } from "./etke.cc/EtkeAttribution";
 import { ClearInstanceConfig, useInstanceConfig } from "./etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
-import ServerStatusBadge from "./etke.cc/ServerStatusBadge";
 import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
 import { useAppContext } from "../Context";
+
+const ServerVersionItems = () => {
+  const serverVersions = useServerVersions();
+  if (!serverVersions.synapse && !serverVersions.mas) return null;
+
+  return (
+    <>
+      {serverVersions.synapse && (
+        <MenuItem dense sx={{ pointerEvents: "none" }}>
+          <ListItemIcon>
+            <InfoOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>
+            <Typography variant="body2">Synapse v{serverVersions.synapse}</Typography>
+          </ListItemText>
+        </MenuItem>
+      )}
+      {serverVersions.mas && (
+        <MenuItem dense sx={{ pointerEvents: "none" }}>
+          <ListItemIcon>
+            <InfoOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>
+            <Typography variant="body2">MAS {serverVersions.mas}</Typography>
+          </ListItemText>
+        </MenuItem>
+      )}
+      <Divider sx={{ my: 0.5 }} />
+    </>
+  );
+};
 
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
@@ -57,6 +90,7 @@ const AdminUserMenu = () => {
 
   return (
     <UserMenu>
+      <ServerVersionItems />
       <div onClickCapture={checkLoginType}>
         <Logout />
       </div>
@@ -78,7 +112,6 @@ const AdminAppBar = () => {
   return (
     <AppBar userMenu={<AdminUserMenu />}>
       <TitlePortal />
-      {!icfg.disabled.monitoring && <ServerStatusBadge />}
       {!icfg.disabled.notifications && <ServerNotificationsBadge />}
       <InspectorButton />
     </AppBar>
@@ -105,23 +138,36 @@ const AdminMenu = props => {
     <Menu
       {...props}
       sx={theme => ({
+        color: theme.palette.mode === "dark" ? "#E0E0E0" : "#FFFFFF",
         "& .RaMenuItemLink-root": {
           justifyContent: "center",
           padding: "0px 2px 0px 0px",
           marginBottom: 0,
+          borderLeft: "3px solid transparent",
+          color: "inherit",
+          transition: "background-color 150ms ease, border-color 150ms ease",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.08)",
+          },
         },
         "& .RaMenuItemLink-icon": {
           minWidth: 44,
           width: 44,
           height: 44,
           backgroundColor: "transparent",
+          color: "inherit",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           transition: "box-shadow 150ms ease, transform 150ms ease",
         },
+        "& .MuiSvgIcon-root": {
+          color: "inherit",
+        },
         "& .RaMenuItemLink-active": {
-          backgroundColor: theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.06)",
+          backgroundColor: "rgba(255, 255, 255, 0.12)",
+          borderLeftColor: theme.palette.mode === "dark" ? theme.palette.primary.main : "#FFFFFF",
+          color: (theme.palette.mode === "dark" ? "#E0E0E0" : "#FFFFFF") + " !important",
         },
       })}
     >
@@ -220,7 +266,7 @@ export const AdminLayout = ({ children }) => {
       <Layout
         appBar={AdminAppBar}
         menu={AdminMenu}
-        sx={{
+        sx={theme => ({
           ["& .RaLayout-appFrame"]: {
             minHeight: "90vh",
             height: "90vh",
@@ -228,7 +274,15 @@ export const AdminLayout = ({ children }) => {
           ["& .RaLayout-content"]: {
             marginBottom: "3rem",
           },
-        }}
+          ["& .RaLayout-contentWithSidebar > .MuiDrawer-root"]: {
+            "& .MuiPaper-root": {
+              backgroundColor: (theme.palette.mode === "dark" ? "#041019" : "#334258") + " !important",
+            },
+            "& .RaSidebar-fixed": {
+              backgroundColor: theme.palette.mode === "dark" ? "#041019" : "#334258",
+            },
+          },
+        })}
       >
         {children}
         <CheckForApplicationUpdate />

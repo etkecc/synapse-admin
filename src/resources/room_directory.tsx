@@ -1,4 +1,5 @@
 import RoomDirectoryIcon from "@mui/icons-material/FolderShared";
+import EmptyState from "../components/EmptyState";
 import { useMutation } from "@tanstack/react-query";
 import {
   BooleanField,
@@ -142,7 +143,12 @@ export const RoomDirectoryList = () => {
   const translate = useTranslate();
   useDocTitle(translate("resources.room_directory.name", { smart_count: 2 }));
   return (
-    <List pagination={<RoomDirectoryPagination />} perPage={50} actions={<RoomDirectoryListActions />}>
+    <List
+      pagination={<RoomDirectoryPagination />}
+      perPage={50}
+      actions={<RoomDirectoryListActions />}
+      empty={<EmptyState />}
+    >
       <DatagridConfigurable
         rowClick={id => "/rooms/" + id + "/show"}
         bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}

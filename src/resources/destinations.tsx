@@ -2,6 +2,7 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 import DestinationsIcon from "@mui/icons-material/CloudQueue";
 import ErrorIcon from "@mui/icons-material/Error";
 import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import EmptyState from "../components/EmptyState";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { get } from "lodash";
 import { MouseEvent } from "react";
@@ -126,6 +127,7 @@ export const DestinationList = (props: ListProps) => {
       pagination={<DestinationPagination />}
       sort={{ field: "destination", order: "ASC" }}
       perPage={50}
+      empty={<EmptyState />}
     >
       <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
         <FunctionField

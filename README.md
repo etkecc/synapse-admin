@@ -17,8 +17,10 @@
 
 ---
 
-![Login form showing dark and light modes](./screenshots/auth.webp)
-![Screenshots](./screenshots/screenshots.jpg)
+![Login](./screenshots/login.webp)
+![Users List](./screenshots/users-list.webp)
+
+[View all screenshots](./screenshots/README.md)
 
 <!-- vim-markdown-toc GFM -->
 

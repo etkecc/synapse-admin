@@ -181,13 +181,13 @@ export const ServerStatusStyledBadge = ({
   let badgeBackgroundColor =
     isLoaded && !isMaintenance
       ? isOkay
-        ? theme.palette.success.light
+        ? theme.palette.success.main
         : theme.palette.error.main
       : theme.palette.grey[600];
   let badgeColor =
     isLoaded && !isMaintenance
       ? isOkay
-        ? theme.palette.success.light
+        ? theme.palette.success.main
         : theme.palette.error.main
       : theme.palette.grey[600];
 
@@ -195,7 +195,8 @@ export const ServerStatusStyledBadge = ({
     badgeBackgroundColor = theme.palette.warning.main;
     badgeColor = theme.palette.warning.main;
   }
-  let avatarBackgroundColor = theme.palette.mode === "dark" ? theme.palette.background.default : "#2196f3";
+  let avatarBackgroundColor =
+    theme.palette.mode === "dark" ? theme.palette.background.default : theme.palette.primary.main;
   if (inSidebar) {
     avatarBackgroundColor = theme.palette.grey[600];
   }

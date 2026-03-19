@@ -9,6 +9,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonIcon from "@mui/icons-material/Person";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
+import EmptyState from "../components/EmptyState";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -577,6 +578,7 @@ export const RoomList = (props: ListProps) => {
       filters={roomFilters}
       actions={<RoomListActions />}
       perPage={50}
+      empty={<EmptyState />}
     >
       <DatagridConfigurable
         rowClick="show"

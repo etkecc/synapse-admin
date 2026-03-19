@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+import "./fonts.css";
 import { App } from "./App";
 import { ConfigProvider } from "./Context";
 import { FetchInstanceConfig, GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
@@ -28,3 +29,10 @@ createRoot(document.getElementById("root")).render(
     </ConfigProvider>
   </React.StrictMode>
 );
+
+// Fade out and remove the static loader overlay
+const loader = document.getElementById("loader");
+if (loader) {
+  loader.classList.add("fade-out");
+  loader.addEventListener("transitionend", () => loader.remove(), { once: true });
+}

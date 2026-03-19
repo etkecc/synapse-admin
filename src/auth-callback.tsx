@@ -65,6 +65,13 @@ export const bootstrapAuthCallback = (
   const root = rootElement ? createRoot(rootElement) : null;
   root?.render(<Loading loadingPrimary="" loadingSecondary="" />);
 
+  // Fade out and remove the static loader overlay
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.classList.add("fade-out");
+    loader.addEventListener("transitionend", () => loader.remove(), { once: true });
+  }
+
   void (async () => {
     await FetchConfig();
     await FetchInstanceConfig(GetConfig().etkeccAdmin, "");

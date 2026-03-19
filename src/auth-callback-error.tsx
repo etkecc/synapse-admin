@@ -17,7 +17,7 @@ const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: (
   let welcomeTo = "Synapse Admin";
   let logoUrl = "./images/logo.webp";
   let footerLogoUrl = "./images/logo.webp";
-  let backgroundUrl = "./images/floating-cogs.svg";
+  let backgroundUrl = "";
   if (icfg.name) {
     welcomeTo = icfg.name;
   }
@@ -31,6 +31,13 @@ const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: (
 
   return (
     <LoginFormBox backgroundUrl={backgroundUrl}>
+      {!backgroundUrl && (
+        <>
+          <div className="login-orb login-orb-1" />
+          <div className="login-orb login-orb-2" />
+          <div className="login-orb login-orb-3" />
+        </>
+      )}
       <Card className="card">
         <Box className="avatar">
           <Avatar sx={{ width: "120px", height: "120px" }} src={logoUrl} />

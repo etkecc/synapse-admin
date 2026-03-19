@@ -270,6 +270,8 @@ const LoginPage = () => {
         setSupportPassAuth(false);
       } else {
         setOIDCVisible(false);
+        setOIDCUrl("");
+        setAuthMetadata({});
       }
     } catch {
       setSupportPassAuth(false);
@@ -300,7 +302,7 @@ const LoginPage = () => {
   const icfg = useInstanceConfig();
   let welcomeTo = "Synapse Admin";
   let logoUrl = "./images/logo.webp";
-  let backgroundUrl = "./images/floating-cogs.svg";
+  let backgroundUrl = "";
   if (icfg.name) {
     welcomeTo = icfg.name;
   }
@@ -490,6 +492,13 @@ const LoginPage = () => {
   return (
     <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onBlur">
       <LoginFormBox backgroundUrl={backgroundUrl}>
+        {!backgroundUrl && (
+          <>
+            <div className="login-orb login-orb-1" />
+            <div className="login-orb login-orb-2" />
+            <div className="login-orb login-orb-3" />
+          </>
+        )}
         <Card className="card">
           <Box className="avatar">
             {loading ? (

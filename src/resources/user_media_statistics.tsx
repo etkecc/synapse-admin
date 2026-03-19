@@ -1,4 +1,5 @@
 import PermMediaIcon from "@mui/icons-material/PermMedia";
+import EmptyState from "../components/EmptyState";
 import {
   BooleanField,
   DatagridConfigurable,
@@ -46,6 +47,7 @@ export const UserMediaStatsList = (props: ListProps) => {
       pagination={<UserMediaStatsPagination />}
       sort={{ field: "media_length", order: "DESC" }}
       perPage={50}
+      empty={<EmptyState />}
     >
       <DatagridConfigurable rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
         <ReferenceField label="resources.users.fields.avatar" source="id" reference="users" sortable={false} link="">

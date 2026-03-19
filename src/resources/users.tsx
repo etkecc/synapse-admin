@@ -13,6 +13,7 @@ import ScienceIcon from "@mui/icons-material/Science";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Alert, Box, Divider, Paper, Typography } from "@mui/material";
+import EmptyState from "../components/EmptyState";
 import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import {
@@ -197,6 +198,7 @@ export const UserList = (props: ListProps) => {
       actions={<UserListActions />}
       pagination={<UserPagination />}
       perPage={50}
+      empty={<EmptyState />}
     >
       <DatagridConfigurable
         rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}

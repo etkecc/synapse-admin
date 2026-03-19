@@ -1,6 +1,7 @@
 import BlockIcon from "@mui/icons-material/Block";
 import RegistrationTokenIcon from "@mui/icons-material/ConfirmationNumber";
 import RestoreIcon from "@mui/icons-material/RestoreFromTrash";
+import EmptyState from "../components/EmptyState";
 import { useState } from "react";
 import {
   BooleanInput,
@@ -56,6 +57,7 @@ export const RegistrationTokenList = (props: ListProps) => {
       filterDefaultValues={{ valid: true }}
       pagination={false}
       perPage={50}
+      empty={<EmptyState />}
     >
       <DatagridConfigurable rowClick="edit">
         <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />

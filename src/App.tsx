@@ -24,6 +24,7 @@ import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
 import authProvider from "./providers/authProvider";
 import dataProvider from "./providers/dataProvider";
+import { lightTheme, darkTheme } from "./theme";
 
 const Route = reactRouterProvider.Route;
 const queryClient = new QueryClient();
@@ -46,6 +47,8 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
         authProvider={authProvider}
         dataProvider={dataProvider}
         i18nProvider={i18nProvider}
+        theme={lightTheme}
+        darkTheme={darkTheme}
       >
         <CustomRoutes>
           <Route path="/import_users" element={<UserImport />} />
