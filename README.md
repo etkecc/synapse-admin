@@ -178,6 +178,7 @@ The following changes are already implemented:
 * 📊 [Show cumulative amounts of joined rooms and sent invites by a user](https://github.com/etkecc/synapse-admin/commit/d6c64a5371d1ec604a543792b29cd15f8c914a7b)
 * 🎨 [Restyle user edit page](https://github.com/etkecc/synapse-admin/commit/3dd9098d0475ea3c77ed22c5d1d18f87f22f4cce)
 * 🔍 [Restyle Reports section and add Event Lookup button](https://github.com/etkecc/synapse-admin/commit/2880a26c22ee5b0723a32d78bbe2a803e075fc67)
+* 🎨 [Full UI redesign](https://github.com/etkecc/synapse-admin/commit/69befd02f52fd6ddb0ee19d0af1b4a99c2a333f6) — new theme with custom fonts, glassmorphism login page, animated loader, styled empty states, polished dark/light modes, and many **many** more!
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
