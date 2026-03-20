@@ -185,6 +185,7 @@ The following changes are already implemented:
 * 🖊️ [Allow changing user devices display names](https://github.com/etkecc/synapse-admin/commit/f59c944efd0dec3829ee6f04d7c17756fd25ec35)
 * ➕ [Allow creating user devices](https://github.com/etkecc/synapse-admin/commit/062351c0a9138c36de1446bf08028870c730b417)
 * 🔄 [Add "Renew account validity" button](https://github.com/etkecc/synapse-admin/commit/6a89483c15f36dabda1a980b8fce1c342a20fa4f)
+* 💬 [Add room messages viewer with filters and jump-to-date](https://github.com/etkecc/synapse-admin/commit/60818ca3604aef61e2b5abc0d92e14771bb53637)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
