@@ -26,7 +26,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [❌ Account Validity](#-account-validity)
     * [✅ Purge History](#-purge-history)
     * [✅ Fetch Event](#-fetch-event)
-    * [❌ Register (Shared-Secret Registration)](#-register-shared-secret-registration)
+    * [⏭️ Register (Shared-Secret Registration) — superseded](#-register-shared-secret-registration--superseded)
     * [✅ Room Membership](#-room-membership)
     * [❌ Scheduled Tasks](#-scheduled-tasks)
     * [❌ Client-Server API Extensions](#-client-server-api-extensions)
@@ -206,12 +206,14 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/fetch_event/<event_id>` | GET | Fetch event by ID | ✅ |
 
-### ❌ Register (Shared-Secret Registration)
+### ⏭️ Register (Shared-Secret Registration) — superseded
+
+Superseded: redundant with existing user creation via User Admin API (already implemented). Shared-secret registration is designed for CLI bootstrapping without an admin token — pointless when already authenticated in synapse-admin.
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v1/register` | GET | Get registration nonce | ❌ |
-| `/_synapse/admin/v1/register` | POST | Create user via shared-secret | ❌ |
+| `/_synapse/admin/v1/register` | GET | Get registration nonce | ⏭️ |
+| `/_synapse/admin/v1/register` | POST | Create user via shared-secret | ⏭️ |
 
 ### ✅ Room Membership
 
