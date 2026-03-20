@@ -13,7 +13,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 
 * [Synapse Admin API](#synapse-admin-api)
     * [✅ Server Version](#-server-version)
-    * [🟡 Users](#-users)
+    * [✅ Users](#-users)
     * [✅ User Devices](#-user-devices)
     * [✅ Rooms](#-rooms)
     * [✅ Registration Tokens](#-registration-tokens)
@@ -53,7 +53,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/server_version` | GET | Get running Synapse version | ✅ |
 
-### 🟡 Users
+### ✅ Users
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
@@ -182,10 +182,12 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 
 ### 🟡 Statistics
 
+Largest rooms by database size - [#1082](https://github.com/etkecc/synapse-admin/pull/1082)
+
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/statistics/users/media` | GET | Get users' media usage statistics | ✅ |
-| `/_synapse/admin/v1/statistics/database/rooms` | GET | Get largest rooms by database size | ❌ |
+| `/_synapse/admin/v1/statistics/database/rooms` | GET | Get largest rooms by database size | 🟡 |
 
 ### ✅ Account Validity
 
