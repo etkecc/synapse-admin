@@ -10,6 +10,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Tooltip } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useMutation } from "@tanstack/react-query";
 import { get } from "lodash";
 import { useState } from "react";
@@ -35,6 +36,8 @@ import { decodeURLComponent } from "../utils/safety";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
   const DeleteMediaToolbar = (props: ToolbarProps) => (
@@ -47,7 +50,7 @@ const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
   );
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("delete_media.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("delete_media.helper.send")}</DialogContentText>
@@ -109,6 +112,8 @@ export const DeleteMediaButton = (props: ButtonProps) => {
 };
 
 const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
   const PurgeRemoteMediaToolbar = (props: ToolbarProps) => (
@@ -121,7 +126,7 @@ const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
   );
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("purge_remote_media.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("purge_remote_media.helper.send")}</DialogContentText>

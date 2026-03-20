@@ -9,6 +9,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import { Button, useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 
@@ -19,6 +21,8 @@ import { SynapseDataProvider } from "../providers/types";
  * Shows a confirmation dialog before proceeding.
  */
 export const QuarantineRoomMediaButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const record = useRecordContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -60,7 +64,7 @@ export const QuarantineRoomMediaButton = () => {
       <Button label="resources.rooms.action.quarantine_all.label" onClick={() => setOpen(true)}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.rooms.action.quarantine_all.title", { roomName })}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate("resources.rooms.action.quarantine_all.content")}</DialogContentText>
@@ -88,6 +92,8 @@ export const QuarantineRoomMediaButton = () => {
  * Shows a confirmation dialog before proceeding.
  */
 export const QuarantineUserMediaButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const record = useRecordContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -129,7 +135,7 @@ export const QuarantineUserMediaButton = () => {
       <Button label="resources.users.action.quarantine_all.label" onClick={() => setOpen(true)}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.users.action.quarantine_all.title", { userName })}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate("resources.users.action.quarantine_all.content")}</DialogContentText>

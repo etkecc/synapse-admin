@@ -10,6 +10,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
   Button,
@@ -37,6 +39,8 @@ interface DeleteRoomButtonProps {
 const resourceName = "rooms";
 
 const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
   const [open, setOpen] = useState(false);
   const [block, setBlock] = useState(false);
@@ -163,7 +167,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
       >
         <ActionDelete />
       </Button>
-      <Dialog open={open} onClose={handleDialogClose}>
+      <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate(props.confirmTitle)}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate(props.confirmContent)}</DialogContentText>

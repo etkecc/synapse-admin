@@ -216,6 +216,8 @@ const ReportShowActions = () => {
 };
 
 const EventLookupButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
   const [eventId, setEventId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -255,7 +257,7 @@ const EventLookupButton = () => {
       <Button label="resources.reports.action.event_lookup.label" onClick={() => setOpen(true)}>
         <SearchIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.reports.action.event_lookup.title")}</DialogTitle>
         <DialogContent>
           <MuiTextField

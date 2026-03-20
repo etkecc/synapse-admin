@@ -10,6 +10,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
   SimpleForm,
@@ -35,6 +37,8 @@ interface DeleteUserButtonProps {
 const resourceName = "users";
 
 const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
   const [open, setOpen] = useState(false);
   const [deleteMedia, setDeleteMedia] = useState(false);
@@ -174,7 +178,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
       >
         {translate("ra.action.delete")}
       </Button>
-      <Dialog open={open} onClose={handleDialogClose}>
+      <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate(props.confirmTitle)}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate(props.confirmContent)}</DialogContentText>
