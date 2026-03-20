@@ -1,5 +1,6 @@
 import EventIcon from "@mui/icons-material/Event";
 import FastForwardIcon from "@mui/icons-material/FastForward";
+import MessageIcon from "@mui/icons-material/Message";
 import UserIcon from "@mui/icons-material/Group";
 import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
@@ -10,6 +11,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
 import EmptyState from "../components/EmptyState";
+import { RoomMessages } from "../components/RoomMessages";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
@@ -503,6 +505,10 @@ export const RoomShow = (props: ShowProps) => {
               </ReferenceField>
             </Datagrid>
           </ReferenceManyField>
+        </Tab>
+
+        <Tab label="synapseadmin.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
+          <RoomMessages />
         </Tab>
 
         <Tab label="resources.forward_extremities.name" icon={<FastForwardIcon />} path="forward_extremities">

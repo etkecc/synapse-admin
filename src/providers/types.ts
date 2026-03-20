@@ -418,6 +418,38 @@ export interface SupportRequestDetail extends SupportRequest {
   messages: SupportMessage[];
 }
 
+export interface TimestampToEventResult {
+  event_id: string;
+  origin_server_ts: number;
+}
+
+export interface RoomEvent {
+  event_id: string;
+  type: string;
+  room_id: string;
+  sender: string;
+  origin_server_ts: number;
+  content: Record<string, unknown>;
+  state_key?: string;
+  unsigned?: Record<string, unknown>;
+}
+
+export interface EventContextResult {
+  event: RoomEvent;
+  events_before: RoomEvent[];
+  events_after: RoomEvent[];
+  start: string;
+  end: string;
+  state: RoomEvent[];
+}
+
+export interface RoomMessagesResult {
+  chunk: RoomEvent[];
+  start: string;
+  end?: string;
+  state?: RoomEvent[];
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -476,6 +508,20 @@ export interface SynapseDataProvider extends DataProvider {
     provider: string,
     externalId: string
   ) => Promise<{ success: boolean; user_id?: string; error?: string; errcode?: string }>;
+  getEventByTimestamp: (
+    roomId: string,
+    ts: number,
+    dir?: "f" | "b"
+  ) => Promise<{ success: boolean; event_id?: string; origin_server_ts?: number; error?: string; errcode?: string }>;
+  getEventContext: (
+    roomId: string,
+    eventId: string,
+    limit?: number
+  ) => Promise<{ success: boolean; data?: EventContextResult; error?: string; errcode?: string }>;
+  getRoomMessages: (
+    roomId: string,
+    params: { from: string; to?: string; limit?: number; dir?: "f" | "b"; filter?: string }
+  ) => Promise<{ success: boolean; data?: RoomMessagesResult; error?: string; errcode?: string }>;
   quarantineRoomMedia: (
     roomId: string
   ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;

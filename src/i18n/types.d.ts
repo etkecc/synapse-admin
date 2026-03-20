@@ -33,6 +33,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         detail: string;
         permission: string;
         media: string;
+        messages: string;
       };
     };
     reports: { tabs: { basic: string; detail: string } };
@@ -385,6 +386,35 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           content: string;
           success: string;
           failure: string;
+        };
+        event_context: {
+          jump_to_date: string;
+          direction: string;
+          forward: string;
+          backward: string;
+          target_event: string;
+          events_before: string;
+          events_after: string;
+          not_found: string;
+          failure: string;
+        };
+        messages: {
+          load_older: string;
+          load_newer: string;
+          no_messages: string;
+          failure: string;
+          filter: string;
+          filter_type: string;
+          filter_sender: string;
+          advanced_filters: string;
+          filter_not_type: string;
+          filter_not_sender: string;
+          contains_url: string;
+          any: string;
+          with_url: string;
+          without_url: string;
+          apply_filter: string;
+          clear_filters: string;
         };
       };
     };

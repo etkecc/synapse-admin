@@ -107,9 +107,9 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/rooms/<room_id>` | GET | Get room details | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/members` | GET | Get room members | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/state` | GET | Get room state events | ✅ |
-| `/_synapse/admin/v1/rooms/<room_id>/messages` | GET | Get messages from a room | ❌ |
-| `/_synapse/admin/v1/rooms/<room_id>/timestamp_to_event` | GET | Find event by timestamp | ❌ |
-| `/_synapse/admin/v1/rooms/<room_id>/context/<event_id>` | GET | Get event context | ❌ |
+| `/_synapse/admin/v1/rooms/<room_id>/messages` | GET | Get messages from a room | ✅ |
+| `/_synapse/admin/v1/rooms/<room_id>/timestamp_to_event` | GET | Find event by timestamp | ✅ |
+| `/_synapse/admin/v1/rooms/<room_id>/context/<event_id>` | GET | Get event context | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/hierarchy` | GET | Get space/room hierarchy | ❌ |
 | `/_synapse/admin/v1/rooms/<room_id>/block` | PUT | Block or unblock a room | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/block` | GET | Get room block status | ✅ |

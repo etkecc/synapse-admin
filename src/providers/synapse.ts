@@ -601,6 +601,59 @@ export const findUserByAuthProvider = async (provider: string, externalId: strin
   }
 };
 
+export const getEventByTimestamp = async (roomId: string, ts: number, dir: "f" | "b" = "f") => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(roomId)}/timestamp_to_event?ts=${ts}&dir=${dir}`
+    );
+    return { success: true, event_id: json.event_id as string, origin_server_ts: json.origin_server_ts as number };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const getEventContext = async (roomId: string, eventId: string, limit = 5) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(roomId)}/context/${encodeURIComponent(eventId)}?limit=${limit}`
+    );
+    return { success: true, data: json };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const getRoomMessages = async (
+  roomId: string,
+  params: { from: string; to?: string; limit?: number; dir?: "f" | "b"; filter?: string }
+) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const query = new URLSearchParams({ from: params.from });
+    if (params.to) query.set("to", params.to);
+    if (params.limit) query.set("limit", String(params.limit));
+    if (params.dir) query.set("dir", params.dir);
+    if (params.filter) query.set("filter", params.filter);
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(roomId)}/messages?${query}`
+    );
+    return { success: true, data: json };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const quarantineRoomMedia = async (roomId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {
