@@ -155,7 +155,7 @@ export const convertMasTokenToSynapse = (masToken: MASRegistrationToken | MASReg
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export const filterUndefined = (obj: Record<string, any>) => {
-  return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined));
+  return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined && value !== null));
 };
 
 // Cursor-based pagination state for MAS registration tokens

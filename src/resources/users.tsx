@@ -130,15 +130,38 @@ const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 5
 const userFilters = () => {
   const filters = [
     <SearchInput source="name" alwaysOn />,
-    <NullableBooleanInput label="resources.users.fields.show_deactivated" source="deactivated" alwaysOn />,
-    <NullableBooleanInput label="resources.users.fields.show_locked" source="locked" alwaysOn />,
+    <NullableBooleanInput
+      label="resources.users.fields.show_deactivated"
+      source="deactivated"
+      nullLabel="resources.users.fields.filter_user_all"
+      falseLabel="resources.users.fields.filter_deactivated_false"
+      trueLabel="resources.users.fields.filter_deactivated_true"
+      alwaysOn
+    />,
+    <NullableBooleanInput
+      label="resources.users.fields.show_locked"
+      source="locked"
+      nullLabel="resources.users.fields.filter_user_all"
+      falseLabel="resources.users.fields.filter_locked_false"
+      trueLabel="resources.users.fields.filter_locked_true"
+      alwaysOn
+    />,
     // waiting for https://github.com/element-hq/synapse/issues/18016
     // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
     // as of Synapse v1.149.1, filter doesn't work yet, showing all users instead of only shadow banned ones
     // <BooleanInput label="resources.users.fields.show_shadow_banned" source="shadow_banned" alwaysOn />,
   ];
   if (!GetConfig().externalAuthProvider) {
-    filters.push(<NullableBooleanInput label="resources.users.fields.show_guests" source="guests" alwaysOn />);
+    filters.push(
+      <NullableBooleanInput
+        label="resources.users.fields.show_guests"
+        source="guests"
+        nullLabel="resources.users.fields.filter_user_all"
+        falseLabel="resources.users.fields.filter_guests_false"
+        trueLabel="resources.users.fields.filter_guests_true"
+        alwaysOn
+      />
+    );
   }
   return filters;
 };
