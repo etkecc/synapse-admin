@@ -654,6 +654,29 @@ export const getRoomMessages = async (
   }
 };
 
+export const getRoomHierarchy = async (
+  roomId: string,
+  params?: { from?: string; limit?: number; max_depth?: number }
+) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const query = new URLSearchParams();
+    if (params?.from) query.set("from", params.from);
+    if (params?.limit) query.set("limit", String(params.limit));
+    if (params?.max_depth !== undefined) query.set("max_depth", String(params.max_depth));
+    const qs = query.toString();
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/rooms/${encodeURIComponent(roomId)}/hierarchy${qs ? `?${qs}` : ""}`
+    );
+    return { success: true, data: json };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const quarantineRoomMedia = async (roomId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {

@@ -15,7 +15,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Server Version](#-server-version)
     * [🟡 Users](#-users)
     * [✅ User Devices](#-user-devices)
-    * [🟡 Rooms](#-rooms)
+    * [✅ Rooms](#-rooms)
     * [✅ Registration Tokens](#-registration-tokens)
     * [✅ Media](#-media)
     * [✅ Event Reports](#-event-reports)
@@ -99,7 +99,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | DELETE | Delete a device | ✅ |
 | `/_synapse/admin/v2/users/<user_id>/delete_devices` | POST | Delete multiple devices | ✅ |
 
-### 🟡 Rooms
+### ✅ Rooms
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
@@ -110,7 +110,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/rooms/<room_id>/messages` | GET | Get messages from a room | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/timestamp_to_event` | GET | Find event by timestamp | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/context/<event_id>` | GET | Get event context | ✅ |
-| `/_synapse/admin/v1/rooms/<room_id>/hierarchy` | GET | Get space/room hierarchy | ❌ |
+| `/_synapse/admin/v1/rooms/<room_id>/hierarchy` | GET | Get space/room hierarchy | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/block` | PUT | Block or unblock a room | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>/block` | GET | Get room block status | ✅ |
 | `/_synapse/admin/v1/rooms/<room_id>` | DELETE | Delete a room (v1, synchronous) | ⏭️ |

@@ -450,6 +450,31 @@ export interface RoomMessagesResult {
   state?: RoomEvent[];
 }
 
+export interface HierarchyRoom {
+  room_id: string;
+  name?: string;
+  topic?: string;
+  canonical_alias?: string;
+  avatar_url?: string;
+  room_type?: string;
+  num_joined_members: number;
+  join_rule?: string;
+  guest_can_join: boolean;
+  world_readable: boolean;
+  children_state: {
+    type: string;
+    state_key: string;
+    content: Record<string, unknown>;
+    sender: string;
+    origin_server_ts: number;
+  }[];
+}
+
+export interface RoomHierarchyResult {
+  rooms: HierarchyRoom[];
+  next_batch?: string;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -522,6 +547,10 @@ export interface SynapseDataProvider extends DataProvider {
     roomId: string,
     params: { from: string; to?: string; limit?: number; dir?: "f" | "b"; filter?: string }
   ) => Promise<{ success: boolean; data?: RoomMessagesResult; error?: string; errcode?: string }>;
+  getRoomHierarchy: (
+    roomId: string,
+    params?: { from?: string; limit?: number; max_depth?: number }
+  ) => Promise<{ success: boolean; data?: RoomHierarchyResult; error?: string; errcode?: string }>;
   quarantineRoomMedia: (
     roomId: string
   ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;

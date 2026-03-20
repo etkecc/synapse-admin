@@ -34,6 +34,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         permission: string;
         media: string;
         messages: string;
+        hierarchy: string;
       };
     };
     reports: { tabs: { basic: string; detail: string } };
@@ -415,6 +416,18 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           without_url: string;
           apply_filter: string;
           clear_filters: string;
+        };
+        hierarchy: {
+          load_more: string;
+          max_depth: string;
+          unlimited: string;
+          refresh: string;
+          members: string;
+          space: string;
+          room: string;
+          suggested: string;
+          no_children: string;
+          failure: string;
         };
       };
     };

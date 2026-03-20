@@ -58,6 +58,7 @@ import {
   getEventByTimestamp,
   getEventContext,
   getRoomMessages,
+  getRoomHierarchy,
   deleteUserMedia,
   redactUserEvents,
   getRedactStatus,
@@ -481,6 +482,7 @@ const baseDataProvider: SynapseDataProvider = {
   getEventByTimestamp,
   getEventContext,
   getRoomMessages,
+  getRoomHierarchy,
   revokeRegistrationToken,
 
   ...etkeProviderMethods,

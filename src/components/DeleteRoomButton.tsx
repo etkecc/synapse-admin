@@ -2,7 +2,7 @@ import ActionCheck from "@mui/icons-material/CheckCircle";
 import ActionDelete from "@mui/icons-material/Delete";
 import AlertError from "@mui/icons-material/ErrorOutline";
 import {
-  Button,
+  Button as MuiButton,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
+  Button,
   SimpleForm,
   BooleanInput,
   useTranslate,
@@ -153,20 +154,14 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
   return (
     <Fragment>
       <Button
+        label="ra.action.delete"
         onClick={handleDialogOpen}
         disabled={loading}
         className={"ra-delete-button"}
         key="button"
-        size="small"
-        sx={{
-          "&.MuiButton-sizeSmall": {
-            lineHeight: 1.5,
-          },
-        }}
         color={"error"}
-        startIcon={<ActionDelete />}
       >
-        {translate("ra.action.delete")}
+        <ActionDelete />
       </Button>
       <Dialog open={open} onClose={handleDialogClose}>
         <DialogTitle>{translate(props.confirmTitle)}</DialogTitle>
@@ -195,10 +190,10 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} startIcon={<AlertError />}>
+          <MuiButton onClick={handleDialogClose} startIcon={<AlertError />}>
             {translate("ra.action.cancel")}
-          </Button>
-          <Button
+          </MuiButton>
+          <MuiButton
             disabled={loading}
             onClick={handleConfirm}
             className={"ra-confirm RaConfirm-confirmPrimary"}
@@ -206,7 +201,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
             startIcon={loading ? <CircularProgress size={16} /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
-          </Button>
+          </MuiButton>
         </DialogActions>
       </Dialog>
     </Fragment>
