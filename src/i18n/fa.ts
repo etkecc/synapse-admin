@@ -76,6 +76,12 @@ const fa: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "اصلی", detail: "جزئیات" } },
+    admin_config: {
+      soft_failed_events: "رویدادهای شکست نرم",
+      spam_flagged_events: "رویدادهای علامت‌گذاری‌شده به‌عنوان هرزنامه",
+      success: "تنظیمات مدیر به‌روزرسانی شد",
+      failure: "به‌روزرسانی تنظیمات مدیر ناموفق بود",
+    },
   },
   import_users: {
     error: {

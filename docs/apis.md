@@ -29,7 +29,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [⏭️ Register (Shared-Secret Registration) — superseded](#-register-shared-secret-registration--superseded)
     * [✅ Room Membership](#-room-membership)
     * [✅ Scheduled Tasks](#-scheduled-tasks)
-    * [❌ Client-Server API Extensions](#-client-server-api-extensions)
+    * [✅ Client-Server API Extensions](#-client-server-api-extensions)
 * [🟡 Matrix Authentication Service (MAS) Admin API](#-matrix-authentication-service-mas-admin-api)
     * [✅ OAuth 2.0](#-oauth-20)
     * [✅ Server](#-server)
@@ -229,11 +229,12 @@ Superseded: redundant with existing user creation via User Admin API (already im
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/scheduled_tasks` | GET | Show scheduled tasks | ✅ |
 
-### ❌ Client-Server API Extensions
+### ✅ Client-Server API Extensions
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | PUT | Set admin client configuration | ❌ |
+| `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | GET | Get admin client configuration | ✅ |
+| `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | PUT | Set admin client configuration | ✅ |
 
 ## 🟡 Matrix Authentication Service (MAS) Admin API
 

@@ -105,6 +105,12 @@ const de: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "Allgemein", detail: "Details" } },
+    admin_config: {
+      soft_failed_events: "Soft-fehlgeschlagene Ereignisse",
+      spam_flagged_events: "Als Spam markierte Ereignisse",
+      success: "Admin-Konfiguration aktualisiert",
+      failure: "Admin-Konfiguration konnte nicht aktualisiert werden",
+    },
   },
   import_users: {
     error: {

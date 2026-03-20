@@ -38,6 +38,12 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       };
     };
     reports: { tabs: { basic: string; detail: string } };
+    admin_config: {
+      soft_failed_events: string;
+      spam_flagged_events: string;
+      success: string;
+      failure: string;
+    };
   };
   import_users: {
     error: {

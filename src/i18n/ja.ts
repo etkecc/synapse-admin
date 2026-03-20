@@ -68,6 +68,12 @@ const ja: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "基本情報", detail: "詳細" } },
+    admin_config: {
+      soft_failed_events: "ソフト失敗イベント",
+      spam_flagged_events: "スパムとしてフラグされたイベント",
+      success: "管理者設定を更新しました",
+      failure: "管理者設定の更新に失敗しました",
+    },
   },
   import_users: {
     error: {

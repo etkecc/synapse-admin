@@ -47,6 +47,12 @@ const en: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
+    admin_config: {
+      soft_failed_events: "Soft-failed events",
+      spam_flagged_events: "Spam-flagged events",
+      success: "Admin config updated",
+      failure: "Failed to update admin config",
+    },
   },
   import_users: {
     error: {

@@ -59,6 +59,8 @@ import {
   getEventContext,
   getRoomMessages,
   getRoomHierarchy,
+  getAdminClientConfig,
+  setAdminClientConfig,
   deleteUserMedia,
   redactUserEvents,
   getRedactStatus,
@@ -483,6 +485,8 @@ const baseDataProvider: SynapseDataProvider = {
   getEventContext,
   getRoomMessages,
   getRoomHierarchy,
+  getAdminClientConfig,
+  setAdminClientConfig,
   revokeRegistrationToken,
 
   ...etkeProviderMethods,

@@ -475,6 +475,11 @@ export interface RoomHierarchyResult {
   next_batch?: string;
 }
 
+export interface AdminClientConfig {
+  return_soft_failed_events: boolean;
+  return_policy_server_spammy_events: boolean;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -624,4 +629,6 @@ export interface SynapseDataProvider extends DataProvider {
     message: string
   ) => Promise<SupportRequest>;
   postSupportMessage: (etkeAdminUrl: string, locale: string, id: string, message: string) => Promise<SupportMessage>;
+  getAdminClientConfig: () => Promise<AdminClientConfig>;
+  setAdminClientConfig: (config: AdminClientConfig) => Promise<void>;
 }

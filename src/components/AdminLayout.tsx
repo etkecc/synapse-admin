@@ -20,6 +20,7 @@ import {
   useLocale,
 } from "react-admin";
 
+import { AdminClientConfigItems } from "./AdminClientConfigItems";
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
 import { ServerProcessResponse, ServerStatusResponse } from "../providers/types";
@@ -91,6 +92,7 @@ const AdminUserMenu = () => {
   return (
     <UserMenu>
       <ServerVersionItems />
+      <AdminClientConfigItems />
       <div onClickCapture={checkLoginType}>
         <Logout />
       </div>

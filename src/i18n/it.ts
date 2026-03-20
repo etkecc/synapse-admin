@@ -164,6 +164,12 @@ const it: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "Semplice", detail: "Dettagli" } },
+    admin_config: {
+      soft_failed_events: "Eventi con errore non critico",
+      spam_flagged_events: "Eventi contrassegnati come spam",
+      success: "Configurazione amministratore aggiornata",
+      failure: "Aggiornamento della configurazione amministratore non riuscito",
+    },
   },
   import_users: {
     error: {

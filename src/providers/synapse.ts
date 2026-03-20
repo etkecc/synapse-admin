@@ -2,6 +2,7 @@ import { DeleteParams, HttpError, Identifier, RaRecord, fetchUtils } from "react
 
 import { jsonClient } from "./httpClients";
 import {
+  AdminClientConfig,
   AccountDataModel,
   DeleteMediaParams,
   DeleteMediaResult,
@@ -675,6 +676,30 @@ export const getRoomHierarchy = async (
     }
     throw error;
   }
+};
+
+export const getAdminClientConfig = async () => {
+  const base_url = localStorage.getItem("base_url");
+  const userId = localStorage.getItem("user_id");
+  if (!userId) return { return_soft_failed_events: false, return_policy_server_spammy_events: false };
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_matrix/client/v3/user/${encodeURIComponent(userId)}/account_data/io.element.synapse.admin_client_config`
+    );
+    return json as AdminClientConfig;
+  } catch {
+    return { return_soft_failed_events: false, return_policy_server_spammy_events: false };
+  }
+};
+
+export const setAdminClientConfig = async (config: AdminClientConfig) => {
+  const base_url = localStorage.getItem("base_url");
+  const userId = localStorage.getItem("user_id");
+  if (!userId) throw new Error("No user_id");
+  await jsonClient(
+    `${base_url}/_matrix/client/v3/user/${encodeURIComponent(userId)}/account_data/io.element.synapse.admin_client_config`,
+    { method: "PUT", body: JSON.stringify(config) }
+  );
 };
 
 export const quarantineRoomMedia = async (roomId: string) => {

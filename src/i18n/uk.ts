@@ -101,6 +101,12 @@ const uk: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "Основні", detail: "Детально" } },
+    admin_config: {
+      soft_failed_events: "Події з м'яким збоєм",
+      spam_flagged_events: "Події, позначені як спам",
+      success: "Конфігурацію адміністратора оновлено",
+      failure: "Не вдалося оновити конфігурацію адміністратора",
+    },
   },
   import_users: {
     error: {

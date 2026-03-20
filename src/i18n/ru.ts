@@ -103,6 +103,12 @@ const ru: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "Основные", detail: "Подробности" } },
+    admin_config: {
+      soft_failed_events: "События с мягким сбоем",
+      spam_flagged_events: "События, помеченные как спам",
+      success: "Конфигурация администратора обновлена",
+      failure: "Не удалось обновить конфигурацию администратора",
+    },
   },
   import_users: {
     error: {

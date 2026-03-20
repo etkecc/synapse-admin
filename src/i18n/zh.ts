@@ -104,6 +104,12 @@ const zh: SynapseTranslationMessages = {
       },
     },
     reports: { tabs: { basic: "基本", detail: "细节" } },
+    admin_config: {
+      soft_failed_events: "软失败事件",
+      spam_flagged_events: "被标记为垃圾邮件的事件",
+      success: "管理员配置已更新",
+      failure: "更新管理员配置失败",
+    },
   },
   import_users: {
     error: {
