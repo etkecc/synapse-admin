@@ -165,7 +165,7 @@ export const DestinationShow = (props: ShowProps) => {
   const locale = useLocale();
   return (
     <Show actions={<DestinationShowActions />} title={<DestinationTitle />} {...props}>
-      <TabbedShowLayout>
+      <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="status" icon={<ViewListIcon />}>
           <TextField source="destination" />
           <DateField source="failure_ts" showTime options={DATE_FORMAT} locales={locale} />

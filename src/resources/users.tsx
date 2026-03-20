@@ -596,7 +596,7 @@ export const UserEdit = (props: EditProps) => {
         },
       }}
     >
-      <TabbedForm toolbar={<UserEditToolbar />}>
+      <TabbedForm toolbar={<UserEditToolbar />} sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <FormTab label={translate("resources.users.name", { smart_count: 1 })} icon={<PersonPinIcon />}>
           <Box
             sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%", mb: 2, mt: 1 }}

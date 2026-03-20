@@ -187,7 +187,7 @@ const EventFields = ({ event }: { event: Record<string, any> }) => (
 export const ReportShow = (props: ShowProps) => {
   return (
     <Show {...props} actions={<ReportShowActions />} title={<ReportTitle />}>
-      <TabbedShowLayout>
+      <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="synapseadmin.reports.tabs.basic" icon={<ViewListIcon />}>
           <ReportBasicTab />
         </Tab>

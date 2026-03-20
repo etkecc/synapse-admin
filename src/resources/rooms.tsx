@@ -477,7 +477,7 @@ export const RoomShow = (props: ShowProps) => {
   const locale = useLocale();
   return (
     <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
-      <TabbedShowLayout>
+      <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
           <RoomOverviewTab />
         </Tab>
