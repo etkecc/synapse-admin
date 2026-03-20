@@ -546,6 +546,12 @@ const de: SynapseTranslationMessages = {
           success: "Gerätename aktualisiert",
           failure: "Gerätename konnte nicht aktualisiert werden",
         },
+        create: {
+          label: "Gerät erstellen",
+          title: "Neues Gerät erstellen",
+          success: "Gerät erstellt",
+          failure: "Gerät konnte nicht erstellt werden",
+        },
       },
     },
     users_media: {

@@ -454,6 +454,12 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        create: {
+          label: string;
+          title: string;
+          success: string;
+          failure: string;
+        };
       };
     };
     users_media: {

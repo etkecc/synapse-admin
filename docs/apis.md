@@ -14,7 +14,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 * [Synapse Admin API](#synapse-admin-api)
     * [✅ Server Version](#-server-version)
     * [🟡 Users](#-users)
-    * [🟡 User Devices](#-user-devices)
+    * [✅ User Devices](#-user-devices)
     * [🟡 Rooms](#-rooms)
     * [✅ Registration Tokens](#-registration-tokens)
     * [✅ Media](#-media)
@@ -88,12 +88,12 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/user/<user_id>/redact` | POST | Redact all events from a user | ✅ |
 | `/_synapse/admin/v1/user/redact_status/<redact_id>` | GET | Check user redaction status | ✅ |
 
-### 🟡 User Devices
+### ✅ User Devices
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v2/users/<user_id>/devices` | GET | List all devices for user | ✅ |
-| `/_synapse/admin/v2/users/<user_id>/devices` | POST | Create a device for user | ❌ |
+| `/_synapse/admin/v2/users/<user_id>/devices` | POST | Create a device for user | ✅ |
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | GET | Get single device info | ⏭️ |
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | PUT | Update device metadata | ✅ |
 | `/_synapse/admin/v2/users/<user_id>/devices/<device_id>` | DELETE | Delete a device | ✅ |

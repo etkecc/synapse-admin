@@ -599,6 +599,12 @@ const it: SynapseTranslationMessages = {
           success: "Nome del dispositivo aggiornato",
           failure: "Aggiornamento del nome del dispositivo non riuscito",
         },
+        create: {
+          label: "Crea dispositivo",
+          title: "Crea nuovo dispositivo",
+          success: "Dispositivo creato",
+          failure: "Creazione del dispositivo non riuscita",
+        },
       },
     },
     users_media: {

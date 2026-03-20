@@ -486,6 +486,12 @@ const fr: SynapseTranslationMessages = {
           success: "Nom de l'appareil mis à jour",
           failure: "Échec de la mise à jour du nom de l'appareil",
         },
+        create: {
+          label: "Créer un appareil",
+          title: "Créer un nouvel appareil",
+          success: "Appareil créé",
+          failure: "Échec de la création de l'appareil",
+        },
       },
     },
     users_media: {

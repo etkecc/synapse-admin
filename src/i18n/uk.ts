@@ -540,6 +540,12 @@ const uk: SynapseTranslationMessages = {
           success: "Назву пристрою оновлено",
           failure: "Не вдалося оновити назву пристрою",
         },
+        create: {
+          label: "Створити пристрій",
+          title: "Створення нового пристрою",
+          success: "Пристрій створено",
+          failure: "Не вдалося створити пристрій",
+        },
       },
     },
     users_media: {

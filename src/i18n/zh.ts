@@ -526,6 +526,12 @@ const zh: SynapseTranslationMessages = {
           success: "设备名称已更新",
           failure: "更新设备名称失败",
         },
+        create: {
+          label: "创建设备",
+          title: "创建新设备",
+          success: "设备已创建",
+          failure: "创建设备失败",
+        },
       },
     },
     users_media: {

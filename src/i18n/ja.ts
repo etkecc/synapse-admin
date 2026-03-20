@@ -498,6 +498,12 @@ const ja: SynapseTranslationMessages = {
           success: "端末の名称を更新しました",
           failure: "端末の名称の更新に失敗しました",
         },
+        create: {
+          label: "端末を作成",
+          title: "新しい端末を作成",
+          success: "端末を作成しました",
+          failure: "端末の作成に失敗しました",
+        },
       },
     },
     users_media: {

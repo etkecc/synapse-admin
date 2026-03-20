@@ -78,6 +78,7 @@ import AvatarField from "../components/AvatarField";
 import EditableAvatarField from "../components/EditableAvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import { AllowCrossSigningButton } from "../components/AllowCrossSigningButton";
+import DeviceCreateButton from "../components/DeviceCreateButton";
 import DeviceDisplayNameInput from "../components/DeviceDisplayNameInput";
 import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
@@ -655,6 +656,7 @@ export const UserEdit = (props: EditProps) => {
         </FormTab>
 
         <FormTab label={translate("resources.devices.name", { smart_count: 2 })} icon={<DevicesIcon />} path="devices">
+          <DeviceCreateButton />
           <ReferenceManyField
             reference="devices"
             target="user_id"

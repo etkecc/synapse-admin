@@ -481,6 +481,12 @@ const en: SynapseTranslationMessages = {
           success: "Device name updated",
           failure: "Failed to update device name",
         },
+        create: {
+          label: "Create device",
+          title: "Create new device",
+          success: "Device created",
+          failure: "Failed to create device",
+        },
       },
     },
     users_media: {

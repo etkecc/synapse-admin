@@ -509,6 +509,12 @@ const fa: SynapseTranslationMessages = {
           success: "نام دستگاه به‌روزرسانی شد",
           failure: "به‌روزرسانی نام دستگاه ناموفق بود",
         },
+        create: {
+          label: "ایجاد دستگاه",
+          title: "ایجاد دستگاه جدید",
+          success: "دستگاه ایجاد شد",
+          failure: "ایجاد دستگاه ناموفق بود",
+        },
       },
     },
     users_media: {
