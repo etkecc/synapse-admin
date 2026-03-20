@@ -15,6 +15,7 @@ import ScheduledCommandEdit from "./components/etke.cc/schedules/components/sche
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
 import UserImport from "./components/user-import/UserImport";
 import LoginPage from "./pages/LoginPage";
+import MASPolicyDataPage from "./pages/MASPolicyDataPage";
 import destinations from "./resources/destinations";
 import registrationToken from "./resources/registration_tokens";
 import reports from "./resources/reports";
@@ -23,8 +24,17 @@ import roomDirectory from "./resources/room_directory";
 import rooms from "./resources/rooms";
 import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
+import {
+  masCompatSessions,
+  masOAuth2Sessions,
+  masPersonalSessions,
+  masUpstreamOAuthLinks,
+  masUpstreamOAuthProviders,
+  masUserSessions,
+} from "./resources/mas_sessions";
 import authProvider from "./providers/authProvider";
 import dataProvider from "./providers/dataProvider";
+import { isMAS } from "./providers/mas";
 import { lightTheme, darkTheme } from "./assets/theme";
 
 const Route = reactRouterProvider.Route;
@@ -32,6 +42,7 @@ const queryClient = new QueryClient();
 
 export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
   const icfg = useInstanceConfig();
+  const masEnabled = isMAS();
   let title = "Synapse Admin";
   if (icfg.name) {
     title = icfg.name;
@@ -70,6 +81,7 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
           {!icfg.disabled.payments && <Route path="/billing" element={<BillingPage />} />}
           {!icfg.disabled.support && <Route path="/support" element={<SupportPage />} />}
           {!icfg.disabled.support && <Route path="/support/:id" element={<SupportRequestPage />} />}
+          {masEnabled && <Route path="/mas_policy_data" element={<MASPolicyDataPage />} />}
         </CustomRoutes>
         <Resource {...users} />
         <Resource {...rooms} />
@@ -79,6 +91,14 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
         {!icfg.disabled.federation && <Resource {...destinations} />}
         {!icfg.disabled.registration_tokens && <Resource {...registrationToken} />}
         <Resource {...scheduledTasks} />
+        {masEnabled && <Resource name="mas_users" />}
+        {masEnabled && <Resource {...masCompatSessions} />}
+        {masEnabled && <Resource {...masOAuth2Sessions} />}
+        {masEnabled && <Resource {...masPersonalSessions} />}
+        {masEnabled && <Resource {...masUserSessions} />}
+        {masEnabled && <Resource {...masUpstreamOAuthLinks} />}
+        {masEnabled && <Resource {...masUpstreamOAuthProviders} />}
+        {masEnabled && <Resource name="mas_user_emails" />}
         <Resource name="connections" />
         <Resource name="devices" />
         <Resource name="room_members" />

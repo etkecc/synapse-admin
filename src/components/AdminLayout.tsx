@@ -1,3 +1,4 @@
+import GavelIcon from "@mui/icons-material/Gavel";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
@@ -25,6 +26,7 @@ import {
   useLocales,
   useTranslate,
   useUserMenu,
+  useResourceDefinitions,
 } from "react-admin";
 
 import { AdminClientConfigItems } from "./AdminClientConfigItems";
@@ -38,6 +40,7 @@ import { EtkeAttribution } from "./etke.cc/EtkeAttribution";
 import { ClearInstanceConfig, useInstanceConfig } from "./etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
 import { EtkeStatusPoller, ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
+import { isMAS } from "../providers/mas";
 import { useAppContext } from "../Context";
 
 const ServerVersionItems = () => {
@@ -181,6 +184,46 @@ const AdminAppBar = () => {
   );
 };
 
+const MAS_RESOURCE_PREFIX = "mas_";
+
+/**
+ * Renders resource menu items, excluding mas_* resources from the auto-list.
+ * MAS resources (sessions, emails, users) are managed inline on the user edit page.
+ */
+const MAS_SESSION_RESOURCES = [
+  "mas_compat_sessions",
+  "mas_oauth2_sessions",
+  "mas_personal_sessions",
+  "mas_user_sessions",
+  "mas_upstream_oauth_links",
+  "mas_upstream_oauth_providers",
+];
+
+const ResourceMenuItems = () => {
+  const resources = useResourceDefinitions();
+  const masEnabled = isMAS();
+
+  return (
+    <>
+      {Object.keys(resources)
+        .filter(name => !name.startsWith(MAS_RESOURCE_PREFIX) && resources[name].hasList)
+        .map(name => (
+          <span key={name}>
+            <Menu.ResourceItem name={name} />
+            {name === "users" &&
+              masEnabled &&
+              MAS_SESSION_RESOURCES.map(
+                masName =>
+                  resources[masName] && (
+                    <Menu.ResourceItem key={masName} name={masName} sx={{ "& .RaMenuItemLink-root": { pl: "20px" } }} />
+                  )
+              )}
+          </span>
+        ))}
+    </>
+  );
+};
+
 const AdminMenu = props => {
   const locale = useLocale();
   const icfg = useInstanceConfig();
@@ -259,7 +302,15 @@ const AdminMenu = props => {
           primaryText="etkecc.actions.name"
         />
       )}
-      <Menu.ResourceItems />
+      <ResourceMenuItems />
+      {isMAS() && (
+        <Menu.Item
+          key="mas_policy_data"
+          to="/mas_policy_data"
+          leftIcon={<GavelIcon />}
+          primaryText="resources.mas_policy_data.name"
+        />
+      )}
       {etkeRoutesEnabled && !icfg.disabled.payments && (
         <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
       )}

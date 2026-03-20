@@ -6,19 +6,24 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import UserIcon from "@mui/icons-material/Group";
 import LockClockIcon from "@mui/icons-material/LockClock";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonPinIcon from "@mui/icons-material/PersonPin";
 import ScienceIcon from "@mui/icons-material/Science";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ViewListIcon from "@mui/icons-material/ViewList";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Alert, Box, Divider, List as MuiList, ListItemButton, Paper, Tooltip, Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import MuiTextField from "@mui/material/TextField";
 import EmptyState from "../components/EmptyState";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -27,14 +32,17 @@ import {
   ArrayInput,
   ArrayField,
   Button,
+  Datagrid,
   DatagridConfigurable,
   DateField,
+  DateTimeInput,
   Create,
   CreateProps,
   Edit,
   EditProps,
   List,
   ListProps,
+  Loading,
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
@@ -54,6 +62,7 @@ import {
   maxLength,
   regex,
   required,
+  useGetList,
   useRecordContext,
   useTranslate,
   WrapperField,
@@ -101,7 +110,8 @@ import UserRateLimits from "../components/UserRateLimits";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { QuarantineUserMediaButton } from "../components/QuarantineAllMediaButton";
-import { User, UsernameAvailabilityResult } from "../providers/types";
+import { User, UsernameAvailabilityResult, SynapseDataProvider } from "../providers/types";
+import { isMAS } from "../providers/mas";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import { decodeURLComponent } from "../utils/safety";
@@ -136,6 +146,21 @@ const UserListActions = () => {
 const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
 const userFilters = () => {
+  if (isMAS()) {
+    return [
+      <SearchInput key="name" source="name" alwaysOn />,
+      <SelectInput
+        key="status"
+        source="status"
+        choices={[
+          { id: "active", name: "resources.mas_users.filter.status_active" },
+          { id: "locked", name: "resources.mas_users.filter.status_locked" },
+          { id: "deactivated", name: "resources.mas_users.filter.status_deactivated" },
+        ]}
+      />,
+      <BooleanInput key="admin" source="admin" />,
+    ];
+  }
   const filters = [
     <SearchInput source="name" alwaysOn />,
     <NullableBooleanInput
@@ -344,6 +369,167 @@ const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "s
 
 const validateAddress = [required(), maxLength(255)];
 
+// Set MAS password — used in the toolbar when in MAS mode
+const MASSetPasswordButton = () => {
+  const record = useRecordContext();
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const notify = useNotify();
+  const dataProvider = useDataProvider() as SynapseDataProvider;
+  const translate = useTranslate();
+
+  if (!record?.mas_id) return null;
+
+  const handleConfirm = async () => {
+    if (!password) return;
+    setOpen(false);
+    setLoading(true);
+    try {
+      const result = await dataProvider.masSetPassword(record.mas_id as string, password);
+      if (result.success) {
+        notify("resources.mas_users.action.set_password.success");
+        setPassword("");
+      } else {
+        notify(result.error || "resources.mas_users.action.set_password.failure", { type: "error" });
+      }
+    } catch {
+      notify("resources.mas_users.action.set_password.failure", { type: "error" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <Button label="resources.mas_users.action.set_password.label" onClick={() => setOpen(true)} disabled={loading}>
+        <ManageAccountsIcon />
+      </Button>
+      <Confirm
+        isOpen={open}
+        title={translate("resources.mas_users.action.set_password.title")}
+        content={
+          <MuiTextField
+            type={showPassword ? "text" : "password"}
+            label={translate("resources.mas_users.action.set_password.label")}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            autoComplete="new-password"
+            fullWidth
+            autoFocus
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(v => !v)} edge="end">
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+        }
+        onConfirm={handleConfirm}
+        onClose={() => {
+          setOpen(false);
+          setPassword("");
+          setShowPassword(false);
+        }}
+      />
+    </>
+  );
+};
+
+// MAS email management panel — replaces the Synapse 3PIDs tab in MAS mode
+const MASEmailsPanel = () => {
+  const record = useRecordContext();
+  const dataProvider = useDataProvider();
+  const notify = useNotify();
+  const translate = useTranslate();
+  const [newEmail, setNewEmail] = useState("");
+  const [adding, setAdding] = useState(false);
+  const masId = record?.mas_id as string | undefined;
+
+  const {
+    data: emails,
+    isLoading,
+    refetch,
+  } = useGetList(
+    "mas_user_emails",
+    { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
+    { enabled: !!masId }
+  );
+
+  const handleDelete = async (emailId: string) => {
+    try {
+      await dataProvider.delete("mas_user_emails", { id: emailId, previousData: { id: emailId } });
+      notify("resources.mas_user_emails.action.remove.success");
+      refetch();
+    } catch {
+      notify("ra.notification.http_error", { type: "error" });
+    }
+  };
+
+  const handleAdd = async () => {
+    if (!newEmail || !masId) return;
+    setAdding(true);
+    try {
+      await dataProvider.create("mas_user_emails", { data: { user_id: masId, email: newEmail } });
+      notify("resources.mas_user_emails.action.create.success");
+      setNewEmail("");
+      refetch();
+    } catch {
+      notify("ra.notification.http_error", { type: "error" });
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  if (isLoading) return <Loading />;
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Datagrid
+        data={emails || []}
+        total={emails?.length || 0}
+        isLoading={isLoading}
+        bulkActionButtons={false}
+        rowClick={false}
+        empty={
+          <Typography variant="body2" sx={{ p: 1 }}>
+            {translate("resources.mas_user_emails.empty")}
+          </Typography>
+        }
+        sx={{ width: "100%", mb: 2 }}
+      >
+        <TextField source="email" sortable={false} />
+        <DateField source="created_at" showTime sortable={false} />
+        <WrapperField label="resources.rooms.fields.actions">
+          <FunctionField
+            render={(emailRecord: { id: string }) => (
+              <Button
+                label="resources.mas_user_emails.action.remove.label"
+                onClick={() => handleDelete(emailRecord.id)}
+              />
+            )}
+          />
+        </WrapperField>
+      </Datagrid>
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+        <MuiTextField
+          label={translate("resources.mas_user_emails.fields.email")}
+          value={newEmail}
+          onChange={e => setNewEmail(e.target.value)}
+          size="small"
+        />
+        <Button label="ra.action.add" onClick={handleAdd} disabled={adding || !newEmail} variant="contained" />
+      </Box>
+    </Box>
+  );
+};
+
 const UserEditActions = () => {
   const record = useRecordContext();
   const isMAS = useIsMAS();
@@ -358,8 +544,9 @@ const UserEditActions = () => {
   return (
     <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       {!record?.deactivated && <LoginAsUserButton />}
-      {!record?.deactivated && <ResetPasswordButton />}
-      {!record?.deactivated && <AllowCrossSigningButton />}
+      {!record?.deactivated && !isMAS && <ResetPasswordButton />}
+      {!record?.deactivated && isMAS && <MASSetPasswordButton />}
+      {!record?.deactivated && !isMAS && <AllowCrossSigningButton />}
       {!record?.deactivated && !isMAS && <RenewAccountValidityButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (
@@ -376,6 +563,25 @@ const UserEditActions = () => {
 };
 
 export const UserCreate = (props: CreateProps) => {
+  if (isMAS()) {
+    return <MASUserCreate {...props} />;
+  }
+  return <SynapseUserCreate {...props} />;
+};
+
+const MASUserCreate = (props: CreateProps) => {
+  const translate = useTranslate();
+  useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name") }));
+  return (
+    <Create {...props} redirect="list">
+      <SimpleForm>
+        <TextInput source="username" required autoComplete="off" />
+      </SimpleForm>
+    </Create>
+  );
+};
+
+const SynapseUserCreate = (props: CreateProps) => {
   const dataProvider = useDataProvider();
   const translate = useTranslate();
   const redirect = useRedirect();
@@ -497,6 +703,7 @@ export const UserCreate = (props: CreateProps) => {
     </Create>
   );
 };
+// end SynapseUserCreate
 
 const UserTitle = () => {
   const record = useRecordContext();
@@ -750,54 +957,70 @@ export const UserEdit = (props: EditProps) => {
     >
       <TabbedForm toolbar={<UserEditToolbar />} sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <FormTab label={translate("resources.users.name", { smart_count: 1 })} icon={<PersonPinIcon />}>
-          <Box
-            sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%", mb: 2, mt: 1 }}
-          >
+          {!isMAS() && (
             <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                minWidth: 140,
-                gap: 2,
-              }}
+              sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%", mb: 2, mt: 1 }}
             >
-              <EditableAvatarField source="avatar_src" />
-              <UserInfoChips />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: { xs: "flex-start", sm: "center" },
+                  minWidth: 140,
+                  gap: 2,
+                }}
+              >
+                <EditableAvatarField source="avatar_src" />
+                <UserInfoChips />
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <TextInput source="id" readOnly fullWidth />
+                <TextInput source="displayname" fullWidth />
+                <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable fullWidth />
+                <UserPasswordInput
+                  source="password"
+                  autoComplete="new-password"
+                  helperText="resources.users.helper.password"
+                />
+              </Box>
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <TextInput source="id" readOnly fullWidth />
-              <TextInput source="displayname" fullWidth />
-              <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable fullWidth />
-              <UserPasswordInput
-                source="password"
-                autoComplete="new-password"
-                helperText="resources.users.helper.password"
-              />
+          )}
+
+          {isMAS() && (
+            <Box sx={{ mt: 1, mb: 2 }}>
+              <TextInput source="id" readOnly fullWidth label="resources.users.fields.id" />
+              <TextInput source="mas_id" readOnly fullWidth label="resources.mas_users.fields.id" />
             </Box>
-          </Box>
+          )}
 
           <Divider sx={{ width: "100%", my: 2 }} />
 
           <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%" }}>
-            <Box sx={{ flex: 1 }}>
-              <UserBooleanInput
-                source="suspended"
-                helperText="resources.users.helper.suspend"
-                icon={<BlockIcon fontSize="small" />}
-              />
-              <UserBooleanInput
-                source="shadow_banned"
-                helperText="resources.users.helper.shadow_ban"
-                icon={<VisibilityOffIcon fontSize="small" />}
-              />
-              <UserBooleanInput
-                sx={{ color: theme.palette.warning.main }}
-                source="locked"
-                helperText="resources.users.helper.lock"
-                icon={<LockIcon fontSize="small" />}
-              />
-            </Box>
+            {!isMAS() && (
+              <Box sx={{ flex: 1 }}>
+                <UserBooleanInput
+                  source="suspended"
+                  helperText="resources.users.helper.suspend"
+                  icon={<BlockIcon fontSize="small" />}
+                />
+                <UserBooleanInput
+                  source="shadow_banned"
+                  helperText="resources.users.helper.shadow_ban"
+                  icon={<VisibilityOffIcon fontSize="small" />}
+                />
+                <UserBooleanInput
+                  sx={{ color: theme.palette.warning.main }}
+                  source="locked"
+                  helperText="resources.users.helper.lock"
+                  icon={<LockIcon fontSize="small" />}
+                />
+              </Box>
+            )}
+            {isMAS() && (
+              <Box sx={{ flex: 1 }}>
+                <BooleanInput source="locked" helperText="resources.mas_users.fields.locked" />
+              </Box>
+            )}
             <Paper
               variant="outlined"
               sx={{
@@ -821,23 +1044,37 @@ export const UserEdit = (props: EditProps) => {
                 helperText="resources.users.helper.deactivate"
                 icon={<NoAccountsIcon fontSize="small" />}
               />
-              <ErasedBooleanInput
-                sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
-                source="erased"
-                helperText="resources.users.helper.erase"
-                icon={<DeleteForeverIcon fontSize="small" />}
-              />
+              {!isMAS() && (
+                <ErasedBooleanInput
+                  sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
+                  source="erased"
+                  helperText="resources.users.helper.erase"
+                  icon={<DeleteForeverIcon fontSize="small" />}
+                />
+              )}
             </Paper>
           </Box>
+
+          {isMAS() && (
+            <Box sx={{ display: "flex", gap: 2, mt: 2, flexWrap: "wrap" }}>
+              <DateTimeInput source="created_at" disabled label="resources.mas_users.fields.created_at" />
+              <DateTimeInput source="locked_at" disabled label="resources.mas_users.fields.locked_at" />
+              <DateTimeInput source="deactivated_at" disabled label="resources.mas_users.fields.deactivated_at" />
+            </Box>
+          )}
         </FormTab>
 
         <FormTab label="resources.users.threepid" icon={<ContactMailIcon />} path="threepid">
-          <ArrayInput source="threepids">
-            <SimpleFormIterator disableReordering>
-              <SelectInput source="medium" choices={choices_medium} />
-              <TextInput source="address" />
-            </SimpleFormIterator>
-          </ArrayInput>
+          {isMAS() ? (
+            <MASEmailsPanel />
+          ) : (
+            <ArrayInput source="threepids">
+              <SimpleFormIterator disableReordering>
+                <SelectInput source="medium" choices={choices_medium} />
+                <TextInput source="address" />
+              </SimpleFormIterator>
+            </ArrayInput>
+          )}
         </FormTab>
 
         <FormTab label="synapseadmin.users.tabs.sso" icon={<AssignmentIndIcon />} path="sso">
