@@ -186,7 +186,8 @@ The following changes are already implemented:
 * ➕ [Allow creating user devices](https://github.com/etkecc/synapse-admin/commit/062351c0a9138c36de1446bf08028870c730b417)
 * 🔄 [Add "Renew account validity" button](https://github.com/etkecc/synapse-admin/commit/6a89483c15f36dabda1a980b8fce1c342a20fa4f)
 * 💬 [Add room messages viewer with filters and jump-to-date](https://github.com/etkecc/synapse-admin/commit/60818ca3604aef61e2b5abc0d92e14771bb53637)
-* [Add Room hierarchy tab](https://github.com/etke.cc/synapse-admin/commit/566b7148b5cb3e2fab55078621ba2cb4203b21a1)
+* 🏗️ [Add Room hierarchy tab](https://github.com/etkecc/synapse-admin/commit/566b7148b5cb3e2fab55078621ba2cb4203b21a1)
+* ⚙️ [Add control of admin flags for Matrix Client-Server APIs](https://github.com/etkecc/synapse-admin/commit/b272cc11945d8e6adabb3cfe4904ad0ac063549d)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
