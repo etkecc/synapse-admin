@@ -261,6 +261,18 @@ const ja: SynapseTranslationMessages = {
           success: "%{smart_count} 件のメディアを検疫しました。",
           failure: "メディアの検疫を行えませんでした。%{errMsg}",
         },
+        find_user: {
+          label: "ユーザーを検索",
+          title: "ユーザーを検索",
+          lookup_type: "検索タイプ",
+          by_threepid: "メール / 電話番号で検索",
+          by_auth_provider: "認証プロバイダーで検索",
+          provider: "認証プロバイダーID",
+          external_id: "外部ID",
+          search: "検索",
+          not_found: "ユーザーが見つかりません",
+          failure: "ユーザーの検索に失敗しました",
+        },
       },
       badge: {
         you: "あなた",

@@ -532,6 +532,36 @@ export const eraseUser = async (id: Identifier) => {
   }
 };
 
+export const findUserByThreepid = async (medium: string, address: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/threepid/${encodeURIComponent(medium)}/users/${encodeURIComponent(address)}`
+    );
+    return { success: true, user_id: json.user_id as string };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
+export const findUserByAuthProvider = async (provider: string, externalId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/auth_providers/${encodeURIComponent(provider)}/users/${encodeURIComponent(externalId)}`
+    );
+    return { success: true, user_id: json.user_id as string };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const quarantineRoomMedia = async (roomId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {

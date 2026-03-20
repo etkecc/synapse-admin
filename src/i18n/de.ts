@@ -312,6 +312,18 @@ const de: SynapseTranslationMessages = {
             "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
           failure: "Quarantäne fehlgeschlagen. %{errMsg}",
         },
+        find_user: {
+          label: "Benutzer suchen",
+          title: "Benutzer suchen",
+          lookup_type: "Suchart",
+          by_threepid: "Per E-Mail / Telefonnummer",
+          by_auth_provider: "Per Authentifizierungsanbieter",
+          provider: "Authentifizierungsanbieter-ID",
+          external_id: "Externe ID",
+          search: "Suchen",
+          not_found: "Benutzer nicht gefunden",
+          failure: "Benutzersuche fehlgeschlagen",
+        },
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",

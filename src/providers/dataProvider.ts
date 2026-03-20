@@ -51,6 +51,8 @@ import {
   resetPassword,
   loginAsUser,
   eraseUser,
+  findUserByThreepid,
+  findUserByAuthProvider,
   deleteUserMedia,
   redactUserEvents,
   getRedactStatus,
@@ -467,6 +469,8 @@ const baseDataProvider: SynapseDataProvider = {
   resetPassword,
   loginAsUser,
   eraseUser,
+  findUserByThreepid,
+  findUserByAuthProvider,
   revokeRegistrationToken,
 
   ...etkeProviderMethods,

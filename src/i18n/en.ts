@@ -241,6 +241,18 @@ const en: SynapseTranslationMessages = {
             "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
           failure: "Failed to quarantine media. %{errMsg}",
         },
+        find_user: {
+          label: "Find user",
+          title: "Find user",
+          lookup_type: "Lookup type",
+          by_threepid: "By email / phone",
+          by_auth_provider: "By auth provider",
+          provider: "Auth provider ID",
+          external_id: "External ID",
+          search: "Search",
+          not_found: "User not found",
+          failure: "Failed to find user",
+        },
       },
       badge: {
         you: "You",

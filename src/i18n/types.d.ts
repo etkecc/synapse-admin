@@ -224,6 +224,18 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        find_user: {
+          label: string;
+          title: string;
+          lookup_type: string;
+          by_threepid: string;
+          by_auth_provider: string;
+          provider: string;
+          external_id: string;
+          search: string;
+          not_found: string;
+          failure: string;
+        };
       };
       badge: {
         you: string;

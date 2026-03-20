@@ -302,6 +302,18 @@ const zh: SynapseTranslationMessages = {
           success: "已成功隔离 %{smart_count} 个媒体项。",
           failure: "隔离媒体失败。%{errMsg}",
         },
+        find_user: {
+          label: "查找用户",
+          title: "查找用户",
+          lookup_type: "查找类型",
+          by_threepid: "通过邮箱 / 电话",
+          by_auth_provider: "通过认证提供商",
+          provider: "认证提供商 ID",
+          external_id: "外部 ID",
+          search: "搜索",
+          not_found: "未找到用户",
+          failure: "查找用户失败",
+        },
       },
       limits: {
         messages_per_second: "每秒消息数",

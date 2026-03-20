@@ -279,6 +279,18 @@ const fa: SynapseTranslationMessages = {
           success: "%{smart_count} مورد رسانه با موفقیت قرنطینه شد.",
           failure: "قرنطینه رسانه‌ها با شکست مواجه شد. %{errMsg}",
         },
+        find_user: {
+          label: "جستجوی کاربر",
+          title: "جستجوی کاربر",
+          lookup_type: "نوع جستجو",
+          by_threepid: "با ایمیل / تلفن",
+          by_auth_provider: "با ارائه‌دهنده احراز هویت",
+          provider: "شناسه ارائه‌دهنده احراز هویت",
+          external_id: "شناسه خارجی",
+          search: "جستجو",
+          not_found: "کاربر یافت نشد",
+          failure: "جستجوی کاربر ناموفق بود",
+        },
       },
       limits: {
         messages_per_second: "پیام در ثانیه",

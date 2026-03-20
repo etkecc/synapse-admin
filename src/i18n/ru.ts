@@ -317,6 +317,18 @@ const ru: SynapseTranslationMessages = {
             "Успешно помещено на карантин %{smart_count} медиа-элемент. |||| Успешно помещено на карантин %{smart_count} медиа-элементов.",
           failure: "Не удалось поместить медиа на карантин. %{errMsg}",
         },
+        find_user: {
+          label: "Найти пользователя",
+          title: "Найти пользователя",
+          lookup_type: "Тип поиска",
+          by_threepid: "По email / телефону",
+          by_auth_provider: "По поставщику аутентификации",
+          provider: "ID поставщика аутентификации",
+          external_id: "Внешний ID",
+          search: "Найти",
+          not_found: "Пользователь не найден",
+          failure: "Не удалось найти пользователя",
+        },
       },
       limits: {
         messages_per_second: "Сообщений в секунду",

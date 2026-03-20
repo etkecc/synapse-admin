@@ -460,6 +460,14 @@ export interface SynapseDataProvider extends DataProvider {
     validUntilMs?: number
   ) => Promise<{ success: boolean; access_token?: string; error?: string; errcode?: string }>;
   eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  findUserByThreepid: (
+    medium: string,
+    address: string
+  ) => Promise<{ success: boolean; user_id?: string; error?: string; errcode?: string }>;
+  findUserByAuthProvider: (
+    provider: string,
+    externalId: string
+  ) => Promise<{ success: boolean; user_id?: string; error?: string; errcode?: string }>;
   quarantineRoomMedia: (
     roomId: string
   ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;

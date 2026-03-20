@@ -255,6 +255,18 @@ const fr: SynapseTranslationMessages = {
             "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
           failure: "Échec de la mise en quarantaine. %{errMsg}",
         },
+        find_user: {
+          label: "Rechercher un utilisateur",
+          title: "Rechercher un utilisateur",
+          lookup_type: "Type de recherche",
+          by_threepid: "Par e-mail / téléphone",
+          by_auth_provider: "Par fournisseur d'authentification",
+          provider: "ID du fournisseur d'authentification",
+          external_id: "ID externe",
+          search: "Rechercher",
+          not_found: "Utilisateur introuvable",
+          failure: "Impossible de trouver l'utilisateur",
+        },
       },
       limits: {
         messages_per_second: "Messages par seconde",

@@ -79,6 +79,7 @@ import EditableAvatarField from "../components/EditableAvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
+import { FindUserButton } from "../components/FindUserButton";
 import { LoginAsUserButton } from "../components/LoginAsUserButton";
 import { ResetPasswordButton } from "../components/ResetPasswordButton";
 import { ServerNoticeButton, ServerNoticeBulkButton } from "../components/ServerNotices";
@@ -109,6 +110,7 @@ const UserListActions = () => {
   const { isLoading, total } = useListContext();
   return (
     <TopToolbar>
+      <FindUserButton />
       <CreateButton />
       <ExportButton disabled={isLoading || total === 0} maxResults={10000} />
       <Button component={Link} to="/import_users" label="CSV Import">
