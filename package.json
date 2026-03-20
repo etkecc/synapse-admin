@@ -110,7 +110,8 @@
     "format": "prettier --write \"src/**/*\"",
     "fix": "yarn lint --fix",
     "test": "yarn jest",
-    "test:watch": "yarn jest --watch"
+    "test:watch": "yarn jest --watch",
+    "update-api-docs": "ts-node docs/update-api-docs.ts"
   },
   "prettier": {
     "printWidth": 120,

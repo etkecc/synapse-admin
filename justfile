@@ -14,6 +14,10 @@ update:
     -rm yarn.lock
     yarn install --network-timeout=300000
 
+# update local API docs stored in docs/apis/* using docs/update-api-docs.ts script
+update-api-docs:
+    yarn run update-api-docs
+
 # run the app in a development mode
 run:
     @yarn start --host 0.0.0.0

@@ -219,7 +219,7 @@ const EventLookupButton = () => {
   const [open, setOpen] = useState(false);
   const [eventId, setEventId] = useState("");
   const [loading, setLoading] = useState(false);
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+
   const [result, setResult] = useState<Record<string, any> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const notify = useNotify();
