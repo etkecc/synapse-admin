@@ -18,6 +18,7 @@ import LoginPage from "./pages/LoginPage";
 import destinations from "./resources/destinations";
 import registrationToken from "./resources/registration_tokens";
 import reports from "./resources/reports";
+import scheduledTasks from "./resources/scheduled_tasks";
 import roomDirectory from "./resources/room_directory";
 import rooms from "./resources/rooms";
 import userMediaStats from "./resources/user_media_statistics";
@@ -77,6 +78,7 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
         <Resource {...roomDirectory} />
         {!icfg.disabled.federation && <Resource {...destinations} />}
         {!icfg.disabled.registration_tokens && <Resource {...registrationToken} />}
+        <Resource {...scheduledTasks} />
         <Resource name="connections" />
         <Resource name="devices" />
         <Resource name="room_members" />

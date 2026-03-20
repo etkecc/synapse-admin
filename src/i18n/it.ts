@@ -526,6 +526,26 @@ const it: SynapseTranslationMessages = {
         fetch_event_error: "Impossibile recuperare l'evento",
       },
     },
+    scheduled_tasks: {
+      name: "Attività pianificata |||| Attività pianificate",
+      fields: {
+        id: "ID",
+        action: "Azione",
+        status: "Stato",
+        timestamp: "Timestamp",
+        resource_id: "ID risorsa",
+        result: "Risultato",
+        error: "Errore",
+        max_timestamp: "Prima della data",
+      },
+      status: {
+        scheduled: "Pianificata",
+        active: "Attiva",
+        complete: "Completata",
+        cancelled: "Annullata",
+        failed: "Fallita",
+      },
+    },
     connections: {
       name: "Connessioni",
       fields: {

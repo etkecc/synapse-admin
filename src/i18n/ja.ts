@@ -426,6 +426,26 @@ const ja: SynapseTranslationMessages = {
         fetch_event_error: "イベントの取得に失敗しました",
       },
     },
+    scheduled_tasks: {
+      name: "スケジュールされたタスク |||| スケジュールされたタスク",
+      fields: {
+        id: "ID",
+        action: "アクション",
+        status: "ステータス",
+        timestamp: "タイムスタンプ",
+        resource_id: "リソースID",
+        result: "結果",
+        error: "エラー",
+        max_timestamp: "この日付より前",
+      },
+      status: {
+        scheduled: "スケジュール済み",
+        active: "実行中",
+        complete: "完了",
+        cancelled: "キャンセル済み",
+        failed: "失敗",
+      },
+    },
     connections: {
       name: "接続",
       fields: {

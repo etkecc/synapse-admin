@@ -28,7 +28,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Fetch Event](#-fetch-event)
     * [⏭️ Register (Shared-Secret Registration) — superseded](#-register-shared-secret-registration--superseded)
     * [✅ Room Membership](#-room-membership)
-    * [❌ Scheduled Tasks](#-scheduled-tasks)
+    * [✅ Scheduled Tasks](#-scheduled-tasks)
     * [❌ Client-Server API Extensions](#-client-server-api-extensions)
 * [Matrix Authentication Service (MAS) Admin API](#matrix-authentication-service-mas-admin-api)
     * [✅ OAuth 2.0](#-oauth-20)
@@ -221,11 +221,11 @@ Superseded: redundant with existing user creation via User Admin API (already im
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/join/<room_id_or_alias>` | POST | Join a user to a room | ✅ |
 
-### ❌ Scheduled Tasks
+### ✅ Scheduled Tasks
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v1/scheduled_tasks` | GET | Show scheduled tasks | ❌ |
+| `/_synapse/admin/v1/scheduled_tasks` | GET | Show scheduled tasks | ✅ |
 
 ### ❌ Client-Server API Extensions
 

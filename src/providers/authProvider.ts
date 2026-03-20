@@ -7,7 +7,7 @@ import { initResources } from "./dataProvider";
 import { fetchServerVersions, clearServerVersions } from "./serverVersion";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { ClearConfig, FetchWellKnownConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
-import decodeURLComponent from "../utils/decodeURLComponent";
+import { decodeURLComponent } from "../utils/safety";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 

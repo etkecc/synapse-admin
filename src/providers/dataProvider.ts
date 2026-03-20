@@ -125,6 +125,10 @@ const baseDataProvider: SynapseDataProvider = {
       valid,
       public_rooms,
       empty_rooms,
+      action_name,
+      resource_id,
+      status,
+      max_timestamp,
     } = params.filter;
     const { page, perPage } = params.pagination as PaginationPayload;
     const { field, order } = params.sort as SortPayload;
@@ -162,6 +166,10 @@ const baseDataProvider: SynapseDataProvider = {
         dir: getSearchOrder(order),
         public_rooms: public_rooms,
         empty_rooms: empty_rooms,
+        action_name: action_name,
+        resource_id: resource_id,
+        status: status,
+        max_timestamp: max_timestamp,
       };
     }
 

@@ -436,6 +436,26 @@ const fa: SynapseTranslationMessages = {
         fetch_event_error: "دریافت رویداد با خطا مواجه شد",
       },
     },
+    scheduled_tasks: {
+      name: "وظیفه زمان‌بندی‌شده |||| وظایف زمان‌بندی‌شده",
+      fields: {
+        id: "ID",
+        action: "عملیات",
+        status: "وضعیت",
+        timestamp: "زمان‌سنج",
+        resource_id: "شناسه منبع",
+        result: "نتیجه",
+        error: "خطا",
+        max_timestamp: "قبل از تاریخ",
+      },
+      status: {
+        scheduled: "زمان‌بندی‌شده",
+        active: "فعال",
+        complete: "تکمیل‌شده",
+        cancelled: "لغوشده",
+        failed: "ناموفق",
+      },
+    },
     connections: {
       name: "اتصالات",
       fields: {

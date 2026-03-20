@@ -91,7 +91,7 @@ import { QuarantineUserMediaButton } from "../components/QuarantineAllMediaButto
 import { User, UsernameAvailabilityResult } from "../providers/types";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
-import decodeURLComponent from "../utils/decodeURLComponent";
+import { decodeURLComponent } from "../utils/safety";
 import { isASManaged } from "../utils/mxid";
 import { generateRandomPassword } from "../utils/password";
 

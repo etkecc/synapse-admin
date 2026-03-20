@@ -483,6 +483,26 @@ const ru: SynapseTranslationMessages = {
         fetch_event_error: "Не удалось получить событие",
       },
     },
+    scheduled_tasks: {
+      name: "Запланированная задача |||| Запланированные задачи",
+      fields: {
+        id: "ID",
+        action: "Действие",
+        status: "Статус",
+        timestamp: "Временная метка",
+        resource_id: "ID ресурса",
+        result: "Результат",
+        error: "Ошибка",
+        max_timestamp: "До даты",
+      },
+      status: {
+        scheduled: "Запланирована",
+        active: "Активна",
+        complete: "Завершена",
+        cancelled: "Отменена",
+        failed: "Не выполнена",
+      },
+    },
     connections: {
       name: "Подключения",
       fields: {

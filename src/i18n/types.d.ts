@@ -383,6 +383,26 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         fetch_event_error: string;
       };
     };
+    scheduled_tasks: {
+      name: string;
+      fields: {
+        id: string;
+        action: string;
+        status: string;
+        timestamp: string;
+        resource_id: string;
+        result: string;
+        error: string;
+        max_timestamp: string;
+      };
+      status: {
+        scheduled: string;
+        active: string;
+        complete: string;
+        cancelled: string;
+        failed: string;
+      };
+    };
     connections: {
       name: string;
       fields: {

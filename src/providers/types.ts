@@ -247,6 +247,16 @@ export interface RaServerNotice {
   body: string;
 }
 
+export interface ScheduledTask {
+  id: string;
+  action: string;
+  status: string;
+  timestamp_ms: number;
+  resource_id?: string;
+  result?: unknown;
+  error?: string;
+}
+
 export interface Destination {
   destination: string;
   retry_last_ts: number;

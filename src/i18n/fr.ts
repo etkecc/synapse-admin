@@ -413,6 +413,26 @@ const fr: SynapseTranslationMessages = {
         fetch_event_error: "Échec de la récupération de l'événement",
       },
     },
+    scheduled_tasks: {
+      name: "Tâche planifiée |||| Tâches planifiées",
+      fields: {
+        id: "ID",
+        action: "Action",
+        status: "Statut",
+        timestamp: "Horodatage",
+        resource_id: "ID de ressource",
+        result: "Résultat",
+        error: "Erreur",
+        max_timestamp: "Avant la date",
+      },
+      status: {
+        scheduled: "Planifiée",
+        active: "Active",
+        complete: "Terminée",
+        cancelled: "Annulée",
+        failed: "Échouée",
+      },
+    },
     connections: {
       name: "Connexions",
       fields: {

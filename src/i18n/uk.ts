@@ -466,6 +466,26 @@ const uk: SynapseTranslationMessages = {
         fetch_event_error: "Не вдалося отримати подію",
       },
     },
+    scheduled_tasks: {
+      name: "Запланована задача |||| Заплановані задачі",
+      fields: {
+        id: "ID",
+        action: "Дія",
+        status: "Статус",
+        timestamp: "Часова мітка",
+        resource_id: "ID ресурсу",
+        result: "Результат",
+        error: "Помилка",
+        max_timestamp: "До дати",
+      },
+      status: {
+        scheduled: "Заплановано",
+        active: "Активна",
+        complete: "Завершена",
+        cancelled: "Скасована",
+        failed: "Невдала",
+      },
+    },
     connections: {
       name: "Підключення",
       fields: {

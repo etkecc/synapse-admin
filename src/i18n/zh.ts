@@ -454,6 +454,26 @@ const zh: SynapseTranslationMessages = {
         fetch_event_error: "获取事件失败",
       },
     },
+    scheduled_tasks: {
+      name: "计划任务 |||| 计划任务",
+      fields: {
+        id: "ID",
+        action: "操作",
+        status: "状态",
+        timestamp: "时间戳",
+        resource_id: "资源 ID",
+        result: "结果",
+        error: "错误",
+        max_timestamp: "截止日期",
+      },
+      status: {
+        scheduled: "已计划",
+        active: "进行中",
+        complete: "已完成",
+        cancelled: "已取消",
+        failed: "已失败",
+      },
+    },
     connections: {
       name: "连接",
       fields: {

@@ -31,7 +31,7 @@ import {
 
 import { DeleteMediaParams, SynapseDataProvider } from "../providers/types";
 import { dateParser } from "../utils/date";
-import decodeURLComponent from "../utils/decodeURLComponent";
+import { decodeURLComponent } from "../utils/safety";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {

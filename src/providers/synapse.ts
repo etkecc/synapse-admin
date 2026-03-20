@@ -10,6 +10,7 @@ import {
   UsernameAvailabilityResult,
   Destination,
   DestinationRoom,
+  ScheduledTask,
   Device,
   EventReport,
   ForwardExtremity,
@@ -260,6 +261,12 @@ export const synapseResourceMap = {
     }),
     data: "rooms",
     total: (json: { total: number }) => json.total,
+  },
+  scheduled_tasks: {
+    path: "/_synapse/admin/v1/scheduled_tasks",
+    map: (st: ScheduledTask) => ({ ...st }),
+    data: "scheduled_tasks",
+    total: (json: { scheduled_tasks: unknown[] }) => json.scheduled_tasks.length,
   },
 };
 

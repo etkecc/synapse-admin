@@ -473,6 +473,26 @@ const de: SynapseTranslationMessages = {
         fetch_event_error: "Fehler beim Abrufen des Events",
       },
     },
+    scheduled_tasks: {
+      name: "Geplante Aufgabe |||| Geplante Aufgaben",
+      fields: {
+        id: "ID",
+        action: "Aktion",
+        status: "Status",
+        timestamp: "Zeitstempel",
+        resource_id: "Ressourcen-ID",
+        result: "Ergebnis",
+        error: "Fehler",
+        max_timestamp: "Vor Datum",
+      },
+      status: {
+        scheduled: "Geplant",
+        active: "Aktiv",
+        complete: "Abgeschlossen",
+        cancelled: "Abgebrochen",
+        failed: "Fehlgeschlagen",
+      },
+    },
     connections: {
       name: "Verbindungen",
       fields: {

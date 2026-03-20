@@ -408,6 +408,26 @@ const en: SynapseTranslationMessages = {
         fetch_event_error: "Failed to fetch event",
       },
     },
+    scheduled_tasks: {
+      name: "Scheduled task |||| Scheduled tasks",
+      fields: {
+        id: "ID",
+        action: "Action",
+        status: "Status",
+        timestamp: "Timestamp",
+        resource_id: "Resource ID",
+        result: "Result",
+        error: "Error",
+        max_timestamp: "Before date",
+      },
+      status: {
+        scheduled: "Scheduled",
+        active: "Active",
+        complete: "Complete",
+        cancelled: "Cancelled",
+        failed: "Failed",
+      },
+    },
     connections: {
       name: "Connections",
       fields: {
