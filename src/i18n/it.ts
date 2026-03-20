@@ -368,6 +368,15 @@ const it: SynapseTranslationMessages = {
             "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
           failure: "Impossibile mettere in quarantena i media. %{errMsg}",
         },
+        allow_cross_signing: {
+          label: "Consenti reimpostazione Cross-Signing",
+          title: "Consenti sostituzione chiavi Cross-Signing",
+          content:
+            "Consentire a %{user} di sostituire le proprie chiavi Cross-Signing senza autenticazione interattiva? Questo crea una finestra temporanea durante la quale le chiavi possono essere sostituite.",
+          success: "Sostituzione chiavi Cross-Signing consentita fino al %{deadline}",
+          failure: "Impossibile consentire la sostituzione Cross-Signing",
+          no_key: "L'utente non ha una chiave Cross-Signing principale",
+        },
         find_user: {
           label: "Trova utente",
           title: "Trova utente",

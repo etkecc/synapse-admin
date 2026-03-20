@@ -181,6 +181,7 @@ The following changes are already implemented:
 * 🎨 [Full UI redesign](https://github.com/etkecc/synapse-admin/commit/69befd02f52fd6ddb0ee19d0af1b4a99c2a333f6) — new theme with custom fonts, glassmorphism login page, animated loader, styled empty states, polished dark/light modes, and many **many** more!
 * 📋 [Add Scheduled Tasks list](https://github.com/etkecc/synapse-admin/commit/a49e5132b70c4c9feaefdc775a316057267adbce)
 * 🔍 [Add "Find User" button](https://github.com/etkecc/synapse-admin/commit/7a7ce9d11a9864c81f162efe72c6fd2db1fcbfbd)
+* 🔑 [Add "Allow cross-signing reset" button](https://github.com/etkecc/synapse-admin/commit/TODO)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 

@@ -241,6 +241,15 @@ const en: SynapseTranslationMessages = {
             "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
           failure: "Failed to quarantine media. %{errMsg}",
         },
+        allow_cross_signing: {
+          label: "Allow cross-signing reset",
+          title: "Allow cross-signing key replacement",
+          content:
+            "Allow %{user} to replace their cross-signing keys without user-interactive authentication? This creates a temporary window during which the keys can be replaced.",
+          success: "Cross-signing key replacement allowed until %{deadline}",
+          failure: "Failed to allow cross-signing replacement",
+          no_key: "User has no master cross-signing key",
+        },
         find_user: {
           label: "Find user",
           title: "Find user",

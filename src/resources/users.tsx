@@ -77,6 +77,7 @@ import { MakeAdminBtn, RoomBulkActionButtons } from "./rooms";
 import AvatarField from "../components/AvatarField";
 import EditableAvatarField from "../components/EditableAvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
+import { AllowCrossSigningButton } from "../components/AllowCrossSigningButton";
 import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
 import { FindUserButton } from "../components/FindUserButton";
@@ -269,6 +270,7 @@ const UserEditActions = () => {
     <TopToolbar>
       {!record?.deactivated && <LoginAsUserButton />}
       {!record?.deactivated && <ResetPasswordButton />}
+      {!record?.deactivated && <AllowCrossSigningButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (
         <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>

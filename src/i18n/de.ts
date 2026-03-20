@@ -312,6 +312,15 @@ const de: SynapseTranslationMessages = {
             "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
           failure: "Quarantäne fehlgeschlagen. %{errMsg}",
         },
+        allow_cross_signing: {
+          label: "Cross-Signing-Reset erlauben",
+          title: "Cross-Signing-Schlüsselersatz erlauben",
+          content:
+            "Soll %{user} erlaubt werden, ihre Cross-Signing-Schlüssel ohne benutzerinteraktive Authentifizierung zu ersetzen? Dies öffnet ein temporäres Fenster, in dem die Schlüssel ersetzt werden können.",
+          success: "Cross-Signing-Schlüsselersatz erlaubt bis %{deadline}",
+          failure: "Cross-Signing-Ersatz konnte nicht erlaubt werden",
+          no_key: "Benutzer hat keinen Master-Cross-Signing-Schlüssel",
+        },
         find_user: {
           label: "Benutzer suchen",
           title: "Benutzer suchen",

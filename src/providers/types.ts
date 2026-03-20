@@ -460,6 +460,9 @@ export interface SynapseDataProvider extends DataProvider {
     validUntilMs?: number
   ) => Promise<{ success: boolean; access_token?: string; error?: string; errcode?: string }>;
   eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  allowCrossSigningReplacement: (
+    userId: string
+  ) => Promise<{ success: boolean; updatable_without_uia_before_ms?: number; error?: string; errcode?: string }>;
   findUserByThreepid: (
     medium: string,
     address: string

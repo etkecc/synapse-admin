@@ -255,6 +255,15 @@ const fr: SynapseTranslationMessages = {
             "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
           failure: "Échec de la mise en quarantaine. %{errMsg}",
         },
+        allow_cross_signing: {
+          label: "Autoriser la réinitialisation du Cross-Signing",
+          title: "Autoriser le remplacement des clés Cross-Signing",
+          content:
+            "Autoriser %{user} à remplacer ses clés Cross-Signing sans authentification interactive ? Cela crée une fenêtre temporaire pendant laquelle les clés peuvent être remplacées.",
+          success: "Remplacement des clés Cross-Signing autorisé jusqu'au %{deadline}",
+          failure: "Échec de l'autorisation du remplacement Cross-Signing",
+          no_key: "L'utilisateur n'a pas de clé Cross-Signing maîtresse",
+        },
         find_user: {
           label: "Rechercher un utilisateur",
           title: "Rechercher un utilisateur",

@@ -261,6 +261,15 @@ const ja: SynapseTranslationMessages = {
           success: "%{smart_count} 件のメディアを検疫しました。",
           failure: "メディアの検疫を行えませんでした。%{errMsg}",
         },
+        allow_cross_signing: {
+          label: "Cross-Signingリセットを許可",
+          title: "Cross-Signingキーの置き換えを許可",
+          content:
+            "%{user} がユーザー対話型認証なしにCross-Signingキーを置き換えることを許可しますか？これにより、キーを置き換えられる一時的なウィンドウが作成されます。",
+          success: "Cross-Signingキーの置き換えを%{deadline}まで許可しました",
+          failure: "Cross-Signing置き換えの許可に失敗しました",
+          no_key: "ユーザーにはマスターCross-Signingキーがありません",
+        },
         find_user: {
           label: "ユーザーを検索",
           title: "ユーザーを検索",

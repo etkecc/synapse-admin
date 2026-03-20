@@ -224,6 +224,14 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        allow_cross_signing: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+          failure: string;
+          no_key: string;
+        };
         find_user: {
           label: string;
           title: string;

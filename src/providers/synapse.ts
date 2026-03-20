@@ -547,6 +547,22 @@ export const findUserByThreepid = async (medium: string, address: string) => {
   }
 };
 
+export const allowCrossSigningReplacement = async (userId: string) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const { json } = await jsonClient(
+      `${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(userId))}/_allow_cross_signing_replacement_without_uia`,
+      { method: "POST", body: JSON.stringify({}) }
+    );
+    return { success: true, updatable_without_uia_before_ms: json.updatable_without_uia_before_ms as number };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const findUserByAuthProvider = async (provider: string, externalId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {

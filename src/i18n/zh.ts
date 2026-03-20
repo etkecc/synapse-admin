@@ -302,6 +302,15 @@ const zh: SynapseTranslationMessages = {
           success: "已成功隔离 %{smart_count} 个媒体项。",
           failure: "隔离媒体失败。%{errMsg}",
         },
+        allow_cross_signing: {
+          label: "允许重置 Cross-Signing",
+          title: "允许替换 Cross-Signing 密钥",
+          content:
+            "允许 %{user} 在无需用户交互式认证的情况下替换其 Cross-Signing 密钥？这将创建一个临时窗口，在此期间密钥可以被替换。",
+          success: "Cross-Signing 密钥替换已允许至 %{deadline}",
+          failure: "允许 Cross-Signing 替换失败",
+          no_key: "用户没有主 Cross-Signing 密钥",
+        },
         find_user: {
           label: "查找用户",
           title: "查找用户",
