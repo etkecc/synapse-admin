@@ -301,7 +301,13 @@ export const MASPersonalSessionCreate = (props: CreateProps) => {
   return (
     <>
       <Create {...props} mutationOptions={{ onSuccess: handleSuccess }}>
-        <SimpleForm toolbar={<Toolbar><SaveButton /></Toolbar>}>
+        <SimpleForm
+          toolbar={
+            <Toolbar>
+              <SaveButton />
+            </Toolbar>
+          }
+        >
           <ReferenceInput source="actor_user_id" reference="mas_users">
             <AutocompleteInput
               optionText="username"
@@ -313,14 +319,26 @@ export const MASPersonalSessionCreate = (props: CreateProps) => {
           </ReferenceInput>
           <TextInput source="scope" required label="resources.mas_personal_sessions.fields.scope" fullWidth />
           <TextInput source="human_name" required label="resources.mas_personal_sessions.fields.human_name" fullWidth />
-          <TextInput source="expires_in" label="resources.mas_personal_sessions.fields.expires_in" fullWidth helperText="resources.mas_personal_sessions.helper.expires_in" />
+          <TextInput
+            source="expires_in"
+            label="resources.mas_personal_sessions.fields.expires_in"
+            fullWidth
+            helperText="resources.mas_personal_sessions.helper.expires_in"
+          />
         </SimpleForm>
       </Create>
       <Dialog open={!!token} maxWidth="sm" fullWidth>
         <DialogTitle>{translate("resources.mas_personal_sessions.action.create.token_title")}</DialogTitle>
         <DialogContent>
           <p>{translate("resources.mas_personal_sessions.action.create.token_content")}</p>
-          <MuiTextField value={token || ""} fullWidth multiline rows={3} InputProps={{ readOnly: true }} onClick={e => (e.target as HTMLInputElement).select()} />
+          <MuiTextField
+            value={token || ""}
+            fullWidth
+            multiline
+            rows={3}
+            InputProps={{ readOnly: true }}
+            onClick={e => (e.target as HTMLInputElement).select()}
+          />
         </DialogContent>
         <DialogActions>
           <MuiButton onClick={() => redirect("list", "mas_personal_sessions")}>OK</MuiButton>
@@ -560,7 +578,13 @@ export const MASUpstreamOAuthLinkCreate = (props: CreateProps) => (
           isRequired
         />
       </ReferenceInput>
-      <TextInput source="provider_id" required label="resources.mas_upstream_oauth_links.fields.provider_id" fullWidth helperText="resources.mas_upstream_oauth_links.helper.provider_id" />
+      <TextInput
+        source="provider_id"
+        required
+        label="resources.mas_upstream_oauth_links.fields.provider_id"
+        fullWidth
+        helperText="resources.mas_upstream_oauth_links.helper.provider_id"
+      />
       <TextInput source="subject" required label="resources.mas_upstream_oauth_links.fields.subject" fullWidth />
       <TextInput
         source="human_account_name"
