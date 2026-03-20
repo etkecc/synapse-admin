@@ -23,7 +23,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Federation](#-federation)
     * [✅ Experimental Features](#-experimental-features)
     * [🟡 Statistics](#-statistics)
-    * [❌ Account Validity](#-account-validity)
+    * [✅ Account Validity](#-account-validity)
     * [✅ Purge History](#-purge-history)
     * [✅ Fetch Event](#-fetch-event)
     * [⏭️ Register (Shared-Secret Registration) — superseded](#-register-shared-secret-registration--superseded)
@@ -187,11 +187,11 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/statistics/users/media` | GET | Get users' media usage statistics | ✅ |
 | `/_synapse/admin/v1/statistics/database/rooms` | GET | Get largest rooms by database size | ❌ |
 
-### ❌ Account Validity
+### ✅ Account Validity
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/_synapse/admin/v1/account_validity/validity` | POST | Renew account validity | ❌ |
+| `/_synapse/admin/v1/account_validity/validity` | POST | Renew account validity | ✅ |
 
 ### ✅ Purge History
 

@@ -79,6 +79,8 @@ import EditableAvatarField from "../components/EditableAvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import { AllowCrossSigningButton } from "../components/AllowCrossSigningButton";
 import DeviceCreateButton from "../components/DeviceCreateButton";
+import { RenewAccountValidityButton } from "../components/RenewAccountValidityButton";
+import { useIsMAS } from "../providers/mas";
 import DeviceDisplayNameInput from "../components/DeviceDisplayNameInput";
 import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
@@ -260,6 +262,7 @@ const validateAddress = [required(), maxLength(255)];
 
 const UserEditActions = () => {
   const record = useRecordContext();
+  const isMAS = useIsMAS();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
   let asManagedUserIsSelected = false;
@@ -273,6 +276,7 @@ const UserEditActions = () => {
       {!record?.deactivated && <LoginAsUserButton />}
       {!record?.deactivated && <ResetPasswordButton />}
       {!record?.deactivated && <AllowCrossSigningButton />}
+      {!record?.deactivated && !isMAS && <RenewAccountValidityButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (
         <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>

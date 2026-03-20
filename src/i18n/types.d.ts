@@ -244,6 +244,16 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           not_found: string;
           failure: string;
         };
+        renew_account: {
+          label: string;
+          title: string;
+          content: string;
+          expiration: string;
+          expiration_helper: string;
+          renewal_emails: string;
+          success: string;
+          failure: string;
+        };
       };
       badge: {
         you: string;

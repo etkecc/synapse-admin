@@ -333,6 +333,17 @@ const de: SynapseTranslationMessages = {
           not_found: "Benutzer nicht gefunden",
           failure: "Benutzersuche fehlgeschlagen",
         },
+        renew_account: {
+          label: "Konto erneuern",
+          title: "Kontogültigkeit erneuern",
+          content:
+            "Erneuert die Kontogültigkeit für %{user}. Optional kann ein benutzerdefiniertes Ablaufdatum festgelegt werden. Wenn leer gelassen, wird der standardmäßige Erneuerungszeitraum des Servers verwendet.",
+          expiration: "Ablaufdatum",
+          expiration_helper: "Leer lassen, um den standardmäßigen Erneuerungszeitraum des Servers zu verwenden",
+          renewal_emails: "Erneuerungs-Benachrichtigungs-E-Mails senden",
+          success: "Kontogültigkeit bis %{date} erneuert",
+          failure: "Erneuerung der Kontogültigkeit fehlgeschlagen",
+        },
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",

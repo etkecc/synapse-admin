@@ -323,6 +323,16 @@ const zh: SynapseTranslationMessages = {
           not_found: "未找到用户",
           failure: "查找用户失败",
         },
+        renew_account: {
+          label: "续期账户",
+          title: "续期账户有效期",
+          content: "续期 %{user} 的账户有效期。可选择设置自定义到期日期。若留空，将使用服务器默认续期周期。",
+          expiration: "到期日期",
+          expiration_helper: "留空以使用服务器默认续期周期",
+          renewal_emails: "发送续期通知邮件",
+          success: "账户有效期已续期至 %{date}",
+          failure: "续期账户有效期失败",
+        },
       },
       limits: {
         messages_per_second: "每秒消息数",

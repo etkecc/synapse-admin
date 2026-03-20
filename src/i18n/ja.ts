@@ -282,6 +282,17 @@ const ja: SynapseTranslationMessages = {
           not_found: "ユーザーが見つかりません",
           failure: "ユーザーの検索に失敗しました",
         },
+        renew_account: {
+          label: "アカウントを更新",
+          title: "アカウントの有効期限を更新",
+          content:
+            "%{user} のアカウント有効期限を更新します。任意でカスタムの有効期限日を設定できます。空白のままにすると、サーバーのデフォルト更新期間が使用されます。",
+          expiration: "有効期限日",
+          expiration_helper: "サーバーのデフォルト更新期間を使用するには空白のままにしてください",
+          renewal_emails: "更新通知メールを送信する",
+          success: "アカウントの有効期限を %{date} まで更新しました",
+          failure: "アカウントの有効期限の更新に失敗しました",
+        },
       },
       badge: {
         you: "あなた",

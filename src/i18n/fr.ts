@@ -276,6 +276,17 @@ const fr: SynapseTranslationMessages = {
           not_found: "Utilisateur introuvable",
           failure: "Impossible de trouver l'utilisateur",
         },
+        renew_account: {
+          label: "Renouveler le compte",
+          title: "Renouveler la validité du compte",
+          content:
+            "Renouveler la validité du compte de %{user}. Vous pouvez éventuellement définir une date d'expiration personnalisée. Si laissé vide, la période de renouvellement par défaut du serveur sera utilisée.",
+          expiration: "Date d'expiration",
+          expiration_helper: "Laisser vide pour utiliser la période de renouvellement par défaut du serveur",
+          renewal_emails: "Envoyer des e-mails de notification de renouvellement",
+          success: "Validité du compte renouvelée jusqu'au %{date}",
+          failure: "Échec du renouvellement de la validité du compte",
+        },
       },
       limits: {
         messages_per_second: "Messages par seconde",

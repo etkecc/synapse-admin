@@ -389,6 +389,17 @@ const it: SynapseTranslationMessages = {
           not_found: "Utente non trovato",
           failure: "Impossibile trovare l'utente",
         },
+        renew_account: {
+          label: "Rinnova account",
+          title: "Rinnova la validità dell'account",
+          content:
+            "Rinnova la validità dell'account di %{user}. Puoi facoltativamente impostare una data di scadenza personalizzata. Se lasciato vuoto, verrà utilizzato il periodo di rinnovo predefinito del server.",
+          expiration: "Data di scadenza",
+          expiration_helper: "Lascia vuoto per utilizzare il periodo di rinnovo predefinito del server",
+          renewal_emails: "Invia e-mail di notifica di rinnovo",
+          success: "Validità dell'account rinnovata fino al %{date}",
+          failure: "Impossibile rinnovare la validità dell'account",
+        },
       },
       limits: {
         messages_per_second: "Messaggi al secondo",

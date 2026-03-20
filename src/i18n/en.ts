@@ -262,6 +262,17 @@ const en: SynapseTranslationMessages = {
           not_found: "User not found",
           failure: "Failed to find user",
         },
+        renew_account: {
+          label: "Renew account",
+          title: "Renew account validity",
+          content:
+            "Renew the account validity for %{user}. You can optionally set a custom expiration date. If left empty, the server default renewal period will be used.",
+          expiration: "Expiration date",
+          expiration_helper: "Leave empty to use the server default renewal period",
+          renewal_emails: "Send renewal notification emails",
+          success: "Account validity renewed until %{date}",
+          failure: "Failed to renew account validity",
+        },
       },
       badge: {
         you: "You",

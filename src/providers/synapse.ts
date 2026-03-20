@@ -547,6 +547,29 @@ export const findUserByThreepid = async (medium: string, address: string) => {
   }
 };
 
+export const renewAccountValidity = async (userId: string, expirationTs?: number, enableRenewalEmails = true) => {
+  const base_url = localStorage.getItem("base_url");
+  try {
+    const body: Record<string, unknown> = {
+      user_id: returnMXID(userId),
+      enable_renewal_emails: enableRenewalEmails,
+    };
+    if (expirationTs !== undefined) {
+      body.expiration_ts = expirationTs;
+    }
+    const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/account_validity/validity`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    return { success: true, expiration_ts: json.expiration_ts as number };
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return { success: false, error: error.body.error, errcode: error.body.errcode };
+    }
+    throw error;
+  }
+};
+
 export const allowCrossSigningReplacement = async (userId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {
