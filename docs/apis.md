@@ -11,7 +11,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 
 <!-- vim-markdown-toc GFM -->
 
-* [Synapse Admin API](#synapse-admin-api)
+* [🟡 Synapse Admin API](#-synapse-admin-api)
     * [✅ Server Version](#-server-version)
     * [✅ Users](#-users)
     * [✅ User Devices](#-user-devices)
@@ -30,7 +30,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Room Membership](#-room-membership)
     * [✅ Scheduled Tasks](#-scheduled-tasks)
     * [❌ Client-Server API Extensions](#-client-server-api-extensions)
-* [Matrix Authentication Service (MAS) Admin API](#matrix-authentication-service-mas-admin-api)
+* [🟡 Matrix Authentication Service (MAS) Admin API](#-matrix-authentication-service-mas-admin-api)
     * [✅ OAuth 2.0](#-oauth-20)
     * [✅ Server](#-server)
     * [✅ Registration Tokens](#-registration-tokens-1)
@@ -43,7 +43,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 
 <!-- vim-markdown-toc -->
 
-## Synapse Admin API
+## 🟡 Synapse Admin API
 
 [Synapse Admin API documentation](https://element-hq.github.io/synapse/latest/usage/administration/admin_api/index.html)
 
@@ -235,7 +235,7 @@ Superseded: redundant with existing user creation via User Admin API (already im
 |----------|--------|-------------|:------:|
 | `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | PUT | Set admin client configuration | ❌ |
 
-## Matrix Authentication Service (MAS) Admin API
+## 🟡 Matrix Authentication Service (MAS) Admin API
 
 [MAS Admin API specification](https://element-hq.github.io/matrix-authentication-service/api/spec.json)
 
