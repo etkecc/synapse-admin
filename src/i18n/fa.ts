@@ -505,6 +505,10 @@ const fa: SynapseTranslationMessages = {
           success: "دستگاه با موفقیت حذف شد.",
           failure: "خطایی رخ داده است.",
         },
+        display_name: {
+          success: "نام دستگاه به‌روزرسانی شد",
+          failure: "به‌روزرسانی نام دستگاه ناموفق بود",
+        },
       },
     },
     users_media: {

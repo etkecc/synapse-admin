@@ -482,6 +482,10 @@ const fr: SynapseTranslationMessages = {
           success: "Appareil supprimé avec succès",
           failure: "Une erreur s'est produite",
         },
+        display_name: {
+          success: "Nom de l'appareil mis à jour",
+          failure: "Échec de la mise à jour du nom de l'appareil",
+        },
       },
     },
     users_media: {

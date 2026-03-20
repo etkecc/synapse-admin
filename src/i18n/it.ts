@@ -595,6 +595,10 @@ const it: SynapseTranslationMessages = {
           success: "Dispositivo rimosso con successo.",
           failure: "C'è stato un errore.",
         },
+        display_name: {
+          success: "Nome del dispositivo aggiornato",
+          failure: "Aggiornamento del nome del dispositivo non riuscito",
+        },
       },
     },
     users_media: {

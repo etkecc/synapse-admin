@@ -78,6 +78,7 @@ import AvatarField from "../components/AvatarField";
 import EditableAvatarField from "../components/EditableAvatarField";
 import DeleteUserButton from "../components/DeleteUserButton";
 import { AllowCrossSigningButton } from "../components/AllowCrossSigningButton";
+import DeviceDisplayNameInput from "../components/DeviceDisplayNameInput";
 import DeviceRemoveButton, { DeviceBulkRemoveButton } from "../components/DeviceRemoveButton";
 import ExperimentalFeaturesList from "../components/ExperimentalFeatures";
 import { FindUserButton } from "../components/FindUserButton";
@@ -667,7 +668,7 @@ export const UserEdit = (props: EditProps) => {
                 omit={["last_seen_user_agent", "dehydrated"]}
               >
                 <TextField source="device_id" sortable={false} />
-                <TextField source="display_name" sortable={false} />
+                <DeviceDisplayNameInput />
                 <TextField source="last_seen_ip" sortable={false} />
                 <TextField source="last_seen_user_agent" sortable={false} />
                 <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />

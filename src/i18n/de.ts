@@ -542,6 +542,10 @@ const de: SynapseTranslationMessages = {
           success: "Gerät erfolgreich entfernt.",
           failure: "Beim Entfernen ist ein Fehler aufgetreten.",
         },
+        display_name: {
+          success: "Gerätename aktualisiert",
+          failure: "Gerätename konnte nicht aktualisiert werden",
+        },
       },
     },
     users_media: {

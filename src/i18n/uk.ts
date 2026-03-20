@@ -536,6 +536,10 @@ const uk: SynapseTranslationMessages = {
           success: "Device successfully removed.",
           failure: "An error has occurred.",
         },
+        display_name: {
+          success: "Назву пристрою оновлено",
+          failure: "Не вдалося оновити назву пристрою",
+        },
       },
     },
     users_media: {

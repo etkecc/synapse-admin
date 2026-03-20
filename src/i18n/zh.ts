@@ -522,6 +522,10 @@ const zh: SynapseTranslationMessages = {
           success: "设备移除成功。",
           failure: "出现了一个错误。",
         },
+        display_name: {
+          success: "设备名称已更新",
+          failure: "更新设备名称失败",
+        },
       },
     },
     users_media: {

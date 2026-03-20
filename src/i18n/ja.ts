@@ -494,6 +494,10 @@ const ja: SynapseTranslationMessages = {
           success: "端末を削除しました。",
           failure: "エラーが発生しました。",
         },
+        display_name: {
+          success: "端末の名称を更新しました",
+          failure: "端末の名称の更新に失敗しました",
+        },
       },
     },
     users_media: {

@@ -450,6 +450,10 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        display_name: {
+          success: string;
+          failure: string;
+        };
       };
     };
     users_media: {

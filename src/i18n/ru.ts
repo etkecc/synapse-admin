@@ -553,6 +553,10 @@ const ru: SynapseTranslationMessages = {
           success: "Устройство успешно удалено.",
           failure: "Произошла ошибка.",
         },
+        display_name: {
+          success: "Название устройства обновлено",
+          failure: "Не удалось обновить название устройства",
+        },
       },
     },
     users_media: {
