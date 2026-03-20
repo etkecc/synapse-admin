@@ -179,6 +179,7 @@ The following changes are already implemented:
 * 🎨 [Restyle user edit page](https://github.com/etkecc/synapse-admin/commit/3dd9098d0475ea3c77ed22c5d1d18f87f22f4cce)
 * 🔍 [Restyle Reports section and add Event Lookup button](https://github.com/etkecc/synapse-admin/commit/2880a26c22ee5b0723a32d78bbe2a803e075fc67)
 * 🎨 [Full UI redesign](https://github.com/etkecc/synapse-admin/commit/69befd02f52fd6ddb0ee19d0af1b4a99c2a333f6) — new theme with custom fonts, glassmorphism login page, animated loader, styled empty states, polished dark/light modes, and many **many** more!
+* 📋 [Add Scheduled Tasks list](https://github.com/etkecc/synapse-admin/commit/a49e5132b70c4c9feaefdc775a316057267adbce)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
