@@ -30,7 +30,7 @@ import { Icons, DefaultIcon } from "../utils/icons";
 import { EtkeAttribution } from "./etke.cc/EtkeAttribution";
 import { ClearInstanceConfig, useInstanceConfig } from "./etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "./etke.cc/ServerNotificationsBadge";
-import { ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
+import { EtkeStatusPoller, ServerStatusStyledBadge } from "./etke.cc/ServerStatusBadge";
 import { useAppContext } from "../Context";
 
 const ServerVersionItems = () => {
@@ -173,6 +173,7 @@ const AdminMenu = props => {
         },
       })}
     >
+      {etkeRoutesEnabled && <EtkeStatusPoller />}
       {etkeRoutesEnabled && !icfg.disabled.monitoring && (
         <Menu.Item
           key="server_status"

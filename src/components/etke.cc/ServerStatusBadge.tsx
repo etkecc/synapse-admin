@@ -1,11 +1,10 @@
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
-import { Avatar, Badge, Box, Theme, Tooltip } from "@mui/material";
+import { Avatar, Badge, Theme } from "@mui/material";
 import { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import { useCallback, useEffect } from "react";
-import { Button, useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
-import { useNavigate } from "react-router";
+import { useDataProvider, useLocale, useStore } from "react-admin";
 
 import { useAppContext } from "../../Context";
 import { ServerProcessResponse, ServerStatusResponse } from "../../providers/types";
@@ -216,45 +215,8 @@ export const ServerStatusStyledBadge = ({
   );
 };
 
-const ServerStatusBadge = () => {
-  const translate = useTranslate();
-  const { isOkay, successCheck, maintenance } = useServerStatus();
-  const { command, locked_at } = useCurrentServerProcess();
-  const navigate = useNavigate();
-
-  if (!successCheck) {
-    return null;
-  }
-
-  const handleServerStatusClick = () => {
-    navigate("/server_status");
-  };
-
-  let tooltipText = translate("etkecc.status.badge.default");
-
-  if (command && locked_at) {
-    tooltipText = translate("etkecc.status.badge.running", {
-      command: command,
-      text: tooltipText,
-    });
-  }
-
-  return (
-    <Button onClick={handleServerStatusClick} size="medium" sx={{ minWidth: "auto", ".MuiButton-startIcon": { m: 0 } }}>
-      <Tooltip title={tooltipText} sx={{ cursor: "pointer" }}>
-        <Box>
-          <ServerStatusStyledBadge
-            inSidebar={false}
-            command={command || ""}
-            locked_at={locked_at || ""}
-            isOkay={isOkay}
-            isLoaded={successCheck}
-            isMaintenance={maintenance}
-          />
-        </Box>
-      </Tooltip>
-    </Button>
-  );
+export const EtkeStatusPoller = () => {
+  useServerStatus();
+  useCurrentServerProcess();
+  return null;
 };
-
-export default ServerStatusBadge;
