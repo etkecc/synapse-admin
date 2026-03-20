@@ -95,7 +95,7 @@ const useServerStatus = () => {
         serverStatusInterval = setInterval(checkServerStatus, SERVER_STATUS_INTERVAL_TIME);
       }, 10000);
     } else {
-       console.log("CHECKING STATUS NOT ADMIN");
+      console.log("CHECKING STATUS NOT ADMIN");
       setServerStatus({ ok: false, success: false, host: "", results: [] });
     }
 
