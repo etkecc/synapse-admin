@@ -182,6 +182,7 @@ The following changes are already implemented:
 * 📋 [Add Scheduled Tasks list](https://github.com/etkecc/synapse-admin/commit/a49e5132b70c4c9feaefdc775a316057267adbce)
 * 🔍 [Add "Find User" button](https://github.com/etkecc/synapse-admin/commit/7a7ce9d11a9864c81f162efe72c6fd2db1fcbfbd)
 * 🔑 [Add "Allow cross-signing reset" button](https://github.com/etkecc/synapse-admin/commit/7b73ca9d1dfd2cdf56d7e55bebd59e770226092e)
+* 🖊️ [Allow changing user devices display names](https://github.com/etkecc/synapse-admin/commit/f59c944efd0dec3829ee6f04d7c17756fd25ec35)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
