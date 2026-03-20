@@ -12,11 +12,11 @@ const localeLabels: { locale: SupportedLocale; name: string }[] = [
   { locale: "de", name: "Deutsch" },
   { locale: "fr", name: "Français" },
   { locale: "it", name: "Italiano" },
-  { locale: "ja", name: "Japanese (日本語)" },
-  { locale: "fa", name: "Persian (فارسی)" },
-  { locale: "ru", name: "Russian (Русский)" },
-  { locale: "uk", name: "Ukrainian (Українська)" },
-  { locale: "zh", name: "Chinese (简体中文)" },
+  { locale: "ja", name: "日本語" },
+  { locale: "fa", name: "فارسی" },
+  { locale: "ru", name: "Русский" },
+  { locale: "uk", name: "Українська" },
+  { locale: "zh", name: "简体中文" },
 ];
 
 const loaders: Record<SupportedLocale, () => Promise<SynapseTranslationMessages>> = {
