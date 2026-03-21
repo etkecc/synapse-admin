@@ -718,12 +718,29 @@ export const RoomShow = (props: ShowProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
-              <RaTextField source="id" sortable={false} />
-              <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-              <NumberField source="depth" sortable={false} />
-              <RaTextField source="state_group" sortable={false} />
-            </DatagridConfigurable>
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => (
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.id}
+                  </Box>
+                )}
+                secondaryText={record => (
+                  <>
+                    {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
+                    {record.state_group && <> · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}</>}
+                  </>
+                )}
+                linkType={false}
+              />
+            ) : (
+              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
+                <RaTextField source="id" sortable={false} />
+                <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                <NumberField source="depth" sortable={false} />
+                <RaTextField source="state_group" sortable={false} />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </Tab>
       </TabbedShowLayout>
