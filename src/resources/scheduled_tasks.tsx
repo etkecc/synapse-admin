@@ -49,7 +49,6 @@ const scheduledTaskFilters = (translate: ReturnType<typeof useTranslate>) => [
   <SelectInput
     key="status"
     source="status"
-    alwaysOn
     choices={["scheduled", "active", "complete", "cancelled", "failed"].map(s => ({
       id: s,
       name: translate(`resources.scheduled_tasks.status.${s}`),

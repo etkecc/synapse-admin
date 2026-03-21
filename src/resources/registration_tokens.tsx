@@ -43,7 +43,7 @@ const validateToken = [regex(/^[A-Za-z0-9._~-]{0,64}$/)];
 const validateUsesAllowed = [number()];
 const validateLength = [number(), maxValue(64)];
 
-const registrationTokenFilters = [<BooleanInput source="valid" alwaysOn />];
+const registrationTokenFilters = [<BooleanInput key="valid" source="valid" />];
 
 export const RegistrationTokenList = (props: ListProps) => {
   const locale = useLocale();

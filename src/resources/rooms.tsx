@@ -31,6 +31,7 @@ import {
   WrapperField,
   DatagridConfigurable,
   ExportButton,
+  FilterButton,
   FunctionField,
   List,
   ListProps,
@@ -650,13 +651,14 @@ export const RoomBulkActionButtons = () => {
 };
 
 const roomFilters = [
-  <SearchInput source="search_term" alwaysOn />,
-  <NullableBooleanInput source="public_rooms" label="resources.rooms.filter.public_rooms" alwaysOn />,
-  <NullableBooleanInput source="empty_rooms" label="resources.rooms.filter.empty_rooms" alwaysOn />,
+  <SearchInput key="search_term" source="search_term" alwaysOn />,
+  <NullableBooleanInput key="public_rooms" source="public_rooms" label="resources.rooms.filter.public_rooms" />,
+  <NullableBooleanInput key="empty_rooms" source="empty_rooms" label="resources.rooms.filter.empty_rooms" />,
 ];
 
 const RoomListActions = () => (
   <TopToolbar>
+    <FilterButton />
     <BlockRoomByIdButton />
     <SelectColumnsButton />
     <ExportButton />
