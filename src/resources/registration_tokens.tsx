@@ -1,6 +1,8 @@
 import BlockIcon from "@mui/icons-material/Block";
 import RegistrationTokenIcon from "@mui/icons-material/ConfirmationNumber";
 import RestoreIcon from "@mui/icons-material/RestoreFromTrash";
+import { Box, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import EmptyState from "../components/EmptyState";
 import { useState } from "react";
 import {
@@ -11,6 +13,7 @@ import {
   DatagridConfigurable,
   DateField,
   DateTimeInput,
+  DeleteButton,
   Edit,
   EditProps,
   List,
@@ -23,6 +26,7 @@ import {
   ResourceProps,
   SaveButton,
   SimpleForm,
+  SimpleList,
   TextInput,
   TextField,
   Toolbar,
@@ -48,6 +52,8 @@ const registrationTokenFilters = [<BooleanInput key="valid" source="valid" />];
 export const RegistrationTokenList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isMAS = useIsMAS();
   useDocTitle(translate("resources.registration_tokens.name", { smart_count: 2 }));
   return (
@@ -59,6 +65,30 @@ export const RegistrationTokenList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.token}
+            </Box>
+          )}
+          secondaryText={record => (
+            <>
+              {translate("resources.registration_tokens.fields.uses_allowed")}: {record.uses_allowed ?? "∞"}
+              {" · "}
+              {translate("resources.registration_tokens.fields.completed")}: {record.completed ?? 0}
+              {record.expiry_time && (
+                <>
+                  <br />
+                  {translate("resources.registration_tokens.fields.expiry_time")}: {new Date(record.expiry_time).toLocaleString(locale)}
+                </>
+              )}
+            </>
+          )}
+          tertiaryText={() => <DeleteButton redirect={false} />}
+          linkType="edit"
+        />
+      ) : (
       <DatagridConfigurable rowClick="edit">
         <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
         <NumberField source="uses_allowed" sortable={false} label="resources.registration_tokens.fields.uses_allowed" />
@@ -103,6 +133,7 @@ export const RegistrationTokenList = (props: ListProps) => {
           />
         )}
       </DatagridConfigurable>
+      )}
     </List>
   );
 };
@@ -184,9 +215,10 @@ const RevokeTokenButton = () => {
 };
 
 const RegistrationTokenEditToolbar = () => (
-  <Toolbar>
+  <Toolbar sx={{ justifyContent: "space-between" }}>
     <SaveButton />
     <RevokeTokenButton />
+    <DeleteButton redirect="list" />
   </Toolbar>
 );
 
