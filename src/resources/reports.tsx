@@ -60,7 +60,7 @@ const RoomInfoField = () => {
   const parts = [record.id as string];
   if (record.canonical_alias) parts.push(record.canonical_alias as string);
   if (record.name) parts.push(record.name as string);
-  return <span>{parts.join(" ")}</span>;
+  return <span style={{ wordBreak: "break-all" }}>{parts.join(" ")}</span>;
 };
 
 const LabeledField = ({ label, children }: { label: string; children: React.ReactNode }) => (
@@ -113,14 +113,14 @@ const ReportBasicTab = () => {
             <LabeledField label={translate("resources.reports.fields.user_id")}>
               <ReferenceField source="user_id" reference="users" link="show" label={false}>
                 <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
-                <TextField source="id" />
+                <TextField source="id" sx={{ wordBreak: "break-all" }} />
               </ReferenceField>
             </LabeledField>
 
             <LabeledField label={translate("resources.reports.fields.sender")}>
               <ReferenceField source="sender" reference="users" link="show" label={false}>
                 <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
-                <TextField source="id" />
+                <TextField source="id" sx={{ wordBreak: "break-all" }} />
               </ReferenceField>
             </LabeledField>
 
@@ -186,8 +186,13 @@ const EventFields = ({ event }: { event: Record<string, any> }) => (
 
 export const ReportShow = (props: ShowProps) => {
   return (
-    <Show {...props} actions={<ReportShowActions />} title={<ReportTitle />}>
-      <TabbedShowLayout>
+    <Show
+      {...props}
+      actions={<ReportShowActions />}
+      title={<ReportTitle />}
+      sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
+    >
+      <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="synapseadmin.reports.tabs.basic" icon={<ViewListIcon />}>
           <ReportBasicTab />
         </Tab>
@@ -216,6 +221,8 @@ const ReportShowActions = () => {
 };
 
 const EventLookupButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
   const [eventId, setEventId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -255,7 +262,7 @@ const EventLookupButton = () => {
       <Button label="resources.reports.action.event_lookup.label" onClick={() => setOpen(true)}>
         <SearchIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.reports.action.event_lookup.title")}</DialogTitle>
         <DialogContent>
           <MuiTextField
@@ -320,7 +327,11 @@ export const ReportList = (props: ListProps) => {
     >
       {isSmall ? (
         <SimpleList
-          primaryText={record => `#${record.id} ${record.name || record.room_id}`}
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              #{record.id} {record.name || record.room_id}
+            </Box>
+          )}
           secondaryText={record => {
             const date = new Date(record.received_ts).toLocaleDateString(locale, DATE_FORMAT);
             const score =
@@ -329,7 +340,11 @@ export const ReportList = (props: ListProps) => {
           }}
           tertiaryText={record => {
             if (!record.user_id) return "";
-            return record.user_id;
+            return (
+              <Box component="span" sx={{ wordBreak: "break-all" }}>
+                {record.user_id}
+              </Box>
+            );
           }}
           linkType="show"
         />

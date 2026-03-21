@@ -44,7 +44,9 @@ const UserInfoChips = () => {
     : null;
 
   return (
-    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexDirection: "column", width: "100%" }}>
+    <Box
+      sx={{ display: "flex", gap: 1, flexWrap: "wrap", flexDirection: "column", width: "100%", color: "text.primary" }}
+    >
       {createdDate && (
         <Chip
           icon={<CalendarTodayIcon />}

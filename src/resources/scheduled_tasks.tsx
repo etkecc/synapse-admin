@@ -1,5 +1,5 @@
 import ScheduleIcon from "@mui/icons-material/Schedule";
-import { Chip } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
@@ -49,7 +49,6 @@ const scheduledTaskFilters = (translate: ReturnType<typeof useTranslate>) => [
   <SelectInput
     key="status"
     source="status"
-    alwaysOn
     choices={["scheduled", "active", "complete", "cancelled", "failed"].map(s => ({
       id: s,
       name: translate(`resources.scheduled_tasks.status.${s}`),
@@ -90,7 +89,15 @@ export const ScheduledTaskList = (props: ListProps) => {
             </>
           )}
           secondaryText={record => new Date(record.timestamp_ms).toLocaleDateString(locale, DATE_FORMAT)}
-          tertiaryText={record => record.resource_id || ""}
+          tertiaryText={record =>
+            record.resource_id ? (
+              <Box component="span" sx={{ wordBreak: "break-all" }}>
+                {record.resource_id}
+              </Box>
+            ) : (
+              ""
+            )
+          }
           linkType={false}
         />
       ) : (
@@ -111,7 +118,12 @@ export const ScheduledTaskList = (props: ListProps) => {
             label="resources.scheduled_tasks.fields.timestamp"
             locales={locale}
           />
-          <TextField source="resource_id" sortable={false} label="resources.scheduled_tasks.fields.resource_id" />
+          <TextField
+            source="resource_id"
+            sortable={false}
+            label="resources.scheduled_tasks.fields.resource_id"
+            sx={{ wordBreak: "break-all" }}
+          />
           <FunctionField
             source="result"
             sortable={false}

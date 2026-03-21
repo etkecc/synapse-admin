@@ -171,13 +171,14 @@ const RecurringCommandEdit = () => {
   return (
     <>
       <Title title={pageTitle} />
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2, maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" }}>
         <Button
           label={translate("etkecc.actions.buttons.back")}
           onClick={() => navigate("/server_actions")}
-          startIcon={<ArrowBackIcon />}
           sx={{ mb: 2 }}
-        />
+        >
+          <ArrowBackIcon />
+        </Button>
 
         <Card>
           <CardHeader title={pageTitle} />
@@ -187,7 +188,11 @@ const RecurringCommandEdit = () => {
                 <Alert severity="info">
                   <Typography variant="body1" sx={{ px: 2 }}>
                     {translate("etkecc.actions.command_details_intro")}{" "}
-                    <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                    <Link
+                      href={`https://etke.cc/help/extras/scheduler/#${command.command}`}
+                      target="_blank"
+                      sx={{ wordBreak: "break-all" }}
+                    >
                       {`etke.cc/help/extras/scheduler/#${command.command}`}
                     </Link>
                     .

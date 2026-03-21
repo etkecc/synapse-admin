@@ -10,6 +10,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -30,6 +32,8 @@ import { SynapseDataProvider } from "../providers/types";
  * Block requires confirmation modal, unblock is direct.
  */
 export const BlockRoomButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const record = useRecordContext();
   const [open, setOpen] = useState(false);
   const [blocked, setBlocked] = useState<boolean | null>(null);
@@ -110,7 +114,7 @@ export const BlockRoomButton = () => {
       <Button label="resources.rooms.action.block.label" onClick={() => setOpen(true)} disabled={loading}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.rooms.action.block.title", { room: roomName })}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate("resources.rooms.action.block.content")}</DialogContentText>
@@ -138,6 +142,8 @@ export const BlockRoomButton = () => {
  * Bulk block/unblock buttons for room lists (main room list + joined_rooms).
  */
 export const BlockRoomBulkButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { selectedIds } = useListContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -170,7 +176,7 @@ export const BlockRoomBulkButton = () => {
       <Button label="resources.rooms.action.block.label" onClick={() => setOpen(true)} disabled={loading}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>
           {translate("resources.rooms.action.block.title_bulk", { smart_count: selectedIds.length })}
         </DialogTitle>
@@ -234,6 +240,8 @@ export const UnblockRoomBulkButton = () => {
  * Toolbar button above the main room list to block a room by ID.
  */
 export const BlockRoomByIdButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(false);
   const [roomId, setRoomId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -268,7 +276,7 @@ export const BlockRoomByIdButton = () => {
       <Button label="resources.rooms.action.block.label" onClick={() => setOpen(true)}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.rooms.action.block.title_by_id")}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>{translate("resources.rooms.action.block.content")}</DialogContentText>

@@ -13,12 +13,16 @@ import {
   FormControlLabel,
   TextField,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 
 import { SynapseDataProvider } from "../providers/types";
 
 export const PurgeHistoryButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const record = useRecordContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -105,7 +109,7 @@ export const PurgeHistoryButton = () => {
       <Button label="resources.rooms.action.purge_history.label" onClick={() => setOpen(true)}>
         <HistoryIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.rooms.action.purge_history.title", { roomName })}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>

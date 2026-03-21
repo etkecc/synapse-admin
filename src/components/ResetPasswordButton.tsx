@@ -12,6 +12,8 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import { Button, useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 
@@ -19,6 +21,8 @@ import { SynapseDataProvider } from "../providers/types";
 import { generateRandomPassword } from "../utils/password";
 
 export const ResetPasswordButton = () => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const record = useRecordContext();
   const [open, setOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -70,7 +74,7 @@ export const ResetPasswordButton = () => {
       <Button label="resources.users.action.reset_password.label" onClick={handleOpen} disabled={loading}>
         <LockResetIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.users.action.reset_password.title")}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>

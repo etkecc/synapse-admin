@@ -1,6 +1,8 @@
 import BlockIcon from "@mui/icons-material/Block";
 import RegistrationTokenIcon from "@mui/icons-material/ConfirmationNumber";
 import RestoreIcon from "@mui/icons-material/RestoreFromTrash";
+import { Box, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import EmptyState from "../components/EmptyState";
 import { useState } from "react";
 import {
@@ -11,6 +13,7 @@ import {
   DatagridConfigurable,
   DateField,
   DateTimeInput,
+  DeleteButton,
   Edit,
   EditProps,
   List,
@@ -23,6 +26,7 @@ import {
   ResourceProps,
   SaveButton,
   SimpleForm,
+  SimpleList,
   TextInput,
   TextField,
   Toolbar,
@@ -43,11 +47,13 @@ const validateToken = [regex(/^[A-Za-z0-9._~-]{0,64}$/)];
 const validateUsesAllowed = [number()];
 const validateLength = [number(), maxValue(64)];
 
-const registrationTokenFilters = [<BooleanInput source="valid" alwaysOn />];
+const registrationTokenFilters = [<BooleanInput key="valid" source="valid" />];
 
 export const RegistrationTokenList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isMAS = useIsMAS();
   useDocTitle(translate("resources.registration_tokens.name", { smart_count: 2 }));
   return (
@@ -59,50 +65,80 @@ export const RegistrationTokenList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
-      <DatagridConfigurable rowClick="edit">
-        <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
-        <NumberField source="uses_allowed" sortable={false} label="resources.registration_tokens.fields.uses_allowed" />
-        <NumberField source="pending" sortable={false} label="resources.registration_tokens.fields.pending" />
-        <NumberField source="completed" sortable={false} label="resources.registration_tokens.fields.completed" />
-        <DateField
-          source="expiry_time"
-          showTime
-          options={DATE_FORMAT}
-          sortable={false}
-          label="resources.registration_tokens.fields.expiry_time"
-          locales={locale}
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.token}
+            </Box>
+          )}
+          secondaryText={record => (
+            <>
+              {translate("resources.registration_tokens.fields.uses_allowed")}: {record.uses_allowed ?? "∞"}
+              {" · "}
+              {translate("resources.registration_tokens.fields.completed")}: {record.completed ?? 0}
+              {record.expiry_time && (
+                <>
+                  <br />
+                  {translate("resources.registration_tokens.fields.expiry_time")}:{" "}
+                  {new Date(record.expiry_time).toLocaleString(locale)}
+                </>
+              )}
+            </>
+          )}
+          tertiaryText={() => <DeleteButton redirect={false} />}
+          linkType="edit"
         />
-        {isMAS && (
+      ) : (
+        <DatagridConfigurable rowClick="edit">
+          <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
+          <NumberField
+            source="uses_allowed"
+            sortable={false}
+            label="resources.registration_tokens.fields.uses_allowed"
+          />
+          <NumberField source="pending" sortable={false} label="resources.registration_tokens.fields.pending" />
+          <NumberField source="completed" sortable={false} label="resources.registration_tokens.fields.completed" />
           <DateField
-            source="created_at"
+            source="expiry_time"
             showTime
             options={DATE_FORMAT}
             sortable={false}
-            label="resources.registration_tokens.fields.created_at"
+            label="resources.registration_tokens.fields.expiry_time"
             locales={locale}
           />
-        )}
-        {isMAS && (
-          <DateField
-            source="last_used_at"
-            showTime
-            options={DATE_FORMAT}
-            sortable={false}
-            label="resources.registration_tokens.fields.last_used_at"
-            locales={locale}
-          />
-        )}
-        {isMAS && (
-          <DateField
-            source="revoked_at"
-            showTime
-            options={DATE_FORMAT}
-            sortable={false}
-            label="resources.registration_tokens.fields.revoked_at"
-            locales={locale}
-          />
-        )}
-      </DatagridConfigurable>
+          {isMAS && (
+            <DateField
+              source="created_at"
+              showTime
+              options={DATE_FORMAT}
+              sortable={false}
+              label="resources.registration_tokens.fields.created_at"
+              locales={locale}
+            />
+          )}
+          {isMAS && (
+            <DateField
+              source="last_used_at"
+              showTime
+              options={DATE_FORMAT}
+              sortable={false}
+              label="resources.registration_tokens.fields.last_used_at"
+              locales={locale}
+            />
+          )}
+          {isMAS && (
+            <DateField
+              source="revoked_at"
+              showTime
+              options={DATE_FORMAT}
+              sortable={false}
+              label="resources.registration_tokens.fields.revoked_at"
+              locales={locale}
+            />
+          )}
+        </DatagridConfigurable>
+      )}
     </List>
   );
 };
@@ -184,9 +220,10 @@ const RevokeTokenButton = () => {
 };
 
 const RegistrationTokenEditToolbar = () => (
-  <Toolbar>
+  <Toolbar sx={{ justifyContent: "space-between" }}>
     <SaveButton />
     <RevokeTokenButton />
+    <DeleteButton redirect="list" />
   </Toolbar>
 );
 
@@ -196,7 +233,10 @@ export const RegistrationTokenEdit = (props: EditProps) => {
   useDocTitle(`${translate("ra.action.edit")} ${translate("resources.registration_tokens.name")}`);
 
   return (
-    <Edit {...props}>
+    <Edit
+      {...props}
+      sx={{ "& .RaEdit-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
+    >
       <SimpleForm toolbar={<RegistrationTokenEditToolbar />}>
         <TextInput source="token" disabled />
         <NumberInput source="pending" disabled />

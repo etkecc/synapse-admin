@@ -416,7 +416,7 @@ const LoginPage = () => {
           onChange={(_, newValue) => setLoginMethod(newValue as LoginMethod)}
           indicatorColor="primary"
           textColor="primary"
-          centered
+          variant="fullWidth"
         >
           <Tab label={translate("synapseadmin.auth.credentials")} value="credentials" />
           <Tab label={translate("synapseadmin.auth.access_token")} value="accessToken" />
@@ -483,8 +483,12 @@ const LoginPage = () => {
             />
           </Box>
         )}
-        <Typography className="serverVersion">{serverVersion}</Typography>
-        <Typography className="matrixVersions">{matrixVersions}</Typography>
+        <Typography className="serverVersion" sx={{ wordBreak: "break-word" }}>
+          {serverVersion}
+        </Typography>
+        <Typography className="matrixVersions" sx={{ wordBreak: "break-word" }}>
+          {matrixVersions}
+        </Typography>
       </>
     );
   };
@@ -504,7 +508,7 @@ const LoginPage = () => {
             {loading ? (
               <CircularProgress size={25} thickness={2} />
             ) : (
-              <Avatar sx={{ width: "120px", height: "120px" }} src={logoUrl} />
+              <Avatar sx={{ width: { xs: "80px", sm: "120px" }, height: { xs: "80px", sm: "120px" } }} src={logoUrl} />
             )}
           </Box>
           <Box className="hint">{translate("synapseadmin.auth.welcome", { name: welcomeTo })}</Box>
@@ -524,27 +528,22 @@ const LoginPage = () => {
             </Select>
             <FormDataConsumer>{formDataProps => <UserData {...formDataProps} />}</FormDataConsumer>
             {loginMethod === "credentials" && (
-              <CardActions className="actions">
+              <CardActions
+                className="actions"
+                sx={{ flexDirection: "column", gap: 1, "& > :not(:first-of-type)": { ml: 0 } }}
+              >
                 {supportPassAuth && (
-                  <Button size="small" variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
+                  <Button variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
                     {translate("ra.auth.sign_in")}
                   </Button>
                 )}
                 {ssoBaseUrl !== "" && (
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleSSO}
-                    disabled={loading}
-                    fullWidth
-                  >
+                  <Button variant="contained" color="secondary" onClick={handleSSO} disabled={loading} fullWidth>
                     {translate("synapseadmin.auth.sso_sign_in")}
                   </Button>
                 )}
                 {(oidcVisible || oidcUrl !== "") && (
                   <Button
-                    size="small"
                     variant="contained"
                     color="secondary"
                     onClick={handleOIDC}

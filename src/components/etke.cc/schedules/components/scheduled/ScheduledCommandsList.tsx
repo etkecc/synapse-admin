@@ -1,5 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Loading, Button, useLocale, useTranslate } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
@@ -20,7 +22,9 @@ const ListActions = () => {
 
   return (
     <TopToolbar>
-      <Button label={translate("etkecc.actions.buttons.create")} onClick={handleCreate} startIcon={<AddIcon />} />
+      <Button label={translate("etkecc.actions.buttons.create")} onClick={handleCreate}>
+        <AddIcon />
+      </Button>
     </TopToolbar>
   );
 };
@@ -28,6 +32,8 @@ const ListActions = () => {
 const ScheduledCommandsList = () => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const { data, isLoading } = useScheduledCommands();
 
   const listContext = useList({
@@ -61,7 +67,7 @@ const ScheduledCommandsList = () => {
             }}
           >
             <TextField source="command" label={translate("etkecc.actions.table.command")} />
-            <TextField source="args" label={translate("etkecc.actions.table.arguments")} />
+            {!isSmall && <TextField source="args" label={translate("etkecc.actions.table.arguments")} />}
             <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />
             <DateField
               options={DATE_FORMAT}

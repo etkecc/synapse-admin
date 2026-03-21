@@ -1,6 +1,8 @@
 import IconCancel from "@mui/icons-material/Cancel";
 import MessageIcon from "@mui/icons-material/Message";
 import { Dialog, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -22,6 +24,8 @@ import {
 } from "react-admin";
 
 const ServerNoticeDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
   const ServerNoticeToolbar = (props: ToolbarProps & { pristine?: boolean }) => (
@@ -34,7 +38,7 @@ const ServerNoticeDialog = ({ open, onClose, onSubmit }) => {
   );
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("resources.servernotices.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("resources.servernotices.helper.send")}</DialogContentText>

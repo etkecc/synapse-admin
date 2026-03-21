@@ -1,5 +1,4 @@
 import BlockIcon from "@mui/icons-material/Block";
-import IconCancel from "@mui/icons-material/Cancel";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -8,8 +7,18 @@ import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Tooltip } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button as MuiButton,
+  Tooltip,
+} from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useMutation } from "@tanstack/react-query";
 import { get } from "lodash";
 import { useState } from "react";
@@ -21,8 +30,6 @@ import {
   NumberInput,
   SaveButton,
   SimpleForm,
-  Toolbar,
-  ToolbarProps,
   useDataProvider,
   useNotify,
   useRecordContext,
@@ -35,26 +42,23 @@ import { decodeURLComponent } from "../utils/safety";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
-  const DeleteMediaToolbar = (props: ToolbarProps) => (
-    <Toolbar {...props}>
-      <SaveButton label="delete_media.action.send" icon={<DeleteSweepIcon />} />
-      <Button label="ra.action.cancel" onClick={onClose}>
-        <IconCancel />
-      </Button>
-    </Toolbar>
-  );
-
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("delete_media.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("delete_media.helper.send")}</DialogContentText>
-        <SimpleForm toolbar={<DeleteMediaToolbar />} onSubmit={onSubmit}>
+        <SimpleForm toolbar={false} onSubmit={onSubmit}>
           <DateTimeInput source="before_ts" label="delete_media.fields.before_ts" defaultValue={0} parse={dateParser} />
           <NumberInput source="size_gt" label="delete_media.fields.size_gt" defaultValue={0} min={0} step={1024} />
           <BooleanInput source="keep_profiles" label="delete_media.fields.keep_profiles" defaultValue={true} />
+          <DialogActions sx={{ width: "100%", px: 0 }}>
+            <MuiButton onClick={onClose}>{translate("ra.action.cancel")}</MuiButton>
+            <SaveButton label="delete_media.action.send" icon={<DeleteSweepIcon />} />
+          </DialogActions>
         </SimpleForm>
       </DialogContent>
     </Dialog>
@@ -109,29 +113,26 @@ export const DeleteMediaButton = (props: ButtonProps) => {
 };
 
 const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
-  const PurgeRemoteMediaToolbar = (props: ToolbarProps) => (
-    <Toolbar {...props}>
-      <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
-      <Button label="ra.action.cancel" onClick={onClose}>
-        <IconCancel />
-      </Button>
-    </Toolbar>
-  );
-
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("purge_remote_media.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("purge_remote_media.helper.send")}</DialogContentText>
-        <SimpleForm toolbar={<PurgeRemoteMediaToolbar />} onSubmit={onSubmit}>
+        <SimpleForm toolbar={false} onSubmit={onSubmit}>
           <DateTimeInput
             source="before_ts"
             label="purge_remote_media.fields.before_ts"
             defaultValue={0}
             parse={dateParser}
           />
+          <DialogActions sx={{ width: "100%", px: 0 }}>
+            <MuiButton onClick={onClose}>{translate("ra.action.cancel")}</MuiButton>
+            <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
+          </DialogActions>
         </SimpleForm>
       </DialogContent>
     </Dialog>

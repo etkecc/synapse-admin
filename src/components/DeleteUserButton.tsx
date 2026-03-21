@@ -2,7 +2,7 @@ import ActionCheck from "@mui/icons-material/CheckCircle";
 import ActionDelete from "@mui/icons-material/Delete";
 import AlertError from "@mui/icons-material/ErrorOutline";
 import {
-  Button,
+  Button as MuiButton,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -10,8 +10,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import {
+  Button,
   SimpleForm,
   BooleanInput,
   useTranslate,
@@ -35,6 +38,8 @@ interface DeleteUserButtonProps {
 const resourceName = "users";
 
 const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
   const [open, setOpen] = useState(false);
   const [deleteMedia, setDeleteMedia] = useState(false);
@@ -159,22 +164,16 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
   return (
     <Fragment>
       <Button
+        label="ra.action.delete"
         onClick={handleDialogOpen}
         disabled={loading}
         className={"ra-delete-button"}
         key="button"
-        size="small"
-        sx={{
-          "&.MuiButton-sizeSmall": {
-            lineHeight: 1.5,
-          },
-        }}
         color={"error"}
-        startIcon={<ActionDelete />}
       >
-        {translate("ra.action.delete")}
+        <ActionDelete />
       </Button>
-      <Dialog open={open} onClose={handleDialogClose}>
+      <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate(props.confirmTitle)}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate(props.confirmContent)}</DialogContentText>
@@ -209,10 +208,10 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose} startIcon={<AlertError />}>
+          <MuiButton onClick={handleDialogClose} startIcon={<AlertError />}>
             {translate("ra.action.cancel")}
-          </Button>
-          <Button
+          </MuiButton>
+          <MuiButton
             disabled={loading}
             onClick={handleConfirm}
             className={"ra-confirm RaConfirm-confirmPrimary"}
@@ -220,7 +219,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
             startIcon={loading ? <CircularProgress size={16} /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
-          </Button>
+          </MuiButton>
         </DialogActions>
       </Dialog>
     </Fragment>

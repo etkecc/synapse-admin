@@ -40,7 +40,7 @@ const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: (
       )}
       <Card className="card">
         <Box className="avatar">
-          <Avatar sx={{ width: "120px", height: "120px" }} src={logoUrl} />
+          <Avatar sx={{ width: { xs: "80px", sm: "120px" }, height: { xs: "80px", sm: "120px" } }} src={logoUrl} />
         </Box>
         <Box className="hint">{translate("synapseadmin.auth.welcome", { name: welcomeTo })}</Box>
         <Box className="form">
@@ -52,7 +52,7 @@ const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: (
           </Typography>
         </Box>
         <CardActions className="actions">
-          <Button size="small" variant="contained" type="button" color="primary" onClick={onBack} fullWidth>
+          <Button variant="contained" type="button" color="primary" onClick={onBack} fullWidth>
             {translate("ra.action.back")}
           </Button>
         </CardActions>

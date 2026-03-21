@@ -12,15 +12,21 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import ScienceIcon from "@mui/icons-material/Science";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import { Alert, Box, Divider, Paper, Typography } from "@mui/material";
+import BlockIcon from "@mui/icons-material/Block";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import LockIcon from "@mui/icons-material/Lock";
+import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Alert, Box, Divider, List as MuiList, ListItemButton, Paper, Tooltip, Typography } from "@mui/material";
 import EmptyState from "../components/EmptyState";
 import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import {
   ArrayInput,
   ArrayField,
   Button,
-  Datagrid,
   DatagridConfigurable,
   DateField,
   Create,
@@ -58,7 +64,6 @@ import {
   BulkDeleteButton,
   TopToolbar,
   Toolbar,
-  NumberField,
   useListContext,
   useNotify,
   Identifier,
@@ -69,6 +74,8 @@ import {
   useCreate,
   useRedirect,
   useLocale,
+  SimpleList,
+  useGetMany,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -99,6 +106,7 @@ import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import { decodeURLComponent } from "../utils/safety";
 import { isASManaged } from "../utils/mxid";
+import { formatBytes } from "../utils/formatBytes";
 import { generateRandomPassword } from "../utils/password";
 
 const choices_medium = [
@@ -218,6 +226,8 @@ const UserBulkActionButtons = () => {
 export const UserList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.users.name", { smart_count: 2 }));
   return (
     <List
@@ -230,47 +240,98 @@ export const UserList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
-      <DatagridConfigurable
-        rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
-        bulkActionButtons={<UserBulkActionButtons />}
-      >
-        <AvatarField
-          source="avatar_src"
-          sx={{ height: "40px", width: "40px" }}
-          sortBy="avatar_url"
-          label="resources.users.fields.avatar"
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.displayname || record.id}
+            </Box>
+          )}
+          secondaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.id}
+            </Box>
+          )}
+          tertiaryText={record => (
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              {record.admin && (
+                <Tooltip title={translate("resources.users.fields.admin")}>
+                  <AdminPanelSettingsIcon fontSize="small" color="primary" />
+                </Tooltip>
+              )}
+              {record.locked && (
+                <Tooltip title={translate("resources.users.fields.locked")}>
+                  <LockIcon fontSize="small" color="warning" />
+                </Tooltip>
+              )}
+              {record.suspended && (
+                <Tooltip title={translate("resources.users.fields.suspended")}>
+                  <BlockIcon fontSize="small" color="warning" />
+                </Tooltip>
+              )}
+              {record.shadow_banned && (
+                <Tooltip title={translate("resources.users.fields.shadow_banned")}>
+                  <VisibilityOffIcon fontSize="small" color="warning" />
+                </Tooltip>
+              )}
+              {record.deactivated && (
+                <Tooltip title={translate("resources.users.fields.deactivated")}>
+                  <NoAccountsIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+              {record.erased && (
+                <Tooltip title={translate("resources.users.fields.erased")}>
+                  <DeleteForeverIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+            </Box>
+          )}
+          linkType="edit"
+          leftAvatar={record => (
+            <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+          )}
         />
-        <TextField
-          source="id"
-          sx={{
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
-          }}
-          sortBy="name"
-          label="resources.users.fields.id"
-        />
-        <TextField
-          source="displayname"
-          sx={{
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
-          }}
-          label="resources.users.fields.displayname"
-        />
-        <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
-        <BooleanField source="admin" label="resources.users.fields.admin" />
-        <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
-        <BooleanField source="locked" label="resources.users.fields.locked" />
-        <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
-        <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-        <DateField
-          source="creation_ts"
-          label="resources.users.fields.creation_ts_ms"
-          showTime
-          options={DATE_FORMAT}
-          locales={locale}
-        />
-      </DatagridConfigurable>
+      ) : (
+        <DatagridConfigurable
+          rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
+          bulkActionButtons={<UserBulkActionButtons />}
+        >
+          <AvatarField
+            source="avatar_src"
+            sx={{ height: "40px", width: "40px" }}
+            sortBy="avatar_url"
+            label="resources.users.fields.avatar"
+          />
+          <TextField
+            source="id"
+            sx={{
+              wordBreak: "break-all",
+            }}
+            sortBy="name"
+            label="resources.users.fields.id"
+          />
+          <TextField
+            source="displayname"
+            sx={{
+              wordBreak: "break-all",
+            }}
+            label="resources.users.fields.displayname"
+          />
+          <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+          <BooleanField source="admin" label="resources.users.fields.admin" />
+          <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
+          <BooleanField source="locked" label="resources.users.fields.locked" />
+          <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
+          <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
+          <DateField
+            source="creation_ts"
+            label="resources.users.fields.creation_ts_ms"
+            showTime
+            options={DATE_FORMAT}
+            locales={locale}
+          />
+        </DatagridConfigurable>
+      )}
     </List>
   );
 };
@@ -295,7 +356,7 @@ const UserEditActions = () => {
   }
 
   return (
-    <TopToolbar>
+    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       {!record?.deactivated && <LoginAsUserButton />}
       {!record?.deactivated && <ResetPasswordButton />}
       {!record?.deactivated && <AllowCrossSigningButton />}
@@ -483,6 +544,7 @@ const UserEditToolbar = () => {
 };
 
 const UserBooleanInput = props => {
+  const translate = useTranslate();
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
@@ -496,9 +558,17 @@ const UserBooleanInput = props => {
     }
   }
 
+  const { icon, ...rest } = props;
+  const label = icon ? (
+    <Box sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
+      {icon}
+      {translate(rest.label || `resources.users.fields.${rest.source}`)}
+    </Box>
+  ) : undefined;
+
   return (
     <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
-      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...props} />
+      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...rest} {...(label ? { label } : {})} />
     </UserPreventSelfDelete>
   );
 };
@@ -579,9 +649,90 @@ const ErasedBooleanInput = props => {
   return <UserBooleanInput disabled={!deactivated} {...props} />;
 };
 
+const JoinedRoomsMobileList = () => {
+  const { data: joinedRooms } = useListContext();
+  const translate = useTranslate();
+  const ids = (joinedRooms || []).map(r => r.id);
+  const { data: rooms } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
+  const roomMap = new Map((rooms || []).map(r => [r.id, r]));
+
+  if (!joinedRooms?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {joinedRooms.map(record => {
+        const room = roomMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/rooms/" + record.id + "/show"}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={room || record} source="avatar" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {room?.name || room?.canonical_alias || record.id}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {translate("resources.rooms.fields.joined_members")}: {room?.joined_members ?? 0}
+                {room?.creator && (
+                  <>
+                    <br />
+                    <Box component="span" sx={{ wordBreak: "break-all" }}>
+                      {translate("resources.rooms.fields.creator")}: {room.creator}
+                    </Box>
+                  </>
+                )}
+              </Typography>
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
+const MembershipsMobileList = () => {
+  const { data: memberships } = useListContext();
+  const translate = useTranslate();
+  const ids = (memberships || []).map(r => r.id);
+  const { data: rooms } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
+  const roomMap = new Map((rooms || []).map(r => [r.id, r]));
+
+  if (!memberships?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {memberships.map(record => {
+        const room = roomMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/rooms/" + record.id + "/show"}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={room || record} source="avatar" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {room?.name || record.id}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {translate("resources.users.membership", { smart_count: 1 })}: {record.membership}
+              </Typography>
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
   const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const locale = useLocale();
 
   return (
@@ -590,13 +741,14 @@ export const UserEdit = (props: EditProps) => {
       title={<UserTitle />}
       actions={<UserEditActions />}
       mutationMode="pessimistic"
+      sx={{ "& .RaEdit-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
       queryOptions={{
         meta: {
           include: ["features"], // Tell your dataProvider to include features
         },
       }}
     >
-      <TabbedForm toolbar={<UserEditToolbar />}>
+      <TabbedForm toolbar={<UserEditToolbar />} sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <FormTab label={translate("resources.users.name", { smart_count: 1 })} icon={<PersonPinIcon />}>
           <Box
             sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%", mb: 2, mt: 1 }}
@@ -605,7 +757,7 @@ export const UserEdit = (props: EditProps) => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: { xs: "flex-start", sm: "center" },
+                alignItems: "center",
                 minWidth: 140,
                 gap: 2,
               }}
@@ -629,12 +781,21 @@ export const UserEdit = (props: EditProps) => {
 
           <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%" }}>
             <Box sx={{ flex: 1 }}>
-              <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
-              <UserBooleanInput source="shadow_banned" helperText="resources.users.helper.shadow_ban" />
+              <UserBooleanInput
+                source="suspended"
+                helperText="resources.users.helper.suspend"
+                icon={<BlockIcon fontSize="small" />}
+              />
+              <UserBooleanInput
+                source="shadow_banned"
+                helperText="resources.users.helper.shadow_ban"
+                icon={<VisibilityOffIcon fontSize="small" />}
+              />
               <UserBooleanInput
                 sx={{ color: theme.palette.warning.main }}
                 source="locked"
                 helperText="resources.users.helper.lock"
+                icon={<LockIcon fontSize="small" />}
               />
             </Box>
             <Paper
@@ -649,16 +810,22 @@ export const UserEdit = (props: EditProps) => {
               <Typography variant="subtitle2" color="error" sx={{ mb: 1 }}>
                 {translate("synapseadmin.users.danger_zone")}
               </Typography>
-              <BooleanInput source="admin" helperText="resources.users.helper.admin" />
+              <UserBooleanInput
+                source="admin"
+                helperText="resources.users.helper.admin"
+                icon={<AdminPanelSettingsIcon fontSize="small" />}
+              />
               <UserBooleanInput
                 sx={{ color: theme.palette.error.main }}
                 source="deactivated"
                 helperText="resources.users.helper.deactivate"
+                icon={<NoAccountsIcon fontSize="small" />}
               />
               <ErasedBooleanInput
                 sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
                 source="erased"
                 helperText="resources.users.helper.erase"
+                icon={<DeleteForeverIcon fontSize="small" />}
               />
             </Paper>
           </Box>
@@ -692,20 +859,46 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
           >
             <Box sx={{ width: "100%" }}>
-              <DatagridConfigurable
-                bulkActionButtons={<DeviceBulkRemoveButton />}
-                omit={["last_seen_user_agent", "dehydrated"]}
-              >
-                <TextField source="device_id" sortable={false} />
-                <DeviceDisplayNameInput />
-                <TextField source="last_seen_ip" sortable={false} />
-                <TextField source="last_seen_user_agent" sortable={false} />
-                <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                <BooleanField source="dehydrated" sortable={false} />
-                <WrapperField label="resources.rooms.fields.actions">
-                  <DeviceRemoveButton />
-                </WrapperField>
-              </DatagridConfigurable>
+              {isSmall ? (
+                <SimpleList
+                  primaryText={record => (
+                    <Box component="span" sx={{ wordBreak: "break-all" }}>
+                      {record.device_id}
+                    </Box>
+                  )}
+                  secondaryText={record => (
+                    <>
+                      {record.last_seen_ip && (
+                        <>
+                          {record.last_seen_ip}
+                          <br />
+                        </>
+                      )}
+                      {record.last_seen_ts && new Date(record.last_seen_ts).toLocaleString(locale)}
+                      <Box sx={{ mt: 1 }}>
+                        <DeviceDisplayNameInput />
+                      </Box>
+                    </>
+                  )}
+                  tertiaryText={() => <DeviceRemoveButton />}
+                  linkType={false}
+                />
+              ) : (
+                <DatagridConfigurable
+                  bulkActionButtons={<DeviceBulkRemoveButton />}
+                  omit={["last_seen_user_agent", "dehydrated"]}
+                >
+                  <TextField source="device_id" sortable={false} />
+                  <DeviceDisplayNameInput />
+                  <TextField source="last_seen_ip" sortable={false} />
+                  <TextField source="last_seen_user_agent" sortable={false} />
+                  <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                  <BooleanField source="dehydrated" sortable={false} />
+                  <WrapperField label="resources.rooms.fields.actions">
+                    <DeviceRemoveButton />
+                  </WrapperField>
+                </DatagridConfigurable>
+              )}
             </Box>
           </ReferenceManyField>
         </FormTab>
@@ -713,11 +906,31 @@ export const UserEdit = (props: EditProps) => {
         <FormTab label="resources.connections.name" icon={<SettingsInputComponentIcon />} path="connections">
           <ReferenceField reference="connections" source="id" label={false} link={false}>
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
-              <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
-                <TextField source="ip" sortable={false} />
-                <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
-              </Datagrid>
+              {isSmall ? (
+                <SimpleList
+                  primaryText={record => record.ip}
+                  secondaryText={record => (
+                    <>
+                      {record.last_seen && new Date(record.last_seen).toLocaleString(locale)}
+                      {record.user_agent && (
+                        <>
+                          <br />
+                          <Box component="span" sx={{ wordBreak: "break-all" }}>
+                            {record.user_agent}
+                          </Box>
+                        </>
+                      )}
+                    </>
+                  )}
+                  linkType={false}
+                />
+              ) : (
+                <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+                  <TextField source="ip" sortable={false} />
+                  <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                  <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
+                </DatagridConfigurable>
+              )}
             </ArrayField>
           </ReferenceField>
         </FormTab>
@@ -736,21 +949,47 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             sort={{ field: "created_ts", order: "DESC" }}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
-              <MediaIDField source="media_id" />
-              <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
-              <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
-              <NumberField source="media_length" />
-              <TextField source="media_type" sx={{ display: "block", width: 200, wordBreak: "break-word" }} />
-              <FunctionField
-                source="upload_name"
-                render={record => (record.upload_name ? decodeURLComponent(record.upload_name) : "")}
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => (
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.upload_name ? decodeURLComponent(record.upload_name) : record.media_id}
+                  </Box>
+                )}
+                secondaryText={record => (
+                  <>
+                    {formatBytes(record.media_length)}
+                    {record.media_type && <> · {record.media_type}</>}
+                    <br />
+                    {new Date(record.created_ts).toLocaleString(locale)}
+                  </>
+                )}
+                tertiaryText={() => (
+                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                    <QuarantineMediaButton />
+                    <ProtectMediaButton />
+                    <DeleteButton mutationMode="pessimistic" redirect={false} />
+                  </Box>
+                )}
+                linkType={false}
               />
-              <TextField source="quarantined_by" />
-              <QuarantineMediaButton />
-              <ProtectMediaButton />
-              <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </Datagrid>
+            ) : (
+              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
+                <MediaIDField source="media_id" />
+                <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
+                <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
+                <FunctionField source="media_length" render={record => formatBytes(record.media_length)} />
+                <TextField source="media_type" sx={{ display: "block", width: 200, wordBreak: "break-word" }} />
+                <FunctionField
+                  source="upload_name"
+                  render={record => (record.upload_name ? decodeURLComponent(record.upload_name) : "")}
+                />
+                <TextField source="quarantined_by" />
+                <QuarantineMediaButton />
+                <ProtectMediaButton />
+                <DeleteButton mutationMode="pessimistic" redirect={false} />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
@@ -762,43 +1001,52 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <Datagrid
-              sx={{ width: "100%" }}
-              rowClick={id => "/rooms/" + id + "/show"}
-              bulkActionButtons={<RoomBulkActionButtons />}
-            >
-              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
-                <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
-              </ReferenceField>
-              <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
-              <ReferenceField
-                reference="rooms"
-                source="id"
-                label="resources.rooms.fields.name"
-                link={false}
-                sortable={false}
+            {isSmall ? (
+              <JoinedRoomsMobileList />
+            ) : (
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                rowClick={id => "/rooms/" + id + "/show"}
+                bulkActionButtons={<RoomBulkActionButtons />}
               >
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+                </ReferenceField>
                 <TextField
-                  source="name"
-                  sx={{
-                    wordBreak: "break-word",
-                    overflowWrap: "break-word",
-                  }}
+                  source="id"
+                  label="resources.rooms.fields.room_id"
+                  sortable={false}
+                  sx={{ wordBreak: "break-all" }}
                 />
-              </ReferenceField>
-              <ReferenceField
-                reference="rooms"
-                source="id"
-                label="resources.rooms.fields.joined_members"
-                link={false}
-                sortable={false}
-              >
-                <TextField source="joined_members" sortable={false} />
-              </ReferenceField>
-              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
-                <MakeAdminBtn />
-              </ReferenceField>
-            </Datagrid>
+                <ReferenceField
+                  reference="rooms"
+                  source="id"
+                  label="resources.rooms.fields.name"
+                  link={false}
+                  sortable={false}
+                >
+                  <TextField
+                    source="name"
+                    sx={{
+                      wordBreak: "break-word",
+                      overflowWrap: "break-word",
+                    }}
+                  />
+                </ReferenceField>
+                <ReferenceField
+                  reference="rooms"
+                  source="id"
+                  label="resources.rooms.fields.joined_members"
+                  link={false}
+                  sortable={false}
+                >
+                  <TextField source="joined_members" sortable={false} />
+                </ReferenceField>
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <MakeAdminBtn />
+                </ReferenceField>
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
@@ -814,26 +1062,39 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <Datagrid sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
-              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
-                <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
-              </ReferenceField>
-              <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
-              <ReferenceField
-                reference="rooms"
-                source="id"
-                label="resources.rooms.fields.name"
-                link={false}
-                sortable={false}
+            {isSmall ? (
+              <MembershipsMobileList />
+            ) : (
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                rowClick={id => "/rooms/" + id + "/show"}
+                bulkActionButtons={false}
               >
-                <TextField source="name" />
-              </ReferenceField>
-              <TextField
-                source="membership"
-                label={translate("resources.users.membership", { smart_count: 1 })}
-                sortable={false}
-              />
-            </Datagrid>
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+                </ReferenceField>
+                <TextField
+                  source="id"
+                  label="resources.rooms.fields.room_id"
+                  sortable={false}
+                  sx={{ wordBreak: "break-all" }}
+                />
+                <ReferenceField
+                  reference="rooms"
+                  source="id"
+                  label="resources.rooms.fields.name"
+                  link={false}
+                  sortable={false}
+                >
+                  <TextField source="name" />
+                </ReferenceField>
+                <TextField
+                  source="membership"
+                  label={translate("resources.users.membership", { smart_count: 1 })}
+                  sortable={false}
+                />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
@@ -849,16 +1110,45 @@ export const UserEdit = (props: EditProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
-              <TextField source="kind" sortable={false} />
-              <TextField source="app_display_name" sortable={false} />
-              <TextField source="app_id" sortable={false} />
-              <TextField source="data.url" sortable={false} />
-              <TextField source="device_display_name" sortable={false} />
-              <TextField source="lang" sortable={false} />
-              <TextField source="profile_tag" sortable={false} />
-              <TextField source="pushkey" sortable={false} />
-            </Datagrid>
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => (
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.app_display_name || record.app_id}
+                  </Box>
+                )}
+                secondaryText={record => (
+                  <>
+                    {record.kind}
+                    {record.device_display_name && <> · {record.device_display_name}</>}
+                    {record.pushkey && (
+                      <>
+                        <br />
+                        <Box component="span" sx={{ wordBreak: "break-all" }}>
+                          {record.pushkey}
+                        </Box>
+                      </>
+                    )}
+                  </>
+                )}
+                linkType={false}
+              />
+            ) : (
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                bulkActionButtons={false}
+                omit={["app_id", "data.url", "profile_tag", "pushkey"]}
+              >
+                <TextField source="kind" sortable={false} />
+                <TextField source="app_display_name" sortable={false} />
+                <TextField source="app_id" sortable={false} />
+                <TextField source="data.url" sortable={false} />
+                <TextField source="device_display_name" sortable={false} />
+                <TextField source="lang" sortable={false} />
+                <TextField source="profile_tag" sortable={false} />
+                <TextField source="pushkey" sortable={false} />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 

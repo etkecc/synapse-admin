@@ -139,6 +139,7 @@ const LoginFormBox = styled(Box, {
       [`& .card`]: {
         width: "100%",
         marginTop: "0",
+        marginBottom: "2rem",
       },
     },
     [`& .avatar`]: {
