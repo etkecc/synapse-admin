@@ -359,7 +359,7 @@ const RoomOverviewTab = () => {
             {record.room_id}
           </Typography>
           {record.canonical_alias && (
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5, wordBreak: "break-all" }}>
               {record.canonical_alias}
             </Typography>
           )}
@@ -467,7 +467,7 @@ const RoomOverviewTab = () => {
                   {translate("resources.rooms.fields.creator")}
                 </Typography>
                 <ReferenceField source="creator" reference="users" link="show">
-                  <RaTextField source="id" />
+                  <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
                 </ReferenceField>
               </Box>
             </Box>
@@ -554,7 +554,7 @@ export const RoomShow = (props: ShowProps) => {
                 >
                   <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
-                <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
+                <RaTextField source="id" sortable={false} label="resources.users.fields.id" sx={{ wordBreak: "break-all" }} />
                 <ReferenceField
                   label="resources.users.fields.displayname"
                   source="id"
@@ -687,7 +687,7 @@ export const RoomShow = (props: ShowProps) => {
                   render={record => `${JSON.stringify(record.content, null, 2)}`}
                 />
                 <ReferenceField source="sender" reference="users" sortable={false}>
-                  <RaTextField source="id" />
+                  <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
                 </ReferenceField>
               </DatagridConfigurable>
             )}
@@ -735,7 +735,7 @@ export const RoomShow = (props: ShowProps) => {
               />
             ) : (
               <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
-                <RaTextField source="id" sortable={false} />
+                <RaTextField source="id" sortable={false} sx={{ wordBreak: "break-all" }} />
                 <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
                 <NumberField source="depth" sortable={false} />
                 <RaTextField source="state_group" sortable={false} />
@@ -868,8 +868,7 @@ export const RoomList = (props: ListProps) => {
         <FunctionField
           source="name"
           sx={{
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
+            wordBreak: "break-all",
           }}
           render={record => record["name"] || record["canonical_alias"] || record["id"]}
           label="resources.rooms.fields.name"
@@ -880,7 +879,7 @@ export const RoomList = (props: ListProps) => {
         <RaTextField source="version" label="resources.rooms.fields.version" />
         <RaTextField source="join_rules" label="resources.rooms.fields.join_rules" />
         <ReferenceField source="creator" reference="users">
-          <RaTextField source="id" label="resources.rooms.fields.creator" />
+          <RaTextField source="id" label="resources.rooms.fields.creator" sx={{ wordBreak: "break-all" }} />
         </ReferenceField>
         <BooleanField source="federatable" label="resources.rooms.fields.federatable" />
         <BooleanField source="public" label="resources.rooms.fields.public" />

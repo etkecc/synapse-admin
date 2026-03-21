@@ -242,8 +242,16 @@ export const UserList = (props: ListProps) => {
     >
       {isSmall ? (
         <SimpleList
-          primaryText={record => record.displayname || record.id}
-          secondaryText={record => record.id}
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.displayname || record.id}
+            </Box>
+          )}
+          secondaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.id}
+            </Box>
+          )}
           tertiaryText={record => (
             <Box sx={{ display: "flex", gap: 0.5 }}>
               {record.admin && (
@@ -297,8 +305,7 @@ export const UserList = (props: ListProps) => {
           <TextField
             source="id"
             sx={{
-              wordBreak: "break-word",
-              overflowWrap: "break-word",
+              wordBreak: "break-all",
             }}
             sortBy="name"
             label="resources.users.fields.id"
@@ -306,8 +313,7 @@ export const UserList = (props: ListProps) => {
           <TextField
             source="displayname"
             sx={{
-              wordBreak: "break-word",
-              overflowWrap: "break-word",
+              wordBreak: "break-all",
             }}
             label="resources.users.fields.displayname"
           />
@@ -1001,7 +1007,7 @@ export const UserEdit = (props: EditProps) => {
                 <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
-                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} sx={{ wordBreak: "break-all" }} />
                 <ReferenceField
                   reference="rooms"
                   source="id"
@@ -1057,7 +1063,7 @@ export const UserEdit = (props: EditProps) => {
                 <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
-                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} sx={{ wordBreak: "break-all" }} />
                 <ReferenceField
                   reference="rooms"
                   source="id"
@@ -1091,7 +1097,11 @@ export const UserEdit = (props: EditProps) => {
           >
             {isSmall ? (
               <SimpleList
-                primaryText={record => record.app_display_name || record.app_id}
+                primaryText={record => (
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.app_display_name || record.app_id}
+                  </Box>
+                )}
                 secondaryText={record => (
                   <>
                     {record.kind}

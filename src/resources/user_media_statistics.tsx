@@ -85,7 +85,7 @@ export const UserMediaStatsList = (props: ListProps) => {
         <ReferenceField label="resources.users.fields.avatar" source="id" reference="users" sortable={false} link="">
           <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
         </ReferenceField>
-        <TextField source="user_id" label="resources.users.fields.id" />
+        <TextField source="user_id" label="resources.users.fields.id" sx={{ wordBreak: "break-all" }} />
         <TextField source="displayname" label="resources.users.fields.displayname" />
         <NumberField source="media_count" />
         <FunctionField source="media_length" render={record => formatBytes(record.media_length)} />

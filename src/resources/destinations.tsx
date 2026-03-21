@@ -212,7 +212,7 @@ export const DestinationShow = (props: ShowProps) => {
             perPage={50}
           >
             <DatagridConfigurable style={{ width: "100%" }} rowClick={id => `/rooms/${id}/show`}>
-              <TextField source="room_id" label="resources.rooms.fields.room_id" />
+              <TextField source="room_id" label="resources.rooms.fields.room_id" sx={{ wordBreak: "break-all" }} />
               <TextField source="stream_ordering" sortable={false} />
               <ReferenceField
                 label="resources.rooms.fields.name"
