@@ -814,11 +814,31 @@ export const UserEdit = (props: EditProps) => {
         <FormTab label="resources.connections.name" icon={<SettingsInputComponentIcon />} path="connections">
           <ReferenceField reference="connections" source="id" label={false} link={false}>
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
-              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
-                <TextField source="ip" sortable={false} />
-                <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
-              </DatagridConfigurable>
+              {isSmall ? (
+                <SimpleList
+                  primaryText={record => record.ip}
+                  secondaryText={record => (
+                    <>
+                      {record.last_seen && new Date(record.last_seen).toLocaleString(locale)}
+                      {record.user_agent && (
+                        <>
+                          <br />
+                          <Box component="span" sx={{ wordBreak: "break-all" }}>
+                            {record.user_agent}
+                          </Box>
+                        </>
+                      )}
+                    </>
+                  )}
+                  linkType={false}
+                />
+              ) : (
+                <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+                  <TextField source="ip" sortable={false} />
+                  <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                  <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
+                </DatagridConfigurable>
+              )}
             </ArrayField>
           </ReferenceField>
         </FormTab>
