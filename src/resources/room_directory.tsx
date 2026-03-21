@@ -1,4 +1,6 @@
 import RoomDirectoryIcon from "@mui/icons-material/FolderShared";
+import { Box, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import EmptyState from "../components/EmptyState";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -16,6 +18,7 @@ import {
   Pagination,
   ResourceProps,
   SelectColumnsButton,
+  SimpleList,
   TextField,
   TopToolbar,
   useCreate,
@@ -132,15 +135,21 @@ export const RoomDirectoryPublishButton = (props: ButtonProps) => {
   );
 };
 
-const RoomDirectoryListActions = () => (
-  <TopToolbar>
-    <SelectColumnsButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const RoomDirectoryListActions = () => {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <TopToolbar>
+      {!isSmall && <SelectColumnsButton />}
+      <ExportButton />
+    </TopToolbar>
+  );
+};
 
 export const RoomDirectoryList = () => {
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.room_directory.name", { smart_count: 2 }));
   return (
     <List
@@ -149,21 +158,46 @@ export const RoomDirectoryList = () => {
       actions={<RoomDirectoryListActions />}
       empty={<EmptyState />}
     >
-      <DatagridConfigurable
-        rowClick={id => "/rooms/" + id + "/show"}
-        bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
-        omit={["room_id", "canonical_alias", "topic"]}
-      >
-        <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} label="resources.rooms.fields.avatar" />
-        <TextField source="name" sortable={false} label="resources.rooms.fields.name" />
-        <TextField source="room_id" sortable={false} label="resources.rooms.fields.room_id" />
-        <TextField source="canonical_alias" sortable={false} label="resources.rooms.fields.canonical_alias" />
-        <TextField source="topic" sortable={false} label="resources.rooms.fields.topic" />
-        <NumberField source="num_joined_members" sortable={false} label="resources.rooms.fields.joined_members" />
-        <BooleanField source="world_readable" sortable={false} label="resources.room_directory.fields.world_readable" />
-        <BooleanField source="guest_can_join" sortable={false} label="resources.room_directory.fields.guest_can_join" />
-        <MakeAdminBtn />
-      </DatagridConfigurable>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.name || record.canonical_alias || record.room_id}
+            </Box>
+          )}
+          secondaryText={record => (
+            <>
+              {record.canonical_alias && (
+                <>
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.canonical_alias}
+                  </Box>
+                  <br />
+                </>
+              )}
+              {translate("resources.rooms.fields.joined_members")}: {record.num_joined_members ?? 0}
+            </>
+          )}
+          linkType="show"
+          leftAvatar={record => <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />}
+        />
+      ) : (
+        <DatagridConfigurable
+          rowClick={id => "/rooms/" + id + "/show"}
+          bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
+          omit={["room_id", "canonical_alias", "topic"]}
+        >
+          <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} label="resources.rooms.fields.avatar" />
+          <TextField source="name" sortable={false} label="resources.rooms.fields.name" />
+          <TextField source="room_id" sortable={false} label="resources.rooms.fields.room_id" />
+          <TextField source="canonical_alias" sortable={false} label="resources.rooms.fields.canonical_alias" />
+          <TextField source="topic" sortable={false} label="resources.rooms.fields.topic" />
+          <NumberField source="num_joined_members" sortable={false} label="resources.rooms.fields.joined_members" />
+          <BooleanField source="world_readable" sortable={false} label="resources.room_directory.fields.world_readable" />
+          <BooleanField source="guest_can_join" sortable={false} label="resources.room_directory.fields.guest_can_join" />
+          <MakeAdminBtn />
+        </DatagridConfigurable>
+      )}
     </List>
   );
 };
