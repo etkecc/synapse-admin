@@ -475,7 +475,12 @@ export const RoomShow = (props: ShowProps) => {
   const translate = useTranslate();
   const locale = useLocale();
   return (
-    <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />} sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}>
+    <Show
+      {...props}
+      actions={<RoomShowActions />}
+      title={<RoomTitle />}
+      sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
+    >
       <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
           <RoomOverviewTab />

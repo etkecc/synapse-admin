@@ -12,9 +12,16 @@ import PersonPinIcon from "@mui/icons-material/PersonPin";
 import ScienceIcon from "@mui/icons-material/Science";
 import SettingsInputComponentIcon from "@mui/icons-material/SettingsInputComponent";
 import ViewListIcon from "@mui/icons-material/ViewList";
-import { Alert, Box, Divider, Paper, Typography } from "@mui/material";
+import BlockIcon from "@mui/icons-material/Block";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import LockIcon from "@mui/icons-material/Lock";
+import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Alert, Box, Divider, Paper, Tooltip, Typography } from "@mui/material";
 import EmptyState from "../components/EmptyState";
 import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
 import {
   ArrayInput,
@@ -68,6 +75,7 @@ import {
   useCreate,
   useRedirect,
   useLocale,
+  SimpleList,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -217,6 +225,8 @@ const UserBulkActionButtons = () => {
 export const UserList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.users.name", { smart_count: 2 }));
   return (
     <List
@@ -229,47 +239,92 @@ export const UserList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
-      <DatagridConfigurable
-        rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
-        bulkActionButtons={<UserBulkActionButtons />}
-      >
-        <AvatarField
-          source="avatar_src"
-          sx={{ height: "40px", width: "40px" }}
-          sortBy="avatar_url"
-          label="resources.users.fields.avatar"
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => record.displayname || record.id}
+          secondaryText={record => record.id}
+          tertiaryText={record => (
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              {record.admin && (
+                <Tooltip title={translate("resources.users.fields.admin")}>
+                  <AdminPanelSettingsIcon fontSize="small" color="primary" />
+                </Tooltip>
+              )}
+              {record.locked && (
+                <Tooltip title={translate("resources.users.fields.locked")}>
+                  <LockIcon fontSize="small" color="warning" />
+                </Tooltip>
+              )}
+              {record.suspended && (
+                <Tooltip title={translate("resources.users.fields.suspended")}>
+                  <BlockIcon fontSize="small" color="warning" />
+                </Tooltip>
+              )}
+              {record.shadow_banned && (
+                <Tooltip title={translate("resources.users.fields.shadow_banned")}>
+                  <VisibilityOffIcon fontSize="small" color="warning" />
+                </Tooltip>
+              )}
+              {record.deactivated && (
+                <Tooltip title={translate("resources.users.fields.deactivated")}>
+                  <NoAccountsIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+              {record.erased && (
+                <Tooltip title={translate("resources.users.fields.erased")}>
+                  <DeleteForeverIcon fontSize="small" color="error" />
+                </Tooltip>
+              )}
+            </Box>
+          )}
+          linkType="edit"
+          leftAvatar={record => (
+            <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+          )}
         />
-        <TextField
-          source="id"
-          sx={{
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
-          }}
-          sortBy="name"
-          label="resources.users.fields.id"
-        />
-        <TextField
-          source="displayname"
-          sx={{
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
-          }}
-          label="resources.users.fields.displayname"
-        />
-        <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
-        <BooleanField source="admin" label="resources.users.fields.admin" />
-        <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
-        <BooleanField source="locked" label="resources.users.fields.locked" />
-        <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
-        <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-        <DateField
-          source="creation_ts"
-          label="resources.users.fields.creation_ts_ms"
-          showTime
-          options={DATE_FORMAT}
-          locales={locale}
-        />
-      </DatagridConfigurable>
+      ) : (
+        <DatagridConfigurable
+          rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
+          bulkActionButtons={<UserBulkActionButtons />}
+        >
+          <AvatarField
+            source="avatar_src"
+            sx={{ height: "40px", width: "40px" }}
+            sortBy="avatar_url"
+            label="resources.users.fields.avatar"
+          />
+          <TextField
+            source="id"
+            sx={{
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+            }}
+            sortBy="name"
+            label="resources.users.fields.id"
+          />
+          <TextField
+            source="displayname"
+            sx={{
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+            }}
+            label="resources.users.fields.displayname"
+          />
+          <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+          <BooleanField source="admin" label="resources.users.fields.admin" />
+          <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
+          <BooleanField source="locked" label="resources.users.fields.locked" />
+          <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
+          <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
+          <DateField
+            source="creation_ts"
+            label="resources.users.fields.creation_ts_ms"
+            showTime
+            options={DATE_FORMAT}
+            locales={locale}
+          />
+        </DatagridConfigurable>
+      )}
     </List>
   );
 };
@@ -482,6 +537,7 @@ const UserEditToolbar = () => {
 };
 
 const UserBooleanInput = props => {
+  const translate = useTranslate();
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
@@ -495,9 +551,17 @@ const UserBooleanInput = props => {
     }
   }
 
+  const { icon, ...rest } = props;
+  const label = icon ? (
+    <Box sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
+      {icon}
+      {translate(rest.label || `resources.users.fields.${rest.source}`)}
+    </Box>
+  ) : undefined;
+
   return (
     <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
-      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...props} />
+      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...rest} {...(label ? { label } : {})} />
     </UserPreventSelfDelete>
   );
 };
@@ -629,12 +693,21 @@ export const UserEdit = (props: EditProps) => {
 
           <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%" }}>
             <Box sx={{ flex: 1 }}>
-              <UserBooleanInput source="suspended" helperText="resources.users.helper.suspend" />
-              <UserBooleanInput source="shadow_banned" helperText="resources.users.helper.shadow_ban" />
+              <UserBooleanInput
+                source="suspended"
+                helperText="resources.users.helper.suspend"
+                icon={<BlockIcon fontSize="small" />}
+              />
+              <UserBooleanInput
+                source="shadow_banned"
+                helperText="resources.users.helper.shadow_ban"
+                icon={<VisibilityOffIcon fontSize="small" />}
+              />
               <UserBooleanInput
                 sx={{ color: theme.palette.warning.main }}
                 source="locked"
                 helperText="resources.users.helper.lock"
+                icon={<LockIcon fontSize="small" />}
               />
             </Box>
             <Paper
@@ -649,16 +722,22 @@ export const UserEdit = (props: EditProps) => {
               <Typography variant="subtitle2" color="error" sx={{ mb: 1 }}>
                 {translate("synapseadmin.users.danger_zone")}
               </Typography>
-              <BooleanInput source="admin" helperText="resources.users.helper.admin" />
+              <UserBooleanInput
+                source="admin"
+                helperText="resources.users.helper.admin"
+                icon={<AdminPanelSettingsIcon fontSize="small" />}
+              />
               <UserBooleanInput
                 sx={{ color: theme.palette.error.main }}
                 source="deactivated"
                 helperText="resources.users.helper.deactivate"
+                icon={<NoAccountsIcon fontSize="small" />}
               />
               <ErasedBooleanInput
                 sx={{ color: theme.palette.error.main, marginLeft: "25px" }}
                 source="erased"
                 helperText="resources.users.helper.erase"
+                icon={<DeleteForeverIcon fontSize="small" />}
               />
             </Paper>
           </Box>
@@ -814,7 +893,11 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
+            <DatagridConfigurable
+              sx={{ width: "100%" }}
+              rowClick={id => "/rooms/" + id + "/show"}
+              bulkActionButtons={false}
+            >
               <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                 <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
               </ReferenceField>
@@ -849,7 +932,11 @@ export const UserEdit = (props: EditProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["app_id", "data.url", "profile_tag", "pushkey"]}>
+            <DatagridConfigurable
+              sx={{ width: "100%" }}
+              bulkActionButtons={false}
+              omit={["app_id", "data.url", "profile_tag", "pushkey"]}
+            >
               <TextField source="kind" sortable={false} />
               <TextField source="app_display_name" sortable={false} />
               <TextField source="app_id" sortable={false} />

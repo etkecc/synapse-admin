@@ -36,7 +36,8 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
         Synapse Admin {version}
       </Link>
       <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
-        {" "}by{" "}
+        {" "}
+        by{" "}
         <Link
           href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin"
           target="_blank"
