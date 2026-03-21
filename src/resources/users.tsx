@@ -18,7 +18,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert, Box, Divider, Paper, Tooltip, Typography } from "@mui/material";
+import { Alert, Box, Divider, List as MuiList, ListItemButton, Paper, Tooltip, Typography } from "@mui/material";
 import EmptyState from "../components/EmptyState";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -75,6 +75,7 @@ import {
   useRedirect,
   useLocale,
   SimpleList,
+  useGetMany,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -642,6 +643,50 @@ const ErasedBooleanInput = props => {
   return <UserBooleanInput disabled={!deactivated} {...props} />;
 };
 
+const JoinedRoomsMobileList = () => {
+  const { data: joinedRooms } = useListContext();
+  const translate = useTranslate();
+  const ids = (joinedRooms || []).map(r => r.id);
+  const { data: rooms } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
+  const roomMap = new Map((rooms || []).map(r => [r.id, r]));
+
+  if (!joinedRooms?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {joinedRooms.map(record => {
+        const room = roomMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/rooms/" + record.id + "/show"}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={room || record} source="avatar" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {room?.name || room?.canonical_alias || record.id}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {translate("resources.rooms.fields.joined_members")}: {room?.joined_members ?? 0}
+                {room?.creator && (
+                  <>
+                    <br />
+                    <Box component="span" sx={{ wordBreak: "break-all" }}>
+                      {translate("resources.rooms.fields.creator")}: {room.creator}
+                    </Box>
+                  </>
+                )}
+              </Typography>
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
   const theme = useTheme();
@@ -909,43 +954,47 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              rowClick={id => "/rooms/" + id + "/show"}
-              bulkActionButtons={<RoomBulkActionButtons />}
-            >
-              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
-                <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
-              </ReferenceField>
-              <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
-              <ReferenceField
-                reference="rooms"
-                source="id"
-                label="resources.rooms.fields.name"
-                link={false}
-                sortable={false}
+            {isSmall ? (
+              <JoinedRoomsMobileList />
+            ) : (
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                rowClick={id => "/rooms/" + id + "/show"}
+                bulkActionButtons={<RoomBulkActionButtons />}
               >
-                <TextField
-                  source="name"
-                  sx={{
-                    wordBreak: "break-word",
-                    overflowWrap: "break-word",
-                  }}
-                />
-              </ReferenceField>
-              <ReferenceField
-                reference="rooms"
-                source="id"
-                label="resources.rooms.fields.joined_members"
-                link={false}
-                sortable={false}
-              >
-                <TextField source="joined_members" sortable={false} />
-              </ReferenceField>
-              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
-                <MakeAdminBtn />
-              </ReferenceField>
-            </DatagridConfigurable>
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+                </ReferenceField>
+                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+                <ReferenceField
+                  reference="rooms"
+                  source="id"
+                  label="resources.rooms.fields.name"
+                  link={false}
+                  sortable={false}
+                >
+                  <TextField
+                    source="name"
+                    sx={{
+                      wordBreak: "break-word",
+                      overflowWrap: "break-word",
+                    }}
+                  />
+                </ReferenceField>
+                <ReferenceField
+                  reference="rooms"
+                  source="id"
+                  label="resources.rooms.fields.joined_members"
+                  link={false}
+                  sortable={false}
+                >
+                  <TextField source="joined_members" sortable={false} />
+                </ReferenceField>
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <MakeAdminBtn />
+                </ReferenceField>
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
