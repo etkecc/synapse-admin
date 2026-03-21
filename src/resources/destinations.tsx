@@ -4,6 +4,8 @@ import ErrorIcon from "@mui/icons-material/Error";
 import FolderSharedIcon from "@mui/icons-material/FolderShared";
 import EmptyState from "../components/EmptyState";
 import ViewListIcon from "@mui/icons-material/ViewList";
+import { Box, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { get } from "lodash";
 import { MouseEvent } from "react";
 import {
@@ -20,6 +22,7 @@ import {
   SearchInput,
   Show,
   ShowProps,
+  SimpleList,
   Tab,
   TabbedShowLayout,
   TextField,
@@ -118,6 +121,8 @@ const destinationFieldRender = (record: RaRecord) => {
 export const DestinationList = (props: ListProps) => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.destinations.name", 2));
   return (
     <List
@@ -128,33 +133,53 @@ export const DestinationList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
-      <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
-        <FunctionField
-          source="destination"
-          render={destinationFieldRender}
-          label="resources.destinations.fields.destination"
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.destination}
+            </Box>
+          )}
+          secondaryText={record =>
+            record.failure_ts ? (
+              <Box component="span" sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
+                <ErrorIcon fontSize="inherit" color="error" />
+                {translate("resources.destinations.fields.failure_ts")}: {new Date(record.failure_ts).toLocaleString(locale)}
+              </Box>
+            ) : null
+          }
+          tertiaryText={record => (record.failure_ts ? <DestinationReconnectButton /> : null)}
+          rowClick={id => `${id}/show/rooms`}
         />
-        <DateField
-          source="failure_ts"
-          showTime
-          options={DATE_FORMAT}
-          label="resources.destinations.fields.failure_ts"
-          locales={locale}
-        />
-        <RetryDateField
-          source="retry_last_ts"
-          showTime
-          options={DATE_FORMAT}
-          label="resources.destinations.fields.retry_last_ts"
-          locales={locale}
-        />
-        <TextField source="retry_interval" label="resources.destinations.fields.retry_interval" />
-        <TextField
-          source="last_successful_stream_ordering"
-          label="resources.destinations.fields.last_successful_stream_ordering"
-        />
-        <DestinationReconnectButton />
-      </DatagridConfigurable>
+      ) : (
+        <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
+          <FunctionField
+            source="destination"
+            render={destinationFieldRender}
+            label="resources.destinations.fields.destination"
+          />
+          <DateField
+            source="failure_ts"
+            showTime
+            options={DATE_FORMAT}
+            label="resources.destinations.fields.failure_ts"
+            locales={locale}
+          />
+          <RetryDateField
+            source="retry_last_ts"
+            showTime
+            options={DATE_FORMAT}
+            label="resources.destinations.fields.retry_last_ts"
+            locales={locale}
+          />
+          <TextField source="retry_interval" label="resources.destinations.fields.retry_interval" />
+          <TextField
+            source="last_successful_stream_ordering"
+            label="resources.destinations.fields.last_successful_stream_ordering"
+          />
+          <DestinationReconnectButton />
+        </DatagridConfigurable>
+      )}
     </List>
   );
 };
