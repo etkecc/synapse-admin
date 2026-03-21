@@ -857,21 +857,47 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             sort={{ field: "created_ts", order: "DESC" }}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
-              <MediaIDField source="media_id" />
-              <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
-              <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
-              <FunctionField source="media_length" render={record => formatBytes(record.media_length)} />
-              <TextField source="media_type" sx={{ display: "block", width: 200, wordBreak: "break-word" }} />
-              <FunctionField
-                source="upload_name"
-                render={record => (record.upload_name ? decodeURLComponent(record.upload_name) : "")}
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => (
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.upload_name ? decodeURLComponent(record.upload_name) : record.media_id}
+                  </Box>
+                )}
+                secondaryText={record => (
+                  <>
+                    {formatBytes(record.media_length)}
+                    {record.media_type && <> · {record.media_type}</>}
+                    <br />
+                    {new Date(record.created_ts).toLocaleString(locale)}
+                  </>
+                )}
+                tertiaryText={() => (
+                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                    <QuarantineMediaButton />
+                    <ProtectMediaButton />
+                    <DeleteButton mutationMode="pessimistic" redirect={false} />
+                  </Box>
+                )}
+                linkType={false}
               />
-              <TextField source="quarantined_by" />
-              <QuarantineMediaButton />
-              <ProtectMediaButton />
-              <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </DatagridConfigurable>
+            ) : (
+              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
+                <MediaIDField source="media_id" />
+                <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
+                <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
+                <FunctionField source="media_length" render={record => formatBytes(record.media_length)} />
+                <TextField source="media_type" sx={{ display: "block", width: 200, wordBreak: "break-word" }} />
+                <FunctionField
+                  source="upload_name"
+                  render={record => (record.upload_name ? decodeURLComponent(record.upload_name) : "")}
+                />
+                <TextField source="quarantined_by" />
+                <QuarantineMediaButton />
+                <ProtectMediaButton />
+                <DeleteButton mutationMode="pessimistic" redirect={false} />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
