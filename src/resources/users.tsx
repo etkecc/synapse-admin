@@ -645,6 +645,7 @@ const ErasedBooleanInput = props => {
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
   const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const locale = useLocale();
 
   return (
@@ -771,20 +772,41 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
           >
             <Box sx={{ width: "100%" }}>
-              <DatagridConfigurable
-                bulkActionButtons={<DeviceBulkRemoveButton />}
-                omit={["last_seen_user_agent", "dehydrated"]}
-              >
-                <TextField source="device_id" sortable={false} />
-                <DeviceDisplayNameInput />
-                <TextField source="last_seen_ip" sortable={false} />
-                <TextField source="last_seen_user_agent" sortable={false} />
-                <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                <BooleanField source="dehydrated" sortable={false} />
-                <WrapperField label="resources.rooms.fields.actions">
-                  <DeviceRemoveButton />
-                </WrapperField>
-              </DatagridConfigurable>
+              {isSmall ? (
+                <SimpleList
+                  primaryText={record => (
+                    <Box component="span" sx={{ wordBreak: "break-all" }}>
+                      {record.device_id}
+                    </Box>
+                  )}
+                  secondaryText={record => (
+                    <>
+                      {record.last_seen_ip && <>{record.last_seen_ip}<br /></>}
+                      {record.last_seen_ts && new Date(record.last_seen_ts).toLocaleString(locale)}
+                      <Box sx={{ mt: 1 }}>
+                        <DeviceDisplayNameInput />
+                      </Box>
+                    </>
+                  )}
+                  tertiaryText={() => <DeviceRemoveButton />}
+                  linkType={false}
+                />
+              ) : (
+                <DatagridConfigurable
+                  bulkActionButtons={<DeviceBulkRemoveButton />}
+                  omit={["last_seen_user_agent", "dehydrated"]}
+                >
+                  <TextField source="device_id" sortable={false} />
+                  <DeviceDisplayNameInput />
+                  <TextField source="last_seen_ip" sortable={false} />
+                  <TextField source="last_seen_user_agent" sortable={false} />
+                  <DateField source="last_seen_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                  <BooleanField source="dehydrated" sortable={false} />
+                  <WrapperField label="resources.rooms.fields.actions">
+                    <DeviceRemoveButton />
+                  </WrapperField>
+                </DatagridConfigurable>
+              )}
             </Box>
           </ReferenceManyField>
         </FormTab>

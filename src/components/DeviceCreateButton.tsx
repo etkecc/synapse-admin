@@ -5,7 +5,7 @@ import { Button as MuiButton, Dialog, DialogActions, DialogContent, DialogTitle,
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
-import { Button, useNotify, useRecordContext, useRefresh, useTranslate } from "react-admin";
+import { useNotify, useRecordContext, useRefresh, useTranslate } from "react-admin";
 
 import { jsonClient } from "../providers/httpClients";
 import { invalidateManyRefCache } from "../providers/resourceMap";
@@ -50,9 +50,9 @@ const DeviceCreateButton = () => {
 
   return (
     <>
-      <Button label="resources.devices.action.create.label" onClick={() => setOpen(true)}>
-        <AddIcon />
-      </Button>
+      <MuiButton variant="outlined" size="small" startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth={fullScreen}>
+        {translate("resources.devices.action.create.label")}
+      </MuiButton>
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
         <DialogTitle>{translate("resources.devices.action.create.title")}</DialogTitle>
         <DialogContent>
