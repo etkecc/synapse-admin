@@ -108,12 +108,12 @@ const ServerStatusPage = () => {
     <>
       <Title title={translate("etkecc.status.name")} />
       <Stack spacing={3} mt={3}>
-        <Stack spacing={1} direction="row" alignItems="center">
+        <Stack spacing={1} direction={{ xs: "column", sm: "row" }} alignItems={{ xs: "flex-start", sm: "center" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Typography variant="h4">{translate("etkecc.status.status")}:</Typography>
             <StatusChip isOkay={isOkay} command={command} errorLabel={errorLabel} />
           </Box>
-          <Typography variant="h5" color="primary" fontWeight="medium">
+          <Typography variant="h5" color="primary" fontWeight="medium" sx={{ wordBreak: "break-all" }}>
             {host}
           </Typography>
         </Stack>

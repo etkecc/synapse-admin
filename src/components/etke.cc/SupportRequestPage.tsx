@@ -62,20 +62,21 @@ const MessageRow = ({
         borderLeftColor: !isCustomer ? "primary.main" : undefined,
       }}
     >
-      <Stack direction="row">
+      <Stack direction={{ xs: "column", sm: "row" }}>
         <Box
           onClick={mxid ? () => navigate(`/users/${encodeURIComponent(mxid)}`) : undefined}
           sx={{
-            width: 150,
+            width: { xs: "100%", sm: 150 },
             flexShrink: 0,
             p: 1.5,
-            borderRight: "1px solid",
+            borderRight: { xs: "none", sm: "1px solid" },
+            borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: "action.selected",
             bgcolor: "background.default",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: { xs: "row", sm: "column" },
             alignItems: "center",
-            gap: 0.5,
+            gap: { xs: 1, sm: 0.5 },
             cursor: mxid ? "pointer" : undefined,
             "&:hover": mxid ? { bgcolor: "action.hover" } : undefined,
           }}
