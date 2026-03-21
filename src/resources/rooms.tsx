@@ -615,10 +615,22 @@ export const RoomShow = (props: ShowProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
-              <MediaIDField source="media_id" />
-              <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </DatagridConfigurable>
+            {isSmall ? (
+              <SimpleList
+                primaryText={() => (
+                  <Box sx={{ wordBreak: "break-all" }}>
+                    <MediaIDField source="media_id" />
+                  </Box>
+                )}
+                tertiaryText={() => <DeleteButton mutationMode="pessimistic" redirect={false} />}
+                linkType={false}
+              />
+            ) : (
+              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+                <MediaIDField source="media_id" />
+                <DeleteButton mutationMode="pessimistic" redirect={false} />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </Tab>
 
