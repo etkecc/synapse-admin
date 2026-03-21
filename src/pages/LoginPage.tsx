@@ -483,8 +483,12 @@ const LoginPage = () => {
             />
           </Box>
         )}
-        <Typography className="serverVersion" sx={{ wordBreak: "break-word" }}>{serverVersion}</Typography>
-        <Typography className="matrixVersions" sx={{ wordBreak: "break-word" }}>{matrixVersions}</Typography>
+        <Typography className="serverVersion" sx={{ wordBreak: "break-word" }}>
+          {serverVersion}
+        </Typography>
+        <Typography className="matrixVersions" sx={{ wordBreak: "break-word" }}>
+          {matrixVersions}
+        </Typography>
       </>
     );
   };
@@ -524,20 +528,17 @@ const LoginPage = () => {
             </Select>
             <FormDataConsumer>{formDataProps => <UserData {...formDataProps} />}</FormDataConsumer>
             {loginMethod === "credentials" && (
-              <CardActions className="actions" sx={{ flexDirection: "column", gap: 1, "& > :not(:first-of-type)": { ml: 0 } }}>
+              <CardActions
+                className="actions"
+                sx={{ flexDirection: "column", gap: 1, "& > :not(:first-of-type)": { ml: 0 } }}
+              >
                 {supportPassAuth && (
                   <Button variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
                     {translate("ra.auth.sign_in")}
                   </Button>
                 )}
                 {ssoBaseUrl !== "" && (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleSSO}
-                    disabled={loading}
-                    fullWidth
-                  >
+                  <Button variant="contained" color="secondary" onClick={handleSSO} disabled={loading} fullWidth>
                     {translate("synapseadmin.auth.sso_sign_in")}
                   </Button>
                 )}

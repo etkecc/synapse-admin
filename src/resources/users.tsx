@@ -868,7 +868,12 @@ export const UserEdit = (props: EditProps) => {
                   )}
                   secondaryText={record => (
                     <>
-                      {record.last_seen_ip && <>{record.last_seen_ip}<br /></>}
+                      {record.last_seen_ip && (
+                        <>
+                          {record.last_seen_ip}
+                          <br />
+                        </>
+                      )}
                       {record.last_seen_ts && new Date(record.last_seen_ts).toLocaleString(locale)}
                       <Box sx={{ mt: 1 }}>
                         <DeviceDisplayNameInput />
@@ -1007,7 +1012,12 @@ export const UserEdit = (props: EditProps) => {
                 <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
-                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} sx={{ wordBreak: "break-all" }} />
+                <TextField
+                  source="id"
+                  label="resources.rooms.fields.room_id"
+                  sortable={false}
+                  sx={{ wordBreak: "break-all" }}
+                />
                 <ReferenceField
                   reference="rooms"
                   source="id"
@@ -1063,7 +1073,12 @@ export const UserEdit = (props: EditProps) => {
                 <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
-                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} sx={{ wordBreak: "break-all" }} />
+                <TextField
+                  source="id"
+                  label="resources.rooms.fields.room_id"
+                  sortable={false}
+                  sx={{ wordBreak: "break-all" }}
+                />
                 <ReferenceField
                   reference="rooms"
                   source="id"

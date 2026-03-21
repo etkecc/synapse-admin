@@ -80,7 +80,8 @@ export const RegistrationTokenList = (props: ListProps) => {
               {record.expiry_time && (
                 <>
                   <br />
-                  {translate("resources.registration_tokens.fields.expiry_time")}: {new Date(record.expiry_time).toLocaleString(locale)}
+                  {translate("resources.registration_tokens.fields.expiry_time")}:{" "}
+                  {new Date(record.expiry_time).toLocaleString(locale)}
                 </>
               )}
             </>
@@ -89,50 +90,54 @@ export const RegistrationTokenList = (props: ListProps) => {
           linkType="edit"
         />
       ) : (
-      <DatagridConfigurable rowClick="edit">
-        <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
-        <NumberField source="uses_allowed" sortable={false} label="resources.registration_tokens.fields.uses_allowed" />
-        <NumberField source="pending" sortable={false} label="resources.registration_tokens.fields.pending" />
-        <NumberField source="completed" sortable={false} label="resources.registration_tokens.fields.completed" />
-        <DateField
-          source="expiry_time"
-          showTime
-          options={DATE_FORMAT}
-          sortable={false}
-          label="resources.registration_tokens.fields.expiry_time"
-          locales={locale}
-        />
-        {isMAS && (
+        <DatagridConfigurable rowClick="edit">
+          <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
+          <NumberField
+            source="uses_allowed"
+            sortable={false}
+            label="resources.registration_tokens.fields.uses_allowed"
+          />
+          <NumberField source="pending" sortable={false} label="resources.registration_tokens.fields.pending" />
+          <NumberField source="completed" sortable={false} label="resources.registration_tokens.fields.completed" />
           <DateField
-            source="created_at"
+            source="expiry_time"
             showTime
             options={DATE_FORMAT}
             sortable={false}
-            label="resources.registration_tokens.fields.created_at"
+            label="resources.registration_tokens.fields.expiry_time"
             locales={locale}
           />
-        )}
-        {isMAS && (
-          <DateField
-            source="last_used_at"
-            showTime
-            options={DATE_FORMAT}
-            sortable={false}
-            label="resources.registration_tokens.fields.last_used_at"
-            locales={locale}
-          />
-        )}
-        {isMAS && (
-          <DateField
-            source="revoked_at"
-            showTime
-            options={DATE_FORMAT}
-            sortable={false}
-            label="resources.registration_tokens.fields.revoked_at"
-            locales={locale}
-          />
-        )}
-      </DatagridConfigurable>
+          {isMAS && (
+            <DateField
+              source="created_at"
+              showTime
+              options={DATE_FORMAT}
+              sortable={false}
+              label="resources.registration_tokens.fields.created_at"
+              locales={locale}
+            />
+          )}
+          {isMAS && (
+            <DateField
+              source="last_used_at"
+              showTime
+              options={DATE_FORMAT}
+              sortable={false}
+              label="resources.registration_tokens.fields.last_used_at"
+              locales={locale}
+            />
+          )}
+          {isMAS && (
+            <DateField
+              source="revoked_at"
+              showTime
+              options={DATE_FORMAT}
+              sortable={false}
+              label="resources.registration_tokens.fields.revoked_at"
+              locales={locale}
+            />
+          )}
+        </DatagridConfigurable>
       )}
     </List>
   );

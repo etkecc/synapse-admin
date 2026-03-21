@@ -554,7 +554,12 @@ export const RoomShow = (props: ShowProps) => {
                 >
                   <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
-                <RaTextField source="id" sortable={false} label="resources.users.fields.id" sx={{ wordBreak: "break-all" }} />
+                <RaTextField
+                  source="id"
+                  sortable={false}
+                  label="resources.users.fields.id"
+                  sx={{ wordBreak: "break-all" }}
+                />
                 <ReferenceField
                   label="resources.users.fields.displayname"
                   source="id"
@@ -728,7 +733,12 @@ export const RoomShow = (props: ShowProps) => {
                 secondaryText={record => (
                   <>
                     {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
-                    {record.state_group && <> · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}</>}
+                    {record.state_group && (
+                      <>
+                        {" "}
+                        · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}
+                      </>
+                    )}
                   </>
                 )}
                 linkType={false}
@@ -834,59 +844,61 @@ export const RoomList = (props: ListProps) => {
             </Box>
           )}
           linkType="show"
-          leftAvatar={record => <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />}
+          leftAvatar={record => (
+            <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+          )}
         />
       ) : (
-      <DatagridConfigurable
-        rowClick="show"
-        bulkActionButtons={<RoomBulkActionButtons />}
-        omit={["joined_local_members", "state_events", "version", "federatable", "join_rules"]}
-      >
-        <ReferenceField
-          reference="rooms"
-          source="id"
-          label="resources.users.fields.avatar"
-          link={false}
-          sortable={false}
+        <DatagridConfigurable
+          rowClick="show"
+          bulkActionButtons={<RoomBulkActionButtons />}
+          omit={["joined_local_members", "state_events", "version", "federatable", "join_rules"]}
         >
-          <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
-        </ReferenceField>
-        <RaTextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
-        <WrapperField source="encryption" sortBy="encryption" label="resources.rooms.fields.encryption">
-          <BooleanField
-            source="is_encrypted"
-            sortBy="encryption"
-            TrueIcon={HttpsIcon}
-            FalseIcon={NoEncryptionIcon}
-            label={<HttpsIcon />}
+          <ReferenceField
+            reference="rooms"
+            source="id"
+            label="resources.users.fields.avatar"
+            link={false}
+            sortable={false}
+          >
+            <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+          </ReferenceField>
+          <RaTextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+          <WrapperField source="encryption" sortBy="encryption" label="resources.rooms.fields.encryption">
+            <BooleanField
+              source="is_encrypted"
+              sortBy="encryption"
+              TrueIcon={HttpsIcon}
+              FalseIcon={NoEncryptionIcon}
+              label={<HttpsIcon />}
+              sx={{
+                [`& [data-testid="true"]`]: { color: theme.palette.success.main },
+                [`& [data-testid="false"]`]: { color: theme.palette.error.main },
+              }}
+            />
+          </WrapperField>
+          <FunctionField
+            source="name"
             sx={{
-              [`& [data-testid="true"]`]: { color: theme.palette.success.main },
-              [`& [data-testid="false"]`]: { color: theme.palette.error.main },
+              wordBreak: "break-all",
             }}
+            render={record => record["name"] || record["canonical_alias"] || record["id"]}
+            label="resources.rooms.fields.name"
           />
-        </WrapperField>
-        <FunctionField
-          source="name"
-          sx={{
-            wordBreak: "break-all",
-          }}
-          render={record => record["name"] || record["canonical_alias"] || record["id"]}
-          label="resources.rooms.fields.name"
-        />
-        <RaTextField source="joined_members" label="resources.rooms.fields.joined_members" />
-        <RaTextField source="joined_local_members" label="resources.rooms.fields.joined_local_members" />
-        <RaTextField source="state_events" label="resources.rooms.fields.state_events" />
-        <RaTextField source="version" label="resources.rooms.fields.version" />
-        <RaTextField source="join_rules" label="resources.rooms.fields.join_rules" />
-        <ReferenceField source="creator" reference="users">
-          <RaTextField source="id" label="resources.rooms.fields.creator" sx={{ wordBreak: "break-all" }} />
-        </ReferenceField>
-        <BooleanField source="federatable" label="resources.rooms.fields.federatable" />
-        <BooleanField source="public" label="resources.rooms.fields.public" />
-        <WrapperField label="resources.rooms.fields.actions">
-          <MakeAdminBtn />
-        </WrapperField>
-      </DatagridConfigurable>
+          <RaTextField source="joined_members" label="resources.rooms.fields.joined_members" />
+          <RaTextField source="joined_local_members" label="resources.rooms.fields.joined_local_members" />
+          <RaTextField source="state_events" label="resources.rooms.fields.state_events" />
+          <RaTextField source="version" label="resources.rooms.fields.version" />
+          <RaTextField source="join_rules" label="resources.rooms.fields.join_rules" />
+          <ReferenceField source="creator" reference="users">
+            <RaTextField source="id" label="resources.rooms.fields.creator" sx={{ wordBreak: "break-all" }} />
+          </ReferenceField>
+          <BooleanField source="federatable" label="resources.rooms.fields.federatable" />
+          <BooleanField source="public" label="resources.rooms.fields.public" />
+          <WrapperField label="resources.rooms.fields.actions">
+            <MakeAdminBtn />
+          </WrapperField>
+        </DatagridConfigurable>
       )}
     </List>
   );

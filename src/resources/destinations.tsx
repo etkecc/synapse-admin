@@ -144,7 +144,8 @@ export const DestinationList = (props: ListProps) => {
             record.failure_ts ? (
               <Box component="span" sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
                 <ErrorIcon fontSize="inherit" color="error" />
-                {translate("resources.destinations.fields.failure_ts")}: {new Date(record.failure_ts).toLocaleString(locale)}
+                {translate("resources.destinations.fields.failure_ts")}:{" "}
+                {new Date(record.failure_ts).toLocaleString(locale)}
               </Box>
             ) : null
           }

@@ -47,7 +47,22 @@ const UserAccountData = () => {
                 <Typography variant="h6">{translate("resources.users.account_data.global")}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Box component="pre" sx={{ whiteSpace: "pre-wrap", wordBreak: "break-all", m: 0, p: 2, fontSize: { xs: "0.75rem", sm: "0.85rem" }, bgcolor: "action.hover", borderRadius: 1, overflow: "auto", maxWidth: "100%" }}>{JSON.stringify(globalAccountData, null, 4)}</Box>
+                <Box
+                  component="pre"
+                  sx={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-all",
+                    m: 0,
+                    p: 2,
+                    fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                    bgcolor: "action.hover",
+                    borderRadius: 1,
+                    overflow: "auto",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {JSON.stringify(globalAccountData, null, 4)}
+                </Box>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -55,7 +70,22 @@ const UserAccountData = () => {
                 <Typography variant="h6">{translate("resources.users.account_data.rooms")}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Box component="pre" sx={{ whiteSpace: "pre-wrap", wordBreak: "break-all", m: 0, p: 2, fontSize: { xs: "0.75rem", sm: "0.85rem" }, bgcolor: "action.hover", borderRadius: 1, overflow: "auto", maxWidth: "100%" }}>{JSON.stringify(roomsAccountData, null, 4)}</Box>
+                <Box
+                  component="pre"
+                  sx={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-all",
+                    m: 0,
+                    p: 2,
+                    fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                    bgcolor: "action.hover",
+                    borderRadius: 1,
+                    overflow: "auto",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {JSON.stringify(roomsAccountData, null, 4)}
+                </Box>
               </AccordionDetails>
             </Accordion>
           </Box>

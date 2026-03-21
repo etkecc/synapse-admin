@@ -89,11 +89,15 @@ export const ScheduledTaskList = (props: ListProps) => {
             </>
           )}
           secondaryText={record => new Date(record.timestamp_ms).toLocaleDateString(locale, DATE_FORMAT)}
-          tertiaryText={record => record.resource_id ? (
-            <Box component="span" sx={{ wordBreak: "break-all" }}>
-              {record.resource_id}
-            </Box>
-          ) : ""}
+          tertiaryText={record =>
+            record.resource_id ? (
+              <Box component="span" sx={{ wordBreak: "break-all" }}>
+                {record.resource_id}
+              </Box>
+            ) : (
+              ""
+            )
+          }
           linkType={false}
         />
       ) : (
@@ -114,7 +118,12 @@ export const ScheduledTaskList = (props: ListProps) => {
             label="resources.scheduled_tasks.fields.timestamp"
             locales={locale}
           />
-          <TextField source="resource_id" sortable={false} label="resources.scheduled_tasks.fields.resource_id" sx={{ wordBreak: "break-all" }} />
+          <TextField
+            source="resource_id"
+            sortable={false}
+            label="resources.scheduled_tasks.fields.resource_id"
+            sx={{ wordBreak: "break-all" }}
+          />
           <FunctionField
             source="result"
             sortable={false}

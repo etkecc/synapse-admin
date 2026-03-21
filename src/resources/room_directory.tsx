@@ -179,7 +179,9 @@ export const RoomDirectoryList = () => {
             </>
           )}
           linkType="show"
-          leftAvatar={record => <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />}
+          leftAvatar={record => (
+            <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+          )}
         />
       ) : (
         <DatagridConfigurable
@@ -187,14 +189,36 @@ export const RoomDirectoryList = () => {
           bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
           omit={["room_id", "canonical_alias", "topic"]}
         >
-          <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} label="resources.rooms.fields.avatar" />
+          <AvatarField
+            source="avatar_src"
+            sx={{ height: "40px", width: "40px" }}
+            label="resources.rooms.fields.avatar"
+          />
           <TextField source="name" sortable={false} label="resources.rooms.fields.name" />
-          <TextField source="room_id" sortable={false} label="resources.rooms.fields.room_id" sx={{ wordBreak: "break-all" }} />
-          <TextField source="canonical_alias" sortable={false} label="resources.rooms.fields.canonical_alias" sx={{ wordBreak: "break-all" }} />
+          <TextField
+            source="room_id"
+            sortable={false}
+            label="resources.rooms.fields.room_id"
+            sx={{ wordBreak: "break-all" }}
+          />
+          <TextField
+            source="canonical_alias"
+            sortable={false}
+            label="resources.rooms.fields.canonical_alias"
+            sx={{ wordBreak: "break-all" }}
+          />
           <TextField source="topic" sortable={false} label="resources.rooms.fields.topic" />
           <NumberField source="num_joined_members" sortable={false} label="resources.rooms.fields.joined_members" />
-          <BooleanField source="world_readable" sortable={false} label="resources.room_directory.fields.world_readable" />
-          <BooleanField source="guest_can_join" sortable={false} label="resources.room_directory.fields.guest_can_join" />
+          <BooleanField
+            source="world_readable"
+            sortable={false}
+            label="resources.room_directory.fields.world_readable"
+          />
+          <BooleanField
+            source="guest_can_join"
+            sortable={false}
+            label="resources.room_directory.fields.guest_can_join"
+          />
           <MakeAdminBtn />
         </DatagridConfigurable>
       )}

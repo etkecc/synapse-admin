@@ -50,7 +50,13 @@ const DeviceCreateButton = () => {
 
   return (
     <>
-      <MuiButton variant="outlined" size="small" startIcon={<AddIcon />} onClick={() => setOpen(true)} fullWidth={fullScreen}>
+      <MuiButton
+        variant="outlined"
+        size="small"
+        startIcon={<AddIcon />}
+        onClick={() => setOpen(true)}
+        fullWidth={fullScreen}
+      >
         {translate("resources.devices.action.create.label")}
       </MuiButton>
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
