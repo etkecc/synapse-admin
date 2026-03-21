@@ -114,7 +114,7 @@ const choices_type = [
 const UserListActions = () => {
   const { isLoading, total } = useListContext();
   return (
-    <TopToolbar>
+    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       <FindUserButton />
       <CreateButton />
       <ExportButton disabled={isLoading || total === 0} maxResults={10000} />
@@ -295,7 +295,7 @@ const UserEditActions = () => {
   }
 
   return (
-    <TopToolbar>
+    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       {!record?.deactivated && <LoginAsUserButton />}
       {!record?.deactivated && <ResetPasswordButton />}
       {!record?.deactivated && <AllowCrossSigningButton />}
@@ -590,6 +590,7 @@ export const UserEdit = (props: EditProps) => {
       title={<UserTitle />}
       actions={<UserEditActions />}
       mutationMode="pessimistic"
+      sx={{ "& .RaEdit-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
       queryOptions={{
         meta: {
           include: ["features"], // Tell your dataProvider to include features
@@ -605,7 +606,7 @@ export const UserEdit = (props: EditProps) => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                alignItems: { xs: "flex-start", sm: "center" },
+                alignItems: "center",
                 minWidth: 140,
                 gap: 2,
               }}

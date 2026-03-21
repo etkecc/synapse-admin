@@ -196,7 +196,7 @@ export const RegistrationTokenEdit = (props: EditProps) => {
   useDocTitle(`${translate("ra.action.edit")} ${translate("resources.registration_tokens.name")}`);
 
   return (
-    <Edit {...props}>
+    <Edit {...props} sx={{ "& .RaEdit-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}>
       <SimpleForm toolbar={<RegistrationTokenEditToolbar />}>
         <TextInput source="token" disabled />
         <NumberInput source="pending" disabled />

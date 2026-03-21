@@ -118,7 +118,7 @@ const RoomShowActions = () => {
   const publishButton = record?.public ? <RoomDirectoryUnpublishButton /> : <RoomDirectoryPublishButton />;
   // FIXME: refresh after (un)publish
   return (
-    <TopToolbar>
+    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       {publishButton}
       <BlockRoomButton />
       <PurgeHistoryButton />
@@ -395,7 +395,7 @@ const RoomOverviewTab = () => {
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               {translate("synapseadmin.rooms.tabs.detail")}
             </Typography>
-            <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+            <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.joined_members")}
@@ -429,7 +429,7 @@ const RoomOverviewTab = () => {
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
               {translate("synapseadmin.rooms.tabs.permission")}
             </Typography>
-            <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
+            <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.join_rules")}
@@ -476,7 +476,7 @@ export const RoomShow = (props: ShowProps) => {
   const translate = useTranslate();
   const locale = useLocale();
   return (
-    <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
+    <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />} sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}>
       <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
           <RoomOverviewTab />

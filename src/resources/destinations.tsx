@@ -164,7 +164,7 @@ export const DestinationShow = (props: ShowProps) => {
   const translate = useTranslate();
   const locale = useLocale();
   return (
-    <Show actions={<DestinationShowActions />} title={<DestinationTitle />} {...props}>
+    <Show actions={<DestinationShowActions />} title={<DestinationTitle />} {...props} sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}>
       <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
         <Tab label="status" icon={<ViewListIcon />}>
           <TextField source="destination" />

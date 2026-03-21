@@ -24,7 +24,7 @@ import { DeleteMediaButton, PurgeRemoteMediaButton } from "../components/media";
 const ListActions = () => {
   const { isLoading, total } = useListContext();
   return (
-    <TopToolbar>
+    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       <DeleteMediaButton />
       <PurgeRemoteMediaButton />
       <ExportButton disabled={isLoading || total === 0} />
