@@ -1089,20 +1089,41 @@ export const UserEdit = (props: EditProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              bulkActionButtons={false}
-              omit={["app_id", "data.url", "profile_tag", "pushkey"]}
-            >
-              <TextField source="kind" sortable={false} />
-              <TextField source="app_display_name" sortable={false} />
-              <TextField source="app_id" sortable={false} />
-              <TextField source="data.url" sortable={false} />
-              <TextField source="device_display_name" sortable={false} />
-              <TextField source="lang" sortable={false} />
-              <TextField source="profile_tag" sortable={false} />
-              <TextField source="pushkey" sortable={false} />
-            </DatagridConfigurable>
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => record.app_display_name || record.app_id}
+                secondaryText={record => (
+                  <>
+                    {record.kind}
+                    {record.device_display_name && <> · {record.device_display_name}</>}
+                    {record.pushkey && (
+                      <>
+                        <br />
+                        <Box component="span" sx={{ wordBreak: "break-all" }}>
+                          {record.pushkey}
+                        </Box>
+                      </>
+                    )}
+                  </>
+                )}
+                linkType={false}
+              />
+            ) : (
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                bulkActionButtons={false}
+                omit={["app_id", "data.url", "profile_tag", "pushkey"]}
+              >
+                <TextField source="kind" sortable={false} />
+                <TextField source="app_display_name" sortable={false} />
+                <TextField source="app_id" sortable={false} />
+                <TextField source="data.url" sortable={false} />
+                <TextField source="device_display_name" sortable={false} />
+                <TextField source="lang" sortable={false} />
+                <TextField source="profile_tag" sortable={false} />
+                <TextField source="pushkey" sortable={false} />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
