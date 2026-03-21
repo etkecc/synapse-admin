@@ -1,9 +1,12 @@
 import PermMediaIcon from "@mui/icons-material/PermMedia";
+import { Box, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import EmptyState from "../components/EmptyState";
 import {
   BooleanField,
   DatagridConfigurable,
   ExportButton,
+  FunctionField,
   List,
   ListProps,
   NumberField,
@@ -11,6 +14,7 @@ import {
   ReferenceField,
   ResourceProps,
   SearchInput,
+  SimpleList,
   TextField,
   TopToolbar,
   useListContext,
@@ -19,12 +23,13 @@ import {
 
 import AvatarField from "../components/AvatarField";
 import { useDocTitle } from "../components/hooks/useDocTitle";
+import { formatBytes } from "../utils/formatBytes";
 import { DeleteMediaButton, PurgeRemoteMediaButton } from "../components/media";
 
 const ListActions = () => {
   const { isLoading, total } = useListContext();
   return (
-    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
+    <TopToolbar>
       <DeleteMediaButton />
       <PurgeRemoteMediaButton />
       <ExportButton disabled={isLoading || total === 0} />
@@ -38,6 +43,8 @@ const userMediaStatsFilters = [<SearchInput source="search_term" alwaysOn />];
 
 export const UserMediaStatsList = (props: ListProps) => {
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.user_media_statistics.name", { smart_count: 2 }));
   return (
     <List
@@ -49,6 +56,31 @@ export const UserMediaStatsList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.displayname || record.user_id}
+            </Box>
+          )}
+          secondaryText={record => (
+            <>
+              {record.displayname && (
+                <>
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {record.user_id}
+                  </Box>
+                  <br />
+                </>
+              )}
+              {translate("resources.user_media_statistics.fields.media_count")}: {record.media_count}
+              {" · "}
+              {translate("resources.user_media_statistics.fields.media_length")}: {formatBytes(record.media_length)}
+            </>
+          )}
+          rowClick={(id) => "/users/" + id + "/media"}
+        />
+      ) : (
       <DatagridConfigurable rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
         <ReferenceField label="resources.users.fields.avatar" source="id" reference="users" sortable={false} link="">
           <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
@@ -56,7 +88,7 @@ export const UserMediaStatsList = (props: ListProps) => {
         <TextField source="user_id" label="resources.users.fields.id" />
         <TextField source="displayname" label="resources.users.fields.displayname" />
         <NumberField source="media_count" />
-        <NumberField source="media_length" />
+        <FunctionField source="media_length" render={record => formatBytes(record.media_length)} />
         <ReferenceField label="resources.users.fields.is_guest" source="id" reference="users" sortable={false} link="">
           <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
         </ReferenceField>
@@ -76,6 +108,7 @@ export const UserMediaStatsList = (props: ListProps) => {
           <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
         </ReferenceField>
       </DatagridConfigurable>
+      )}
     </List>
   );
 };

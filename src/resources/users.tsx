@@ -64,7 +64,6 @@ import {
   BulkDeleteButton,
   TopToolbar,
   Toolbar,
-  NumberField,
   useListContext,
   useNotify,
   Identifier,
@@ -106,6 +105,7 @@ import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import { decodeURLComponent } from "../utils/safety";
 import { isASManaged } from "../utils/mxid";
+import { formatBytes } from "../utils/formatBytes";
 import { generateRandomPassword } from "../utils/password";
 
 const choices_medium = [
@@ -121,7 +121,7 @@ const choices_type = [
 const UserListActions = () => {
   const { isLoading, total } = useListContext();
   return (
-    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
+    <TopToolbar>
       <FindUserButton />
       <CreateButton />
       <ExportButton disabled={isLoading || total === 0} maxResults={10000} />
@@ -819,7 +819,7 @@ export const UserEdit = (props: EditProps) => {
               <MediaIDField source="media_id" />
               <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
               <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
-              <NumberField source="media_length" />
+              <FunctionField source="media_length" render={record => formatBytes(record.media_length)} />
               <TextField source="media_type" sx={{ display: "block", width: 200, wordBreak: "break-word" }} />
               <FunctionField
                 source="upload_name"
