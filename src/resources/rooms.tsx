@@ -29,7 +29,6 @@ import {
   BooleanField,
   DateField,
   WrapperField,
-  Datagrid,
   DatagridConfigurable,
   ExportButton,
   FunctionField,
@@ -491,7 +490,7 @@ export const RoomShow = (props: ShowProps) => {
             perPage={10}
             pagination={<RoomPagination />}
           >
-            <Datagrid sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
               <ReferenceField
                 label="resources.users.fields.avatar"
                 source="id"
@@ -547,7 +546,7 @@ export const RoomShow = (props: ShowProps) => {
               >
                 <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
               </ReferenceField>
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </Tab>
 
@@ -561,10 +560,10 @@ export const RoomShow = (props: ShowProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
               <MediaIDField source="media_id" />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </Tab>
 
@@ -576,7 +575,7 @@ export const RoomShow = (props: ShowProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <FunctionField
@@ -587,7 +586,7 @@ export const RoomShow = (props: ShowProps) => {
               <ReferenceField source="sender" reference="users" sortable={false}>
                 <RaTextField source="id" />
               </ReferenceField>
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </Tab>
 
@@ -615,12 +614,12 @@ export const RoomShow = (props: ShowProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
               <RaTextField source="id" sortable={false} />
               <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <NumberField source="depth" sortable={false} />
               <RaTextField source="state_group" sortable={false} />
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </Tab>
       </TabbedShowLayout>

@@ -8,7 +8,6 @@ import { get } from "lodash";
 import { MouseEvent } from "react";
 import {
   Button,
-  Datagrid,
   DatagridConfigurable,
   DateField,
   List,
@@ -182,7 +181,7 @@ export const DestinationShow = (props: ShowProps) => {
             pagination={<DestinationPagination />}
             perPage={50}
           >
-            <Datagrid style={{ width: "100%" }} rowClick={id => `/rooms/${id}/show`}>
+            <DatagridConfigurable style={{ width: "100%" }} rowClick={id => `/rooms/${id}/show`}>
               <TextField source="room_id" label="resources.rooms.fields.room_id" />
               <TextField source="stream_ordering" sortable={false} />
               <ReferenceField
@@ -194,7 +193,7 @@ export const DestinationShow = (props: ShowProps) => {
               >
                 <TextField source="name" sortable={false} />
               </ReferenceField>
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </Tab>
       </TabbedShowLayout>

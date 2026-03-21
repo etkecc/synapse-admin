@@ -20,7 +20,6 @@ import {
   ArrayInput,
   ArrayField,
   Button,
-  Datagrid,
   DatagridConfigurable,
   DateField,
   Create,
@@ -714,11 +713,11 @@ export const UserEdit = (props: EditProps) => {
         <FormTab label="resources.connections.name" icon={<SettingsInputComponentIcon />} path="connections">
           <ReferenceField reference="connections" source="id" label={false} link={false}>
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
-              <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
                 <TextField source="ip" sortable={false} />
                 <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
                 <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
-              </Datagrid>
+              </DatagridConfigurable>
             </ArrayField>
           </ReferenceField>
         </FormTab>
@@ -737,7 +736,7 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             sort={{ field: "created_ts", order: "DESC" }}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
               <MediaIDField source="media_id" />
               <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
               <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
@@ -751,7 +750,7 @@ export const UserEdit = (props: EditProps) => {
               <QuarantineMediaButton />
               <ProtectMediaButton />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </FormTab>
 
@@ -763,7 +762,7 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <Datagrid
+            <DatagridConfigurable
               sx={{ width: "100%" }}
               rowClick={id => "/rooms/" + id + "/show"}
               bulkActionButtons={<RoomBulkActionButtons />}
@@ -799,7 +798,7 @@ export const UserEdit = (props: EditProps) => {
               <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                 <MakeAdminBtn />
               </ReferenceField>
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </FormTab>
 
@@ -815,7 +814,7 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <Datagrid sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
+            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/rooms/" + id + "/show"} bulkActionButtons={false}>
               <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
                 <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
               </ReferenceField>
@@ -834,7 +833,7 @@ export const UserEdit = (props: EditProps) => {
                 label={translate("resources.users.membership", { smart_count: 1 })}
                 sortable={false}
               />
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </FormTab>
 
@@ -850,7 +849,7 @@ export const UserEdit = (props: EditProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["app_id", "data.url", "profile_tag", "pushkey"]}>
               <TextField source="kind" sortable={false} />
               <TextField source="app_display_name" sortable={false} />
               <TextField source="app_id" sortable={false} />
@@ -859,7 +858,7 @@ export const UserEdit = (props: EditProps) => {
               <TextField source="lang" sortable={false} />
               <TextField source="profile_tag" sortable={false} />
               <TextField source="pushkey" sortable={false} />
-            </Datagrid>
+            </DatagridConfigurable>
           </ReferenceManyField>
         </FormTab>
 

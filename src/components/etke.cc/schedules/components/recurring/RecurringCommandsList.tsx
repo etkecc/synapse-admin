@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
 import { Loading, Button, useLocale, useTranslate } from "react-admin";
 import { DateField, useRecordContext } from "react-admin";
-import { Datagrid } from "react-admin";
+import { DatagridConfigurable } from "react-admin";
 import { ListContextProvider, TextField, TopToolbar, Identifier } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +86,7 @@ const RecurringCommandsList = () => {
       <ListContextProvider value={listContext}>
         <ListActions />
         <Paper>
-          <Datagrid
+          <DatagridConfigurable
             bulkActionButtons={false}
             /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             rowClick={(id: Identifier, resource: string, record: any) => {
@@ -107,7 +107,7 @@ const RecurringCommandsList = () => {
               label={translate("etkecc.actions.table.next_run_at")}
               locales={locale}
             />
-          </Datagrid>
+          </DatagridConfigurable>
         </Paper>
       </ListContextProvider>
     </ResourceContextProvider>

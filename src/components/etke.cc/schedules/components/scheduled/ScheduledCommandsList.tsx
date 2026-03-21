@@ -3,7 +3,7 @@ import { Paper } from "@mui/material";
 import { Loading, Button, useLocale, useTranslate } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
-import { Datagrid } from "react-admin";
+import { DatagridConfigurable } from "react-admin";
 import { BooleanField, DateField, TopToolbar } from "react-admin";
 import { Identifier } from "react-admin";
 import { useNavigate } from "react-router-dom";
@@ -45,7 +45,7 @@ const ScheduledCommandsList = () => {
       <ListContextProvider value={listContext}>
         <ListActions />
         <Paper>
-          <Datagrid
+          <DatagridConfigurable
             bulkActionButtons={false}
             /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
             rowClick={(id: Identifier, resource: string, record: any) => {
@@ -70,7 +70,7 @@ const ScheduledCommandsList = () => {
               label={translate("etkecc.actions.table.run_at")}
               locales={locale}
             />
-          </Datagrid>
+          </DatagridConfigurable>
         </Paper>
       </ListContextProvider>
     </ResourceContextProvider>
