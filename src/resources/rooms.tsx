@@ -642,18 +642,55 @@ export const RoomShow = (props: ShowProps) => {
             pagination={<Pagination />}
             perPage={10}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
-              <RaTextField source="type" sortable={false} />
-              <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-              <FunctionField
-                source="content"
-                sortable={false}
-                render={record => `${JSON.stringify(record.content, null, 2)}`}
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => record.type}
+                secondaryText={record => (
+                  <>
+                    {record.origin_server_ts && new Date(record.origin_server_ts).toLocaleString(locale)}
+                    {record.sender && (
+                      <>
+                        <br />
+                        <Box component="span" sx={{ wordBreak: "break-all" }}>
+                          {record.sender}
+                        </Box>
+                      </>
+                    )}
+                    <Box
+                      component="pre"
+                      sx={{
+                        whiteSpace: "pre-wrap",
+                        wordBreak: "break-all",
+                        m: 0,
+                        mt: 0.5,
+                        p: 1,
+                        fontSize: "0.75rem",
+                        bgcolor: "action.hover",
+                        borderRadius: 1,
+                        overflow: "auto",
+                        maxWidth: "100%",
+                      }}
+                    >
+                      {JSON.stringify(record.content, null, 2)}
+                    </Box>
+                  </>
+                )}
+                linkType={false}
               />
-              <ReferenceField source="sender" reference="users" sortable={false}>
-                <RaTextField source="id" />
-              </ReferenceField>
-            </DatagridConfigurable>
+            ) : (
+              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+                <RaTextField source="type" sortable={false} />
+                <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                <FunctionField
+                  source="content"
+                  sortable={false}
+                  render={record => `${JSON.stringify(record.content, null, 2)}`}
+                />
+                <ReferenceField source="sender" reference="users" sortable={false}>
+                  <RaTextField source="id" />
+                </ReferenceField>
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </Tab>
 
