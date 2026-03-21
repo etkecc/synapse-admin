@@ -687,6 +687,42 @@ const JoinedRoomsMobileList = () => {
   );
 };
 
+const MembershipsMobileList = () => {
+  const { data: memberships } = useListContext();
+  const translate = useTranslate();
+  const ids = (memberships || []).map(r => r.id);
+  const { data: rooms } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
+  const roomMap = new Map((rooms || []).map(r => [r.id, r]));
+
+  if (!memberships?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {memberships.map(record => {
+        const room = roomMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/rooms/" + record.id + "/show"}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={room || record} source="avatar" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {room?.name || record.id}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {translate("resources.users.membership", { smart_count: 1 })}: {record.membership}
+              </Typography>
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
 export const UserEdit = (props: EditProps) => {
   const translate = useTranslate();
   const theme = useTheme();
@@ -1010,30 +1046,34 @@ export const UserEdit = (props: EditProps) => {
             perPage={10}
             pagination={<Pagination />}
           >
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              rowClick={id => "/rooms/" + id + "/show"}
-              bulkActionButtons={false}
-            >
-              <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
-                <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
-              </ReferenceField>
-              <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
-              <ReferenceField
-                reference="rooms"
-                source="id"
-                label="resources.rooms.fields.name"
-                link={false}
-                sortable={false}
+            {isSmall ? (
+              <MembershipsMobileList />
+            ) : (
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                rowClick={id => "/rooms/" + id + "/show"}
+                bulkActionButtons={false}
               >
-                <TextField source="name" />
-              </ReferenceField>
-              <TextField
-                source="membership"
-                label={translate("resources.users.membership", { smart_count: 1 })}
-                sortable={false}
-              />
-            </DatagridConfigurable>
+                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                  <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+                </ReferenceField>
+                <TextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+                <ReferenceField
+                  reference="rooms"
+                  source="id"
+                  label="resources.rooms.fields.name"
+                  link={false}
+                  sortable={false}
+                >
+                  <TextField source="name" />
+                </ReferenceField>
+                <TextField
+                  source="membership"
+                  label={translate("resources.users.membership", { smart_count: 1 })}
+                  sortable={false}
+                />
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </FormTab>
 
