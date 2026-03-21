@@ -19,6 +19,8 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
+import MuiList from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -58,7 +60,9 @@ import {
   DeleteButton,
   NullableBooleanInput,
   useLocale,
+  useGetMany,
 } from "react-admin";
+import { Link } from "react-router-dom";
 import { useDataProvider } from "react-admin";
 import { Confirm } from "react-admin";
 
@@ -474,9 +478,48 @@ const RoomOverviewTab = () => {
   );
 };
 
+const RoomMembersMobileList = () => {
+  const { data: members } = useListContext();
+  const ids = (members || []).map(r => r.id);
+  const { data: users } = useGetMany("users", { ids }, { enabled: ids.length > 0 });
+  const userMap = new Map((users || []).map(u => [u.id, u]));
+
+  if (!members?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {members.map(record => {
+        const user = userMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/users/" + record.id}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={user || record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {user?.displayname || record.id}
+              </Typography>
+              {user?.displayname && (
+                <Typography variant="body2" color="text.secondary" sx={{ wordBreak: "break-all" }}>
+                  {record.id}
+                </Typography>
+              )}
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
 export const RoomShow = (props: ShowProps) => {
   const translate = useTranslate();
   const locale = useLocale();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Show
       {...props}
@@ -498,63 +541,67 @@ export const RoomShow = (props: ShowProps) => {
             perPage={10}
             pagination={<RoomPagination />}
           >
-            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
-              <ReferenceField
-                label="resources.users.fields.avatar"
-                source="id"
-                reference="users"
-                sortable={false}
-                link=""
-              >
-                <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
-              </ReferenceField>
-              <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
-              <ReferenceField
-                label="resources.users.fields.displayname"
-                source="id"
-                reference="users"
-                sortable={false}
-                link=""
-              >
-                <RaTextField source="displayname" sortable={false} />
-              </ReferenceField>
-              <ReferenceField
-                label="resources.users.fields.is_guest"
-                source="id"
-                reference="users"
-                sortable={false}
-                link=""
-              >
-                <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
-              </ReferenceField>
-              <ReferenceField
-                label="resources.users.fields.deactivated"
-                source="id"
-                reference="users"
-                sortable={false}
-                link=""
-              >
-                <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
-              </ReferenceField>
-              <ReferenceField
-                label="resources.users.fields.locked"
-                source="id"
-                reference="users"
-                sortable={false}
-                link=""
-              >
-                <BooleanField source="locked" label="resources.users.fields.locked" />
-              </ReferenceField>
-              <ReferenceField
-                label="resources.users.fields.erased"
-                source="id"
-                reference="users"
-                sortable={false}
-                link=""
-              >
-                <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-              </ReferenceField>
-            </DatagridConfigurable>
+            {isSmall ? (
+              <RoomMembersMobileList />
+            ) : (
+              <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+                <ReferenceField
+                  label="resources.users.fields.avatar"
+                  source="id"
+                  reference="users"
+                  sortable={false}
+                  link=""
+                >
+                  <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+                </ReferenceField>
+                <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
+                <ReferenceField
+                  label="resources.users.fields.displayname"
+                  source="id"
+                  reference="users"
+                  sortable={false}
+                  link=""
+                >
+                  <RaTextField source="displayname" sortable={false} />
+                </ReferenceField>
+                <ReferenceField
+                  label="resources.users.fields.is_guest"
+                  source="id"
+                  reference="users"
+                  sortable={false}
+                  link=""
+                >
+                  <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+                </ReferenceField>
+                <ReferenceField
+                  label="resources.users.fields.deactivated"
+                  source="id"
+                  reference="users"
+                  sortable={false}
+                  link=""
+                >
+                  <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
+                </ReferenceField>
+                <ReferenceField
+                  label="resources.users.fields.locked"
+                  source="id"
+                  reference="users"
+                  sortable={false}
+                  link=""
+                >
+                  <BooleanField source="locked" label="resources.users.fields.locked" />
+                </ReferenceField>
+                <ReferenceField
+                  label="resources.users.fields.erased"
+                  source="id"
+                  reference="users"
+                  sortable={false}
+                  link=""
+                >
+                  <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
+                </ReferenceField>
+              </DatagridConfigurable>
+            )}
           </ReferenceManyField>
         </Tab>
 
