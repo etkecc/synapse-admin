@@ -20,6 +20,7 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -42,6 +43,7 @@ import {
   ResourceProps,
   SearchInput,
   SelectColumnsButton,
+  SimpleList,
   Show,
   ShowProps,
   Tab,
@@ -656,18 +658,23 @@ const roomFilters = [
   <NullableBooleanInput key="empty_rooms" source="empty_rooms" label="resources.rooms.filter.empty_rooms" />,
 ];
 
-const RoomListActions = () => (
-  <TopToolbar>
-    <FilterButton />
-    <BlockRoomByIdButton />
-    <SelectColumnsButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const RoomListActions = () => {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <TopToolbar>
+      <FilterButton />
+      <BlockRoomByIdButton />
+      {!isSmall && <SelectColumnsButton />}
+      <ExportButton />
+    </TopToolbar>
+  );
+};
 
 export const RoomList = (props: ListProps) => {
   const theme = useTheme();
   const translate = useTranslate();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.rooms.name", { smart_count: 2 }));
 
   return (
@@ -680,6 +687,43 @@ export const RoomList = (props: ListProps) => {
       perPage={50}
       empty={<EmptyState />}
     >
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.name || record.canonical_alias || record.id}
+            </Box>
+          )}
+          secondaryText={record => (
+            <>
+              {translate("resources.rooms.fields.joined_members")}: {record.joined_members ?? 0}
+              {record.creator && (
+                <>
+                  <br />
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {translate("resources.rooms.fields.creator")}: {record.creator}
+                  </Box>
+                </>
+              )}
+            </>
+          )}
+          tertiaryText={record => (
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              {record.is_encrypted ? (
+                <Tooltip title={translate("resources.rooms.fields.encryption")}>
+                  <HttpsIcon fontSize="small" sx={{ color: theme.palette.success.main }} />
+                </Tooltip>
+              ) : (
+                <Tooltip title={translate("resources.rooms.fields.encryption")}>
+                  <NoEncryptionIcon fontSize="small" sx={{ color: theme.palette.error.main }} />
+                </Tooltip>
+              )}
+            </Box>
+          )}
+          linkType="show"
+          leftAvatar={record => <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />}
+        />
+      ) : (
       <DatagridConfigurable
         rowClick="show"
         bulkActionButtons={<RoomBulkActionButtons />}
@@ -731,6 +775,7 @@ export const RoomList = (props: ListProps) => {
           <MakeAdminBtn />
         </WrapperField>
       </DatagridConfigurable>
+      )}
     </List>
   );
 };
