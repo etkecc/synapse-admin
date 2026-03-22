@@ -28,6 +28,8 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d postgres
     @echo "Starting Synapse..."
     @docker-compose -f docker-compose-dev.yml up -d synapse
+    @echo "Starting Mock OIDC provider..."
+    @docker-compose -f docker-compose-dev.yml up -d mock-oidc
     @echo "Starting Matrix Authenitcation Service..."
     @docker-compose -f docker-compose-dev.yml up -d mas
     @echo "Starting Keycloak (upstream OAuth provider)..."

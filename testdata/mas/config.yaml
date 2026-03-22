@@ -100,6 +100,32 @@ matrix:
   homeserver: "synapse:8008"
   secret: ukIYOk4T7sz7VlrOPhZRbgzHHR4wXfir
   endpoint: "http://synapse:8008/"
+upstream_oauth2:
+  providers:
+    - id: 01JNQFH8BKACTJ7ME4TQ4D6NSS
+      human_name: Mock OIDC
+      issuer: http://mock-oidc:8006/default
+      client_id: mock-client
+      client_secret: mock-secret
+      token_endpoint_auth_method: client_secret_post
+      scope: "openid email profile"
+      discovery_mode: disabled
+      authorization_endpoint: http://localhost:8006/default/authorize
+      token_endpoint: http://mock-oidc:8006/default/token
+      jwks_uri: http://mock-oidc:8006/default/jwks
+      claims_imports:
+        subject:
+          template: "{{ user.sub }}"
+        localpart:
+          action: force
+          template: "{{ user.preferred_username }}"
+        displayname:
+          action: suggest
+          template: "{{ user.name }}"
+        email:
+          action: suggest
+          template: "{{ user.email }}"
+          set_email_verification: always
 policy:
   data:
     client_registration:
