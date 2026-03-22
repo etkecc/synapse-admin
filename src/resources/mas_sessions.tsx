@@ -574,41 +574,6 @@ export const MASUpstreamOAuthLinksList = (props: ListProps) => (
   </List>
 );
 
-export const MASUpstreamOAuthLinkCreate = (props: CreateProps) => (
-  <Create {...props} redirect="list">
-    <SimpleForm
-      toolbar={
-        <Toolbar>
-          <SaveButton />
-        </Toolbar>
-      }
-    >
-      <ReferenceInput source="user_id" reference="mas_users">
-        <AutocompleteInput
-          optionText="username"
-          optionValue="id"
-          label="resources.mas_upstream_oauth_links.fields.user_id"
-          filterToQuery={search => ({ search })}
-          isRequired
-        />
-      </ReferenceInput>
-      <TextInput
-        source="provider_id"
-        required
-        label="resources.mas_upstream_oauth_links.fields.provider_id"
-        fullWidth
-        helperText="resources.mas_upstream_oauth_links.helper.provider_id"
-      />
-      <TextInput source="subject" required label="resources.mas_upstream_oauth_links.fields.subject" fullWidth />
-      <TextInput
-        source="human_account_name"
-        label="resources.mas_upstream_oauth_links.fields.human_account_name"
-        fullWidth
-      />
-    </SimpleForm>
-  </Create>
-);
-
 // ─── Upstream OAuth Providers ─────────────────────────────────────────────────
 
 export const MASUpstreamOAuthProvidersList = (props: ListProps) => (
@@ -660,7 +625,6 @@ export const masUpstreamOAuthLinks: ResourceProps = {
   name: "mas_upstream_oauth_links",
   icon: HttpsIcon,
   list: MASUpstreamOAuthLinksList,
-  create: MASUpstreamOAuthLinkCreate,
 };
 
 export const masUpstreamOAuthProviders: ResourceProps = {
