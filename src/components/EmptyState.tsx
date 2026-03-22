@@ -30,10 +30,11 @@ const pulseGlow = keyframes`
   50% { box-shadow: 0 0 20px rgba(244,147,0,0.35), 0 0 40px rgba(244,147,0,0.12); }
 `;
 
-const EmptyState = () => {
+const EmptyState = ({ resource: resourceProp }: { resource?: string } = {}) => {
   const translate = useTranslate();
-  const { hasCreate } = useResourceDefinition();
-  const resource = useResourceContext();
+  const contextResource = useResourceContext();
+  const resource = resourceProp ?? contextResource;
+  const { hasCreate } = useResourceDefinition({ resource });
   const resourceLabel = translate(`resources.${resource}.name`, { smart_count: 2, _: resource || "" }).toLowerCase();
 
   return (
@@ -126,7 +127,7 @@ const EmptyState = () => {
             },
           })}
         >
-          <CreateButton variant="contained" />
+          <CreateButton variant="contained" resource={resource} />
         </Box>
       )}
     </Box>

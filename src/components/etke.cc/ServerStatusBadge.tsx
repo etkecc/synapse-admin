@@ -88,12 +88,14 @@ const useServerStatus = () => {
     let timeoutId: NodeJS.Timeout | null = null;
 
     if (etkeccAdmin) {
+      console.log("CHECKING STATUS");
       checkServerStatus();
       timeoutId = setTimeout(() => {
         // start the interval after 10 seconds to avoid too many requests
         serverStatusInterval = setInterval(checkServerStatus, SERVER_STATUS_INTERVAL_TIME);
       }, 10000);
     } else {
+      console.log("CHECKING STATUS NOT ADMIN");
       setServerStatus({ ok: false, success: false, host: "", results: [] });
     }
 

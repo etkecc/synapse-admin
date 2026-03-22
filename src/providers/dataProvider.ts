@@ -15,14 +15,34 @@ import { jsonClient } from "./httpClients";
 import {
   getMASBaseUrl,
   getMasNextPageCursor,
-  getMasRegistrationTokensCursorKey,
-  getMasRegistrationTokensPageCursor,
-  setMasRegistrationTokensPageCursor,
+  buildMasCursorKey,
+  getMasCursor,
+  setMasCursor,
   filterUndefined,
   revokeRegistrationToken,
   isMAS,
   getMASRegistrationTokensResource,
+  getMASUsersResource,
+  getMASUsersAsMainResource,
+  getMASUserEmailsResource,
+  getMASCompatSessionsResource,
+  getMASAuth2SessionsResource,
+  getMASPersonalSessionsResource,
+  getMASUserSessionsResource,
+  getMASUpstreamOAuthLinksResource,
+  getMASUpstreamOAuthProvidersResource,
+  masLockUser,
+  masDeactivateUser,
+  masSetAdmin,
+  masSetPassword,
+  masFinishSession,
+  masRevokePersonalSession,
+  masRegeneratePersonalSession,
+  masFinishUserSession,
+  getMASPolicyData,
+  setMASPolicyData,
 } from "./mas";
+import { synapseResourceMap } from "./synapse";
 import {
   synapseRegistrationTokensResource,
   deleteMedia,
@@ -69,7 +89,7 @@ import {
 import { uploadMedia } from "./matrix";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
 import { etkeProviderMethods } from "./etkeProvider";
-import { MASRegistrationTokenListResponse, SynapseDataProvider } from "./types";
+import { SynapseDataProvider } from "./types";
 
 /**
  * Initialize all flag-dependent resources and patch them into resourceMap.
@@ -79,8 +99,47 @@ import { MASRegistrationTokenListResponse, SynapseDataProvider } from "./types";
 export const initResources = () => {
   if (isMAS()) {
     resourceMap.registration_tokens = getMASRegistrationTokensResource();
+    // Swap users to MAS-backed resource; Synapse tabs still work because id = @user:homeserver
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).users = getMASUsersAsMainResource();
+    // mas_users registered with ULID ids for ReferenceInput in user-email create
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_users = getMASUsersResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_user_emails = getMASUserEmailsResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_compat_sessions = getMASCompatSessionsResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_oauth2_sessions = getMASAuth2SessionsResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_personal_sessions = getMASPersonalSessionsResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_user_sessions = getMASUserSessionsResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_upstream_oauth_links = getMASUpstreamOAuthLinksResource();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).mas_upstream_oauth_providers = getMASUpstreamOAuthProvidersResource();
   } else {
     resourceMap.registration_tokens = synapseRegistrationTokensResource;
+    // Restore Synapse users resource
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (resourceMap as any).users = synapseResourceMap.users;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_users;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_user_emails;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_compat_sessions;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_oauth2_sessions;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_personal_sessions;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_user_sessions;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_upstream_oauth_links;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (resourceMap as any).mas_upstream_oauth_providers;
   }
 };
 
@@ -147,16 +206,9 @@ const baseDataProvider: SynapseDataProvider = {
     // Build query based on API type
     let query: Record<string, any>;
     if (res.isMAS) {
-      const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
-      const pageAfter = page > 1 ? getMasRegistrationTokensPageCursor(cursorKey, page) : undefined;
-
-      // MAS API uses different pagination parameters
-      query = {
-        "page[first]": perPage,
-        "page[after]": pageAfter,
-        "filter[valid]": valid,
-        count: "true",
-      };
+      const cursorKey = buildMasCursorKey(resource, perPage, params.filter);
+      const pageAfter = page > 1 ? getMasCursor(cursorKey, page) : undefined;
+      query = res.buildListQuery(perPage, pageAfter, params.filter);
     } else {
       // Synapse API
       query = {
@@ -190,10 +242,10 @@ const baseDataProvider: SynapseDataProvider = {
     const formattedData = json[res.data].map(res.map);
 
     if (res.isMAS) {
-      const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
-      const nextCursor = getMasNextPageCursor(json as MASRegistrationTokenListResponse);
+      const cursorKey = buildMasCursorKey(resource, perPage, params.filter);
+      const nextCursor = getMasNextPageCursor(json);
       if (nextCursor) {
-        setMasRegistrationTokensPageCursor(cursorKey, page + 1, nextCursor);
+        setMasCursor(cursorKey, page + 1, nextCursor);
       }
     }
 
@@ -206,6 +258,13 @@ const baseDataProvider: SynapseDataProvider = {
   getOne: async (resource, params) => {
     console.log("getOne " + resource);
     const { res, baseUrl } = resolveResource(resource);
+
+    // Allow resource configs to provide a custom async getOne (e.g. MAS users by Matrix ID)
+    if (res.getOne) {
+      const data = await res.getOne(params);
+      return { data };
+    }
+
     const endpoint_url = baseUrl + res.path;
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`);
     return { data: res.map(json) };
@@ -304,13 +363,13 @@ const baseDataProvider: SynapseDataProvider = {
     const { res, baseUrl } = resolveResource(resource);
     const endpoint_url = baseUrl + res.path;
 
-    // Handle special case for MAS registration tokens which have custom update method
     if (res.update) {
       const upd = res.update(params);
-      const { json } = await jsonClient(baseUrl + upd.endpoint, {
-        method: upd.method,
-        body: JSON.stringify(upd.body, filterNullValues),
-      });
+      const options: { method: string; body?: string } = { method: upd.method };
+      if (upd.method !== "GET" && "body" in upd) {
+        options.body = JSON.stringify(upd.body, filterNullValues);
+      }
+      const { json } = await jsonClient(baseUrl + upd.endpoint, options);
       return { data: res.map(json) };
     }
 
@@ -488,6 +547,16 @@ const baseDataProvider: SynapseDataProvider = {
   getAdminClientConfig,
   setAdminClientConfig,
   revokeRegistrationToken,
+  masLockUser,
+  masDeactivateUser,
+  masSetAdmin,
+  masSetPassword,
+  masFinishSession,
+  masRevokePersonalSession,
+  masRegeneratePersonalSession,
+  masFinishUserSession,
+  getMASPolicyData,
+  setMASPolicyData,
 
   ...etkeProviderMethods,
 };
@@ -509,6 +578,19 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
   {
     resource: "users",
     beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
+      // In MAS mode: dispatch MAS auth-field changes and skip Synapse-only logic
+      if (isMAS()) {
+        const masId = params.previousData.mas_id as string;
+        const prev = params.previousData;
+        const next = params.data;
+        if (prev.admin !== next.admin) await (dataProvider as SynapseDataProvider).masSetAdmin(masId, next.admin);
+        if (prev.locked !== next.locked) await (dataProvider as SynapseDataProvider).masLockUser(masId, next.locked);
+        if (prev.deactivated !== next.deactivated)
+          // masDeactivateUser(id, active): true = reactivate, false = deactivate
+          await (dataProvider as SynapseDataProvider).masDeactivateUser(masId, !next.deactivated);
+        return params;
+      }
+
       const avatarFile = params.data.avatar_file?.rawFile;
       const avatarErase = params.data.avatar_erase;
       const rates = params.data.rates;

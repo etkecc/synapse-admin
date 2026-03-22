@@ -89,7 +89,13 @@ const de: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "Lokaler Anteil der Matrix Benutzer-ID ohne Homeserver.",
-      tabs: { sso: "SSO", experimental: "Experimentell", limits: "Rate Limits", account_data: "Kontodaten" },
+      tabs: {
+        sso: "SSO",
+        experimental: "Experimentell",
+        limits: "Rate Limits",
+        account_data: "Kontodaten",
+        sessions: "Sessions",
+      },
       danger_zone: "Gefahrenzone",
     },
     rooms: {
@@ -773,6 +779,207 @@ const de: SynapseTranslationMessages = {
         unrevoke: {
           label: "Wiederherstellen",
           success: "Token wiederhergestellt",
+        },
+      },
+    },
+    mas_users: {
+      name: "MAS User |||| MAS Users",
+      fields: {
+        id: "MAS ID",
+        username: "Username",
+        admin: "Admin",
+        locked: "Locked",
+        deactivated: "Deactivated",
+        legacy_guest: "Legacy Guest",
+        created_at: "Created at",
+        locked_at: "Locked at",
+        deactivated_at: "Deactivated at",
+      },
+      filter: {
+        status: "Status",
+        search: "Search",
+        status_active: "Active",
+        status_locked: "Locked",
+        status_deactivated: "Deactivated",
+      },
+      action: {
+        lock: { label: "Lock", success: "User locked" },
+        unlock: { label: "Unlock", success: "User unlocked" },
+        deactivate: { label: "Deactivate", success: "User deactivated" },
+        reactivate: { label: "Reactivate", success: "User reactivated" },
+        set_admin: { label: "Grant Admin", success: "Admin status updated" },
+        remove_admin: { label: "Remove Admin", success: "Admin status updated" },
+        set_password: {
+          label: "Set Password",
+          title: "Set Password",
+          success: "Password set",
+          failure: "Failed to set password",
+        },
+      },
+    },
+    mas_user_emails: {
+      name: "Email |||| Emails",
+      empty: "No emails",
+      fields: {
+        email: "Email",
+        user_id: "User ID",
+        created_at: "Created at",
+      },
+      action: {
+        remove: {
+          label: "Remove",
+          title: "Remove email",
+          content: "Remove %{email}?",
+          success: "Email removed",
+        },
+        create: { success: "Email added" },
+      },
+    },
+    mas_compat_sessions: {
+      name: "Compat-Sitzung |||| Compat-Sitzungen",
+      empty: "Keine Compat-Sitzungen",
+      fields: {
+        user_id: "Benutzer-ID",
+        device_id: "Geräte-ID",
+        created_at: "Erstellt am",
+        user_agent: "User Agent",
+        last_active_at: "Zuletzt aktiv",
+        last_active_ip: "Letzte IP",
+        finished_at: "Beendet am",
+        human_name: "Name",
+        active: "Aktiv",
+      },
+      action: {
+        finish: {
+          label: "Beenden",
+          title: "Sitzung beenden?",
+          content: "Diese Sitzung wird beendet.",
+          success: "Sitzung beendet",
+        },
+      },
+    },
+    mas_oauth2_sessions: {
+      name: "OAuth2-Sitzung |||| OAuth2-Sitzungen",
+      empty: "Keine OAuth2-Sitzungen",
+      fields: {
+        user_id: "Benutzer-ID",
+        client_id: "Client-ID",
+        scope: "Berechtigungsbereich",
+        created_at: "Erstellt am",
+        user_agent: "User Agent",
+        last_active_at: "Zuletzt aktiv",
+        last_active_ip: "Letzte IP",
+        finished_at: "Beendet am",
+        human_name: "Name",
+        active: "Aktiv",
+      },
+      action: {
+        finish: {
+          label: "Beenden",
+          title: "Sitzung beenden?",
+          content: "Diese Sitzung wird beendet.",
+          success: "Sitzung beendet",
+        },
+      },
+    },
+    mas_policy_data: {
+      name: "Policy Data",
+      current_policy: "Current Policy",
+      no_policy: "No policy is currently set.",
+      set_policy: "Set New Policy",
+      fields: {
+        url: "Policy URL",
+        created_at: "Created at",
+      },
+      action: {
+        save: {
+          label: "Set Policy",
+          success: "Policy updated",
+          failure: "Failed to update policy",
+        },
+      },
+    },
+    mas_user_sessions: {
+      name: "Browser-Sitzung |||| Browser-Sitzungen",
+      fields: {
+        user_id: "Benutzer-ID",
+        created_at: "Erstellt am",
+        finished_at: "Beendet am",
+        user_agent: "User Agent",
+        last_active_at: "Zuletzt aktiv",
+        last_active_ip: "Letzte IP",
+        active: "Aktiv",
+      },
+      action: {
+        finish: {
+          label: "Beenden",
+          title: "Sitzung beenden?",
+          content: "Diese Browser-Sitzung wird beendet.",
+          success: "Sitzung beendet",
+        },
+      },
+    },
+    mas_upstream_oauth_links: {
+      name: "Upstream-OAuth-Verknüpfung |||| Upstream-OAuth-Verknüpfungen",
+      fields: {
+        user_id: "Benutzer-ID",
+        provider_id: "Anbieter-ID",
+        subject: "Betreff",
+        human_account_name: "Kontoname",
+        created_at: "Erstellt am",
+      },
+      helper: {
+        provider_id: "Die ID des Upstream-OAuth-Anbieters. In der Liste der Upstream-OAuth-Anbieter zu finden.",
+      },
+      action: {
+        remove: {
+          label: "Entfernen",
+          title: "OAuth-Verknüpfung entfernen?",
+          content: "Die Upstream-OAuth-Verknüpfung für diesen Benutzer wird entfernt.",
+          success: "OAuth-Verknüpfung entfernt",
+        },
+      },
+    },
+    mas_upstream_oauth_providers: {
+      name: "Upstream-OAuth-Anbieter |||| Upstream-OAuth-Anbieter",
+      fields: {
+        issuer: "Aussteller",
+        human_name: "Name",
+        brand_name: "Marke",
+        created_at: "Erstellt am",
+        disabled_at: "Deaktiviert am",
+        enabled: "Aktiv",
+      },
+    },
+    mas_personal_sessions: {
+      name: "Persönliche Sitzung |||| Persönliche Sitzungen",
+      empty: "Keine persönlichen Sitzungen",
+      fields: {
+        owner_user_id: "Eigentümer-ID",
+        actor_user_id: "Benutzer",
+        human_name: "Name",
+        scope: "Berechtigungsbereich",
+        created_at: "Erstellt am",
+        revoked_at: "Widerrufen am",
+        last_active_at: "Zuletzt aktiv",
+        last_active_ip: "Letzte IP",
+        expires_at: "Läuft ab am",
+        expires_in: "Läuft ab in (Sekunden)",
+        active: "Aktiv",
+      },
+      helper: {
+        expires_in: "Optional. Anzahl Sekunden bis zum Ablauf. Leer lassen für kein Ablaufdatum.",
+      },
+      action: {
+        revoke: {
+          label: "Widerrufen",
+          title: "Sitzung widerrufen?",
+          content: "Das Zugriffstoken wird dauerhaft widerrufen.",
+          success: "Sitzung widerrufen",
+        },
+        create: {
+          token_title: "Zugriffstoken erstellt",
+          token_content: "Kopieren Sie dieses Token. Es wird nach dem Schließen dieses Dialogs nicht mehr angezeigt.",
         },
       },
     },

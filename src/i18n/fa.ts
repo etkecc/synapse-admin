@@ -60,7 +60,13 @@ const fa: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "بخش محلی یک شناسه کاربری ماتریکس بدون سرور خانگی.",
-      tabs: { sso: "SSO", experimental: "تجربی", limits: "محدودیت ها", account_data: "داده های کاربر" },
+      tabs: {
+        sso: "SSO",
+        experimental: "تجربی",
+        limits: "محدودیت ها",
+        account_data: "داده های کاربر",
+        sessions: "Sessions",
+      },
       danger_zone: "منطقه خطرناک",
     },
     rooms: {
@@ -736,6 +742,207 @@ const fa: SynapseTranslationMessages = {
         unrevoke: {
           label: "بازگردانی",
           success: "توکن بازگردانی شد",
+        },
+      },
+    },
+    mas_users: {
+      name: "MAS User |||| MAS Users",
+      fields: {
+        id: "MAS ID",
+        username: "Username",
+        admin: "Admin",
+        locked: "Locked",
+        deactivated: "Deactivated",
+        legacy_guest: "Legacy Guest",
+        created_at: "Created at",
+        locked_at: "Locked at",
+        deactivated_at: "Deactivated at",
+      },
+      filter: {
+        status: "Status",
+        search: "Search",
+        status_active: "Active",
+        status_locked: "Locked",
+        status_deactivated: "Deactivated",
+      },
+      action: {
+        lock: { label: "Lock", success: "User locked" },
+        unlock: { label: "Unlock", success: "User unlocked" },
+        deactivate: { label: "Deactivate", success: "User deactivated" },
+        reactivate: { label: "Reactivate", success: "User reactivated" },
+        set_admin: { label: "Grant Admin", success: "Admin status updated" },
+        remove_admin: { label: "Remove Admin", success: "Admin status updated" },
+        set_password: {
+          label: "Set Password",
+          title: "Set Password",
+          success: "Password set",
+          failure: "Failed to set password",
+        },
+      },
+    },
+    mas_user_emails: {
+      name: "Email |||| Emails",
+      empty: "No emails",
+      fields: {
+        email: "Email",
+        user_id: "User ID",
+        created_at: "Created at",
+      },
+      action: {
+        remove: {
+          label: "Remove",
+          title: "Remove email",
+          content: "Remove %{email}?",
+          success: "Email removed",
+        },
+        create: { success: "Email added" },
+      },
+    },
+    mas_compat_sessions: {
+      name: "نشست سازگار |||| نشست‌های سازگار",
+      empty: "هیچ نشست سازگاری وجود ندارد",
+      fields: {
+        user_id: "شناسه کاربر",
+        device_id: "شناسه دستگاه",
+        created_at: "ایجاد شده در",
+        user_agent: "عامل کاربر",
+        last_active_at: "آخرین فعالیت",
+        last_active_ip: "آخرین IP",
+        finished_at: "پایان یافته در",
+        human_name: "نام",
+        active: "فعال",
+      },
+      action: {
+        finish: {
+          label: "پایان",
+          title: "پایان نشست؟",
+          content: "این نشست پایان خواهد یافت.",
+          success: "نشست پایان یافت",
+        },
+      },
+    },
+    mas_oauth2_sessions: {
+      name: "نشست OAuth2 |||| نشست‌های OAuth2",
+      empty: "هیچ نشست OAuth2ای وجود ندارد",
+      fields: {
+        user_id: "شناسه کاربر",
+        client_id: "شناسه مشتری",
+        scope: "دامنه دسترسی",
+        created_at: "ایجاد شده در",
+        user_agent: "عامل کاربر",
+        last_active_at: "آخرین فعالیت",
+        last_active_ip: "آخرین IP",
+        finished_at: "پایان یافته در",
+        human_name: "نام",
+        active: "فعال",
+      },
+      action: {
+        finish: {
+          label: "پایان",
+          title: "پایان نشست؟",
+          content: "این نشست پایان خواهد یافت.",
+          success: "نشست پایان یافت",
+        },
+      },
+    },
+    mas_policy_data: {
+      name: "Policy Data",
+      current_policy: "Current Policy",
+      no_policy: "No policy is currently set.",
+      set_policy: "Set New Policy",
+      fields: {
+        url: "Policy URL",
+        created_at: "Created at",
+      },
+      action: {
+        save: {
+          label: "Set Policy",
+          success: "Policy updated",
+          failure: "Failed to update policy",
+        },
+      },
+    },
+    mas_user_sessions: {
+      name: "نشست مرورگر |||| نشست‌های مرورگر",
+      fields: {
+        user_id: "شناسه کاربر",
+        created_at: "ایجاد شده در",
+        finished_at: "پایان یافته در",
+        user_agent: "عامل کاربر",
+        last_active_at: "آخرین فعالیت",
+        last_active_ip: "آخرین IP",
+        active: "فعال",
+      },
+      action: {
+        finish: {
+          label: "پایان",
+          title: "پایان نشست؟",
+          content: "این نشست مرورگر پایان خواهد یافت.",
+          success: "نشست پایان یافت",
+        },
+      },
+    },
+    mas_upstream_oauth_links: {
+      name: "پیوند OAuth بالادستی |||| پیوندهای OAuth بالادستی",
+      fields: {
+        user_id: "شناسه کاربر",
+        provider_id: "شناسه ارائه‌دهنده",
+        subject: "موضوع",
+        human_account_name: "نام حساب",
+        created_at: "ایجاد شده در",
+      },
+      helper: {
+        provider_id: "شناسه ارائه‌دهنده OAuth بالادستی. آن را در فهرست ارائه‌دهندگان OAuth بالادستی بیابید.",
+      },
+      action: {
+        remove: {
+          label: "حذف",
+          title: "حذف پیوند OAuth؟",
+          content: "پیوند OAuth بالادستی این کاربر حذف خواهد شد.",
+          success: "پیوند OAuth حذف شد",
+        },
+      },
+    },
+    mas_upstream_oauth_providers: {
+      name: "ارائه‌دهنده OAuth بالادستی |||| ارائه‌دهندگان OAuth بالادستی",
+      fields: {
+        issuer: "صادرکننده",
+        human_name: "نام",
+        brand_name: "برند",
+        created_at: "ایجاد شده در",
+        disabled_at: "غیرفعال شده در",
+        enabled: "فعال",
+      },
+    },
+    mas_personal_sessions: {
+      name: "نشست شخصی |||| نشست‌های شخصی",
+      empty: "هیچ نشست شخصی وجود ندارد",
+      fields: {
+        owner_user_id: "شناسه مالک",
+        actor_user_id: "کاربر",
+        human_name: "نام",
+        scope: "دامنه دسترسی",
+        created_at: "ایجاد شده در",
+        revoked_at: "ابطال شده در",
+        last_active_at: "آخرین فعالیت",
+        last_active_ip: "آخرین IP",
+        expires_at: "انقضا در",
+        expires_in: "انقضا در (ثانیه)",
+        active: "فعال",
+      },
+      helper: {
+        expires_in: "اختیاری. تعداد ثانیه تا انقضای توکن. برای بدون انقضا خالی بگذارید.",
+      },
+      action: {
+        revoke: {
+          label: "ابطال",
+          title: "ابطال نشست؟",
+          content: "توکن دسترسی به طور دائمی ابطال می‌شود.",
+          success: "نشست ابطال شد",
+        },
+        create: {
+          token_title: "توکن دسترسی ایجاد شد",
+          token_content: "این توکن را کپی کنید. پس از بستن این پنجره دیگر نمایش داده نمی‌شود.",
         },
       },
     },

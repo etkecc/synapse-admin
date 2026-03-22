@@ -88,7 +88,7 @@ const zh: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "必须要是一个有效的 Matrix 用户 ID ，例如 @user_id:homeserver",
-      tabs: { sso: "SSO", experimental: "实验性", limits: "限制", account_data: "账户数据" },
+      tabs: { sso: "SSO", experimental: "实验性", limits: "限制", account_data: "账户数据", sessions: "Sessions" },
       danger_zone: "危险区域",
     },
     rooms: {
@@ -751,6 +751,207 @@ const zh: SynapseTranslationMessages = {
         unrevoke: {
           label: "恢复",
           success: "令牌已恢复",
+        },
+      },
+    },
+    mas_users: {
+      name: "MAS User |||| MAS Users",
+      fields: {
+        id: "MAS ID",
+        username: "Username",
+        admin: "Admin",
+        locked: "Locked",
+        deactivated: "Deactivated",
+        legacy_guest: "Legacy Guest",
+        created_at: "Created at",
+        locked_at: "Locked at",
+        deactivated_at: "Deactivated at",
+      },
+      filter: {
+        status: "Status",
+        search: "Search",
+        status_active: "Active",
+        status_locked: "Locked",
+        status_deactivated: "Deactivated",
+      },
+      action: {
+        lock: { label: "Lock", success: "User locked" },
+        unlock: { label: "Unlock", success: "User unlocked" },
+        deactivate: { label: "Deactivate", success: "User deactivated" },
+        reactivate: { label: "Reactivate", success: "User reactivated" },
+        set_admin: { label: "Grant Admin", success: "Admin status updated" },
+        remove_admin: { label: "Remove Admin", success: "Admin status updated" },
+        set_password: {
+          label: "Set Password",
+          title: "Set Password",
+          success: "Password set",
+          failure: "Failed to set password",
+        },
+      },
+    },
+    mas_user_emails: {
+      name: "Email |||| Emails",
+      empty: "No emails",
+      fields: {
+        email: "Email",
+        user_id: "User ID",
+        created_at: "Created at",
+      },
+      action: {
+        remove: {
+          label: "Remove",
+          title: "Remove email",
+          content: "Remove %{email}?",
+          success: "Email removed",
+        },
+        create: { success: "Email added" },
+      },
+    },
+    mas_compat_sessions: {
+      name: "兼容会话 |||| 兼容会话",
+      empty: "没有兼容会话",
+      fields: {
+        user_id: "用户ID",
+        device_id: "设备ID",
+        created_at: "创建时间",
+        user_agent: "用户代理",
+        last_active_at: "最后活跃",
+        last_active_ip: "最后IP",
+        finished_at: "结束时间",
+        human_name: "名称",
+        active: "活跃",
+      },
+      action: {
+        finish: {
+          label: "结束",
+          title: "结束会话？",
+          content: "此会话将被终止。",
+          success: "会话已结束",
+        },
+      },
+    },
+    mas_oauth2_sessions: {
+      name: "OAuth2会话 |||| OAuth2会话",
+      empty: "没有OAuth2会话",
+      fields: {
+        user_id: "用户ID",
+        client_id: "客户端ID",
+        scope: "权限范围",
+        created_at: "创建时间",
+        user_agent: "用户代理",
+        last_active_at: "最后活跃",
+        last_active_ip: "最后IP",
+        finished_at: "结束时间",
+        human_name: "名称",
+        active: "活跃",
+      },
+      action: {
+        finish: {
+          label: "结束",
+          title: "结束会话？",
+          content: "此会话将被终止。",
+          success: "会话已结束",
+        },
+      },
+    },
+    mas_policy_data: {
+      name: "Policy Data",
+      current_policy: "Current Policy",
+      no_policy: "No policy is currently set.",
+      set_policy: "Set New Policy",
+      fields: {
+        url: "Policy URL",
+        created_at: "Created at",
+      },
+      action: {
+        save: {
+          label: "Set Policy",
+          success: "Policy updated",
+          failure: "Failed to update policy",
+        },
+      },
+    },
+    mas_user_sessions: {
+      name: "浏览器会话 |||| 浏览器会话",
+      fields: {
+        user_id: "用户ID",
+        created_at: "创建时间",
+        finished_at: "结束时间",
+        user_agent: "用户代理",
+        last_active_at: "最后活跃",
+        last_active_ip: "最后IP",
+        active: "活跃",
+      },
+      action: {
+        finish: {
+          label: "结束",
+          title: "结束会话？",
+          content: "此浏览器会话将被终止。",
+          success: "会话已结束",
+        },
+      },
+    },
+    mas_upstream_oauth_links: {
+      name: "上游OAuth链接 |||| 上游OAuth链接",
+      fields: {
+        user_id: "用户ID",
+        provider_id: "提供商ID",
+        subject: "主体",
+        human_account_name: "账户名称",
+        created_at: "创建时间",
+      },
+      helper: {
+        provider_id: "上游OAuth提供商的ID，可在上游OAuth提供商列表中找到。",
+      },
+      action: {
+        remove: {
+          label: "删除",
+          title: "删除OAuth链接？",
+          content: "此用户的上游OAuth链接将被删除。",
+          success: "OAuth链接已删除",
+        },
+      },
+    },
+    mas_upstream_oauth_providers: {
+      name: "上游OAuth提供商 |||| 上游OAuth提供商",
+      fields: {
+        issuer: "颁发者",
+        human_name: "名称",
+        brand_name: "品牌",
+        created_at: "创建时间",
+        disabled_at: "禁用时间",
+        enabled: "已启用",
+      },
+    },
+    mas_personal_sessions: {
+      name: "个人会话 |||| 个人会话",
+      empty: "没有个人会话",
+      fields: {
+        owner_user_id: "所有者ID",
+        actor_user_id: "用户",
+        human_name: "名称",
+        scope: "权限范围",
+        created_at: "创建时间",
+        revoked_at: "撤销时间",
+        last_active_at: "最后活跃",
+        last_active_ip: "最后IP",
+        expires_at: "过期时间",
+        expires_in: "过期时间（秒）",
+        active: "活跃",
+      },
+      helper: {
+        expires_in: "可选。令牌过期的秒数。留空表示永不过期。",
+      },
+      action: {
+        revoke: {
+          label: "撤销",
+          title: "撤销会话？",
+          content: "访问令牌将被永久撤销。",
+          success: "会话已撤销",
+        },
+        create: {
+          token_title: "访问令牌已创建",
+          token_content: "请复制此令牌。关闭此对话框后将无法再次查看。",
         },
       },
     },
