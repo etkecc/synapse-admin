@@ -92,12 +92,13 @@ const sharedComponents: ThemeOptions["components"] = {
   ...raInvariants,
   MuiButtonBase: {
     styleOverrides: {
-      root: focusRing("rgba(91, 141, 239, 0.4)"),
+      root: ({ theme }) =>
+        focusRing(theme.palette.mode === "dark" ? "rgba(244, 147, 0, 0.35)" : "rgba(91, 141, 239, 0.4)"),
     },
   },
   MuiButton: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         borderRadius: 4,
         textTransform: "none" as const,
         fontWeight: 500,
@@ -122,9 +123,9 @@ const sharedComponents: ThemeOptions["components"] = {
           animation: `${buttonShimmer} 0.6s ease-out`,
         },
         "&:hover": {
-          boxShadow: "0 0 16px rgba(91,141,239,0.25)",
+          boxShadow: theme.palette.mode === "dark" ? "0 0 16px rgba(244,147,0,0.2)" : "0 0 16px rgba(91,141,239,0.25)",
         },
-      },
+      }),
       sizeSmall: {
         fontSize: "0.85rem",
         padding: "5px 14px",
@@ -137,33 +138,34 @@ const sharedComponents: ThemeOptions["components"] = {
   },
   MuiOutlinedInput: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         borderRadius: 4,
         transition: "border-color 150ms ease, box-shadow 150ms ease",
-        ...focusRing("rgba(91, 141, 239, 0.3)"),
-      },
+        ...focusRing(theme.palette.mode === "dark" ? "rgba(244, 147, 0, 0.3)" : "rgba(91, 141, 239, 0.3)"),
+      }),
     },
   },
   MuiFilledInput: {
     styleOverrides: {
-      root: focusRing("rgba(91, 141, 239, 0.3)"),
+      root: ({ theme }) =>
+        focusRing(theme.palette.mode === "dark" ? "rgba(244, 147, 0, 0.3)" : "rgba(91, 141, 239, 0.3)"),
     },
   },
   MuiChip: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         borderRadius: 4,
         transition: "background-color 150ms ease, box-shadow 150ms ease",
-        ...focusRing("rgba(91, 141, 239, 0.4)"),
-      },
+        ...focusRing(theme.palette.mode === "dark" ? "rgba(244, 147, 0, 0.35)" : "rgba(91, 141, 239, 0.4)"),
+      }),
     },
   },
   MuiLink: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         borderRadius: 2,
-        ...focusRing("rgba(91, 141, 239, 0.4)"),
-      },
+        ...focusRing(theme.palette.mode === "dark" ? "rgba(244, 147, 0, 0.35)" : "rgba(91, 141, 239, 0.4)"),
+      }),
     },
   },
   MuiCard: {
@@ -348,7 +350,7 @@ const darkComponents: ThemeOptions["components"] = {
     styleOverrides: {
       root: {
         boxShadow: "none",
-        borderBottom: "1px solid #1E3A54",
+        borderBottom: "1px solid #253038",
       },
     },
   },
@@ -370,7 +372,7 @@ const darkComponents: ThemeOptions["components"] = {
     styleOverrides: {
       root: {
         "& .MuiPaper-root": {
-          backgroundColor: "#041019 !important",
+          backgroundColor: "#080D12 !important",
           color: "#E0E0E0",
         },
       },
@@ -400,15 +402,15 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: { main: "#5B8DEF" },
+    primary: { main: "#F49300" },
     secondary: { main: "#5B8DAF" },
     error: { main: "#FF6B7A" },
     warning: { main: "#FBBF24" },
     success: { main: "#4ADE80" },
     info: { main: "#5B8DEF" },
-    background: { default: "#061621", paper: "#0D2137" },
+    background: { default: "#0C1318", paper: "#151C24" },
     text: { primary: "#E8E8ED", secondary: "#9CA3AF" },
-    divider: "#1E3A54",
+    divider: "#253038",
   },
   typography,
   shape,

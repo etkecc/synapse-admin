@@ -162,8 +162,8 @@ export default defineConfig(({ mode }) => ({
             path: "manifest-dark.json",
             content: JSON.stringify({
               ...base,
-              theme_color: "#061621",
-              background_color: "#061621",
+              theme_color: "#0C1318",
+              background_color: "#0C1318",
             }),
           },
         ];

@@ -21,7 +21,7 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
         zIndex: 100,
         bottom: 0,
         width: "100%",
-        bgcolor: theme.palette.mode === "dark" ? "#041019" : "#334258",
+        bgcolor: theme.palette.mode === "dark" ? "#080D12" : "#334258",
         color: theme.palette.mode === "dark" ? "#E0E0E0" : "#FFFFFF",
         boxShadow: theme.palette.mode === "dark" ? "0 -1px 3px rgba(0,0,0,0.3)" : "0 -1px 3px rgba(0,0,0,0.08)",
         borderTop: "none",
@@ -41,7 +41,7 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
         <Link
           href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin"
           target="_blank"
-          sx={{ color: "inherit" }}
+          sx={{ color: "#f49300", fontWeight: 500 }}
         >
           etke.cc
         </Link>{" "}

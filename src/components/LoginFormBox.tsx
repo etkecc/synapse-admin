@@ -37,7 +37,7 @@ const LoginFormBox = styled(Box, {
   const isDark = theme.palette.mode === "dark";
   const hasCustomBg = backgroundUrl !== "";
 
-  const baseBg = isDark ? "#061621" : "#F0F2F5";
+  const baseBg = isDark ? "#0C1318" : "#F0F2F5";
 
   return {
     display: "flex",
@@ -61,14 +61,14 @@ const LoginFormBox = styled(Box, {
         inset: 0,
         zIndex: 0,
         background: [
-          // Large primary blue orb — top-left
-          `radial-gradient(circle 320px at 15% 25%, ${isDark ? "rgba(91,141,239,0.18)" : "rgba(24,88,213,0.12)"} 0%, transparent 70%)`,
+          // Large primary orb — top-left
+          `radial-gradient(circle 320px at 15% 25%, ${isDark ? "rgba(244,147,0,0.15)" : "rgba(24,88,213,0.12)"} 0%, transparent 70%)`,
           // Medium accent orb — bottom-right
           `radial-gradient(circle 250px at 80% 75%, ${isDark ? "rgba(244,147,0,0.10)" : "rgba(244,147,0,0.08)"} 0%, transparent 70%)`,
           // Small secondary orb — top-right
-          `radial-gradient(circle 200px at 75% 20%, ${isDark ? "rgba(91,141,239,0.10)" : "rgba(24,88,213,0.06)"} 0%, transparent 70%)`,
+          `radial-gradient(circle 200px at 75% 20%, ${isDark ? "rgba(244,147,0,0.08)" : "rgba(24,88,213,0.06)"} 0%, transparent 70%)`,
           // Subtle warm orb — bottom-left
-          `radial-gradient(circle 280px at 25% 80%, ${isDark ? "rgba(91,141,239,0.08)" : "rgba(24,88,213,0.05)"} 0%, transparent 70%)`,
+          `radial-gradient(circle 280px at 25% 80%, ${isDark ? "rgba(244,147,0,0.06)" : "rgba(24,88,213,0.05)"} 0%, transparent 70%)`,
         ].join(", "),
         animation: `${float1} 20s ease-in-out infinite`,
       },
@@ -78,8 +78,8 @@ const LoginFormBox = styled(Box, {
         inset: 0,
         zIndex: 0,
         background: [
-          // Drifting blue orb — center-left
-          `radial-gradient(circle 220px at 35% 55%, ${isDark ? "rgba(91,141,239,0.12)" : "rgba(24,88,213,0.08)"} 0%, transparent 70%)`,
+          // Drifting orange orb — center-left
+          `radial-gradient(circle 220px at 35% 55%, ${isDark ? "rgba(244,147,0,0.10)" : "rgba(24,88,213,0.08)"} 0%, transparent 70%)`,
           // Drifting orange orb — center-right
           `radial-gradient(circle 180px at 65% 45%, ${isDark ? "rgba(244,147,0,0.08)" : "rgba(244,147,0,0.06)"} 0%, transparent 70%)`,
           // Small accent — bottom-center
@@ -102,7 +102,7 @@ const LoginFormBox = styled(Box, {
       height: "400px",
       top: "-5%",
       right: "-5%",
-      background: isDark ? "rgba(91,141,239,0.15)" : "rgba(24,88,213,0.10)",
+      background: isDark ? "rgba(244,147,0,0.12)" : "rgba(24,88,213,0.10)",
       animation: `${float3} 22s ease-in-out infinite`,
     },
     [`& .login-orb-2`]: {
@@ -118,7 +118,7 @@ const LoginFormBox = styled(Box, {
       height: "250px",
       top: "40%",
       right: "20%",
-      background: isDark ? "rgba(91,141,239,0.08)" : "rgba(24,88,213,0.05)",
+      background: isDark ? "rgba(244,147,0,0.06)" : "rgba(24,88,213,0.05)",
       animation: `${float2} 30s ease-in-out infinite`,
     },
 
@@ -129,11 +129,11 @@ const LoginFormBox = styled(Box, {
       marginTop: "6rem",
       marginBottom: "6rem",
       backdropFilter: "blur(16px)",
-      backgroundColor: isDark ? "rgba(13, 33, 55, 0.75)" : "rgba(255, 255, 255, 0.80)",
+      backgroundColor: isDark ? "rgba(21, 28, 36, 0.75)" : "rgba(255, 255, 255, 0.80)",
       boxShadow: isDark
-        ? "0 0 30px rgba(91, 141, 239, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3)"
+        ? "0 0 30px rgba(244, 147, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3)"
         : "0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04)",
-      border: isDark ? "1px solid rgba(91, 141, 239, 0.18)" : "1px solid rgba(229, 231, 235, 0.8)",
+      border: isDark ? "1px solid rgba(244, 147, 0, 0.18)" : "1px solid rgba(229, 231, 235, 0.8)",
     },
     [`@media (max-width: 600px)`]: {
       [`& .card`]: {

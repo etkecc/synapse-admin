@@ -279,10 +279,10 @@ export const AdminLayout = ({ children }) => {
           },
           ["& .RaLayout-contentWithSidebar > .MuiDrawer-root"]: {
             "& .MuiPaper-root": {
-              backgroundColor: (theme.palette.mode === "dark" ? "#041019" : "#334258") + " !important",
+              backgroundColor: (theme.palette.mode === "dark" ? "#080D12" : "#334258") + " !important",
             },
             "& .RaSidebar-fixed": {
-              backgroundColor: theme.palette.mode === "dark" ? "#041019" : "#334258",
+              backgroundColor: theme.palette.mode === "dark" ? "#080D12" : "#334258",
             },
           },
         })}

@@ -26,8 +26,8 @@ const shimmer = keyframes`
 `;
 
 const pulseGlow = keyframes`
-  0%, 100% { box-shadow: 0 0 12px rgba(91,141,239,0.3), 0 0 0 0 rgba(91,141,239,0); }
-  50% { box-shadow: 0 0 20px rgba(91,141,239,0.4), 0 0 40px rgba(91,141,239,0.15); }
+  0%, 100% { box-shadow: 0 0 12px rgba(244,147,0,0.25), 0 0 0 0 rgba(244,147,0,0); }
+  50% { box-shadow: 0 0 20px rgba(244,147,0,0.35), 0 0 40px rgba(244,147,0,0.12); }
 `;
 
 const EmptyState = () => {
@@ -58,7 +58,7 @@ const EmptyState = () => {
             borderRadius: "50%",
             background:
               theme.palette.mode === "dark"
-                ? "radial-gradient(circle, rgba(91,141,239,0.15) 0%, transparent 70%)"
+                ? "radial-gradient(circle, rgba(244,147,0,0.12) 0%, transparent 70%)"
                 : "radial-gradient(circle, rgba(24,88,213,0.10) 0%, transparent 70%)",
             animation: `${glow} 4s ease-in-out infinite`,
             pointerEvents: "none",
@@ -76,17 +76,16 @@ const EmptyState = () => {
             position: "relative",
             background:
               theme.palette.mode === "dark"
-                ? "radial-gradient(circle at 40% 35%, rgba(91,141,239,0.20) 0%, rgba(91,141,239,0.06) 60%, transparent 100%)"
+                ? "radial-gradient(circle at 40% 35%, rgba(244,147,0,0.18) 0%, rgba(244,147,0,0.05) 60%, transparent 100%)"
                 : "radial-gradient(circle at 40% 35%, rgba(24,88,213,0.12) 0%, rgba(24,88,213,0.03) 60%, transparent 100%)",
-            border:
-              theme.palette.mode === "dark" ? "1px solid rgba(91,141,239,0.12)" : "1px solid rgba(24,88,213,0.08)",
+            border: theme.palette.mode === "dark" ? "1px solid rgba(244,147,0,0.12)" : "1px solid rgba(24,88,213,0.08)",
             animation: `${float} 5s ease-in-out infinite`,
           })}
         >
           <InboxIcon
             sx={theme => ({
               fontSize: 64,
-              color: theme.palette.mode === "dark" ? "rgba(91,141,239,0.55)" : "rgba(24,88,213,0.4)",
+              color: theme.palette.mode === "dark" ? "rgba(244,147,0,0.5)" : "rgba(24,88,213,0.4)",
             })}
           />
         </Box>

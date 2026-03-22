@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F5F5F5" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#061621" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0C1318" />
     <meta name="description" content="Synapse Admin" />
     <base href="../" />
     <!--
@@ -30,13 +30,13 @@
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --loader-bg: #061621;
-          --loader-fg: #5b8def;
-          --loader-fg-alpha: rgba(91, 141, 239, 0.18);
-          --loader-accent: rgba(244, 147, 0, 0.1);
-          --loader-card-bg: rgba(13, 33, 55, 0.75);
-          --loader-card-border: rgba(91, 141, 239, 0.18);
-          --loader-card-shadow: 0 0 30px rgba(91, 141, 239, 0.12), 0 8px 32px rgba(0, 0, 0, 0.3);
+          --loader-bg: #0c1318;
+          --loader-fg: #f49300;
+          --loader-fg-alpha: rgba(244, 147, 0, 0.15);
+          --loader-accent: rgba(244, 147, 0, 0.08);
+          --loader-card-bg: rgba(21, 28, 36, 0.75);
+          --loader-card-border: rgba(244, 147, 0, 0.18);
+          --loader-card-shadow: 0 0 30px rgba(244, 147, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
       }
 
@@ -145,7 +145,12 @@
         .loader-card {
           width: 100%;
           min-height: 100vh;
+          margin-top: 0;
           border-radius: 0;
+          border: none;
+        }
+        .loader-spark {
+          offset-path: rect(0% 100% 100% 0%);
         }
       }
 
