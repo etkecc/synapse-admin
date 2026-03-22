@@ -30,9 +30,13 @@ import {
   DialogTitle,
   Button as MuiButton,
   Divider,
+  FormControl,
+  InputLabel,
   List as MuiList,
   ListItemButton,
+  MenuItem,
   Paper,
+  Select,
   Tab,
   Tabs,
   TextField as MuiTextField,
@@ -550,14 +554,12 @@ const MASSessionsPanel = () => {
               label={translate("resources.mas_personal_sessions.fields.human_name")}
               value={form.human_name}
               onChange={e => setForm(f => ({ ...f, human_name: e.target.value }))}
-              required
             />
             <MuiTextField
               size="small"
               label={translate("resources.mas_personal_sessions.fields.scope")}
               value={form.scope}
               onChange={e => setForm(f => ({ ...f, scope: e.target.value }))}
-              required
             />
             <MuiTextField
               size="small"
@@ -680,19 +682,83 @@ const MASSessionsPanel = () => {
 // MAS upstream OAuth links panel — replaces the Synapse SSO tab in MAS mode
 const MASUpstreamOAuthLinksPanel = () => {
   const record = useRecordContext();
+  const translate = useTranslate();
+  const dataProvider = useDataProvider() as SynapseDataProvider;
+  const notify = useNotify();
+  const refresh = useRefresh();
   const masId = record?.mas_id as string | undefined;
+  const [creating, setCreating] = useState(false);
+  const [form, setForm] = useState({ provider_id: "", subject: "", human_account_name: "" });
 
   const { data: links = [], isLoading } = useGetList(
     "mas_upstream_oauth_links",
     { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
     { enabled: !!masId }
   );
+  const { data: providers = [] } = useGetList("mas_upstream_oauth_providers", {
+    pagination: { page: 1, perPage: 100 },
+    sort: { field: "human_name", order: "ASC" },
+  });
   const linksListCtx = useList({ data: links, isLoading });
+
+  const handleCreate = async () => {
+    if (!masId || !form.provider_id || !form.subject) return;
+    setCreating(true);
+    try {
+      await dataProvider.create("mas_upstream_oauth_links", {
+        data: {
+          user_id: masId,
+          provider_id: form.provider_id,
+          subject: form.subject,
+          human_account_name: form.human_account_name || undefined,
+        },
+      });
+      setForm({ provider_id: "", subject: "", human_account_name: "" });
+      refresh();
+    } catch {
+      notify("ra.notification.http_error", { type: "error" });
+    } finally {
+      setCreating(false);
+    }
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
-        <CreateButton resource="mas_upstream_oauth_links" label="ra.action.create" />
+      <Box sx={{ display: "flex", gap: 2, mt: 2, mb: 1, alignItems: "flex-start", flexWrap: "wrap" }}>
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <InputLabel>{translate("resources.mas_upstream_oauth_links.fields.provider_id")}</InputLabel>
+          <Select
+            value={form.provider_id}
+            label={translate("resources.mas_upstream_oauth_links.fields.provider_id")}
+            onChange={e => setForm(f => ({ ...f, provider_id: e.target.value }))}
+          >
+            {providers.map(p => (
+              <MenuItem key={p.id} value={p.id}>
+                {p.human_name || p.id}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <MuiTextField
+          size="small"
+          label={translate("resources.mas_upstream_oauth_links.fields.subject")}
+          value={form.subject}
+          onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+        />
+        <MuiTextField
+          size="small"
+          label={translate("resources.mas_upstream_oauth_links.fields.human_account_name")}
+          value={form.human_account_name}
+          onChange={e => setForm(f => ({ ...f, human_account_name: e.target.value }))}
+        />
+        <MuiButton
+          variant="contained"
+          disabled={creating || !form.provider_id || !form.subject}
+          onClick={handleCreate}
+          sx={{ mt: "4px" }}
+        >
+          {translate("ra.action.create")}
+        </MuiButton>
       </Box>
       <ResourceContextProvider value="mas_upstream_oauth_links">
         <ListContextProvider value={linksListCtx}>

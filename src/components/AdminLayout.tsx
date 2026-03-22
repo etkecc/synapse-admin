@@ -127,9 +127,10 @@ const MAS_RESOURCE_PREFIX = "mas_";
 
 /**
  * Renders resource menu items, excluding mas_* resources from the auto-list.
- * MAS resources (sessions, emails, users) are managed inline on the user edit page.
+ * MAS resources (sessions, emails, users, upstream links) are managed inline on the user edit page.
+ * Only upstream OAuth providers appear in the sidebar as a global admin config resource.
  */
-const MAS_SESSION_RESOURCES = ["mas_upstream_oauth_links", "mas_upstream_oauth_providers"];
+const MAS_SESSION_RESOURCES = ["mas_upstream_oauth_providers"];
 
 const ResourceMenuItems = () => {
   const resources = useResourceDefinitions();
