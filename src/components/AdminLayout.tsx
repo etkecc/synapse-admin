@@ -275,7 +275,7 @@ export const AdminLayout = ({ children }) => {
             height: "90vh",
           },
           ["& .RaLayout-content"]: {
-            marginBottom: "3rem",
+            marginBottom: { xs: "4rem", sm: "3rem" },
           },
           ["& .RaLayout-contentWithSidebar > .MuiDrawer-root"]: {
             "& .MuiPaper-root": {

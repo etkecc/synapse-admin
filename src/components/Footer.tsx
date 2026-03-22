@@ -18,7 +18,7 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
       component="footer"
       sx={{
         position: "fixed",
-        zIndex: 100,
+        zIndex: { xs: 1, sm: 100 },
         bottom: 0,
         width: "100%",
         bgcolor: theme.palette.mode === "dark" ? "#080D12" : "#334258",
@@ -27,7 +27,8 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
         borderTop: "none",
         fontSize: "0.89rem",
         display: "block",
-        p: 1,
+        whiteSpace: "nowrap",
+        p: { xs: "4px 8px", sm: 1 },
         gap: "10px",
       }}
     >
