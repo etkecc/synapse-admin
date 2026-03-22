@@ -30,7 +30,9 @@ import {
   SaveButton,
   SearchInput,
   SelectInput,
+  Show,
   SimpleForm,
+  SimpleShowLayout,
   TextField,
   TextInput,
   Toolbar,
@@ -574,6 +576,34 @@ export const MASUpstreamOAuthLinksList = (props: ListProps) => (
   </List>
 );
 
+// ─── Upstream OAuth Providers ─────────────────────────────────────────────────
+
+export const MASUpstreamOAuthProvidersList = (props: ListProps) => (
+  <List {...props} pagination={false} perPage={50} empty={<EmptyState />}>
+    <Datagrid bulkActionButtons={false} rowClick="show">
+      <TextField source="human_name" sortable={false} emptyText="-" />
+      <TextField source="brand_name" sortable={false} emptyText="-" />
+      <TextField source="issuer" sortable={false} emptyText="-" />
+      <BooleanField source="enabled" sortable={false} />
+      <DateField source="created_at" showTime sortable={false} />
+    </Datagrid>
+  </List>
+);
+
+export const MASUpstreamOAuthProvidersShow = () => (
+  <Show>
+    <SimpleShowLayout>
+      <TextField source="id" />
+      <TextField source="human_name" emptyText="-" />
+      <TextField source="brand_name" emptyText="-" />
+      <TextField source="issuer" emptyText="-" />
+      <BooleanField source="enabled" />
+      <DateField source="created_at" showTime />
+      <DateField source="disabled_at" showTime emptyText="-" />
+    </SimpleShowLayout>
+  </Show>
+);
+
 // ─── Resource prop objects ────────────────────────────────────────────────────
 
 export const masCompatSessions: ResourceProps = {
@@ -616,4 +646,6 @@ export const masUpstreamOAuthLinks: ResourceProps = {
 export const masUpstreamOAuthProviders: ResourceProps = {
   name: "mas_upstream_oauth_providers",
   icon: HttpsIcon,
+  list: MASUpstreamOAuthProvidersList,
+  show: MASUpstreamOAuthProvidersShow,
 };
