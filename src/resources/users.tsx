@@ -725,6 +725,9 @@ const MASUpstreamOAuthLinksPanel = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <Typography variant="subtitle2" sx={{ mb: 1 }}>
+        {translate("resources.mas_upstream_oauth_links.name", { smart_count: 2 })}
+      </Typography>
       <Box sx={{ display: "flex", gap: 2, mt: 2, mb: 1, alignItems: "flex-start", flexWrap: "wrap" }}>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>{translate("resources.mas_upstream_oauth_links.fields.provider_id")}</InputLabel>
@@ -777,7 +780,8 @@ const MASUpstreamOAuthLinksPanel = () => {
           </Datagrid>
         </ListContextProvider>
       </ResourceContextProvider>
-      <Typography variant="subtitle2" sx={{ mt: 3, mb: 1 }}>
+      <Divider sx={{ my: 3 }} />
+      <Typography variant="subtitle2" sx={{ mb: 1 }}>
         {translate("resources.mas_upstream_oauth_providers.name", { smart_count: 2 })}
       </Typography>
       <ResourceContextProvider value="mas_upstream_oauth_providers">
