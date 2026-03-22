@@ -1,4 +1,5 @@
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import HttpsIcon from "@mui/icons-material/Https";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DevicesIcon from "@mui/icons-material/Devices";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
@@ -20,10 +21,26 @@ import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert, Box, Divider, List as MuiList, ListItemButton, Paper, Tooltip, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button as MuiButton,
+  Divider,
+  List as MuiList,
+  ListItemButton,
+  Paper,
+  Tab,
+  Tabs,
+  TextField as MuiTextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import MuiTextField from "@mui/material/TextField";
 import EmptyState from "../components/EmptyState";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -63,6 +80,9 @@ import {
   regex,
   required,
   useGetList,
+  useList,
+  ListContextProvider,
+  ResourceContextProvider,
   useRecordContext,
   useTranslate,
   WrapperField,
@@ -82,6 +102,7 @@ import {
   Confirm,
   useCreate,
   useRedirect,
+  useRefresh,
   useLocale,
   SimpleList,
   useGetMany,
@@ -111,6 +132,13 @@ import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../components/media";
 import { QuarantineUserMediaButton } from "../components/QuarantineAllMediaButton";
 import { User, UsernameAvailabilityResult, SynapseDataProvider } from "../providers/types";
+import {
+  FinishCompatSessionButton,
+  FinishOAuth2SessionButton,
+  RevokePersonalSessionButton,
+  FinishUserSessionButton,
+  DeleteOAuthLinkButton,
+} from "./mas_sessions";
 import { isMAS } from "../providers/mas";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
@@ -439,6 +467,250 @@ const MASSetPasswordButton = () => {
         }}
       />
     </>
+  );
+};
+
+// MAS sessions panel — sub-tabbed, shown in the Sessions tab of the user profile in MAS mode
+const MASSessionsPanel = () => {
+  const record = useRecordContext();
+  const translate = useTranslate();
+  const dataProvider = useDataProvider() as SynapseDataProvider;
+  const notify = useNotify();
+  const refresh = useRefresh();
+  const masId = record?.mas_id as string | undefined;
+  const [tab, setTab] = useState(0);
+  const [creating, setCreating] = useState(false);
+  const [newToken, setNewToken] = useState<string | null>(null);
+  const [form, setForm] = useState({ scope: "", human_name: "", expires_in: "" });
+
+  const { data: personalSessions = [], isLoading: loadingPersonal } = useGetList(
+    "mas_personal_sessions",
+    { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
+    { enabled: !!masId }
+  );
+  const { data: userSessions = [], isLoading: loadingUser } = useGetList(
+    "mas_user_sessions",
+    { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
+    { enabled: !!masId }
+  );
+  const { data: oauth2Sessions = [], isLoading: loadingOAuth2 } = useGetList(
+    "mas_oauth2_sessions",
+    { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
+    { enabled: !!masId }
+  );
+  const { data: compatSessions = [], isLoading: loadingCompat } = useGetList(
+    "mas_compat_sessions",
+    { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
+    { enabled: !!masId }
+  );
+
+  // Build list contexts at top level (hooks must not be called conditionally)
+  const personalListCtx = useList({ data: personalSessions, isLoading: loadingPersonal });
+  const userListCtx = useList({ data: userSessions, isLoading: loadingUser });
+  const oauth2ListCtx = useList({ data: oauth2Sessions, isLoading: loadingOAuth2 });
+  const compatListCtx = useList({ data: compatSessions, isLoading: loadingCompat });
+
+  const handleCreate = async () => {
+    if (!masId || !form.scope || !form.human_name) return;
+    setCreating(true);
+    try {
+      const result = await dataProvider.create("mas_personal_sessions", {
+        data: {
+          actor_user_id: masId,
+          scope: form.scope,
+          human_name: form.human_name,
+          expires_in: form.expires_in ? Number(form.expires_in) : undefined,
+        },
+      });
+      const token = result?.data?.access_token as string | undefined;
+      if (token) setNewToken(token);
+      setForm({ scope: "", human_name: "", expires_in: "" });
+      refresh();
+    } catch {
+      notify("ra.notification.http_error", { type: "error" });
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Tabs value={tab} onChange={(_, v) => setTab(v)}>
+        <Tab label={translate("resources.mas_personal_sessions.name", { smart_count: 2 })} />
+        <Tab label={translate("resources.mas_user_sessions.name", { smart_count: 2 })} />
+        <Tab label={translate("resources.mas_oauth2_sessions.name", { smart_count: 2 })} />
+        <Tab label={translate("resources.mas_compat_sessions.name", { smart_count: 2 })} />
+      </Tabs>
+
+      {tab === 0 && (
+        <>
+          <Box sx={{ display: "flex", gap: 2, mt: 2, alignItems: "flex-start", flexWrap: "wrap" }}>
+            <MuiTextField
+              size="small"
+              label={translate("resources.mas_personal_sessions.fields.human_name")}
+              value={form.human_name}
+              onChange={e => setForm(f => ({ ...f, human_name: e.target.value }))}
+              required
+            />
+            <MuiTextField
+              size="small"
+              label={translate("resources.mas_personal_sessions.fields.scope")}
+              value={form.scope}
+              onChange={e => setForm(f => ({ ...f, scope: e.target.value }))}
+              required
+            />
+            <MuiTextField
+              size="small"
+              label={translate("resources.mas_personal_sessions.fields.expires_in")}
+              value={form.expires_in}
+              onChange={e => setForm(f => ({ ...f, expires_in: e.target.value }))}
+              placeholder={translate("resources.mas_personal_sessions.helper.expires_in")}
+              sx={{ minWidth: 220 }}
+            />
+            <MuiButton
+              variant="contained"
+              disabled={creating || !form.scope || !form.human_name}
+              onClick={handleCreate}
+            >
+              {translate("ra.action.create")}
+            </MuiButton>
+          </Box>
+          <ResourceContextProvider value="mas_personal_sessions">
+            <ListContextProvider value={personalListCtx}>
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick={false}
+                empty={<EmptyState resource="mas_personal_sessions" />}
+                sx={{ width: "100%", mt: 2 }}
+              >
+                <TextField source="human_name" sortable={false} emptyText="-" />
+                <TextField source="scope" sortable={false} />
+                <BooleanField source="active" sortable={false} />
+                <DateField source="created_at" showTime sortable={false} />
+                <DateField source="expires_at" showTime sortable={false} emptyText="-" />
+                <RevokePersonalSessionButton />
+              </Datagrid>
+            </ListContextProvider>
+          </ResourceContextProvider>
+        </>
+      )}
+      {tab === 1 && (
+        <ResourceContextProvider value="mas_user_sessions">
+          <ListContextProvider value={userListCtx}>
+            <Datagrid
+              bulkActionButtons={false}
+              rowClick={false}
+              empty={<EmptyState resource="mas_user_sessions" />}
+              sx={{ width: "100%", mt: 1 }}
+            >
+              <BooleanField source="active" sortable={false} />
+              <DateField source="created_at" showTime sortable={false} />
+              <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+              <TextField source="last_active_ip" sortable={false} emptyText="-" />
+              <TextField source="user_agent" sortable={false} emptyText="-" />
+              <FinishUserSessionButton />
+            </Datagrid>
+          </ListContextProvider>
+        </ResourceContextProvider>
+      )}
+      {tab === 2 && (
+        <ResourceContextProvider value="mas_oauth2_sessions">
+          <ListContextProvider value={oauth2ListCtx}>
+            <Datagrid
+              bulkActionButtons={false}
+              rowClick={false}
+              empty={<EmptyState resource="mas_oauth2_sessions" />}
+              sx={{ width: "100%", mt: 1 }}
+            >
+              <TextField source="client_id" sortable={false} />
+              <TextField source="scope" sortable={false} />
+              <TextField source="human_name" sortable={false} emptyText="-" />
+              <BooleanField source="active" sortable={false} />
+              <DateField source="created_at" showTime sortable={false} />
+              <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+              <FinishOAuth2SessionButton />
+            </Datagrid>
+          </ListContextProvider>
+        </ResourceContextProvider>
+      )}
+      {tab === 3 && (
+        <ResourceContextProvider value="mas_compat_sessions">
+          <ListContextProvider value={compatListCtx}>
+            <Datagrid
+              bulkActionButtons={false}
+              rowClick={false}
+              empty={<EmptyState resource="mas_compat_sessions" />}
+              sx={{ width: "100%", mt: 1 }}
+            >
+              <TextField source="device_id" sortable={false} emptyText="-" />
+              <TextField source="human_name" sortable={false} emptyText="-" />
+              <BooleanField source="active" sortable={false} />
+              <DateField source="created_at" showTime sortable={false} />
+              <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+              <TextField source="last_active_ip" sortable={false} emptyText="-" />
+              <FinishCompatSessionButton />
+            </Datagrid>
+          </ListContextProvider>
+        </ResourceContextProvider>
+      )}
+
+      <Dialog open={!!newToken} maxWidth="sm" fullWidth>
+        <DialogTitle>{translate("resources.mas_personal_sessions.action.create.token_title")}</DialogTitle>
+        <DialogContent>
+          <Typography sx={{ mb: 2 }}>
+            {translate("resources.mas_personal_sessions.action.create.token_content")}
+          </Typography>
+          <MuiTextField
+            value={newToken || ""}
+            fullWidth
+            multiline
+            rows={3}
+            InputProps={{ readOnly: true }}
+            onClick={e => (e.target as HTMLInputElement).select()}
+          />
+        </DialogContent>
+        <DialogActions>
+          <MuiButton onClick={() => setNewToken(null)}>OK</MuiButton>
+        </DialogActions>
+      </Dialog>
+    </Box>
+  );
+};
+
+// MAS upstream OAuth links panel — replaces the Synapse SSO tab in MAS mode
+const MASUpstreamOAuthLinksPanel = () => {
+  const record = useRecordContext();
+  const masId = record?.mas_id as string | undefined;
+
+  const { data: links = [], isLoading } = useGetList(
+    "mas_upstream_oauth_links",
+    { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
+    { enabled: !!masId }
+  );
+  const linksListCtx = useList({ data: links, isLoading });
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 1 }}>
+        <CreateButton resource="mas_upstream_oauth_links" label="ra.action.create" />
+      </Box>
+      <ResourceContextProvider value="mas_upstream_oauth_links">
+        <ListContextProvider value={linksListCtx}>
+          <Datagrid
+            bulkActionButtons={false}
+            rowClick={false}
+            empty={<EmptyState resource="mas_upstream_oauth_links" />}
+            sx={{ width: "100%" }}
+          >
+            <TextField source="provider_id" sortable={false} />
+            <TextField source="subject" sortable={false} />
+            <TextField source="human_account_name" sortable={false} emptyText="-" />
+            <DateField source="created_at" showTime sortable={false} />
+            <DeleteOAuthLinkButton />
+          </Datagrid>
+        </ListContextProvider>
+      </ResourceContextProvider>
+    </Box>
   );
 };
 
@@ -1078,13 +1350,23 @@ export const UserEdit = (props: EditProps) => {
         </FormTab>
 
         <FormTab label="synapseadmin.users.tabs.sso" icon={<AssignmentIndIcon />} path="sso">
-          <ArrayInput source="external_ids" label={false}>
-            <SimpleFormIterator disableReordering>
-              <TextInput source="auth_provider" validate={required()} />
-              <TextInput source="external_id" label="resources.users.fields.id" validate={required()} />
-            </SimpleFormIterator>
-          </ArrayInput>
+          {isMAS() ? (
+            <MASUpstreamOAuthLinksPanel />
+          ) : (
+            <ArrayInput source="external_ids" label={false}>
+              <SimpleFormIterator disableReordering>
+                <TextInput source="auth_provider" validate={required()} />
+                <TextInput source="external_id" label="resources.users.fields.id" validate={required()} />
+              </SimpleFormIterator>
+            </ArrayInput>
+          )}
         </FormTab>
+
+        {isMAS() && (
+          <FormTab label="synapseadmin.users.tabs.sessions" icon={<HttpsIcon />} path="sessions">
+            <MASSessionsPanel />
+          </FormTab>
+        )}
 
         <FormTab label={translate("resources.devices.name", { smart_count: 2 })} icon={<DevicesIcon />} path="devices">
           <DeviceCreateButton />

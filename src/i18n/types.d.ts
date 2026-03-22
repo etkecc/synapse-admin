@@ -22,7 +22,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     };
     users: {
       invalid_user_id: string;
-      tabs: { sso: string; experimental: string; limits: string; account_data: string };
+      tabs: { sso: string; experimental: string; limits: string; account_data: string; sessions: string };
       danger_zone: string;
     };
     rooms: {

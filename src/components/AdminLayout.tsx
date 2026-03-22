@@ -129,14 +129,7 @@ const MAS_RESOURCE_PREFIX = "mas_";
  * Renders resource menu items, excluding mas_* resources from the auto-list.
  * MAS resources (sessions, emails, users) are managed inline on the user edit page.
  */
-const MAS_SESSION_RESOURCES = [
-  "mas_compat_sessions",
-  "mas_oauth2_sessions",
-  "mas_personal_sessions",
-  "mas_user_sessions",
-  "mas_upstream_oauth_links",
-  "mas_upstream_oauth_providers",
-];
+const MAS_SESSION_RESOURCES = ["mas_upstream_oauth_links", "mas_upstream_oauth_providers"];
 
 const ResourceMenuItems = () => {
   const resources = useResourceDefinitions();

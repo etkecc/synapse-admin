@@ -511,7 +511,7 @@ export const getMASPersonalSessionsResource = () => ({
     filterUndefined({
       "page[first]": perPage,
       "page[after]": cursor,
-      "filter[owner_user]": filter.user_id,
+      "filter[user]": filter.user_id,
       "filter[status]": filter.status,
       count: "true",
     }),
