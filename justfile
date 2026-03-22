@@ -32,8 +32,6 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d mock-oidc
     @echo "Starting Matrix Authenitcation Service..."
     @docker-compose -f docker-compose-dev.yml up -d mas
-    @echo "Starting Keycloak (upstream OAuth provider)..."
-    @docker-compose -f docker-compose-dev.yml up -d keycloak
     @echo "Starting nginx reverse proxy (Synapse and MAS)..."
     @docker-compose -f docker-compose-dev.yml up -d nginx
     @echo "Starting Element Web..."
