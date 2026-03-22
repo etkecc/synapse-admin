@@ -104,3 +104,32 @@ policy:
   data:
     client_registration:
       allow_insecure_uris: true
+upstream_oauth2:
+  providers:
+    - id: 01JQTEST0000000000000000KC
+      human_name: "Keycloak"
+      issuer: "http://localhost:8180/realms/test"
+      # discovery_mode: disabled so MAS doesn't try to fetch the discovery doc
+      # (it can't reach localhost:8180 from inside the container).
+      # All endpoints are specified manually: browser-facing ones use localhost:8180,
+      # server-to-server ones use the internal Docker hostname keycloak:8080.
+      discovery_mode: disabled
+      authorization_endpoint: "http://localhost:8180/realms/test/protocol/openid-connect/auth"
+      token_endpoint: "http://keycloak:8080/realms/test/protocol/openid-connect/token"
+      jwks_uri: "http://keycloak:8080/realms/test/protocol/openid-connect/certs"
+      userinfo_endpoint: "http://keycloak:8080/realms/test/protocol/openid-connect/userinfo"
+      client_id: "mas"
+      client_secret: "mas-secret"
+      scope: "openid email profile"
+      token_endpoint_auth_method: client_secret_basic
+      claims_imports:
+        localpart:
+          action: require
+          template: "{{ user.preferred_username }}"
+        displayname:
+          action: suggest
+          template: "{{ user.name }}"
+        email:
+          action: suggest
+          template: "{{ user.email }}"
+          set_email_verification: always

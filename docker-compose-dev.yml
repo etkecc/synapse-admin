@@ -14,6 +14,20 @@ services:
     volumes:
       - ./testdata/mas/config.yaml:/config.yaml:ro
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.6
+    command: start-dev --import-realm
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./testdata/keycloak:/opt/keycloak/data/import:ro
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME: http://localhost:8180
+      KC_HOSTNAME_STRICT: "false"
+
   nginx:
     image: nginx:latest
     ports:
