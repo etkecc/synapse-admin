@@ -695,12 +695,11 @@ const MASUpstreamOAuthLinksPanel = () => {
     { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },
     { enabled: !!masId }
   );
-  const { data: providers = [], isLoading: providersLoading } = useGetList("mas_upstream_oauth_providers", {
+  const { data: providers = [] } = useGetList("mas_upstream_oauth_providers", {
     pagination: { page: 1, perPage: 100 },
     sort: { field: "human_name", order: "ASC" },
   });
   const linksListCtx = useList({ data: links, isLoading });
-  const providersListCtx = useList({ data: providers, isLoading: providersLoading });
 
   const handleCreate = async () => {
     if (!masId || !form.provider_id || !form.subject) return;
@@ -725,9 +724,6 @@ const MASUpstreamOAuthLinksPanel = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography variant="subtitle2" sx={{ mb: 1 }}>
-        {translate("resources.mas_upstream_oauth_links.name", { smart_count: 2 })}
-      </Typography>
       <Box sx={{ display: "flex", gap: 2, mt: 2, mb: 1, alignItems: "flex-start", flexWrap: "wrap" }}>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>{translate("resources.mas_upstream_oauth_links.fields.provider_id")}</InputLabel>
@@ -777,26 +773,6 @@ const MASUpstreamOAuthLinksPanel = () => {
             <TextField source="human_account_name" sortable={false} emptyText="-" />
             <DateField source="created_at" showTime sortable={false} />
             <DeleteOAuthLinkButton />
-          </Datagrid>
-        </ListContextProvider>
-      </ResourceContextProvider>
-      <Divider sx={{ my: 3 }} />
-      <Typography variant="subtitle2" sx={{ mb: 1 }}>
-        {translate("resources.mas_upstream_oauth_providers.name", { smart_count: 2 })}
-      </Typography>
-      <ResourceContextProvider value="mas_upstream_oauth_providers">
-        <ListContextProvider value={providersListCtx}>
-          <Datagrid
-            bulkActionButtons={false}
-            rowClick={false}
-            empty={<EmptyState resource="mas_upstream_oauth_providers" />}
-            sx={{ width: "100%" }}
-          >
-            <TextField source="human_name" sortable={false} emptyText="-" />
-            <TextField source="brand_name" sortable={false} emptyText="-" />
-            <TextField source="issuer" sortable={false} emptyText="-" />
-            <BooleanField source="enabled" sortable={false} />
-            <DateField source="created_at" showTime sortable={false} />
           </Datagrid>
         </ListContextProvider>
       </ResourceContextProvider>
