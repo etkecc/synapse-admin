@@ -191,7 +191,7 @@ const MAS_RESOURCE_PREFIX = "mas_";
  * MAS resources (sessions, emails, users, upstream links) are managed inline on the user edit page.
  * Only upstream OAuth providers appear in the sidebar as a global admin config resource.
  */
-const MAS_SESSION_RESOURCES = ["mas_upstream_oauth_providers"];
+const MAS_SESSION_RESOURCES: string[] = [];
 
 const ResourceMenuItems = () => {
   const resources = useResourceDefinitions();

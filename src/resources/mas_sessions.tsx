@@ -574,20 +574,6 @@ export const MASUpstreamOAuthLinksList = (props: ListProps) => (
   </List>
 );
 
-// ─── Upstream OAuth Providers ─────────────────────────────────────────────────
-
-export const MASUpstreamOAuthProvidersList = (props: ListProps) => (
-  <List {...props} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="human_name" sortable={false} emptyText="-" />
-      <TextField source="brand_name" sortable={false} emptyText="-" />
-      <TextField source="issuer" sortable={false} emptyText="-" />
-      <BooleanField source="enabled" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-    </Datagrid>
-  </List>
-);
-
 // ─── Resource prop objects ────────────────────────────────────────────────────
 
 export const masCompatSessions: ResourceProps = {
@@ -630,5 +616,4 @@ export const masUpstreamOAuthLinks: ResourceProps = {
 export const masUpstreamOAuthProviders: ResourceProps = {
   name: "mas_upstream_oauth_providers",
   icon: HttpsIcon,
-  list: MASUpstreamOAuthProvidersList,
 };
