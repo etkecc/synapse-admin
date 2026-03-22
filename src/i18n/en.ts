@@ -31,6 +31,7 @@ const en: SynapseTranslationMessages = {
         experimental: "Experimental",
         limits: "Rate Limits",
         account_data: "Account Data",
+        sessions: "Sessions",
       },
       danger_zone: "Danger zone",
     },

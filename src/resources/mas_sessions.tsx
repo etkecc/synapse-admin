@@ -1,3 +1,4 @@
+import EmptyState from "../components/EmptyState";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DevicesIcon from "@mui/icons-material/Devices";
 import HttpsIcon from "@mui/icons-material/Https";
@@ -12,6 +13,7 @@ import {
   TextField as MuiTextField,
 } from "@mui/material";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   AutocompleteInput,
   BooleanField,
@@ -115,7 +117,7 @@ const compatSessionFilters = [
 ];
 
 export const MASCompatSessionsList = (props: ListProps) => (
-  <List {...props} filters={compatSessionFilters} pagination={false} perPage={50}>
+  <List {...props} filters={compatSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="user_id" sortable={false} />
       <TextField source="device_id" sortable={false} emptyText="-" />
@@ -191,7 +193,7 @@ const oauth2SessionFilters = [
 ];
 
 export const MASOAuth2SessionsList = (props: ListProps) => (
-  <List {...props} filters={oauth2SessionFilters} pagination={false} perPage={50}>
+  <List {...props} filters={oauth2SessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="user_id" sortable={false} emptyText="-" />
       <TextField source="client_id" sortable={false} />
@@ -218,7 +220,7 @@ export const RevokePersonalSessionButton = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const translate = useTranslate();
 
-  if (!record || !record.active) return null;
+  if (!record || !record.active) return <span>—</span>;
 
   const handleConfirm = async () => {
     setOpen(false);
@@ -268,7 +270,7 @@ const personalSessionFilters = [
 ];
 
 export const MASPersonalSessionsList = (props: ListProps) => (
-  <List {...props} filters={personalSessionFilters} pagination={false} perPage={50}>
+  <List {...props} filters={personalSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="owner_user_id" sortable={false} emptyText="-" />
       <TextField source="human_name" sortable={false} emptyText="-" />
@@ -288,6 +290,8 @@ export const MASPersonalSessionCreate = (props: CreateProps) => {
   const [token, setToken] = useState<string | null>(null);
   const redirect = useRedirect();
   const translate = useTranslate();
+  const [searchParams] = useSearchParams();
+  const presetUserId = searchParams.get("actor_user_id");
 
   const handleSuccess = (record: Record<string, unknown>) => {
     const tok = record.access_token as string | null | undefined;
@@ -307,16 +311,26 @@ export const MASPersonalSessionCreate = (props: CreateProps) => {
               <SaveButton />
             </Toolbar>
           }
+          defaultValues={presetUserId ? { actor_user_id: presetUserId } : undefined}
         >
-          <ReferenceInput source="actor_user_id" reference="mas_users">
-            <AutocompleteInput
-              optionText="username"
-              optionValue="id"
+          {presetUserId ? (
+            <TextInput
+              source="actor_user_id"
+              disabled
               label="resources.mas_personal_sessions.fields.actor_user_id"
-              filterToQuery={search => ({ search })}
-              isRequired
+              fullWidth
             />
-          </ReferenceInput>
+          ) : (
+            <ReferenceInput source="actor_user_id" reference="mas_users">
+              <AutocompleteInput
+                optionText="username"
+                optionValue="id"
+                label="resources.mas_personal_sessions.fields.actor_user_id"
+                filterToQuery={search => ({ search })}
+                isRequired
+              />
+            </ReferenceInput>
+          )}
           <TextInput source="scope" required label="resources.mas_personal_sessions.fields.scope" fullWidth />
           <TextInput source="human_name" required label="resources.mas_personal_sessions.fields.human_name" fullWidth />
           <TextInput
@@ -394,7 +408,7 @@ const DeleteEmailButton = () => {
 const userEmailFilters = [<SearchInput key="email" source="email" alwaysOn />];
 
 export const MASUserEmailsList = (props: ListProps) => (
-  <List {...props} filters={userEmailFilters} pagination={false} perPage={50}>
+  <List {...props} filters={userEmailFilters} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="email" sortable={false} />
       <TextField source="user_id" sortable={false} />
@@ -429,7 +443,7 @@ export const MASUserEmailCreate = (props: CreateProps) => (
 
 // ─── User Sessions (browser sessions) ────────────────────────────────────────
 
-const FinishUserSessionButton = () => {
+export const FinishUserSessionButton = () => {
   const record = useRecordContext();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -484,7 +498,7 @@ const userSessionFilters = [
 ];
 
 export const MASUserSessionsList = (props: ListProps) => (
-  <List {...props} filters={userSessionFilters} pagination={false} perPage={50}>
+  <List {...props} filters={userSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="user_id" sortable={false} />
       <BooleanField source="active" sortable={false} />
@@ -500,7 +514,7 @@ export const MASUserSessionsList = (props: ListProps) => (
 
 // ─── Upstream OAuth Links ─────────────────────────────────────────────────────
 
-const DeleteOAuthLinkButton = () => {
+export const DeleteOAuthLinkButton = () => {
   const record = useRecordContext();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -548,7 +562,7 @@ const DeleteOAuthLinkButton = () => {
 const oauthLinkFilters = [<SearchInput key="user_id" source="user_id" alwaysOn />];
 
 export const MASUpstreamOAuthLinksList = (props: ListProps) => (
-  <List {...props} filters={oauthLinkFilters} pagination={false} perPage={50}>
+  <List {...props} filters={oauthLinkFilters} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="user_id" sortable={false} />
       <TextField source="provider_id" sortable={false} />
@@ -598,7 +612,7 @@ export const MASUpstreamOAuthLinkCreate = (props: CreateProps) => (
 // ─── Upstream OAuth Providers ─────────────────────────────────────────────────
 
 export const MASUpstreamOAuthProvidersList = (props: ListProps) => (
-  <List {...props} pagination={false} perPage={50}>
+  <List {...props} pagination={false} perPage={50} empty={<EmptyState />}>
     <Datagrid bulkActionButtons={false} rowClick={false}>
       <TextField source="human_name" sortable={false} emptyText="-" />
       <TextField source="brand_name" sortable={false} emptyText="-" />
@@ -627,7 +641,6 @@ export const masPersonalSessions: ResourceProps = {
   name: "mas_personal_sessions",
   icon: KeyIcon,
   list: MASPersonalSessionsList,
-  create: MASPersonalSessionCreate,
 };
 
 export const masUserEmails: ResourceProps = {
