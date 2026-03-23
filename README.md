@@ -27,6 +27,7 @@
 * [Fork differences](#fork-differences)
   * [Availability](#availability)
     * [Prebuilt distributions](#prebuilt-distributions)
+    * [Nightly builds](#nightly-builds)
     * [IPFS](#ipfs)
   * [Changes](#changes)
     * [exclusive for etke.cc customers](#exclusive-for-etkecc-customers)
@@ -81,6 +82,19 @@ We offer two prebuilt distributions for different deployment paths:
 You can find the latest **released** versions on the [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) - download the appropriate `.tar.gz` file and follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
 
 You can find the latest **development (nightly)** versions in the [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) - click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin` artifact depending on your desired deployment path. After that, follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
+
+#### Nightly builds
+
+You can try the latest changes before they are released by:
+* using [admin.etke.cc](https://admin.etke.cc) - it is automatically updated with the latest development version
+* using the `latest` and/or `latest-subpath-admin` tags of the Docker image on [Github Container Registry](https://github.com/etkecc/synapse-admin/pkgs/container/synapse-admin) or [Docker Hub](https://hub.docker.com/r/etkecc/synapse-admin/tags) - these tags are automatically updated with the latest development version
+* using the `dist-root` and `dist-subpath-admin` artifacts from the latest successful [GitHub Actions workflow
+    run](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml) -
+    these artifacts are automatically updated with the latest development version (click on the latest successful
+    workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin`
+    artifact depending on your desired deployment path)
+* using `main` git branch - you can clone the repository and build the app yourself (see [step-by-step
+    installation](#step-by-step-installation) section for instructions)
 
 #### IPFS
 
