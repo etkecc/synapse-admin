@@ -33,7 +33,9 @@ import {
   FormControl,
   InputLabel,
   List as MuiList,
+  ListItem,
   ListItemButton,
+  ListItemText,
   MenuItem,
   Paper,
   Select,
@@ -67,6 +69,7 @@ import {
   SimpleForm,
   SimpleFormIterator,
   TabbedForm,
+  TabbedFormTabs,
   FormTab,
   BooleanField,
   BooleanInput,
@@ -481,6 +484,8 @@ const MASSessionsPanel = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const notify = useNotify();
   const refresh = useRefresh();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const masId = record?.mas_id as string | undefined;
   const [tab, setTab] = useState(0);
   const [creating, setCreating] = useState(false);
@@ -539,7 +544,13 @@ const MASSessionsPanel = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Tabs value={tab} onChange={(_, v) => setTab(v)}>
+      <Tabs
+        value={tab}
+        onChange={(_, v) => setTab(v)}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
+      >
         <Tab label={translate("resources.mas_personal_sessions.name", { smart_count: 2 })} />
         <Tab label={translate("resources.mas_user_sessions.name", { smart_count: 2 })} />
         <Tab label={translate("resources.mas_oauth2_sessions.name", { smart_count: 2 })} />
@@ -548,7 +559,7 @@ const MASSessionsPanel = () => {
 
       {tab === 0 && (
         <>
-          <Box sx={{ display: "flex", gap: 2, mt: 2, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <Box sx={{ display: "flex", gap: 2, mt: 2, alignItems: "center", flexWrap: "wrap" }}>
             <MuiTextField
               size="small"
               label={translate("resources.mas_personal_sessions.fields.human_name")}
@@ -573,25 +584,35 @@ const MASSessionsPanel = () => {
               variant="contained"
               disabled={creating || !form.scope || !form.human_name}
               onClick={handleCreate}
+              sx={{ height: "40px" }}
             >
               {translate("ra.action.create")}
             </MuiButton>
           </Box>
           <ResourceContextProvider value="mas_personal_sessions">
             <ListContextProvider value={personalListCtx}>
-              <Datagrid
-                bulkActionButtons={false}
-                rowClick={false}
-                empty={<EmptyState resource="mas_personal_sessions" />}
-                sx={{ width: "100%", mt: 2 }}
-              >
-                <TextField source="human_name" sortable={false} emptyText="-" />
-                <TextField source="scope" sortable={false} />
-                <BooleanField source="active" sortable={false} />
-                <DateField source="created_at" showTime sortable={false} />
-                <DateField source="expires_at" showTime sortable={false} emptyText="-" />
-                <RevokePersonalSessionButton />
-              </Datagrid>
+              {isSmall ? (
+                <SimpleList
+                  primaryText={record => record.human_name || String(record.id)}
+                  secondaryText={record => String(record.scope || "")}
+                  tertiaryText={() => <RevokePersonalSessionButton />}
+                  linkType={false}
+                />
+              ) : (
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowClick={false}
+                  empty={<EmptyState resource="mas_personal_sessions" />}
+                  sx={{ width: "100%", mt: 2 }}
+                >
+                  <TextField source="human_name" sortable={false} emptyText="-" />
+                  <TextField source="scope" sortable={false} />
+                  <BooleanField source="active" sortable={false} />
+                  <DateField source="created_at" showTime sortable={false} />
+                  <DateField source="expires_at" showTime sortable={false} emptyText="-" />
+                  <RevokePersonalSessionButton />
+                </Datagrid>
+              )}
             </ListContextProvider>
           </ResourceContextProvider>
         </>
@@ -599,59 +620,86 @@ const MASSessionsPanel = () => {
       {tab === 1 && (
         <ResourceContextProvider value="mas_user_sessions">
           <ListContextProvider value={userListCtx}>
-            <Datagrid
-              bulkActionButtons={false}
-              rowClick={false}
-              empty={<EmptyState resource="mas_user_sessions" />}
-              sx={{ width: "100%", mt: 1 }}
-            >
-              <BooleanField source="active" sortable={false} />
-              <DateField source="created_at" showTime sortable={false} />
-              <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-              <TextField source="last_active_ip" sortable={false} emptyText="-" />
-              <TextField source="user_agent" sortable={false} emptyText="-" />
-              <FinishUserSessionButton />
-            </Datagrid>
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => String(record.user_agent || record.last_active_ip || record.id)}
+                secondaryText={record => String(record.last_active_ip || "")}
+                tertiaryText={() => <FinishUserSessionButton />}
+                linkType={false}
+              />
+            ) : (
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick={false}
+                empty={<EmptyState resource="mas_user_sessions" />}
+                sx={{ width: "100%", mt: 1 }}
+              >
+                <BooleanField source="active" sortable={false} />
+                <DateField source="created_at" showTime sortable={false} />
+                <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+                <TextField source="last_active_ip" sortable={false} emptyText="-" />
+                <TextField source="user_agent" sortable={false} emptyText="-" />
+                <FinishUserSessionButton />
+              </Datagrid>
+            )}
           </ListContextProvider>
         </ResourceContextProvider>
       )}
       {tab === 2 && (
         <ResourceContextProvider value="mas_oauth2_sessions">
           <ListContextProvider value={oauth2ListCtx}>
-            <Datagrid
-              bulkActionButtons={false}
-              rowClick={false}
-              empty={<EmptyState resource="mas_oauth2_sessions" />}
-              sx={{ width: "100%", mt: 1 }}
-            >
-              <TextField source="client_id" sortable={false} />
-              <TextField source="scope" sortable={false} />
-              <TextField source="human_name" sortable={false} emptyText="-" />
-              <BooleanField source="active" sortable={false} />
-              <DateField source="created_at" showTime sortable={false} />
-              <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-              <FinishOAuth2SessionButton />
-            </Datagrid>
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => record.human_name || record.client_id || String(record.id)}
+                secondaryText={record => String(record.scope || "")}
+                tertiaryText={() => <FinishOAuth2SessionButton />}
+                linkType={false}
+              />
+            ) : (
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick={false}
+                empty={<EmptyState resource="mas_oauth2_sessions" />}
+                sx={{ width: "100%", mt: 1 }}
+              >
+                <TextField source="client_id" sortable={false} />
+                <TextField source="scope" sortable={false} />
+                <TextField source="human_name" sortable={false} emptyText="-" />
+                <BooleanField source="active" sortable={false} />
+                <DateField source="created_at" showTime sortable={false} />
+                <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+                <FinishOAuth2SessionButton />
+              </Datagrid>
+            )}
           </ListContextProvider>
         </ResourceContextProvider>
       )}
       {tab === 3 && (
         <ResourceContextProvider value="mas_compat_sessions">
           <ListContextProvider value={compatListCtx}>
-            <Datagrid
-              bulkActionButtons={false}
-              rowClick={false}
-              empty={<EmptyState resource="mas_compat_sessions" />}
-              sx={{ width: "100%", mt: 1 }}
-            >
-              <TextField source="device_id" sortable={false} emptyText="-" />
-              <TextField source="human_name" sortable={false} emptyText="-" />
-              <BooleanField source="active" sortable={false} />
-              <DateField source="created_at" showTime sortable={false} />
-              <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-              <TextField source="last_active_ip" sortable={false} emptyText="-" />
-              <FinishCompatSessionButton />
-            </Datagrid>
+            {isSmall ? (
+              <SimpleList
+                primaryText={record => record.human_name || record.device_id || String(record.id)}
+                secondaryText={record => String(record.last_active_ip || "")}
+                tertiaryText={() => <FinishCompatSessionButton />}
+                linkType={false}
+              />
+            ) : (
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick={false}
+                empty={<EmptyState resource="mas_compat_sessions" />}
+                sx={{ width: "100%", mt: 1 }}
+              >
+                <TextField source="device_id" sortable={false} emptyText="-" />
+                <TextField source="human_name" sortable={false} emptyText="-" />
+                <BooleanField source="active" sortable={false} />
+                <DateField source="created_at" showTime sortable={false} />
+                <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+                <TextField source="last_active_ip" sortable={false} emptyText="-" />
+                <FinishCompatSessionButton />
+              </Datagrid>
+            )}
           </ListContextProvider>
         </ResourceContextProvider>
       )}
@@ -686,6 +734,8 @@ const MASUpstreamOAuthLinksPanel = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const notify = useNotify();
   const refresh = useRefresh();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const masId = record?.mas_id as string | undefined;
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState({ provider_id: "", subject: "", human_account_name: "" });
@@ -724,7 +774,7 @@ const MASUpstreamOAuthLinksPanel = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ display: "flex", gap: 2, mt: 2, mb: 1, alignItems: "flex-start", flexWrap: "wrap" }}>
+      <Box sx={{ display: "flex", gap: 2, mt: 2, mb: 1, alignItems: "center", flexWrap: "wrap" }}>
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>{translate("resources.mas_upstream_oauth_links.fields.provider_id")}</InputLabel>
           <Select
@@ -755,25 +805,34 @@ const MASUpstreamOAuthLinksPanel = () => {
           variant="contained"
           disabled={creating || !form.provider_id || !form.subject}
           onClick={handleCreate}
-          sx={{ mt: "4px" }}
+          sx={{ height: "40px" }}
         >
           {translate("ra.action.create")}
         </MuiButton>
       </Box>
       <ResourceContextProvider value="mas_upstream_oauth_links">
         <ListContextProvider value={linksListCtx}>
-          <Datagrid
-            bulkActionButtons={false}
-            rowClick={false}
-            empty={<EmptyState resource="mas_upstream_oauth_links" />}
-            sx={{ width: "100%" }}
-          >
-            <TextField source="provider_id" sortable={false} />
-            <TextField source="subject" sortable={false} />
-            <TextField source="human_account_name" sortable={false} emptyText="-" />
-            <DateField source="created_at" showTime sortable={false} />
-            <DeleteOAuthLinkButton />
-          </Datagrid>
+          {isSmall ? (
+            <SimpleList
+              primaryText={record => String(record.subject || "")}
+              secondaryText={record => String(record.provider_id || "")}
+              tertiaryText={() => <DeleteOAuthLinkButton />}
+              linkType={false}
+            />
+          ) : (
+            <Datagrid
+              bulkActionButtons={false}
+              rowClick={false}
+              empty={<EmptyState resource="mas_upstream_oauth_links" />}
+              sx={{ width: "100%" }}
+            >
+              <TextField source="provider_id" sortable={false} />
+              <TextField source="subject" sortable={false} />
+              <TextField source="human_account_name" sortable={false} emptyText="-" />
+              <DateField source="created_at" showTime sortable={false} />
+              <DeleteOAuthLinkButton />
+            </Datagrid>
+          )}
         </ListContextProvider>
       </ResourceContextProvider>
     </Box>
@@ -786,6 +845,8 @@ const MASEmailsPanel = () => {
   const dataProvider = useDataProvider();
   const notify = useNotify();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [newEmail, setNewEmail] = useState("");
   const [adding, setAdding] = useState(false);
   const masId = record?.mas_id as string | undefined;
@@ -829,32 +890,54 @@ const MASEmailsPanel = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Datagrid
-        data={emails || []}
-        total={emails?.length || 0}
-        isLoading={isLoading}
-        bulkActionButtons={false}
-        rowClick={false}
-        empty={
-          <Typography variant="body2" sx={{ p: 1 }}>
-            {translate("resources.mas_user_emails.empty")}
-          </Typography>
-        }
-        sx={{ width: "100%", mb: 2 }}
-      >
-        <TextField source="email" sortable={false} />
-        <DateField source="created_at" showTime sortable={false} />
-        <WrapperField label="resources.rooms.fields.actions">
-          <FunctionField
-            render={(emailRecord: { id: string }) => (
-              <Button
-                label="resources.mas_user_emails.action.remove.label"
-                onClick={() => handleDelete(emailRecord.id)}
+      {isSmall ? (
+        <MuiList disablePadding>
+          {(emails || []).map(email => (
+            <ListItem
+              key={String(email.id)}
+              secondaryAction={
+                <Button
+                  label="resources.mas_user_emails.action.remove.label"
+                  onClick={() => handleDelete(String(email.id))}
+                  size="small"
+                />
+              }
+            >
+              <ListItemText
+                primary={String(email.email)}
+                secondary={new Date(String(email.created_at)).toLocaleString()}
               />
-            )}
-          />
-        </WrapperField>
-      </Datagrid>
+            </ListItem>
+          ))}
+        </MuiList>
+      ) : (
+        <Datagrid
+          data={emails || []}
+          total={emails?.length || 0}
+          isLoading={isLoading}
+          bulkActionButtons={false}
+          rowClick={false}
+          empty={
+            <Typography variant="body2" sx={{ p: 1 }}>
+              {translate("resources.mas_user_emails.empty")}
+            </Typography>
+          }
+          sx={{ width: "100%", mb: 2 }}
+        >
+          <TextField source="email" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+          <WrapperField label="resources.rooms.fields.actions">
+            <FunctionField
+              render={(emailRecord: { id: string }) => (
+                <Button
+                  label="resources.mas_user_emails.action.remove.label"
+                  onClick={() => handleDelete(emailRecord.id)}
+                />
+              )}
+            />
+          </WrapperField>
+        </Datagrid>
+      )}
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         <MuiTextField
           label={translate("resources.mas_user_emails.fields.email")}
@@ -862,7 +945,13 @@ const MASEmailsPanel = () => {
           onChange={e => setNewEmail(e.target.value)}
           size="small"
         />
-        <Button label="ra.action.add" onClick={handleAdd} disabled={adding || !newEmail} variant="contained" />
+        <Button
+          label="ra.action.add"
+          onClick={handleAdd}
+          disabled={adding || !newEmail}
+          variant="contained"
+          sx={{ height: "40px" }}
+        />
       </Box>
     </Box>
   );
@@ -1286,14 +1375,16 @@ export const UserEdit = (props: EditProps) => {
       title={<UserTitle />}
       actions={<UserEditActions />}
       mutationMode="pessimistic"
-      sx={{ "& .RaEdit-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
       queryOptions={{
         meta: {
           include: ["features"], // Tell your dataProvider to include features
         },
       }}
     >
-      <TabbedForm toolbar={<UserEditToolbar />} sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
+      <TabbedForm
+        toolbar={<UserEditToolbar />}
+        tabs={<TabbedFormTabs variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile />}
+      >
         <FormTab label={translate("resources.users.name", { smart_count: 1 })} icon={<PersonPinIcon />}>
           {!isMAS() && (
             <Box

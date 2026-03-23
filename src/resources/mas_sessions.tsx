@@ -12,6 +12,8 @@ import {
   DialogTitle,
   TextField as MuiTextField,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
@@ -21,7 +23,7 @@ import {
   Confirm,
   Create,
   CreateProps,
-  Datagrid,
+  DatagridConfigurable,
   DateField,
   List,
   ListProps,
@@ -32,6 +34,7 @@ import {
   SelectInput,
   Show,
   SimpleForm,
+  SimpleList,
   SimpleShowLayout,
   TextField,
   TextInput,
@@ -118,21 +121,34 @@ const compatSessionFilters = [
   />,
 ];
 
-export const MASCompatSessionsList = (props: ListProps) => (
-  <List {...props} filters={compatSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="user_id" sortable={false} />
-      <TextField source="device_id" sortable={false} emptyText="-" />
-      <TextField source="human_name" sortable={false} emptyText="-" />
-      <BooleanField source="active" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-      <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-      <TextField source="last_active_ip" sortable={false} emptyText="-" />
-      <DateField source="finished_at" showTime sortable={false} emptyText="-" />
-      <FinishCompatSessionButton />
-    </Datagrid>
-  </List>
-);
+export function MASCompatSessionsList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} filters={compatSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => record.human_name || record.device_id || String(record.id)}
+          secondaryText={record => String(record.user_id || "")}
+          tertiaryText={() => <FinishCompatSessionButton />}
+          linkType={false}
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+          <TextField source="user_id" sortable={false} />
+          <TextField source="device_id" sortable={false} emptyText="-" />
+          <TextField source="human_name" sortable={false} emptyText="-" />
+          <BooleanField source="active" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+          <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+          <TextField source="last_active_ip" sortable={false} emptyText="-" />
+          <DateField source="finished_at" showTime sortable={false} emptyText="-" />
+          <FinishCompatSessionButton />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 // ─── OAuth2 Sessions ─────────────────────────────────────────────────────────
 
@@ -194,22 +210,35 @@ const oauth2SessionFilters = [
   />,
 ];
 
-export const MASOAuth2SessionsList = (props: ListProps) => (
-  <List {...props} filters={oauth2SessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="user_id" sortable={false} emptyText="-" />
-      <TextField source="client_id" sortable={false} />
-      <TextField source="scope" sortable={false} />
-      <TextField source="human_name" sortable={false} emptyText="-" />
-      <BooleanField source="active" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-      <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-      <TextField source="last_active_ip" sortable={false} emptyText="-" />
-      <DateField source="finished_at" showTime sortable={false} emptyText="-" />
-      <FinishOAuth2SessionButton />
-    </Datagrid>
-  </List>
-);
+export function MASOAuth2SessionsList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} filters={oauth2SessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => record.human_name || record.client_id || String(record.id)}
+          secondaryText={record => String(record.user_id || "")}
+          tertiaryText={() => <FinishOAuth2SessionButton />}
+          linkType={false}
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+          <TextField source="user_id" sortable={false} emptyText="-" />
+          <TextField source="client_id" sortable={false} />
+          <TextField source="scope" sortable={false} />
+          <TextField source="human_name" sortable={false} emptyText="-" />
+          <BooleanField source="active" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+          <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+          <TextField source="last_active_ip" sortable={false} emptyText="-" />
+          <DateField source="finished_at" showTime sortable={false} emptyText="-" />
+          <FinishOAuth2SessionButton />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 // ─── Personal Sessions ───────────────────────────────────────────────────────
 
@@ -271,22 +300,35 @@ const personalSessionFilters = [
   />,
 ];
 
-export const MASPersonalSessionsList = (props: ListProps) => (
-  <List {...props} filters={personalSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="owner_user_id" sortable={false} emptyText="-" />
-      <TextField source="human_name" sortable={false} emptyText="-" />
-      <TextField source="scope" sortable={false} />
-      <BooleanField source="active" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-      <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-      <TextField source="last_active_ip" sortable={false} emptyText="-" />
-      <DateField source="expires_at" showTime sortable={false} emptyText="-" />
-      <DateField source="revoked_at" showTime sortable={false} emptyText="-" />
-      <RevokePersonalSessionButton />
-    </Datagrid>
-  </List>
-);
+export function MASPersonalSessionsList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} filters={personalSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => record.human_name || String(record.id)}
+          secondaryText={record => String(record.scope || "")}
+          tertiaryText={() => <RevokePersonalSessionButton />}
+          linkType={false}
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+          <TextField source="owner_user_id" sortable={false} emptyText="-" />
+          <TextField source="human_name" sortable={false} emptyText="-" />
+          <TextField source="scope" sortable={false} />
+          <BooleanField source="active" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+          <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+          <TextField source="last_active_ip" sortable={false} emptyText="-" />
+          <DateField source="expires_at" showTime sortable={false} emptyText="-" />
+          <DateField source="revoked_at" showTime sortable={false} emptyText="-" />
+          <RevokePersonalSessionButton />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 export const MASPersonalSessionCreate = (props: CreateProps) => {
   const [token, setToken] = useState<string | null>(null);
@@ -409,16 +451,29 @@ const DeleteEmailButton = () => {
 
 const userEmailFilters = [<SearchInput key="email" source="email" alwaysOn />];
 
-export const MASUserEmailsList = (props: ListProps) => (
-  <List {...props} filters={userEmailFilters} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="email" sortable={false} />
-      <TextField source="user_id" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-      <DeleteEmailButton />
-    </Datagrid>
-  </List>
-);
+export function MASUserEmailsList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} filters={userEmailFilters} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => String(record.email || "")}
+          secondaryText={record => String(record.user_id || "")}
+          tertiaryText={() => <DeleteEmailButton />}
+          linkType={false}
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+          <TextField source="email" sortable={false} />
+          <TextField source="user_id" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+          <DeleteEmailButton />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 export const MASUserEmailCreate = (props: CreateProps) => (
   <Create {...props} redirect="list">
@@ -499,20 +554,33 @@ const userSessionFilters = [
   />,
 ];
 
-export const MASUserSessionsList = (props: ListProps) => (
-  <List {...props} filters={userSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="user_id" sortable={false} />
-      <BooleanField source="active" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-      <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-      <TextField source="last_active_ip" sortable={false} emptyText="-" />
-      <TextField source="user_agent" sortable={false} emptyText="-" />
-      <DateField source="finished_at" showTime sortable={false} emptyText="-" />
-      <FinishUserSessionButton />
-    </Datagrid>
-  </List>
-);
+export function MASUserSessionsList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} filters={userSessionFilters} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => String(record.user_id || "")}
+          secondaryText={record => String(record.user_agent || record.last_active_ip || "")}
+          tertiaryText={() => <FinishUserSessionButton />}
+          linkType={false}
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+          <TextField source="user_id" sortable={false} />
+          <BooleanField source="active" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+          <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+          <TextField source="last_active_ip" sortable={false} emptyText="-" />
+          <TextField source="user_agent" sortable={false} emptyText="-" />
+          <DateField source="finished_at" showTime sortable={false} emptyText="-" />
+          <FinishUserSessionButton />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 // ─── Upstream OAuth Links ─────────────────────────────────────────────────────
 
@@ -563,32 +631,57 @@ export const DeleteOAuthLinkButton = () => {
 
 const oauthLinkFilters = [<SearchInput key="user_id" source="user_id" alwaysOn />];
 
-export const MASUpstreamOAuthLinksList = (props: ListProps) => (
-  <List {...props} filters={oauthLinkFilters} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick={false}>
-      <TextField source="user_id" sortable={false} />
-      <TextField source="provider_id" sortable={false} />
-      <TextField source="subject" sortable={false} />
-      <TextField source="human_account_name" sortable={false} emptyText="-" />
-      <DateField source="created_at" showTime sortable={false} />
-      <DeleteOAuthLinkButton />
-    </Datagrid>
-  </List>
-);
+export function MASUpstreamOAuthLinksList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} filters={oauthLinkFilters} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => String(record.subject || "")}
+          secondaryText={record => String(record.user_id || "")}
+          tertiaryText={() => <DeleteOAuthLinkButton />}
+          linkType={false}
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+          <TextField source="user_id" sortable={false} />
+          <TextField source="provider_id" sortable={false} />
+          <TextField source="subject" sortable={false} />
+          <TextField source="human_account_name" sortable={false} emptyText="-" />
+          <DateField source="created_at" showTime sortable={false} />
+          <DeleteOAuthLinkButton />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 // ─── Upstream OAuth Providers ─────────────────────────────────────────────────
 
-export const MASUpstreamOAuthProvidersList = (props: ListProps) => (
-  <List {...props} pagination={false} perPage={50} empty={<EmptyState />}>
-    <Datagrid bulkActionButtons={false} rowClick="show">
-      <TextField source="human_name" sortable={false} emptyText="-" />
-      <TextField source="brand_name" sortable={false} emptyText="-" />
-      <TextField source="issuer" sortable={false} emptyText="-" />
-      <BooleanField source="enabled" sortable={false} />
-      <DateField source="created_at" showTime sortable={false} />
-    </Datagrid>
-  </List>
-);
+export function MASUpstreamOAuthProvidersList(props: ListProps) {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} pagination={false} perPage={50} empty={<EmptyState />}>
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => record.human_name || String(record.id)}
+          secondaryText={record => String(record.issuer || "")}
+          linkType="show"
+        />
+      ) : (
+        <DatagridConfigurable bulkActionButtons={false} rowClick="show">
+          <TextField source="human_name" sortable={false} emptyText="-" />
+          <TextField source="brand_name" sortable={false} emptyText="-" />
+          <TextField source="issuer" sortable={false} emptyText="-" />
+          <BooleanField source="enabled" sortable={false} />
+          <DateField source="created_at" showTime sortable={false} />
+        </DatagridConfigurable>
+      )}
+    </List>
+  );
+}
 
 export const MASUpstreamOAuthProvidersShow = () => (
   <Show>
