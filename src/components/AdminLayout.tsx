@@ -376,11 +376,13 @@ export const AdminLayout = ({ children }) => {
         appBar={AdminAppBar}
         menu={AdminMenu}
         sx={theme => ({
+          minWidth: 0,
           ["& .RaLayout-appFrame"]: {
             minHeight: "90vh",
             height: "90vh",
           },
           ["& .RaLayout-content"]: {
+            minWidth: 0,
             marginBottom: { xs: "4rem", sm: "3rem" },
           },
           ["& .RaLayout-contentWithSidebar > .MuiDrawer-root"]: {

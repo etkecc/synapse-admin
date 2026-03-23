@@ -221,6 +221,7 @@ export function MASOAuth2SessionsList(props: ListProps) {
           secondaryText={record => String(record.user_id || "")}
           tertiaryText={() => <FinishOAuth2SessionButton />}
           linkType={false}
+          sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
@@ -311,6 +312,7 @@ export function MASPersonalSessionsList(props: ListProps) {
           secondaryText={record => String(record.scope || "")}
           tertiaryText={() => <RevokePersonalSessionButton />}
           linkType={false}
+          sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>

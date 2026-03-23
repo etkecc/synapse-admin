@@ -597,21 +597,19 @@ const MASSessionsPanel = () => {
                   secondaryText={record => String(record.scope || "")}
                   tertiaryText={() => <RevokePersonalSessionButton />}
                   linkType={false}
+                  sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
                 />
               ) : (
-                <Datagrid
-                  bulkActionButtons={false}
-                  rowClick={false}
-                  empty={<EmptyState resource="mas_personal_sessions" />}
-                  sx={{ width: "100%", mt: 2 }}
-                >
-                  <TextField source="human_name" sortable={false} emptyText="-" />
-                  <TextField source="scope" sortable={false} />
-                  <BooleanField source="active" sortable={false} />
-                  <DateField source="created_at" showTime sortable={false} />
-                  <DateField source="expires_at" showTime sortable={false} emptyText="-" />
-                  <RevokePersonalSessionButton />
-                </Datagrid>
+                <Box sx={{ overflowX: "auto", mt: 2 }}>
+                  <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_personal_sessions" />}>
+                    <TextField source="human_name" sortable={false} emptyText="-" />
+                    <TextField source="scope" sortable={false} />
+                    <BooleanField source="active" sortable={false} />
+                    <DateField source="created_at" showTime sortable={false} />
+                    <DateField source="expires_at" showTime sortable={false} emptyText="-" />
+                    <RevokePersonalSessionButton />
+                  </Datagrid>
+                </Box>
               )}
             </ListContextProvider>
           </ResourceContextProvider>
@@ -628,19 +626,16 @@ const MASSessionsPanel = () => {
                 linkType={false}
               />
             ) : (
-              <Datagrid
-                bulkActionButtons={false}
-                rowClick={false}
-                empty={<EmptyState resource="mas_user_sessions" />}
-                sx={{ width: "100%", mt: 1 }}
-              >
-                <BooleanField source="active" sortable={false} />
-                <DateField source="created_at" showTime sortable={false} />
-                <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-                <TextField source="last_active_ip" sortable={false} emptyText="-" />
-                <TextField source="user_agent" sortable={false} emptyText="-" />
-                <FinishUserSessionButton />
-              </Datagrid>
+              <Box sx={{ overflowX: "auto", mt: 1 }}>
+                <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_user_sessions" />}>
+                  <BooleanField source="active" sortable={false} />
+                  <DateField source="created_at" showTime sortable={false} />
+                  <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+                  <TextField source="last_active_ip" sortable={false} emptyText="-" />
+                  <TextField source="user_agent" sortable={false} emptyText="-" />
+                  <FinishUserSessionButton />
+                </Datagrid>
+              </Box>
             )}
           </ListContextProvider>
         </ResourceContextProvider>
@@ -656,20 +651,17 @@ const MASSessionsPanel = () => {
                 linkType={false}
               />
             ) : (
-              <Datagrid
-                bulkActionButtons={false}
-                rowClick={false}
-                empty={<EmptyState resource="mas_oauth2_sessions" />}
-                sx={{ width: "100%", mt: 1 }}
-              >
-                <TextField source="client_id" sortable={false} />
-                <TextField source="scope" sortable={false} />
-                <TextField source="human_name" sortable={false} emptyText="-" />
-                <BooleanField source="active" sortable={false} />
-                <DateField source="created_at" showTime sortable={false} />
-                <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-                <FinishOAuth2SessionButton />
-              </Datagrid>
+              <Box sx={{ overflowX: "auto", mt: 1 }}>
+                <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_oauth2_sessions" />}>
+                  <TextField source="client_id" sortable={false} />
+                  <TextField source="scope" sortable={false} />
+                  <TextField source="human_name" sortable={false} emptyText="-" />
+                  <BooleanField source="active" sortable={false} />
+                  <DateField source="created_at" showTime sortable={false} />
+                  <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+                  <FinishOAuth2SessionButton />
+                </Datagrid>
+              </Box>
             )}
           </ListContextProvider>
         </ResourceContextProvider>
@@ -685,20 +677,17 @@ const MASSessionsPanel = () => {
                 linkType={false}
               />
             ) : (
-              <Datagrid
-                bulkActionButtons={false}
-                rowClick={false}
-                empty={<EmptyState resource="mas_compat_sessions" />}
-                sx={{ width: "100%", mt: 1 }}
-              >
-                <TextField source="device_id" sortable={false} emptyText="-" />
-                <TextField source="human_name" sortable={false} emptyText="-" />
-                <BooleanField source="active" sortable={false} />
-                <DateField source="created_at" showTime sortable={false} />
-                <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
-                <TextField source="last_active_ip" sortable={false} emptyText="-" />
-                <FinishCompatSessionButton />
-              </Datagrid>
+              <Box sx={{ overflowX: "auto", mt: 1 }}>
+                <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_compat_sessions" />}>
+                  <TextField source="device_id" sortable={false} emptyText="-" />
+                  <TextField source="human_name" sortable={false} emptyText="-" />
+                  <BooleanField source="active" sortable={false} />
+                  <DateField source="created_at" showTime sortable={false} />
+                  <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
+                  <TextField source="last_active_ip" sortable={false} emptyText="-" />
+                  <FinishCompatSessionButton />
+                </Datagrid>
+              </Box>
             )}
           </ListContextProvider>
         </ResourceContextProvider>
@@ -1380,6 +1369,7 @@ export const UserEdit = (props: EditProps) => {
           include: ["features"], // Tell your dataProvider to include features
         },
       }}
+      sx={{ "& .RaEdit-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, minWidth: 0, overflowX: "auto" } }}
     >
       <TabbedForm
         toolbar={<UserEditToolbar />}
