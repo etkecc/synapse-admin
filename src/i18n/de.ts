@@ -183,7 +183,9 @@ const de: SynapseTranslationMessages = {
     },
     action: {
       send: "Medien löschen",
-      send_success: "Anfrage erfolgreich versendet.",
+      send_success:
+        "%{smart_count} Mediendatei erfolgreich gelöscht. |||| %{smart_count} Mediendateien erfolgreich gelöscht.",
+      send_success_none: "Keine Mediendateien entsprachen den angegebenen Kriterien. Es wurde nichts gelöscht.",
       send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
     },
     helper: {
@@ -197,7 +199,10 @@ const de: SynapseTranslationMessages = {
     },
     action: {
       send: "Externe Medien löschen",
-      send_success: "Die Anfrage zum Löschen externer Medien wurde gesendet.",
+      send_success:
+        "%{smart_count} externe Mediendatei erfolgreich gelöscht. |||| %{smart_count} externe Mediendateien erfolgreich gelöscht.",
+      send_success_none:
+        "Keine externen Mediendateien entsprachen den angegebenen Kriterien. Es wurde nichts gelöscht.",
       send_failure: "Bei der Anfrage zum Löschen externer Medien ist ein Fehler aufgetreten.",
     },
     helper: {

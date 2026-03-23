@@ -115,6 +115,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     action: {
       send: string;
       send_success: string;
+      send_success_none: string;
       send_failure: string;
     };
     helper: {
@@ -129,6 +130,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     action: {
       send: string;
       send_success: string;
+      send_success_none: string;
       send_failure: string;
     };
     helper: {

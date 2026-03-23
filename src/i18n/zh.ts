@@ -181,7 +181,8 @@ const zh: SynapseTranslationMessages = {
     },
     action: {
       send: "删除媒体",
-      send_success: "请求发送成功。",
+      send_success: "成功删除了 %{smart_count} 个媒体文件。",
+      send_success_none: "没有符合指定条件的媒体文件。未删除任何内容。",
       send_failure: "出现了一个错误。",
     },
     helper: {
@@ -195,7 +196,8 @@ const zh: SynapseTranslationMessages = {
     },
     action: {
       send: "清除远程媒体",
-      send_success: "远程媒体清除请求已发送。",
+      send_success: "成功清除了 %{smart_count} 个远程媒体文件。",
+      send_success_none: "没有符合指定条件的远程媒体文件。未清除任何内容。",
       send_failure: "发生错误，远程媒体清除请求未成功。",
     },
     helper: {

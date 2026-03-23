@@ -146,7 +146,8 @@ const ja: SynapseTranslationMessages = {
     },
     action: {
       send: "メディアファイルを削除",
-      send_success: "リクエストを送信しました。",
+      send_success: "%{smart_count}件のメディアファイルを削除しました。",
+      send_success_none: "指定された条件に一致するメディアファイルはありませんでした。何も削除されていません。",
       send_failure: "エラーが発生しました。",
     },
     helper: {
@@ -160,7 +161,8 @@ const ja: SynapseTranslationMessages = {
     },
     action: {
       send: "リモートのメディアファイルを削除",
-      send_success: "削除のリクエストを送信しました。",
+      send_success: "%{smart_count}件のリモートメディアファイルを削除しました。",
+      send_success_none: "指定された条件に一致するリモートメディアファイルはありませんでした。何も削除されていません。",
       send_failure: "エラーが発生しました。",
     },
     helper: {

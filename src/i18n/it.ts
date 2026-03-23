@@ -241,7 +241,9 @@ const it: SynapseTranslationMessages = {
     },
     action: {
       send: "Cancella media",
-      send_success: "Richiesta inviata con successo.",
+      send_success:
+        "%{smart_count} file multimediale eliminato con successo. |||| %{smart_count} file multimediali eliminati con successo.",
+      send_success_none: "Nessun file multimediale corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
       send_failure: "C'è stato un errore.",
     },
     helper: {
@@ -255,7 +257,10 @@ const it: SynapseTranslationMessages = {
     },
     action: {
       send: "Elimina media remoti",
-      send_success: "La richiesta per eliminare i media remoti è stata inviata.",
+      send_success:
+        "%{smart_count} file multimediale remoto eliminato con successo. |||| %{smart_count} file multimediali remoti eliminati con successo.",
+      send_success_none:
+        "Nessun file multimediale remoto corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
       send_failure: "Si è verificato un errore con la richiesta di eliminazione dei media remoti.",
     },
     helper: {

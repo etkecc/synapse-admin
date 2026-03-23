@@ -1,5 +1,6 @@
 import BlockIcon from "@mui/icons-material/Block";
 import ClearIcon from "@mui/icons-material/Clear";
+import CloudOffIcon from "@mui/icons-material/CloudOff";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import DownloadIcon from "@mui/icons-material/Download";
 import DownloadingIcon from "@mui/icons-material/Downloading";
@@ -72,8 +73,17 @@ export const DeleteMediaButton = (props: ButtonProps) => {
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const { mutate: deleteMedia, isPending } = useMutation({
     mutationFn: (values: DeleteMediaParams) => dataProvider.deleteMedia(values),
-    onSuccess: () => {
-      notify("delete_media.action.send_success");
+    onSuccess: data => {
+      if (data.total > 0) {
+        notify("delete_media.action.send_success", {
+          type: "success",
+          messageArgs: { smart_count: data.total },
+        });
+      } else {
+        notify("delete_media.action.send_success_none", {
+          type: "warning",
+        });
+      }
       closeDialog();
     },
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -131,7 +141,7 @@ const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
           />
           <DialogActions sx={{ width: "100%", px: 0 }}>
             <MuiButton onClick={onClose}>{translate("ra.action.cancel")}</MuiButton>
-            <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
+            <SaveButton label="purge_remote_media.action.send" icon={<CloudOffIcon />} />
           </DialogActions>
         </SimpleForm>
       </DialogContent>
@@ -140,13 +150,23 @@ const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
 };
 
 export const PurgeRemoteMediaButton = (props: ButtonProps) => {
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const notify = useNotify();
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const { mutate: purgeRemoteMedia, isPending } = useMutation({
     mutationFn: (values: DeleteMediaParams) => dataProvider.purgeRemoteMedia(values),
-    onSuccess: () => {
-      notify("purge_remote_media.action.send_success");
+    onSuccess: data => {
+      if (data.total > 0) {
+        notify("purge_remote_media.action.send_success", {
+          type: "success",
+          messageArgs: { smart_count: data.total },
+        });
+      } else {
+        notify("purge_remote_media.action.send_success_none", {
+          type: "warning",
+        });
+      }
       closeDialog();
     },
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -168,7 +188,9 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
         onClick={openDialog}
         disabled={isPending}
         sx={{
+          color: theme.palette.error.main,
           "&:hover": {
+            backgroundColor: alpha(theme.palette.error.main, 0.12),
             // Reset on mouse devices
             "@media (hover: none)": {
               backgroundColor: "transparent",
@@ -176,7 +198,7 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
           },
         }}
       >
-        <DeleteSweepIcon />
+        <CloudOffIcon />
       </Button>
       <PurgeRemoteMediaDialog open={open} onClose={closeDialog} onSubmit={purgeRemoteMedia} />
     </>

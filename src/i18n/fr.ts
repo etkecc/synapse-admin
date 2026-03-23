@@ -127,7 +127,9 @@ const fr: SynapseTranslationMessages = {
     },
     action: {
       send: "Supprimer le média",
-      send_success: "Requête envoyée avec succès",
+      send_success:
+        "%{smart_count} fichier média supprimé avec succès. |||| %{smart_count} fichiers média supprimés avec succès.",
+      send_success_none: "Aucun fichier média ne correspondait aux critères spécifiés. Rien n'a été supprimé.",
       send_failure: "Une erreur s'est produite",
     },
     helper: {
@@ -141,7 +143,9 @@ const fr: SynapseTranslationMessages = {
     },
     action: {
       send: "Purger les médias distants",
-      send_success: "La demande de purge des médias distants a été envoyée.",
+      send_success:
+        "%{smart_count} fichier média distant purgé avec succès. |||| %{smart_count} fichiers média distants purgés avec succès.",
+      send_success_none: "Aucun fichier média distant ne correspondait aux critères spécifiés. Rien n'a été purgé.",
       send_failure: "Une erreur est survenue lors de la demande de purge des médias distants.",
     },
     helper: {

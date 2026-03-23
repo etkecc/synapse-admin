@@ -124,7 +124,9 @@ const en: SynapseTranslationMessages = {
     },
     action: {
       send: "Delete media",
-      send_success: "Request successfully sent.",
+      send_success:
+        "Successfully deleted %{smart_count} media file. |||| Successfully deleted %{smart_count} media files.",
+      send_success_none: "No media files matched the specified criteria. Nothing was deleted.",
       send_failure: "An error has occurred.",
     },
     helper: {
@@ -138,7 +140,9 @@ const en: SynapseTranslationMessages = {
     },
     action: {
       send: "Purge remote media",
-      send_success: "Purge remote media request has been sent.",
+      send_success:
+        "Successfully purged %{smart_count} remote media file. |||| Successfully purged %{smart_count} remote media files.",
+      send_success_none: "No remote media files matched the specified criteria. Nothing was purged.",
       send_failure: "An error has occurred with the purge remote media request.",
     },
     helper: {

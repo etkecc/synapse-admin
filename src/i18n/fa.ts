@@ -153,7 +153,8 @@ const fa: SynapseTranslationMessages = {
     },
     action: {
       send: "حذف رسانه ها",
-      send_success: "درخواست با موفقیت ارسال شد.",
+      send_success: "%{smart_count} فایل رسانه‌ای با موفقیت حذف شد.",
+      send_success_none: "هیچ فایل رسانه‌ای با معیارهای مشخص شده مطابقت نداشت. چیزی حذف نشد.",
       send_failure: "خطایی رخ داده است.",
     },
     helper: {
@@ -167,7 +168,8 @@ const fa: SynapseTranslationMessages = {
     },
     action: {
       send: "پاک کردن رسانه‌های از راه دور",
-      send_success: "درخواست پاک کردن رسانه‌های از راه دور ارسال شد.",
+      send_success: "%{smart_count} فایل رسانه‌ای از راه دور با موفقیت پاک شد.",
+      send_success_none: "هیچ فایل رسانه‌ای از راه دور با معیارهای مشخص شده مطابقت نداشت. چیزی پاک نشد.",
       send_failure: "درخواست برای پاک کردن رسانه‌های از راه دور با خطا مواجه شد.",
     },
     helper: {
