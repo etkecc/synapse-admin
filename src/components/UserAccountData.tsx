@@ -12,18 +12,19 @@ const UserAccountData = () => {
   const [globalAccountData, setGlobalAccountData] = useState({});
   const [roomsAccountData, setRoomsAccountData] = useState({});
 
-  if (!record) {
-    return null;
-  }
-
   useEffect(() => {
+    if (!record) return;
     const fetchAccountData = async () => {
       const accountData = await dataProvider.getAccountData(record.id);
       setGlobalAccountData(accountData.account_data.global);
       setRoomsAccountData(accountData.account_data.rooms);
     };
     fetchAccountData();
-  }, [dataProvider, record.id]);
+  }, [dataProvider, record]);
+
+  if (!record) {
+    return null;
+  }
 
   if (Object.keys(globalAccountData).length === 0 && Object.keys(roomsAccountData).length === 0) {
     return (

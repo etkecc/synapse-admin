@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import DOMPurify from "dompurify";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Title, useDataProvider, useLocale, useNotify, useStore, useTranslate } from "react-admin";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -119,7 +119,7 @@ const SupportRequestPage = () => {
   const fetchedMxids = useRef<Set<string>>(new Set());
   const blobUrlsRef = useRef<string[]>([]);
 
-  const fetchRequest = async () => {
+  const fetchRequest = useCallback(async () => {
     if (!etkeccAdmin || !id) {
       setFailure(
         translate("etkecc.support.helper.not_configured", {
@@ -139,7 +139,7 @@ const SupportRequestPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [etkeccAdmin, id, locale, dataProvider, translate]);
 
   useEffect(() => {
     setLoading(true);
@@ -152,7 +152,7 @@ const SupportRequestPage = () => {
     }
     blobUrlsRef.current = [];
     fetchRequest();
-  }, [id, etkeccAdmin, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchRequest]);
 
   useEffect(() => {
     return () => {

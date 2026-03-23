@@ -1,8 +1,10 @@
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import PaymentIcon from "@mui/icons-material/Payment";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
-import { Divider, ListItemIcon, ListItemText, MenuItem, Typography } from "@mui/material";
+import TranslateIcon from "@mui/icons-material/Translate";
+import { Box, Divider, ListItemIcon, ListItemText, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect, useState, Suspense } from "react";
 import {
   CheckForApplicationUpdate,
@@ -11,13 +13,18 @@ import {
   InspectorButton,
   Confirm,
   Layout,
+  LoadingIndicator,
   Logout,
   Menu,
+  ToggleThemeButton,
   useLogout,
   UserMenu,
   useStore,
   useLocaleState,
   useLocale,
+  useLocales,
+  useTranslate,
+  useUserMenu,
 } from "react-admin";
 
 import { AdminClientConfigItems } from "./AdminClientConfigItems";
@@ -64,6 +71,54 @@ const ServerVersionItems = () => {
   );
 };
 
+const AdminAppBarToolbar = () => (
+  <>
+    <ToggleThemeButton />
+    <LoadingIndicator />
+  </>
+);
+
+const LocaleMenuItems = () => {
+  const locales = useLocales();
+  const [locale, setLocale] = useLocaleState();
+  if (!locales || locales.length <= 1) return null;
+  return (
+    <>
+      {locales.map(loc => (
+        <MenuItem key={loc.locale} dense selected={locale === loc.locale} onClick={() => setLocale(loc.locale)}>
+          <ListItemIcon>
+            <TranslateIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>{loc.name}</ListItemText>
+        </MenuItem>
+      ))}
+      <Divider sx={{ my: 0.5 }} />
+    </>
+  );
+};
+
+const ProfileMenuItem = () => {
+  const translate = useTranslate();
+  const userMenu = useUserMenu();
+  const onClose = userMenu?.onClose;
+  const userId = localStorage.getItem("user_id");
+  if (!userId) return null;
+  return (
+    <MenuItem
+      dense
+      onClick={() => {
+        onClose?.();
+        window.location.hash = `/users/${encodeURIComponent(userId)}`;
+      }}
+    >
+      <ListItemIcon>
+        <AccountCircleIcon fontSize="small" />
+      </ListItemIcon>
+      <ListItemText>{translate("ra.auth.user_menu")}</ListItemText>
+    </MenuItem>
+  );
+};
+
 const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
   const logout = useLogout();
@@ -92,7 +147,10 @@ const AdminUserMenu = () => {
   return (
     <UserMenu>
       <ServerVersionItems />
+      <ProfileMenuItem />
+      <Divider sx={{ my: 0.5 }} />
       <AdminClientConfigItems />
+      <LocaleMenuItems />
       <div onClickCapture={checkLoginType}>
         <Logout />
       </div>
@@ -111,11 +169,14 @@ const AdminUserMenu = () => {
 
 const AdminAppBar = () => {
   const icfg = useInstanceConfig();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <AppBar userMenu={<AdminUserMenu />}>
-      <TitlePortal />
+    <AppBar userMenu={<AdminUserMenu />} toolbar={<AdminAppBarToolbar />}>
+      <TitlePortal sx={{ display: { xs: "none", sm: "block" } }} />
+      {isSmall && <Box sx={{ flex: 1 }} />}
       {!icfg.disabled.notifications && <ServerNotificationsBadge />}
-      <InspectorButton />
+      {!isSmall && <InspectorButton />}
     </AppBar>
   );
 };
@@ -211,7 +272,7 @@ const AdminMenu = props => {
         />
       )}
       {menu &&
-        menu.map((item, index) => {
+        menu.map(item => {
           const { url, icon, label, i18n } = item;
           /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
           const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
@@ -222,7 +283,7 @@ const AdminMenu = props => {
           }
 
           return (
-            <Suspense key={index}>
+            <Suspense key={url}>
               <Menu.Item
                 to={url}
                 target="_blank"

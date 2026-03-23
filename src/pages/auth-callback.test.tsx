@@ -3,9 +3,9 @@ import { act } from "react-dom/test-utils";
 describe("auth-callback entrypoint", () => {
   beforeEach(() => {
     jest.resetModules();
-    jest.unmock("./utils/config");
-    jest.unmock("./components/etke.cc/InstanceConfig");
-    jest.unmock("./providers/authProvider");
+    jest.unmock("../utils/config");
+    jest.unmock("../components/etke.cc/InstanceConfig");
+    jest.unmock("../providers/authProvider");
   });
 
   it("redirects to provided path on success", async () => {
@@ -83,17 +83,17 @@ describe("auth-callback entrypoint", () => {
       return { redirectTo: "/" };
     });
 
-    jest.doMock("./utils/config", () => ({
+    jest.doMock("../utils/config", () => ({
       __esModule: true,
       FetchConfig: fetchConfig,
       GetConfig: getConfig,
     }));
-    jest.doMock("./components/etke.cc/InstanceConfig", () => ({
+    jest.doMock("../components/etke.cc/InstanceConfig", () => ({
       __esModule: true,
       FetchInstanceConfig: fetchInstanceConfig,
       GetInstanceConfig: () => ({ name: "" }),
     }));
-    jest.doMock("./providers/authProvider", () => ({
+    jest.doMock("../providers/authProvider", () => ({
       __esModule: true,
       default: { handleCallback },
     }));

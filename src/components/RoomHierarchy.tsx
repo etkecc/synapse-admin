@@ -271,8 +271,7 @@ export const RoomHierarchy = () => {
       setNextBatch(undefined);
       fetchHierarchy();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, [roomId, fetchHierarchy]);
 
   const handleRefresh = () => {
     setAllRooms([]);

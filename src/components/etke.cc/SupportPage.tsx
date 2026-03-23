@@ -25,7 +25,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
@@ -147,7 +147,7 @@ const SupportPage = () => {
 
   useDocTitle(translate("etkecc.support.name"));
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     if (!etkeccAdmin) {
       setLoading(false);
       return;
@@ -163,11 +163,11 @@ const SupportPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [etkeccAdmin, locale, dataProvider]);
 
   useEffect(() => {
     fetchRequests();
-  }, [etkeccAdmin, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchRequests]);
 
   const handleCreate = async (subject: string, message: string) => {
     try {

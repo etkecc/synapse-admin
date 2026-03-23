@@ -137,11 +137,13 @@ export const ServerNotificationsBadge = () => {
               : translate("etkecc.notifications.no_notifications")
           }
         >
-          {(notifications && notifications.length > 0 && (
+          {notifications && notifications.length > 0 ? (
             <Badge badgeContent={notifications.length} color="error">
               <NotificationsIcon />
             </Badge>
-          )) || <NotificationsIcon />}
+          ) : (
+            <NotificationsIcon sx={{ opacity: 0.5 }} />
+          )}
         </Tooltip>
       </IconButton>
       <Popper open={open} anchorEl={anchorEl} placement="bottom-end" style={{ zIndex: 1300 }}>

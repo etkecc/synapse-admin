@@ -328,7 +328,7 @@ const ServerCommandsPanel = () => {
       {commandResult.length > 0 && (
         <Alert icon={<CheckCircle fontSize="inherit" />} severity="success">
           {commandResult.map((result, index) => (
-            <div key={index}>{result}</div>
+            <div key={`cmd-result-${index}`}>{result}</div>
           ))}
         </Alert>
       )}

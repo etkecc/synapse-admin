@@ -105,7 +105,7 @@ import { User, UsernameAvailabilityResult } from "../providers/types";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import { decodeURLComponent } from "../utils/safety";
-import { isASManaged } from "../utils/mxid";
+import { isASManaged, getLocalpart } from "../utils/mxid";
 import { formatBytes } from "../utils/formatBytes";
 import { generateRandomPassword } from "../utils/password";
 
@@ -244,7 +244,7 @@ export const UserList = (props: ListProps) => {
         <SimpleList
           primaryText={record => (
             <Box component="span" sx={{ wordBreak: "break-all" }}>
-              {record.displayname || record.id}
+              {record.displayname || getLocalpart(record.id)}
             </Box>
           )}
           secondaryText={record => (
@@ -287,7 +287,7 @@ export const UserList = (props: ListProps) => {
             </Box>
           )}
           linkType="edit"
-          leftAvatar={record => (
+          leftIcon={record => (
             <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
           )}
         />

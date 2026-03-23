@@ -2,9 +2,9 @@ import { Loading } from "react-admin";
 import { createRoot } from "react-dom/client";
 import React from "react";
 
-import authProvider from "./providers/authProvider";
-import { FetchConfig, GetConfig } from "./utils/config";
-import { FetchInstanceConfig, GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
+import authProvider from "../providers/authProvider";
+import { FetchConfig, GetConfig } from "../utils/config";
+import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 
 interface AuthProviderLike {
   handleCallback?: () => Promise<{ redirectTo?: string } | void>;

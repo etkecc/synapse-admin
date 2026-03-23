@@ -844,7 +844,7 @@ export const RoomList = (props: ListProps) => {
             </Box>
           )}
           linkType="show"
-          leftAvatar={record => (
+          leftIcon={record => (
             <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
           )}
         />

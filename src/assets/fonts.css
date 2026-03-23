@@ -3,33 +3,33 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("../webfonts/Inter-Regular.woff2") format("woff2");
+  src: url("./webfonts/Inter-Regular.woff2") format("woff2");
 }
 @font-face {
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("../webfonts/Inter-Medium.woff2") format("woff2");
+  src: url("./webfonts/Inter-Medium.woff2") format("woff2");
 }
 @font-face {
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("../webfonts/Inter-SemiBold.woff2") format("woff2");
+  src: url("./webfonts/Inter-SemiBold.woff2") format("woff2");
 }
 @font-face {
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("../webfonts/WorkSans-Medium.woff2") format("woff2");
+  src: url("./webfonts/WorkSans-Medium.woff2") format("woff2");
 }
 @font-face {
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("../webfonts/WorkSans-SemiBold.woff2") format("woff2");
+  src: url("./webfonts/WorkSans-SemiBold.woff2") format("woff2");
 }

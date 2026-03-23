@@ -21,8 +21,8 @@ const ErrorsCard = ({ errors }: { errors: string[] }) => {
         />
         <CardContent>
           <Stack spacing={1}>
-            {errors.map((e, idx) => (
-              <Typography key={idx} color="error">
+            {errors.map(e => (
+              <Typography key={e} color="error">
                 {e}
               </Typography>
             ))}

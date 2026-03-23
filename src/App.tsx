@@ -25,7 +25,7 @@ import userMediaStats from "./resources/user_media_statistics";
 import users from "./resources/users";
 import authProvider from "./providers/authProvider";
 import dataProvider from "./providers/dataProvider";
-import { lightTheme, darkTheme } from "./theme";
+import { lightTheme, darkTheme } from "./assets/theme";
 
 const Route = reactRouterProvider.Route;
 const queryClient = new QueryClient();

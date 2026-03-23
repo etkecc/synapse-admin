@@ -19,11 +19,8 @@ const UserInfoChips = () => {
   const [inviteCount, setInviteCount] = useState<number | null>(null);
   const [joinedRoomCount, setJoinedRoomCount] = useState<number | null>(null);
 
-  if (!record) {
-    return null;
-  }
-
   useEffect(() => {
+    if (!record) return;
     const fetchCounts = async () => {
       try {
         const [invites, rooms] = await Promise.all([
@@ -37,7 +34,11 @@ const UserInfoChips = () => {
       }
     };
     fetchCounts();
-  }, [dataProvider, record.id]);
+  }, [dataProvider, record]);
+
+  if (!record) {
+    return null;
+  }
 
   const createdDate = record.creation_ts_ms
     ? new Date(record.creation_ts_ms).toLocaleDateString(locale, DATE_FORMAT)

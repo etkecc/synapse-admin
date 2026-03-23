@@ -51,7 +51,7 @@ export type LoginMethod = "credentials" | "accessToken";
  * Get restricted base URL(s) from app context
  * @returns tuple of (single URL or null, array of URLs or null)
  */
-function getRestrictedBaseUrl(): [string | null, string[] | null] {
+function useRestrictedBaseUrl(): [string | null, string[] | null] {
   const { restrictBaseUrl } = useAppContext();
   // no var set, allow any
   if (!restrictBaseUrl) {
@@ -94,7 +94,7 @@ function getRestrictedBaseUrl(): [string | null, string[] | null] {
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
-  const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = getRestrictedBaseUrl();
+  const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = useRestrictedBaseUrl();
   const baseUrlChoices = restrictBaseUrlMultiple ? restrictBaseUrlMultiple : [];
   const localStorageBaseUrl = localStorage.getItem("base_url");
   let base_url = restrictBaseUrlSingle
@@ -126,12 +126,12 @@ const LoginPage = () => {
   const [serverVersion, setServerVersion] = useState("");
   const [matrixVersions, setMatrixVersions] = useState("");
 
+  const initialBaseUrl = useRef(base_url);
   useEffect(() => {
-    if (base_url) {
-      resolveAndCheckServerInfo(base_url as string);
+    if (initialBaseUrl.current) {
+      resolveAndCheckServerInfo(initialBaseUrl.current as string);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- resolveAndCheckServerInfo is stable within the mount
 
   useEffect(() => {
     if (!loginToken) {

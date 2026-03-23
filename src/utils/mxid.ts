@@ -38,6 +38,19 @@ export function generateRandomMXID(): string {
 }
 
 /**
+ * Extract localpart from a MXID
+ * @param id The MXID (e.g. @localpart:homeserver)
+ * @returns localpart without @ prefix and without :homeserver suffix
+ */
+export function getLocalpart(id: string | Identifier): string {
+  const str = id as string;
+  if (!str.startsWith("@") || !str.includes(":")) {
+    return str;
+  }
+  return str.slice(1, str.indexOf(":"));
+}
+
+/**
  * Return the full MXID from an arbitrary input
  * @param input  the input string
  * @returns full MXID as string

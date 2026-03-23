@@ -14,7 +14,6 @@
     <link rel="manifest" href="./manifest.json" media="(prefers-color-scheme: light)" data-scheme="light" />
     <link rel="manifest" href="./manifest-dark.json" media="(prefers-color-scheme: dark)" data-scheme="dark" />
     <link rel="shortcut icon" href="./favicon.ico" />
-    <link rel="modulepreload" href="/src/auth-callback-error.tsx" />
     <title>Synapse Admin</title>
     <style>
       :root {
@@ -340,7 +339,7 @@
     <script>
       window.__SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__ = true;
     </script>
-    <script type="module" src="/src/auth-callback.tsx"></script>
+    <script type="module" src="/src/pages/auth-callback.tsx"></script>
   </body>
   <script>
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
