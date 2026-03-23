@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
@@ -142,15 +142,17 @@ const TreeItem = ({
               >
                 {displayName}
               </Typography>
-              <Chip
-                label={translate(
-                  isSpace ? "resources.rooms.action.hierarchy.space" : "resources.rooms.action.hierarchy.room"
-                )}
-                size="small"
-                variant="outlined"
-                color={isSpace ? "primary" : "default"}
-                sx={{ height: 20, fontSize: "0.7rem" }}
-              />
+              {node.room.room_type && (
+                <Chip
+                  label={translate(
+                    isSpace ? "resources.rooms.action.hierarchy.space" : "resources.rooms.action.hierarchy.room"
+                  )}
+                  size="small"
+                  variant="outlined"
+                  color={isSpace ? "primary" : "default"}
+                  sx={{ height: 20, fontSize: "0.7rem" }}
+                />
+              )}
               {node.room.num_joined_members > 0 && (
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.action.hierarchy.members", { count: node.room.num_joined_members })}
@@ -174,8 +176,7 @@ const TreeItem = ({
               )}
             </Box>
           }
-          secondary={node.room.topic}
-          slotProps={{ secondary: { noWrap: true } }}
+          sx={{ minWidth: 0 }}
         />
         {hasChildren && (open ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
       </ListItemButton>
@@ -209,7 +210,7 @@ export const RoomHierarchy = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [tree, setTree] = useState<TreeNode[]>([]);
-  const [allRooms, setAllRooms] = useState<HierarchyRoom[]>([]);
+  const allRoomsRef = useRef<HierarchyRoom[]>([]);
   const [nextBatch, setNextBatch] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [maxDepth, setMaxDepth] = useState<number | "">("");
@@ -227,7 +228,7 @@ export const RoomHierarchy = () => {
         if (maxDepth !== "") params.max_depth = maxDepth;
         const result = await dataProvider.getRoomHierarchy(roomId as string, params);
         if (result.success && result.data) {
-          const newRooms = from ? [...allRooms, ...result.data.rooms] : result.data.rooms;
+          const newRooms = from ? [...allRoomsRef.current, ...result.data.rooms] : result.data.rooms;
           const missingIds = collectChildIds(newRooms);
           if (missingIds.size > 0) {
             try {
@@ -251,7 +252,7 @@ export const RoomHierarchy = () => {
               // silently fall back to room_id-only placeholders
             }
           }
-          setAllRooms(newRooms);
+          allRoomsRef.current = newRooms;
           setTree(buildTree(newRooms));
           setNextBatch(result.data.next_batch);
         } else {
@@ -262,19 +263,20 @@ export const RoomHierarchy = () => {
       }
       setLoading(false);
     },
-    [roomId, maxDepth, allRooms, dataProvider, notify, translate]
+    [roomId, maxDepth, dataProvider, notify, translate]
   );
 
   useEffect(() => {
     if (roomId) {
-      setAllRooms([]);
+      allRoomsRef.current = [];
       setNextBatch(undefined);
       fetchHierarchy();
     }
-  }, [roomId, fetchHierarchy]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, maxDepth]);
 
   const handleRefresh = () => {
-    setAllRooms([]);
+    allRoomsRef.current = [];
     setNextBatch(undefined);
     fetchHierarchy();
   };
