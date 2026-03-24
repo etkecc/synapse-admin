@@ -108,6 +108,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*\"",
+    "typecheck": "tsc --noEmit",
     "fix": "yarn lint --fix",
     "test": "yarn jest",
     "test:watch": "yarn jest --watch",

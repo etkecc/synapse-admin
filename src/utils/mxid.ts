@@ -1,6 +1,6 @@
 import { Identifier } from "ra-core";
 
-import { GetConfig } from "../utils/config";
+import { GetConfig, SubscribeConfig } from "../utils/config";
 
 const mxidPattern = /^@[^@:]+:[^@:]+$/;
 
@@ -11,17 +11,31 @@ const mxidPattern = /^@[^@:]+:[^@:]+$/;
  */
 export const isMXID = (id: string | Identifier): boolean => mxidPattern.test(id as string);
 
+// Cache for isSystemUser results — cleared when config changes
+const asManagedCache = new Map<string, boolean>();
+SubscribeConfig(() => asManagedCache.clear());
+
 /**
  * Check if a user is managed by an application service
  * @param id The user ID to check
  * @returns Whether the user is managed by an application service
  */
-export const isASManaged = (id: string | Identifier): boolean => {
+export const isSystemUser = (id: string | Identifier): boolean => {
+  const key = id as string;
+  const cached = asManagedCache.get(key);
+  if (cached !== undefined) {
+    return cached;
+  }
+
   const managedUsers = GetConfig().asManagedUsers;
-  if (!managedUsers) {
+  if (!managedUsers || managedUsers.length === 0) {
     return false;
   }
-  return managedUsers.some(regex => regex.test(id as string));
+  const result = managedUsers.some((regex: string | RegExp) =>
+    (regex instanceof RegExp ? regex : new RegExp(regex)).test(key)
+  );
+  asManagedCache.set(key, result);
+  return result;
 };
 
 /**

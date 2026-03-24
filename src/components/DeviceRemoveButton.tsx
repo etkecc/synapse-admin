@@ -15,15 +15,15 @@ import {
 } from "react-admin";
 
 import { SynapseDataProvider } from "../providers/types";
-import { isASManaged } from "../utils/mxid";
+import { isSystemUser } from "../utils/mxid";
 
 export const DeviceRemoveButton = (props: DeleteWithConfirmButtonProps) => {
   const record = useRecordContext();
   if (!record) return null;
 
-  let isASManagedUser = false;
+  let systemUserFlag = false;
   if (record.user_id) {
-    isASManagedUser = isASManaged(record.user_id);
+    systemUserFlag = isSystemUser(record.user_id);
   }
 
   return (
@@ -34,7 +34,7 @@ export const DeviceRemoveButton = (props: DeleteWithConfirmButtonProps) => {
       confirmContent="resources.devices.action.erase.content"
       mutationMode="pessimistic"
       redirect={false}
-      disabled={isASManagedUser}
+      disabled={systemUserFlag}
       titleTranslateOptions={{
         id: record.id,
         name: record.display_name ? record.display_name : record.id,
@@ -56,7 +56,7 @@ export const DeviceBulkRemoveButton = () => {
   if (!data || data.length === 0) return null;
 
   const userId = data[0]?.user_id;
-  if (!userId || isASManaged(userId)) return null;
+  if (!userId || isSystemUser(userId)) return null;
 
   const handleConfirm = async () => {
     setLoading(true);

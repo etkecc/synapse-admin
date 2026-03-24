@@ -105,7 +105,7 @@ import { User, UsernameAvailabilityResult } from "../providers/types";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import { decodeURLComponent } from "../utils/safety";
-import { isASManaged, getLocalpart } from "../utils/mxid";
+import { isSystemUser, getLocalpart } from "../utils/mxid";
 import { formatBytes } from "../utils/formatBytes";
 import { generateRandomPassword } from "../utils/password";
 
@@ -171,16 +171,28 @@ const userFilters = () => {
       />
     );
   }
+  if (GetConfig().asManagedUsers?.length > 0) {
+    filters.push(
+      <NullableBooleanInput
+        label="resources.users.fields.show_system_users"
+        source="system_users"
+        nullLabel="resources.users.fields.filter_user_all"
+        falseLabel="resources.users.fields.filter_system_users_false"
+        trueLabel="resources.users.fields.filter_system_users_true"
+        alwaysOn
+      />
+    );
+  }
   return filters;
 };
 
 const UserPreventSelfDelete: React.FC<{
   children: React.ReactNode;
   ownUserIsSelected: boolean;
-  asManagedUserIsSelected: boolean;
+  systemUserIsSelected: boolean;
 }> = props => {
   const ownUserIsSelected = props.ownUserIsSelected;
-  const asManagedUserIsSelected = props.asManagedUserIsSelected;
+  const systemUserIsSelected = props.systemUserIsSelected;
   const notify = useNotify();
   const translate = useTranslate();
 
@@ -188,7 +200,7 @@ const UserPreventSelfDelete: React.FC<{
     if (ownUserIsSelected) {
       notify(<Alert severity="error">{translate("resources.users.helper.erase_admin_error")}</Alert>);
       ev.stopPropagation();
-    } else if (asManagedUserIsSelected) {
+    } else if (systemUserIsSelected) {
       notify(<Alert severity="error">{translate("resources.users.helper.modify_managed_user_error")}</Alert>);
       ev.stopPropagation();
     }
@@ -200,19 +212,19 @@ const UserPreventSelfDelete: React.FC<{
 const UserBulkActionButtons = () => {
   const record = useListContext();
   const [ownUserIsSelected, setOwnUserIsSelected] = useState(false);
-  const [asManagedUserIsSelected, setAsManagedUserIsSelected] = useState(false);
+  const [systemUserIsSelected, setSystemUserIsSelected] = useState(false);
   const selectedIds = record.selectedIds;
   const ownUserId = localStorage.getItem("user_id");
 
   useEffect(() => {
     setOwnUserIsSelected(selectedIds.includes(ownUserId));
-    setAsManagedUserIsSelected(selectedIds.some(id => isASManaged(id)));
+    setSystemUserIsSelected(selectedIds.some(id => isSystemUser(id)));
   }, [selectedIds, ownUserId]);
 
   return (
     <>
       <ServerNoticeBulkButton />
-      <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
+      <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
         <DeleteUserButton
           selectedIds={selectedIds}
           confirmTitle="resources.users.helper.erase"
@@ -349,10 +361,10 @@ const UserEditActions = () => {
   const isMAS = useIsMAS();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   if (record && record.id) {
     ownUserIsSelected = record.id === ownUserId;
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
   }
 
   return (
@@ -363,7 +375,7 @@ const UserEditActions = () => {
       {!record?.deactivated && !isMAS && <RenewAccountValidityButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (
-        <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
+        <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
           <DeleteUserButton
             selectedIds={[record?.id]}
             confirmTitle="resources.users.helper.erase"
@@ -520,10 +532,10 @@ const UserEditToolbar = () => {
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   if (record && record.id) {
     ownUserIsSelected = record.id === ownUserId;
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
   }
 
   return (
@@ -531,10 +543,7 @@ const UserEditToolbar = () => {
       <div className={ToolbarClasses.defaultToolbar}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <SaveButton />
-          <UserPreventSelfDelete
-            ownUserIsSelected={ownUserIsSelected}
-            asManagedUserIsSelected={asManagedUserIsSelected}
-          >
+          <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
             <DeleteButton />
           </UserPreventSelfDelete>
         </Toolbar>
@@ -548,13 +557,13 @@ const UserBooleanInput = props => {
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   if (record) {
     ownUserIsSelected = record.id === ownUserId;
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
     if (["locked", "deactivated", "erased"].includes(props.source) && record[props.source]) {
       // we want to allow re-activating locked/deactivated/erased users even if they are AS managed
-      asManagedUserIsSelected = false;
+      systemUserIsSelected = false;
     }
   }
 
@@ -567,21 +576,21 @@ const UserBooleanInput = props => {
   ) : undefined;
 
   return (
-    <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
-      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...rest} {...(label ? { label } : {})} />
+    <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
+      <BooleanInput disabled={ownUserIsSelected || systemUserIsSelected} {...rest} {...(label ? { label } : {})} />
     </UserPreventSelfDelete>
   );
 };
 
 const UserPasswordInput = props => {
   const record = useRecordContext();
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   const translate = useTranslate();
 
   // Get form context to update field value
   const form = useFormContext();
   if (record) {
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
   }
 
   const generatePassword = () => {
@@ -603,7 +612,7 @@ const UserPasswordInput = props => {
 
   let passwordHelperText = "resources.users.helper.create_password";
 
-  if (asManagedUserIsSelected) {
+  if (systemUserIsSelected) {
     passwordHelperText = "resources.users.helper.modify_managed_user_error";
   } else if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider) {
     passwordHelperText = "resources.users.helper.password_required_for_reactivation";
@@ -617,14 +626,14 @@ const UserPasswordInput = props => {
         {...props}
         validate={validatePasswordOnReactivation}
         helperText={passwordHelperText}
-        disabled={asManagedUserIsSelected}
+        disabled={systemUserIsSelected}
       />
       <Button
         variant="outlined"
         label="resources.users.action.generate_password"
         onClick={generatePassword}
         sx={{ marginBottom: "10px" }}
-        disabled={asManagedUserIsSelected}
+        disabled={systemUserIsSelected}
       />
     </>
   );

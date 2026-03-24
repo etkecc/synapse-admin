@@ -70,6 +70,7 @@ import { uploadMedia } from "./matrix";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
 import { etkeProviderMethods } from "./etkeProvider";
 import { MASRegistrationTokenListResponse, SynapseDataProvider } from "./types";
+import { isSystemUser } from "../utils/mxid";
 
 /**
  * Initialize all flag-dependent resources and patch them into resourceMap.
@@ -139,6 +140,7 @@ const baseDataProvider: SynapseDataProvider = {
       resource_id,
       status,
       max_timestamp,
+      system_users,
     } = params.filter;
     const { page, perPage } = params.pagination as PaginationPayload;
     const { field, order } = params.sort as SortPayload;
@@ -195,6 +197,24 @@ const baseDataProvider: SynapseDataProvider = {
       if (nextCursor) {
         setMasRegistrationTokensPageCursor(cursorKey, page + 1, nextCursor);
       }
+    }
+
+    // Client-side post-filter for system (appservice-managed) users
+    const shouldFilterSystemUsers = resource === "users" && system_users !== undefined && system_users !== null;
+    if (shouldFilterSystemUsers) {
+      const resolvedData = await Promise.all(formattedData);
+      const wantSystem = system_users === true || system_users === "true";
+      const filtered = resolvedData.filter(record => isSystemUser(record.id) === wantSystem);
+      const serverTotal = res.total(json, from, perPage);
+
+      // Estimate filtered total: use ratio of matched/fetched on this page
+      const ratio = resolvedData.length > 0 ? filtered.length / resolvedData.length : 0;
+      const estimatedTotal = Math.max(filtered.length, Math.round(serverTotal * ratio));
+
+      return {
+        data: filtered,
+        total: estimatedTotal,
+      };
     }
 
     return {

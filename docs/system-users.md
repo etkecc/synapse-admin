@@ -10,6 +10,16 @@ you can protect these accounts from accidental changes.
 If a system-managed user was locked, deactivated, or erased by mistake (e.g., from a client app or using any other way),
 Synapse Admin will allow you to restore it to an active state.
 
+## Filtering
+
+When `asManagedUsers` is configured, a **System users** filter appears in the users list.
+It allows you to:
+
+* **Exclude system** — hide system/appservice-managed users from the list
+* **Only system** — show only system/appservice-managed users
+
+The filtering is performed client-side with cached regex results for optimal performance.
+
 ## Configuration
 
 The examples below contain the configuration settings to mark

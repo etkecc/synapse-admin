@@ -165,6 +165,9 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         filter_locked_true: string;
         filter_guests_false: string;
         filter_guests_true: string;
+        show_system_users: string;
+        filter_system_users_false: string;
+        filter_system_users_true: string;
         show_suspended: string;
         show_shadow_banned: string;
         user_id: string;

@@ -54,10 +54,17 @@ register-user localpart password *admin:
 
 # run fixers, formatters, linters, and tests in a strict order
 test:
+    @echo "Making linter happy..."
     @yarn -s run fix --quiet
+    @echo "Formatting code..."
     @yarn -s run format --log-level warn
+    @echo "Type-checking code..."
+    @yarn -s run typecheck
+    @echo "Linting code..."
     @yarn -s run lint --quiet
+    @echo "Running tests..."
     @yarn -s run test --silent
+    @echo "All checks passed successfully!"
 
 # run the app in a production mode
 run-prod: build
