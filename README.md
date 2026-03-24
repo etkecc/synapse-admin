@@ -203,6 +203,7 @@ The following changes are already implemented:
 * 🏗️ [Add Room hierarchy tab](https://github.com/etkecc/synapse-admin/commit/566b7148b5cb3e2fab55078621ba2cb4203b21a1)
 * ⚙️ [Add control of admin flags for Matrix Client-Server APIs](https://github.com/etkecc/synapse-admin/commit/b272cc11945d8e6adabb3cfe4904ad0ac063549d)
 * 📱 [Optimize UI for mobile](https://github.com/etkecc/synapse-admin/pull/1104)
+* [Add system-managed users filter](https://github.com/etkecc/synapse-admin/commit/5349f4d9915ccdf1e12cd09cf48bff914d47b4e5)
 
 #### exclusive for [etke.cc](https://etke.cc) customers
 
