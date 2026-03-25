@@ -353,6 +353,7 @@ const zh: SynapseTranslationMessages = {
           success: "账户有效期已续期至 %{date}",
           failure: "续期账户有效期失败",
         },
+        system_users_scan_in_progress: "请稍候 — 仍在搜索匹配的用户，页面即将加载",
       },
       limits: {
         messages_per_second: "每秒消息数",

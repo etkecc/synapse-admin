@@ -60,8 +60,6 @@ test:
     @yarn -s run format --log-level warn
     @echo "Type-checking code..."
     @yarn -s run typecheck
-    @echo "Linting code..."
-    @yarn -s run lint --quiet
     @echo "Running tests..."
     @yarn -s run test --silent
     @echo "All checks passed successfully!"

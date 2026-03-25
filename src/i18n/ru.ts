@@ -371,6 +371,8 @@ const ru: SynapseTranslationMessages = {
           success: "Срок действия аккаунта продлён до %{date}",
           failure: "Не удалось продлить срок действия аккаунта",
         },
+        system_users_scan_in_progress:
+          "Подождите — поиск подходящих пользователей ещё продолжается, страница загрузится в ближайшее время",
       },
       limits: {
         messages_per_second: "Сообщений в секунду",

@@ -331,6 +331,8 @@ const fa: SynapseTranslationMessages = {
           success: "اعتبار حساب تا %{date} تمدید شد",
           failure: "تمدید اعتبار حساب ناموفق بود",
         },
+        system_users_scan_in_progress:
+          "لطفاً صبر کنید — هنوز در حال جستجوی کاربران مطابق هستیم، صفحه به زودی بارگذاری می‌شود",
       },
       limits: {
         messages_per_second: "پیام در ثانیه",

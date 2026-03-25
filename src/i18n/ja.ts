@@ -313,6 +313,8 @@ const ja: SynapseTranslationMessages = {
           success: "アカウントの有効期限を %{date} まで更新しました",
           failure: "アカウントの有効期限の更新に失敗しました",
         },
+        system_users_scan_in_progress:
+          "少々お待ちください — 該当するユーザーをまだ検索中です。まもなくページが読み込まれます",
       },
       badge: {
         you: "あなた",

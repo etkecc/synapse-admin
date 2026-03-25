@@ -367,6 +367,8 @@ const de: SynapseTranslationMessages = {
           success: "Kontogültigkeit bis %{date} erneuert",
           failure: "Erneuerung der Kontogültigkeit fehlgeschlagen",
         },
+        system_users_scan_in_progress:
+          "Einen Moment – es werden noch passende Benutzer gesucht, die Seite wird gleich geladen",
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",

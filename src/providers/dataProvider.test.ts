@@ -4,6 +4,8 @@ jest.mock("./matrix", () => ({
 
 import fetchMock from "jest-fetch-mock";
 import dataProvider from "./dataProvider";
+import { clearSystemUsersScanCache } from "./dataProvider";
+import { LoadConfig } from "../utils/config";
 
 fetchMock.enableMocks();
 
@@ -13,6 +15,14 @@ beforeEach(() => {
   localStorage.clear();
   localStorage.setItem("base_url", "http://localhost");
   localStorage.setItem("access_token", "access_token");
+  clearSystemUsersScanCache();
+  LoadConfig({
+    restrictBaseUrl: "",
+    corsCredentials: "same-origin",
+    asManagedUsers: [],
+    menu: [],
+    etkeccAdmin: "",
+  });
 });
 
 describe("dataProvider", () => {
@@ -170,5 +180,181 @@ describe("dataProvider", () => {
     expect(page2Url).toContain("page%5Bfirst%5D=10");
     expect(page2Url).toContain("page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V");
     expect(page2Url).toContain("filter%5Bvalid%5D=true");
+  });
+
+  it("keeps fetching backend pages until a filtered users page is filled", async () => {
+    LoadConfig({
+      restrictBaseUrl: "",
+      corsCredentials: "same-origin",
+      asManagedUsers: ["^@sys"],
+      menu: [],
+      etkeccAdmin: "",
+    });
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        users: [
+          { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
+          { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
+          { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
+          { name: "@sys3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 3" },
+          { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
+        ],
+        total: 5,
+      })
+    );
+
+    const users = await dataProvider.getList("users", {
+      pagination: { page: 1, perPage: 2 },
+      sort: { field: "name", order: "ASC" },
+      filter: { system_users: false, deactivated: false },
+    });
+
+    expect(users.data.map(user => user.id)).toEqual(["@user1:provider", "@user2:provider"]);
+    expect(users.total).toEqual(2);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("from=0");
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("limit=250");
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("deactivated=false");
+  });
+
+  it("paginates users by the filtered system_users dataset", async () => {
+    LoadConfig({
+      restrictBaseUrl: "",
+      corsCredentials: "same-origin",
+      asManagedUsers: ["^@sys"],
+      menu: [],
+      etkeccAdmin: "",
+    });
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        users: [
+          { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
+          { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
+          { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
+          { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
+          { name: "@user3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 3" },
+          { name: "@sys3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 3" },
+        ],
+        total: 6,
+      })
+    );
+
+    const users = await dataProvider.getList("users", {
+      pagination: { page: 2, perPage: 2 },
+      sort: { field: "name", order: "ASC" },
+      filter: { system_users: false, guests: false },
+    });
+
+    expect(users.data.map(user => user.id)).toEqual(["@user3:provider"]);
+    expect(users.total).toEqual(3);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("from=0");
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("limit=250");
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("guests=false");
+  });
+
+  it("stops once the filtered page is filled and reports partial pagination info", async () => {
+    LoadConfig({
+      restrictBaseUrl: "",
+      corsCredentials: "same-origin",
+      asManagedUsers: ["^@sys"],
+      menu: [],
+      etkeccAdmin: "",
+    });
+
+    const firstChunkUsers = [
+      { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
+      { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
+      { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
+      { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
+      { name: "@user3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 3" },
+      ...Array.from({ length: 245 }, (_, index) => ({
+        name: `@sys_more${index}:provider`,
+        is_guest: 0,
+        admin: 0,
+        deactivated: 0,
+        displayname: `System More ${index}`,
+      })),
+    ];
+
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        users: firstChunkUsers,
+        total: 300,
+      })
+    );
+
+    const users = await dataProvider.getList("users", {
+      pagination: { page: 1, perPage: 2 },
+      sort: { field: "name", order: "ASC" },
+      filter: { system_users: false },
+    });
+
+    expect(users.data.map(user => user.id)).toEqual(["@user1:provider", "@user2:provider"]);
+    expect(users.total).toBeUndefined();
+    expect(users.pageInfo).toEqual({
+      hasPreviousPage: false,
+      hasNextPage: true,
+    });
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("reuses cached filtered scan state across later pages", async () => {
+    LoadConfig({
+      restrictBaseUrl: "",
+      corsCredentials: "same-origin",
+      asManagedUsers: ["^@sys"],
+      menu: [],
+      etkeccAdmin: "",
+    });
+
+    const firstChunkUsers = Array.from({ length: 250 }, (_, index) => ({
+      name: index < 80 ? `@user${index}:provider` : `@sys${index}:provider`,
+      is_guest: 0,
+      admin: 0,
+      deactivated: 0,
+      displayname: `User ${index}`,
+    }));
+    const secondChunkUsers = Array.from({ length: 50 }, (_, index) => ({
+      name: `@user_more${index}:provider`,
+      is_guest: 0,
+      admin: 0,
+      deactivated: 0,
+      displayname: `More User ${index}`,
+    }));
+
+    fetchMock
+      .mockResponseOnce(
+        JSON.stringify({
+          users: firstChunkUsers,
+          total: 300,
+        })
+      )
+      .mockResponseOnce(
+        JSON.stringify({
+          users: secondChunkUsers,
+          total: 300,
+        })
+      );
+
+    const page1 = await dataProvider.getList("users", {
+      pagination: { page: 1, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { system_users: false },
+    });
+
+    const page2 = await dataProvider.getList("users", {
+      pagination: { page: 2, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { system_users: false },
+    });
+
+    expect(page1.data).toHaveLength(50);
+    expect(page2.data).toHaveLength(50);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[0]?.[0]).toContain("from=0");
+    expect(fetchMock.mock.calls[1]?.[0]).toContain("from=250");
   });
 });

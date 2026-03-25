@@ -309,6 +309,8 @@ const fr: SynapseTranslationMessages = {
           success: "Validité du compte renouvelée jusqu'au %{date}",
           failure: "Échec du renouvellement de la validité du compte",
         },
+        system_users_scan_in_progress:
+          "Patientez — la recherche des utilisateurs correspondants est en cours, la page va se charger dans un instant",
       },
       limits: {
         messages_per_second: "Messages par seconde",

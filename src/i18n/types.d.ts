@@ -274,6 +274,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        system_users_scan_in_progress: string;
       };
       badge: {
         you: string;

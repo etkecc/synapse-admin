@@ -423,6 +423,8 @@ const it: SynapseTranslationMessages = {
           success: "Validità dell'account rinnovata fino al %{date}",
           failure: "Impossibile rinnovare la validità dell'account",
         },
+        system_users_scan_in_progress:
+          "Attendere — la ricerca degli utenti corrispondenti è ancora in corso, la pagina verrà caricata a breve",
       },
       limits: {
         messages_per_second: "Messaggi al secondo",

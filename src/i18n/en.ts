@@ -295,6 +295,7 @@ const en: SynapseTranslationMessages = {
           success: "Account validity renewed until %{date}",
           failure: "Failed to renew account validity",
         },
+        system_users_scan_in_progress: "Hang on — still scanning for matching users, the page will load shortly",
       },
       badge: {
         you: "You",

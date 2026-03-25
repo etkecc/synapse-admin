@@ -118,6 +118,94 @@ function getSearchOrder(order: "ASC" | "DESC") {
   }
 }
 
+const buildSynapseListQuery = (
+  params: {
+    user_id: unknown;
+    search_term: unknown;
+    name: unknown;
+    destination: unknown;
+    guests: unknown;
+    deactivated: unknown;
+    locked: unknown;
+    suspended: unknown;
+    shadow_banned: unknown;
+    valid: unknown;
+    public_rooms: unknown;
+    empty_rooms: unknown;
+    action_name: unknown;
+    resource_id: unknown;
+    status: unknown;
+    max_timestamp: unknown;
+  },
+  from: number,
+  limit: number,
+  field: string,
+  order: "ASC" | "DESC"
+) => ({
+  from,
+  limit,
+  user_id: params.user_id,
+  search_term: params.search_term,
+  name: params.name,
+  destination: params.destination,
+  guests: params.guests,
+  deactivated: params.deactivated,
+  locked: params.locked,
+  suspended: params.suspended,
+  shadow_banned: params.shadow_banned,
+  valid: params.valid,
+  order_by: field,
+  dir: getSearchOrder(order),
+  public_rooms: params.public_rooms,
+  empty_rooms: params.empty_rooms,
+  action_name: params.action_name,
+  resource_id: params.resource_id,
+  status: params.status,
+  max_timestamp: params.max_timestamp,
+});
+
+const SYSTEM_USERS_SCAN_CHUNK_SIZE = 250;
+
+interface SystemUsersScanCacheEntry {
+  // Whether the backend list has been fully scanned for this filter/sort combination.
+  backendExhausted: boolean;
+  // Raw backend offset already consumed while building the filtered virtual dataset.
+  backendOffset: number;
+  // Filtered users accumulated so later pages can reuse prior scan work.
+  filteredRecords: RaRecord[];
+}
+
+const systemUsersScanCache = new Map<string, SystemUsersScanCacheEntry>();
+
+export const clearSystemUsersScanCache = () => {
+  systemUsersScanCache.clear();
+};
+
+let _dataProviderNotifier: ((key: string) => void) | null = null;
+
+export const setDataProviderNotifier = (fn: (key: string) => void) => {
+  _dataProviderNotifier = fn;
+};
+
+// Cache key for the client-side system_users virtual dataset. It must vary with every
+// server-side filter/sort input because those affect which backend users are scanned.
+const getSystemUsersScanCacheKey = (
+  resource: string,
+  baseUrl: string,
+  query: Record<string, any>,
+  field: string,
+  order: "ASC" | "DESC",
+  wantSystem: boolean
+) =>
+  JSON.stringify({
+    resource,
+    baseUrl,
+    query: filterUndefined(query),
+    field,
+    order,
+    wantSystem,
+  });
+
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource, params);
@@ -161,27 +249,134 @@ const baseDataProvider: SynapseDataProvider = {
       };
     } else {
       // Synapse API
-      query = {
-        from: from,
-        limit: perPage,
-        user_id: user_id,
-        search_term: search_term,
-        name: name,
-        destination: destination,
-        guests: guests,
-        deactivated: deactivated,
-        locked: locked,
-        suspended: suspended,
-        shadow_banned: shadow_banned,
-        valid: valid,
-        order_by: field,
-        dir: getSearchOrder(order),
-        public_rooms: public_rooms,
-        empty_rooms: empty_rooms,
-        action_name: action_name,
-        resource_id: resource_id,
-        status: status,
-        max_timestamp: max_timestamp,
+      query = buildSynapseListQuery(
+        {
+          user_id,
+          search_term,
+          name,
+          destination,
+          guests,
+          deactivated,
+          locked,
+          suspended,
+          shadow_banned,
+          valid,
+          public_rooms,
+          empty_rooms,
+          action_name,
+          resource_id,
+          status,
+          max_timestamp,
+        },
+        from,
+        perPage,
+        field,
+        order
+      );
+    }
+
+    // Client-side post-filter for system (appservice-managed) users
+    const shouldFilterSystemUsers = resource === "users" && system_users !== undefined && system_users !== null;
+    if (shouldFilterSystemUsers) {
+      const wantSystem = system_users === true || system_users === "true";
+      const endpoint_url = baseUrl + (res.listPath || res.path);
+      const pageStart = from;
+      const pageEnd = pageStart + perPage;
+      // One extra filtered record is enough to tell React Admin that another page exists.
+      const nextPageThreshold = pageEnd + 1;
+      const scanQuery = buildSynapseListQuery(
+        {
+          user_id,
+          search_term,
+          name,
+          destination,
+          guests,
+          deactivated,
+          locked,
+          suspended,
+          shadow_banned,
+          valid,
+          public_rooms,
+          empty_rooms,
+          action_name,
+          resource_id,
+          status,
+          max_timestamp,
+        },
+        0,
+        0,
+        field,
+        order
+      );
+      const cacheKey = getSystemUsersScanCacheKey(resource, String(baseUrl), scanQuery, field, order, wantSystem);
+      const cachedScan = systemUsersScanCache.get(cacheKey);
+      const scanState: SystemUsersScanCacheEntry = cachedScan || {
+        backendExhausted: false,
+        backendOffset: 0,
+        filteredRecords: [],
+      };
+
+      let loopRequestCount = 0;
+      while (!scanState.backendExhausted && scanState.filteredRecords.length < nextPageThreshold) {
+        loopRequestCount++;
+        if (loopRequestCount === 3) {
+          _dataProviderNotifier?.("resources.users.action.system_users_scan_in_progress");
+        }
+        // Fetch backend users in larger chunks to avoid many small round-trips when the
+        // UI-only filter removes most records from a page.
+        const backendLimit = Math.max(perPage, SYSTEM_USERS_SCAN_CHUNK_SIZE);
+        const pagedQuery = buildSynapseListQuery(
+          {
+            user_id,
+            search_term,
+            name,
+            destination,
+            guests,
+            deactivated,
+            locked,
+            suspended,
+            shadow_banned,
+            valid,
+            public_rooms,
+            empty_rooms,
+            action_name,
+            resource_id,
+            status,
+            max_timestamp,
+          },
+          scanState.backendOffset,
+          backendLimit,
+          field,
+          order
+        );
+        const pagedUrl = `${endpoint_url}?${new URLSearchParams(filterUndefined(pagedQuery)).toString()}`;
+        const { json } = await jsonClient(pagedUrl);
+        const rawData = json[res.data] || [];
+        const resolvedData = await Promise.all(rawData.map(res.map));
+        const filteredData = resolvedData.filter(record => isSystemUser(record.id) === wantSystem);
+        scanState.filteredRecords.push(...filteredData);
+        scanState.backendOffset += rawData.length;
+
+        const serverTotal = res.total(json, scanState.backendOffset, backendLimit);
+        scanState.backendExhausted =
+          rawData.length === 0 || scanState.backendOffset >= serverTotal || rawData.length < backendLimit;
+      }
+
+      systemUsersScanCache.set(cacheKey, scanState);
+      // Paginate over the filtered virtual dataset, not over raw backend pages.
+      const pagedData = scanState.filteredRecords.slice(pageStart, pageEnd);
+      const hasNextPage = scanState.backendExhausted
+        ? scanState.filteredRecords.length > pageEnd
+        : scanState.filteredRecords.length >= nextPageThreshold;
+
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: pagedData as any,
+        total: scanState.backendExhausted ? scanState.filteredRecords.length : undefined,
+        pageInfo: {
+          hasPreviousPage: page > 1,
+          hasNextPage,
+        },
       };
     }
 
@@ -197,24 +392,6 @@ const baseDataProvider: SynapseDataProvider = {
       if (nextCursor) {
         setMasRegistrationTokensPageCursor(cursorKey, page + 1, nextCursor);
       }
-    }
-
-    // Client-side post-filter for system (appservice-managed) users
-    const shouldFilterSystemUsers = resource === "users" && system_users !== undefined && system_users !== null;
-    if (shouldFilterSystemUsers) {
-      const resolvedData = await Promise.all(formattedData);
-      const wantSystem = system_users === true || system_users === "true";
-      const filtered = resolvedData.filter(record => isSystemUser(record.id) === wantSystem);
-      const serverTotal = res.total(json, from, perPage);
-
-      // Estimate filtered total: use ratio of matched/fetched on this page
-      const ratio = resolvedData.length > 0 ? filtered.length / resolvedData.length : 0;
-      const estimatedTotal = Math.max(filtered.length, Math.round(serverTotal * ratio));
-
-      return {
-        data: filtered,
-        total: estimatedTotal,
-      };
     }
 
     return {

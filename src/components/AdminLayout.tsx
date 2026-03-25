@@ -19,6 +19,7 @@ import {
   ToggleThemeButton,
   useLogout,
   UserMenu,
+  useNotify,
   useStore,
   useLocaleState,
   useLocale,
@@ -27,6 +28,7 @@ import {
   useUserMenu,
 } from "react-admin";
 
+import { setDataProviderNotifier } from "../providers/dataProvider";
 import { AdminClientConfigItems } from "./AdminClientConfigItems";
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
@@ -298,6 +300,15 @@ const AdminMenu = props => {
   );
 };
 
+const DataProviderNotifierBridge = () => {
+  const notify = useNotify();
+  useEffect(() => {
+    setDataProviderNotifier((key: string) => notify(key, { type: "info" }));
+    return () => setDataProviderNotifier(() => undefined);
+  }, [notify]);
+  return null;
+};
+
 export const AdminLayout = ({ children }) => {
   // Set the document language based on the selected locale
   const [locale, _setLocale] = useLocaleState();
@@ -327,6 +338,7 @@ export const AdminLayout = ({ children }) => {
 
   return (
     <>
+      <DataProviderNotifierBridge />
       <Layout
         appBar={AdminAppBar}
         menu={AdminMenu}

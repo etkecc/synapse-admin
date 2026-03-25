@@ -4,6 +4,7 @@ import DevicesIcon from "@mui/icons-material/Devices";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import UserIcon from "@mui/icons-material/Group";
 import LockClockIcon from "@mui/icons-material/LockClock";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -135,6 +136,26 @@ const UserListActions = () => {
 
 const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
+const SystemUsersFilter = (props: Record<string, unknown>) => {
+  const translate = useTranslate();
+  const label = (
+    <Box component="span" sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+      <HourglassEmptyIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+      {translate("resources.users.fields.show_system_users")}
+    </Box>
+  );
+  return (
+    <NullableBooleanInput
+      {...props}
+      label={label}
+      source="system_users"
+      nullLabel="resources.users.fields.filter_user_all"
+      falseLabel="resources.users.fields.filter_system_users_false"
+      trueLabel="resources.users.fields.filter_system_users_true"
+    />
+  );
+};
+
 const userFilters = () => {
   const filters = [
     <SearchInput source="name" alwaysOn />,
@@ -172,16 +193,7 @@ const userFilters = () => {
     );
   }
   if (GetConfig().asManagedUsers?.length > 0) {
-    filters.push(
-      <NullableBooleanInput
-        label="resources.users.fields.show_system_users"
-        source="system_users"
-        nullLabel="resources.users.fields.filter_user_all"
-        falseLabel="resources.users.fields.filter_system_users_false"
-        trueLabel="resources.users.fields.filter_system_users_true"
-        alwaysOn
-      />
-    );
+    filters.push(<SystemUsersFilter source="system_users" alwaysOn />);
   }
   return filters;
 };
@@ -251,6 +263,12 @@ export const UserList = (props: ListProps) => {
       pagination={<UserPagination />}
       perPage={50}
       empty={<EmptyState />}
+      sx={theme => ({
+        [theme.breakpoints.up("sm")]: {
+          "& .RaList-actions": { flexWrap: "nowrap" },
+          "& .RaList-actions form": { flexWrap: "nowrap", overflowX: "auto", minWidth: 0 },
+        },
+      })}
     >
       {isSmall ? (
         <SimpleList
