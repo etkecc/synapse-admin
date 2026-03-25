@@ -4,7 +4,7 @@ version = 1
 path = ["**"]
 SPDX-FileCopyrightText = [
   "2018-2023 Awesome Technologies Innovationslabor GmbH",
-  "2024-2026 etke.cc team",
+  "2024-2026 etke.cc team <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
