@@ -337,10 +337,21 @@ const LoginPage = () => {
 
     const handleBaseUrlBlurOrChange = event => {
       // Get the value either from the event (onChange) or from formData (onBlur)
-      const value = event?.target?.value || formData.base_url;
+      let value = event?.target?.value || formData.base_url;
 
       if (!value) {
         return;
+      }
+
+      // Auto-prepend https:// if the user didn't include a protocol
+      if (!value.match(/^https?:\/\//)) {
+        value = `https://${value}`;
+        if (!restrictBaseUrlMultiple && !restrictBaseUrlSingle) {
+          form.setValue("base_url", value, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
       }
 
       // Trigger validation only when user finishes typing/selecting
