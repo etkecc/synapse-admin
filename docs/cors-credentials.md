@@ -28,7 +28,7 @@ The `corsCredentials` option accepts the following values:
 
 ```json
 {
-  "cc.etke.synapse-admin": {
+  "cc.etke.ketesa": {
     "corsCredentials": "include"
   }
 }

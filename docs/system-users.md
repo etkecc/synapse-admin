@@ -8,7 +8,7 @@ By defining a list of MXID regex patterns in the new `asManagedUsers` configurat
 you can protect these accounts from accidental changes.
 
 If a system-managed user was locked, deactivated, or erased by mistake (e.g., from a client app or using any other way),
-Synapse Admin will allow you to restore it to an active state.
+Ketesa will allow you to restore it to an active state.
 
 ## Filtering
 
@@ -45,7 +45,7 @@ just to illustrate the options to protect both specific MXIDs (as in the Baibot 
 ### `/.well-known/matrix/client`
 
 ```json
-"cc.etke.synapse-admin": {
+"cc.etke.ketesa": {
   "asManagedUsers": [
     "^@baibot:example\\.com$",
     "^@slackbot:example\\.com$",

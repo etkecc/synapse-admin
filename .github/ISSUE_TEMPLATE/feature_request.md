@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for Synapse Admin
+about: Suggest an idea for Ketesa
 title: ''
 labels: enhancement
 assignees: ''

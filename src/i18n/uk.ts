@@ -58,7 +58,7 @@ const fixedUkrainianMessages = {
 
 const uk: SynapseTranslationMessages = {
   ...fixedUkrainianMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL домашнього сервера",
       welcome: "Ласкаво просимо до %{name}",

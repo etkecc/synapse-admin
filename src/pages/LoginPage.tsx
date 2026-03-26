@@ -166,9 +166,9 @@ const LoginPage = () => {
 
   const validateBaseUrl = value => {
     if (!value.match(/^(http|https):\/\//)) {
-      return translate("synapseadmin.auth.protocol_error");
+      return translate("ketesa.auth.protocol_error");
     } else if (!value.match(/^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?[^?&\s]*$/)) {
-      return translate("synapseadmin.auth.url_error");
+      return translate("ketesa.auth.url_error");
     } else {
       return undefined;
     }
@@ -227,14 +227,14 @@ const LoginPage = () => {
 
     try {
       const serverVersion = await getServerVersion(url);
-      setServerVersion(`${translate("synapseadmin.auth.server_version")} ${serverVersion}`);
+      setServerVersion(`${translate("ketesa.auth.server_version")} ${serverVersion}`);
     } catch {
       setServerVersion("");
     }
 
     try {
       const features = await getSupportedFeatures(url);
-      setMatrixVersions(`${translate("synapseadmin.auth.supports_specs")} ${features.versions.join(", ")}`);
+      setMatrixVersions(`${translate("ketesa.auth.supports_specs")} ${features.versions.join(", ")}`);
     } catch {
       setMatrixVersions("");
     }
@@ -300,7 +300,7 @@ const LoginPage = () => {
   };
 
   const icfg = useInstanceConfig();
-  let welcomeTo = "Synapse Admin";
+  let welcomeTo = "Ketesa";
   let logoUrl = "./images/logo.webp";
   let backgroundUrl = "";
   if (icfg.name) {
@@ -429,14 +429,14 @@ const LoginPage = () => {
           textColor="primary"
           variant="fullWidth"
         >
-          <Tab label={translate("synapseadmin.auth.credentials")} value="credentials" />
-          <Tab label={translate("synapseadmin.auth.access_token")} value="accessToken" />
+          <Tab label={translate("ketesa.auth.credentials")} value="credentials" />
+          <Tab label={translate("ketesa.auth.access_token")} value="accessToken" />
         </Tabs>
         <Box>
           {restrictBaseUrlMultiple && (
             <SelectInput
               source="base_url"
-              label="synapseadmin.auth.base_url"
+              label="ketesa.auth.base_url"
               select={true}
               autoComplete="url"
               {...(loading ? { disabled: true } : {})}
@@ -448,7 +448,7 @@ const LoginPage = () => {
           {!restrictBaseUrlSingle && !restrictBaseUrlMultiple && (
             <TextInput
               source="base_url"
-              label="synapseadmin.auth.base_url"
+              label="ketesa.auth.base_url"
               autoComplete="url"
               {...(loading ? { disabled: true } : {})}
               resettable={true}
@@ -487,7 +487,7 @@ const LoginPage = () => {
           <Box>
             <TextInput
               source="accessToken"
-              label="synapseadmin.auth.access_token"
+              label="ketesa.auth.access_token"
               {...(loading ? { disabled: true } : {})}
               resettable
               validate={required()}
@@ -522,7 +522,7 @@ const LoginPage = () => {
               <Avatar sx={{ width: { xs: "80px", sm: "120px" }, height: { xs: "80px", sm: "120px" } }} src={logoUrl} />
             )}
           </Box>
-          <Box className="hint">{translate("synapseadmin.auth.welcome", { name: welcomeTo })}</Box>
+          <Box className="hint">{translate("ketesa.auth.welcome", { name: welcomeTo })}</Box>
           <Box className="form">
             <Select
               fullWidth
@@ -550,7 +550,7 @@ const LoginPage = () => {
                 )}
                 {ssoBaseUrl !== "" && (
                   <Button variant="contained" color="secondary" onClick={handleSSO} disabled={loading} fullWidth>
-                    {translate("synapseadmin.auth.sso_sign_in")}
+                    {translate("ketesa.auth.sso_sign_in")}
                   </Button>
                 )}
                 {(oidcVisible || oidcUrl !== "") && (

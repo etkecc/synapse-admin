@@ -82,6 +82,7 @@ jobs:
         with:
           images: |
             ${{ github.repository }}
+            etkecc/ketesa
             ghcr.io/${{ github.repository }}
             registry.etke.cc/${{ github.repository }}
           tags: |
@@ -126,6 +127,7 @@ jobs:
         with:
           images: |
             ${{ github.repository }}
+            etkecc/ketesa
             ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest-subpath-admin,enable=${{ github.ref_name == 'main' }}
@@ -177,15 +179,15 @@ jobs:
           path: dist-subpath-admin/
       - name: Prepare release
         run: |
-          mv dist-root synapse-admin
-          tar chvzf synapse-admin.tar.gz synapse-admin
-          mv dist-subpath-admin synapse-admin-subpath-admin
-          tar chvzf synapse-admin-subpath-admin.tar.gz synapse-admin-subpath-admin
+          mv dist-root ketesa
+          tar chvzf ketesa.tar.gz ketesa
+          mv dist-subpath-admin ketesa-subpath-admin
+          tar chvzf ketesa-subpath-admin.tar.gz ketesa-subpath-admin
       - uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           files: |
-            synapse-admin.tar.gz
-            synapse-admin-subpath-admin.tar.gz
+            ketesa.tar.gz
+            ketesa-subpath-admin.tar.gz
           generate_release_notes: true
           make_latest: "true"
           draft: false

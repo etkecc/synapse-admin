@@ -99,7 +99,7 @@ describe("createI18nProvider", () => {
     it("should return English translations for en locale", async () => {
       const provider = await createI18nProvider();
 
-      const translation = provider.translate("synapseadmin.auth.base_url");
+      const translation = provider.translate("ketesa.auth.base_url");
       expect(translation).toBe("Homeserver URL");
     });
 
@@ -109,7 +109,7 @@ describe("createI18nProvider", () => {
       const provider = await createI18nProvider();
 
       // German-specific key
-      const deTranslation = provider.translate("synapseadmin.auth.base_url");
+      const deTranslation = provider.translate("ketesa.auth.base_url");
       expect(deTranslation).toBe("Heimserver URL");
     });
 
@@ -117,7 +117,7 @@ describe("createI18nProvider", () => {
       const provider = await createI18nProvider();
 
       await provider.changeLocale("ru");
-      const translation = provider.translate("synapseadmin.auth.base_url");
+      const translation = provider.translate("ketesa.auth.base_url");
       expect(translation).toBe("Адрес домашнего сервера");
     });
 
@@ -133,12 +133,12 @@ describe("createI18nProvider", () => {
 
       // Load zh for the first time
       await provider.changeLocale("zh");
-      const first = provider.translate("synapseadmin.auth.base_url");
+      const first = provider.translate("ketesa.auth.base_url");
 
       // Switch away and back
       await provider.changeLocale("en");
       await provider.changeLocale("zh");
-      const second = provider.translate("synapseadmin.auth.base_url");
+      const second = provider.translate("ketesa.auth.base_url");
 
       expect(first).toBe(second);
       expect(first).toBe("服务器 URL");

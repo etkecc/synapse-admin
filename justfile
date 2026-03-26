@@ -36,8 +36,8 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
     @docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes --admin -p admin admin || true
-    @echo "Starting the pre-built (prod version) of the Synapse Admin app on http://localhost:8008/admin ..."
-    @docker-compose -f docker-compose-dev.yml up -d synapse-admin-prod
+    @echo "Starting the pre-built (prod version) of the Ketesa app on http://localhost:8008/admin ..."
+    @docker-compose -f docker-compose-dev.yml up -d ketesa-prod
     @echo "Starting the app..."
     @yarn start --host 0.0.0.0
 

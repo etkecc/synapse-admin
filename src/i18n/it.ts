@@ -126,7 +126,7 @@ const it: SynapseTranslationMessages = {
       unique: "Deve essere unico",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL dell'homeserver",
       welcome: "Benvenuto in %{name}",

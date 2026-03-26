@@ -399,7 +399,7 @@ const RoomOverviewTab = () => {
         <Card variant="outlined">
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              {translate("synapseadmin.rooms.tabs.detail")}
+              {translate("ketesa.rooms.tabs.detail")}
             </Typography>
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
               <Box>
@@ -433,7 +433,7 @@ const RoomOverviewTab = () => {
         <Card variant="outlined">
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              {translate("synapseadmin.rooms.tabs.permission")}
+              {translate("ketesa.rooms.tabs.permission")}
             </Typography>
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
               <Box>
@@ -525,11 +525,11 @@ const RoomShowLayout = () => {
 
   return (
     <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
-      <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
+      <Tab label="ketesa.rooms.tabs.basic" icon={<ViewListIcon />}>
         <RoomOverviewTab />
       </Tab>
 
-      <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
+      <Tab label="ketesa.rooms.tabs.members" icon={<UserIcon />} path="members">
         <MakeAdminBtn />
         <ReferenceManyField
           reference="room_members"
@@ -607,7 +607,7 @@ const RoomShowLayout = () => {
         </ReferenceManyField>
       </Tab>
 
-      <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
+      <Tab label="ketesa.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
         <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
         <QuarantineRoomMediaButton />
         <ReferenceManyField
@@ -696,12 +696,12 @@ const RoomShowLayout = () => {
         </ReferenceManyField>
       </Tab>
 
-      <Tab label="synapseadmin.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
+      <Tab label="ketesa.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
         <RoomMessages />
       </Tab>
 
       {isSpace && (
-        <Tab label="synapseadmin.rooms.tabs.hierarchy" icon={<AccountTreeIcon />} path="hierarchy">
+        <Tab label="ketesa.rooms.tabs.hierarchy" icon={<AccountTreeIcon />} path="hierarchy">
           <RoomHierarchy />
         </Tab>
       )}

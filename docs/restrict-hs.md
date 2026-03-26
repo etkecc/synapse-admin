@@ -1,6 +1,6 @@
 # Restricting available homeserver
 
-If you want to have your Synapse Admin instance work only with specific homeserver(s),
+If you want to have your Ketesa instance work only with specific homeserver(s),
 you can do that by setting `restrictBaseUrl` in the configuration.
 
 ## Configuration
@@ -8,7 +8,7 @@ you can do that by setting `restrictBaseUrl` in the configuration.
 You can do that for a single homeserver or multiple homeservers at once, as `restrictBaseUrl` accepts both a string and
 an array of strings.
 
-The examples below contain the configuration settings to restrict the Synapse Admin instance to work only with
+The examples below contain the configuration settings to restrict the Ketesa instance to work only with
 `example.com` (with Synapse running at `matrix.example.com`) and
 `example.net` (with Synapse running at `synapse.example.net`) homeservers.
 Note that the homeserver URL should be the _actual_ homeserver URL, and not the delegated one.
@@ -34,7 +34,7 @@ configuration.
 
 ```json
 {
-  "cc.etke.synapse-admin": {
+  "cc.etke.ketesa": {
     "restrictBaseUrl": [
       "https://matrix.example.com",
       "https://synapse.example.net"

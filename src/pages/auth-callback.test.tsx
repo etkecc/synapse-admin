@@ -37,7 +37,7 @@ describe("auth-callback entrypoint", () => {
     expect(location.href).toBe("http://localhost/auth-callback?code=abc");
     expect(rootElement?.textContent).toContain("Authentication error");
     expect(rootElement?.textContent).toContain("nope");
-    expect(rootElement?.textContent).toContain("Welcome to Synapse Admin");
+    expect(rootElement?.textContent).toContain("Welcome to Ketesa");
     expect(rootElement?.textContent).toContain("Go Back");
     expect(consoleSpy).toHaveBeenCalled();
 

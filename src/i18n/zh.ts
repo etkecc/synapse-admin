@@ -67,7 +67,7 @@ const zh: SynapseTranslationMessages = {
       unique: "必须唯一",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "服务器 URL",
       welcome: "欢迎来到 %{name}",

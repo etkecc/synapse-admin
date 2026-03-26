@@ -370,7 +370,7 @@ export const UserList = (props: ListProps) => {
 // here only local part of user_id
 // maxLength = 255 - "@" - ":" - storage.getItem("home_server").length
 // storage.getItem("home_server").length is not valid here
-const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "synapseadmin.users.invalid_user_id")];
+const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "ketesa.users.invalid_user_id")];
 
 const validateAddress = [required(), maxLength(255)];
 
@@ -508,7 +508,7 @@ export const UserCreate = (props: CreateProps) => {
             <TextInput source="address" validate={validateAddress} />
           </SimpleFormIterator>
         </ArrayInput>
-        <ArrayInput source="external_ids" label="synapseadmin.users.tabs.sso">
+        <ArrayInput source="external_ids" label="ketesa.users.tabs.sso">
           <SimpleFormIterator disableReordering>
             <TextInput source="auth_provider" validate={required()} />
             <TextInput source="external_id" label="resources.users.fields.id" validate={required()} />
@@ -835,7 +835,7 @@ export const UserEdit = (props: EditProps) => {
               }}
             >
               <Typography variant="subtitle2" color="error" sx={{ mb: 1 }}>
-                {translate("synapseadmin.users.danger_zone")}
+                {translate("ketesa.users.danger_zone")}
               </Typography>
               <UserBooleanInput
                 source="admin"
@@ -867,7 +867,7 @@ export const UserEdit = (props: EditProps) => {
           </ArrayInput>
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.sso" icon={<AssignmentIndIcon />} path="sso">
+        <FormTab label="ketesa.users.tabs.sso" icon={<AssignmentIndIcon />} path="sso">
           <ArrayInput source="external_ids" label={false}>
             <SimpleFormIterator disableReordering>
               <TextInput source="auth_provider" validate={required()} />
@@ -1179,15 +1179,15 @@ export const UserEdit = (props: EditProps) => {
           </ReferenceManyField>
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.experimental" icon={<ScienceIcon />} path="experimental">
+        <FormTab label="ketesa.users.tabs.experimental" icon={<ScienceIcon />} path="experimental">
           <ExperimentalFeaturesList />
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.limits" icon={<LockClockIcon />} path="limits">
+        <FormTab label="ketesa.users.tabs.limits" icon={<LockClockIcon />} path="limits">
           <UserRateLimits />
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.account_data" icon={<DocumentScannerIcon />} path="accountdata">
+        <FormTab label="ketesa.users.tabs.account_data" icon={<DocumentScannerIcon />} path="accountdata">
           <UserAccountData />
         </FormTab>
       </TabbedForm>

@@ -25,7 +25,7 @@ const fixedJapaneseMessages = {
 
 const ja: SynapseTranslationMessages = {
   ...fixedJapaneseMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "ホームサーバーのURL",
       welcome: "%{name}にようこそ",

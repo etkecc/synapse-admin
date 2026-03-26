@@ -14,7 +14,7 @@ import { createI18nProvider } from "../i18n";
 const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: () => void }): React.ReactElement => {
   const icfg = useInstanceConfig();
   const translate = useTranslate();
-  let welcomeTo = "Synapse Admin";
+  let welcomeTo = "Ketesa";
   let logoUrl = "./images/logo.webp";
   let footerLogoUrl = "./images/logo.webp";
   let backgroundUrl = "";
@@ -42,7 +42,7 @@ const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: (
         <Box className="avatar">
           <Avatar sx={{ width: { xs: "80px", sm: "120px" }, height: { xs: "80px", sm: "120px" } }} src={logoUrl} />
         </Box>
-        <Box className="hint">{translate("synapseadmin.auth.welcome", { name: welcomeTo })}</Box>
+        <Box className="hint">{translate("ketesa.auth.welcome", { name: welcomeTo })}</Box>
         <Box className="form">
           <Typography variant="h6" sx={{ marginBottom: "0.5rem" }}>
             {translate("ra.page.authentication_error")}

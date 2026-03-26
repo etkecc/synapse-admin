@@ -60,7 +60,7 @@ const ru: SynapseTranslationMessages = {
     ...fixedRussianMessages.ra,
     navigation: ruNavigation,
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Адрес домашнего сервера",
       welcome: "Добро пожаловать в %{name}",

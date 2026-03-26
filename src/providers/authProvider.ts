@@ -36,7 +36,7 @@ const authProvider: AuthProvider = {
     // private address
     if (!base_url) {
       // there is some kind of bug with base_url being present in the form, but not submitted
-      // ref: https://github.com/etkecc/synapse-admin/issues/14
+      // ref: https://github.com/etkecc/ketesa/issues/14
       localStorage.removeItem("base_url");
       throw new Error("Homeserver URL is required.");
     }
@@ -63,7 +63,7 @@ const authProvider: AuthProvider = {
 
     const config = GetConfig();
     const icfg = GetInstanceConfig();
-    let deviceName = "Synapse Admin";
+    let deviceName = "Ketesa";
     if (icfg.name) {
       deviceName = icfg.name;
     }

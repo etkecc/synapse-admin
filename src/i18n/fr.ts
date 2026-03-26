@@ -4,7 +4,7 @@ import { SynapseTranslationMessages } from "./types";
 
 const fr: SynapseTranslationMessages = {
   ...frenchMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL du serveur d’accueil",
       welcome: "Bienvenue sur %{name}",

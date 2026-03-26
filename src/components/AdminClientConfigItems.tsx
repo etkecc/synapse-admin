@@ -34,22 +34,22 @@ export const AdminClientConfigItems = () => {
     setConfig(newConfig);
     try {
       await dataProvider.setAdminClientConfig(newConfig);
-      notify(translate("synapseadmin.admin_config.success"), { type: "success" });
+      notify(translate("ketesa.admin_config.success"), { type: "success" });
     } catch {
       cachedConfig = config;
       setConfig(config);
-      notify(translate("synapseadmin.admin_config.failure"), { type: "error" });
+      notify(translate("ketesa.admin_config.failure"), { type: "error" });
     }
   };
 
   return (
     <>
       <MenuItem dense onClick={() => handleToggle("return_soft_failed_events")}>
-        <ListItemText primary={translate("synapseadmin.admin_config.soft_failed_events")} />
+        <ListItemText primary={translate("ketesa.admin_config.soft_failed_events")} />
         <Switch checked={config.return_soft_failed_events} size="small" edge="end" />
       </MenuItem>
       <MenuItem dense onClick={() => handleToggle("return_policy_server_spammy_events")}>
-        <ListItemText primary={translate("synapseadmin.admin_config.spam_flagged_events")} />
+        <ListItemText primary={translate("ketesa.admin_config.spam_flagged_events")} />
         <Switch checked={config.return_policy_server_spammy_events} size="small" edge="end" />
       </MenuItem>
       <Divider sx={{ my: 0.5 }} />

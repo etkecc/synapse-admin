@@ -1,6 +1,6 @@
 # Documentation
 
-Synapse Admin documentation is currently under construction, so PRs are greatly appreciated!
+Ketesa documentation is currently under construction, so PRs are greatly appreciated!
 
 Table of contents:
 <!-- vim-markdown-toc GFM -->
@@ -35,7 +35,7 @@ Specific configuration options:
 For [etke.cc](https://etke.cc) customers only:
 
 > **Note:** The following features are only available for etke.cc customers. Due to specifics of the implementation,
-they are not available for any other Synapse Admin deployments.
+they are not available for any other Ketesa deployments.
 
 * [Server Status icon](../src/components/etke.cc/README.md#server-status-icon)
 * [Server Status page](../src/components/etke.cc/README.md#server-status-page)
@@ -49,4 +49,4 @@ they are not available for any other Synapse Admin deployments.
 
 ## Deployment
 
-* [Serving Synapse Admin behind a reverse proxy](./reverse-proxy.md)
+* [Serving Ketesa behind a reverse proxy](./reverse-proxy.md)

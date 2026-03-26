@@ -56,7 +56,7 @@ describe("authProvider", () => {
 
       expect(ret).toEqual({ redirectTo: "/" });
       expect(fetch).toHaveBeenCalledWith("http://example.com/_matrix/client/v3/login", {
-        body: '{"device_id":null,"initial_device_display_name":"Synapse Admin","type":"m.login.password","identifier":{"type":"m.id.user","user":"@user:example.com"},"password":"secret"}',
+        body: '{"device_id":null,"initial_device_display_name":"Ketesa","type":"m.login.password","identifier":{"type":"m.id.user","user":"@user:example.com"},"password":"secret"}',
         headers: new Headers({
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -89,7 +89,7 @@ describe("authProvider", () => {
 
     expect(ret).toEqual({ redirectTo: "/" });
     expect(fetch).toHaveBeenCalledWith("https://example.com/_matrix/client/v3/login", {
-      body: '{"device_id":null,"initial_device_display_name":"Synapse Admin","type":"m.login.token","token":"login_token"}',
+      body: '{"device_id":null,"initial_device_display_name":"Ketesa","type":"m.login.token","token":"login_token"}',
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",

@@ -4,7 +4,7 @@ This directory contains [etke.cc](https://etke.cc)-specific components that are 
 
 We at [etke.cc](https://etke.cc) are attempting to develop everything open-source, but some things are too specific to be used by anyone else. This directory contains such components; they are only available for [etke.cc](https://etke.cc) customers.
 
-Due to the specifics mentioned above, these components are documented here rather than in the [docs](../../../docs/README.md). They are not supported as part of the Synapse Admin open-source project (i.e.: no issues, no PRs, no support, no requests, etc.).
+Due to the specifics mentioned above, these components are documented here rather than in the [docs](../../../docs/README.md). They are not supported as part of the Ketesa open-source project (i.e.: no issues, no PRs, no support, no requests, etc.).
 
 ## Components
 
@@ -99,7 +99,7 @@ All communication with support is duplicated to email, so you can use both inter
 
 ### Instance config
 
-With instance config, you can white-label Synapse Admin and disable some features you don't need.
+With instance config, you can white-label Ketesa and disable some features you don't need.
 
 **White-labeling** - the following customizations are available:
 

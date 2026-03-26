@@ -1,7 +1,7 @@
 import { TranslationMessages } from "ra-core";
 
 export interface SynapseTranslationMessages extends TranslationMessages {
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: string;
       welcome: string;

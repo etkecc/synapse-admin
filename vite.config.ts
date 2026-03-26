@@ -115,17 +115,18 @@ export default defineConfig(({ mode }) => ({
     },
     react(),
     vitePluginVersionMark({
-      name: "Synapse Admin",
-      command: 'git describe --tags || git rev-parse --short HEAD || echo "${SYNAPSE_ADMIN_VERSION:-unknown}"',
+      name: "Ketesa",
+      command:
+        'git describe --tags || git rev-parse --short HEAD || echo "${KETESA_VERSION:-${SYNAPSE_ADMIN_VERSION:-unknown}}"',
       ifMeta: false,
       ifLog: false,
       ifGlobal: true,
       outputFile: version => {
         const base = {
-          name: "Synapse Admin",
-          short_name: "Synapse Admin",
+          name: "Ketesa",
+          short_name: "Ketesa",
           version: version,
-          description: "Synapse Admin is an admin console for synapse Matrix homeserver with additional features.",
+          description: "Ketesa is an admin UI for Matrix servers, formerly Synapse Admin.",
           lang: "en",
           dir: "auto",
           categories: ["productivity", "utilities"],

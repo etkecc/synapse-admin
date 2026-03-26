@@ -38,7 +38,7 @@ const fixedFarsiMessages = {
 
 const fa: SynapseTranslationMessages = {
   ...fixedFarsiMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "آدرس سرور",
       welcome: "به پنل مدیریت سیناپس خوش آمدید، %{name}",

@@ -14,7 +14,8 @@ export interface MenuItem {
   url: string;
 }
 
-export const WellKnownKey = "cc.etke.synapse-admin";
+export const WellKnownKey = "cc.etke.ketesa";
+export const WellKnownKeyLegacy = "cc.etke.synapse-admin";
 
 type ConfigListener = () => void;
 
@@ -99,16 +100,17 @@ export const FetchWellKnownConfig = async () => {
   try {
     const resp = await fetch(`${protocol}://${homeserver}/.well-known/matrix/client`);
     const configWK = await resp.json();
-    if (!configWK[WellKnownKey]) {
+    const wkConfig = configWK[WellKnownKey] || configWK[WellKnownKeyLegacy];
+    if (!wkConfig) {
       console.log(
-        `Loaded ${protocol}://${homeserver}/.well-known/matrix/client, but it doesn't contain ${WellKnownKey} key, skipping`,
+        `Loaded ${protocol}://${homeserver}/.well-known/matrix/client, but it doesn't contain ${WellKnownKey} (or legacy ${WellKnownKeyLegacy}) key, skipping`,
         configWK
       );
       return false;
     }
 
     console.log(`Loaded ${protocol}://${homeserver}/.well-known/matrix/client`, configWK);
-    LoadConfig(configWK[WellKnownKey]);
+    LoadConfig(wkConfig);
     return true;
   } catch (e) {
     console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);

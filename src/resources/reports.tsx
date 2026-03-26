@@ -193,11 +193,11 @@ export const ReportShow = (props: ShowProps) => {
       sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
     >
       <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
-        <Tab label="synapseadmin.reports.tabs.basic" icon={<ViewListIcon />}>
+        <Tab label="ketesa.reports.tabs.basic" icon={<ViewListIcon />}>
           <ReportBasicTab />
         </Tab>
 
-        <Tab label="synapseadmin.reports.tabs.detail" icon={<PageviewIcon />} path="detail">
+        <Tab label="ketesa.reports.tabs.detail" icon={<PageviewIcon />} path="detail">
           <EventJsonField />
         </Tab>
       </TabbedShowLayout>

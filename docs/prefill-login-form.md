@@ -1,12 +1,12 @@
 # Prefilling the Login Form
 
-In some cases you may wish to prefill/preset the login form fields when sharing a link to a Synapse Admin instance.
+In some cases you may wish to prefill/preset the login form fields when sharing a link to a Ketesa instance.
 This can be done by adding the following query parameters to the URL:
 
 * `username` - The username to prefill in the username field.
 * `server` - The server to prefill in the homeserver URL field.
 
-These query params only work when Synapse Admin is loaded from `localhost` or `127.0.0.1`:
+These query params only work when Ketesa is loaded from `localhost` or `127.0.0.1`:
 
 * `password` - The password to prefill in the password field (credentials auth). **NEVER** use this in production.
 * `accessToken` - The access token to prefill in the access token field (access token auth). **NEVER** use this in production.
