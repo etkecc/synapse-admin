@@ -82,7 +82,7 @@ jobs:
         with:
           images: |
             ${{ github.repository }}
-            etkecc/ketesa
+            etkecc/synapse-admin
             ghcr.io/${{ github.repository }}
             registry.etke.cc/${{ github.repository }}
           tags: |
@@ -127,7 +127,7 @@ jobs:
         with:
           images: |
             ${{ github.repository }}
-            etkecc/ketesa
+            etkecc/synapse-admin
             ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest-subpath-admin,enable=${{ github.ref_name == 'main' }}
