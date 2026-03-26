@@ -754,6 +754,16 @@ const it: SynapseTranslationMessages = {
         send: 'Invia un avviso dal server agli utenti selezionati. La feature "Avvisi del server" è stata attivata sul server.',
       },
     },
+    database_room_statistics: {
+      name: "Statistiche database delle stanze",
+      fields: {
+        room_id: "ID stanza",
+        estimated_size: "Dimensione stimata",
+      },
+      helper: {
+        info: "Mostra lo spazio su disco stimato utilizzato da ogni stanza nel database Synapse. I valori sono approssimativi.",
+      },
+    },
     user_media_statistics: {
       name: "Media degli utenti",
       fields: {

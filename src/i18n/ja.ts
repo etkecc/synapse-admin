@@ -645,6 +645,16 @@ const ja: SynapseTranslationMessages = {
         send: "サーバーの告知を指定したユーザーに送信。「サーバーの告知」機能がサーバーで有効になっている必要があります。",
       },
     },
+    database_room_statistics: {
+      name: "データベースルーム統計",
+      fields: {
+        room_id: "ルームID",
+        estimated_size: "推定サイズ",
+      },
+      helper: {
+        info: "Synapse データベース内の各ルームが使用する推定ディスク容量を表示します。数値は概算です。",
+      },
+    },
     user_media_statistics: {
       name: "ユーザーのメディア",
       fields: {

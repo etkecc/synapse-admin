@@ -16,6 +16,7 @@ import ScheduledCommandShow from "./components/etke.cc/schedules/components/sche
 import UserImport from "./components/user-import/UserImport";
 import LoginPage from "./pages/LoginPage";
 import MASPolicyDataPage from "./pages/MASPolicyDataPage";
+import { DatabaseRoomStatsList } from "./resources/database_room_statistics";
 import destinations from "./resources/destinations";
 import registrationToken from "./resources/registration_tokens";
 import reports from "./resources/reports";
@@ -82,10 +83,12 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
           {!icfg.disabled.support && <Route path="/support" element={<SupportPage />} />}
           {!icfg.disabled.support && <Route path="/support/:id" element={<SupportRequestPage />} />}
           {masEnabled && <Route path="/mas_policy_data" element={<MASPolicyDataPage />} />}
+          <Route path="/database_room_statistics" element={<DatabaseRoomStatsList />} />
         </CustomRoutes>
         <Resource {...users} />
         <Resource {...rooms} />
         <Resource {...userMediaStats} />
+        <Resource name="database_room_statistics" />
         <Resource {...reports} />
         <Resource {...roomDirectory} />
         {!icfg.disabled.federation && <Resource {...destinations} />}

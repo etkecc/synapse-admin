@@ -8,6 +8,7 @@ import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonIcon from "@mui/icons-material/Person";
+import StorageIcon from "@mui/icons-material/Storage";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
 import EmptyState from "../components/EmptyState";
@@ -799,6 +800,9 @@ const RoomListActions = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <TopToolbar>
+      <RaButton component={Link} to="/database_room_statistics" label="resources.database_room_statistics.name">
+        <StorageIcon />
+      </RaButton>
       <FilterButton />
       <BlockRoomByIdButton />
       {!isSmall && <SelectColumnsButton />}
