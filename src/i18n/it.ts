@@ -1,6 +1,6 @@
 import italianMessages from "ra-language-italian";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const { prev: _itPrev, ...itNavigation } = italianMessages.ra.navigation;
 const { password: _itPassword, ...itRaWithoutPassword } = italianMessages.ra;
@@ -126,7 +126,7 @@ const it: SynapseTranslationMessages = {
       unique: "Deve essere unico",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL dell'homeserver",
       welcome: "Benvenuto in %{name}",
@@ -149,6 +149,7 @@ const it: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "ID utente non valido su questo homeserver.",
       tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti", account_data: "Dati del profilo" },
+      danger_zone: "Zona pericolosa",
     },
     rooms: {
       details: "Dettagli della stanza",
@@ -158,9 +159,17 @@ const it: SynapseTranslationMessages = {
         detail: "Dettagli",
         permission: "Permessi",
         media: "Media",
+        messages: "Messaggi",
+        hierarchy: "Gerarchia",
       },
     },
     reports: { tabs: { basic: "Semplice", detail: "Dettagli" } },
+    admin_config: {
+      soft_failed_events: "Eventi con errore non critico",
+      spam_flagged_events: "Eventi contrassegnati come spam",
+      success: "Configurazione amministratore aggiornata",
+      failure: "Aggiornamento della configurazione amministratore non riuscito",
+    },
   },
   import_users: {
     error: {
@@ -232,7 +241,9 @@ const it: SynapseTranslationMessages = {
     },
     action: {
       send: "Cancella media",
-      send_success: "Richiesta inviata con successo.",
+      send_success:
+        "%{smart_count} file multimediale eliminato con successo. |||| %{smart_count} file multimediali eliminati con successo.",
+      send_success_none: "Nessun file multimediale corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
       send_failure: "C'è stato un errore.",
     },
     helper: {
@@ -246,7 +257,10 @@ const it: SynapseTranslationMessages = {
     },
     action: {
       send: "Elimina media remoti",
-      send_success: "La richiesta per eliminare i media remoti è stata inviata.",
+      send_success:
+        "%{smart_count} file multimediale remoto eliminato con successo. |||| %{smart_count} file multimediali remoti eliminati con successo.",
+      send_success_none:
+        "Nessun file multimediale remoto corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
       send_failure: "Si è verificato un errore con la richiesta di eliminazione dei media remoti.",
     },
     helper: {
@@ -273,6 +287,16 @@ const it: SynapseTranslationMessages = {
         show_guests: "Mostra gli ospiti",
         show_deactivated: "Mostra solo i disattivati",
         show_locked: "Mostra gli utenti bloccati",
+        filter_user_all: "Tutti",
+        filter_deactivated_false: "Attivi",
+        filter_deactivated_true: "Disattivati",
+        filter_locked_false: "Escludi bloccati",
+        filter_locked_true: "Includi bloccati",
+        filter_guests_false: "Escludi ospiti",
+        filter_guests_true: "Includi ospiti",
+        show_system_users: "Mostra utenti di sistema",
+        filter_system_users_false: "Escludi utenti di sistema",
+        filter_system_users_true: "Solo utenti di sistema",
         show_suspended: "Mostra gli utenti sospesi",
         show_shadow_banned: "Mostra utenti shadowbannati",
         user_id: "Cerca utente",
@@ -285,6 +309,8 @@ const it: SynapseTranslationMessages = {
         address: "Indirizzo",
         creation_ts_ms: "Creazione del timestamp",
         consent_version: "Versione minima richiesta",
+        sent_invite_count: "Inviti inviati",
+        cumulative_joined_room_count: "Stanze totali raggiunte",
         auth_provider: "Provider",
         user_type: "Tipo d'utente",
         erased: "Cancellato (GDPR)",
@@ -305,6 +331,9 @@ const it: SynapseTranslationMessages = {
         erase_admin_error: "Non è consentito eliminare il proprio utente.",
         modify_managed_user_error: "La modifica di un utente gestito dal sistema non è consentita.",
         username_available: "Nome utente disponibile",
+        sent_invite_count: "Numero totale di inviti inviati da questo utente in tutte le stanze.",
+        cumulative_joined_room_count:
+          "Numero totale di stanze a cui questo utente si è unito, incluse quelle che ha lasciato o da cui è stato bannato.",
       },
       badge: {
         you: "Tu",
@@ -319,7 +348,12 @@ const it: SynapseTranslationMessages = {
         erase: "Cancella i dati dell'utente",
         erase_avatar: "Cancella l'avatar dell'utente",
         delete_media: "Elimina tutti i media caricati dall'utente(-s)",
-        redact_events: "Ridurre tutti gli eventi inviati dall'utente(-s)",
+        redact_events: "Oscura tutti gli eventi inviati dall'utente(-i)",
+        redact_in_progress: "Oscuramento in corso\u2026",
+        redact_background_note: "Puoi chiudere questa finestra in sicurezza, l'oscuramento continuerà in background.",
+        redact_success: "Tutti gli eventi sono stati oscurati con successo.",
+        redact_failure:
+          "Oscuramento completato con %{smart_count} evento fallito. |||| Oscuramento completato con %{smart_count} eventi falliti.",
         generate_password: "Genera password",
         reset_password: {
           label: "Reimposta password",
@@ -348,6 +382,49 @@ const it: SynapseTranslationMessages = {
           "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",
         overwrite_cancel: "Annulla",
         overwrite_confirm: "Sovrascrivi",
+        quarantine_all: {
+          label: "Metti in quarantena tutti i media",
+          title: "Metti in quarantena tutti i media di %{userName}",
+          content:
+            "Tutti i media locali di questo utente verranno messi in quarantena. I media in quarantena non saranno più accessibili agli altri utenti.",
+          success:
+            "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
+          failure: "Impossibile mettere in quarantena i media. %{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "Consenti reimpostazione Cross-Signing",
+          title: "Consenti sostituzione chiavi Cross-Signing",
+          content:
+            "Consentire a %{user} di sostituire le proprie chiavi Cross-Signing senza autenticazione interattiva? Questo crea una finestra temporanea durante la quale le chiavi possono essere sostituite.",
+          success: "Sostituzione chiavi Cross-Signing consentita fino al %{deadline}",
+          failure: "Impossibile consentire la sostituzione Cross-Signing",
+          no_key: "L'utente non ha una chiave Cross-Signing principale",
+        },
+        find_user: {
+          label: "Trova utente",
+          title: "Trova utente",
+          lookup_type: "Tipo di ricerca",
+          by_threepid: "Per e-mail / telefono",
+          by_auth_provider: "Per provider di autenticazione",
+          provider: "ID provider di autenticazione",
+          external_id: "ID esterno",
+          search: "Cerca",
+          not_found: "Utente non trovato",
+          failure: "Impossibile trovare l'utente",
+        },
+        renew_account: {
+          label: "Rinnova account",
+          title: "Rinnova la validità dell'account",
+          content:
+            "Rinnova la validità dell'account di %{user}. Puoi facoltativamente impostare una data di scadenza personalizzata. Se lasciato vuoto, verrà utilizzato il periodo di rinnovo predefinito del server.",
+          expiration: "Data di scadenza",
+          expiration_helper: "Lascia vuoto per utilizzare il periodo di rinnovo predefinito del server",
+          renewal_emails: "Invia e-mail di notifica di rinnovo",
+          success: "Validità dell'account rinnovata fino al %{date}",
+          failure: "Impossibile rinnovare la validità dell'account",
+        },
+        system_users_scan_in_progress:
+          "Attendere — la ricerca degli utenti corrispondenti è ancora in corso, la pagina verrà caricata a breve",
       },
       limits: {
         messages_per_second: "Messaggi al secondo",
@@ -419,6 +496,8 @@ const it: SynapseTranslationMessages = {
           fields: {
             block: "Blocca e impedisci agli utenti di entrare nella stanza",
           },
+          in_progress: "Eliminazione in corso…",
+          background_note: "Puoi chiudere questa finestra, l'eliminazione continuerà in background.",
           success: "Stanza/e eliminata/e con successo.",
           failure: "Impossibile eliminare la stanza/le stanze.",
         },
@@ -456,6 +535,68 @@ const it: SynapseTranslationMessages = {
           success: "Stanza sbloccata con successo. |||| Stanze sbloccate con successo.",
           failure: "Impossibile sbloccare la stanza. |||| Impossibile sbloccare le stanze.",
         },
+        purge_history: {
+          label: "Elimina cronologia",
+          title: "Elimina cronologia di %{roomName}",
+          content:
+            "Tutti gli eventi prima della data selezionata verranno eliminati dal database. Lo stato della stanza (ingressi, uscite, argomento) viene sempre preservato. Almeno un messaggio viene sempre mantenuto.\nNota: questa operazione potrebbe richiedere diversi minuti per stanze grandi.",
+          date_label: "Elimina eventi prima di",
+          delete_local: "Elimina anche gli eventi inviati dagli utenti locali",
+          in_progress: "Eliminazione in corso…",
+          background_note: "Puoi chiudere questa finestra in sicurezza, l'eliminazione continuerà in background.",
+          success: "Cronologia della stanza eliminata con successo.",
+          failure: "Impossibile eliminare la cronologia della stanza. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Metti in quarantena tutti i media",
+          title: "Metti in quarantena tutti i media in %{roomName}",
+          content:
+            "Tutti i media locali e remoti in questa stanza verranno messi in quarantena. I media in quarantena non saranno più accessibili agli utenti.",
+          success:
+            "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
+          failure: "Impossibile mettere in quarantena i media. %{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "Vai alla data",
+          direction: "Direzione",
+          forward: "Avanti",
+          backward: "Indietro",
+          target_event: "Evento di destinazione",
+          events_before: "Eventi precedenti",
+          events_after: "Eventi successivi",
+          not_found: "Nessun evento trovato all'ora specificata",
+          failure: "Impossibile recuperare il contesto dell'evento",
+        },
+        messages: {
+          load_older: "Carica precedenti",
+          load_newer: "Carica successivi",
+          no_messages: "Nessun messaggio in questa stanza",
+          failure: "Impossibile caricare i messaggi",
+          filter: "Filtri",
+          filter_type: "Tipi di evento",
+          filter_sender: "Mittenti",
+          advanced_filters: "Filtri avanzati",
+          filter_not_type: "Escludi tipi di evento",
+          filter_not_sender: "Escludi mittenti",
+          contains_url: "Contiene URL",
+          any: "Qualsiasi",
+          with_url: "Solo con URL",
+          without_url: "Solo senza URL",
+          apply_filter: "Applica",
+          clear_filters: "Cancella",
+        },
+        hierarchy: {
+          load_more: "Carica altro",
+          max_depth: "Profondità massima",
+          unlimited: "Illimitata",
+          refresh: "Aggiorna",
+          members: "%{count} membri",
+          space: "Spazio",
+          room: "Stanza",
+          suggested: "Consigliata",
+          no_children: "Questa stanza non ha una gerarchia",
+          failure: "Impossibile caricare la gerarchia",
+        },
       },
     },
     reports: {
@@ -463,33 +604,44 @@ const it: SynapseTranslationMessages = {
       fields: {
         id: "ID",
         received_ts: "Orario del report",
-        user_id: "richiedente",
-        name: "nome della stanza",
-        score: "punteggio",
-        reason: "ragione",
+        user_id: "Richiedente",
+        name: "Nome della stanza",
+        score: "Punteggio",
+        reason: "Ragione",
         event_id: "ID dell'evento",
-        event_json: {
-          origin: "server di origine",
-          origin_server_ts: "ora dell'invio",
-          type: "tipo di evento",
-          content: {
-            msgtype: "tipo di contenuto",
-            body: "contenuto",
-            format: "formato",
-            formatted_body: "contenuto formattato",
-            algorithm: "algoritmo",
-            url: "URL",
-            info: {
-              mimetype: "Tipo",
-            },
-          },
-        },
+        sender: "Mittente",
       },
       action: {
         erase: {
           title: "Elimina evento segnalato",
           content: "Sei sicuro di voler eliminare l'evento segnalato? Questa azione è irreversibile.",
         },
+        event_lookup: {
+          label: "Ricerca evento",
+          title: "Recupera evento per ID",
+          fetch: "Recupera",
+        },
+        fetch_event_error: "Impossibile recuperare l'evento",
+      },
+    },
+    scheduled_tasks: {
+      name: "Attività pianificata |||| Attività pianificate",
+      fields: {
+        id: "ID",
+        action: "Azione",
+        status: "Stato",
+        timestamp: "Timestamp",
+        resource_id: "ID risorsa",
+        result: "Risultato",
+        error: "Errore",
+        max_timestamp: "Prima della data",
+      },
+      status: {
+        scheduled: "Pianificata",
+        active: "Attiva",
+        complete: "Completata",
+        cancelled: "Annullata",
+        failed: "Fallita",
       },
     },
     connections: {
@@ -520,6 +672,16 @@ const it: SynapseTranslationMessages = {
           success: "Dispositivo rimosso con successo.",
           failure: "C'è stato un errore.",
         },
+        display_name: {
+          success: "Nome del dispositivo aggiornato",
+          failure: "Aggiornamento del nome del dispositivo non riuscito",
+        },
+        create: {
+          label: "Crea dispositivo",
+          title: "Crea nuovo dispositivo",
+          success: "Dispositivo creato",
+          failure: "Creazione del dispositivo non riuscita",
+        },
       },
     },
     users_media: {
@@ -540,8 +702,8 @@ const it: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Non protetto, proteggi",
-        delete: "Protetto, rimuovi protezione",
+        create: "Proteggere",
+        delete: "Rimuovi protezione",
         none: "In quarantena",
         send_success: "Stato della protezione cambiato con successo.",
         send_failure: "C'è stato un errore.",
@@ -550,9 +712,9 @@ const it: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Quarantina",
-        create: "Aggiungi alla quarantena",
-        delete: "In quarantena, rimuovi dalla quarantena",
-        none: "Protetto dalla quarantena",
+        create: "Quarantena",
+        delete: "Rimuovi quarantena",
+        none: "Protetto",
         send_success: "Stato della quarantena cambiato con successo.",
         send_failure: "C'è stato un errore: %{error}",
       },
@@ -668,8 +830,21 @@ const it: SynapseTranslationMessages = {
         completed: "Completato",
         expiry_time: "Data della scadenza",
         length: "Lunghezza",
+        created_at: "Data di creazione",
+        last_used_at: "Ultimo utilizzo",
+        revoked_at: "Data di revoca",
       },
       helper: { length: "Lunghezza del token se non viene dato alcun token." },
+      action: {
+        revoke: {
+          label: "Revoca",
+          success: "Token revocato",
+        },
+        unrevoke: {
+          label: "Ripristina",
+          success: "Token ripristinato",
+        },
+      },
     },
   },
   etkecc: {

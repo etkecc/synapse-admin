@@ -18,34 +18,38 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
       component="footer"
       sx={{
         position: "fixed",
-        zIndex: 100,
+        zIndex: { xs: 1, sm: 100 },
         bottom: 0,
         width: "100%",
-        bgcolor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-        borderTop: "1px solid",
-        borderColor: theme.palette.divider,
+        bgcolor: theme.palette.mode === "dark" ? "#080D12" : "#334258",
+        color: theme.palette.mode === "dark" ? "#E0E0E0" : "#FFFFFF",
+        boxShadow: theme.palette.mode === "dark" ? "0 -1px 3px rgba(0,0,0,0.3)" : "0 -1px 3px rgba(0,0,0,0.08)",
+        borderTop: "none",
         fontSize: "0.89rem",
         display: "block",
-        p: 1,
+        whiteSpace: "nowrap",
+        p: { xs: "4px 8px", sm: 1 },
         gap: "10px",
       }}
     >
       <Avatar src={logoSrc} sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }} />{" "}
-      <Link href="https://github.com/etkecc/synapse-admin" target="_blank">
-        Synapse Admin {version}
-      </Link>{" "}
-      by{" "}
-      <Link
-        href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin"
-        target="_blank"
-      >
-        etke.cc
-      </Link>{" "}
-      (originally developed by Awesome Technologies Innovationslabor GmbH).{" "}
-      <Link sx={{ fontWeight: "bold" }} href="https://matrix.to/#/#synapse-admin:etke.cc" target="_blank">
-        #synapse-admin:etke.cc
+      <Link href="https://github.com/etkecc/ketesa" target="_blank" sx={{ color: "inherit" }}>
+        Ketesa {version}
       </Link>
+      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+        {" "}
+        by{" "}
+        <Link
+          href="https://etke.cc/?utm_source=ketesa&utm_medium=footer&utm_campaign=ketesa"
+          target="_blank"
+          sx={{ color: "#f49300", fontWeight: 500 }}
+        >
+          etke.cc
+        </Link>{" "}
+        <Link sx={{ fontWeight: "bold", color: "inherit" }} href="https://matrix.to/#/#ketesa:etke.cc" target="_blank">
+          #ketesa:etke.cc
+        </Link>
+      </Box>
     </Box>
   );
 };

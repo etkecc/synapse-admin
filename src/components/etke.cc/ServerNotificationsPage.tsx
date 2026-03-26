@@ -34,7 +34,7 @@ const ServerNotificationsPage = () => {
               variant="text"
               color="error"
               onClick={async () => {
-                await dataProvider.deleteServerNotifications(etkeccAdmin, locale);
+                await dataProvider.deleteServerNotifications(etkeccAdmin!, locale);
                 setServerNotifications({
                   notifications: [],
                   success: true,

@@ -12,18 +12,19 @@ const UserAccountData = () => {
   const [globalAccountData, setGlobalAccountData] = useState({});
   const [roomsAccountData, setRoomsAccountData] = useState({});
 
-  if (!record) {
-    return null;
-  }
-
   useEffect(() => {
+    if (!record) return;
     const fetchAccountData = async () => {
       const accountData = await dataProvider.getAccountData(record.id);
       setGlobalAccountData(accountData.account_data.global);
       setRoomsAccountData(accountData.account_data.rooms);
     };
     fetchAccountData();
-  }, [dataProvider, record.id]);
+  }, [dataProvider, record]);
+
+  if (!record) {
+    return null;
+  }
 
   if (Object.keys(globalAccountData).length === 0 && Object.keys(roomsAccountData).length === 0) {
     return (
@@ -47,7 +48,22 @@ const UserAccountData = () => {
                 <Typography variant="h6">{translate("resources.users.account_data.global")}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Box sx={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(globalAccountData, null, 4)}</Box>
+                <Box
+                  component="pre"
+                  sx={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-all",
+                    m: 0,
+                    p: 2,
+                    fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                    bgcolor: "action.hover",
+                    borderRadius: 1,
+                    overflow: "auto",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {JSON.stringify(globalAccountData, null, 4)}
+                </Box>
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -55,7 +71,22 @@ const UserAccountData = () => {
                 <Typography variant="h6">{translate("resources.users.account_data.rooms")}</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Box sx={{ whiteSpace: "pre-wrap" }}>{JSON.stringify(roomsAccountData, null, 4)}</Box>
+                <Box
+                  component="pre"
+                  sx={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-all",
+                    m: 0,
+                    p: 2,
+                    fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                    bgcolor: "action.hover",
+                    borderRadius: 1,
+                    overflow: "auto",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {JSON.stringify(roomsAccountData, null, 4)}
+                </Box>
               </AccordionDetails>
             </Accordion>
           </Box>

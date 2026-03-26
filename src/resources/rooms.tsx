@@ -1,31 +1,41 @@
 import EventIcon from "@mui/icons-material/Event";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import FastForwardIcon from "@mui/icons-material/FastForward";
+import MessageIcon from "@mui/icons-material/Message";
 import UserIcon from "@mui/icons-material/Group";
 import HttpsIcon from "@mui/icons-material/Https";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
-import PageviewIcon from "@mui/icons-material/Pageview";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonIcon from "@mui/icons-material/Person";
 import StorageIcon from "@mui/icons-material/Storage";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import RoomIcon from "@mui/icons-material/ViewList";
-import VisibilityIcon from "@mui/icons-material/Visibility";
+import EmptyState from "../components/EmptyState";
+import { RoomHierarchy } from "../components/RoomHierarchy";
+import { RoomMessages } from "../components/RoomMessages";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import MuiList from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
 import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import {
   BooleanField,
   DateField,
   WrapperField,
-  Datagrid,
   DatagridConfigurable,
   ExportButton,
+  FilterButton,
   FunctionField,
   List,
   ListProps,
@@ -36,7 +46,7 @@ import {
   ResourceProps,
   SearchInput,
   SelectColumnsButton,
-  SelectField,
+  SimpleList,
   Show,
   ShowProps,
   Tab,
@@ -47,14 +57,15 @@ import {
   useTranslate,
   useListContext,
   useNotify,
+  Button as RaButton,
   DeleteButton,
   NullableBooleanInput,
   useLocale,
-  Button as RaButton,
+  useGetMany,
 } from "react-admin";
+import { Link } from "react-router-dom";
 import { useDataProvider } from "react-admin";
 import { Confirm } from "react-admin";
-import { Link } from "react-router-dom";
 
 import {
   RoomDirectoryBulkUnpublishButton,
@@ -70,6 +81,8 @@ import {
   BlockRoomByIdButton,
 } from "../components/BlockRoomButton";
 import DeleteRoomButton from "../components/DeleteRoomButton";
+import { PurgeHistoryButton } from "../components/PurgeHistoryButton";
+import { QuarantineRoomMediaButton } from "../components/QuarantineAllMediaButton";
 import { useDocTitle } from "../components/hooks/useDocTitle";
 import { MediaIDField } from "../components/media";
 import { Room } from "../providers/types";
@@ -112,9 +125,10 @@ const RoomShowActions = () => {
   const publishButton = record?.public ? <RoomDirectoryUnpublishButton /> : <RoomDirectoryPublishButton />;
   // FIXME: refresh after (un)publish
   return (
-    <TopToolbar>
+    <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
       {publishButton}
       <BlockRoomButton />
+      <PurgeHistoryButton />
       <JoinUserBtn />
       <MakeAdminBtn />
       <DeleteRoomButton
@@ -185,16 +199,16 @@ export const MakeAdminBtn = () => {
 
   return (
     <>
-      <Button
-        size="small"
+      <RaButton
+        label="resources.rooms.action.make_admin.assign_admin"
         onClick={e => {
           e.stopPropagation();
           setOpen(true);
         }}
         disabled={isPending}
       >
-        <PersonIcon /> {translate("resources.rooms.action.make_admin.assign_admin")}
-      </Button>
+        <PersonIcon />
+      </RaButton>
       <Confirm
         isOpen={open}
         onConfirm={handleConfirm}
@@ -278,16 +292,16 @@ export const JoinUserBtn = () => {
 
   return (
     <>
-      <Button
-        size="small"
+      <RaButton
+        label="resources.rooms.action.join.label"
         onClick={e => {
           e.stopPropagation();
           setOpen(true);
         }}
         disabled={isPending}
       >
-        <PersonAddIcon /> {translate("resources.rooms.action.join.label")}
-      </Button>
+        <PersonAddIcon />
+      </RaButton>
       <Confirm
         isOpen={open}
         onConfirm={handleConfirm}
@@ -317,43 +331,220 @@ export const JoinUserBtn = () => {
   );
 };
 
-export const RoomShow = (props: ShowProps) => {
+const RoomOverviewTab = () => {
+  const translate = useTranslate();
+  const record = useRecordContext();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  if (!record) return null;
+
+  const isEncrypted = !!record.encryption;
+
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 2, py: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isSmall ? "column" : "row",
+          gap: 2,
+          alignItems: isSmall ? "center" : "flex-start",
+        }}
+      >
+        <AvatarField source="avatar" sx={{ height: "96px", width: "96px" }} label="resources.rooms.fields.avatar" />
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography variant="h6" sx={{ wordBreak: "break-word" }}>
+            {record.name || record.canonical_alias || record.room_id}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ wordBreak: "break-all" }}>
+            {record.room_id}
+          </Typography>
+          {record.canonical_alias && (
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5, wordBreak: "break-all" }}>
+              {record.canonical_alias}
+            </Typography>
+          )}
+          {record.topic && (
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1, whiteSpace: "pre-wrap" }}>
+              {record.topic}
+            </Typography>
+          )}
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <Chip
+              size="small"
+              icon={isEncrypted ? <HttpsIcon fontSize="small" /> : <NoEncryptionIcon fontSize="small" />}
+              label={isEncrypted ? record.encryption : translate("resources.rooms.enums.unencrypted")}
+              color={isEncrypted ? "success" : "default"}
+              variant="outlined"
+            />
+            <Chip size="small" label={`v${record.version}`} variant="outlined" />
+            {record.public && (
+              <Chip size="small" label={translate("resources.rooms.fields.public")} color="info" variant="outlined" />
+            )}
+            {record.federatable && (
+              <Chip size="small" label={translate("resources.rooms.fields.federatable")} variant="outlined" />
+            )}
+          </Box>
+        </Box>
+      </Box>
+
+      <Divider />
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
+          gap: 2,
+        }}
+      >
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              {translate("ketesa.rooms.tabs.detail")}
+            </Typography>
+            <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.joined_members")}
+                </Typography>
+                <Typography variant="body2">{record.joined_members ?? "—"}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.joined_local_members")}
+                </Typography>
+                <Typography variant="body2">{record.joined_local_members ?? "—"}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.joined_local_devices")}
+                </Typography>
+                <Typography variant="body2">{record.joined_local_devices ?? "—"}</Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.state_events")}
+                </Typography>
+                <Typography variant="body2">{record.state_events ?? "—"}</Typography>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+              {translate("ketesa.rooms.tabs.permission")}
+            </Typography>
+            <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.join_rules")}
+                </Typography>
+                <Typography variant="body2">
+                  {record.join_rules ? translate(`resources.rooms.enums.join_rules.${record.join_rules}`) : "—"}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.guest_access")}
+                </Typography>
+                <Typography variant="body2">
+                  {record.guest_access ? translate(`resources.rooms.enums.guest_access.${record.guest_access}`) : "—"}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.history_visibility")}
+                </Typography>
+                <Typography variant="body2">
+                  {record.history_visibility
+                    ? translate(`resources.rooms.enums.history_visibility.${record.history_visibility}`)
+                    : "—"}
+                </Typography>
+              </Box>
+              <Box>
+                <Typography variant="caption" color="text.secondary">
+                  {translate("resources.rooms.fields.creator")}
+                </Typography>
+                <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+                  <ReferenceField source="creator" reference="users" link="show">
+                    <RaTextField source="id" />
+                  </ReferenceField>
+                </Typography>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  );
+};
+
+const RoomMembersMobileList = () => {
+  const { data: members } = useListContext();
+  const ids = (members || []).map(r => r.id);
+  const { data: users } = useGetMany("users", { ids }, { enabled: ids.length > 0 });
+  const userMap = new Map((users || []).map(u => [u.id, u]));
+
+  if (!members?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {members.map(record => {
+        const user = userMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/users/" + record.id}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={user || record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {user?.displayname || record.id}
+              </Typography>
+              {user?.displayname && (
+                <Typography variant="body2" color="text.secondary" sx={{ wordBreak: "break-all" }}>
+                  {record.id}
+                </Typography>
+              )}
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
+const RoomShowLayout = () => {
+  const record = useRecordContext();
   const translate = useTranslate();
   const locale = useLocale();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSpace = record?.room_type === "m.space";
+
   return (
-    <Show {...props} actions={<RoomShowActions />} title={<RoomTitle />}>
-      <TabbedShowLayout>
-        <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
-          <AvatarField source="avatar" sx={{ height: "120px", width: "120px" }} label="resources.rooms.fields.avatar" />
-          <RaTextField source="room_id" />
-          <RaTextField source="name" />
-          <RaTextField source="topic" />
-          <RaTextField source="canonical_alias" />
-          <ReferenceField source="creator" reference="users">
-            <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
-            <RaTextField source="id" />
-          </ReferenceField>
-        </Tab>
+    <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
+      <Tab label="ketesa.rooms.tabs.basic" icon={<ViewListIcon />}>
+        <RoomOverviewTab />
+      </Tab>
 
-        <Tab label="synapseadmin.rooms.tabs.detail" icon={<PageviewIcon />} path="detail">
-          <RaTextField source="joined_members" />
-          <RaTextField source="joined_local_members" />
-          <RaTextField source="joined_local_devices" />
-          <RaTextField source="state_events" />
-          <RaTextField source="version" />
-          <RaTextField source="encryption" emptyText={translate("resources.rooms.enums.unencrypted")} />
-        </Tab>
-
-        <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
-          <MakeAdminBtn />
-          <ReferenceManyField
-            reference="room_members"
-            target="room_id"
-            label={false}
-            perPage={10}
-            pagination={<RoomPagination />}
-          >
-            <Datagrid sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+      <Tab label="ketesa.rooms.tabs.members" icon={<UserIcon />} path="members">
+        <MakeAdminBtn />
+        <ReferenceManyField
+          reference="room_members"
+          target="room_id"
+          label={false}
+          perPage={10}
+          pagination={<RoomPagination />}
+        >
+          {isSmall ? (
+            <RoomMembersMobileList />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
               <ReferenceField
                 label="resources.users.fields.avatar"
                 source="id"
@@ -363,7 +554,12 @@ export const RoomShow = (props: ShowProps) => {
               >
                 <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
               </ReferenceField>
-              <RaTextField source="id" sortable={false} label="resources.users.fields.id" />
+              <RaTextField
+                source="id"
+                sortable={false}
+                label="resources.users.fields.id"
+                sx={{ wordBreak: "break-all" }}
+              />
               <ReferenceField
                 label="resources.users.fields.displayname"
                 source="id"
@@ -409,86 +605,85 @@ export const RoomShow = (props: ShowProps) => {
               >
                 <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
               </ReferenceField>
-            </Datagrid>
-          </ReferenceManyField>
-        </Tab>
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
 
-        <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
-          <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
-          <ReferenceManyField
-            reference="room_media"
-            target="room_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+      <Tab label="ketesa.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
+        <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
+        <QuarantineRoomMediaButton />
+        <ReferenceManyField
+          reference="room_media"
+          target="room_id"
+          label={false}
+          pagination={<Pagination />}
+          perPage={10}
+        >
+          {isSmall ? (
+            <SimpleList
+              primaryText={() => (
+                <Box sx={{ wordBreak: "break-all" }}>
+                  <MediaIDField source="media_id" />
+                </Box>
+              )}
+              tertiaryText={() => <DeleteButton mutationMode="pessimistic" redirect={false} />}
+              linkType={false}
+            />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
               <MediaIDField source="media_id" />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </Datagrid>
-          </ReferenceManyField>
-        </Tab>
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
 
-        <Tab label="synapseadmin.rooms.tabs.permission" icon={<VisibilityIcon />} path="permission">
-          <BooleanField source="federatable" />
-          <BooleanField source="public" />
-          <SelectField
-            source="join_rules"
-            choices={[
-              { id: "public", name: "resources.rooms.enums.join_rules.public" },
-              { id: "knock", name: "resources.rooms.enums.join_rules.knock" },
-              { id: "invite", name: "resources.rooms.enums.join_rules.invite" },
-              {
-                id: "private",
-                name: "resources.rooms.enums.join_rules.private",
-              },
-            ]}
-          />
-          <SelectField
-            source="guest_access"
-            choices={[
-              {
-                id: "can_join",
-                name: "resources.rooms.enums.guest_access.can_join",
-              },
-              {
-                id: "forbidden",
-                name: "resources.rooms.enums.guest_access.forbidden",
-              },
-            ]}
-          />
-          <SelectField
-            source="history_visibility"
-            choices={[
-              {
-                id: "invited",
-                name: "resources.rooms.enums.history_visibility.invited",
-              },
-              {
-                id: "joined",
-                name: "resources.rooms.enums.history_visibility.joined",
-              },
-              {
-                id: "shared",
-                name: "resources.rooms.enums.history_visibility.shared",
-              },
-              {
-                id: "world_readable",
-                name: "resources.rooms.enums.history_visibility.world_readable",
-              },
-            ]}
-          />
-        </Tab>
-
-        <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
-          <ReferenceManyField
-            reference="room_state"
-            target="room_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
+      <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
+        <ReferenceManyField
+          reference="room_state"
+          target="room_id"
+          label={false}
+          pagination={<Pagination />}
+          perPage={10}
+        >
+          {isSmall ? (
+            <SimpleList
+              primaryText={record => record.type}
+              secondaryText={record => (
+                <>
+                  {record.origin_server_ts && new Date(record.origin_server_ts).toLocaleString(locale)}
+                  {record.sender && (
+                    <>
+                      <br />
+                      <Box component="span" sx={{ wordBreak: "break-all" }}>
+                        {record.sender}
+                      </Box>
+                    </>
+                  )}
+                  <Box
+                    component="pre"
+                    sx={{
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-all",
+                      m: 0,
+                      mt: 0.5,
+                      p: 1,
+                      fontSize: "0.75rem",
+                      bgcolor: "action.hover",
+                      borderRadius: 1,
+                      overflow: "auto",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {JSON.stringify(record.content, null, 2)}
+                  </Box>
+                </>
+              )}
+              linkType={false}
+            />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
               <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <FunctionField
@@ -497,37 +692,82 @@ export const RoomShow = (props: ShowProps) => {
                 render={record => `${JSON.stringify(record.content, null, 2)}`}
               />
               <ReferenceField source="sender" reference="users" sortable={false}>
-                <RaTextField source="id" />
+                <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
               </ReferenceField>
-            </Datagrid>
-          </ReferenceManyField>
-        </Tab>
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
 
-        <Tab label="resources.forward_extremities.name" icon={<FastForwardIcon />} path="forward_extremities">
-          <Box
-            sx={{
-              fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-              margin: "0.5em",
-            }}
-          >
-            {translate("resources.rooms.helper.forward_extremities")}
-          </Box>
-          <ReferenceManyField
-            reference="forward_extremities"
-            target="room_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
-            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false}>
-              <RaTextField source="id" sortable={false} />
+      <Tab label="ketesa.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
+        <RoomMessages />
+      </Tab>
+
+      {isSpace && (
+        <Tab label="ketesa.rooms.tabs.hierarchy" icon={<AccountTreeIcon />} path="hierarchy">
+          <RoomHierarchy />
+        </Tab>
+      )}
+
+      <Tab label="resources.forward_extremities.name" icon={<FastForwardIcon />} path="forward_extremities">
+        <Box
+          sx={{
+            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+            margin: "0.5em",
+          }}
+        >
+          {translate("resources.rooms.helper.forward_extremities")}
+        </Box>
+        <ReferenceManyField
+          reference="forward_extremities"
+          target="room_id"
+          label={false}
+          pagination={<Pagination />}
+          perPage={10}
+        >
+          {isSmall ? (
+            <SimpleList
+              primaryText={record => (
+                <Box component="span" sx={{ wordBreak: "break-all" }}>
+                  {record.id}
+                </Box>
+              )}
+              secondaryText={record => (
+                <>
+                  {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
+                  {record.state_group && (
+                    <>
+                      {" "}
+                      · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}
+                    </>
+                  )}
+                </>
+              )}
+              linkType={false}
+            />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
+              <RaTextField source="id" sortable={false} sx={{ wordBreak: "break-all" }} />
               <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <NumberField source="depth" sortable={false} />
               <RaTextField source="state_group" sortable={false} />
-            </Datagrid>
-          </ReferenceManyField>
-        </Tab>
-      </TabbedShowLayout>
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
+    </TabbedShowLayout>
+  );
+};
+
+export const RoomShow = (props: ShowProps) => {
+  return (
+    <Show
+      {...props}
+      actions={<RoomShowActions />}
+      title={<RoomTitle />}
+      sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
+    >
+      <RoomShowLayout />
     </Show>
   );
 };
@@ -550,25 +790,31 @@ export const RoomBulkActionButtons = () => {
 };
 
 const roomFilters = [
-  <SearchInput source="search_term" alwaysOn />,
-  <NullableBooleanInput source="public_rooms" label="resources.rooms.filter.public_rooms" alwaysOn />,
-  <NullableBooleanInput source="empty_rooms" label="resources.rooms.filter.empty_rooms" alwaysOn />,
+  <SearchInput key="search_term" source="search_term" alwaysOn />,
+  <NullableBooleanInput key="public_rooms" source="public_rooms" label="resources.rooms.filter.public_rooms" />,
+  <NullableBooleanInput key="empty_rooms" source="empty_rooms" label="resources.rooms.filter.empty_rooms" />,
 ];
 
-const RoomListActions = () => (
-  <TopToolbar>
-    <RaButton component={Link} to="/database_room_statistics" label="resources.database_room_statistics.name">
-      <StorageIcon />
-    </RaButton>
-    <BlockRoomByIdButton />
-    <SelectColumnsButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const RoomListActions = () => {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <TopToolbar>
+      <RaButton component={Link} to="/database_room_statistics" label="resources.database_room_statistics.name">
+        <StorageIcon />
+      </RaButton>
+      <FilterButton />
+      <BlockRoomByIdButton />
+      {!isSmall && <SelectColumnsButton />}
+      <ExportButton />
+    </TopToolbar>
+  );
+};
 
 export const RoomList = (props: ListProps) => {
   const theme = useTheme();
   const translate = useTranslate();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.rooms.name", { smart_count: 2 }));
 
   return (
@@ -579,58 +825,98 @@ export const RoomList = (props: ListProps) => {
       filters={roomFilters}
       actions={<RoomListActions />}
       perPage={50}
+      empty={<EmptyState />}
     >
-      <DatagridConfigurable
-        rowClick="show"
-        bulkActionButtons={<RoomBulkActionButtons />}
-        omit={["joined_local_members", "state_events", "version", "federatable", "join_rules"]}
-      >
-        <ReferenceField
-          reference="rooms"
-          source="id"
-          label="resources.users.fields.avatar"
-          link={false}
-          sortable={false}
-        >
-          <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
-        </ReferenceField>
-        <RaTextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
-        <WrapperField source="encryption" sortBy="encryption" label="resources.rooms.fields.encryption">
-          <BooleanField
-            source="is_encrypted"
-            sortBy="encryption"
-            TrueIcon={HttpsIcon}
-            FalseIcon={NoEncryptionIcon}
-            label={<HttpsIcon />}
-            sx={{
-              [`& [data-testid="true"]`]: { color: theme.palette.success.main },
-              [`& [data-testid="false"]`]: { color: theme.palette.error.main },
-            }}
-          />
-        </WrapperField>
-        <FunctionField
-          source="name"
-          sx={{
-            wordBreak: "break-word",
-            overflowWrap: "break-word",
-          }}
-          render={record => record["name"] || record["canonical_alias"] || record["id"]}
-          label="resources.rooms.fields.name"
+      {isSmall ? (
+        <SimpleList
+          primaryText={record => (
+            <Box component="span" sx={{ wordBreak: "break-all" }}>
+              {record.name || record.canonical_alias || record.id}
+            </Box>
+          )}
+          secondaryText={record => (
+            <>
+              {translate("resources.rooms.fields.joined_members")}: {record.joined_members ?? 0}
+              {record.creator && (
+                <>
+                  <br />
+                  <Box component="span" sx={{ wordBreak: "break-all" }}>
+                    {translate("resources.rooms.fields.creator")}: {record.creator}
+                  </Box>
+                </>
+              )}
+            </>
+          )}
+          tertiaryText={record => (
+            <Box sx={{ display: "flex", gap: 0.5 }}>
+              {record.is_encrypted ? (
+                <Tooltip title={translate("resources.rooms.fields.encryption")}>
+                  <HttpsIcon fontSize="small" sx={{ color: theme.palette.success.main }} />
+                </Tooltip>
+              ) : (
+                <Tooltip title={translate("resources.rooms.fields.encryption")}>
+                  <NoEncryptionIcon fontSize="small" sx={{ color: theme.palette.error.main }} />
+                </Tooltip>
+              )}
+            </Box>
+          )}
+          linkType="show"
+          leftIcon={record => (
+            <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+          )}
         />
-        <RaTextField source="joined_members" label="resources.rooms.fields.joined_members" />
-        <RaTextField source="joined_local_members" label="resources.rooms.fields.joined_local_members" />
-        <RaTextField source="state_events" label="resources.rooms.fields.state_events" />
-        <RaTextField source="version" label="resources.rooms.fields.version" />
-        <RaTextField source="join_rules" label="resources.rooms.fields.join_rules" />
-        <ReferenceField source="creator" reference="users">
-          <RaTextField source="id" label="resources.rooms.fields.creator" />
-        </ReferenceField>
-        <BooleanField source="federatable" label="resources.rooms.fields.federatable" />
-        <BooleanField source="public" label="resources.rooms.fields.public" />
-        <WrapperField label="resources.rooms.fields.actions">
-          <MakeAdminBtn />
-        </WrapperField>
-      </DatagridConfigurable>
+      ) : (
+        <DatagridConfigurable
+          rowClick="show"
+          bulkActionButtons={<RoomBulkActionButtons />}
+          omit={["joined_local_members", "state_events", "version", "federatable", "join_rules"]}
+        >
+          <ReferenceField
+            reference="rooms"
+            source="id"
+            label="resources.users.fields.avatar"
+            link={false}
+            sortable={false}
+          >
+            <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
+          </ReferenceField>
+          <RaTextField source="id" label="resources.rooms.fields.room_id" sortable={false} />
+          <WrapperField source="encryption" sortBy="encryption" label="resources.rooms.fields.encryption">
+            <BooleanField
+              source="is_encrypted"
+              sortBy="encryption"
+              TrueIcon={HttpsIcon}
+              FalseIcon={NoEncryptionIcon}
+              label={<HttpsIcon />}
+              sx={{
+                [`& [data-testid="true"]`]: { color: theme.palette.success.main },
+                [`& [data-testid="false"]`]: { color: theme.palette.error.main },
+              }}
+            />
+          </WrapperField>
+          <FunctionField
+            source="name"
+            sx={{
+              wordBreak: "break-all",
+            }}
+            render={record => record["name"] || record["canonical_alias"] || record["id"]}
+            label="resources.rooms.fields.name"
+          />
+          <RaTextField source="joined_members" label="resources.rooms.fields.joined_members" />
+          <RaTextField source="joined_local_members" label="resources.rooms.fields.joined_local_members" />
+          <RaTextField source="state_events" label="resources.rooms.fields.state_events" />
+          <RaTextField source="version" label="resources.rooms.fields.version" />
+          <RaTextField source="join_rules" label="resources.rooms.fields.join_rules" />
+          <ReferenceField source="creator" reference="users">
+            <RaTextField source="id" label="resources.rooms.fields.creator" sx={{ wordBreak: "break-all" }} />
+          </ReferenceField>
+          <BooleanField source="federatable" label="resources.rooms.fields.federatable" />
+          <BooleanField source="public" label="resources.rooms.fields.public" />
+          <WrapperField label="resources.rooms.fields.actions">
+            <MakeAdminBtn />
+          </WrapperField>
+        </DatagridConfigurable>
+      )}
     </List>
   );
 };

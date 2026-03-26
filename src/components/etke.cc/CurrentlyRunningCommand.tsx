@@ -14,13 +14,12 @@ const CurrentlyRunningCommand = () => {
     locked_at: "",
     maintenance: false,
   });
+  const icfg = useInstanceConfig();
   const { command, locked_at, maintenance } = serverProcess;
 
   if (!command || !locked_at || maintenance) {
     return null;
   }
-
-  const icfg = useInstanceConfig();
   const { timeI18Nkey, timeI18Nparams } = getTimeSince(locked_at);
   const timeSince = translate(timeI18Nkey, timeI18Nparams);
   return (

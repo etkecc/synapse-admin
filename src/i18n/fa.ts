@@ -1,6 +1,8 @@
-import farsiMessages from "ra-language-farsi";
+import _farsiMessages from "ra-language-farsi";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const farsiMessages = ("default" in _farsiMessages ? _farsiMessages.default : _farsiMessages) as typeof _farsiMessages;
 
 const fixedFarsiMessages = {
   ...farsiMessages,
@@ -36,7 +38,7 @@ const fixedFarsiMessages = {
 
 const fa: SynapseTranslationMessages = {
   ...fixedFarsiMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "آدرس سرور",
       welcome: "به پنل مدیریت سیناپس خوش آمدید، %{name}",
@@ -59,6 +61,7 @@ const fa: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "بخش محلی یک شناسه کاربری ماتریکس بدون سرور خانگی.",
       tabs: { sso: "SSO", experimental: "تجربی", limits: "محدودیت ها", account_data: "داده های کاربر" },
+      danger_zone: "منطقه خطرناک",
     },
     rooms: {
       details: "جزئیات اتاق",
@@ -68,9 +71,17 @@ const fa: SynapseTranslationMessages = {
         detail: "جزئیات",
         permission: "مجوزها",
         media: "رسانه ها",
+        messages: "پیام‌ها",
+        hierarchy: "سلسله‌مراتب",
       },
     },
     reports: { tabs: { basic: "اصلی", detail: "جزئیات" } },
+    admin_config: {
+      soft_failed_events: "رویدادهای شکست نرم",
+      spam_flagged_events: "رویدادهای علامت‌گذاری‌شده به‌عنوان هرزنامه",
+      success: "تنظیمات مدیر به‌روزرسانی شد",
+      failure: "به‌روزرسانی تنظیمات مدیر ناموفق بود",
+    },
   },
   import_users: {
     error: {
@@ -142,7 +153,8 @@ const fa: SynapseTranslationMessages = {
     },
     action: {
       send: "حذف رسانه ها",
-      send_success: "درخواست با موفقیت ارسال شد.",
+      send_success: "%{smart_count} فایل رسانه‌ای با موفقیت حذف شد.",
+      send_success_none: "هیچ فایل رسانه‌ای با معیارهای مشخص شده مطابقت نداشت. چیزی حذف نشد.",
       send_failure: "خطایی رخ داده است.",
     },
     helper: {
@@ -156,7 +168,8 @@ const fa: SynapseTranslationMessages = {
     },
     action: {
       send: "پاک کردن رسانه‌های از راه دور",
-      send_success: "درخواست پاک کردن رسانه‌های از راه دور ارسال شد.",
+      send_success: "%{smart_count} فایل رسانه‌ای از راه دور با موفقیت پاک شد.",
+      send_success_none: "هیچ فایل رسانه‌ای از راه دور با معیارهای مشخص شده مطابقت نداشت. چیزی پاک نشد.",
       send_failure: "درخواست برای پاک کردن رسانه‌های از راه دور با خطا مواجه شد.",
     },
     helper: {
@@ -183,6 +196,16 @@ const fa: SynapseTranslationMessages = {
         show_guests: "نمایش مهمانان",
         show_deactivated: "فقط غیرفعال‌شده‌ها",
         show_locked: "نمایش کاربران قفل شده",
+        filter_user_all: "همه",
+        filter_deactivated_false: "فعال",
+        filter_deactivated_true: "غیرفعال",
+        filter_locked_false: "حذف قفل‌شده‌ها",
+        filter_locked_true: "شامل قفل‌شده‌ها",
+        filter_guests_false: "حذف مهمانان",
+        filter_guests_true: "شامل مهمانان",
+        show_system_users: "نمایش کاربران سیستمی",
+        filter_system_users_false: "حذف کاربران سیستمی",
+        filter_system_users_true: "فقط کاربران سیستمی",
         show_suspended: "نمایش کاربران معلق",
         show_shadow_banned: "نمایش کاربران مسدود پنهان",
         user_id: "جستجوی کاربر",
@@ -195,6 +218,8 @@ const fa: SynapseTranslationMessages = {
         address: "آدرس",
         creation_ts_ms: "ساخته شده در",
         consent_version: "Consent نسخه",
+        sent_invite_count: "دعوت‌های ارسال شده",
+        cumulative_joined_room_count: "تعداد کل اتاق‌های پیوسته",
         auth_provider: "ارائه دهنده",
         user_type: "نوع کاربر",
         erased: "پاک‌شده (GDPR)",
@@ -215,6 +240,9 @@ const fa: SynapseTranslationMessages = {
         erase_admin_error: "حذف المستخدم الخاص غير مسموح به.",
         modify_managed_user_error: "لا يُسمح بتغيير المستخدم الذي يديره النظام.",
         username_available: "نام کاربری موجود",
+        sent_invite_count: "تعداد کل دعوت‌های ارسال شده توسط این کاربر در تمام اتاق‌ها.",
+        cumulative_joined_room_count:
+          "تعداد کل اتاق‌هایی که این کاربر تاکنون به آن‌ها پیوسته، شامل اتاق‌هایی که ترک کرده یا از آن‌ها محروم شده است.",
       },
       badge: {
         you: "شما",
@@ -229,7 +257,12 @@ const fa: SynapseTranslationMessages = {
         erase: "پاک کردن اطلاعات کاربر",
         erase_avatar: "محو الصورة الرمزية",
         delete_media: "حذف جميع الوسائط التي تم تحميلها بواسطة المستخدم (المستخدمين)",
-        redact_events: "تنقيح جميع الأحداث المرسلة من قبل المستخدم (-s)",
+        redact_events: "ویرایش حذفی تمام رویدادهای ارسال‌شده توسط کاربر(ها)",
+        redact_in_progress: "حذف رویدادها در حال انجام\u2026",
+        redact_background_note:
+          "می‌توانید این پنجره را با خیال راحت ببندید، حذف رویدادها در پس‌زمینه ادامه خواهد یافت.",
+        redact_success: "تمام رویدادها با موفقیت حذف شدند.",
+        redact_failure: "حذف با %{smart_count} رویداد ناموفق به پایان رسید.",
         generate_password: "توليد رمز عبور",
         reset_password: {
           label: "بازنشانی رمز عبور",
@@ -258,6 +291,48 @@ const fa: SynapseTranslationMessages = {
           "این نام کاربری قبلا استفاده شده است. آیا مطمئن هستید که می خواهید کاربر موجود را بازنویسی کنید؟",
         overwrite_cancel: "انصراف",
         overwrite_confirm: "بازنویسی",
+        quarantine_all: {
+          label: "قرنطینه تمام رسانه‌ها",
+          title: "قرنطینه تمام رسانه‌های %{userName}",
+          content:
+            "تمام رسانه‌های محلی آپلود شده توسط این کاربر قرنطینه خواهند شد. رسانه‌های قرنطینه شده دیگر برای سایر کاربران قابل دسترسی نخواهند بود.",
+          success: "%{smart_count} مورد رسانه با موفقیت قرنطینه شد.",
+          failure: "قرنطینه رسانه‌ها با شکست مواجه شد. %{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "اجازه بازنشانی امضای متقاطع",
+          title: "اجازه جایگزینی کلید امضای متقاطع",
+          content:
+            "آیا به %{user} اجازه داده شود کلیدهای امضای متقاطع خود را بدون احراز هویت تعاملی کاربر جایگزین کند؟ این یک پنجره موقت ایجاد می‌کند که در آن کلیدها می‌توانند جایگزین شوند.",
+          success: "جایگزینی کلید امضای متقاطع تا %{deadline} مجاز است",
+          failure: "اجازه جایگزینی امضای متقاطع ناموفق بود",
+          no_key: "کاربر کلید اصلی امضای متقاطع ندارد",
+        },
+        find_user: {
+          label: "جستجوی کاربر",
+          title: "جستجوی کاربر",
+          lookup_type: "نوع جستجو",
+          by_threepid: "با ایمیل / تلفن",
+          by_auth_provider: "با ارائه‌دهنده احراز هویت",
+          provider: "شناسه ارائه‌دهنده احراز هویت",
+          external_id: "شناسه خارجی",
+          search: "جستجو",
+          not_found: "کاربر یافت نشد",
+          failure: "جستجوی کاربر ناموفق بود",
+        },
+        renew_account: {
+          label: "تمدید حساب",
+          title: "تمدید اعتبار حساب",
+          content:
+            "اعتبار حساب %{user} را تمدید کنید. می‌توانید به صورت اختیاری یک تاریخ انقضای سفارشی تعیین کنید. اگر خالی بماند، دوره تمدید پیش‌فرض سرور استفاده خواهد شد.",
+          expiration: "تاریخ انقضا",
+          expiration_helper: "برای استفاده از دوره تمدید پیش‌فرض سرور، خالی بگذارید",
+          renewal_emails: "ارسال ایمیل‌های اطلاع‌رسانی تمدید",
+          success: "اعتبار حساب تا %{date} تمدید شد",
+          failure: "تمدید اعتبار حساب ناموفق بود",
+        },
+        system_users_scan_in_progress:
+          "لطفاً صبر کنید — هنوز در حال جستجوی کاربران مطابق هستیم، صفحه به زودی بارگذاری می‌شود",
       },
       limits: {
         messages_per_second: "پیام در ثانیه",
@@ -329,6 +404,8 @@ const fa: SynapseTranslationMessages = {
           fields: {
             block: "حذف",
           },
+          in_progress: "حذف در حال انجام…",
+          background_note: "می‌توانید این پنجره را ببندید، حذف در پس‌زمینه ادامه خواهد یافت.",
           success: "اتاق با موفقیت حذف شد.",
           failure: "خطایی رخ داده است.",
         },
@@ -366,6 +443,67 @@ const fa: SynapseTranslationMessages = {
           success: "رفع مسدودیت اتاق با موفقیت انجام شد. |||| رفع مسدودیت اتاق‌ها با موفقیت انجام شد.",
           failure: "رفع مسدودیت اتاق ناموفق بود. |||| رفع مسدودیت اتاق‌ها ناموفق بود.",
         },
+        purge_history: {
+          label: "پاکسازی تاریخچه",
+          title: "پاکسازی تاریخچه %{roomName}",
+          content:
+            "تمام رویدادهای قبل از تاریخ انتخاب شده از پایگاه داده حذف خواهند شد. وضعیت اتاق (پیوستن، ترک، موضوع) همیشه حفظ می‌شود. حداقل یک پیام همیشه باقی می‌ماند.\nتوجه: این عملیات ممکن است برای اتاق‌های بزرگ چند دقیقه طول بکشد.",
+          date_label: "پاکسازی رویدادهای قبل از",
+          delete_local: "همچنین رویدادهای ارسال شده توسط کاربران محلی را حذف کنید",
+          in_progress: "پاکسازی در حال انجام…",
+          background_note: "می‌توانید این پنجره را با خیال راحت ببندید، پاکسازی در پس‌زمینه ادامه خواهد یافت.",
+          success: "تاریخچه اتاق با موفقیت پاکسازی شد.",
+          failure: "پاکسازی تاریخچه اتاق ناموفق بود. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "قرنطینه تمام رسانه‌ها",
+          title: "قرنطینه تمام رسانه‌های %{roomName}",
+          content:
+            "تمام رسانه‌های محلی و راه دور در این اتاق قرنطینه خواهند شد. رسانه‌های قرنطینه شده دیگر برای کاربران قابل دسترسی نخواهند بود.",
+          success: "%{smart_count} مورد رسانه با موفقیت قرنطینه شد.",
+          failure: "قرنطینه رسانه‌ها با شکست مواجه شد. %{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "پرش به تاریخ",
+          direction: "جهت",
+          forward: "به جلو",
+          backward: "به عقب",
+          target_event: "رویداد هدف",
+          events_before: "رویدادهای قبل",
+          events_after: "رویدادهای بعد",
+          not_found: "هیچ رویدادی در زمان مشخص شده یافت نشد",
+          failure: "بازیابی زمینه رویداد ناموفق بود",
+        },
+        messages: {
+          load_older: "بارگذاری قدیمی‌تر",
+          load_newer: "بارگذاری جدیدتر",
+          no_messages: "هیچ پیامی در این اتاق وجود ندارد",
+          failure: "بارگذاری پیام‌ها ناموفق بود",
+          filter: "فیلترها",
+          filter_type: "انواع رویداد",
+          filter_sender: "فرستندگان",
+          advanced_filters: "فیلترهای پیشرفته",
+          filter_not_type: "حذف انواع رویداد",
+          filter_not_sender: "حذف فرستندگان",
+          contains_url: "دارای URL",
+          any: "هر",
+          with_url: "فقط با URL",
+          without_url: "فقط بدون URL",
+          apply_filter: "اعمال",
+          clear_filters: "پاک کردن",
+        },
+        hierarchy: {
+          load_more: "بارگذاری بیشتر",
+          max_depth: "حداکثر عمق",
+          unlimited: "نامحدود",
+          refresh: "بازنشانی",
+          members: "%{count} عضو",
+          space: "فضا",
+          room: "اتاق",
+          suggested: "پیشنهادی",
+          no_children: "این اتاق هیچ سلسله‌مراتبی ندارد",
+          failure: "بارگذاری سلسله‌مراتب ناموفق بود",
+        },
       },
     },
     reports: {
@@ -378,28 +516,39 @@ const fa: SynapseTranslationMessages = {
         score: "نمره",
         reason: "دلیل",
         event_id: "شناسه رویداد",
-        event_json: {
-          origin: "سرور مبدا",
-          origin_server_ts: "زمان ارسال",
-          type: "نوع رویداد",
-          content: {
-            msgtype: "نوع محتوا",
-            body: "محتوا",
-            format: "قالب",
-            formatted_body: "محتوای قالب بندی شده",
-            algorithm: "الگوریتم",
-            url: "نشانی",
-            info: {
-              mimetype: "نوع",
-            },
-          },
-        },
+        sender: "فرستنده",
       },
       action: {
         erase: {
           title: "حذف رویداد گزارش‌شده",
           content: "آیا مطمئن هستید که می‌خواهید رویداد گزارش‌شده را حذف کنید؟ این کار قابل بازگشت نیست.",
         },
+        event_lookup: {
+          label: "جستجوی رویداد",
+          title: "دریافت رویداد با شناسه",
+          fetch: "دریافت",
+        },
+        fetch_event_error: "دریافت رویداد با خطا مواجه شد",
+      },
+    },
+    scheduled_tasks: {
+      name: "وظیفه زمان‌بندی‌شده |||| وظایف زمان‌بندی‌شده",
+      fields: {
+        id: "ID",
+        action: "عملیات",
+        status: "وضعیت",
+        timestamp: "زمان‌سنج",
+        resource_id: "شناسه منبع",
+        result: "نتیجه",
+        error: "خطا",
+        max_timestamp: "قبل از تاریخ",
+      },
+      status: {
+        scheduled: "زمان‌بندی‌شده",
+        active: "فعال",
+        complete: "تکمیل‌شده",
+        cancelled: "لغوشده",
+        failed: "ناموفق",
       },
     },
     connections: {
@@ -430,6 +579,16 @@ const fa: SynapseTranslationMessages = {
           success: "دستگاه با موفقیت حذف شد.",
           failure: "خطایی رخ داده است.",
         },
+        display_name: {
+          success: "نام دستگاه به‌روزرسانی شد",
+          failure: "به‌روزرسانی نام دستگاه ناموفق بود",
+        },
+        create: {
+          label: "ایجاد دستگاه",
+          title: "ایجاد دستگاه جدید",
+          success: "دستگاه ایجاد شد",
+          failure: "ایجاد دستگاه ناموفق بود",
+        },
       },
     },
     users_media: {
@@ -450,8 +609,8 @@ const fa: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "محافظت نشده، حفاظت ایجاد کنید",
-        delete: "محافظت شده، حفاظت را بردارید",
+        create: "محافظت",
+        delete: "لغو محافظت",
         none: "در قرنطینه",
         send_success: "وضعیت حفاظت با موفقیت تغییر کرد.",
         send_failure: "خطایی رخ داده است.",
@@ -460,9 +619,9 @@ const fa: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "قرنطینه",
-        create: "به قرنطینه اضافه کنید",
-        delete: "در قرنطینه، غیر قرنطینه",
-        none: "از قرنطینه محافظت می شود",
+        create: "قرنطینه",
+        delete: "رفع قرنطینه",
+        none: "محافظت شده",
         send_success: "وضعیت قرنطینه با موفقیت تغییر کرد.",
         send_failure: "خطایی رخ داده است: %{error}",
       },
@@ -578,8 +737,21 @@ const fa: SynapseTranslationMessages = {
         completed: "تکمیل شد",
         expiry_time: "زمان انقضا",
         length: "طول",
+        created_at: "تاریخ ایجاد",
+        last_used_at: "آخرین استفاده",
+        revoked_at: "تاریخ ابطال",
       },
       helper: { length: "طول توکن در صورت عدم ارائه توکن." },
+      action: {
+        revoke: {
+          label: "ابطال",
+          success: "توکن ابطال شد",
+        },
+        unrevoke: {
+          label: "بازگردانی",
+          success: "توکن بازگردانی شد",
+        },
+      },
     },
   },
   etkecc: {

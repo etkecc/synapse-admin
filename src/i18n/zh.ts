@@ -1,6 +1,10 @@
-import chineseMessages from "@haxqer/ra-language-chinese";
+import _chineseMessages from "@haxqer/ra-language-chinese";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const chineseMessages = (
+  "default" in _chineseMessages ? _chineseMessages.default : _chineseMessages
+) as typeof _chineseMessages;
 
 const fixedChineseMessages = {
   ...chineseMessages,
@@ -63,7 +67,7 @@ const zh: SynapseTranslationMessages = {
       unique: "必须唯一",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "服务器 URL",
       welcome: "欢迎来到 %{name}",
@@ -85,6 +89,7 @@ const zh: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "必须要是一个有效的 Matrix 用户 ID ，例如 @user_id:homeserver",
       tabs: { sso: "SSO", experimental: "实验性", limits: "限制", account_data: "账户数据" },
+      danger_zone: "危险区域",
     },
     rooms: {
       details: "房间详情",
@@ -94,9 +99,17 @@ const zh: SynapseTranslationMessages = {
         detail: "细节",
         permission: "权限",
         media: "媒体",
+        messages: "消息",
+        hierarchy: "层级结构",
       },
     },
     reports: { tabs: { basic: "基本", detail: "细节" } },
+    admin_config: {
+      soft_failed_events: "软失败事件",
+      spam_flagged_events: "被标记为垃圾邮件的事件",
+      success: "管理员配置已更新",
+      failure: "更新管理员配置失败",
+    },
   },
   import_users: {
     error: {
@@ -168,7 +181,8 @@ const zh: SynapseTranslationMessages = {
     },
     action: {
       send: "删除媒体",
-      send_success: "请求发送成功。",
+      send_success: "成功删除了 %{smart_count} 个媒体文件。",
+      send_success_none: "没有符合指定条件的媒体文件。未删除任何内容。",
       send_failure: "出现了一个错误。",
     },
     helper: {
@@ -182,7 +196,8 @@ const zh: SynapseTranslationMessages = {
     },
     action: {
       send: "清除远程媒体",
-      send_success: "远程媒体清除请求已发送。",
+      send_success: "成功清除了 %{smart_count} 个远程媒体文件。",
+      send_success_none: "没有符合指定条件的远程媒体文件。未清除任何内容。",
       send_failure: "发生错误，远程媒体清除请求未成功。",
     },
     helper: {
@@ -209,6 +224,16 @@ const zh: SynapseTranslationMessages = {
         show_guests: "显示访客",
         show_deactivated: "仅显示已禁用",
         show_locked: "显示被锁定的账户",
+        filter_user_all: "全部",
+        filter_deactivated_false: "活跃",
+        filter_deactivated_true: "已停用",
+        filter_locked_false: "排除锁定",
+        filter_locked_true: "包含锁定",
+        filter_guests_false: "排除访客",
+        filter_guests_true: "包含访客",
+        show_system_users: "显示系统用户",
+        filter_system_users_false: "排除系统用户",
+        filter_system_users_true: "仅系统用户",
         show_suspended: "显示被锁定的账户",
         show_shadow_banned: "显示被影子封禁的用户",
         user_id: "搜索用户",
@@ -221,6 +246,8 @@ const zh: SynapseTranslationMessages = {
         address: "地址",
         creation_ts_ms: "创建时间戳",
         consent_version: "协议版本",
+        sent_invite_count: "已发送邀请数",
+        cumulative_joined_room_count: "累计加入房间数",
         auth_provider: "身份提供方",
         user_type: "用户类型",
         erased: "已抹除（GDPR）",
@@ -240,6 +267,8 @@ const zh: SynapseTranslationMessages = {
         erase_admin_error: "不允许删除自己的用户",
         modify_managed_user_error: "不允许修改系统管理的用户。",
         username_available: "用户名可用",
+        sent_invite_count: "该用户在所有房间中发送的邀请总数。",
+        cumulative_joined_room_count: "该用户曾经加入过的房间总数，包括已离开或被封禁的房间。",
       },
       badge: {
         you: "您",
@@ -254,7 +283,11 @@ const zh: SynapseTranslationMessages = {
         erase: "抹除用户信息",
         erase_avatar: "抹掉头像",
         delete_media: "删除用户上传的所有媒体",
-        redact_events: "重新编辑用户（-s）发送的所有事件",
+        redact_events: "编辑删除用户发送的所有事件",
+        redact_in_progress: "事件删除进行中\u2026",
+        redact_background_note: "您可以安全地关闭此窗口，删除操作将在后台继续进行。",
+        redact_success: "所有事件已成功删除。",
+        redact_failure: "删除完成，但有 %{smart_count} 个事件删除失败。",
         generate_password: "生成密码",
         reset_password: {
           label: "重置密码",
@@ -282,6 +315,45 @@ const zh: SynapseTranslationMessages = {
         overwrite_content: "这个用户名已经被占用。您确定要覆盖现有的用户吗？",
         overwrite_cancel: "取消",
         overwrite_confirm: "覆盖",
+        quarantine_all: {
+          label: "隔离所有媒体",
+          title: "隔离 %{userName} 的所有媒体",
+          content: "这将隔离该用户上传的所有本地媒体。被隔离的媒体将无法被其他用户访问。",
+          success: "已成功隔离 %{smart_count} 个媒体项。",
+          failure: "隔离媒体失败。%{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "允许重置 Cross-Signing",
+          title: "允许替换 Cross-Signing 密钥",
+          content:
+            "允许 %{user} 在无需用户交互式认证的情况下替换其 Cross-Signing 密钥？这将创建一个临时窗口，在此期间密钥可以被替换。",
+          success: "Cross-Signing 密钥替换已允许至 %{deadline}",
+          failure: "允许 Cross-Signing 替换失败",
+          no_key: "用户没有主 Cross-Signing 密钥",
+        },
+        find_user: {
+          label: "查找用户",
+          title: "查找用户",
+          lookup_type: "查找类型",
+          by_threepid: "通过邮箱 / 电话",
+          by_auth_provider: "通过认证提供商",
+          provider: "认证提供商 ID",
+          external_id: "外部 ID",
+          search: "搜索",
+          not_found: "未找到用户",
+          failure: "查找用户失败",
+        },
+        renew_account: {
+          label: "续期账户",
+          title: "续期账户有效期",
+          content: "续期 %{user} 的账户有效期。可选择设置自定义到期日期。若留空，将使用服务器默认续期周期。",
+          expiration: "到期日期",
+          expiration_helper: "留空以使用服务器默认续期周期",
+          renewal_emails: "发送续期通知邮件",
+          success: "账户有效期已续期至 %{date}",
+          failure: "续期账户有效期失败",
+        },
+        system_users_scan_in_progress: "请稍候 — 仍在搜索匹配的用户，页面即将加载",
       },
       limits: {
         messages_per_second: "每秒消息数",
@@ -352,6 +424,8 @@ const zh: SynapseTranslationMessages = {
           fields: {
             block: "封禁并阻止用户加入房间",
           },
+          in_progress: "正在删除…",
+          background_note: "您可以安全地关闭此窗口，删除将在后台继续进行。",
           success: "房间删除成功。",
           failure: "房间无法删除。",
         },
@@ -386,6 +460,66 @@ const zh: SynapseTranslationMessages = {
           success: "房间解封成功。",
           failure: "解封房间失败。",
         },
+        purge_history: {
+          label: "清除历史",
+          title: "清除 %{roomName} 的历史",
+          content:
+            "所选日期之前的所有事件将从数据库中删除。房间状态（加入、离开、主题）始终保留。至少保留一条消息。\n注意：对于大型房间，此操作可能需要几分钟。",
+          date_label: "清除此日期之前的事件",
+          delete_local: "同时删除本地用户发送的事件",
+          in_progress: "清除进行中…",
+          background_note: "您可以安全地关闭此窗口，清除将在后台继续进行。",
+          success: "房间历史清除成功。",
+          failure: "清除房间历史失败。%{errMsg}",
+        },
+        quarantine_all: {
+          label: "隔离所有媒体",
+          title: "隔离 %{roomName} 中的所有媒体",
+          content: "这将隔离此房间中的所有本地和远程媒体。被隔离的媒体将无法被用户访问。",
+          success: "已成功隔离 %{smart_count} 个媒体项。",
+          failure: "隔离媒体失败。%{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "跳转到日期",
+          direction: "方向",
+          forward: "向前",
+          backward: "向后",
+          target_event: "目标事件",
+          events_before: "之前的事件",
+          events_after: "之后的事件",
+          not_found: "在指定时间未找到任何事件",
+          failure: "获取事件上下文失败",
+        },
+        messages: {
+          load_older: "加载更早的",
+          load_newer: "加载更新的",
+          no_messages: "此房间没有消息",
+          failure: "加载消息失败",
+          filter: "筛选",
+          filter_type: "事件类型",
+          filter_sender: "发送者",
+          advanced_filters: "高级筛选",
+          filter_not_type: "排除事件类型",
+          filter_not_sender: "排除发送者",
+          contains_url: "包含 URL",
+          any: "任意",
+          with_url: "仅含 URL",
+          without_url: "仅不含 URL",
+          apply_filter: "应用",
+          clear_filters: "清除",
+        },
+        hierarchy: {
+          load_more: "加载更多",
+          max_depth: "最大深度",
+          unlimited: "无限制",
+          refresh: "刷新",
+          members: "%{count} 名成员",
+          space: "空间",
+          room: "房间",
+          suggested: "推荐",
+          no_children: "此房间没有层级结构",
+          failure: "加载层级结构失败",
+        },
       },
     },
     reports: {
@@ -398,28 +532,39 @@ const zh: SynapseTranslationMessages = {
         score: "分数",
         reason: "原因",
         event_id: "事件 ID",
-        event_json: {
-          origin: "原始服务器",
-          origin_server_ts: "发送时间",
-          type: "事件类型",
-          content: {
-            msgtype: "内容类型",
-            body: "内容",
-            format: "格式",
-            formatted_body: "格式化的数据",
-            algorithm: "算法",
-            url: "URL",
-            info: {
-              mimetype: "类型",
-            },
-          },
-        },
+        sender: "发送者",
       },
       action: {
         erase: {
           title: "删除被举报事件",
           content: "确定要删除该被举报事件吗？此操作不可撤销。",
         },
+        event_lookup: {
+          label: "事件查询",
+          title: "按ID获取事件",
+          fetch: "获取",
+        },
+        fetch_event_error: "获取事件失败",
+      },
+    },
+    scheduled_tasks: {
+      name: "计划任务 |||| 计划任务",
+      fields: {
+        id: "ID",
+        action: "操作",
+        status: "状态",
+        timestamp: "时间戳",
+        resource_id: "资源 ID",
+        result: "结果",
+        error: "错误",
+        max_timestamp: "截止日期",
+      },
+      status: {
+        scheduled: "已计划",
+        active: "进行中",
+        complete: "已完成",
+        cancelled: "已取消",
+        failed: "已失败",
       },
     },
     connections: {
@@ -449,6 +594,16 @@ const zh: SynapseTranslationMessages = {
           success: "设备移除成功。",
           failure: "出现了一个错误。",
         },
+        display_name: {
+          success: "设备名称已更新",
+          failure: "更新设备名称失败",
+        },
+        create: {
+          label: "创建设备",
+          title: "创建新设备",
+          success: "设备已创建",
+          failure: "创建设备失败",
+        },
       },
     },
     users_media: {
@@ -469,8 +624,8 @@ const zh: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "未保护，创建保护",
-        delete: "已保护，移除保护",
+        create: "保护",
+        delete: "取消保护",
         none: "处于隔离中",
         send_success: "保护状态修改成功。",
         send_failure: "发生错误。",
@@ -479,9 +634,9 @@ const zh: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "隔离",
-        create: "加入隔离",
-        delete: "已隔离，解除隔离",
-        none: "已保护不被隔离",
+        create: "隔离",
+        delete: "解除隔离",
+        none: "已保护",
         send_success: "隔离状态修改成功。",
         send_failure: "发生错误：%{error}",
       },
@@ -596,8 +751,21 @@ const zh: SynapseTranslationMessages = {
         completed: "已完成",
         expiry_time: "过期时间",
         length: "长度",
+        created_at: "创建时间",
+        last_used_at: "最后使用时间",
+        revoked_at: "撤销时间",
       },
       helper: { length: "如果未提供令牌，则为生成令牌的长度。" },
+      action: {
+        revoke: {
+          label: "撤销",
+          success: "令牌已撤销",
+        },
+        unrevoke: {
+          label: "恢复",
+          success: "令牌已恢复",
+        },
+      },
     },
   },
   etkecc: {

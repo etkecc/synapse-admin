@@ -12,14 +12,19 @@ jest.mock("oidc-client-ts", () => {
 });
 
 jest.mock("./dataProvider", () => ({
-  initRegistrationTokens: jest.fn().mockResolvedValue(undefined),
+  initResources: jest.fn(),
+}));
+
+jest.mock("./mas", () => ({
+  ...jest.requireActual("./mas"),
+  detectAndSetMAS: jest.fn().mockResolvedValue(undefined),
 }));
 
 import fetchMock from "jest-fetch-mock";
 import { HttpError } from "ra-core";
 
 import authProvider from "./authProvider";
-import { initRegistrationTokens } from "./dataProvider";
+import { initResources } from "./dataProvider";
 import { UserManager } from "oidc-client-ts";
 
 fetchMock.enableMocks();
@@ -51,7 +56,7 @@ describe("authProvider", () => {
 
       expect(ret).toEqual({ redirectTo: "/" });
       expect(fetch).toHaveBeenCalledWith("http://example.com/_matrix/client/v3/login", {
-        body: '{"device_id":null,"initial_device_display_name":"Synapse Admin","type":"m.login.password","identifier":{"type":"m.id.user","user":"@user:example.com"},"password":"secret"}',
+        body: '{"device_id":null,"initial_device_display_name":"Ketesa","type":"m.login.password","identifier":{"type":"m.id.user","user":"@user:example.com"},"password":"secret"}',
         headers: new Headers({
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -84,7 +89,7 @@ describe("authProvider", () => {
 
     expect(ret).toEqual({ redirectTo: "/" });
     expect(fetch).toHaveBeenCalledWith("https://example.com/_matrix/client/v3/login", {
-      body: '{"device_id":null,"initial_device_display_name":"Synapse Admin","type":"m.login.token","token":"login_token"}',
+      body: '{"device_id":null,"initial_device_display_name":"Ketesa","type":"m.login.token","token":"login_token"}',
       headers: new Headers({
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -128,7 +133,7 @@ describe("authProvider", () => {
     expect(localStorage.getItem("refresh_token")).toBe("oidc_refresh_token");
     expect(localStorage.getItem("id_token")).toBe("oidc_id_token");
     expect(localStorage.getItem("login_type")).toBe("credentials");
-    expect(initRegistrationTokens).toHaveBeenCalledTimes(1);
+    expect(initResources).toHaveBeenCalledTimes(1);
     expect(result).toEqual({ redirectTo: "/" });
   });
 

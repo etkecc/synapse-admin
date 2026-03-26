@@ -10,7 +10,13 @@ jest.mock("./providers/authProvider", () => ({
   },
 }));
 
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import englishMessages from "./i18n/en";
+
 import App from "./App";
+
+const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
+
 describe("App", () => {
   beforeEach(() => {
     // Reset all mocks before each test
@@ -20,8 +26,8 @@ describe("App", () => {
   });
 
   it("renders", async () => {
-    render(<App />);
+    render(<App i18nProvider={i18nProvider} />);
 
-    await screen.findAllByText("Welcome to Synapse Admin");
+    await screen.findAllByText("Welcome to Ketesa");
   });
 });

@@ -1,5 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Alert, Box, Card, CardContent, CardHeader, Typography, Link } from "@mui/material";
+import { Alert, Box, Card, CardContent, CardHeader, TextField as MuiTextField, Typography, Link } from "@mui/material";
 import { useState, useEffect } from "react";
 import {
   Loading,
@@ -52,13 +52,14 @@ const ScheduledCommandShow = () => {
   return (
     <>
       <Title title={translate("etkecc.actions.scheduled_details_title")} />
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2, maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" }}>
         <Button
           label={translate("etkecc.actions.buttons.back")}
           onClick={() => navigate("/server_actions")}
-          startIcon={<ArrowBackIcon />}
           sx={{ mb: 2 }}
-        />
+        >
+          <ArrowBackIcon />
+        </Button>
 
         <RecordContextProvider value={command}>
           <Card>
@@ -69,7 +70,11 @@ const ScheduledCommandShow = () => {
                   <Alert severity="info">
                     <Typography variant="body1" sx={{ px: 2 }}>
                       {translate("etkecc.actions.command_details_intro")}{" "}
-                      <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                      <Link
+                        href={`https://etke.cc/help/extras/scheduler/#${command.command}`}
+                        target="_blank"
+                        sx={{ wordBreak: "break-all" }}
+                      >
                         {`etke.cc/help/extras/scheduler/#${command.command}`}
                       </Link>
                       .
@@ -78,7 +83,14 @@ const ScheduledCommandShow = () => {
                 </EtkeAttribution>
               )}
               <SimpleShowLayout>
-                <TextField source="id" label={translate("etkecc.actions.form.id")} />
+                <MuiTextField
+                  value={command.id}
+                  label={translate("etkecc.actions.form.id")}
+                  disabled
+                  fullWidth
+                  variant="filled"
+                  size="small"
+                />
                 <TextField source="command" label={translate("etkecc.actions.form.command")} />
                 {command.args && <TextField source="args" label={translate("etkecc.actions.table.arguments")} />}
                 <BooleanField source="is_recurring" label={translate("etkecc.actions.table.is_recurring")} />

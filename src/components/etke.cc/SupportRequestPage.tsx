@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import DOMPurify from "dompurify";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Title, useDataProvider, useLocale, useNotify, useStore, useTranslate } from "react-admin";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -62,20 +62,21 @@ const MessageRow = ({
         borderLeftColor: !isCustomer ? "primary.main" : undefined,
       }}
     >
-      <Stack direction="row">
+      <Stack direction={{ xs: "column", sm: "row" }}>
         <Box
           onClick={mxid ? () => navigate(`/users/${encodeURIComponent(mxid)}`) : undefined}
           sx={{
-            width: 150,
+            width: { xs: "100%", sm: 150 },
             flexShrink: 0,
             p: 1.5,
-            borderRight: "1px solid",
+            borderRight: { xs: "none", sm: "1px solid" },
+            borderBottom: { xs: "1px solid", sm: "none" },
             borderColor: "action.selected",
             bgcolor: "background.default",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: { xs: "row", sm: "column" },
             alignItems: "center",
-            gap: 0.5,
+            gap: { xs: 1, sm: 0.5 },
             cursor: mxid ? "pointer" : undefined,
             "&:hover": mxid ? { bgcolor: "action.hover" } : undefined,
           }}
@@ -118,7 +119,7 @@ const SupportRequestPage = () => {
   const fetchedMxids = useRef<Set<string>>(new Set());
   const blobUrlsRef = useRef<string[]>([]);
 
-  const fetchRequest = async () => {
+  const fetchRequest = useCallback(async () => {
     if (!etkeccAdmin || !id) {
       setFailure(
         translate("etkecc.support.helper.not_configured", {
@@ -138,7 +139,7 @@ const SupportRequestPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [etkeccAdmin, id, locale, dataProvider, translate]);
 
   useEffect(() => {
     setLoading(true);
@@ -151,7 +152,7 @@ const SupportRequestPage = () => {
     }
     blobUrlsRef.current = [];
     fetchRequest();
-  }, [id, etkeccAdmin, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchRequest]);
 
   useEffect(() => {
     return () => {

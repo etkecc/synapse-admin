@@ -9,10 +9,15 @@ import {
   Paper,
   Alert,
   TextField,
+  Autocomplete,
   Box,
+  Button as MuiButton,
   Link,
+  Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { Button, Loading, useDataProvider, useCreatePath, useLocale, useStore, useTranslate } from "react-admin";
 import { Link as RouterLink } from "react-router-dom";
@@ -20,26 +25,24 @@ import { Link as RouterLink } from "react-router-dom";
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { useServerCommands } from "./hooks/useServerCommands";
+import { useUnits } from "./hooks/useUnits";
 import { ServerCommand, ServerProcessResponse } from "../../providers/types";
 import { Icons } from "../../utils/icons";
 
 const renderIcon = (icon: string) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const IconComponent = Icons[icon] as React.ComponentType<any> | undefined;
-  return IconComponent ? (
-    <IconComponent sx={{ verticalAlign: "middle", mr: 1, display: { xs: "none", md: "inline-block" } }} />
-  ) : null;
+  return IconComponent ? <IconComponent sx={{ verticalAlign: "middle", mr: 1 }} /> : null;
 };
 
 const ServerCommandsPanel = () => {
   const { etkeccAdmin } = useAppContext();
-  if (!etkeccAdmin) {
-    return null;
-  }
-
   const createPath = useCreatePath();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const { isLoading, maintenance, serverCommands, setServerCommands } = useServerCommands();
+  const { units } = useUnits();
   const [serverProcess, setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
     locked_at: "",
@@ -55,6 +58,10 @@ const ServerCommandsPanel = () => {
       setCommandIsRunning(false);
     }
   }, [serverProcess]);
+
+  if (!etkeccAdmin) {
+    return null;
+  }
 
   const setCommandAdditionalArgs = (command: string, additionalArgs: string) => {
     const updatedServerCommands = { ...serverCommands };
@@ -173,73 +180,155 @@ const ServerCommandsPanel = () => {
           .
         </Typography>
       </EtkeAttribution>
-      <TableContainer component={Paper} sx={{ mt: 2 }}>
-        <Table sx={{ minWidth: { xs: 100, md: 450 } }} size="small" aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>{translate("etkecc.actions.table.command")}</TableCell>
-              <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}></TableCell>
-              <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
-                {translate("etkecc.actions.table.description")}
-              </TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Object.entries(serverCommands).map(([command, { icon, args, description, additionalArgs }]) => (
-              <TableRow key={command}>
-                <TableCell scope="row">
-                  <Box>
-                    {renderIcon(icon)}
-                    {command}
-                  </Box>
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
-                  <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
+      {isSmall ? (
+        <Stack spacing={1} sx={{ mt: 2 }}>
+          {Object.entries(serverCommands).map(([command, { icon, args, description, additionalArgs }]) => (
+            <Paper key={command} sx={{ p: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+                {renderIcon(icon)}
+                <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
+                  {command}
+                </Typography>
+                <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank" sx={{ ml: "auto" }}>
+                  <HelpCenter fontSize="small" />
+                </Link>
+              </Box>
+              {description && (
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                  {description}
+                </Typography>
+              )}
+              <Stack spacing={1}>
+                {args && command === "restart" && (
+                  <Autocomplete
+                    freeSolo
+                    size="small"
+                    options={Object.keys(units)}
+                    inputValue={additionalArgs || ""}
+                    onInputChange={(_e, value) => {
+                      setCommandAdditionalArgs(command, units[value] || value);
+                    }}
+                    renderInput={params => (
+                      <TextField {...params} variant="standard" label={translate("etkecc.actions.table.arguments")} />
+                    )}
+                  />
+                )}
+                {args && command !== "restart" && (
+                  <TextField
+                    size="small"
+                    variant="standard"
+                    label={translate("etkecc.actions.table.arguments")}
+                    onChange={e => {
+                      setCommandAdditionalArgs(command, e.target.value);
+                    }}
+                    value={additionalArgs}
+                    fullWidth
+                  />
+                )}
+                <MuiButton
+                  variant="contained"
+                  color="primary"
+                  startIcon={<PlayArrow />}
+                  fullWidth
+                  onClick={() => {
+                    runCommand(command);
+                  }}
+                  disabled={
+                    commandIsRunning || (args && typeof additionalArgs === "string" && additionalArgs.length === 0)
+                  }
+                >
+                  {translate("etkecc.actions.buttons.run")}
+                </MuiButton>
+              </Stack>
+            </Paper>
+          ))}
+        </Stack>
+      ) : (
+        <TableContainer component={Paper} sx={{ mt: 2 }}>
+          <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>{translate("etkecc.actions.table.command")}</TableCell>
+                <TableCell></TableCell>
+                <TableCell>{translate("etkecc.actions.table.description")}</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.entries(serverCommands).map(([command, { icon, args, description, additionalArgs }]) => (
+                <TableRow key={command}>
+                  <TableCell scope="row">
+                    <Box>
+                      {renderIcon(icon)}
+                      {command}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
+                      <Button
+                        size="small"
+                        startIcon={<HelpCenter />}
+                        title={translate("etkecc.actions.command_help_title", { command })}
+                      />
+                    </Link>
+                  </TableCell>
+                  <TableCell>{description}</TableCell>
+                  <TableCell>
+                    {args && command === "restart" && (
+                      <Autocomplete
+                        freeSolo
+                        size="small"
+                        options={Object.keys(units)}
+                        inputValue={additionalArgs || ""}
+                        onInputChange={(_e, value) => {
+                          setCommandAdditionalArgs(command, units[value] || value);
+                        }}
+                        renderInput={params => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            label={translate("etkecc.actions.table.arguments")}
+                          />
+                        )}
+                      />
+                    )}
+                    {args && command !== "restart" && (
+                      <TextField
+                        size="small"
+                        variant="standard"
+                        label={translate("etkecc.actions.table.arguments")}
+                        onChange={e => {
+                          setCommandAdditionalArgs(command, e.target.value);
+                        }}
+                        value={additionalArgs}
+                      />
+                    )}
                     <Button
                       size="small"
-                      startIcon={<HelpCenter />}
-                      title={translate("etkecc.actions.command_help_title", { command })}
-                    />
-                  </Link>
-                </TableCell>
-                <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>{description}</TableCell>
-                <TableCell sx={{ display: { xs: "table-cell", md: "table-cell" } }}>
-                  {args && (
-                    <TextField
-                      size="small"
-                      variant="standard"
-                      label={translate("etkecc.actions.table.arguments")}
-                      onChange={e => {
-                        setCommandAdditionalArgs(command, e.target.value);
+                      variant="contained"
+                      color="primary"
+                      label={translate("etkecc.actions.buttons.run")}
+                      onClick={() => {
+                        runCommand(command);
                       }}
-                      value={additionalArgs}
-                    />
-                  )}
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    label={translate("etkecc.actions.buttons.run")}
-                    startIcon={<PlayArrow />}
-                    onClick={() => {
-                      runCommand(command);
-                    }}
-                    disabled={
-                      commandIsRunning || (args && typeof additionalArgs === "string" && additionalArgs.length === 0)
-                    }
-                  ></Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                      disabled={
+                        commandIsRunning || (args && typeof additionalArgs === "string" && additionalArgs.length === 0)
+                      }
+                    >
+                      <PlayArrow />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
       {commandResult.length > 0 && (
         <Alert icon={<CheckCircle fontSize="inherit" />} severity="success">
           {commandResult.map((result, index) => (
-            <div key={index}>{result}</div>
+            <div key={`cmd-result-${index}`}>{result}</div>
           ))}
         </Alert>
       )}

@@ -4,6 +4,9 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import {
   Box,
   Alert,
+  Chip,
+  List,
+  ListItem,
   Typography,
   Link,
   Table,
@@ -15,7 +18,9 @@ import {
   Paper,
   Button,
   Tooltip,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useState, useEffect } from "react";
@@ -48,6 +53,8 @@ const BillingPage = () => {
   const notify = useNotify();
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
   const [loading, setLoading] = useState(true);
   const [maintenance, setMaintenance] = useState(false);
@@ -220,6 +227,38 @@ const BillingPage = () => {
               </Typography>
             </EtkeAttribution>
           </Typography>
+        ) : isSmall ? (
+          <List disablePadding>
+            {paymentsData.map(payment => (
+              <ListItem
+                key={payment.transaction_id}
+                component={Paper}
+                elevation={2}
+                sx={{
+                  mb: 1,
+                  p: 2,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 1,
+                  flexWrap: "wrap",
+                }}
+              >
+                <Box>
+                  <Typography variant="subtitle1" fontWeight="bold">
+                    {payment.amount.toFixed(2)} {payment.currency}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {new Date(payment.paid_at).toLocaleDateString(locale)}
+                    {" · "}
+                    {translate(`etkecc.billing.enums.type.${payment.is_subscription ? "subscription" : "one_time"}`)}
+                  </Typography>
+                  <Chip label={payment.email} size="small" variant="outlined" sx={{ mt: 0.5 }} />
+                </Box>
+                <Box>{downloadInvoiceButton(payment)}</Box>
+              </ListItem>
+            ))}
+          </List>
         ) : (
           <TableContainer component={Paper}>
             <Table>

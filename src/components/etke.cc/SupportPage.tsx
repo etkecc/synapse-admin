@@ -9,6 +9,9 @@ import {
   CircularProgress,
   FormControlLabel,
   Link,
+  List,
+  ListItemButton,
+  ListItemText,
   Paper,
   Stack,
   Table,
@@ -19,8 +22,10 @@ import {
   TableRow,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import { useCallback, useEffect, useState } from "react";
 import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
 import { useNavigate } from "react-router-dom";
 
@@ -133,6 +138,8 @@ const SupportPage = () => {
   const notify = useNotify();
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [requests, setRequests] = useState<SupportRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [failure, setFailure] = useState<string | null>(null);
@@ -140,7 +147,7 @@ const SupportPage = () => {
 
   useDocTitle(translate("etkecc.support.name"));
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     if (!etkeccAdmin) {
       setLoading(false);
       return;
@@ -156,11 +163,11 @@ const SupportPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [etkeccAdmin, locale, dataProvider]);
 
   useEffect(() => {
     fetchRequests();
-  }, [etkeccAdmin, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [fetchRequests]);
 
   const handleCreate = async (subject: string, message: string) => {
     try {
@@ -228,6 +235,40 @@ const SupportPage = () => {
         <Paper elevation={2} sx={{ p: 2 }}>
           <Typography>{translate("etkecc.support.no_requests")}</Typography>
         </Paper>
+      ) : isSmall ? (
+        <List disablePadding>
+          {requests.map(req => (
+            <ListItemButton
+              key={req.id}
+              onClick={() => navigate(`/support/${req.id}`)}
+              component={Paper}
+              elevation={2}
+              sx={{ mb: 1, flexDirection: "column", alignItems: "flex-start", gap: 0.5 }}
+            >
+              <ListItemText
+                primary={req.subject || req.id}
+                secondary={
+                  req.updated_at
+                    ? `${translate("etkecc.support.fields.updated_at")}: ${new Date(req.updated_at).toLocaleString(locale)}`
+                    : undefined
+                }
+              />
+              {req.status && (
+                <Chip
+                  label={translate(`etkecc.support.status.${req.status}`, { _: req.status })}
+                  size="small"
+                  color={
+                    req.status === "active" || req.status === "open"
+                      ? "success"
+                      : req.status === "closed"
+                        ? "default"
+                        : "info"
+                  }
+                />
+              )}
+            </ListItemButton>
+          ))}
+        </List>
       ) : (
         <TableContainer component={Paper} elevation={2}>
           <Table>

@@ -1,3 +1,4 @@
 .vscode
 .yarn
 **/*.md
+**/*.woff2

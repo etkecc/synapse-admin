@@ -182,6 +182,10 @@ export interface RegistrationToken {
   pending: number;
   completed: number;
   expiry_time?: number;
+  // MAS-only fields
+  created_at?: string;
+  last_used_at?: string;
+  revoked_at?: string;
 }
 
 export interface MASRegistrationTokenAttributes {
@@ -228,13 +232,13 @@ export interface BaseRegistrationTokensResource {
 }
 
 export interface SynapseRegistrationTokensResourceType extends BaseRegistrationTokensResource {
-  isMas: false;
+  isMAS: false;
   map: (token: RegistrationToken) => object;
   total: (json: { registration_tokens: unknown[] }) => number;
 }
 
 export interface MASRegistrationTokensResourceType extends BaseRegistrationTokensResource {
-  isMas: true;
+  isMAS: true;
   map: (token: MASRegistrationToken | MASRegistrationTokenResource) => object;
   total: (json: MASRegistrationTokenListResponse) => number;
   handleCreateResponse: (token: MASRegistrationToken) => object;
@@ -246,6 +250,16 @@ export type RegistrationTokensResource = SynapseRegistrationTokensResourceType |
 export interface RaServerNotice {
   id: string;
   body: string;
+}
+
+export interface ScheduledTask {
+  id: string;
+  action: string;
+  status: string;
+  timestamp_ms: number;
+  resource_id?: string;
+  result?: unknown;
+  error?: string;
 }
 
 export interface Destination {
@@ -409,6 +423,68 @@ export interface SupportRequestDetail extends SupportRequest {
   messages: SupportMessage[];
 }
 
+export interface TimestampToEventResult {
+  event_id: string;
+  origin_server_ts: number;
+}
+
+export interface RoomEvent {
+  event_id: string;
+  type: string;
+  room_id: string;
+  sender: string;
+  origin_server_ts: number;
+  content: Record<string, unknown>;
+  state_key?: string;
+  unsigned?: Record<string, unknown>;
+}
+
+export interface EventContextResult {
+  event: RoomEvent;
+  events_before: RoomEvent[];
+  events_after: RoomEvent[];
+  start: string;
+  end: string;
+  state: RoomEvent[];
+}
+
+export interface RoomMessagesResult {
+  chunk: RoomEvent[];
+  start: string;
+  end?: string;
+  state?: RoomEvent[];
+}
+
+export interface HierarchyRoom {
+  room_id: string;
+  name?: string;
+  topic?: string;
+  canonical_alias?: string;
+  avatar_url?: string;
+  room_type?: string;
+  num_joined_members: number;
+  join_rule?: string;
+  guest_can_join: boolean;
+  world_readable: boolean;
+  children_state: {
+    type: string;
+    state_key: string;
+    content: Record<string, unknown>;
+    sender: string;
+    origin_server_ts: number;
+  }[];
+}
+
+export interface RoomHierarchyResult {
+  rooms: HierarchyRoom[];
+  next_batch?: string;
+}
+
+export interface AdminClientConfig {
+  return_soft_failed_events: boolean;
+  return_policy_server_spammy_events: boolean;
+}
+
 export interface SynapseDataProvider extends DataProvider {
   deleteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
   purgeRemoteMedia: (params: DeleteMediaParams) => Promise<DeleteMediaResult>;
@@ -416,8 +492,13 @@ export interface SynapseDataProvider extends DataProvider {
   updateFeatures: (id: Identifier, features: ExperimentalFeaturesModel) => Promise<void>;
   getRateLimits: (id: Identifier) => Promise<RateLimitsModel>;
   setRateLimits: (id: Identifier, rateLimits: RateLimitsModel) => Promise<void>;
+  getSentInviteCount: (id: Identifier, fromTs?: number) => Promise<number>;
+  getCumulativeJoinedRoomCount: (id: Identifier, fromTs?: number) => Promise<number>;
   getAccountData: (id: Identifier) => Promise<AccountDataModel>;
   checkUsernameAvailability: (username: string) => Promise<UsernameAvailabilityResult>;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  fetchEvent: (eventId: string) => Promise<Record<string, any>>;
+  revokeRegistrationToken: (id: string, revoke: boolean) => Promise<{ success: boolean; error?: string }>;
   blockRoom: (roomId: string, block: boolean) => Promise<{ success: boolean; error?: string; errcode?: string }>;
   getRoomBlockStatus: (
     roomId: string
@@ -446,10 +527,74 @@ export interface SynapseDataProvider extends DataProvider {
     validUntilMs?: number
   ) => Promise<{ success: boolean; access_token?: string; error?: string; errcode?: string }>;
   eraseUser: (id: Identifier) => Promise<{ success: boolean; error?: string; errcode?: string }>;
+  renewAccountValidity: (
+    userId: string,
+    expirationTs?: number,
+    enableRenewalEmails?: boolean
+  ) => Promise<{ success: boolean; expiration_ts?: number; error?: string; errcode?: string }>;
+  allowCrossSigningReplacement: (
+    userId: string
+  ) => Promise<{ success: boolean; updatable_without_uia_before_ms?: number; error?: string; errcode?: string }>;
+  findUserByThreepid: (
+    medium: string,
+    address: string
+  ) => Promise<{ success: boolean; user_id?: string; error?: string; errcode?: string }>;
+  findUserByAuthProvider: (
+    provider: string,
+    externalId: string
+  ) => Promise<{ success: boolean; user_id?: string; error?: string; errcode?: string }>;
+  getEventByTimestamp: (
+    roomId: string,
+    ts: number,
+    dir?: "f" | "b"
+  ) => Promise<{ success: boolean; event_id?: string; origin_server_ts?: number; error?: string; errcode?: string }>;
+  getEventContext: (
+    roomId: string,
+    eventId: string,
+    limit?: number
+  ) => Promise<{ success: boolean; data?: EventContextResult; error?: string; errcode?: string }>;
+  getRoomMessages: (
+    roomId: string,
+    params: { from: string; to?: string; limit?: number; dir?: "f" | "b"; filter?: string }
+  ) => Promise<{ success: boolean; data?: RoomMessagesResult; error?: string; errcode?: string }>;
+  getRoomHierarchy: (
+    roomId: string,
+    params?: { from?: string; limit?: number; max_depth?: number }
+  ) => Promise<{ success: boolean; data?: RoomHierarchyResult; error?: string; errcode?: string }>;
+  quarantineRoomMedia: (
+    roomId: string
+  ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;
+  quarantineUserMedia: (
+    userId: string
+  ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;
+  purgeHistory: (
+    roomId: string,
+    purge_up_to_ts: number,
+    delete_local_events: boolean
+  ) => Promise<{ success: boolean; purge_id?: string; error?: string; errcode?: string }>;
+  getPurgeHistoryStatus: (
+    purgeId: string
+  ) => Promise<{ success: boolean; status?: string; error?: string; errcode?: string }>;
+  deleteRoom: (
+    roomId: string,
+    block: boolean
+  ) => Promise<{ success: boolean; delete_id?: string; error?: string; errcode?: string }>;
+  getRoomDeleteStatus: (
+    deleteId: string
+  ) => Promise<{ success: boolean; status?: string; error?: string; errcode?: string }>;
+  redactUserEvents: (id: Identifier) => Promise<{ redact_id: string }>;
+  getRedactStatus: (redactId: string) => Promise<{
+    success: boolean;
+    status: string;
+    failed_redactions: Record<string, string>;
+    error?: string;
+    errcode?: string;
+  }>;
   getServerRunningProcess: (etkeAdminUrl: string, locale: string) => Promise<ServerProcessResponse>;
   getServerStatus: (etkeAdminUrl: string, locale: string) => Promise<ServerStatusResponse>;
   getServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<ServerNotificationsResponse>;
   deleteServerNotifications: (etkeAdminUrl: string, locale: string) => Promise<{ success: boolean }>;
+  getUnits: (etkeAdminUrl: string, locale: string) => Promise<string[]>;
   getServerCommands: (
     etkeAdminUrl: string,
     locale: string
@@ -489,4 +634,6 @@ export interface SynapseDataProvider extends DataProvider {
     message: string
   ) => Promise<SupportRequest>;
   postSupportMessage: (etkeAdminUrl: string, locale: string, id: string, message: string) => Promise<SupportMessage>;
+  getAdminClientConfig: () => Promise<AdminClientConfig>;
+  setAdminClientConfig: (config: AdminClientConfig) => Promise<void>;
 }

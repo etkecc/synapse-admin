@@ -51,7 +51,7 @@ export type LoginMethod = "credentials" | "accessToken";
  * Get restricted base URL(s) from app context
  * @returns tuple of (single URL or null, array of URLs or null)
  */
-function getRestrictedBaseUrl(): [string | null, string[] | null] {
+function useRestrictedBaseUrl(): [string | null, string[] | null] {
   const { restrictBaseUrl } = useAppContext();
   // no var set, allow any
   if (!restrictBaseUrl) {
@@ -94,7 +94,7 @@ function getRestrictedBaseUrl(): [string | null, string[] | null] {
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
-  const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = getRestrictedBaseUrl();
+  const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = useRestrictedBaseUrl();
   const baseUrlChoices = restrictBaseUrlMultiple ? restrictBaseUrlMultiple : [];
   const localStorageBaseUrl = localStorage.getItem("base_url");
   let base_url = restrictBaseUrlSingle
@@ -126,12 +126,12 @@ const LoginPage = () => {
   const [serverVersion, setServerVersion] = useState("");
   const [matrixVersions, setMatrixVersions] = useState("");
 
+  const initialBaseUrl = useRef(base_url);
   useEffect(() => {
-    if (base_url) {
-      resolveAndCheckServerInfo(base_url as string);
+    if (initialBaseUrl.current) {
+      resolveAndCheckServerInfo(initialBaseUrl.current as string);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- resolveAndCheckServerInfo is stable within the mount
 
   useEffect(() => {
     if (!loginToken) {
@@ -166,9 +166,9 @@ const LoginPage = () => {
 
   const validateBaseUrl = value => {
     if (!value.match(/^(http|https):\/\//)) {
-      return translate("synapseadmin.auth.protocol_error");
+      return translate("ketesa.auth.protocol_error");
     } else if (!value.match(/^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?[^?&\s]*$/)) {
-      return translate("synapseadmin.auth.url_error");
+      return translate("ketesa.auth.url_error");
     } else {
       return undefined;
     }
@@ -227,14 +227,14 @@ const LoginPage = () => {
 
     try {
       const serverVersion = await getServerVersion(url);
-      setServerVersion(`${translate("synapseadmin.auth.server_version")} ${serverVersion}`);
+      setServerVersion(`${translate("ketesa.auth.server_version")} ${serverVersion}`);
     } catch {
       setServerVersion("");
     }
 
     try {
       const features = await getSupportedFeatures(url);
-      setMatrixVersions(`${translate("synapseadmin.auth.supports_specs")} ${features.versions.join(", ")}`);
+      setMatrixVersions(`${translate("ketesa.auth.supports_specs")} ${features.versions.join(", ")}`);
     } catch {
       setMatrixVersions("");
     }
@@ -270,6 +270,8 @@ const LoginPage = () => {
         setSupportPassAuth(false);
       } else {
         setOIDCVisible(false);
+        setOIDCUrl("");
+        setAuthMetadata({});
       }
     } catch {
       setSupportPassAuth(false);
@@ -298,9 +300,9 @@ const LoginPage = () => {
   };
 
   const icfg = useInstanceConfig();
-  let welcomeTo = "Synapse Admin";
+  let welcomeTo = "Ketesa";
   let logoUrl = "./images/logo.webp";
-  let backgroundUrl = "./images/floating-cogs.svg";
+  let backgroundUrl = "";
   if (icfg.name) {
     welcomeTo = icfg.name;
   }
@@ -335,10 +337,21 @@ const LoginPage = () => {
 
     const handleBaseUrlBlurOrChange = event => {
       // Get the value either from the event (onChange) or from formData (onBlur)
-      const value = event?.target?.value || formData.base_url;
+      let value = event?.target?.value || formData.base_url;
 
       if (!value) {
         return;
+      }
+
+      // Auto-prepend https:// if the user didn't include a protocol
+      if (!value.match(/^https?:\/\//)) {
+        value = `https://${value}`;
+        if (!restrictBaseUrlMultiple && !restrictBaseUrlSingle) {
+          form.setValue("base_url", value, {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        }
       }
 
       // Trigger validation only when user finishes typing/selecting
@@ -414,16 +427,16 @@ const LoginPage = () => {
           onChange={(_, newValue) => setLoginMethod(newValue as LoginMethod)}
           indicatorColor="primary"
           textColor="primary"
-          centered
+          variant="fullWidth"
         >
-          <Tab label={translate("synapseadmin.auth.credentials")} value="credentials" />
-          <Tab label={translate("synapseadmin.auth.access_token")} value="accessToken" />
+          <Tab label={translate("ketesa.auth.credentials")} value="credentials" />
+          <Tab label={translate("ketesa.auth.access_token")} value="accessToken" />
         </Tabs>
         <Box>
           {restrictBaseUrlMultiple && (
             <SelectInput
               source="base_url"
-              label="synapseadmin.auth.base_url"
+              label="ketesa.auth.base_url"
               select={true}
               autoComplete="url"
               {...(loading ? { disabled: true } : {})}
@@ -435,7 +448,7 @@ const LoginPage = () => {
           {!restrictBaseUrlSingle && !restrictBaseUrlMultiple && (
             <TextInput
               source="base_url"
-              label="synapseadmin.auth.base_url"
+              label="ketesa.auth.base_url"
               autoComplete="url"
               {...(loading ? { disabled: true } : {})}
               resettable={true}
@@ -474,15 +487,19 @@ const LoginPage = () => {
           <Box>
             <TextInput
               source="accessToken"
-              label="synapseadmin.auth.access_token"
+              label="ketesa.auth.access_token"
               {...(loading ? { disabled: true } : {})}
               resettable
               validate={required()}
             />
           </Box>
         )}
-        <Typography className="serverVersion">{serverVersion}</Typography>
-        <Typography className="matrixVersions">{matrixVersions}</Typography>
+        <Typography className="serverVersion" sx={{ wordBreak: "break-word" }}>
+          {serverVersion}
+        </Typography>
+        <Typography className="matrixVersions" sx={{ wordBreak: "break-word" }}>
+          {matrixVersions}
+        </Typography>
       </>
     );
   };
@@ -490,15 +507,22 @@ const LoginPage = () => {
   return (
     <Form defaultValues={{ base_url: base_url }} onSubmit={handleSubmit} mode="onBlur">
       <LoginFormBox backgroundUrl={backgroundUrl}>
+        {!backgroundUrl && (
+          <>
+            <div className="login-orb login-orb-1" />
+            <div className="login-orb login-orb-2" />
+            <div className="login-orb login-orb-3" />
+          </>
+        )}
         <Card className="card">
           <Box className="avatar">
             {loading ? (
               <CircularProgress size={25} thickness={2} />
             ) : (
-              <Avatar sx={{ width: "120px", height: "120px" }} src={logoUrl} />
+              <Avatar sx={{ width: { xs: "80px", sm: "120px" }, height: { xs: "80px", sm: "120px" } }} src={logoUrl} />
             )}
           </Box>
-          <Box className="hint">{translate("synapseadmin.auth.welcome", { name: welcomeTo })}</Box>
+          <Box className="hint">{translate("ketesa.auth.welcome", { name: welcomeTo })}</Box>
           <Box className="form">
             <Select
               fullWidth
@@ -515,27 +539,22 @@ const LoginPage = () => {
             </Select>
             <FormDataConsumer>{formDataProps => <UserData {...formDataProps} />}</FormDataConsumer>
             {loginMethod === "credentials" && (
-              <CardActions className="actions">
+              <CardActions
+                className="actions"
+                sx={{ flexDirection: "column", gap: 1, "& > :not(:first-of-type)": { ml: 0 } }}
+              >
                 {supportPassAuth && (
-                  <Button size="small" variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
+                  <Button variant="contained" type="submit" color="primary" disabled={loading} fullWidth>
                     {translate("ra.auth.sign_in")}
                   </Button>
                 )}
                 {ssoBaseUrl !== "" && (
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleSSO}
-                    disabled={loading}
-                    fullWidth
-                  >
-                    {translate("synapseadmin.auth.sso_sign_in")}
+                  <Button variant="contained" color="secondary" onClick={handleSSO} disabled={loading} fullWidth>
+                    {translate("ketesa.auth.sso_sign_in")}
                   </Button>
                 )}
                 {(oidcVisible || oidcUrl !== "") && (
                   <Button
-                    size="small"
                     variant="contained"
                     color="secondary"
                     onClick={handleOIDC}

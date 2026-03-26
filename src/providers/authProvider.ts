@@ -2,10 +2,12 @@ import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "./matrix";
-import { initRegistrationTokens } from "./dataProvider";
+import { detectAndSetMAS } from "./mas";
+import { initResources } from "./dataProvider";
+import { fetchServerVersions, clearServerVersions } from "./serverVersion";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { ClearConfig, FetchWellKnownConfig, GetConfig, SetExternalAuthProvider } from "../utils/config";
-import decodeURLComponent from "../utils/decodeURLComponent";
+import { decodeURLComponent } from "../utils/safety";
 import { MatrixError, displayError } from "../utils/error";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
@@ -34,7 +36,7 @@ const authProvider: AuthProvider = {
     // private address
     if (!base_url) {
       // there is some kind of bug with base_url being present in the form, but not submitted
-      // ref: https://github.com/etkecc/synapse-admin/issues/14
+      // ref: https://github.com/etkecc/ketesa/issues/14
       localStorage.removeItem("base_url");
       throw new Error("Homeserver URL is required.");
     }
@@ -61,7 +63,7 @@ const authProvider: AuthProvider = {
 
     const config = GetConfig();
     const icfg = GetInstanceConfig();
-    let deviceName = "Synapse Admin";
+    let deviceName = "Ketesa";
     if (icfg.name) {
       deviceName = icfg.name;
     }
@@ -142,7 +144,9 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
-      await initRegistrationTokens();
+      await detectAndSetMAS();
+      initResources();
+      fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
       const error = err as HttpError;
@@ -286,7 +290,9 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
-      await initRegistrationTokens();
+      await detectAndSetMAS();
+      initResources();
+      fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
       console.error("Failed to get user info:", err);
@@ -320,6 +326,7 @@ const authProvider: AuthProvider = {
       } catch (err) {
         console.log("Error logging out", err);
       } finally {
+        clearServerVersions();
         ClearConfig();
       }
     }
@@ -341,6 +348,9 @@ const authProvider: AuthProvider = {
     if (typeof access_token !== "string") {
       return Promise.reject();
     }
+
+    // Ensure server versions are fetched (handles page reload)
+    fetchServerVersions();
 
     // Check if token has expired
     const expiresAt = localStorage.getItem("access_token_expires_at");

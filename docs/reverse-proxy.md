@@ -1,21 +1,42 @@
-# Serving Synapse Admin behind a reverse proxy
+# Serving Ketesa behind a reverse proxy
 
 You are supposed to do so for any service you want to expose to the internet,
-and here you can find specific instructions and example configurations for Synapse Admin.
+and here you can find specific instructions and example configurations for Ketesa.
 
-If you need `/admin`, use the prebuilt `synapse-admin-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
-For the root path, use the prebuilt `synapse-admin` tarball from [GitHub Releases](https://github.com/etkecc/synapse-admin/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/synapse-admin/actions/workflows/workflow.yml).
+If you need `/admin`, use the prebuilt `ketesa-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml).
+For the root path, use the prebuilt `ketesa` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml).
+
+
+<!-- vim-markdown-toc GFM -->
+
+* [Nginx](#nginx)
+  * [Prebuilt tarball](#prebuilt-tarball)
+    * [Root path](#root-path)
+    * [`/admin` subpath](#admin-subpath)
+  * [Docker](#docker)
+    * [Root path](#root-path-1)
+    * [`/admin` subpath](#admin-subpath-1)
+* [Traefik (docker labels)](#traefik-docker-labels)
+* [Other reverse proxies](#other-reverse-proxies)
+
+<!-- vim-markdown-toc -->
 
 ## Nginx
 
-Place the config below into `/etc/nginx/conf.d/synapse-admin.conf` (don't forget to replace `server_name` and `root`):
+### Prebuilt tarball
+
+#### Root path
+
+For example, `https://example.com`.
+
+Place the config below into `/etc/nginx/conf.d/ketesa.conf` (don't forget to replace `server_name` and `root`):
 
 ```nginx
 server {
     listen 80;
     listen [::]:80;
     server_name example.com; # REPLACE with your domain
-    root /var/www/synapse-admin; # REPLACE with path where you extracted synapse admin
+    root /var/www/ketesa; # REPLACE with path where you extracted Ketesa
     index index.html;
     location / {
         try_files $uri $uri/ /index.html;
@@ -31,7 +52,11 @@ server {
 }
 ```
 
-If you are serving Synapse Admin under `/admin`, extract the `synapse-admin-subpath-admin` tarball into an `admin/` subdirectory of your web root (e.g. extract into `/var/www/html/admin/`):
+#### `/admin` subpath
+
+For example, `https://example.com/admin`.
+
+If you are serving Ketesa under `/admin`, extract the `ketesa-subpath-admin` tarball into an `admin/` subdirectory of your web root (e.g. extract into `/var/www/html/admin/`):
 
 ```nginx
 server {
@@ -54,6 +79,56 @@ server {
 }
 ```
 
+### Docker
+
+The following snippets assume the nginx docker container is used and it is in the same network as Ketesa docker container.
+
+#### Root path
+
+For example, `https://example.com`.
+
+Use Ketesa docker tag **without** the `-subpath-admin` suffix (e.g., `latest`)
+
+```nginx
+server {
+  listen 80;
+
+  server_name example.com; # REPLACE with your domain
+
+  location / {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_pass http://ketesa:8080;
+  }
+}
+```
+
+#### `/admin` subpath
+
+For example, `https://example.com/admin`.
+
+Use Ketesa docker tag **with** the `-subpath-admin` suffix (e.g., `latest-subpath-admin`)
+
+```nginx
+server {
+  listen 80;
+
+  server_name example.com; # REPLACE with your domain
+
+  location /admin/ { # Trailing slash required here
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    proxy_pass http://ketesa:8080; # NO trailing slash here
+  }
+}
+```
+
 After you've done that, ensure that the configuration is correct by running `nginx -t` and then reload Nginx
 (e.g. `systemctl reload nginx`).
 
@@ -66,12 +141,12 @@ If you are using Traefik as a reverse proxy, you can use the following labels, `
 
 ```yaml
 services:
-  synapse-admin:
-    image: ghcr.io/etkecc/synapse-admin:latest
+  ketesa:
+    image: ghcr.io/etkecc/ketesa:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.synapse-admin.rule=Host(`example.com`)"
+      - "traefik.http.routers.ketesa.rule=Host(`example.com`)"
 ```
 
 ## Other reverse proxies

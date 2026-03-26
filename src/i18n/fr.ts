@@ -1,10 +1,10 @@
 import frenchMessages from "ra-language-french";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const fr: SynapseTranslationMessages = {
   ...frenchMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL du serveur d’accueil",
       welcome: "Bienvenue sur %{name}",
@@ -32,6 +32,7 @@ const fr: SynapseTranslationMessages = {
         limits: "Limites",
         account_data: "Données du compte",
       },
+      danger_zone: "Zone dangereuse",
     },
     rooms: {
       details: "Détails de la salle",
@@ -41,9 +42,17 @@ const fr: SynapseTranslationMessages = {
         detail: "Détails",
         permission: "Permissions",
         media: "Médias",
+        messages: "Messages",
+        hierarchy: "Hiérarchie",
       },
     },
     reports: { tabs: { basic: "Informations de base", detail: "Détails" } },
+    admin_config: {
+      soft_failed_events: "Événements en échec souple",
+      spam_flagged_events: "Événements signalés comme spam",
+      success: "Configuration administrateur mise à jour",
+      failure: "Échec de la mise à jour de la configuration administrateur",
+    },
   },
   import_users: {
     error: {
@@ -118,7 +127,9 @@ const fr: SynapseTranslationMessages = {
     },
     action: {
       send: "Supprimer le média",
-      send_success: "Requête envoyée avec succès",
+      send_success:
+        "%{smart_count} fichier média supprimé avec succès. |||| %{smart_count} fichiers média supprimés avec succès.",
+      send_success_none: "Aucun fichier média ne correspondait aux critères spécifiés. Rien n'a été supprimé.",
       send_failure: "Une erreur s'est produite",
     },
     helper: {
@@ -132,7 +143,9 @@ const fr: SynapseTranslationMessages = {
     },
     action: {
       send: "Purger les médias distants",
-      send_success: "La demande de purge des médias distants a été envoyée.",
+      send_success:
+        "%{smart_count} fichier média distant purgé avec succès. |||| %{smart_count} fichiers média distants purgés avec succès.",
+      send_success_none: "Aucun fichier média distant ne correspondait aux critères spécifiés. Rien n'a été purgé.",
       send_failure: "Une erreur est survenue lors de la demande de purge des médias distants.",
     },
     helper: {
@@ -159,6 +172,16 @@ const fr: SynapseTranslationMessages = {
         show_guests: "Afficher les visiteurs",
         show_deactivated: "Afficher uniquement les désactivés",
         show_locked: "Afficher les utilisateurs verrouillés",
+        filter_user_all: "Tous",
+        filter_deactivated_false: "Actifs",
+        filter_deactivated_true: "Désactivés",
+        filter_locked_false: "Exclure les verrouillés",
+        filter_locked_true: "Inclure les verrouillés",
+        filter_guests_false: "Exclure les invités",
+        filter_guests_true: "Inclure les invités",
+        show_system_users: "Afficher les comptes système",
+        filter_system_users_false: "Exclure les comptes système",
+        filter_system_users_true: "Comptes système uniquement",
         show_suspended: "Afficher les utilisateurs suspendus",
         show_shadow_banned: "Afficher les utilisateurs bannis fantôme",
         user_id: "Rechercher un utilisateur",
@@ -171,6 +194,8 @@ const fr: SynapseTranslationMessages = {
         address: "Adresse",
         creation_ts_ms: "Date de création",
         consent_version: "Version du consentement",
+        sent_invite_count: "Invitations envoyées",
+        cumulative_joined_room_count: "Salons rejoints cumulés",
         auth_provider: "Fournisseur d'identité",
         user_type: "Type d'utilisateur",
         erased: "Effacé (RGPD)",
@@ -191,6 +216,9 @@ const fr: SynapseTranslationMessages = {
         erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",
         modify_managed_user_error: "La modification d'un utilisateur géré par le système n'est pas autorisée.",
         username_available: "Nom d'utilisateur disponible",
+        sent_invite_count: "Nombre total d'invitations envoyées par cet utilisateur dans tous les salons.",
+        cumulative_joined_room_count:
+          "Nombre total de salons que cet utilisateur a rejoint, y compris ceux qu'il a quittés ou dont il a été banni.",
       },
       badge: {
         you: "Vous",
@@ -206,6 +234,12 @@ const fr: SynapseTranslationMessages = {
         erase_avatar: "Effacer l'avatar",
         delete_media: "Supprimer tous les médias téléchargés par le(s) utilisateur(s)",
         redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
+        redact_in_progress: "Expurgation en cours\u2026",
+        redact_background_note:
+          "Vous pouvez fermer cette fenêtre en toute sécurité, l'expurgation continuera en arrière-plan.",
+        redact_success: "Tous les événements ont été expurgés avec succès.",
+        redact_failure:
+          "Expurgation terminée avec %{smart_count} événement échoué. |||| Expurgation terminée avec %{smart_count} événements échoués.",
         generate_password: "Générer un mot de passe",
         reset_password: {
           label: "Réinitialiser le mot de passe",
@@ -234,6 +268,49 @@ const fr: SynapseTranslationMessages = {
           "Ce nom d'utilisateur est déjà pris. Êtes-vous sûr de vouloir écraser l'utilisateur existant ?",
         overwrite_cancel: "Annuler",
         overwrite_confirm: "Écraser",
+        quarantine_all: {
+          label: "Quarantaine de tous les médias",
+          title: "Mettre en quarantaine tous les médias de %{userName}",
+          content:
+            "Tous les médias locaux de cet utilisateur seront mis en quarantaine. Les médias en quarantaine ne seront plus accessibles aux autres utilisateurs.",
+          success:
+            "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
+          failure: "Échec de la mise en quarantaine. %{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "Autoriser la réinitialisation du Cross-Signing",
+          title: "Autoriser le remplacement des clés Cross-Signing",
+          content:
+            "Autoriser %{user} à remplacer ses clés Cross-Signing sans authentification interactive ? Cela crée une fenêtre temporaire pendant laquelle les clés peuvent être remplacées.",
+          success: "Remplacement des clés Cross-Signing autorisé jusqu'au %{deadline}",
+          failure: "Échec de l'autorisation du remplacement Cross-Signing",
+          no_key: "L'utilisateur n'a pas de clé Cross-Signing maîtresse",
+        },
+        find_user: {
+          label: "Rechercher un utilisateur",
+          title: "Rechercher un utilisateur",
+          lookup_type: "Type de recherche",
+          by_threepid: "Par e-mail / téléphone",
+          by_auth_provider: "Par fournisseur d'authentification",
+          provider: "ID du fournisseur d'authentification",
+          external_id: "ID externe",
+          search: "Rechercher",
+          not_found: "Utilisateur introuvable",
+          failure: "Impossible de trouver l'utilisateur",
+        },
+        renew_account: {
+          label: "Renouveler le compte",
+          title: "Renouveler la validité du compte",
+          content:
+            "Renouveler la validité du compte de %{user}. Vous pouvez éventuellement définir une date d'expiration personnalisée. Si laissé vide, la période de renouvellement par défaut du serveur sera utilisée.",
+          expiration: "Date d'expiration",
+          expiration_helper: "Laisser vide pour utiliser la période de renouvellement par défaut du serveur",
+          renewal_emails: "Envoyer des e-mails de notification de renouvellement",
+          success: "Validité du compte renouvelée jusqu'au %{date}",
+          failure: "Échec du renouvellement de la validité du compte",
+        },
+        system_users_scan_in_progress:
+          "Patientez — la recherche des utilisateurs correspondants est en cours, la page va se charger dans un instant",
       },
       limits: {
         messages_per_second: "Messages par seconde",
@@ -305,6 +382,8 @@ const fr: SynapseTranslationMessages = {
           fields: {
             block: "Bloquer et empêcher les utilisateurs de rejoindre la salle",
           },
+          in_progress: "Suppression en cours…",
+          background_note: "Vous pouvez fermer cette fenêtre, la suppression continuera en arrière-plan.",
           success: "Salle/s supprimées avec succès.",
           failure: "La/les salle/s n'ont pas pu être supprimées.",
         },
@@ -342,40 +421,113 @@ const fr: SynapseTranslationMessages = {
           success: "Salon débloqué avec succès. |||| Salons débloqués avec succès.",
           failure: "Échec du déblocage du salon. |||| Échec du déblocage des salons.",
         },
+        purge_history: {
+          label: "Purger l'historique",
+          title: "Purger l'historique de %{roomName}",
+          content:
+            "Tous les événements avant la date sélectionnée seront supprimés de la base de données. L'état du salon (adhésions, départs, sujet) est toujours préservé. Au moins un message est toujours conservé.\nNote : cette opération peut prendre plusieurs minutes pour les grands salons.",
+          date_label: "Purger les événements avant",
+          delete_local: "Supprimer aussi les événements envoyés par les utilisateurs locaux",
+          in_progress: "Purge en cours…",
+          background_note: "Vous pouvez fermer cette fenêtre en toute sécurité, la purge continuera en arrière-plan.",
+          success: "Historique du salon purgé avec succès.",
+          failure: "Échec de la purge de l'historique du salon. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Quarantaine de tous les médias",
+          title: "Mettre en quarantaine tous les médias de %{roomName}",
+          content:
+            "Tous les médias locaux et distants de ce salon seront mis en quarantaine. Les médias en quarantaine ne seront plus accessibles aux utilisateurs.",
+          success:
+            "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
+          failure: "Échec de la mise en quarantaine. %{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "Aller à la date",
+          direction: "Direction",
+          forward: "En avant",
+          backward: "En arrière",
+          target_event: "Événement cible",
+          events_before: "Événements avant",
+          events_after: "Événements après",
+          not_found: "Aucun événement trouvé à l'heure indiquée",
+          failure: "Impossible de récupérer le contexte de l'événement",
+        },
+        messages: {
+          load_older: "Charger les plus anciens",
+          load_newer: "Charger les plus récents",
+          no_messages: "Aucun message dans ce salon",
+          failure: "Impossible de charger les messages",
+          filter: "Filtres",
+          filter_type: "Types d'événements",
+          filter_sender: "Expéditeurs",
+          advanced_filters: "Filtres avancés",
+          filter_not_type: "Exclure les types d'événements",
+          filter_not_sender: "Exclure les expéditeurs",
+          contains_url: "Contient une URL",
+          any: "Tous",
+          with_url: "Avec URL uniquement",
+          without_url: "Sans URL uniquement",
+          apply_filter: "Appliquer",
+          clear_filters: "Effacer",
+        },
+        hierarchy: {
+          load_more: "Charger plus",
+          max_depth: "Profondeur maximale",
+          unlimited: "Illimitée",
+          refresh: "Actualiser",
+          members: "%{count} membres",
+          space: "Espace",
+          room: "Salon",
+          suggested: "Suggéré",
+          no_children: "Ce salon n'a pas de hiérarchie",
+          failure: "Impossible de charger la hiérarchie",
+        },
       },
     },
     reports: {
       name: "Événement signalé |||| Événements signalés",
       fields: {
         id: "Identifiant",
-        received_ts: "Date du rapport",
+        received_ts: "Date du signalement",
         user_id: "Rapporteur",
-        name: "Nom du salon",
+        name: "Nom de la salle",
         score: "Score",
-        reason: "Motif",
-        event_id: "Identifiant de l'événement",
-        event_json: {
-          origin: "Serveur d'origine",
-          origin_server_ts: "Date d'envoi",
-          type: "Type d'événement",
-          content: {
-            msgtype: "Type de contenu",
-            body: "Contenu",
-            format: "Format",
-            formatted_body: "Contenu mis en forme",
-            algorithm: "Algorithme",
-            url: "URL",
-            info: {
-              mimetype: "Type",
-            },
-          },
-        },
+        reason: "Raison",
+        event_id: "ID de l'événement",
+        sender: "Expéditeur",
       },
       action: {
         erase: {
           title: "Supprimer l’événement signalé",
           content: "Voulez-vous vraiment supprimer l’événement signalé ? Cette action est irréversible.",
         },
+        event_lookup: {
+          label: "Recherche d'événement",
+          title: "Récupérer un événement par ID",
+          fetch: "Récupérer",
+        },
+        fetch_event_error: "Échec de la récupération de l'événement",
+      },
+    },
+    scheduled_tasks: {
+      name: "Tâche planifiée |||| Tâches planifiées",
+      fields: {
+        id: "ID",
+        action: "Action",
+        status: "Statut",
+        timestamp: "Horodatage",
+        resource_id: "ID de ressource",
+        result: "Résultat",
+        error: "Erreur",
+        max_timestamp: "Avant la date",
+      },
+      status: {
+        scheduled: "Planifiée",
+        active: "Active",
+        complete: "Terminée",
+        cancelled: "Annulée",
+        failed: "Échouée",
       },
     },
     connections: {
@@ -406,6 +558,16 @@ const fr: SynapseTranslationMessages = {
           success: "Appareil supprimé avec succès",
           failure: "Une erreur s'est produite",
         },
+        display_name: {
+          success: "Nom de l'appareil mis à jour",
+          failure: "Échec de la mise à jour du nom de l'appareil",
+        },
+        create: {
+          label: "Créer un appareil",
+          title: "Créer un nouvel appareil",
+          success: "Appareil créé",
+          failure: "Échec de la création de l'appareil",
+        },
       },
     },
     users_media: {
@@ -427,7 +589,7 @@ const fr: SynapseTranslationMessages = {
     protect_media: {
       action: {
         create: "Protéger",
-        delete: "Révoquer la protection",
+        delete: "Déprotéger",
         none: "En quarantaine",
         send_success: "Le statut de protection a été modifié avec succès",
         send_failure: "Une erreur s'est produite",
@@ -436,9 +598,9 @@ const fr: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Quarantaine",
-        create: "Mettre en quarantaine",
-        delete: "Révoquer la mise en quarantaine",
-        none: "Protégé contre la mise en quarantaine",
+        create: "Quarantaine",
+        delete: "Déquarantainer",
+        none: "Protégé(e)",
         send_success: "Le statut de la quarantaine a été modifié avec succès",
         send_failure: "Une erreur s'est produite: %{error}",
       },
@@ -554,9 +716,22 @@ const fr: SynapseTranslationMessages = {
         completed: "Nombre d'inscription accomplie",
         expiry_time: "Date d'expiration",
         length: "Longueur",
+        created_at: "Date de création",
+        last_used_at: "Dernière utilisation",
+        revoked_at: "Date de révocation",
       },
       helper: {
         length: "Longueur du jeton généré aléatoirement si aucun jeton n'est pas spécifié",
+      },
+      action: {
+        revoke: {
+          label: "Révoquer",
+          success: "Jeton révoqué",
+        },
+        unrevoke: {
+          label: "Restaurer",
+          success: "Jeton restauré",
+        },
       },
     },
   },

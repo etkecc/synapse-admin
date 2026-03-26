@@ -61,20 +61,20 @@ const UserRateLimits = () => {
     burst_count: "",
   });
 
-  if (!record) {
-    return null;
-  }
-
   useEffect(() => {
+    if (!record) return;
     const fetchRateLimits = async () => {
       const rateLimits = await dataProvider.getRateLimits(record.id);
       if (Object.keys(rateLimits).length > 0) {
         setRateLimits(rateLimits);
       }
     };
-
     fetchRateLimits();
-  }, [dataProvider, record.id]);
+  }, [dataProvider, record]);
+
+  if (!record) {
+    return null;
+  }
 
   const updateRateLimit = async (limit: string, value: number | null) => {
     const updatedRateLimits = { ...rateLimits, [limit]: value };

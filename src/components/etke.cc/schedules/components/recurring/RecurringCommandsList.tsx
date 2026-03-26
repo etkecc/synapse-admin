@@ -1,5 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Loading, Button, useLocale, useTranslate } from "react-admin";
 import { DateField, useRecordContext } from "react-admin";
 import { Datagrid } from "react-admin";
@@ -19,8 +21,9 @@ const ListActions = () => {
       <Button
         label={translate("etkecc.actions.buttons.create")}
         onClick={() => navigate("/server_actions/recurring/create")}
-        startIcon={<AddIcon />}
-      />
+      >
+        <AddIcon />
+      </Button>
     </TopToolbar>
   );
 };
@@ -69,6 +72,8 @@ const RecurringTimeField = ({ label: _label }: { label?: string }) => {
 const RecurringCommandsList = () => {
   const locale = useLocale();
   const translate = useTranslate();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const { data, isLoading } = useRecurringCommands();
 
   const listContext = useList({
@@ -98,7 +103,7 @@ const RecurringCommandsList = () => {
             }}
           >
             <TextField source="command" label={translate("etkecc.actions.table.command")} />
-            <TextField source="args" label={translate("etkecc.actions.table.arguments")} />
+            {!isSmall && <TextField source="args" label={translate("etkecc.actions.table.arguments")} />}
             <RecurringTimeField label={translate("etkecc.actions.table.time_local")} />
             <DateField
               options={DATE_FORMAT}

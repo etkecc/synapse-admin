@@ -1,7 +1,7 @@
 import { TranslationMessages } from "ra-core";
 
-interface SynapseTranslationMessages extends TranslationMessages {
-  synapseadmin: {
+export interface SynapseTranslationMessages extends TranslationMessages {
+  ketesa: {
     auth: {
       base_url: string;
       welcome: string;
@@ -23,6 +23,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
     users: {
       invalid_user_id: string;
       tabs: { sso: string; experimental: string; limits: string; account_data: string };
+      danger_zone: string;
     };
     rooms: {
       details: string;
@@ -32,9 +33,17 @@ interface SynapseTranslationMessages extends TranslationMessages {
         detail: string;
         permission: string;
         media: string;
+        messages: string;
+        hierarchy: string;
       };
     };
     reports: { tabs: { basic: string; detail: string } };
+    admin_config: {
+      soft_failed_events: string;
+      spam_flagged_events: string;
+      success: string;
+      failure: string;
+    };
   };
   import_users: {
     error: {
@@ -106,6 +115,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
     action: {
       send: string;
       send_success: string;
+      send_success_none: string;
       send_failure: string;
     };
     helper: {
@@ -120,6 +130,7 @@ interface SynapseTranslationMessages extends TranslationMessages {
     action: {
       send: string;
       send_success: string;
+      send_success_none: string;
       send_failure: string;
     };
     helper: {
@@ -147,6 +158,16 @@ interface SynapseTranslationMessages extends TranslationMessages {
         show_guests: string;
         show_deactivated: string;
         show_locked: string;
+        filter_user_all: string;
+        filter_deactivated_false: string;
+        filter_deactivated_true: string;
+        filter_locked_false: string;
+        filter_locked_true: string;
+        filter_guests_false: string;
+        filter_guests_true: string;
+        show_system_users: string;
+        filter_system_users_false: string;
+        filter_system_users_true: string;
         show_suspended: string;
         show_shadow_banned: string;
         user_id: string;
@@ -159,6 +180,8 @@ interface SynapseTranslationMessages extends TranslationMessages {
         address: string;
         creation_ts_ms: string;
         consent_version: string;
+        sent_invite_count: string;
+        cumulative_joined_room_count: string;
         auth_provider: string;
         user_type: string;
       };
@@ -176,12 +199,18 @@ interface SynapseTranslationMessages extends TranslationMessages {
         erase_admin_error: string;
         modify_managed_user_error: string;
         username_available: string;
+        sent_invite_count: string;
+        cumulative_joined_room_count: string;
       };
       action: {
         erase: string;
         erase_avatar: string;
         delete_media: string;
         redact_events: string;
+        redact_in_progress: string;
+        redact_background_note: string;
+        redact_success: string;
+        redact_failure: string;
         generate_password: string;
         reset_password: {
           label: string;
@@ -208,6 +237,44 @@ interface SynapseTranslationMessages extends TranslationMessages {
         overwrite_content: string;
         overwrite_cancel: string;
         overwrite_confirm: string;
+        quarantine_all: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+          failure: string;
+        };
+        allow_cross_signing: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+          failure: string;
+          no_key: string;
+        };
+        find_user: {
+          label: string;
+          title: string;
+          lookup_type: string;
+          by_threepid: string;
+          by_auth_provider: string;
+          provider: string;
+          external_id: string;
+          search: string;
+          not_found: string;
+          failure: string;
+        };
+        renew_account: {
+          label: string;
+          title: string;
+          content: string;
+          expiration: string;
+          expiration_helper: string;
+          renewal_emails: string;
+          success: string;
+          failure: string;
+        };
+        system_users_scan_in_progress: string;
       };
       badge: {
         you: string;
@@ -286,6 +353,8 @@ interface SynapseTranslationMessages extends TranslationMessages {
           fields: {
             block: string;
           };
+          in_progress: string;
+          background_note: string;
           success: string;
           failure: string;
         };
@@ -320,6 +389,65 @@ interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        purge_history: {
+          label: string;
+          title: string;
+          content: string;
+          date_label: string;
+          delete_local: string;
+          in_progress: string;
+          background_note: string;
+          success: string;
+          failure: string;
+        };
+        quarantine_all: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+          failure: string;
+        };
+        event_context: {
+          jump_to_date: string;
+          direction: string;
+          forward: string;
+          backward: string;
+          target_event: string;
+          events_before: string;
+          events_after: string;
+          not_found: string;
+          failure: string;
+        };
+        messages: {
+          load_older: string;
+          load_newer: string;
+          no_messages: string;
+          failure: string;
+          filter: string;
+          filter_type: string;
+          filter_sender: string;
+          advanced_filters: string;
+          filter_not_type: string;
+          filter_not_sender: string;
+          contains_url: string;
+          any: string;
+          with_url: string;
+          without_url: string;
+          apply_filter: string;
+          clear_filters: string;
+        };
+        hierarchy: {
+          load_more: string;
+          max_depth: string;
+          unlimited: string;
+          refresh: string;
+          members: string;
+          space: string;
+          room: string;
+          suggested: string;
+          no_children: string;
+          failure: string;
+        };
       };
     };
     reports: {
@@ -332,28 +460,39 @@ interface SynapseTranslationMessages extends TranslationMessages {
         score: string;
         reason: string;
         event_id: string;
-        event_json: {
-          origin: string;
-          origin_server_ts: string;
-          type: string;
-          content: {
-            msgtype: string;
-            body: string;
-            format: string;
-            formatted_body: string;
-            algorithm: string;
-            url: string;
-            info: {
-              mimetype: string;
-            };
-          };
-        };
+        sender: string;
       };
       action: {
         erase: {
           title: string;
           content: string;
         };
+        event_lookup: {
+          label: string;
+          title: string;
+          fetch: string;
+        };
+        fetch_event_error: string;
+      };
+    };
+    scheduled_tasks: {
+      name: string;
+      fields: {
+        id: string;
+        action: string;
+        status: string;
+        timestamp: string;
+        resource_id: string;
+        result: string;
+        error: string;
+        max_timestamp: string;
+      };
+      status: {
+        scheduled: string;
+        active: string;
+        complete: string;
+        cancelled: string;
+        failed: string;
       };
     };
     connections: {
@@ -380,6 +519,16 @@ interface SynapseTranslationMessages extends TranslationMessages {
           title_bulk: string;
           content: string;
           content_bulk: string;
+          success: string;
+          failure: string;
+        };
+        display_name: {
+          success: string;
+          failure: string;
+        };
+        create: {
+          label: string;
+          title: string;
           success: string;
           failure: string;
         };
@@ -534,9 +683,22 @@ interface SynapseTranslationMessages extends TranslationMessages {
         completed: string;
         expiry_time: string;
         length: string;
+        created_at: string;
+        last_used_at: string;
+        revoked_at: string;
       };
       helper: {
         length: string;
+      };
+      action: {
+        revoke: {
+          label: string;
+          success: string;
+        };
+        unrevoke: {
+          label: string;
+          success: string;
+        };
       };
     };
   };

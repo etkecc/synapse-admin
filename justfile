@@ -14,6 +14,10 @@ update:
     -rm yarn.lock
     yarn install --network-timeout=300000
 
+# update local API docs stored in docs/apis/* using docs/update-api-docs.ts script
+update-api-docs:
+    yarn run update-api-docs
+
 # run the app in a development mode
 run:
     @yarn start --host 0.0.0.0
@@ -32,8 +36,8 @@ run-dev:
     @docker-compose -f docker-compose-dev.yml up -d element
     @echo "Ensure admin user is registered..."
     @docker-compose -f docker-compose-dev.yml exec mas mas-cli manage register-user --yes --admin -p admin admin || true
-    @echo "Starting the pre-built (prod version) of the Synapse Admin app on http://localhost:8008/admin ..."
-    @docker-compose -f docker-compose-dev.yml up -d synapse-admin-prod
+    @echo "Starting the pre-built (prod version) of the Ketesa app on http://localhost:8008/admin ..."
+    @docker-compose -f docker-compose-dev.yml up -d ketesa-prod
     @echo "Starting the app..."
     @yarn start --host 0.0.0.0
 
@@ -50,10 +54,15 @@ register-user localpart password *admin:
 
 # run fixers, formatters, linters, and tests in a strict order
 test:
+    @echo "Making linter happy..."
     @yarn -s run fix --quiet
+    @echo "Formatting code..."
     @yarn -s run format --log-level warn
-    @yarn -s run lint --quiet
+    @echo "Type-checking code..."
+    @yarn -s run typecheck
+    @echo "Running tests..."
     @yarn -s run test --silent
+    @echo "All checks passed successfully!"
 
 # run the app in a production mode
 run-prod: build

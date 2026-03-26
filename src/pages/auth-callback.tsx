@@ -2,9 +2,9 @@ import { Loading } from "react-admin";
 import { createRoot } from "react-dom/client";
 import React from "react";
 
-import authProvider from "./providers/authProvider";
-import { FetchConfig, GetConfig } from "./utils/config";
-import { FetchInstanceConfig, GetInstanceConfig } from "./components/etke.cc/InstanceConfig";
+import authProvider from "../providers/authProvider";
+import { FetchConfig, GetConfig } from "../utils/config";
+import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 
 interface AuthProviderLike {
   handleCallback?: () => Promise<{ redirectTo?: string } | void>;
@@ -49,10 +49,10 @@ export const runAuthCallback = async (provider: AuthProviderLike): Promise<{ red
 
 const ensureBaseTitle = () => {
   if (!document.head.dataset.baseTitle) {
-    document.head.dataset.baseTitle = "Synapse Admin";
+    document.head.dataset.baseTitle = "Ketesa";
   }
   if (!document.title) {
-    document.title = "Synapse Admin";
+    document.title = "Ketesa";
   }
 };
 
@@ -64,6 +64,13 @@ export const bootstrapAuthCallback = (
   ensureBaseTitle();
   const root = rootElement ? createRoot(rootElement) : null;
   root?.render(<Loading loadingPrimary="" loadingSecondary="" />);
+
+  // Fade out and remove the static loader overlay
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.classList.add("fade-out");
+    loader.addEventListener("transitionend", () => loader.remove(), { once: true });
+  }
 
   void (async () => {
     await FetchConfig();
@@ -87,16 +94,16 @@ export const bootstrapAuthCallback = (
         return;
       }
       const { renderAuthCallbackError } = await import("./auth-callback-error");
-      renderAuthCallbackError(root, { message, onBack: () => redirectToApp(location, "/login") });
+      await renderAuthCallbackError(root, { message, onBack: () => redirectToApp(location, "/login") });
     });
 };
 
 declare global {
   interface Window {
-    __SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__?: boolean;
+    __KETESA_AUTH_CALLBACK_ENTRY__?: boolean;
   }
 }
 
-if (typeof window !== "undefined" && window.__SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__) {
+if (typeof window !== "undefined" && window.__KETESA_AUTH_CALLBACK_ENTRY__) {
   bootstrapAuthCallback();
 }

@@ -82,6 +82,7 @@ jobs:
         with:
           images: |
             ${{ github.repository }}
+            etkecc/synapse-admin
             ghcr.io/${{ github.repository }}
             registry.etke.cc/${{ github.repository }}
           tags: |
@@ -96,6 +97,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            VCS_REF=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+            BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
 
   docker-subpath-admin:
     name: Docker (subpath /admin)
@@ -126,6 +131,7 @@ jobs:
         with:
           images: |
             ${{ github.repository }}
+            etkecc/synapse-admin
             ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=latest-subpath-admin,enable=${{ github.ref_name == 'main' }}
@@ -136,8 +142,13 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: .
           push: true
+          file: Dockerfile.subpath-admin
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+            VCS_REF=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+            BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
 
   cdn:
     name: CDN
@@ -176,15 +187,15 @@ jobs:
           path: dist-subpath-admin/
       - name: Prepare release
         run: |
-          mv dist-root synapse-admin
-          tar chvzf synapse-admin.tar.gz synapse-admin
-          mv dist-subpath-admin synapse-admin-subpath-admin
-          tar chvzf synapse-admin-subpath-admin.tar.gz synapse-admin-subpath-admin
-      - uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
+          mv dist-root ketesa
+          tar chvzf ketesa.tar.gz ketesa
+          mv dist-subpath-admin ketesa-subpath-admin
+          tar chvzf ketesa-subpath-admin.tar.gz ketesa-subpath-admin
+      - uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           files: |
-            synapse-admin.tar.gz
-            synapse-admin-subpath-admin.tar.gz
+            ketesa.tar.gz
+            ketesa-subpath-admin.tar.gz
           generate_release_notes: true
           make_latest: "true"
           draft: false

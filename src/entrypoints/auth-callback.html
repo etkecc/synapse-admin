@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#313131" />
-    <meta name="description" content="Synapse Admin" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F5F5F5" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0C1318" />
+    <meta name="description" content="Ketesa" />
     <base href="../" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -14,26 +14,35 @@
     <link rel="manifest" href="./manifest.json" media="(prefers-color-scheme: light)" data-scheme="light" />
     <link rel="manifest" href="./manifest-dark.json" media="(prefers-color-scheme: dark)" data-scheme="dark" />
     <link rel="shortcut icon" href="./favicon.ico" />
-    <link rel="modulepreload" href="/src/auth-callback-error.tsx" />
-    <title>Synapse Admin</title>
+    <title>Ketesa</title>
     <style>
       :root {
         color-scheme: light dark;
-        --loader-bg: #fafafa;
-        --loader-fg: #283593;
+        --loader-bg: #f0f2f5;
+        --loader-fg: #1858d5;
+        --loader-fg-alpha: rgba(24, 88, 213, 0.12);
+        --loader-accent: rgba(244, 147, 0, 0.08);
+        --loader-card-bg: rgba(255, 255, 255, 0.8);
+        --loader-card-border: rgba(229, 231, 235, 0.8);
+        --loader-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --loader-bg: #313131;
-          --loader-fg: #90caf9;
+          --loader-bg: #0c1318;
+          --loader-fg: #f49300;
+          --loader-fg-alpha: rgba(244, 147, 0, 0.15);
+          --loader-accent: rgba(244, 147, 0, 0.08);
+          --loader-card-bg: rgba(21, 28, 36, 0.75);
+          --loader-card-border: rgba(244, 147, 0, 0.18);
+          --loader-card-shadow: 0 0 30px rgba(244, 147, 0, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
         }
       }
 
       body {
         margin: 0;
         padding: 0;
-        font-family: sans-serif;
+        font-family: "Inter", "Work Sans", system-ui, sans-serif;
       }
 
       .layout {
@@ -44,7 +53,7 @@
       .loader-container {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         flex-direction: column;
         position: absolute;
         top: 0;
@@ -52,60 +61,140 @@
         left: 0;
         right: 0;
         background-color: var(--loader-bg);
+        overflow: hidden;
       }
 
-      /* CSS Spinner from https://projects.lukehaas.me/css-loaders/ */
-
-      .loader,
-      .loader:before,
-      .loader:after {
-        border-radius: 50%;
-      }
-
-      .loader {
-        color: var(--loader-fg);
-        font-size: 11px;
-        text-indent: -99999em;
-        margin: 55px auto;
-        position: relative;
-        width: 10em;
-        height: 10em;
-        box-shadow: inset 0 0 0 1em;
-        -webkit-transform: translateZ(0);
-        -ms-transform: translateZ(0);
-        transform: translateZ(0);
-      }
-
-      .loader:before,
-      .loader:after {
-        position: absolute;
+      .loader-container::before,
+      .loader-container::after {
         content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
       }
 
-      .loader:before {
-        width: 5.2em;
-        height: 10.2em;
-        background: var(--loader-bg);
-        border-radius: 10.2em 0 0 10.2em;
-        top: -0.1em;
-        left: -0.1em;
-        -webkit-transform-origin: 5.2em 5.1em;
-        transform-origin: 5.2em 5.1em;
-        -webkit-animation: load2 2s infinite ease 1.5s;
-        animation: load2 2s infinite ease 1.5s;
+      .loader-container::before {
+        background:
+          radial-gradient(circle 320px at 15% 25%, var(--loader-fg-alpha) 0%, transparent 70%),
+          radial-gradient(circle 250px at 80% 75%, var(--loader-accent) 0%, transparent 70%),
+          radial-gradient(circle 200px at 75% 20%, var(--loader-fg-alpha) 0%, transparent 70%);
+        animation: bgFloat1 20s ease-in-out infinite;
       }
 
-      .loader:after {
-        width: 5.2em;
-        height: 10.2em;
-        background: var(--loader-bg);
-        border-radius: 0 10.2em 10.2em 0;
-        top: -0.1em;
-        left: 5.1em;
-        -webkit-transform-origin: 0px 5.1em;
-        transform-origin: 0px 5.1em;
-        -webkit-animation: load2 2s infinite ease;
-        animation: load2 2s infinite ease;
+      .loader-container::after {
+        background:
+          radial-gradient(circle 220px at 35% 55%, var(--loader-fg-alpha) 0%, transparent 70%),
+          radial-gradient(circle 180px at 65% 45%, var(--loader-accent) 0%, transparent 70%);
+        animation:
+          bgFloat2 25s ease-in-out infinite,
+          bgPulse 8s ease-in-out infinite;
+      }
+
+      .loader-bg-orb {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(60px);
+      }
+
+      .loader-bg-orb-1 {
+        width: 400px;
+        height: 400px;
+        top: -5%;
+        right: -5%;
+        background: var(--loader-fg-alpha);
+        animation: bgFloat3 22s ease-in-out infinite;
+      }
+
+      .loader-bg-orb-2 {
+        width: 300px;
+        height: 300px;
+        bottom: 10%;
+        left: -3%;
+        background: var(--loader-accent);
+        animation: bgFloat1 18s ease-in-out infinite reverse;
+      }
+
+      .loader-container.fade-out {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+
+      .loader-card {
+        position: relative;
+        z-index: 1;
+        width: 30rem;
+        min-height: 534px;
+        margin-top: 6rem;
+        border-radius: 8px;
+        background: var(--loader-card-bg);
+        backdrop-filter: blur(16px);
+        border: 1px solid var(--loader-card-border);
+        box-shadow: var(--loader-card-shadow);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 48px 32px;
+        box-sizing: border-box;
+      }
+
+      @media (max-width: 600px) {
+        .loader-card {
+          width: 100%;
+          min-height: 100vh;
+          margin-top: 0;
+          border-radius: 0;
+          border: none;
+        }
+        .loader-spark {
+          offset-path: rect(0% 100% 100% 0%);
+        }
+      }
+
+      .loader-spark {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--loader-fg);
+        box-shadow:
+          0 0 14px var(--loader-fg),
+          0 0 28px var(--loader-fg);
+        offset-path: rect(0% 100% 100% 0% round 8px);
+        animation: sparkTravel 4s linear infinite;
+        z-index: 2;
+      }
+
+      .loader-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--loader-fg-alpha);
+        animation: placeholderPulse 2s ease-in-out infinite;
+      }
+
+      .loader-line {
+        height: 14px;
+        border-radius: 4px;
+        background: var(--loader-fg-alpha);
+        animation: placeholderPulse 2s ease-in-out infinite;
+      }
+
+      .loader-line-short {
+        width: 45%;
+        animation-delay: 0.15s;
+      }
+
+      .loader-line-long {
+        width: 75%;
+        animation-delay: 0.3s;
+      }
+
+      .loader-line-medium {
+        width: 60%;
+        animation-delay: 0.45s;
       }
 
       .auth-callback-error {
@@ -142,7 +231,7 @@
 
       .auth-callback-error__button {
         border: none;
-        border-radius: 999px;
+        border-radius: 4px;
         padding: 10px 18px;
         font-size: 14px;
         cursor: pointer;
@@ -155,41 +244,102 @@
         outline-offset: 2px;
       }
 
-      @-webkit-keyframes load2 {
+      @keyframes sparkTravel {
         0% {
-          -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
+          offset-distance: 0%;
         }
         100% {
-          -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
+          offset-distance: 100%;
         }
       }
 
-      @keyframes load2 {
+      @keyframes placeholderPulse {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes bgFloat1 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(60px, -40px) scale(1.1);
+        }
+        50% {
+          transform: translate(-30px, 60px) scale(0.95);
+        }
+        75% {
+          transform: translate(40px, 30px) scale(1.05);
+        }
+      }
+
+      @keyframes bgFloat2 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(-50px, 50px) scale(1.08);
+        }
+        66% {
+          transform: translate(70px, -20px) scale(0.92);
+        }
+      }
+
+      @keyframes bgFloat3 {
         0% {
-          -webkit-transform: rotate(0deg);
-          transform: rotate(0deg);
+          transform: translateY(0) rotate(0deg) scale(1);
+        }
+        25% {
+          transform: translateY(-12px) rotate(2deg) scale(1.03);
+        }
+        50% {
+          transform: translateY(-4px) rotate(-1deg) scale(0.98);
+        }
+        75% {
+          transform: translateY(-14px) rotate(1.5deg) scale(1.02);
         }
         100% {
-          -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
+          transform: translateY(0) rotate(0deg) scale(1);
+        }
+      }
+
+      @keyframes bgPulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 0.9;
         }
       }
     </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
-      <div class="loader-container">
-        <div class="loader">Loading...</div>
+    <div id="root"></div>
+    <div id="loader" class="loader-container">
+      <div class="loader-bg-orb loader-bg-orb-1"></div>
+      <div class="loader-bg-orb loader-bg-orb-2"></div>
+      <div class="loader-card">
+        <div class="loader-spark"></div>
+        <div class="loader-avatar"></div>
+        <div class="loader-line loader-line-short"></div>
+        <div class="loader-line loader-line-long"></div>
+        <div class="loader-line loader-line-medium"></div>
       </div>
     </div>
     <span id="js-version" style="display: none"></span>
     <script>
-      window.__SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__ = true;
+      window.__KETESA_AUTH_CALLBACK_ENTRY__ = true;
     </script>
-    <script type="module" src="/src/auth-callback.tsx"></script>
+    <script type="module" src="/src/pages/auth-callback.tsx"></script>
   </body>
   <script>
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -228,6 +378,6 @@
     } else if (typeof mediaQuery.addListener === "function") {
       mediaQuery.addListener(updateManifest);
     }
-    document.getElementById("js-version").textContent = __SYNAPSE_ADMIN_VERSION__;
+    document.getElementById("js-version").textContent = __KETESA_VERSION__;
   </script>
 </html>

@@ -51,8 +51,9 @@ const ScheduledDeleteButton = () => {
         label={translate("etkecc.actions.buttons.delete")}
         onClick={handleClick}
         disabled={isDeleting}
-        startIcon={<DeleteIcon />}
-      />
+      >
+        <DeleteIcon />
+      </Button>
       <Confirm
         isOpen={open}
         title={translate("etkecc.actions.delete_scheduled_title")}

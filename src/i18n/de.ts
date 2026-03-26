@@ -1,6 +1,6 @@
 import { formalGermanMessages } from "@haleos/ra-language-german";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const fixedGermanMessages = {
   ...formalGermanMessages,
@@ -67,7 +67,7 @@ const de: SynapseTranslationMessages = {
       unique: "Muss eindeutig sein",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Heimserver URL",
       welcome: "Willkommen bei %{name}",
@@ -90,6 +90,7 @@ const de: SynapseTranslationMessages = {
     users: {
       invalid_user_id: "Lokaler Anteil der Matrix Benutzer-ID ohne Homeserver.",
       tabs: { sso: "SSO", experimental: "Experimentell", limits: "Rate Limits", account_data: "Kontodaten" },
+      danger_zone: "Gefahrenzone",
     },
     rooms: {
       details: "Raumdetails",
@@ -99,9 +100,17 @@ const de: SynapseTranslationMessages = {
         detail: "Details",
         permission: "Berechtigungen",
         media: "Medien",
+        messages: "Nachrichten",
+        hierarchy: "Hierarchie",
       },
     },
     reports: { tabs: { basic: "Allgemein", detail: "Details" } },
+    admin_config: {
+      soft_failed_events: "Soft-fehlgeschlagene Ereignisse",
+      spam_flagged_events: "Als Spam markierte Ereignisse",
+      success: "Admin-Konfiguration aktualisiert",
+      failure: "Admin-Konfiguration konnte nicht aktualisiert werden",
+    },
   },
   import_users: {
     error: {
@@ -174,7 +183,9 @@ const de: SynapseTranslationMessages = {
     },
     action: {
       send: "Medien löschen",
-      send_success: "Anfrage erfolgreich versendet.",
+      send_success:
+        "%{smart_count} Mediendatei erfolgreich gelöscht. |||| %{smart_count} Mediendateien erfolgreich gelöscht.",
+      send_success_none: "Keine Mediendateien entsprachen den angegebenen Kriterien. Es wurde nichts gelöscht.",
       send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
     },
     helper: {
@@ -188,7 +199,10 @@ const de: SynapseTranslationMessages = {
     },
     action: {
       send: "Externe Medien löschen",
-      send_success: "Die Anfrage zum Löschen externer Medien wurde gesendet.",
+      send_success:
+        "%{smart_count} externe Mediendatei erfolgreich gelöscht. |||| %{smart_count} externe Mediendateien erfolgreich gelöscht.",
+      send_success_none:
+        "Keine externen Mediendateien entsprachen den angegebenen Kriterien. Es wurde nichts gelöscht.",
       send_failure: "Bei der Anfrage zum Löschen externer Medien ist ein Fehler aufgetreten.",
     },
     helper: {
@@ -216,6 +230,16 @@ const de: SynapseTranslationMessages = {
         show_guests: "Zeige Gäste",
         show_deactivated: "Nur deaktivierte anzeigen",
         show_locked: "Zeige gesperrte Benutzer",
+        filter_user_all: "Alle",
+        filter_deactivated_false: "Aktiv",
+        filter_deactivated_true: "Deaktiviert",
+        filter_locked_false: "Gesperrte ausschließen",
+        filter_locked_true: "Gesperrte einschließen",
+        filter_guests_false: "Gäste ausschließen",
+        filter_guests_true: "Gäste einschließen",
+        show_system_users: "Systembenutzer anzeigen",
+        filter_system_users_false: "Systembenutzer ausblenden",
+        filter_system_users_true: "Nur Systembenutzer",
         show_suspended: "Zeige suspendierte Benutzer",
         show_shadow_banned: "Zeige schattengebannte Benutzer",
         user_id: "Suche Benutzer",
@@ -228,6 +252,8 @@ const de: SynapseTranslationMessages = {
         address: "Adresse",
         creation_ts_ms: "Zeitpunkt der Erstellung",
         consent_version: "Zugestimmte Geschäftsbedingungen",
+        sent_invite_count: "Gesendete Einladungen",
+        cumulative_joined_room_count: "Kumulierte beigetretene Räume",
         auth_provider: "Provider",
         user_type: "Benutzertyp",
       },
@@ -248,6 +274,9 @@ const de: SynapseTranslationMessages = {
         erase_admin_error: "Das Löschen des eigenen Benutzers ist nicht erlaubt.",
         modify_managed_user_error: "Das Ändern eines vom System verwalteten Benutzers ist nicht zulässig.",
         username_available: "Benutzername verfügbar",
+        sent_invite_count: "Gesamtzahl der von diesem Benutzer in allen Räumen gesendeten Einladungen.",
+        cumulative_joined_room_count:
+          "Gesamtzahl der Räume, denen dieser Benutzer jemals beigetreten ist, einschließlich Räume, die er verlassen hat oder aus denen er verbannt wurde.",
       },
       badge: {
         you: "Sie",
@@ -263,6 +292,12 @@ const de: SynapseTranslationMessages = {
         erase_avatar: "Avatar löschen",
         delete_media: "Alle von dem/den Benutzer(n) hochgeladenen Medien löschen",
         redact_events: "Schwärzen aller vom Benutzer gesendeten Ereignisse (-s)",
+        redact_in_progress: "Schwärzung läuft\u2026",
+        redact_background_note:
+          "Sie können diesen Dialog bedenkenlos schließen, die Schwärzung wird im Hintergrund fortgesetzt.",
+        redact_success: "Alle Ereignisse wurden erfolgreich geschwärzt.",
+        redact_failure:
+          "Schwärzung mit %{smart_count} fehlgeschlagenem Ereignis abgeschlossen. |||| Schwärzung mit %{smart_count} fehlgeschlagenen Ereignissen abgeschlossen.",
         generate_password: "Passwort generieren",
         reset_password: {
           label: "Passwort zurücksetzen",
@@ -291,6 +326,49 @@ const de: SynapseTranslationMessages = {
           "Dieser Benutzername ist bereits vergeben. Sind Sie sicher, dass Sie den vorhandenen Benutzer überschreiben möchten?",
         overwrite_cancel: "Abbrechen",
         overwrite_confirm: "Überschreiben",
+        quarantine_all: {
+          label: "Alle Medien unter Quarantäne stellen",
+          title: "Alle Medien von %{userName} unter Quarantäne stellen",
+          content:
+            "Alle lokalen Medien dieses Benutzers werden unter Quarantäne gestellt. Unter Quarantäne gestellte Medien sind für andere Benutzer nicht mehr zugänglich.",
+          success:
+            "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
+          failure: "Quarantäne fehlgeschlagen. %{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "Cross-Signing-Reset erlauben",
+          title: "Cross-Signing-Schlüsselersatz erlauben",
+          content:
+            "Soll %{user} erlaubt werden, ihre Cross-Signing-Schlüssel ohne benutzerinteraktive Authentifizierung zu ersetzen? Dies öffnet ein temporäres Fenster, in dem die Schlüssel ersetzt werden können.",
+          success: "Cross-Signing-Schlüsselersatz erlaubt bis %{deadline}",
+          failure: "Cross-Signing-Ersatz konnte nicht erlaubt werden",
+          no_key: "Benutzer hat keinen Master-Cross-Signing-Schlüssel",
+        },
+        find_user: {
+          label: "Benutzer suchen",
+          title: "Benutzer suchen",
+          lookup_type: "Suchart",
+          by_threepid: "Per E-Mail / Telefonnummer",
+          by_auth_provider: "Per Authentifizierungsanbieter",
+          provider: "Authentifizierungsanbieter-ID",
+          external_id: "Externe ID",
+          search: "Suchen",
+          not_found: "Benutzer nicht gefunden",
+          failure: "Benutzersuche fehlgeschlagen",
+        },
+        renew_account: {
+          label: "Konto erneuern",
+          title: "Kontogültigkeit erneuern",
+          content:
+            "Erneuert die Kontogültigkeit für %{user}. Optional kann ein benutzerdefiniertes Ablaufdatum festgelegt werden. Wenn leer gelassen, wird der standardmäßige Erneuerungszeitraum des Servers verwendet.",
+          expiration: "Ablaufdatum",
+          expiration_helper: "Leer lassen, um den standardmäßigen Erneuerungszeitraum des Servers zu verwenden",
+          renewal_emails: "Erneuerungs-Benachrichtigungs-E-Mails senden",
+          success: "Kontogültigkeit bis %{date} erneuert",
+          failure: "Erneuerung der Kontogültigkeit fehlgeschlagen",
+        },
+        system_users_scan_in_progress:
+          "Einen Moment – es werden noch passende Benutzer gesucht, die Seite wird gleich geladen",
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",
@@ -362,6 +440,9 @@ const de: SynapseTranslationMessages = {
           fields: {
             block: "Blockieren und Benutzer daran hindern, dem Raum beizutreten",
           },
+          in_progress: "Löschung läuft…",
+          background_note:
+            "Sie können dieses Fenster bedenkenlos schließen, die Löschung wird im Hintergrund fortgesetzt.",
           success: "Raum/Räume erfolgreich gelöscht.",
           failure: "Der/die Raum/Räume konnten nicht gelöscht werden.",
         },
@@ -399,6 +480,69 @@ const de: SynapseTranslationMessages = {
           success: "Raum erfolgreich entsperrt. |||| Räume erfolgreich entsperrt.",
           failure: "Raum konnte nicht entsperrt werden. |||| Räume konnten nicht entsperrt werden.",
         },
+        purge_history: {
+          label: "Verlauf bereinigen",
+          title: "Verlauf von %{roomName} bereinigen",
+          content:
+            "Alle Ereignisse vor dem ausgewählten Datum werden aus der Datenbank gelöscht. Raumstatus (Beitritte, Austritte, Thema) bleibt erhalten. Mindestens eine Nachricht bleibt immer erhalten.\nHinweis: Dieser Vorgang kann bei großen Räumen mehrere Minuten dauern.",
+          date_label: "Ereignisse bereinigen vor",
+          delete_local: "Auch von lokalen Benutzern gesendete Ereignisse löschen",
+          in_progress: "Bereinigung läuft…",
+          background_note:
+            "Sie können dieses Fenster bedenkenlos schließen, die Bereinigung wird im Hintergrund fortgesetzt.",
+          success: "Raumverlauf erfolgreich bereinigt.",
+          failure: "Bereinigung des Raumverlaufs fehlgeschlagen. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Alle Medien unter Quarantäne stellen",
+          title: "Alle Medien in %{roomName} unter Quarantäne stellen",
+          content:
+            "Alle lokalen und remote Medien in diesem Raum werden unter Quarantäne gestellt. Unter Quarantäne gestellte Medien sind für Benutzer nicht mehr zugänglich.",
+          success:
+            "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
+          failure: "Quarantäne fehlgeschlagen. %{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "Zu Datum springen",
+          direction: "Richtung",
+          forward: "Vorwärts",
+          backward: "Rückwärts",
+          target_event: "Zielereignis",
+          events_before: "Ereignisse davor",
+          events_after: "Ereignisse danach",
+          not_found: "Kein Ereignis zum angegebenen Zeitpunkt gefunden",
+          failure: "Ereigniskontext konnte nicht abgerufen werden",
+        },
+        messages: {
+          load_older: "Ältere laden",
+          load_newer: "Neuere laden",
+          no_messages: "Keine Nachrichten in diesem Raum",
+          failure: "Nachrichten konnten nicht geladen werden",
+          filter: "Filter",
+          filter_type: "Ereignistypen",
+          filter_sender: "Absender",
+          advanced_filters: "Erweiterte Filter",
+          filter_not_type: "Ereignistypen ausschließen",
+          filter_not_sender: "Absender ausschließen",
+          contains_url: "Enthält URL",
+          any: "Beliebig",
+          with_url: "Nur mit URL",
+          without_url: "Nur ohne URL",
+          apply_filter: "Anwenden",
+          clear_filters: "Zurücksetzen",
+        },
+        hierarchy: {
+          load_more: "Mehr laden",
+          max_depth: "Maximale Tiefe",
+          unlimited: "Unbegrenzt",
+          refresh: "Aktualisieren",
+          members: "%{count} Mitglieder",
+          space: "Space",
+          room: "Raum",
+          suggested: "Empfohlen",
+          no_children: "Dieser Raum hat keine Hierarchie",
+          failure: "Hierarchie konnte nicht geladen werden",
+        },
       },
     },
     reports: {
@@ -408,25 +552,10 @@ const de: SynapseTranslationMessages = {
         received_ts: "Meldezeit",
         user_id: "Meldender",
         name: "Raumname",
-        score: "Wert",
+        score: "Bewertung",
         reason: "Grund",
         event_id: "Event-ID",
-        event_json: {
-          origin: "Ursprungsserver",
-          origin_server_ts: "Sendezeit",
-          type: "Eventtyp",
-          content: {
-            msgtype: "Inhaltstyp",
-            body: "Nachrichteninhalt",
-            format: "Nachrichtenformat",
-            formatted_body: "Formatierter Nachrichteninhalt",
-            algorithm: "Verschlüsselungsalgorithmus",
-            info: {
-              mimetype: "Typ",
-            },
-            url: "URL",
-          },
-        },
+        sender: "Absender",
       },
       action: {
         erase: {
@@ -434,6 +563,32 @@ const de: SynapseTranslationMessages = {
           content:
             "Sind Sie sicher, dass Sie das gemeldete Event löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
         },
+        event_lookup: {
+          label: "Event-Suche",
+          title: "Event nach ID abrufen",
+          fetch: "Abrufen",
+        },
+        fetch_event_error: "Fehler beim Abrufen des Events",
+      },
+    },
+    scheduled_tasks: {
+      name: "Geplante Aufgabe |||| Geplante Aufgaben",
+      fields: {
+        id: "ID",
+        action: "Aktion",
+        status: "Status",
+        timestamp: "Zeitstempel",
+        resource_id: "Ressourcen-ID",
+        result: "Ergebnis",
+        error: "Fehler",
+        max_timestamp: "Vor Datum",
+      },
+      status: {
+        scheduled: "Geplant",
+        active: "Aktiv",
+        complete: "Abgeschlossen",
+        cancelled: "Abgebrochen",
+        failed: "Fehlgeschlagen",
       },
     },
     connections: {
@@ -464,6 +619,16 @@ const de: SynapseTranslationMessages = {
           success: "Gerät erfolgreich entfernt.",
           failure: "Beim Entfernen ist ein Fehler aufgetreten.",
         },
+        display_name: {
+          success: "Gerätename aktualisiert",
+          failure: "Gerätename konnte nicht aktualisiert werden",
+        },
+        create: {
+          label: "Gerät erstellen",
+          title: "Neues Gerät erstellen",
+          success: "Gerät erstellt",
+          failure: "Gerät konnte nicht erstellt werden",
+        },
       },
     },
     users_media: {
@@ -484,8 +649,8 @@ const de: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Ungeschützt, Schutz aktivieren",
-        delete: "Geschützt, Schutz deaktivieren",
+        create: "Schützen",
+        delete: "Schutz aufheben",
         none: "In Quarantäne",
         send_success: "Erfolgreich den Schutz-Status geändert.",
         send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
@@ -494,9 +659,9 @@ const de: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Quarantäne",
-        create: "Zur Quarantäne hinzufügen",
-        delete: "In Quarantäne, Quarantäne aufheben",
-        none: "Geschützt vor Quarantäne",
+        create: "Quarantäne",
+        delete: "Freigeben",
+        none: "Geschützt",
         send_success: "Erfolgreich den Quarantäne-Status geändert.",
         send_failure: "Beim Versenden ist ein Fehler aufgetreten: %{error}",
       },
@@ -612,8 +777,21 @@ const de: SynapseTranslationMessages = {
         completed: "Abgeschlossen",
         expiry_time: "Ablaufzeit",
         length: "Länge",
+        created_at: "Erstellt am",
+        last_used_at: "Zuletzt verwendet am",
+        revoked_at: "Widerrufen am",
       },
       helper: { length: "Länge des Tokens, wenn kein Token vorgegeben wird." },
+      action: {
+        revoke: {
+          label: "Widerrufen",
+          success: "Token widerrufen",
+        },
+        unrevoke: {
+          label: "Wiederherstellen",
+          success: "Token wiederhergestellt",
+        },
+      },
     },
   },
   etkecc: {

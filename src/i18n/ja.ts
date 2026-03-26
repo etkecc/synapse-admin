@@ -1,6 +1,10 @@
-import japaneseMessages from "@bicstone/ra-language-japanese";
+import _japaneseMessages from "@bicstone/ra-language-japanese";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const japaneseMessages = (
+  "default" in _japaneseMessages ? _japaneseMessages.default : _japaneseMessages
+) as typeof _japaneseMessages;
 
 const fixedJapaneseMessages = {
   ...japaneseMessages,
@@ -21,7 +25,7 @@ const fixedJapaneseMessages = {
 
 const ja: SynapseTranslationMessages = {
   ...fixedJapaneseMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "ホームサーバーのURL",
       welcome: "%{name}にようこそ",
@@ -49,6 +53,7 @@ const ja: SynapseTranslationMessages = {
         limits: "レート制限",
         account_data: "アカウントのデータ",
       },
+      danger_zone: "要注意",
     },
     rooms: {
       details: "ルームの詳細",
@@ -58,9 +63,17 @@ const ja: SynapseTranslationMessages = {
         detail: "詳細",
         permission: "権限",
         media: "メディア",
+        messages: "メッセージ",
+        hierarchy: "階層",
       },
     },
     reports: { tabs: { basic: "基本情報", detail: "詳細" } },
+    admin_config: {
+      soft_failed_events: "ソフト失敗イベント",
+      spam_flagged_events: "スパムとしてフラグされたイベント",
+      success: "管理者設定を更新しました",
+      failure: "管理者設定の更新に失敗しました",
+    },
   },
   import_users: {
     error: {
@@ -69,8 +82,8 @@ const ja: SynapseTranslationMessages = {
       required_field: "必須のフィールド「%{field}」がありません",
       invalid_value:
         "%{row}行目に不正な値があります。「%{field}」のフィールドには「true」または「false」を指定してください",
-      unreasonably_big: "ファイルは%{size}メガバイトで大きすぎるため、読み込みを行いませんでした",
-      already_in_progress: "インポートを実行しています",
+      unreasonably_big: "ファイルは%{size}メガバイトで大きすぎるため、読み込めませんでした",
+      already_in_progress: "インポートしています",
       id_exits: "ID %{id} は既に存在しています",
     },
     title: "CSVでユーザーをインポート",
@@ -133,7 +146,8 @@ const ja: SynapseTranslationMessages = {
     },
     action: {
       send: "メディアファイルを削除",
-      send_success: "リクエストを送信しました。",
+      send_success: "%{smart_count}件のメディアファイルを削除しました。",
+      send_success_none: "指定された条件に一致するメディアファイルはありませんでした。何も削除されていません。",
       send_failure: "エラーが発生しました。",
     },
     helper: {
@@ -147,7 +161,8 @@ const ja: SynapseTranslationMessages = {
     },
     action: {
       send: "リモートのメディアファイルを削除",
-      send_success: "削除のリクエストを送信しました。",
+      send_success: "%{smart_count}件のリモートメディアファイルを削除しました。",
+      send_success_none: "指定された条件に一致するリモートメディアファイルはありませんでした。何も削除されていません。",
       send_failure: "エラーが発生しました。",
     },
     helper: {
@@ -175,6 +190,16 @@ const ja: SynapseTranslationMessages = {
         show_guests: "ゲストを表示",
         show_deactivated: "無効化のみ表示",
         show_locked: "ロックされたユーザーを表示",
+        filter_user_all: "すべて",
+        filter_deactivated_false: "有効",
+        filter_deactivated_true: "無効化済み",
+        filter_locked_false: "ロックを除外",
+        filter_locked_true: "ロックを含む",
+        filter_guests_false: "ゲストを除外",
+        filter_guests_true: "ゲストを含む",
+        show_system_users: "システムユーザーを表示",
+        filter_system_users_false: "システムユーザーを除外",
+        filter_system_users_true: "システムユーザーのみ",
         show_suspended: "停止されたユーザーを表示",
         show_shadow_banned: "シャドウBANされたユーザーを表示",
         user_id: "ユーザーを検索",
@@ -187,6 +212,8 @@ const ja: SynapseTranslationMessages = {
         address: "アドレス",
         creation_ts_ms: "作成日時",
         consent_version: "同意のバージョン",
+        sent_invite_count: "送信した招待数",
+        cumulative_joined_room_count: "累計参加ルーム数",
         auth_provider: "プロバイダー",
         user_type: "ユーザーの種類",
       },
@@ -205,13 +232,20 @@ const ja: SynapseTranslationMessages = {
           "ユーザーが送信したメッセージは、メッセージが送信された時点にルームに参加していたユーザーは今後もこれを閲覧できますが、その後で参加したユーザーには表示されません。",
         erase_admin_error: "自分自身のユーザーは削除できません。",
         modify_managed_user_error: "システムが管理しているユーザーは変更できません。",
-        username_available: "ユーザー名は利用できます",
+        username_available: "ユーザー名を利用できます",
+        sent_invite_count: "このユーザーが全ルームで送信した招待の合計数。",
+        cumulative_joined_room_count:
+          "このユーザーが参加したことのあるルームの累計数（退出、追放されたルームを含む）。",
       },
       action: {
         erase: "ユーザーのデータを消去",
         erase_avatar: "アバターを消去",
         delete_media: "このユーザーがアップロードしたメディアファイルを削除",
         redact_events: "このユーザーが送信したイベントを削除",
+        redact_in_progress: "イベントの削除処理中\u2026",
+        redact_background_note: "このウィンドウを閉じても問題ありません。削除処理はバックグラウンドで続行されます。",
+        redact_success: "すべてのイベントを削除しました。",
+        redact_failure: "%{smart_count} 件のイベントの削除に失敗しました。",
         generate_password: "パスワードを生成",
         reset_password: {
           label: "パスワードをリセット",
@@ -219,18 +253,18 @@ const ja: SynapseTranslationMessages = {
           helper: "%{user} のパスワードを変更",
           password: "パスワード",
           logout_devices: "すべてのデバイスからログアウト",
-          success: "パスワードが正常にリセットされました",
-          failure: "パスワードのリセットに失敗しました",
-          error_no_password: "パスワードは必須です",
+          success: "パスワードをリセットしました",
+          failure: "パスワードをリセットできませんでした",
+          error_no_password: "パスワードを指定してください",
         },
         login_as: {
           label: "ユーザーとしてログイン",
           title: "ユーザーとしてログイン",
           helper:
-            "%{user} として認証するためのアクセストークンを取得します。この操作はユーザーの新しいデバイスを生成しないため、デバイス/セッション一覧には表示されず、対象ユーザーは通常ログインされたことを検知できません。",
+            "%{user} として認証するためのアクセストークンを取得します。この操作ではユーザーの新しいデバイスが登録されないため、デバイス/セッションの一覧には表示されず、対象のユーザーにはログインされたことが通知されません。",
           valid_until: "有効期限を設定",
-          success: "アクセストークンが正常に生成されました",
-          failure: "アクセストークンの生成に失敗しました",
+          success: "アクセストークンを作成しました",
+          failure: "アクセストークンを作成できませんでした",
           result_title: "%{user} のアクセストークン",
           access_token: "アクセストークン",
           expires_at: "このアクセストークンは %{date} に期限切れになります",
@@ -239,6 +273,48 @@ const ja: SynapseTranslationMessages = {
         overwrite_content: "このユーザー名はすでに取得されています。既存のユーザーを上書きしてもよろしいですか？",
         overwrite_cancel: "キャンセル",
         overwrite_confirm: "上書きする",
+        quarantine_all: {
+          label: "すべてのメディアを検疫",
+          title: "%{userName} のすべてのメディアを検疫",
+          content:
+            "このユーザーがアップロードしたすべてのローカルメディアを検疫します。検疫されたメディアは他のユーザーからアクセスできなくなります。",
+          success: "%{smart_count} 件のメディアを検疫しました。",
+          failure: "メディアの検疫を行えませんでした。%{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "Cross-Signingリセットを許可",
+          title: "Cross-Signingキーの置き換えを許可",
+          content:
+            "%{user} がユーザー対話型認証なしにCross-Signingキーを置き換えることを許可しますか？これにより、キーを置き換えられる一時的なウィンドウが作成されます。",
+          success: "Cross-Signingキーの置き換えを%{deadline}まで許可しました",
+          failure: "Cross-Signing置き換えの許可に失敗しました",
+          no_key: "ユーザーにはマスターCross-Signingキーがありません",
+        },
+        find_user: {
+          label: "ユーザーを検索",
+          title: "ユーザーを検索",
+          lookup_type: "検索タイプ",
+          by_threepid: "メール / 電話番号で検索",
+          by_auth_provider: "認証プロバイダーで検索",
+          provider: "認証プロバイダーID",
+          external_id: "外部ID",
+          search: "検索",
+          not_found: "ユーザーが見つかりません",
+          failure: "ユーザーの検索に失敗しました",
+        },
+        renew_account: {
+          label: "アカウントを更新",
+          title: "アカウントの有効期限を更新",
+          content:
+            "%{user} のアカウント有効期限を更新します。任意でカスタムの有効期限日を設定できます。空白のままにすると、サーバーのデフォルト更新期間が使用されます。",
+          expiration: "有効期限日",
+          expiration_helper: "サーバーのデフォルト更新期間を使用するには空白のままにしてください",
+          renewal_emails: "更新通知メールを送信する",
+          success: "アカウントの有効期限を %{date} まで更新しました",
+          failure: "アカウントの有効期限の更新に失敗しました",
+        },
+        system_users_scan_in_progress:
+          "少々お待ちください — 該当するユーザーをまだ検索中です。まもなくページが読み込まれます",
       },
       badge: {
         you: "あなた",
@@ -290,7 +366,7 @@ const ja: SynapseTranslationMessages = {
       },
       helper: {
         forward_extremities:
-          "転送末端（forward extremities）は、ルーム内の有向非巡回グラフ（DAG）の終端にあるイベント、つまり、子をもたないイベントのことをいいます。これが多ければ多いほど、Synapseが実行しなければならないステート解決（これは負荷の大きい作業です）の数も多くなります。Synapseには、ルーム内に存在する末端の数を減らす仕組みが備わっていますが、バグによりそれが機能しない場合があります。もしルームに10個以上の転送末端がある場合は、どのルームがそれを引き起こしているかを確認して #1760 で参照されているSQLクエリーで転送末端を削除することを検討してみてください。",
+          "転送末端（forward extremities）は、ルーム内の有向非巡回グラフ（DAG）の終端にあるイベント、つまり、子をもたないイベントのことをいいます。この数が多いほど、Synapseが実行しなければならないステート解決（これは負荷の大きい作業です）の数も多くなります。Synapseには末端の数を減らす仕組みが備わっていますが、バグによって機能しないことがあります。もしルームに10個以上の転送末端がある場合は、どのルームが原因となっているかを確認して #1760 で参照されているSQLクエリーで転送末端を削除してみてください。",
       },
       enums: {
         join_rules: {
@@ -319,6 +395,8 @@ const ja: SynapseTranslationMessages = {
           fields: {
             block: "ユーザーがルームに参加できないように設定",
           },
+          in_progress: "削除中…",
+          background_note: "このウィンドウを閉じても、削除はバックグラウンドで続行されます。",
           success: "ルームを削除しました。",
           failure: "ルームを削除できませんでした。",
         },
@@ -347,13 +425,74 @@ const ja: SynapseTranslationMessages = {
           title_by_id: "ルームをブロック",
           content: "ユーザーはこのルームに参加できなくなります。",
           content_bulk: "ユーザーは %{smart_count} 件のルームに参加できなくなります。",
-          success: "ルームのブロックに成功しました。",
-          failure: "ルームのブロックに失敗しました。",
+          success: "ルームをブロックしました。",
+          failure: "ルームをブロックできませんでした。",
         },
         unblock: {
-          label: "ブロック解除",
-          success: "ルームのブロック解除に成功しました。",
-          failure: "ルームのブロック解除に失敗しました。",
+          label: "ブロックを解除",
+          success: "ルームのブロックを解除しました。",
+          failure: "ルームのブロックを解除できませんでした。",
+        },
+        purge_history: {
+          label: "履歴を削除",
+          title: "%{roomName} の履歴を削除",
+          content:
+            "選択した日付より前のすべてのイベントがデータベースから削除されます。ルームの状態（参加、退出、トピック）は常に保持されます。少なくとも1つのメッセージは常に保持されます。\n注意：大きなルームではこの操作に数分かかる場合があります。",
+          date_label: "この日付より前のイベントを削除",
+          delete_local: "ローカルユーザーが送信したイベントも削除する",
+          in_progress: "削除処理中…",
+          background_note: "このウィンドウを閉じても問題ありません。削除処理はバックグラウンドで続行されます。",
+          success: "ルームの履歴を削除しました。",
+          failure: "ルームの履歴を削除できませんでした。%{errMsg}",
+        },
+        quarantine_all: {
+          label: "すべてのメディアを検疫",
+          title: "%{roomName} のすべてのメディアを検疫",
+          content:
+            "このルームのすべてのローカルおよびリモートメディアを検疫します。検疫されたメディアはユーザーからアクセスできなくなります。",
+          success: "%{smart_count} 件のメディアを検疫しました。",
+          failure: "メディアの検疫を行えませんでした。%{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "日付にジャンプ",
+          direction: "方向",
+          forward: "前方",
+          backward: "後方",
+          target_event: "対象イベント",
+          events_before: "以前のイベント",
+          events_after: "以降のイベント",
+          not_found: "指定した日時のイベントが見つかりませんでした",
+          failure: "イベントのコンテキストを取得できませんでした",
+        },
+        messages: {
+          load_older: "古いメッセージを読み込む",
+          load_newer: "新しいメッセージを読み込む",
+          no_messages: "このルームにメッセージはありません",
+          failure: "メッセージの読み込みに失敗しました",
+          filter: "フィルター",
+          filter_type: "イベントタイプ",
+          filter_sender: "送信者",
+          advanced_filters: "詳細フィルター",
+          filter_not_type: "イベントタイプを除外",
+          filter_not_sender: "送信者を除外",
+          contains_url: "URLを含む",
+          any: "すべて",
+          with_url: "URLありのみ",
+          without_url: "URLなしのみ",
+          apply_filter: "適用",
+          clear_filters: "クリア",
+        },
+        hierarchy: {
+          load_more: "さらに読み込む",
+          max_depth: "最大深度",
+          unlimited: "無制限",
+          refresh: "更新",
+          members: "%{count}人のメンバー",
+          space: "スペース",
+          room: "ルーム",
+          suggested: "おすすめ",
+          no_children: "このルームには階層がありません",
+          failure: "階層の読み込みに失敗しました",
         },
       },
     },
@@ -367,28 +506,39 @@ const ja: SynapseTranslationMessages = {
         score: "点数",
         reason: "理由",
         event_id: "イベントのID",
-        event_json: {
-          origin: "送信元のサーバー",
-          origin_server_ts: "送信日時",
-          type: "イベントの種類",
-          content: {
-            msgtype: "内容の種類",
-            body: "内容",
-            format: "形式",
-            formatted_body: "フォーマット済の内容",
-            algorithm: "アルゴリズム",
-            url: "URL",
-            info: {
-              mimetype: "種類",
-            },
-          },
-        },
+        sender: "送信者",
       },
       action: {
         erase: {
           title: "報告されたイベントを削除",
           content: "報告されたイベントを削除してよろしいですか？これは取り消せません。",
         },
+        event_lookup: {
+          label: "イベント検索",
+          title: "IDでイベントを取得",
+          fetch: "取得",
+        },
+        fetch_event_error: "イベントの取得に失敗しました",
+      },
+    },
+    scheduled_tasks: {
+      name: "スケジュールされたタスク |||| スケジュールされたタスク",
+      fields: {
+        id: "ID",
+        action: "アクション",
+        status: "ステータス",
+        timestamp: "タイムスタンプ",
+        resource_id: "リソースID",
+        result: "結果",
+        error: "エラー",
+        max_timestamp: "この日付より前",
+      },
+      status: {
+        scheduled: "スケジュール済み",
+        active: "実行中",
+        complete: "完了",
+        cancelled: "キャンセル済み",
+        failed: "失敗",
       },
     },
     connections: {
@@ -418,6 +568,16 @@ const ja: SynapseTranslationMessages = {
           success: "端末を削除しました。",
           failure: "エラーが発生しました。",
         },
+        display_name: {
+          success: "端末の名称を更新しました",
+          failure: "端末の名称の更新に失敗しました",
+        },
+        create: {
+          label: "端末を作成",
+          title: "新しい端末を作成",
+          success: "端末を作成しました",
+          failure: "端末の作成に失敗しました",
+        },
       },
     },
     users_media: {
@@ -438,8 +598,8 @@ const ja: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "未保護。保護を実行",
-        delete: "保護済。保護を削除",
+        create: "保護する",
+        delete: "保護解除",
         none: "検疫済",
         send_success: "保護に関する状態を変更しました。",
         send_failure: "エラーが発生しました。",
@@ -448,9 +608,9 @@ const ja: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "検疫",
-        create: "検疫に追加",
-        delete: "検疫に追加されています。検疫から取り出す",
-        none: "検疫によって保護されています",
+        create: "検疫",
+        delete: "検疫解除",
+        none: "保護済",
         send_success: "検疫に関する状態を変更しました。",
         send_failure: "エラーが発生しました: %{error}",
       },
@@ -566,22 +726,35 @@ const ja: SynapseTranslationMessages = {
         completed: "完了",
         expiry_time: "期限切れとなる日時",
         length: "長さ",
+        created_at: "作成日時",
+        last_used_at: "最終使用日時",
+        revoked_at: "失効日時",
       },
       helper: { length: "トークンが与えられていない場合のトークンの長さ。" },
+      action: {
+        revoke: {
+          label: "失効",
+          success: "トークンを失効しました",
+        },
+        unrevoke: {
+          label: "失効解除",
+          success: "トークンの失効を解除しました",
+        },
+      },
     },
   },
   etkecc: {
     billing: {
       name: "請求",
-      title: "支払い履歴",
-      no_payments: "支払いが見つかりませんでした。",
+      title: "支払履歴",
+      no_payments: "支払が見つかりませんでした。",
       no_payments_helper: "誤りだと思われる場合は、etke.cc サポート（",
-      description1: "ここから支払いの確認や請求書の作成ができます。サブスクリプション管理の詳細は",
+      description1: "ここから支払の確認や請求書の作成ができます。サブスクリプション管理の詳細は",
       description2: "請求先メールアドレスの変更や会社情報の追加をご希望の場合は、etke.cc サポート（",
       fields: {
         transaction_id: "取引ID",
         email: "メール",
-        type: "種別",
+        type: "種類",
         amount: "金額",
         paid_at: "支払日",
         invoice: "請求書",
@@ -589,25 +762,25 @@ const ja: SynapseTranslationMessages = {
       enums: {
         type: {
           subscription: "サブスクリプション",
-          one_time: "単発",
+          one_time: "一度のみ",
         },
       },
       helper: {
         download_invoice: "請求書をダウンロード",
-        downloading: "ダウンロード中...",
+        downloading: "ダウンロードしています…",
         download_started: "請求書のダウンロードを開始しました。",
         invoice_not_available: "保留中",
-        loading: "請求情報を読み込み中...",
-        loading_failed1: "請求情報の読み込み中に問題が発生しました。",
+        loading: "請求情報を読み込んでいます…",
+        loading_failed1: "請求情報を読み込めませんでした。",
         loading_failed2: "しばらくしてからもう一度お試しください。",
         loading_failed3: "問題が解消しない場合は、etke.cc サポート（",
-        loading_failed4: "）まで、次のエラーメッセージを添えてご連絡ください:",
+        loading_failed4: "）まで、次のエラーメッセージを添付してご連絡ください:",
       },
     },
     status: {
-      name: "サーバーステータス",
+      name: "サーバーの状態",
       badge: {
-        default: "クリックしてサーバーステータスを表示",
+        default: "クリックしてサーバーの状態を表示",
         running: "実行中: %{command}。%{text}",
       },
       category: {
@@ -618,7 +791,7 @@ const ja: SynapseTranslationMessages = {
       },
       status: "ステータス",
       error: "エラー",
-      loading: "リアルタイムのサーバー健全性を取得しています... 少々お待ちください！",
+      loading: "現在のサーバーの状態を確認しています... 少々お待ちください！",
       intro1: "これはサーバーのリアルタイム監視レポートです。詳しくは",
       intro2: "以下のチェック内容が気になる場合は、推奨される対処方法を",
       help: "ヘルプ",
@@ -629,7 +802,7 @@ const ja: SynapseTranslationMessages = {
       note: "この件についてサポートに連絡する必要はありません。すでに対応中です！",
     },
     actions: {
-      name: "サーバーコマンド",
+      name: "サーバーのコマンド",
       available_title: "利用可能なコマンド",
       available_description: "以下のコマンドを実行できます。",
       available_help_intro: "各コマンドの詳細は",
@@ -662,28 +835,28 @@ const ja: SynapseTranslationMessages = {
         delete: "削除",
         run: "実行",
       },
-      command_scheduled: "コマンドをスケジュールしました: %{command}",
+      command_scheduled: "コマンドを予約しました: %{command}",
       command_scheduled_args: "追加引数: %{args}",
       expect_prefix: "結果はまもなく",
       expect_suffix: "ページに表示されます。",
       notifications_link: "通知",
       command_help_title: "%{command} のヘルプ",
-      scheduled_title_create: "スケジュール済みコマンドを作成",
-      scheduled_title_edit: "スケジュール済みコマンドを編集",
-      recurring_title_create: "繰り返しコマンドを作成",
-      recurring_title_edit: "繰り返しコマンドを編集",
-      scheduled_details_title: "スケジュール済みコマンドの詳細",
+      scheduled_title_create: "スケジュール済みのコマンドを作成",
+      scheduled_title_edit: "スケジュール済みのコマンドを編集",
+      recurring_title_create: "繰り返し用のコマンドを作成",
+      recurring_title_edit: "繰り返し用のコマンドを編集",
+      scheduled_details_title: "スケジュール済みのコマンドの詳細",
       recurring_warning:
-        "繰り返しコマンドから作成されたスケジュール済みコマンドは、自動的に再生成されるため編集できません。代わりに繰り返しコマンドを編集してください。",
-      command_details_intro: "コマンドの詳細は",
+        "繰り返し用のコマンドから作成したスケジュール用のコマンドは、自動的に再生成されるため編集できません。代わりに繰り返し用のコマンドを編集してください。",
+      command_details_intro: "コマンドの詳細",
       form: {
         id: "ID",
         command: "コマンド",
-        scheduled_at: "スケジュール時刻",
+        scheduled_at: "予定時刻",
         day_of_week: "曜日",
       },
       delete_scheduled_title: "スケジュール済みコマンドを削除",
-      delete_recurring_title: "繰り返しコマンドを削除",
+      delete_recurring_title: "繰り返し用のコマンドを削除",
       delete_confirm: "コマンド %{command} を削除してもよろしいですか？",
       errors: {
         unknown: "不明なエラーが発生しました",
@@ -709,8 +882,8 @@ const ja: SynapseTranslationMessages = {
       },
       recurring: {
         action: {
-          create_success: "繰り返しコマンドを作成しました",
-          update_success: "繰り返しコマンドを更新しました",
+          create_success: "繰り返し用のコマンドを作成しました",
+          update_success: "繰り返し用のコマンドを更新しました",
           update_failure: "エラーが発生しました",
           delete_success: "繰り返しコマンドを削除しました",
           delete_failure: "エラーが発生しました",
@@ -740,12 +913,11 @@ const ja: SynapseTranslationMessages = {
     support: {
       name: "サポート",
       menu_label: "サポートに連絡",
-      description:
-        "サポートリクエストを開くか、既存のリクエストをフォローアップしてください。チームができるだけ早く対応します。",
+      description: "サポートリクエストを開くか、既存のリクエストに情報を追加してください。チームが早急に対応します。",
       create_title: "新しいサポートリクエスト",
-      no_requests: "まだサポートリクエストはありません。",
-      no_messages: "まだメッセージはありません。",
-      closed_message: "このリクエストは終了しました。まだ問題がある場合は、新しいリクエストを開いてください。",
+      no_requests: "サポートリクエストはありません。",
+      no_messages: "メッセージはありません。",
+      closed_message: "このリクエストは終了しました。まだ問題がある場合は、新しいリクエストを送信してください。",
       fields: {
         subject: "件名",
         message: "メッセージ",
@@ -755,9 +927,9 @@ const ja: SynapseTranslationMessages = {
         updated_at: "最終更新",
       },
       status: {
-        active: "オペレーター待ち",
+        active: "オペレーターの対応待ち",
         open: "オープン",
-        closed: "クローズ",
+        closed: "終了",
         pending: "あなたの返答待ち",
       },
       buttons: {
@@ -777,12 +949,12 @@ const ja: SynapseTranslationMessages = {
         topics_prompt: "対応できるのは対応トピックのみです：",
         scope_confirm_label: "ヘルプページを確認し、この依頼が対応トピックに該当することを確認しました。",
         english_only_notice: "サポートは英語のみで提供されます。",
-        response_time_prompt: "48時間以内に回答します。より早い対応が必要ですか？こちらをご覧ください：",
+        response_time_prompt: "48時間以内に回答します。より早い対応が必要な場合は、こちらをご覧ください：",
       },
       actions: {
-        create_success: "サポートリクエストが正常に作成されました。",
-        create_failure: "サポートリクエストの作成に失敗しました。",
-        send_failure: "メッセージの送信に失敗しました。",
+        create_success: "サポートリクエストを作成しました。",
+        create_failure: "サポートリクエストを作成できませんでした。",
+        send_failure: "メッセージを送信できませんでした。",
       },
     },
   },

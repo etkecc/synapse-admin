@@ -1,9 +1,9 @@
 # Configuration
 
-Synapse Admin can be configured in the following ways (both are optional, and both can be used together):
+Ketesa can be configured in the following ways (both are optional, and both can be used together):
 
-* By providing the `config.json` file alongside the Synapse Admin deployment, example: [admin.etke.cc/config.json](https://admin.etke.cc/config.json)
-* By providing configuration under the `cc.etke.synapse-admin` key in the `/.well-known/matrix/client` file, example:
+* By providing the `config.json` file alongside the Ketesa deployment, example: [admin.etke.cc/config.json](https://admin.etke.cc/config.json)
+* By providing configuration under the `cc.etke.ketesa` key in the `/.well-known/matrix/client` file, example:
 [demo.etke.host/.well-known/matrix/client](https://demo.etke.host/.well-known/matrix/client)
 
 If you are an [etke.cc](https://etke.cc) customer,
@@ -13,17 +13,17 @@ configuration is added automatically to the `/.well-known/matrix/client` file.
 
 **Why `/.well-known/matrix/client`?**
 
-Because any instance of Synapse Admin will automatically pick up the configuration from the homeserver.
-A common use case is when you have a Synapse server running, but don't want (or can't) to deploy Synapse Admin alongside it.
+Because any instance of Ketesa will automatically pick up the configuration from the homeserver.
+A common use case is when you have a Synapse server running, but don't want (or can't) to deploy Ketesa alongside it.
 In this case, you could provide the configuration in the `/.well-known/matrix/client` file,
-and any Synapse Admin instance (e.g., [admin.etke.cc](https://admin.etke.cc)) will pick it up.
+and any Ketesa instance (e.g., [admin.etke.cc](https://admin.etke.cc)) will pick it up.
 
-Another common case is when you have multiple Synapse servers running and want to use a single Synapse Admin instance to manage them all.
+Another common case is when you have multiple Synapse servers running and want to use a single Ketesa instance to manage them all.
 In this case, you could provide the configuration in the `/.well-known/matrix/client` file for each of the servers.
 
 ## Configuration options
 
-* `restrictBaseUrl` - restrictBaseUrl restricts the Synapse Admin instance to work only with specific homeserver(-s).
+* `restrictBaseUrl` - restrictBaseUrl restricts the Ketesa instance to work only with specific homeserver(-s).
   It accepts both a string and an array of strings.
   The homeserver URL should be the _actual_ homeserver URL, and not the delegated one.
   Example: `https://matrix.example.com` or `https://synapse.example.net`
@@ -31,7 +31,7 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
 * `externalAuthProvider` - set if an external authentication provider is used (e.g., OIDC, LDAP, etc).
   It accepts a boolean value.
   [More details](external-auth-provider.md)
-* `corsCredentials` - configure the CORS credentials for the Synapse Admin instance.
+* `corsCredentials` - configure the CORS credentials for the Ketesa instance.
   It accepts the following values:
   * `same-origin` (default): Cookies will be sent only if the request is made from the same origin as the server.
   * `include`: Cookies will be sent regardless of the origin of the request.
@@ -69,7 +69,7 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
     {
       "label": "Contact support",
       "icon": "SupportAgent",
-      "url": "https://github.com/etkecc/synapse-admin/issues"
+      "url": "https://github.com/etkecc/ketesa/issues"
     }
   ]
 }
@@ -77,9 +77,11 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
 
 ### `/.well-known/matrix/client`
 
+> **Note:** The legacy key `cc.etke.synapse-admin` is still supported for backward compatibility, but is deprecated. Use `cc.etke.ketesa` going forward.
+
 ```json
 {
-  "cc.etke.synapse-admin": {
+  "cc.etke.ketesa": {
     "restrictBaseUrl": [
       "https://matrix.example.com",
       "https://synapse.example.net"
@@ -95,7 +97,7 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
       {
         "label": "Contact support",
         "icon": "SupportAgent",
-        "url": "https://github.com/etkecc/synapse-admin/issues"
+        "url": "https://github.com/etkecc/ketesa/issues"
       }
     ]
   }

@@ -1,0 +1,33 @@
+FROM ghcr.io/static-web-server/static-web-server:2-alpine
+
+ARG VERSION=dev
+ARG VCS_REF=unknown
+ARG BUILD_DATE
+
+LABEL org.opencontainers.image.title="Ketesa (/admin)" \
+      org.opencontainers.image.description="Admin UI for Matrix servers, formerly Synapse Admin, served from the /admin subpath" \
+      org.opencontainers.image.url="https://admin.etke.cc" \
+      org.opencontainers.image.documentation="https://github.com/etkecc/ketesa#readme" \
+      org.opencontainers.image.source="https://github.com/etkecc/ketesa" \
+      org.opencontainers.image.vendor="etke.cc" \
+      org.opencontainers.image.authors="etke.cc" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.version="$VERSION" \
+      org.opencontainers.image.revision="$VCS_REF" \
+      org.opencontainers.image.created="$BUILD_DATE" \
+      org.opencontainers.image.base.name="ghcr.io/static-web-server/static-web-server:2-alpine" \
+      description="Admin UI for Matrix servers, formerly Synapse Admin, served from the /admin subpath" \
+      version="$VERSION" \
+      maintainer="etke.cc"
+
+# You can set environment variables as `docker run` arguments too,
+# full list: https://static-web-server.net/configuration/environment-variables/
+ENV SERVER_FALLBACK_PAGE=/var/public/admin/index.html
+ENV SERVER_PORT=8080
+ENV SERVER_HEALTH=true
+
+HEALTHCHECK --interval=30s --timeout=10s CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+
+USER $SERVER_USER_NAME:$SERVER_GROUP_NAME
+
+COPY --chown=$SERVER_USER_NAME:$SERVER_GROUP_NAME ./dist /home/$SERVER_USER_NAME/public/admin

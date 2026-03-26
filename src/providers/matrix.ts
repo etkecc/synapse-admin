@@ -171,7 +171,7 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
   }
 
   const icfg = GetInstanceConfig();
-  let clientName = "Synapse Admin";
+  let clientName = "Ketesa";
   let logoUri = `${clientUrl}/images/logo.webp`;
   if (icfg.name) {
     clientName = icfg.name;
@@ -275,7 +275,7 @@ export const roomDirectoryResource = {
     endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,
     body: { visibility: "public" },
     method: "PUT",
-    empty_response: true,
+    response: (data: RaRecord) => data,
   }),
   delete: (params: DeleteParams) => ({
     endpoint: `/_matrix/client/v3/directory/list/room/${params.id}`,

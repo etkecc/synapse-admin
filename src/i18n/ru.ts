@@ -1,6 +1,10 @@
-import russianMessages from "ra-language-russian";
+import _russianMessages from "ra-language-russian";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
+
+const russianMessages = (
+  "default" in _russianMessages ? _russianMessages.default : _russianMessages
+) as typeof _russianMessages;
 
 const fixedRussianMessages = {
   ...russianMessages,
@@ -56,7 +60,7 @@ const ru: SynapseTranslationMessages = {
     ...fixedRussianMessages.ra,
     navigation: ruNavigation,
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Адрес домашнего сервера",
       welcome: "Добро пожаловать в %{name}",
@@ -84,6 +88,7 @@ const ru: SynapseTranslationMessages = {
         limits: "Ограничения",
         account_data: "Данные пользователя",
       },
+      danger_zone: "Опасная зона",
     },
     rooms: {
       details: "Данные комнаты",
@@ -93,9 +98,17 @@ const ru: SynapseTranslationMessages = {
         detail: "Подробности",
         permission: "Права доступа",
         media: "Медиа",
+        messages: "Сообщения",
+        hierarchy: "Иерархия",
       },
     },
     reports: { tabs: { basic: "Основные", detail: "Подробности" } },
+    admin_config: {
+      soft_failed_events: "События с мягким сбоем",
+      spam_flagged_events: "События, помеченные как спам",
+      success: "Конфигурация администратора обновлена",
+      failure: "Не удалось обновить конфигурацию администратора",
+    },
   },
   import_users: {
     error: {
@@ -175,7 +188,9 @@ const ru: SynapseTranslationMessages = {
     },
     action: {
       send: "Удалить файлы",
-      send_success: "Запрос успешно отправлен.",
+      send_success:
+        "Успешно удалён %{smart_count} медиафайл. |||| Успешно удалено %{smart_count} медиафайла. |||| Успешно удалено %{smart_count} медиафайлов.",
+      send_success_none: "Нет медиафайлов, соответствующих указанным критериям. Ничего не было удалено.",
       send_failure: "Произошла ошибка.",
     },
     helper: {
@@ -190,7 +205,9 @@ const ru: SynapseTranslationMessages = {
     },
     action: {
       send: "Очистить внешние медиа",
-      send_success: "Запрос на очистку внешних медиа был отправлен.",
+      send_success:
+        "Успешно очищен %{smart_count} внешний медиафайл. |||| Успешно очищено %{smart_count} внешних медиафайла. |||| Успешно очищено %{smart_count} внешних медиафайлов.",
+      send_success_none: "Нет внешних медиафайлов, соответствующих указанным критериям. Ничего не было очищено.",
       send_failure: "Произошла ошибка при запросе очистки внешних медиа.",
     },
     helper: {
@@ -218,6 +235,16 @@ const ru: SynapseTranslationMessages = {
         show_guests: "Показывать гостей",
         show_deactivated: "Только деактивированные",
         show_locked: "Показывать заблокированных",
+        filter_user_all: "Все",
+        filter_deactivated_false: "Активные",
+        filter_deactivated_true: "Деактивированные",
+        filter_locked_false: "Исключить заблокированных",
+        filter_locked_true: "Включить заблокированных",
+        filter_guests_false: "Исключить гостей",
+        filter_guests_true: "Включить гостей",
+        show_system_users: "Системные пользователи",
+        filter_system_users_false: "Скрыть системных",
+        filter_system_users_true: "Только системные",
         show_suspended: "Показывать приостановленных",
         show_shadow_banned: "Показывать с теневым баном",
         user_id: "Поиск пользователя",
@@ -230,6 +257,8 @@ const ru: SynapseTranslationMessages = {
         address: "Адрес",
         creation_ts_ms: "Дата создания",
         consent_version: "Версия соглашения",
+        sent_invite_count: "Отправленные приглашения",
+        cumulative_joined_room_count: "Всего комнат",
         auth_provider: "Провайдер",
         user_type: "Тип пользователя",
       },
@@ -250,6 +279,9 @@ const ru: SynapseTranslationMessages = {
         erase_admin_error: "Удаление собственного пользователя запрещено.",
         modify_managed_user_error: "Изменение пользователя, управляемого системой, не допускается.",
         username_available: "Имя пользователя доступно",
+        sent_invite_count: "Общее количество приглашений, отправленных этим пользователем во всех комнатах.",
+        cumulative_joined_room_count:
+          "Общее количество комнат, в которые пользователь когда-либо входил, включая те, которые он покинул или из которых был забанен.",
       },
       badge: {
         you: "Вы",
@@ -265,6 +297,11 @@ const ru: SynapseTranslationMessages = {
         erase_avatar: "Удалить аватар",
         delete_media: "Удаление всех медиафайлов, загруженных пользователем (-ами)",
         redact_events: "Удаление всех событий, отправленных пользователем (-ами)",
+        redact_in_progress: "Удаление событий выполняется\u2026",
+        redact_background_note: "Вы можете закрыть это окно, удаление событий продолжится в фоновом режиме.",
+        redact_success: "Все события успешно удалены.",
+        redact_failure:
+          "Удаление завершено с %{smart_count} неудачным событием. |||| Удаление завершено с %{smart_count} неудачными событиями.",
         generate_password: "Сгенерировать пароль",
         reset_password: {
           label: "Сбросить пароль",
@@ -293,6 +330,49 @@ const ru: SynapseTranslationMessages = {
           "Это имя пользователя уже занято. Вы уверены, что хотите перезаписать существующего пользователя?",
         overwrite_cancel: "Отмена",
         overwrite_confirm: "Перезаписать",
+        quarantine_all: {
+          label: "Поместить все медиа на карантин",
+          title: "Поместить на карантин все медиа %{userName}",
+          content:
+            "Все локальные медиа, загруженные этим пользователем, будут помещены на карантин. Медиа на карантине станут недоступны для других пользователей.",
+          success:
+            "Успешно помещено на карантин %{smart_count} медиа-элемент. |||| Успешно помещено на карантин %{smart_count} медиа-элементов.",
+          failure: "Не удалось поместить медиа на карантин. %{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "Разрешить сброс перекрёстной подписи",
+          title: "Разрешить замену ключей перекрёстной подписи",
+          content:
+            "Разрешить %{user} заменить ключи перекрёстной подписи без интерактивной аутентификации? Это создаст временное окно, в течение которого ключи могут быть заменены.",
+          success: "Замена ключей перекрёстной подписи разрешена до %{deadline}",
+          failure: "Не удалось разрешить замену перекрёстной подписи",
+          no_key: "У пользователя нет главного ключа перекрёстной подписи",
+        },
+        find_user: {
+          label: "Найти пользователя",
+          title: "Найти пользователя",
+          lookup_type: "Тип поиска",
+          by_threepid: "По email / телефону",
+          by_auth_provider: "По поставщику аутентификации",
+          provider: "ID поставщика аутентификации",
+          external_id: "Внешний ID",
+          search: "Найти",
+          not_found: "Пользователь не найден",
+          failure: "Не удалось найти пользователя",
+        },
+        renew_account: {
+          label: "Продлить аккаунт",
+          title: "Продлить срок действия аккаунта",
+          content:
+            "Продлить срок действия аккаунта %{user}. Можно указать произвольную дату истечения срока. Если оставить пустым, будет использован стандартный период продления сервера.",
+          expiration: "Дата истечения срока",
+          expiration_helper: "Оставьте пустым, чтобы использовать стандартный период продления сервера",
+          renewal_emails: "Отправлять уведомления о продлении по электронной почте",
+          success: "Срок действия аккаунта продлён до %{date}",
+          failure: "Не удалось продлить срок действия аккаунта",
+        },
+        system_users_scan_in_progress:
+          "Подождите — поиск подходящих пользователей ещё продолжается, страница загрузится в ближайшее время",
       },
       limits: {
         messages_per_second: "Сообщений в секунду",
@@ -367,6 +447,8 @@ const ru: SynapseTranslationMessages = {
           fields: {
             block: "Заблокировать и запретить пользователям присоединяться к комнате",
           },
+          in_progress: "Удаление выполняется…",
+          background_note: "Вы можете закрыть это окно, удаление продолжится в фоновом режиме.",
           success: "Комната/ы успешно удалены",
           failure: "Комната/ы не могут быть удалены.",
         },
@@ -409,40 +491,113 @@ const ru: SynapseTranslationMessages = {
           failure:
             "Не удалось разблокировать комнату. |||| Не удалось разблокировать комнаты. |||| Не удалось разблокировать комнат.",
         },
+        purge_history: {
+          label: "Очистить историю",
+          title: "Очистить историю %{roomName}",
+          content:
+            "Все события до выбранной даты будут удалены из базы данных. Состояние комнаты (входы, выходы, тема) всегда сохраняется. Как минимум одно сообщение всегда остаётся.\nПримечание: эта операция может занять несколько минут для больших комнат.",
+          date_label: "Очистить события до",
+          delete_local: "Также удалить события локальных пользователей",
+          in_progress: "Очистка выполняется…",
+          background_note: "Вы можете закрыть это окно, очистка продолжится в фоновом режиме.",
+          success: "История комнаты успешно очищена.",
+          failure: "Не удалось очистить историю комнаты. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Поместить все медиа на карантин",
+          title: "Поместить на карантин все медиа в %{roomName}",
+          content:
+            "Все локальные и удалённые медиа в этой комнате будут помещены на карантин. Медиа на карантине станут недоступны для пользователей.",
+          success:
+            "Успешно помещено на карантин %{smart_count} медиа-элемент. |||| Успешно помещено на карантин %{smart_count} медиа-элементов.",
+          failure: "Не удалось поместить медиа на карантин. %{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "Перейти к дате",
+          direction: "Направление",
+          forward: "Вперёд",
+          backward: "Назад",
+          target_event: "Целевое событие",
+          events_before: "Событий до",
+          events_after: "Событий после",
+          not_found: "Событие на указанное время не найдено",
+          failure: "Не удалось получить контекст события",
+        },
+        messages: {
+          load_older: "Загрузить более старые",
+          load_newer: "Загрузить более новые",
+          no_messages: "В этой комнате нет сообщений",
+          failure: "Не удалось загрузить сообщения",
+          filter: "Фильтры",
+          filter_type: "Типы событий",
+          filter_sender: "Отправители",
+          advanced_filters: "Расширенные фильтры",
+          filter_not_type: "Исключить типы событий",
+          filter_not_sender: "Исключить отправителей",
+          contains_url: "Содержит URL",
+          any: "Любой",
+          with_url: "Только с URL",
+          without_url: "Только без URL",
+          apply_filter: "Применить",
+          clear_filters: "Сбросить",
+        },
+        hierarchy: {
+          load_more: "Загрузить ещё",
+          max_depth: "Максимальная глубина",
+          unlimited: "Без ограничений",
+          refresh: "Обновить",
+          members: "%{count} участников",
+          space: "Пространство",
+          room: "Комната",
+          suggested: "Рекомендуемая",
+          no_children: "У этой комнаты нет иерархии",
+          failure: "Не удалось загрузить иерархию",
+        },
       },
     },
     reports: {
       name: "Жалоба |||| Жалобы",
       fields: {
         id: "ID",
-        received_ts: "Дата и время жалобы",
-        user_id: "Автор жалобы",
+        received_ts: "Время жалобы",
+        user_id: "Заявитель",
         name: "Название комнаты",
-        score: "Баллы",
+        score: "Оценка",
         reason: "Причина",
         event_id: "ID события",
-        event_json: {
-          origin: "Исходнный сервер",
-          origin_server_ts: "Дата и время отправки",
-          type: "Тип события",
-          content: {
-            msgtype: "Тип содержимого",
-            body: "Содержимое",
-            format: "Формат",
-            formatted_body: "Форматированное содержимое",
-            algorithm: "Алгоритм",
-            url: "Ссылка",
-            info: {
-              mimetype: "Тип",
-            },
-          },
-        },
+        sender: "Отправитель",
       },
       action: {
         erase: {
           title: "Удалить жалобу",
           content: "Действительно удалить жалобу? Это действие будет невозможно отменить.",
         },
+        event_lookup: {
+          label: "Поиск события",
+          title: "Получить событие по ID",
+          fetch: "Получить",
+        },
+        fetch_event_error: "Не удалось получить событие",
+      },
+    },
+    scheduled_tasks: {
+      name: "Запланированная задача |||| Запланированные задачи",
+      fields: {
+        id: "ID",
+        action: "Действие",
+        status: "Статус",
+        timestamp: "Временная метка",
+        resource_id: "ID ресурса",
+        result: "Результат",
+        error: "Ошибка",
+        max_timestamp: "До даты",
+      },
+      status: {
+        scheduled: "Запланирована",
+        active: "Активна",
+        complete: "Завершена",
+        cancelled: "Отменена",
+        failed: "Не выполнена",
       },
     },
     connections: {
@@ -474,6 +629,16 @@ const ru: SynapseTranslationMessages = {
           success: "Устройство успешно удалено.",
           failure: "Произошла ошибка.",
         },
+        display_name: {
+          success: "Название устройства обновлено",
+          failure: "Не удалось обновить название устройства",
+        },
+        create: {
+          label: "Создать устройство",
+          title: "Создание нового устройства",
+          success: "Устройство создано",
+          failure: "Не удалось создать устройство",
+        },
       },
     },
     users_media: {
@@ -494,8 +659,8 @@ const ru: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Не защищён, установить защиту",
-        delete: "Защищён, снять защиту",
+        create: "Защитить",
+        delete: "Снять защиту",
         none: "На карантине",
         send_success: "Статус защиты успешно изменён.",
         send_failure: "Произошла ошибка.",
@@ -504,9 +669,9 @@ const ru: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Карантин",
-        create: "Поместить на карантин",
-        delete: "На карантине, снять карантин",
-        none: "Защищено от карантина",
+        create: "Карантин",
+        delete: "Снять карантин",
+        none: "Защищено",
         send_success: "Статус карантина успешно изменён.",
         send_failure: "Произошла ошибка: %{error}",
       },
@@ -623,8 +788,21 @@ const ru: SynapseTranslationMessages = {
         completed: "Завершено",
         expiry_time: "Дата окончания",
         length: "Длина",
+        created_at: "Дата создания",
+        last_used_at: "Последнее использование",
+        revoked_at: "Дата отзыва",
       },
       helper: { length: "Длина токена, если токен не задан." },
+      action: {
+        revoke: {
+          label: "Отозвать",
+          success: "Токен отозван",
+        },
+        unrevoke: {
+          label: "Восстановить",
+          success: "Токен восстановлен",
+        },
+      },
     },
   },
   etkecc: {

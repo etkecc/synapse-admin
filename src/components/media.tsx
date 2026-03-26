@@ -1,14 +1,25 @@
 import BlockIcon from "@mui/icons-material/Block";
-import IconCancel from "@mui/icons-material/Cancel";
 import ClearIcon from "@mui/icons-material/Clear";
+import CloudOffIcon from "@mui/icons-material/CloudOff";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import DownloadIcon from "@mui/icons-material/Download";
 import DownloadingIcon from "@mui/icons-material/Downloading";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { Box, Dialog, DialogContent, DialogContentText, DialogTitle, Tooltip } from "@mui/material";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import {
+  Box,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button as MuiButton,
+  Tooltip,
+} from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useMutation } from "@tanstack/react-query";
 import { get } from "lodash";
 import { useState } from "react";
@@ -20,43 +31,35 @@ import {
   NumberInput,
   SaveButton,
   SimpleForm,
-  Toolbar,
-  ToolbarProps,
-  useCreate,
   useDataProvider,
-  useDelete,
   useNotify,
   useRecordContext,
-  useRefresh,
   useTranslate,
 } from "react-admin";
 
 import { DeleteMediaParams, SynapseDataProvider } from "../providers/types";
 import { dateParser } from "../utils/date";
-import decodeURLComponent from "../utils/decodeURLComponent";
+import { decodeURLComponent } from "../utils/safety";
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
 
 const DeleteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
-  const DeleteMediaToolbar = (props: ToolbarProps) => (
-    <Toolbar {...props}>
-      <SaveButton label="delete_media.action.send" icon={<DeleteSweepIcon />} />
-      <Button label="ra.action.cancel" onClick={onClose}>
-        <IconCancel />
-      </Button>
-    </Toolbar>
-  );
-
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("delete_media.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("delete_media.helper.send")}</DialogContentText>
-        <SimpleForm toolbar={<DeleteMediaToolbar />} onSubmit={onSubmit}>
+        <SimpleForm toolbar={false} onSubmit={onSubmit}>
           <DateTimeInput source="before_ts" label="delete_media.fields.before_ts" defaultValue={0} parse={dateParser} />
           <NumberInput source="size_gt" label="delete_media.fields.size_gt" defaultValue={0} min={0} step={1024} />
           <BooleanInput source="keep_profiles" label="delete_media.fields.keep_profiles" defaultValue={true} />
+          <DialogActions sx={{ width: "100%", px: 0 }}>
+            <MuiButton onClick={onClose}>{translate("ra.action.cancel")}</MuiButton>
+            <SaveButton label="delete_media.action.send" icon={<DeleteSweepIcon />} />
+          </DialogActions>
         </SimpleForm>
       </DialogContent>
     </Dialog>
@@ -70,8 +73,17 @@ export const DeleteMediaButton = (props: ButtonProps) => {
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const { mutate: deleteMedia, isPending } = useMutation({
     mutationFn: (values: DeleteMediaParams) => dataProvider.deleteMedia(values),
-    onSuccess: () => {
-      notify("delete_media.action.send_success");
+    onSuccess: data => {
+      if (data.total > 0) {
+        notify("delete_media.action.send_success", {
+          type: "success",
+          messageArgs: { smart_count: data.total },
+        });
+      } else {
+        notify("delete_media.action.send_success_none", {
+          type: "warning",
+        });
+      }
       closeDialog();
     },
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -111,29 +123,26 @@ export const DeleteMediaButton = (props: ButtonProps) => {
 };
 
 const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
 
-  const PurgeRemoteMediaToolbar = (props: ToolbarProps) => (
-    <Toolbar {...props}>
-      <SaveButton label="purge_remote_media.action.send" icon={<DeleteSweepIcon />} />
-      <Button label="ra.action.cancel" onClick={onClose}>
-        <IconCancel />
-      </Button>
-    </Toolbar>
-  );
-
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
       <DialogTitle>{translate("purge_remote_media.action.send")}</DialogTitle>
       <DialogContent>
         <DialogContentText>{translate("purge_remote_media.helper.send")}</DialogContentText>
-        <SimpleForm toolbar={<PurgeRemoteMediaToolbar />} onSubmit={onSubmit}>
+        <SimpleForm toolbar={false} onSubmit={onSubmit}>
           <DateTimeInput
             source="before_ts"
             label="purge_remote_media.fields.before_ts"
             defaultValue={0}
             parse={dateParser}
           />
+          <DialogActions sx={{ width: "100%", px: 0 }}>
+            <MuiButton onClick={onClose}>{translate("ra.action.cancel")}</MuiButton>
+            <SaveButton label="purge_remote_media.action.send" icon={<CloudOffIcon />} />
+          </DialogActions>
         </SimpleForm>
       </DialogContent>
     </Dialog>
@@ -141,13 +150,23 @@ const PurgeRemoteMediaDialog = ({ open, onClose, onSubmit }) => {
 };
 
 export const PurgeRemoteMediaButton = (props: ButtonProps) => {
+  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const notify = useNotify();
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const { mutate: purgeRemoteMedia, isPending } = useMutation({
     mutationFn: (values: DeleteMediaParams) => dataProvider.purgeRemoteMedia(values),
-    onSuccess: () => {
-      notify("purge_remote_media.action.send_success");
+    onSuccess: data => {
+      if (data.total > 0) {
+        notify("purge_remote_media.action.send_success", {
+          type: "success",
+          messageArgs: { smart_count: data.total },
+        });
+      } else {
+        notify("purge_remote_media.action.send_success_none", {
+          type: "warning",
+        });
+      }
       closeDialog();
     },
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -169,7 +188,9 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
         onClick={openDialog}
         disabled={isPending}
         sx={{
+          color: theme.palette.error.main,
           "&:hover": {
+            backgroundColor: alpha(theme.palette.error.main, 0.12),
             // Reset on mouse devices
             "@media (hover: none)": {
               backgroundColor: "transparent",
@@ -177,7 +198,7 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
           },
         }}
       >
-        <DeleteSweepIcon />
+        <CloudOffIcon />
       </Button>
       <PurgeRemoteMediaDialog open={open} onClose={closeDialog} onSubmit={purgeRemoteMedia} />
     </>
@@ -187,48 +208,34 @@ export const PurgeRemoteMediaButton = (props: ButtonProps) => {
 export const ProtectMediaButton = (props: ButtonProps) => {
   const record = useRecordContext();
   const translate = useTranslate();
-  const refresh = useRefresh();
   const notify = useNotify();
-  const [create, { isLoading }] = useCreate();
-  const [deleteOne] = useDelete();
+  const dataProvider = useDataProvider();
+  const [isProtected, setIsProtected] = useState<boolean | null>(null);
+
+  const { mutate: protect, isPending: isProtecting } = useMutation({
+    mutationFn: () => dataProvider.create("protect_media", { data: record! }),
+    onSuccess: () => {
+      notify("resources.protect_media.action.send_success");
+      setIsProtected(true);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) => notify(error?.message || "resources.protect_media.action.send_failure", { type: "error" }),
+  });
+
+  const { mutate: unprotect, isPending: isUnprotecting } = useMutation({
+    mutationFn: () => dataProvider.delete("protect_media", { id: record!.id, previousData: record }),
+    onSuccess: () => {
+      notify("resources.protect_media.action.send_success");
+      setIsProtected(false);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) => notify(error?.message || "resources.protect_media.action.send_failure", { type: "error" }),
+  });
 
   if (!record) return null;
 
-  const handleProtect = () => {
-    create(
-      "protect_media",
-      { data: record },
-      {
-        onSuccess: () => {
-          notify("resources.protect_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) =>
-          notify(error?.message || "resources.protect_media.action.send_failure", {
-            type: "error",
-          }),
-      }
-    );
-  };
-
-  const handleUnprotect = () => {
-    deleteOne(
-      "protect_media",
-      { id: record.id },
-      {
-        onSuccess: () => {
-          notify("resources.protect_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) =>
-          notify(error?.message || "resources.protect_media.action.send_failure", {
-            type: "error",
-          }),
-      }
-    );
-  };
+  const isLoading = isProtecting || isUnprotecting;
+  const safeFromQuarantine = isProtected ?? record.safe_from_quarantine;
 
   return (
     /*
@@ -243,17 +250,13 @@ export const ProtectMediaButton = (props: ButtonProps) => {
           })}
         >
           <div>
-            {/*
-            Button instead BooleanField for
-            consistent appearance and position in the column
-            */}
-            <Button {...props} disabled={true}>
+            <Button {...props} label="resources.protect_media.action.none" disabled={true}>
               <ClearIcon />
             </Button>
           </div>
         </Tooltip>
       )}
-      {record.safe_from_quarantine && (
+      {safeFromQuarantine && !record.quarantined_by && (
         <Tooltip
           title={translate("resources.protect_media.action.delete", {
             _: "resources.protect_media.action.delete",
@@ -261,21 +264,31 @@ export const ProtectMediaButton = (props: ButtonProps) => {
           arrow
         >
           <div>
-            <Button {...props} onClick={handleUnprotect} disabled={isLoading}>
-              <LockIcon />
+            <Button
+              {...props}
+              label="resources.protect_media.action.delete"
+              onClick={() => unprotect()}
+              disabled={isLoading}
+            >
+              <LockOpenIcon />
             </Button>
           </div>
         </Tooltip>
       )}
-      {!record.safe_from_quarantine && !record.quarantined_by && (
+      {!safeFromQuarantine && !record.quarantined_by && (
         <Tooltip
           title={translate("resources.protect_media.action.create", {
             _: "resources.protect_media.action.create",
           })}
         >
           <div>
-            <Button {...props} onClick={handleProtect} disabled={isLoading}>
-              <LockOpenIcon />
+            <Button
+              {...props}
+              label="resources.protect_media.action.create"
+              onClick={() => protect()}
+              disabled={isLoading}
+            >
+              <LockIcon />
             </Button>
           </div>
         </Tooltip>
@@ -287,50 +300,40 @@ export const ProtectMediaButton = (props: ButtonProps) => {
 export const QuarantineMediaButton = (props: ButtonProps) => {
   const record = useRecordContext();
   const translate = useTranslate();
-  const refresh = useRefresh();
   const notify = useNotify();
-  const [create, { isLoading }] = useCreate();
-  const [deleteOne] = useDelete();
+  const dataProvider = useDataProvider();
+  const [isQuarantined, setIsQuarantined] = useState<boolean | null>(null);
+
+  const { mutate: quarantine, isPending: isQuarantining } = useMutation({
+    mutationFn: () => dataProvider.create("quarantine_media", { data: record! }),
+    onSuccess: () => {
+      notify("resources.quarantine_media.action.send_success");
+      setIsQuarantined(true);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) =>
+      notify(error?.message || "resources.quarantine_media.action.send_failure", {
+        type: "error",
+        messageArgs: { error: error },
+      }),
+  });
+
+  const { mutate: unquarantine, isPending: isUnquarantining } = useMutation({
+    mutationFn: () => dataProvider.delete("quarantine_media", { id: record!.id, previousData: record }),
+    onSuccess: () => {
+      notify("resources.quarantine_media.action.send_success");
+      setIsQuarantined(false);
+    },
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+    onError: (error: any) =>
+      notify(error?.message || "resources.quarantine_media.action.send_failure", { type: "error" }),
+  });
 
   if (!record) return null;
 
-  const handleQuarantaine = () => {
-    create(
-      "quarantine_media",
-      { data: record },
-      {
-        onSuccess: () => {
-          notify("resources.quarantine_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) => {
-          notify(error?.message || "resources.quarantine_media.action.send_failure", {
-            type: "error",
-            messageArgs: { error: error },
-          });
-        },
-      }
-    );
-  };
-
-  const handleRemoveQuarantaine = () => {
-    deleteOne(
-      "quarantine_media",
-      { id: record.id, previousData: record },
-      {
-        onSuccess: () => {
-          notify("resources.quarantine_media.action.send_success");
-          refresh();
-        },
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        onError: (error: any) =>
-          notify(error?.message || "resources.quarantine_media.action.send_failure", {
-            type: "error",
-          }),
-      }
-    );
-  };
+  const isLoading = isQuarantining || isUnquarantining;
+  const quarantinedBy =
+    isQuarantined === null ? record.quarantined_by : isQuarantined ? localStorage.getItem("user_id") || "admin" : "";
 
   return (
     <>
@@ -341,33 +344,43 @@ export const QuarantineMediaButton = (props: ButtonProps) => {
           })}
         >
           <div>
-            <Button {...props} disabled={true}>
+            <Button {...props} label="resources.quarantine_media.action.none" disabled={true}>
               <ClearIcon />
             </Button>
           </div>
         </Tooltip>
       )}
-      {record.quarantined_by && (
+      {quarantinedBy && (
         <Tooltip
           title={translate("resources.quarantine_media.action.delete", {
             _: "resources.quarantine_media.action.delete",
           })}
         >
           <div>
-            <Button {...props} onClick={handleRemoveQuarantaine} disabled={isLoading}>
-              <BlockIcon color="error" />
+            <Button
+              {...props}
+              label="resources.quarantine_media.action.delete"
+              onClick={() => unquarantine()}
+              disabled={isLoading}
+            >
+              <RemoveCircleOutlineIcon color="error" />
             </Button>
           </div>
         </Tooltip>
       )}
-      {!record.safe_from_quarantine && !record.quarantined_by && (
+      {!record.safe_from_quarantine && !quarantinedBy && (
         <Tooltip
           title={translate("resources.quarantine_media.action.create", {
             _: "resources.quarantine_media.action.create",
           })}
         >
           <div>
-            <Button {...props} onClick={handleQuarantaine} disabled={isLoading}>
+            <Button
+              {...props}
+              label="resources.quarantine_media.action.create"
+              onClick={() => quarantine()}
+              disabled={isLoading}
+            >
               <BlockIcon />
             </Button>
           </div>

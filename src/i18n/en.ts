@@ -1,10 +1,10 @@
 import englishMessages from "ra-language-english";
 
-import { SynapseTranslationMessages } from ".";
+import { SynapseTranslationMessages } from "./types";
 
 const en: SynapseTranslationMessages = {
   ...englishMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Homeserver URL",
       welcome: "Welcome to %{name}",
@@ -32,6 +32,7 @@ const en: SynapseTranslationMessages = {
         limits: "Rate Limits",
         account_data: "Account Data",
       },
+      danger_zone: "Danger zone",
     },
     rooms: {
       details: "Room details",
@@ -41,9 +42,17 @@ const en: SynapseTranslationMessages = {
         detail: "Details",
         permission: "Permissions",
         media: "Media",
+        messages: "Messages",
+        hierarchy: "Hierarchy",
       },
     },
     reports: { tabs: { basic: "Basic", detail: "Details" } },
+    admin_config: {
+      soft_failed_events: "Soft-failed events",
+      spam_flagged_events: "Spam-flagged events",
+      success: "Admin config updated",
+      failure: "Failed to update admin config",
+    },
   },
   import_users: {
     error: {
@@ -115,7 +124,9 @@ const en: SynapseTranslationMessages = {
     },
     action: {
       send: "Delete media",
-      send_success: "Request successfully sent.",
+      send_success:
+        "Successfully deleted %{smart_count} media file. |||| Successfully deleted %{smart_count} media files.",
+      send_success_none: "No media files matched the specified criteria. Nothing was deleted.",
       send_failure: "An error has occurred.",
     },
     helper: {
@@ -129,7 +140,9 @@ const en: SynapseTranslationMessages = {
     },
     action: {
       send: "Purge remote media",
-      send_success: "Purge remote media request has been sent.",
+      send_success:
+        "Successfully purged %{smart_count} remote media file. |||| Successfully purged %{smart_count} remote media files.",
+      send_success_none: "No remote media files matched the specified criteria. Nothing was purged.",
       send_failure: "An error has occurred with the purge remote media request.",
     },
     helper: {
@@ -157,6 +170,16 @@ const en: SynapseTranslationMessages = {
         show_guests: "Show guests",
         show_deactivated: "Show deactivated only",
         show_locked: "Show locked users",
+        filter_user_all: "All",
+        filter_deactivated_false: "Active",
+        filter_deactivated_true: "Deactivated",
+        filter_locked_false: "Exclude locked",
+        filter_locked_true: "Include locked",
+        filter_guests_false: "Exclude guests",
+        filter_guests_true: "Include guests",
+        show_system_users: "Show system users",
+        filter_system_users_false: "Exclude system",
+        filter_system_users_true: "Only system",
         show_suspended: "Show suspended users",
         show_shadow_banned: "Show shadow banned users",
         user_id: "Search user",
@@ -169,6 +192,8 @@ const en: SynapseTranslationMessages = {
         address: "Address",
         creation_ts_ms: "Creation timestamp",
         consent_version: "Consent version",
+        sent_invite_count: "Sent invites",
+        cumulative_joined_room_count: "Cumulative joined rooms",
         auth_provider: "Provider",
         user_type: "User type",
       },
@@ -188,12 +213,20 @@ const en: SynapseTranslationMessages = {
         erase_admin_error: "Deleting own user is not allowed.",
         modify_managed_user_error: "Modifying a system-managed user is not allowed.",
         username_available: "Username is available",
+        sent_invite_count: "Total number of invites sent by this user across all rooms.",
+        cumulative_joined_room_count:
+          "Total number of rooms this user has ever joined, including rooms they have since left or been banned from.",
       },
       action: {
         erase: "Erase user data",
         erase_avatar: "Erase avatar",
         delete_media: "Delete all media uploaded by the user(-s)",
         redact_events: "Redact all events sent by the user(-s)",
+        redact_in_progress: "Redaction in progress\u2026",
+        redact_background_note: "You can safely close this dialog, the redaction will continue in the background.",
+        redact_success: "All events redacted successfully.",
+        redact_failure:
+          "Redaction completed with %{smart_count} failed event. |||| Redaction completed with %{smart_count} failed events.",
         generate_password: "Generate password",
         reset_password: {
           label: "Reset password",
@@ -221,6 +254,48 @@ const en: SynapseTranslationMessages = {
         overwrite_content: "This username is already taken. Are you sure that you want to overwrite the existing user?",
         overwrite_cancel: "Cancel",
         overwrite_confirm: "Overwrite",
+        quarantine_all: {
+          label: "Quarantine all media",
+          title: "Quarantine all media of %{userName}",
+          content:
+            "This will quarantine ALL local media uploaded by this user. Quarantined media will no longer be accessible to other users.",
+          success:
+            "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
+          failure: "Failed to quarantine media. %{errMsg}",
+        },
+        allow_cross_signing: {
+          label: "Allow cross-signing reset",
+          title: "Allow cross-signing key replacement",
+          content:
+            "Allow %{user} to replace their cross-signing keys without user-interactive authentication? This creates a temporary window during which the keys can be replaced.",
+          success: "Cross-signing key replacement allowed until %{deadline}",
+          failure: "Failed to allow cross-signing replacement",
+          no_key: "User has no master cross-signing key",
+        },
+        find_user: {
+          label: "Find user",
+          title: "Find user",
+          lookup_type: "Lookup type",
+          by_threepid: "By email / phone",
+          by_auth_provider: "By auth provider",
+          provider: "Auth provider ID",
+          external_id: "External ID",
+          search: "Search",
+          not_found: "User not found",
+          failure: "Failed to find user",
+        },
+        renew_account: {
+          label: "Renew account",
+          title: "Renew account validity",
+          content:
+            "Renew the account validity for %{user}. You can optionally set a custom expiration date. If left empty, the server default renewal period will be used.",
+          expiration: "Expiration date",
+          expiration_helper: "Leave empty to use the server default renewal period",
+          renewal_emails: "Send renewal notification emails",
+          success: "Account validity renewed until %{date}",
+          failure: "Failed to renew account validity",
+        },
+        system_users_scan_in_progress: "Hang on — still scanning for matching users, the page will load shortly",
       },
       badge: {
         you: "You",
@@ -301,6 +376,8 @@ const en: SynapseTranslationMessages = {
           fields: {
             block: "Block and prevent users from joining the room",
           },
+          in_progress: "Deletion in progress…",
+          background_note: "You can safely close this window, the deletion will continue in the background.",
           success: "Room/s successfully deleted.",
           failure: "The room/s could not be deleted.",
         },
@@ -338,40 +415,113 @@ const en: SynapseTranslationMessages = {
           success: "Room unblocked successfully. |||| Rooms unblocked successfully.",
           failure: "Failed to unblock room. |||| Failed to unblock rooms.",
         },
+        purge_history: {
+          label: "Purge history",
+          title: "Purge history of %{roomName}",
+          content:
+            "All events before the selected date will be deleted from the database. Room state (joins, leaves, topic) is always preserved. At least one message is always retained.\nNote: this operation may take several minutes for large rooms.",
+          date_label: "Purge events before",
+          delete_local: "Also delete events sent by local users",
+          in_progress: "Purge in progress…",
+          background_note: "You can safely close this window, the purge will continue in the background.",
+          success: "Room history purged successfully.",
+          failure: "Failed to purge room history. %{errMsg}",
+        },
+        quarantine_all: {
+          label: "Quarantine all media",
+          title: "Quarantine all media in %{roomName}",
+          content:
+            "This will quarantine ALL local and remote media in this room. Quarantined media will no longer be accessible to users.",
+          success:
+            "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
+          failure: "Failed to quarantine media. %{errMsg}",
+        },
+        event_context: {
+          jump_to_date: "Jump to date",
+          direction: "Direction",
+          forward: "Forward",
+          backward: "Backward",
+          target_event: "Target event",
+          events_before: "Events before",
+          events_after: "Events after",
+          not_found: "No event found at the specified time",
+          failure: "Failed to retrieve event context",
+        },
+        messages: {
+          load_older: "Load older",
+          load_newer: "Load newer",
+          no_messages: "No messages in this room",
+          failure: "Failed to load messages",
+          filter: "Filters",
+          filter_type: "Event types",
+          filter_sender: "Senders",
+          advanced_filters: "Advanced filters",
+          filter_not_type: "Exclude event types",
+          filter_not_sender: "Exclude senders",
+          contains_url: "Contains URL",
+          any: "Any",
+          with_url: "With URL only",
+          without_url: "Without URL only",
+          apply_filter: "Apply",
+          clear_filters: "Clear",
+        },
+        hierarchy: {
+          load_more: "Load more",
+          max_depth: "Max depth",
+          unlimited: "Unlimited",
+          refresh: "Refresh",
+          members: "%{count} members",
+          space: "Space",
+          room: "Room",
+          suggested: "Suggested",
+          no_children: "This room has no hierarchy",
+          failure: "Failed to load hierarchy",
+        },
       },
     },
     reports: {
       name: "Reported event |||| Reported events",
       fields: {
         id: "ID",
-        received_ts: "report time",
-        user_id: "announcer",
-        name: "name of the room",
-        score: "score",
-        reason: "reason",
-        event_id: "event ID",
-        event_json: {
-          origin: "origin server",
-          origin_server_ts: "time of send",
-          type: "event type",
-          content: {
-            msgtype: "content type",
-            body: "content",
-            format: "format",
-            formatted_body: "formatted content",
-            algorithm: "algorithm",
-            url: "URL",
-            info: {
-              mimetype: "Type",
-            },
-          },
-        },
+        received_ts: "Report Time",
+        user_id: "Announcer",
+        name: "Room Name",
+        score: "Score",
+        reason: "Reason",
+        event_id: "Event ID",
+        sender: "Sender",
       },
       action: {
         erase: {
           title: "Delete reported event",
           content: "Are you sure you want to delete the reported event? This cannot be undone.",
         },
+        event_lookup: {
+          label: "Event Lookup",
+          title: "Fetch Event by ID",
+          fetch: "Fetch",
+        },
+        fetch_event_error: "Failed to fetch event",
+      },
+    },
+    scheduled_tasks: {
+      name: "Scheduled task |||| Scheduled tasks",
+      fields: {
+        id: "ID",
+        action: "Action",
+        status: "Status",
+        timestamp: "Timestamp",
+        resource_id: "Resource ID",
+        result: "Result",
+        error: "Error",
+        max_timestamp: "Before date",
+      },
+      status: {
+        scheduled: "Scheduled",
+        active: "Active",
+        complete: "Complete",
+        cancelled: "Cancelled",
+        failed: "Failed",
       },
     },
     connections: {
@@ -402,6 +552,16 @@ const en: SynapseTranslationMessages = {
           success: "Device successfully removed.",
           failure: "An error has occurred.",
         },
+        display_name: {
+          success: "Device name updated",
+          failure: "Failed to update device name",
+        },
+        create: {
+          label: "Create device",
+          title: "Create new device",
+          success: "Device created",
+          failure: "Failed to create device",
+        },
       },
     },
     users_media: {
@@ -422,8 +582,8 @@ const en: SynapseTranslationMessages = {
     },
     protect_media: {
       action: {
-        create: "Unprotected, create protection",
-        delete: "Protected, remove protection",
+        create: "Protect",
+        delete: "Unprotect",
         none: "In quarantine",
         send_success: "Successfully changed the protection status.",
         send_failure: "An error has occurred.",
@@ -432,9 +592,9 @@ const en: SynapseTranslationMessages = {
     quarantine_media: {
       action: {
         name: "Quarantine",
-        create: "Add to quarantine",
-        delete: "In quarantine, unquarantine",
-        none: "Protected from quarantine",
+        create: "Quarantine",
+        delete: "Unquarantine",
+        none: "Protected",
         send_success: "Successfully changed the quarantine status.",
         send_failure: "An error has occurred: %{error}",
       },
@@ -550,8 +710,21 @@ const en: SynapseTranslationMessages = {
         completed: "Completed",
         expiry_time: "Expiry time",
         length: "Length",
+        created_at: "Created at",
+        last_used_at: "Last used at",
+        revoked_at: "Revoked at",
       },
       helper: { length: "Length of the token if no token is given." },
+      action: {
+        revoke: {
+          label: "Revoke",
+          success: "Token revoked",
+        },
+        unrevoke: {
+          label: "Unrevoke",
+          success: "Token unrevoked",
+        },
+      },
     },
   },
   etkecc: {

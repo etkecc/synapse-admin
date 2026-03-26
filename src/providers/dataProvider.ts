@@ -13,12 +13,15 @@ import {
 
 import { jsonClient } from "./httpClients";
 import {
-  getMasBaseUrl,
+  getMASBaseUrl,
   getMasNextPageCursor,
   getMasRegistrationTokensCursorKey,
   getMasRegistrationTokensPageCursor,
   setMasRegistrationTokensPageCursor,
   filterUndefined,
+  revokeRegistrationToken,
+  isMAS,
+  getMASRegistrationTokensResource,
 } from "./mas";
 import {
   synapseRegistrationTokensResource,
@@ -28,6 +31,8 @@ import {
   updateFeatures,
   getRateLimits,
   setRateLimits,
+  getSentInviteCount,
+  getCumulativeJoinedRoomCount,
   getAccountData,
   checkUsernameAvailability,
   blockRoom,
@@ -35,61 +40,63 @@ import {
   getRoomBlockStatus,
   joinUserToRoom,
   makeRoomAdmin,
+  quarantineRoomMedia,
+  quarantineUserMedia,
+  purgeHistory,
+  getPurgeHistoryStatus,
+  deleteRoom,
+  getRoomDeleteStatus,
   suspendUser,
   shadowBanUser,
   resetPassword,
   loginAsUser,
   eraseUser,
+  renewAccountValidity,
+  allowCrossSigningReplacement,
+  findUserByThreepid,
+  findUserByAuthProvider,
+  getEventByTimestamp,
+  getEventContext,
+  getRoomMessages,
+  getRoomHierarchy,
+  getAdminClientConfig,
+  setAdminClientConfig,
   deleteUserMedia,
   redactUserEvents,
+  getRedactStatus,
+  fetchEvent,
 } from "./synapse";
 import { uploadMedia } from "./matrix";
-import { checkMasAdminApiAvailable, getMasRegistrationTokensResource, isMasInstance } from "./mas";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "./resourceMap";
 import { etkeProviderMethods } from "./etkeProvider";
 import { MASRegistrationTokenListResponse, SynapseDataProvider } from "./types";
+import { isSystemUser } from "../utils/mxid";
 
 /**
- * Initialize the registration tokens resource config and patch it into resourceMap.
- * Must be called after login so localStorage (token_endpoint) is populated.
- * Also called at module load to handle page refreshes when already logged in.
+ * Initialize all flag-dependent resources and patch them into resourceMap.
+ * Reads the cached MAS flag synchronously — no HTTP calls needed.
+ * Add new MAS-dependent resources here as they are introduced.
  */
-let registrationTokensInitPromise: Promise<void> | null = null;
-
-export const initRegistrationTokens = async () => {
-  if (registrationTokensInitPromise) {
-    return registrationTokensInitPromise;
+export const initResources = () => {
+  if (isMAS()) {
+    resourceMap.registration_tokens = getMASRegistrationTokensResource();
+  } else {
+    resourceMap.registration_tokens = synapseRegistrationTokensResource;
   }
-
-  registrationTokensInitPromise = (async () => {
-    if (isMasInstance() && (await checkMasAdminApiAvailable())) {
-      resourceMap.registration_tokens = getMasRegistrationTokensResource();
-    } else {
-      resourceMap.registration_tokens = synapseRegistrationTokensResource;
-    }
-  })();
-
-  return registrationTokensInitPromise;
-};
-
-const ensureRegistrationTokensInitialized = async (resource: string) => {
-  if (resource !== "registration_tokens") return;
-  await initRegistrationTokens();
 };
 
 // Initialize on module load to handle page refresh when already logged in
-if (localStorage.getItem("token_endpoint")) {
-  void initRegistrationTokens();
+if (localStorage.getItem("access_token")) {
+  initResources();
 }
 
-const resolveResource = async (resource: string) => {
+const resolveResource = (resource: string) => {
   const homeserver = localStorage.getItem("base_url");
   if (!homeserver) throw Error("Homeserver not set");
   if (!(resource in resourceMap)) throw Error(`Resource ${resource} not found`);
-  await ensureRegistrationTokensInitialized(resource);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const res = resourceMap[resource as keyof typeof resourceMap] as any;
-  const baseUrl = res.isMas ? getMasBaseUrl() : homeserver;
+  const baseUrl = res.isMAS ? getMASBaseUrl() : homeserver;
   return { res, baseUrl, homeserver };
 };
 
@@ -111,10 +118,98 @@ function getSearchOrder(order: "ASC" | "DESC") {
   }
 }
 
+const buildSynapseListQuery = (
+  params: {
+    user_id: unknown;
+    search_term: unknown;
+    name: unknown;
+    destination: unknown;
+    guests: unknown;
+    deactivated: unknown;
+    locked: unknown;
+    suspended: unknown;
+    shadow_banned: unknown;
+    valid: unknown;
+    public_rooms: unknown;
+    empty_rooms: unknown;
+    action_name: unknown;
+    resource_id: unknown;
+    status: unknown;
+    max_timestamp: unknown;
+  },
+  from: number,
+  limit: number,
+  field: string,
+  order: "ASC" | "DESC"
+) => ({
+  from,
+  limit,
+  user_id: params.user_id,
+  search_term: params.search_term,
+  name: params.name,
+  destination: params.destination,
+  guests: params.guests,
+  deactivated: params.deactivated,
+  locked: params.locked,
+  suspended: params.suspended,
+  shadow_banned: params.shadow_banned,
+  valid: params.valid,
+  order_by: field,
+  dir: getSearchOrder(order),
+  public_rooms: params.public_rooms,
+  empty_rooms: params.empty_rooms,
+  action_name: params.action_name,
+  resource_id: params.resource_id,
+  status: params.status,
+  max_timestamp: params.max_timestamp,
+});
+
+const SYSTEM_USERS_SCAN_CHUNK_SIZE = 250;
+
+interface SystemUsersScanCacheEntry {
+  // Whether the backend list has been fully scanned for this filter/sort combination.
+  backendExhausted: boolean;
+  // Raw backend offset already consumed while building the filtered virtual dataset.
+  backendOffset: number;
+  // Filtered users accumulated so later pages can reuse prior scan work.
+  filteredRecords: RaRecord[];
+}
+
+const systemUsersScanCache = new Map<string, SystemUsersScanCacheEntry>();
+
+export const clearSystemUsersScanCache = () => {
+  systemUsersScanCache.clear();
+};
+
+let _dataProviderNotifier: ((key: string) => void) | null = null;
+
+export const setDataProviderNotifier = (fn: (key: string) => void) => {
+  _dataProviderNotifier = fn;
+};
+
+// Cache key for the client-side system_users virtual dataset. It must vary with every
+// server-side filter/sort input because those affect which backend users are scanned.
+const getSystemUsersScanCacheKey = (
+  resource: string,
+  baseUrl: string,
+  query: Record<string, any>,
+  field: string,
+  order: "ASC" | "DESC",
+  wantSystem: boolean
+) =>
+  JSON.stringify({
+    resource,
+    baseUrl,
+    query: filterUndefined(query),
+    field,
+    order,
+    wantSystem,
+  });
+
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
     console.log("getList " + resource, params);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
 
     const {
       user_id,
@@ -129,6 +224,11 @@ const baseDataProvider: SynapseDataProvider = {
       valid,
       public_rooms,
       empty_rooms,
+      action_name,
+      resource_id,
+      status,
+      max_timestamp,
+      system_users,
     } = params.filter;
     const { page, perPage } = params.pagination as PaginationPayload;
     const { field, order } = params.sort as SortPayload;
@@ -136,7 +236,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     // Build query based on API type
     let query: Record<string, any>;
-    if (res.isMas) {
+    if (res.isMAS) {
       const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
       const pageAfter = page > 1 ? getMasRegistrationTokensPageCursor(cursorKey, page) : undefined;
 
@@ -149,23 +249,134 @@ const baseDataProvider: SynapseDataProvider = {
       };
     } else {
       // Synapse API
-      query = {
-        from: from,
-        limit: perPage,
-        user_id: user_id,
-        search_term: search_term,
-        name: name,
-        destination: destination,
-        guests: guests,
-        deactivated: deactivated,
-        locked: locked,
-        suspended: suspended,
-        shadow_banned: shadow_banned,
-        valid: valid,
-        order_by: field,
-        dir: getSearchOrder(order),
-        public_rooms: public_rooms,
-        empty_rooms: empty_rooms,
+      query = buildSynapseListQuery(
+        {
+          user_id,
+          search_term,
+          name,
+          destination,
+          guests,
+          deactivated,
+          locked,
+          suspended,
+          shadow_banned,
+          valid,
+          public_rooms,
+          empty_rooms,
+          action_name,
+          resource_id,
+          status,
+          max_timestamp,
+        },
+        from,
+        perPage,
+        field,
+        order
+      );
+    }
+
+    // Client-side post-filter for system (appservice-managed) users
+    const shouldFilterSystemUsers = resource === "users" && system_users !== undefined && system_users !== null;
+    if (shouldFilterSystemUsers) {
+      const wantSystem = system_users === true || system_users === "true";
+      const endpoint_url = baseUrl + (res.listPath || res.path);
+      const pageStart = from;
+      const pageEnd = pageStart + perPage;
+      // One extra filtered record is enough to tell React Admin that another page exists.
+      const nextPageThreshold = pageEnd + 1;
+      const scanQuery = buildSynapseListQuery(
+        {
+          user_id,
+          search_term,
+          name,
+          destination,
+          guests,
+          deactivated,
+          locked,
+          suspended,
+          shadow_banned,
+          valid,
+          public_rooms,
+          empty_rooms,
+          action_name,
+          resource_id,
+          status,
+          max_timestamp,
+        },
+        0,
+        0,
+        field,
+        order
+      );
+      const cacheKey = getSystemUsersScanCacheKey(resource, String(baseUrl), scanQuery, field, order, wantSystem);
+      const cachedScan = systemUsersScanCache.get(cacheKey);
+      const scanState: SystemUsersScanCacheEntry = cachedScan || {
+        backendExhausted: false,
+        backendOffset: 0,
+        filteredRecords: [],
+      };
+
+      let loopRequestCount = 0;
+      while (!scanState.backendExhausted && scanState.filteredRecords.length < nextPageThreshold) {
+        loopRequestCount++;
+        if (loopRequestCount === 3) {
+          _dataProviderNotifier?.("resources.users.action.system_users_scan_in_progress");
+        }
+        // Fetch backend users in larger chunks to avoid many small round-trips when the
+        // UI-only filter removes most records from a page.
+        const backendLimit = Math.max(perPage, SYSTEM_USERS_SCAN_CHUNK_SIZE);
+        const pagedQuery = buildSynapseListQuery(
+          {
+            user_id,
+            search_term,
+            name,
+            destination,
+            guests,
+            deactivated,
+            locked,
+            suspended,
+            shadow_banned,
+            valid,
+            public_rooms,
+            empty_rooms,
+            action_name,
+            resource_id,
+            status,
+            max_timestamp,
+          },
+          scanState.backendOffset,
+          backendLimit,
+          field,
+          order
+        );
+        const pagedUrl = `${endpoint_url}?${new URLSearchParams(filterUndefined(pagedQuery)).toString()}`;
+        const { json } = await jsonClient(pagedUrl);
+        const rawData = json[res.data] || [];
+        const resolvedData = await Promise.all(rawData.map(res.map));
+        const filteredData = resolvedData.filter(record => isSystemUser(record.id) === wantSystem);
+        scanState.filteredRecords.push(...filteredData);
+        scanState.backendOffset += rawData.length;
+
+        const serverTotal = res.total(json, scanState.backendOffset, backendLimit);
+        scanState.backendExhausted =
+          rawData.length === 0 || scanState.backendOffset >= serverTotal || rawData.length < backendLimit;
+      }
+
+      systemUsersScanCache.set(cacheKey, scanState);
+      // Paginate over the filtered virtual dataset, not over raw backend pages.
+      const pagedData = scanState.filteredRecords.slice(pageStart, pageEnd);
+      const hasNextPage = scanState.backendExhausted
+        ? scanState.filteredRecords.length > pageEnd
+        : scanState.filteredRecords.length >= nextPageThreshold;
+
+      return {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: pagedData as any,
+        total: scanState.backendExhausted ? scanState.filteredRecords.length : undefined,
+        pageInfo: {
+          hasPreviousPage: page > 1,
+          hasNextPage,
+        },
       };
     }
 
@@ -177,7 +388,7 @@ const baseDataProvider: SynapseDataProvider = {
     const { json } = await jsonClient(url);
     const formattedData = json[res.data].map(res.map);
 
-    if (res.isMas) {
+    if (res.isMAS) {
       const cursorKey = getMasRegistrationTokensCursorKey({ page, perPage }, valid);
       const nextCursor = getMasNextPageCursor(json as MASRegistrationTokenListResponse);
       if (nextCursor) {
@@ -193,7 +404,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getOne: async (resource, params) => {
     console.log("getOne " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     const endpoint_url = baseUrl + res.path;
     const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(params.id)}`);
     return { data: res.map(json) };
@@ -201,7 +412,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getMany: async (resource, params) => {
     console.log("getMany " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     const homeserver = localStorage.getItem("home_server");
     const endpoint_url = baseUrl + res.path;
     const responses = await Promise.all(
@@ -239,7 +450,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   getManyReference: async (resource, params) => {
     console.log("getManyReference " + resource);
-    const { res, homeserver } = await resolveResource(resource);
+    const { res, homeserver } = resolveResource(resource);
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
     const from = (page - 1) * perPage;
@@ -289,7 +500,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   update: async (resource, params) => {
     console.log("update " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     const endpoint_url = baseUrl + res.path;
 
     // Handle special case for MAS registration tokens which have custom update method
@@ -311,7 +522,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   updateMany: async (resource, params) => {
     console.log("updateMany " + resource);
-    const { res, homeserver } = await resolveResource(resource);
+    const { res, homeserver } = resolveResource(resource);
     const endpoint_url = homeserver + res.path;
     const responses = await Promise.all(
       params.ids.map(id =>
@@ -326,7 +537,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   create: async (resource, params) => {
     console.log("create " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
     if (!("create" in res)) return Promise.reject(new Error(`Create not supported for ${resource}`));
 
     const create = res.create(params.data);
@@ -336,9 +547,9 @@ const baseDataProvider: SynapseDataProvider = {
       body: JSON.stringify(create.body, filterNullValues),
     });
 
-    // for some resources, the response is empty, so we return the input data as response
-    if (create?.empty_response) {
-      return { data: params.data };
+    // for some resources, the response is empty, so we return the adjusted input data as response
+    if (create?.response) {
+      return { data: create.response(params.data) };
     }
 
     // Use custom response handler if provided (e.g., for MAS)
@@ -352,7 +563,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   createMany: async (resource: string, params: { ids: Identifier[]; data: RaRecord }) => {
     console.log("createMany " + resource);
-    const { res, homeserver } = await resolveResource(resource);
+    const { res, homeserver } = resolveResource(resource);
     if (!("create" in res)) throw Error(`Create ${resource} is not allowed`);
 
     const responses = await Promise.all(
@@ -371,7 +582,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   delete: async (resource, params) => {
     console.log("delete " + resource);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
 
     if ("delete" in res) {
       const del = res.delete(params);
@@ -380,8 +591,8 @@ const baseDataProvider: SynapseDataProvider = {
         method: "method" in del ? del.method : "DELETE",
         body: "body" in del ? JSON.stringify(del.body) : null,
       });
-      if (del?.empty_response) {
-        return { data: params.previousData };
+      if (del?.response) {
+        return { data: del.response(params.previousData) };
       }
 
       return { data: json };
@@ -397,7 +608,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   deleteMany: async (resource, params) => {
     console.log("deleteMany " + resource, "params", params);
-    const { res, baseUrl } = await resolveResource(resource);
+    const { res, baseUrl } = resolveResource(resource);
 
     if ("delete" in res) {
       const responses = await Promise.all(
@@ -438,10 +649,13 @@ const baseDataProvider: SynapseDataProvider = {
   deleteMedia,
   purgeRemoteMedia,
   uploadMedia,
+  fetchEvent,
   getFeatures,
   updateFeatures,
   getRateLimits,
   setRateLimits,
+  getSentInviteCount,
+  getCumulativeJoinedRoomCount,
   getAccountData,
   checkUsernameAvailability,
   blockRoom,
@@ -449,11 +663,30 @@ const baseDataProvider: SynapseDataProvider = {
   getRoomBlockStatus,
   joinUserToRoom,
   makeRoomAdmin,
+  quarantineRoomMedia,
+  quarantineUserMedia,
+  purgeHistory,
+  getPurgeHistoryStatus,
+  deleteRoom,
+  getRoomDeleteStatus,
+  redactUserEvents,
+  getRedactStatus,
   suspendUser,
   shadowBanUser,
   resetPassword,
   loginAsUser,
   eraseUser,
+  renewAccountValidity,
+  allowCrossSigningReplacement,
+  findUserByThreepid,
+  findUserByAuthProvider,
+  getEventByTimestamp,
+  getEventContext,
+  getRoomMessages,
+  getRoomHierarchy,
+  getAdminClientConfig,
+  setAdminClientConfig,
+  revokeRegistrationToken,
 
   ...etkeProviderMethods,
 };
@@ -523,14 +756,12 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
     },
     beforeDelete: async (params: DeleteParams<any>, _dataProvider: DataProvider) => {
       if (params.meta?.deleteMedia) await deleteUserMedia(params.id);
-      if (params.meta?.redactEvents) await redactUserEvents(params.id);
       return params;
     },
     beforeDeleteMany: async (params: DeleteManyParams<any>, _dataProvider: DataProvider) => {
       await Promise.all(
         params.ids.map(async id => {
           if (params.meta?.deleteMedia) await deleteUserMedia(id);
-          if (params.meta?.redactEvents) await redactUserEvents(id);
         })
       );
       return params;

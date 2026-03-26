@@ -1,5 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Card, CardContent, CardHeader, Box, Alert, Typography, Link } from "@mui/material";
+import { Card, CardContent, CardHeader, Box, Alert, Autocomplete, TextField, Typography, Link } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import {
@@ -16,7 +16,7 @@ import {
   useTranslate,
   Title,
 } from "react-admin";
-import { useWatch } from "react-hook-form";
+import { useWatch, useFormContext } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 
 import RecurringDeleteButton from "./RecurringDeleteButton";
@@ -25,6 +25,7 @@ import { RecurringCommand } from "../../../../../providers/types";
 import { useDocTitle } from "../../../../hooks/useDocTitle";
 import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
+import { useUnits } from "../../../hooks/useUnits";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -36,12 +37,30 @@ const transformCommandsToChoices = (commands: Record<string, any>) => {
   }));
 };
 
-const ArgumentsField = ({ serverCommands }) => {
+const ArgumentsField = ({ serverCommands, units }) => {
   const translate = useTranslate();
+  const { setValue } = useFormContext();
   const selectedCommand = useWatch({ name: "command" });
+  const argsValue = useWatch({ name: "args" });
   const showArgs = selectedCommand && serverCommands[selectedCommand]?.args === true;
 
   if (!showArgs) return null;
+
+  if (selectedCommand === "restart") {
+    return (
+      <Autocomplete
+        freeSolo
+        options={Object.keys(units)}
+        inputValue={argsValue || ""}
+        onInputChange={(_e, value) => {
+          setValue("args", units[value] || value, { shouldDirty: true });
+        }}
+        renderInput={params => (
+          <TextField {...params} label={translate("etkecc.actions.table.arguments")} required fullWidth />
+        )}
+      />
+    );
+  }
 
   return <TextInput required source="args" label={translate("etkecc.actions.table.arguments")} fullWidth multiline />;
 };
@@ -60,6 +79,7 @@ const RecurringCommandEdit = () => {
   const [loading, setLoading] = useState(!isCreating);
   const { data: recurringCommands, isLoading: isLoadingList } = useRecurringCommands();
   const { serverCommands, isLoading: isLoadingServerCommands } = useServerCommands();
+  const { units } = useUnits();
   const pageTitle = isCreating
     ? translate("etkecc.actions.recurring_title_create")
     : translate("etkecc.actions.recurring_title_edit");
@@ -151,13 +171,14 @@ const RecurringCommandEdit = () => {
   return (
     <>
       <Title title={pageTitle} />
-      <Box sx={{ mt: 2 }}>
+      <Box sx={{ mt: 2, maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" }}>
         <Button
           label={translate("etkecc.actions.buttons.back")}
           onClick={() => navigate("/server_actions")}
-          startIcon={<ArrowBackIcon />}
           sx={{ mb: 2 }}
-        />
+        >
+          <ArrowBackIcon />
+        </Button>
 
         <Card>
           <CardHeader title={pageTitle} />
@@ -167,7 +188,11 @@ const RecurringCommandEdit = () => {
                 <Alert severity="info">
                   <Typography variant="body1" sx={{ px: 2 }}>
                     {translate("etkecc.actions.command_details_intro")}{" "}
-                    <Link href={`https://etke.cc/help/extras/scheduler/#${command.command}`} target="_blank">
+                    <Link
+                      href={`https://etke.cc/help/extras/scheduler/#${command.command}`}
+                      target="_blank"
+                      sx={{ wordBreak: "break-all" }}
+                    >
                       {`etke.cc/help/extras/scheduler/#${command.command}`}
                     </Link>
                     .
@@ -192,7 +217,7 @@ const RecurringCommandEdit = () => {
                   fullWidth
                   required
                 />
-                <ArgumentsField serverCommands={serverCommands} />
+                <ArgumentsField serverCommands={serverCommands} units={units} />
                 <SelectInput
                   source="day_of_week"
                   choices={dayOfWeekChoices}

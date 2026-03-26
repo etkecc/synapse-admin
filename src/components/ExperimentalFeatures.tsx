@@ -58,18 +58,19 @@ export const ExperimentalFeaturesList = () => {
   const notify = useNotify();
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const [features, setFeatures] = useState({});
-  if (!record) {
-    return null;
-  }
 
   useEffect(() => {
+    if (!record) return;
     const fetchFeatures = async () => {
       const features = await dataProvider.getFeatures(record.id);
       setFeatures(features);
     };
-
     fetchFeatures();
-  }, [dataProvider, record.id]);
+  }, [dataProvider, record]);
+
+  if (!record) {
+    return null;
+  }
 
   const updateFeature = async (feature_name: string, feature_value: boolean) => {
     const updatedFeatures = { ...features, [feature_name]: feature_value } as ExperimentalFeaturesModel;

@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a Synapse Admin bug
+about: Report a Ketesa bug
 title: ''
 labels: bug
 assignees: ''
@@ -27,7 +27,7 @@ If applicable, add screenshots to help explain your problem.
 If applicable, add the browser console's log
 
 **Instance configuration:**
- - Synapse Admin version: [e.g. v0.10.3-etke39]
+ - Ketesa version: [e.g. v0.10.3-etke39]
  - Synapse version [v1.127.1]
 
 **Additional context**
