@@ -22,7 +22,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Server Notices](#-server-notices)
     * [✅ Federation](#-federation)
     * [✅ Experimental Features](#-experimental-features)
-    * [🟡 Statistics](#-statistics)
+    * [✅ Statistics](#-statistics)
     * [✅ Account Validity](#-account-validity)
     * [✅ Purge History](#-purge-history)
     * [✅ Fetch Event](#-fetch-event)
@@ -180,14 +180,14 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 | `/_synapse/admin/v1/experimental_features/<user_id>` | GET | List experimental features for user | ✅ |
 | `/_synapse/admin/v1/experimental_features/<user_id>` | PUT | Enable/disable experimental features | ✅ |
 
-### 🟡 Statistics
+### ✅ Statistics
 
 Largest rooms by database size - [#1082](https://github.com/etkecc/ketesa/pull/1082)
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
 | `/_synapse/admin/v1/statistics/users/media` | GET | Get users' media usage statistics | ✅ |
-| `/_synapse/admin/v1/statistics/database/rooms` | GET | Get largest rooms by database size | 🟡 |
+| `/_synapse/admin/v1/statistics/database/rooms` | GET | Get largest rooms by database size | ✅ |
 
 ### ✅ Account Validity
 

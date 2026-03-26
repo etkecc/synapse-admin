@@ -695,6 +695,16 @@ const de: SynapseTranslationMessages = {
         send: 'Sendet eine Serverbenachrichtigung an die ausgewählten Nutzer. Hierfür muss das Feature "Server Notices" auf dem Server aktiviert sein.',
       },
     },
+    database_room_statistics: {
+      name: "Datenbank-Raumstatistiken",
+      fields: {
+        room_id: "Raum-ID",
+        estimated_size: "Geschätzte Größe",
+      },
+      helper: {
+        info: "Zeigt den geschätzten Speicherplatz, der von jedem Raum in der Synapse-Datenbank verwendet wird. Die Angaben sind Näherungswerte.",
+      },
+    },
     user_media_statistics: {
       name: "Benutzer Dateien",
       fields: {

@@ -628,6 +628,16 @@ const en: SynapseTranslationMessages = {
         send: 'Sends a server notice to the selected users. The feature "Server Notices" has to be activated at the server.',
       },
     },
+    database_room_statistics: {
+      name: "Database room statistics",
+      fields: {
+        room_id: "Room ID",
+        estimated_size: "Estimated size",
+      },
+      helper: {
+        info: "Shows the estimated disk space used by each room in the Synapse database. Numbers are approximate.",
+      },
+    },
     user_media_statistics: {
       name: "Users' media",
       fields: {

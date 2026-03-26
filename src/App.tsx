@@ -15,6 +15,7 @@ import ScheduledCommandEdit from "./components/etke.cc/schedules/components/sche
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
 import UserImport from "./components/user-import/UserImport";
 import LoginPage from "./pages/LoginPage";
+import { DatabaseRoomStatsList } from "./resources/database_room_statistics";
 import destinations from "./resources/destinations";
 import registrationToken from "./resources/registration_tokens";
 import reports from "./resources/reports";
@@ -70,10 +71,12 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
           {!icfg.disabled.payments && <Route path="/billing" element={<BillingPage />} />}
           {!icfg.disabled.support && <Route path="/support" element={<SupportPage />} />}
           {!icfg.disabled.support && <Route path="/support/:id" element={<SupportRequestPage />} />}
+          <Route path="/database_room_statistics" element={<DatabaseRoomStatsList />} />
         </CustomRoutes>
         <Resource {...users} />
         <Resource {...rooms} />
         <Resource {...userMediaStats} />
+        <Resource name="database_room_statistics" />
         <Resource {...reports} />
         <Resource {...roomDirectory} />
         {!icfg.disabled.federation && <Resource {...destinations} />}
