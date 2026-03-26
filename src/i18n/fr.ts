@@ -640,6 +640,9 @@ const fr: SynapseTranslationMessages = {
         room_id: "ID du salon",
         estimated_size: "Taille estimée",
       },
+      helper: {
+        info: "Affiche l'espace disque estimé utilisé par chaque salon dans la base de données Synapse. Les chiffres sont approximatifs.",
+      },
     },
     user_media_statistics: {
       name: "Médias des utilisateurs",

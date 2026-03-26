@@ -817,6 +817,13 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["src/declarations.d.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["src/i18n/de.ts"]
 SPDX-FileCopyrightText = [
   "2020-2025 Dirk Klimpel",
@@ -976,6 +983,13 @@ SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
   "2024-2026 Borislav Pantaleev <https://etke.cc>",
   "2025 Hugo Renard",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/database_room_statistics.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 

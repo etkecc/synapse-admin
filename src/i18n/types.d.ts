@@ -606,6 +606,9 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         room_id: string;
         estimated_size: string;
       };
+      helper: {
+        info: string;
+      };
     };
     user_media_statistics: {
       name: string;

@@ -676,6 +676,9 @@ const zh: SynapseTranslationMessages = {
         room_id: "房间 ID",
         estimated_size: "估计大小",
       },
+      helper: {
+        info: "显示 Synapse 数据库中每个房间使用的估计磁盘空间。数字为近似值。",
+      },
     },
     user_media_statistics: {
       name: "用户的媒体文件",

@@ -701,6 +701,9 @@ const de: SynapseTranslationMessages = {
         room_id: "Raum-ID",
         estimated_size: "Geschätzte Größe",
       },
+      helper: {
+        info: "Zeigt den geschätzten Speicherplatz, der von jedem Raum in der Synapse-Datenbank verwendet wird. Die Angaben sind Näherungswerte.",
+      },
     },
     user_media_statistics: {
       name: "Benutzer Dateien",

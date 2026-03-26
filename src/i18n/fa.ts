@@ -661,6 +661,9 @@ const fa: SynapseTranslationMessages = {
         room_id: "شناسه اتاق",
         estimated_size: "اندازه تخمینی",
       },
+      helper: {
+        info: "فضای دیسک تخمینی مورد استفاده هر اتاق در پایگاه داده Synapse را نشان می‌دهد. اعداد تقریبی هستند.",
+      },
     },
     user_media_statistics: {
       name: "رسانه کاربران",

@@ -634,6 +634,9 @@ const en: SynapseTranslationMessages = {
         room_id: "Room ID",
         estimated_size: "Estimated size",
       },
+      helper: {
+        info: "Shows the estimated disk space used by each room in the Synapse database. Numbers are approximate.",
+      },
     },
     user_media_statistics: {
       name: "Users' media",

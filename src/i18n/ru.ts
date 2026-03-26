@@ -711,6 +711,9 @@ const ru: SynapseTranslationMessages = {
         room_id: "ID комнаты",
         estimated_size: "Примерный размер",
       },
+      helper: {
+        info: "Отображает приблизительный объём дискового пространства, занятого каждой комнатой в базе данных Synapse. Цифры являются приблизительными.",
+      },
     },
     user_media_statistics: {
       name: "Файлы пользователей",

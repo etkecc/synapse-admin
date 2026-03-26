@@ -650,6 +650,9 @@ const ja: SynapseTranslationMessages = {
         room_id: "ルームID",
         estimated_size: "推定サイズ",
       },
+      helper: {
+        info: "Synapse データベース内の各ルームが使用する推定ディスク容量を表示します。数値は概算です。",
+      },
     },
     user_media_statistics: {
       name: "ユーザーのメディア",

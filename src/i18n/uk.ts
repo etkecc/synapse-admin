@@ -694,6 +694,9 @@ const uk: SynapseTranslationMessages = {
         room_id: "ID кімнати",
         estimated_size: "Приблизний розмір",
       },
+      helper: {
+        info: "Відображає приблизний обсяг дискового простору, який використовує кожна кімната в базі даних Synapse. Числа є наближеними.",
+      },
     },
     user_media_statistics: {
       name: "Медіа користувачів",
