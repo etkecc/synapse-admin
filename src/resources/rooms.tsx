@@ -466,9 +466,11 @@ const RoomOverviewTab = () => {
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.creator")}
                 </Typography>
-                <ReferenceField source="creator" reference="users" link="show">
-                  <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
-                </ReferenceField>
+                <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+                  <ReferenceField source="creator" reference="users" link="show">
+                    <RaTextField source="id" />
+                  </ReferenceField>
+                </Typography>
               </Box>
             </Box>
           </CardContent>
