@@ -49,10 +49,10 @@ export const runAuthCallback = async (provider: AuthProviderLike): Promise<{ red
 
 const ensureBaseTitle = () => {
   if (!document.head.dataset.baseTitle) {
-    document.head.dataset.baseTitle = "Synapse Admin";
+    document.head.dataset.baseTitle = "Ketesa";
   }
   if (!document.title) {
-    document.title = "Synapse Admin";
+    document.title = "Ketesa";
   }
 };
 
@@ -100,10 +100,10 @@ export const bootstrapAuthCallback = (
 
 declare global {
   interface Window {
-    __SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__?: boolean;
+    __KETESA_AUTH_CALLBACK_ENTRY__?: boolean;
   }
 }
 
-if (typeof window !== "undefined" && window.__SYNAPSE_ADMIN_AUTH_CALLBACK_ENTRY__) {
+if (typeof window !== "undefined" && window.__KETESA_AUTH_CALLBACK_ENTRY__) {
   bootstrapAuthCallback();
 }

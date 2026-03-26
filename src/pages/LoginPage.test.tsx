@@ -7,7 +7,7 @@ import { AppContext } from "../Context";
 import englishMessages from "../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
-const welcomeText = englishMessages.synapseadmin.auth.welcome.replace("%{name}", "Synapse Admin");
+const welcomeText = englishMessages.ketesa.auth.welcome.replace("%{name}", "Ketesa");
 
 describe("LoginForm", () => {
   it("renders with no restriction to homeserver", async () => {
@@ -23,7 +23,7 @@ describe("LoginForm", () => {
     screen.getByRole("combobox", { name: "" }); // Language selector
     // Base URL input should be visible and editable
     const baseUrlInput = screen.getByRole("textbox", {
-      name: englishMessages.synapseadmin.auth.base_url,
+      name: englishMessages.ketesa.auth.base_url,
     });
     expect(baseUrlInput.className.split(" ")).not.toContain("Mui-readOnly");
     // Username and password fields are not visible until server info is checked
@@ -52,7 +52,7 @@ describe("LoginForm", () => {
     // Base URL field should not be visible when single restricted homeserver is set
     expect(() =>
       screen.getByRole("textbox", {
-        name: englishMessages.synapseadmin.auth.base_url,
+        name: englishMessages.ketesa.auth.base_url,
       })
     ).toThrow();
     // Username and password fields are not visible until server info is checked
@@ -80,7 +80,7 @@ describe("LoginForm", () => {
     screen.getByRole("combobox", { name: "" }); // Language selector
     // Base URL field should be visible as a combobox when multiple restricted homeservers are set
     screen.getByRole("combobox", {
-      name: englishMessages.synapseadmin.auth.base_url,
+      name: englishMessages.ketesa.auth.base_url,
     });
     // Username and password fields are not visible until server info is checked
     // and supportPassAuth is determined

@@ -1,6 +1,6 @@
 # Supported APIs
 
-Synapse Admin uses various APIs to manage Matrix homeservers and related services.
+Ketesa uses various APIs to manage Matrix homeservers and related services.
 This document lists all supported APIs and their usage status.
 
 > **Note:** This file was compiled based on Synapse v1.149.1 and MAS v1.13.0 documentation.
@@ -185,7 +185,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
 
 ### 🟡 Statistics
 
-Largest rooms by database size - [#1082](https://github.com/etkecc/synapse-admin/pull/1082)
+Largest rooms by database size - [#1082](https://github.com/etkecc/ketesa/pull/1082)
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
@@ -213,7 +213,7 @@ Largest rooms by database size - [#1082](https://github.com/etkecc/synapse-admin
 
 ### ⏭️ Register (Shared-Secret Registration) — superseded
 
-Superseded: redundant with existing user creation via User Admin API (already implemented). Shared-secret registration is designed for CLI bootstrapping without an admin token — pointless when already authenticated in synapse-admin.
+Superseded: redundant with existing user creation via User Admin API (already implemented). Shared-secret registration is designed for CLI bootstrapping without an admin token — pointless when already authenticated in Ketesa.
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|

@@ -1,20 +1,20 @@
 # External Auth Provider
 
-When you use an external authentication provider (like OIDC, LDAP, etc.) your Synapse Admin API acts differently,
+When you use an external authentication provider (like OIDC, LDAP, etc.) your Ketesa API acts differently,
 but unfortunately, the API does not expose which provider is used (and if it is used at all), especially if you use a
 seamless/hidden password provider that does not announce itself.
 
-To work around such cases, the `externalAuthProvider` config option can be set to `true` to change Synapse Admin's
+To work around such cases, the `externalAuthProvider` config option can be set to `true` to change Ketesa's
 behavior to better suit setups with external auth providers. Currently, the following changes are made:
 * Do not require a new password when reactivating a user
 * Do not show the guests filter in the users list
 
-Note: For OIDC ("next-gen auth"), Synapse Admin adjusts its behavior automatically, so this config option is not required.
+Note: For OIDC ("next-gen auth"), Ketesa adjusts its behavior automatically, so this config option is not required.
 
 ## Matrix Authentication Service (MAS)
 
-When Synapse uses Matrix Authentication Service (MAS) for OIDC, Synapse Admin uses the MAS admin API for registration
-token management. The MAS admin API is not exposed by default, so it must be reachable from the Synapse Admin UI.
+When Synapse uses Matrix Authentication Service (MAS) for OIDC, Ketesa uses the MAS admin API for registration
+token management. The MAS admin API is not exposed by default, so it must be reachable from the Ketesa UI.
 If the MAS admin API is not exposed, registration token list/create/update/delete operations will fail.
 
 ```yaml
@@ -32,12 +32,12 @@ http:
 ### /auth-callback
 
 When using MAS, the `/auth-callback` endpoint is used for handling OIDC callbacks.
-The Synapse Admin build includes a dedicated `auth-callback/index.html`, so this endpoint is served as a real static
+The Ketesa build includes a dedicated `auth-callback/index.html`, so this endpoint is served as a real static
 page and does not require SPA fallbacks or copying `index.html`.
 
 **Web server configuration**
 
-If you are using a web server (like nginx) to serve the Synapse Admin UI, make sure the `/auth-callback` path serves
+If you are using a web server (like nginx) to serve the Ketesa UI, make sure the `/auth-callback` path serves
 `auth-callback/index.html` from the build output. A standard static file config already does this. For example, in nginx:
 
 ```nginx
@@ -46,7 +46,7 @@ location / {
 }
 ```
 
-This method is used in Synapse Admin's [Docker images (dist)](../Dockerfile) and [Docker image
+This method is used in Ketesa's [Docker images (dist)](../Dockerfile) and [Docker image
 (build)](../Dockerfile.build) and is recommended for production deployments.
 
 ## Configuration
@@ -70,7 +70,7 @@ This method is used in Synapse Admin's [Docker images (dist)](../Dockerfile) and
 
 ```json
 {
-  "cc.etke.synapse-admin": {
+  "cc.etke.ketesa": {
     "externalAuthProvider": true
   }
 }

@@ -1,7 +1,7 @@
 import { TranslationMessages } from "ra-core";
 
 export interface SynapseTranslationMessages extends TranslationMessages {
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: string;
       welcome: string;
@@ -115,6 +115,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     action: {
       send: string;
       send_success: string;
+      send_success_none: string;
       send_failure: string;
     };
     helper: {
@@ -129,6 +130,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     action: {
       send: string;
       send_success: string;
+      send_success_none: string;
       send_failure: string;
     };
     helper: {
@@ -163,6 +165,9 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         filter_locked_true: string;
         filter_guests_false: string;
         filter_guests_true: string;
+        show_system_users: string;
+        filter_system_users_false: string;
+        filter_system_users_true: string;
         show_suspended: string;
         show_shadow_banned: string;
         user_id: string;
@@ -269,6 +274,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        system_users_scan_in_progress: string;
       };
       badge: {
         you: string;

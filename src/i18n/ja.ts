@@ -25,7 +25,7 @@ const fixedJapaneseMessages = {
 
 const ja: SynapseTranslationMessages = {
   ...fixedJapaneseMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "ホームサーバーのURL",
       welcome: "%{name}にようこそ",
@@ -147,7 +147,8 @@ const ja: SynapseTranslationMessages = {
     },
     action: {
       send: "メディアファイルを削除",
-      send_success: "リクエストを送信しました。",
+      send_success: "%{smart_count}件のメディアファイルを削除しました。",
+      send_success_none: "指定された条件に一致するメディアファイルはありませんでした。何も削除されていません。",
       send_failure: "エラーが発生しました。",
     },
     helper: {
@@ -161,7 +162,8 @@ const ja: SynapseTranslationMessages = {
     },
     action: {
       send: "リモートのメディアファイルを削除",
-      send_success: "削除のリクエストを送信しました。",
+      send_success: "%{smart_count}件のリモートメディアファイルを削除しました。",
+      send_success_none: "指定された条件に一致するリモートメディアファイルはありませんでした。何も削除されていません。",
       send_failure: "エラーが発生しました。",
     },
     helper: {
@@ -196,6 +198,9 @@ const ja: SynapseTranslationMessages = {
         filter_locked_true: "ロックを含む",
         filter_guests_false: "ゲストを除外",
         filter_guests_true: "ゲストを含む",
+        show_system_users: "システムユーザーを表示",
+        filter_system_users_false: "システムユーザーを除外",
+        filter_system_users_true: "システムユーザーのみ",
         show_suspended: "停止されたユーザーを表示",
         show_shadow_banned: "シャドウBANされたユーザーを表示",
         user_id: "ユーザーを検索",
@@ -309,6 +314,8 @@ const ja: SynapseTranslationMessages = {
           success: "アカウントの有効期限を %{date} まで更新しました",
           failure: "アカウントの有効期限の更新に失敗しました",
         },
+        system_users_scan_in_progress:
+          "少々お待ちください — 該当するユーザーをまだ検索中です。まもなくページが読み込まれます",
       },
       badge: {
         you: "あなた",

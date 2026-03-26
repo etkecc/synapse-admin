@@ -60,7 +60,7 @@ const ru: SynapseTranslationMessages = {
     ...fixedRussianMessages.ra,
     navigation: ruNavigation,
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Адрес домашнего сервера",
       welcome: "Добро пожаловать в %{name}",
@@ -189,7 +189,9 @@ const ru: SynapseTranslationMessages = {
     },
     action: {
       send: "Удалить файлы",
-      send_success: "Запрос успешно отправлен.",
+      send_success:
+        "Успешно удалён %{smart_count} медиафайл. |||| Успешно удалено %{smart_count} медиафайла. |||| Успешно удалено %{smart_count} медиафайлов.",
+      send_success_none: "Нет медиафайлов, соответствующих указанным критериям. Ничего не было удалено.",
       send_failure: "Произошла ошибка.",
     },
     helper: {
@@ -204,7 +206,9 @@ const ru: SynapseTranslationMessages = {
     },
     action: {
       send: "Очистить внешние медиа",
-      send_success: "Запрос на очистку внешних медиа был отправлен.",
+      send_success:
+        "Успешно очищен %{smart_count} внешний медиафайл. |||| Успешно очищено %{smart_count} внешних медиафайла. |||| Успешно очищено %{smart_count} внешних медиафайлов.",
+      send_success_none: "Нет внешних медиафайлов, соответствующих указанным критериям. Ничего не было очищено.",
       send_failure: "Произошла ошибка при запросе очистки внешних медиа.",
     },
     helper: {
@@ -239,6 +243,9 @@ const ru: SynapseTranslationMessages = {
         filter_locked_true: "Включить заблокированных",
         filter_guests_false: "Исключить гостей",
         filter_guests_true: "Включить гостей",
+        show_system_users: "Системные пользователи",
+        filter_system_users_false: "Скрыть системных",
+        filter_system_users_true: "Только системные",
         show_suspended: "Показывать приостановленных",
         show_shadow_banned: "Показывать с теневым баном",
         user_id: "Поиск пользователя",
@@ -365,6 +372,8 @@ const ru: SynapseTranslationMessages = {
           success: "Срок действия аккаунта продлён до %{date}",
           failure: "Не удалось продлить срок действия аккаунта",
         },
+        system_users_scan_in_progress:
+          "Подождите — поиск подходящих пользователей ещё продолжается, страница загрузится в ближайшее время",
       },
       limits: {
         messages_per_second: "Сообщений в секунду",

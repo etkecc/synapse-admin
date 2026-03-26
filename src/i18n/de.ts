@@ -67,7 +67,7 @@ const de: SynapseTranslationMessages = {
       unique: "Muss eindeutig sein",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Heimserver URL",
       welcome: "Willkommen bei %{name}",
@@ -189,7 +189,9 @@ const de: SynapseTranslationMessages = {
     },
     action: {
       send: "Medien löschen",
-      send_success: "Anfrage erfolgreich versendet.",
+      send_success:
+        "%{smart_count} Mediendatei erfolgreich gelöscht. |||| %{smart_count} Mediendateien erfolgreich gelöscht.",
+      send_success_none: "Keine Mediendateien entsprachen den angegebenen Kriterien. Es wurde nichts gelöscht.",
       send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
     },
     helper: {
@@ -203,7 +205,10 @@ const de: SynapseTranslationMessages = {
     },
     action: {
       send: "Externe Medien löschen",
-      send_success: "Die Anfrage zum Löschen externer Medien wurde gesendet.",
+      send_success:
+        "%{smart_count} externe Mediendatei erfolgreich gelöscht. |||| %{smart_count} externe Mediendateien erfolgreich gelöscht.",
+      send_success_none:
+        "Keine externen Mediendateien entsprachen den angegebenen Kriterien. Es wurde nichts gelöscht.",
       send_failure: "Bei der Anfrage zum Löschen externer Medien ist ein Fehler aufgetreten.",
     },
     helper: {
@@ -238,6 +243,9 @@ const de: SynapseTranslationMessages = {
         filter_locked_true: "Gesperrte einschließen",
         filter_guests_false: "Gäste ausschließen",
         filter_guests_true: "Gäste einschließen",
+        show_system_users: "Systembenutzer anzeigen",
+        filter_system_users_false: "Systembenutzer ausblenden",
+        filter_system_users_true: "Nur Systembenutzer",
         show_suspended: "Zeige suspendierte Benutzer",
         show_shadow_banned: "Zeige schattengebannte Benutzer",
         user_id: "Suche Benutzer",
@@ -365,6 +373,8 @@ const de: SynapseTranslationMessages = {
           success: "Kontogültigkeit bis %{date} erneuert",
           failure: "Erneuerung der Kontogültigkeit fehlgeschlagen",
         },
+        system_users_scan_in_progress:
+          "Einen Moment – es werden noch passende Benutzer gesucht, die Seite wird gleich geladen",
       },
       limits: {
         messages_per_second: "Nachrichten pro Sekunde",

@@ -399,7 +399,7 @@ const RoomOverviewTab = () => {
         <Card variant="outlined">
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              {translate("synapseadmin.rooms.tabs.detail")}
+              {translate("ketesa.rooms.tabs.detail")}
             </Typography>
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
               <Box>
@@ -433,7 +433,7 @@ const RoomOverviewTab = () => {
         <Card variant="outlined">
           <CardContent>
             <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-              {translate("synapseadmin.rooms.tabs.permission")}
+              {translate("ketesa.rooms.tabs.permission")}
             </Typography>
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 1 }}>
               <Box>
@@ -466,9 +466,11 @@ const RoomOverviewTab = () => {
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.creator")}
                 </Typography>
-                <ReferenceField source="creator" reference="users" link="show">
-                  <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
-                </ReferenceField>
+                <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
+                  <ReferenceField source="creator" reference="users" link="show">
+                    <RaTextField source="id" />
+                  </ReferenceField>
+                </Typography>
               </Box>
             </Box>
           </CardContent>
@@ -515,11 +517,248 @@ const RoomMembersMobileList = () => {
   );
 };
 
-export const RoomShow = (props: ShowProps) => {
+const RoomShowLayout = () => {
+  const record = useRecordContext();
   const translate = useTranslate();
   const locale = useLocale();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSpace = record?.room_type === "m.space";
+
+  return (
+    <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
+      <Tab label="ketesa.rooms.tabs.basic" icon={<ViewListIcon />}>
+        <RoomOverviewTab />
+      </Tab>
+
+      <Tab label="ketesa.rooms.tabs.members" icon={<UserIcon />} path="members">
+        <MakeAdminBtn />
+        <ReferenceManyField
+          reference="room_members"
+          target="room_id"
+          label={false}
+          perPage={10}
+          pagination={<RoomPagination />}
+        >
+          {isSmall ? (
+            <RoomMembersMobileList />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+              <ReferenceField
+                label="resources.users.fields.avatar"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+              </ReferenceField>
+              <RaTextField
+                source="id"
+                sortable={false}
+                label="resources.users.fields.id"
+                sx={{ wordBreak: "break-all" }}
+              />
+              <ReferenceField
+                label="resources.users.fields.displayname"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <RaTextField source="displayname" sortable={false} />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.is_guest"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.deactivated"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.locked"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="locked" label="resources.users.fields.locked" />
+              </ReferenceField>
+              <ReferenceField
+                label="resources.users.fields.erased"
+                source="id"
+                reference="users"
+                sortable={false}
+                link=""
+              >
+                <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
+              </ReferenceField>
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
+
+      <Tab label="ketesa.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
+        <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
+        <QuarantineRoomMediaButton />
+        <ReferenceManyField
+          reference="room_media"
+          target="room_id"
+          label={false}
+          pagination={<Pagination />}
+          perPage={10}
+        >
+          {isSmall ? (
+            <SimpleList
+              primaryText={() => (
+                <Box sx={{ wordBreak: "break-all" }}>
+                  <MediaIDField source="media_id" />
+                </Box>
+              )}
+              tertiaryText={() => <DeleteButton mutationMode="pessimistic" redirect={false} />}
+              linkType={false}
+            />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+              <MediaIDField source="media_id" />
+              <DeleteButton mutationMode="pessimistic" redirect={false} />
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
+
+      <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
+        <ReferenceManyField
+          reference="room_state"
+          target="room_id"
+          label={false}
+          pagination={<Pagination />}
+          perPage={10}
+        >
+          {isSmall ? (
+            <SimpleList
+              primaryText={record => record.type}
+              secondaryText={record => (
+                <>
+                  {record.origin_server_ts && new Date(record.origin_server_ts).toLocaleString(locale)}
+                  {record.sender && (
+                    <>
+                      <br />
+                      <Box component="span" sx={{ wordBreak: "break-all" }}>
+                        {record.sender}
+                      </Box>
+                    </>
+                  )}
+                  <Box
+                    component="pre"
+                    sx={{
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-all",
+                      m: 0,
+                      mt: 0.5,
+                      p: 1,
+                      fontSize: "0.75rem",
+                      bgcolor: "action.hover",
+                      borderRadius: 1,
+                      overflow: "auto",
+                      maxWidth: "100%",
+                    }}
+                  >
+                    {JSON.stringify(record.content, null, 2)}
+                  </Box>
+                </>
+              )}
+              linkType={false}
+            />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+              <RaTextField source="type" sortable={false} />
+              <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+              <FunctionField
+                source="content"
+                sortable={false}
+                render={record => `${JSON.stringify(record.content, null, 2)}`}
+              />
+              <ReferenceField source="sender" reference="users" sortable={false}>
+                <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
+              </ReferenceField>
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
+
+      <Tab label="ketesa.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
+        <RoomMessages />
+      </Tab>
+
+      {isSpace && (
+        <Tab label="ketesa.rooms.tabs.hierarchy" icon={<AccountTreeIcon />} path="hierarchy">
+          <RoomHierarchy />
+        </Tab>
+      )}
+
+      <Tab label="resources.forward_extremities.name" icon={<FastForwardIcon />} path="forward_extremities">
+        <Box
+          sx={{
+            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+            margin: "0.5em",
+          }}
+        >
+          {translate("resources.rooms.helper.forward_extremities")}
+        </Box>
+        <ReferenceManyField
+          reference="forward_extremities"
+          target="room_id"
+          label={false}
+          pagination={<Pagination />}
+          perPage={10}
+        >
+          {isSmall ? (
+            <SimpleList
+              primaryText={record => (
+                <Box component="span" sx={{ wordBreak: "break-all" }}>
+                  {record.id}
+                </Box>
+              )}
+              secondaryText={record => (
+                <>
+                  {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
+                  {record.state_group && (
+                    <>
+                      {" "}
+                      · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}
+                    </>
+                  )}
+                </>
+              )}
+              linkType={false}
+            />
+          ) : (
+            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
+              <RaTextField source="id" sortable={false} sx={{ wordBreak: "break-all" }} />
+              <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+              <NumberField source="depth" sortable={false} />
+              <RaTextField source="state_group" sortable={false} />
+            </DatagridConfigurable>
+          )}
+        </ReferenceManyField>
+      </Tab>
+    </TabbedShowLayout>
+  );
+};
+
+export const RoomShow = (props: ShowProps) => {
   return (
     <Show
       {...props}
@@ -527,233 +766,7 @@ export const RoomShow = (props: ShowProps) => {
       title={<RoomTitle />}
       sx={{ "& .RaShow-card": { maxWidth: { xs: "100vw", sm: "calc(100vw - 32px)" }, overflowX: "auto" } }}
     >
-      <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
-        <Tab label="synapseadmin.rooms.tabs.basic" icon={<ViewListIcon />}>
-          <RoomOverviewTab />
-        </Tab>
-
-        <Tab label="synapseadmin.rooms.tabs.members" icon={<UserIcon />} path="members">
-          <MakeAdminBtn />
-          <ReferenceManyField
-            reference="room_members"
-            target="room_id"
-            label={false}
-            perPage={10}
-            pagination={<RoomPagination />}
-          >
-            {isSmall ? (
-              <RoomMembersMobileList />
-            ) : (
-              <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
-                <ReferenceField
-                  label="resources.users.fields.avatar"
-                  source="id"
-                  reference="users"
-                  sortable={false}
-                  link=""
-                >
-                  <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
-                </ReferenceField>
-                <RaTextField
-                  source="id"
-                  sortable={false}
-                  label="resources.users.fields.id"
-                  sx={{ wordBreak: "break-all" }}
-                />
-                <ReferenceField
-                  label="resources.users.fields.displayname"
-                  source="id"
-                  reference="users"
-                  sortable={false}
-                  link=""
-                >
-                  <RaTextField source="displayname" sortable={false} />
-                </ReferenceField>
-                <ReferenceField
-                  label="resources.users.fields.is_guest"
-                  source="id"
-                  reference="users"
-                  sortable={false}
-                  link=""
-                >
-                  <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
-                </ReferenceField>
-                <ReferenceField
-                  label="resources.users.fields.deactivated"
-                  source="id"
-                  reference="users"
-                  sortable={false}
-                  link=""
-                >
-                  <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
-                </ReferenceField>
-                <ReferenceField
-                  label="resources.users.fields.locked"
-                  source="id"
-                  reference="users"
-                  sortable={false}
-                  link=""
-                >
-                  <BooleanField source="locked" label="resources.users.fields.locked" />
-                </ReferenceField>
-                <ReferenceField
-                  label="resources.users.fields.erased"
-                  source="id"
-                  reference="users"
-                  sortable={false}
-                  link=""
-                >
-                  <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-                </ReferenceField>
-              </DatagridConfigurable>
-            )}
-          </ReferenceManyField>
-        </Tab>
-
-        <Tab label="synapseadmin.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
-          <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
-          <QuarantineRoomMediaButton />
-          <ReferenceManyField
-            reference="room_media"
-            target="room_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
-            {isSmall ? (
-              <SimpleList
-                primaryText={() => (
-                  <Box sx={{ wordBreak: "break-all" }}>
-                    <MediaIDField source="media_id" />
-                  </Box>
-                )}
-                tertiaryText={() => <DeleteButton mutationMode="pessimistic" redirect={false} />}
-                linkType={false}
-              />
-            ) : (
-              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
-                <MediaIDField source="media_id" />
-                <DeleteButton mutationMode="pessimistic" redirect={false} />
-              </DatagridConfigurable>
-            )}
-          </ReferenceManyField>
-        </Tab>
-
-        <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
-          <ReferenceManyField
-            reference="room_state"
-            target="room_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
-            {isSmall ? (
-              <SimpleList
-                primaryText={record => record.type}
-                secondaryText={record => (
-                  <>
-                    {record.origin_server_ts && new Date(record.origin_server_ts).toLocaleString(locale)}
-                    {record.sender && (
-                      <>
-                        <br />
-                        <Box component="span" sx={{ wordBreak: "break-all" }}>
-                          {record.sender}
-                        </Box>
-                      </>
-                    )}
-                    <Box
-                      component="pre"
-                      sx={{
-                        whiteSpace: "pre-wrap",
-                        wordBreak: "break-all",
-                        m: 0,
-                        mt: 0.5,
-                        p: 1,
-                        fontSize: "0.75rem",
-                        bgcolor: "action.hover",
-                        borderRadius: 1,
-                        overflow: "auto",
-                        maxWidth: "100%",
-                      }}
-                    >
-                      {JSON.stringify(record.content, null, 2)}
-                    </Box>
-                  </>
-                )}
-                linkType={false}
-              />
-            ) : (
-              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
-                <RaTextField source="type" sortable={false} />
-                <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                <FunctionField
-                  source="content"
-                  sortable={false}
-                  render={record => `${JSON.stringify(record.content, null, 2)}`}
-                />
-                <ReferenceField source="sender" reference="users" sortable={false}>
-                  <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
-                </ReferenceField>
-              </DatagridConfigurable>
-            )}
-          </ReferenceManyField>
-        </Tab>
-
-        <Tab label="synapseadmin.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
-          <RoomMessages />
-        </Tab>
-
-        <Tab label="synapseadmin.rooms.tabs.hierarchy" icon={<AccountTreeIcon />} path="hierarchy">
-          <RoomHierarchy />
-        </Tab>
-
-        <Tab label="resources.forward_extremities.name" icon={<FastForwardIcon />} path="forward_extremities">
-          <Box
-            sx={{
-              fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-              margin: "0.5em",
-            }}
-          >
-            {translate("resources.rooms.helper.forward_extremities")}
-          </Box>
-          <ReferenceManyField
-            reference="forward_extremities"
-            target="room_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
-            {isSmall ? (
-              <SimpleList
-                primaryText={record => (
-                  <Box component="span" sx={{ wordBreak: "break-all" }}>
-                    {record.id}
-                  </Box>
-                )}
-                secondaryText={record => (
-                  <>
-                    {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
-                    {record.state_group && (
-                      <>
-                        {" "}
-                        · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}
-                      </>
-                    )}
-                  </>
-                )}
-                linkType={false}
-              />
-            ) : (
-              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
-                <RaTextField source="id" sortable={false} sx={{ wordBreak: "break-all" }} />
-                <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                <NumberField source="depth" sortable={false} />
-                <RaTextField source="state_group" sortable={false} />
-              </DatagridConfigurable>
-            )}
-          </ReferenceManyField>
-        </Tab>
-      </TabbedShowLayout>
+      <RoomShowLayout />
     </Show>
   );
 };

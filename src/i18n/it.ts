@@ -126,7 +126,7 @@ const it: SynapseTranslationMessages = {
       unique: "Deve essere unico",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL dell'homeserver",
       welcome: "Benvenuto in %{name}",
@@ -148,7 +148,13 @@ const it: SynapseTranslationMessages = {
     },
     users: {
       invalid_user_id: "ID utente non valido su questo homeserver.",
-      tabs: { sso: "SSO", experimental: "Sperimentale", limits: "Limiti", account_data: "Dati del profilo" },
+      tabs: {
+        sso: "SSO",
+        experimental: "Sperimentale",
+        limits: "Limiti",
+        account_data: "Dati del profilo",
+        sessions: "Sessions",
+      },
       danger_zone: "Zona pericolosa",
     },
     rooms: {
@@ -241,7 +247,9 @@ const it: SynapseTranslationMessages = {
     },
     action: {
       send: "Cancella media",
-      send_success: "Richiesta inviata con successo.",
+      send_success:
+        "%{smart_count} file multimediale eliminato con successo. |||| %{smart_count} file multimediali eliminati con successo.",
+      send_success_none: "Nessun file multimediale corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
       send_failure: "C'è stato un errore.",
     },
     helper: {
@@ -255,7 +263,10 @@ const it: SynapseTranslationMessages = {
     },
     action: {
       send: "Elimina media remoti",
-      send_success: "La richiesta per eliminare i media remoti è stata inviata.",
+      send_success:
+        "%{smart_count} file multimediale remoto eliminato con successo. |||| %{smart_count} file multimediali remoti eliminati con successo.",
+      send_success_none:
+        "Nessun file multimediale remoto corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
       send_failure: "Si è verificato un errore con la richiesta di eliminazione dei media remoti.",
     },
     helper: {
@@ -289,6 +300,9 @@ const it: SynapseTranslationMessages = {
         filter_locked_true: "Includi bloccati",
         filter_guests_false: "Escludi ospiti",
         filter_guests_true: "Includi ospiti",
+        show_system_users: "Mostra utenti di sistema",
+        filter_system_users_false: "Escludi utenti di sistema",
+        filter_system_users_true: "Solo utenti di sistema",
         show_suspended: "Mostra gli utenti sospesi",
         show_shadow_banned: "Mostra utenti shadowbannati",
         user_id: "Cerca utente",
@@ -415,6 +429,8 @@ const it: SynapseTranslationMessages = {
           success: "Validità dell'account rinnovata fino al %{date}",
           failure: "Impossibile rinnovare la validità dell'account",
         },
+        system_users_scan_in_progress:
+          "Attendere — la ricerca degli utenti corrispondenti è ancora in corso, la pagina verrà caricata a breve",
       },
       limits: {
         messages_per_second: "Messaggi al secondo",

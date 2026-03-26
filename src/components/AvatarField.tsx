@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { FieldProps, useRecordContext, useTranslate } from "react-admin";
 
 import { fetchAuthenticatedMedia } from "../utils/fetchMedia";
-import { isMXID, isASManaged } from "../utils/mxid";
+import { isMXID, isSystemUser } from "../utils/mxid";
 
 const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
   const { alt, classes, sizes, sx, variant } = rest;
@@ -76,7 +76,7 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
       badge = "👑";
       tooltip = translate("resources.users.badge.admin");
     }
-    if (isASManaged(record?.name)) {
+    if (isSystemUser(record?.name)) {
       badge = "🛡️";
       tooltip = `${translate("resources.users.badge.system_managed")} (${tooltip})`;
     }

@@ -5,6 +5,7 @@ import DevicesIcon from "@mui/icons-material/Devices";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GetAppIcon from "@mui/icons-material/GetApp";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import UserIcon from "@mui/icons-material/Group";
 import LockClockIcon from "@mui/icons-material/LockClock";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -150,7 +151,7 @@ import { isMAS } from "../providers/mas";
 import { GetConfig } from "../utils/config";
 import { DATE_FORMAT } from "../utils/date";
 import { decodeURLComponent } from "../utils/safety";
-import { isASManaged, getLocalpart } from "../utils/mxid";
+import { isSystemUser, getLocalpart } from "../utils/mxid";
 import { formatBytes } from "../utils/formatBytes";
 import { generateRandomPassword } from "../utils/password";
 
@@ -179,6 +180,26 @@ const UserListActions = () => {
 };
 
 const UserPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
+
+const SystemUsersFilter = (props: Record<string, unknown>) => {
+  const translate = useTranslate();
+  const label = (
+    <Box component="span" sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+      <HourglassEmptyIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+      {translate("resources.users.fields.show_system_users")}
+    </Box>
+  );
+  return (
+    <NullableBooleanInput
+      {...props}
+      label={label}
+      source="system_users"
+      nullLabel="resources.users.fields.filter_user_all"
+      falseLabel="resources.users.fields.filter_system_users_false"
+      trueLabel="resources.users.fields.filter_system_users_true"
+    />
+  );
+};
 
 const userFilters = () => {
   if (isMAS()) {
@@ -231,16 +252,19 @@ const userFilters = () => {
       />
     );
   }
+  if (GetConfig().asManagedUsers?.length > 0) {
+    filters.push(<SystemUsersFilter source="system_users" alwaysOn />);
+  }
   return filters;
 };
 
 const UserPreventSelfDelete: React.FC<{
   children: React.ReactNode;
   ownUserIsSelected: boolean;
-  asManagedUserIsSelected: boolean;
+  systemUserIsSelected: boolean;
 }> = props => {
   const ownUserIsSelected = props.ownUserIsSelected;
-  const asManagedUserIsSelected = props.asManagedUserIsSelected;
+  const systemUserIsSelected = props.systemUserIsSelected;
   const notify = useNotify();
   const translate = useTranslate();
 
@@ -248,7 +272,7 @@ const UserPreventSelfDelete: React.FC<{
     if (ownUserIsSelected) {
       notify(<Alert severity="error">{translate("resources.users.helper.erase_admin_error")}</Alert>);
       ev.stopPropagation();
-    } else if (asManagedUserIsSelected) {
+    } else if (systemUserIsSelected) {
       notify(<Alert severity="error">{translate("resources.users.helper.modify_managed_user_error")}</Alert>);
       ev.stopPropagation();
     }
@@ -260,19 +284,19 @@ const UserPreventSelfDelete: React.FC<{
 const UserBulkActionButtons = () => {
   const record = useListContext();
   const [ownUserIsSelected, setOwnUserIsSelected] = useState(false);
-  const [asManagedUserIsSelected, setAsManagedUserIsSelected] = useState(false);
+  const [systemUserIsSelected, setSystemUserIsSelected] = useState(false);
   const selectedIds = record.selectedIds;
   const ownUserId = localStorage.getItem("user_id");
 
   useEffect(() => {
     setOwnUserIsSelected(selectedIds.includes(ownUserId));
-    setAsManagedUserIsSelected(selectedIds.some(id => isASManaged(id)));
+    setSystemUserIsSelected(selectedIds.some(id => isSystemUser(id)));
   }, [selectedIds, ownUserId]);
 
   return (
     <>
       <ServerNoticeBulkButton />
-      <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
+      <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
         <DeleteUserButton
           selectedIds={selectedIds}
           confirmTitle="resources.users.helper.erase"
@@ -299,6 +323,12 @@ export const UserList = (props: ListProps) => {
       pagination={<UserPagination />}
       perPage={50}
       empty={<EmptyState />}
+      sx={theme => ({
+        [theme.breakpoints.up("sm")]: {
+          "& .RaList-actions": { flexWrap: "nowrap" },
+          "& .RaList-actions form": { flexWrap: "nowrap", overflowX: "auto", minWidth: 0 },
+        },
+      })}
     >
       {isSmall ? (
         <SimpleList
@@ -400,7 +430,7 @@ export const UserList = (props: ListProps) => {
 // here only local part of user_id
 // maxLength = 255 - "@" - ":" - storage.getItem("home_server").length
 // storage.getItem("home_server").length is not valid here
-const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "synapseadmin.users.invalid_user_id")];
+const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "ketesa.users.invalid_user_id")];
 
 const validateAddress = [required(), maxLength(255)];
 
@@ -601,7 +631,11 @@ const MASSessionsPanel = () => {
                 />
               ) : (
                 <Box sx={{ overflowX: "auto", mt: 2 }}>
-                  <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_personal_sessions" />}>
+                  <Datagrid
+                    bulkActionButtons={false}
+                    rowClick={false}
+                    empty={<EmptyState resource="mas_personal_sessions" />}
+                  >
                     <TextField source="human_name" sortable={false} emptyText="-" />
                     <TextField source="scope" sortable={false} />
                     <BooleanField source="active" sortable={false} />
@@ -627,7 +661,11 @@ const MASSessionsPanel = () => {
               />
             ) : (
               <Box sx={{ overflowX: "auto", mt: 1 }}>
-                <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_user_sessions" />}>
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowClick={false}
+                  empty={<EmptyState resource="mas_user_sessions" />}
+                >
                   <BooleanField source="active" sortable={false} />
                   <DateField source="created_at" showTime sortable={false} />
                   <DateField source="last_active_at" showTime sortable={false} emptyText="-" />
@@ -652,7 +690,11 @@ const MASSessionsPanel = () => {
               />
             ) : (
               <Box sx={{ overflowX: "auto", mt: 1 }}>
-                <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_oauth2_sessions" />}>
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowClick={false}
+                  empty={<EmptyState resource="mas_oauth2_sessions" />}
+                >
                   <TextField source="client_id" sortable={false} />
                   <TextField source="scope" sortable={false} />
                   <TextField source="human_name" sortable={false} emptyText="-" />
@@ -678,7 +720,11 @@ const MASSessionsPanel = () => {
               />
             ) : (
               <Box sx={{ overflowX: "auto", mt: 1 }}>
-                <Datagrid bulkActionButtons={false} rowClick={false} empty={<EmptyState resource="mas_compat_sessions" />}>
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowClick={false}
+                  empty={<EmptyState resource="mas_compat_sessions" />}
+                >
                   <TextField source="device_id" sortable={false} emptyText="-" />
                   <TextField source="human_name" sortable={false} emptyText="-" />
                   <BooleanField source="active" sortable={false} />
@@ -951,10 +997,10 @@ const UserEditActions = () => {
   const isMAS = useIsMAS();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   if (record && record.id) {
     ownUserIsSelected = record.id === ownUserId;
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
   }
 
   return (
@@ -966,7 +1012,7 @@ const UserEditActions = () => {
       {!record?.deactivated && !isMAS && <RenewAccountValidityButton />}
       {!record?.deactivated && <ServerNoticeButton />}
       {record && record.id && (
-        <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
+        <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
           <DeleteUserButton
             selectedIds={[record?.id]}
             confirmTitle="resources.users.helper.erase"
@@ -1100,7 +1146,7 @@ const SynapseUserCreate = (props: CreateProps) => {
             <TextInput source="address" validate={validateAddress} />
           </SimpleFormIterator>
         </ArrayInput>
-        <ArrayInput source="external_ids" label="synapseadmin.users.tabs.sso">
+        <ArrayInput source="external_ids" label="ketesa.users.tabs.sso">
           <SimpleFormIterator disableReordering>
             <TextInput source="auth_provider" validate={required()} />
             <TextInput source="external_id" label="resources.users.fields.id" validate={required()} />
@@ -1143,10 +1189,10 @@ const UserEditToolbar = () => {
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   if (record && record.id) {
     ownUserIsSelected = record.id === ownUserId;
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
   }
 
   return (
@@ -1154,10 +1200,7 @@ const UserEditToolbar = () => {
       <div className={ToolbarClasses.defaultToolbar}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <SaveButton />
-          <UserPreventSelfDelete
-            ownUserIsSelected={ownUserIsSelected}
-            asManagedUserIsSelected={asManagedUserIsSelected}
-          >
+          <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
             <DeleteButton />
           </UserPreventSelfDelete>
         </Toolbar>
@@ -1171,13 +1214,13 @@ const UserBooleanInput = props => {
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
   let ownUserIsSelected = false;
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   if (record) {
     ownUserIsSelected = record.id === ownUserId;
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
     if (["locked", "deactivated", "erased"].includes(props.source) && record[props.source]) {
       // we want to allow re-activating locked/deactivated/erased users even if they are AS managed
-      asManagedUserIsSelected = false;
+      systemUserIsSelected = false;
     }
   }
 
@@ -1190,21 +1233,21 @@ const UserBooleanInput = props => {
   ) : undefined;
 
   return (
-    <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} asManagedUserIsSelected={asManagedUserIsSelected}>
-      <BooleanInput disabled={ownUserIsSelected || asManagedUserIsSelected} {...rest} {...(label ? { label } : {})} />
+    <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
+      <BooleanInput disabled={ownUserIsSelected || systemUserIsSelected} {...rest} {...(label ? { label } : {})} />
     </UserPreventSelfDelete>
   );
 };
 
 const UserPasswordInput = props => {
   const record = useRecordContext();
-  let asManagedUserIsSelected = false;
+  let systemUserIsSelected = false;
   const translate = useTranslate();
 
   // Get form context to update field value
   const form = useFormContext();
   if (record) {
-    asManagedUserIsSelected = isASManaged(record.id);
+    systemUserIsSelected = isSystemUser(record.id);
   }
 
   const generatePassword = () => {
@@ -1226,7 +1269,7 @@ const UserPasswordInput = props => {
 
   let passwordHelperText = "resources.users.helper.create_password";
 
-  if (asManagedUserIsSelected) {
+  if (systemUserIsSelected) {
     passwordHelperText = "resources.users.helper.modify_managed_user_error";
   } else if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider) {
     passwordHelperText = "resources.users.helper.password_required_for_reactivation";
@@ -1240,14 +1283,14 @@ const UserPasswordInput = props => {
         {...props}
         validate={validatePasswordOnReactivation}
         helperText={passwordHelperText}
-        disabled={asManagedUserIsSelected}
+        disabled={systemUserIsSelected}
       />
       <Button
         variant="outlined"
         label="resources.users.action.generate_password"
         onClick={generatePassword}
         sx={{ marginBottom: "10px" }}
-        disabled={asManagedUserIsSelected}
+        disabled={systemUserIsSelected}
       />
     </>
   );
@@ -1450,7 +1493,7 @@ export const UserEdit = (props: EditProps) => {
               }}
             >
               <Typography variant="subtitle2" color="error" sx={{ mb: 1 }}>
-                {translate("synapseadmin.users.danger_zone")}
+                {translate("ketesa.users.danger_zone")}
               </Typography>
               <UserBooleanInput
                 source="admin"
@@ -1496,7 +1539,7 @@ export const UserEdit = (props: EditProps) => {
           )}
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.sso" icon={<AssignmentIndIcon />} path="sso">
+        <FormTab label="ketesa.users.tabs.sso" icon={<AssignmentIndIcon />} path="sso">
           {isMAS() ? (
             <MASUpstreamOAuthLinksPanel />
           ) : (
@@ -1818,15 +1861,15 @@ export const UserEdit = (props: EditProps) => {
           </ReferenceManyField>
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.experimental" icon={<ScienceIcon />} path="experimental">
+        <FormTab label="ketesa.users.tabs.experimental" icon={<ScienceIcon />} path="experimental">
           <ExperimentalFeaturesList />
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.limits" icon={<LockClockIcon />} path="limits">
+        <FormTab label="ketesa.users.tabs.limits" icon={<LockClockIcon />} path="limits">
           <UserRateLimits />
         </FormTab>
 
-        <FormTab label="synapseadmin.users.tabs.account_data" icon={<DocumentScannerIcon />} path="accountdata">
+        <FormTab label="ketesa.users.tabs.account_data" icon={<DocumentScannerIcon />} path="accountdata">
           <UserAccountData />
         </FormTab>
       </TabbedForm>

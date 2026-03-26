@@ -4,7 +4,7 @@ import { SynapseTranslationMessages } from "./types";
 
 const fr: SynapseTranslationMessages = {
   ...frenchMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL du serveur d’accueil",
       welcome: "Bienvenue sur %{name}",
@@ -128,7 +128,9 @@ const fr: SynapseTranslationMessages = {
     },
     action: {
       send: "Supprimer le média",
-      send_success: "Requête envoyée avec succès",
+      send_success:
+        "%{smart_count} fichier média supprimé avec succès. |||| %{smart_count} fichiers média supprimés avec succès.",
+      send_success_none: "Aucun fichier média ne correspondait aux critères spécifiés. Rien n'a été supprimé.",
       send_failure: "Une erreur s'est produite",
     },
     helper: {
@@ -142,7 +144,9 @@ const fr: SynapseTranslationMessages = {
     },
     action: {
       send: "Purger les médias distants",
-      send_success: "La demande de purge des médias distants a été envoyée.",
+      send_success:
+        "%{smart_count} fichier média distant purgé avec succès. |||| %{smart_count} fichiers média distants purgés avec succès.",
+      send_success_none: "Aucun fichier média distant ne correspondait aux critères spécifiés. Rien n'a été purgé.",
       send_failure: "Une erreur est survenue lors de la demande de purge des médias distants.",
     },
     helper: {
@@ -176,6 +180,9 @@ const fr: SynapseTranslationMessages = {
         filter_locked_true: "Inclure les verrouillés",
         filter_guests_false: "Exclure les invités",
         filter_guests_true: "Inclure les invités",
+        show_system_users: "Afficher les comptes système",
+        filter_system_users_false: "Exclure les comptes système",
+        filter_system_users_true: "Comptes système uniquement",
         show_suspended: "Afficher les utilisateurs suspendus",
         show_shadow_banned: "Afficher les utilisateurs bannis fantôme",
         user_id: "Rechercher un utilisateur",
@@ -303,6 +310,8 @@ const fr: SynapseTranslationMessages = {
           success: "Validité du compte renouvelée jusqu'au %{date}",
           failure: "Échec du renouvellement de la validité du compte",
         },
+        system_users_scan_in_progress:
+          "Patientez — la recherche des utilisateurs correspondants est en cours, la page va se charger dans un instant",
       },
       limits: {
         messages_per_second: "Messages par seconde",

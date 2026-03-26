@@ -20,6 +20,7 @@ import {
   ToggleThemeButton,
   useLogout,
   UserMenu,
+  useNotify,
   useStore,
   useLocaleState,
   useLocale,
@@ -29,6 +30,7 @@ import {
   useResourceDefinitions,
 } from "react-admin";
 
+import { setDataProviderNotifier } from "../providers/dataProvider";
 import { AdminClientConfigItems } from "./AdminClientConfigItems";
 import Footer from "./Footer";
 import { LoginMethod } from "../pages/LoginPage";
@@ -159,12 +161,12 @@ const AdminUserMenu = () => {
       </div>
       <Confirm
         isOpen={open}
-        title="synapseadmin.auth.logout_acces_token_dialog.title"
-        content="synapseadmin.auth.logout_acces_token_dialog.content"
+        title="ketesa.auth.logout_acces_token_dialog.title"
+        content="ketesa.auth.logout_acces_token_dialog.content"
         onConfirm={handleConfirm}
         onClose={handleDialogClose}
-        confirm="synapseadmin.auth.logout_acces_token_dialog.confirm"
-        cancel="synapseadmin.auth.logout_acces_token_dialog.cancel"
+        confirm="ketesa.auth.logout_acces_token_dialog.confirm"
+        cancel="ketesa.auth.logout_acces_token_dialog.cancel"
       />
     </UserMenu>
   );
@@ -343,6 +345,15 @@ const AdminMenu = props => {
   );
 };
 
+const DataProviderNotifierBridge = () => {
+  const notify = useNotify();
+  useEffect(() => {
+    setDataProviderNotifier((key: string) => notify(key, { type: "info" }));
+    return () => setDataProviderNotifier(() => undefined);
+  }, [notify]);
+  return null;
+};
+
 export const AdminLayout = ({ children }) => {
   // Set the document language based on the selected locale
   const [locale, _setLocale] = useLocaleState();
@@ -351,7 +362,7 @@ export const AdminLayout = ({ children }) => {
     document.documentElement.lang = locale;
 
     // copy of the code from index.tsx to set base title dynamically
-    document.head.dataset.baseTitle = icfg.name || "Synapse Admin";
+    document.head.dataset.baseTitle = icfg.name || "Ketesa";
     // set <title> based on instance name, only if it's not already set
     if (icfg.name && !document.title.includes(icfg.name)) {
       document.title = icfg.name;
@@ -372,6 +383,7 @@ export const AdminLayout = ({ children }) => {
 
   return (
     <>
+      <DataProviderNotifierBridge />
       <Layout
         appBar={AdminAppBar}
         menu={AdminMenu}

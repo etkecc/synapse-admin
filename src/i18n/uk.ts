@@ -58,7 +58,7 @@ const fixedUkrainianMessages = {
 
 const uk: SynapseTranslationMessages = {
   ...fixedUkrainianMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "URL домашнього сервера",
       welcome: "Ласкаво просимо до %{name}",
@@ -179,7 +179,9 @@ const uk: SynapseTranslationMessages = {
     },
     action: {
       send: "Видалити медіафайли",
-      send_success: "Запит успішно відправлено.",
+      send_success:
+        "Успішно видалено %{smart_count} медіафайл. |||| Успішно видалено %{smart_count} медіафайли. |||| Успішно видалено %{smart_count} медіафайлів.",
+      send_success_none: "Жоден медіафайл не відповідає вказаним критеріям. Нічого не було видалено.",
       send_failure: "Сталася помилка.",
     },
     helper: {
@@ -193,7 +195,9 @@ const uk: SynapseTranslationMessages = {
     },
     action: {
       send: "Очистити віддалені медіа",
-      send_success: "Запит на видалення віддалених медіа надіслано.",
+      send_success:
+        "Успішно очищено %{smart_count} віддалений медіафайл. |||| Успішно очищено %{smart_count} віддалені медіафайли. |||| Успішно очищено %{smart_count} віддалених медіафайлів.",
+      send_success_none: "Жоден віддалений медіафайл не відповідає вказаним критеріям. Нічого не було очищено.",
       send_failure: "Під час запиту на очищення віддалених медіа сталася помилка.",
     },
     helper: {
@@ -228,6 +232,9 @@ const uk: SynapseTranslationMessages = {
         filter_locked_true: "Включити заблокованих",
         filter_guests_false: "Виключити гостей",
         filter_guests_true: "Включити гостей",
+        show_system_users: "Системні користувачі",
+        filter_system_users_false: "Сховати системних",
+        filter_system_users_true: "Лише системні",
         show_suspended: "Показати призупинених",
         show_shadow_banned: "Показати з тіньовим баном",
         user_id: "Пошук користувача",
@@ -344,6 +351,8 @@ const uk: SynapseTranslationMessages = {
           success: "Термін дії облікового запису продовжено до %{date}",
           failure: "Не вдалося продовжити термін дії облікового запису",
         },
+        system_users_scan_in_progress:
+          "Зачекайте — пошук відповідних користувачів ще триває, сторінка завантажиться за мить",
       },
       badge: {
         you: "Ти",

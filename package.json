@@ -1,7 +1,7 @@
 {
-  "name": "synapse-admin",
-  "version": "0.11.4",
-  "description": "Feature-packed and visually customizable admin GUI for Matrix Synapse servers.",
+  "name": "ketesa",
+  "version": "1.0.0",
+  "description": "Admin UI for Matrix servers, formerly Synapse Admin",
   "keywords": [
     "matrix",
     "synapse",
@@ -15,15 +15,15 @@
     "docker"
   ],
   "type": "module",
-  "author": "etke.cc (originally by Awesome Technologies Innovationslabor GmbH)",
+  "author": "etke.cc",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/etkecc/synapse-admin#readme",
+  "homepage": "https://github.com/etkecc/ketesa#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/etkecc/synapse-admin.git"
+    "url": "git+https://github.com/etkecc/ketesa.git"
   },
   "bugs": {
-    "url": "https://github.com/etkecc/synapse-admin/issues"
+    "url": "https://github.com/etkecc/ketesa/issues"
   },
   "funding": [
     "https://github.com/sponsors/etkecc",
@@ -109,6 +109,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*\"",
+    "typecheck": "tsc --noEmit",
     "fix": "yarn lint --fix",
     "test": "yarn jest",
     "test:watch": "yarn jest --watch",

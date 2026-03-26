@@ -33,26 +33,21 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
       }}
     >
       <Avatar src={logoSrc} sx={{ width: "1rem", height: "1rem", display: "inline-block", verticalAlign: "sub" }} />{" "}
-      <Link href="https://github.com/etkecc/synapse-admin" target="_blank" sx={{ color: "inherit" }}>
-        Synapse Admin {version}
+      <Link href="https://github.com/etkecc/ketesa" target="_blank" sx={{ color: "inherit" }}>
+        Ketesa {version}
       </Link>
       <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
         {" "}
         by{" "}
         <Link
-          href="https://etke.cc/?utm_source=synapse-admin&utm_medium=footer&utm_campaign=synapse-admin"
+          href="https://etke.cc/?utm_source=ketesa&utm_medium=footer&utm_campaign=ketesa"
           target="_blank"
           sx={{ color: "#f49300", fontWeight: 500 }}
         >
           etke.cc
         </Link>{" "}
-        (originally developed by Awesome Technologies Innovationslabor GmbH).{" "}
-        <Link
-          sx={{ fontWeight: "bold", color: "inherit" }}
-          href="https://matrix.to/#/#synapse-admin:etke.cc"
-          target="_blank"
-        >
-          #synapse-admin:etke.cc
+        <Link sx={{ fontWeight: "bold", color: "inherit" }} href="https://matrix.to/#/#ketesa:etke.cc" target="_blank">
+          #ketesa:etke.cc
         </Link>
       </Box>
     </Box>

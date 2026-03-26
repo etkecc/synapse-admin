@@ -43,7 +43,7 @@ const queryClient = new QueryClient();
 export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
   const icfg = useInstanceConfig();
   const masEnabled = isMAS();
-  let title = "Synapse Admin";
+  let title = "Ketesa";
   if (icfg.name) {
     title = icfg.name;
   }

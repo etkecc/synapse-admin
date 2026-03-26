@@ -67,7 +67,7 @@ const zh: SynapseTranslationMessages = {
       unique: "必须唯一",
     },
   },
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "服务器 URL",
       welcome: "欢迎来到 %{name}",
@@ -181,7 +181,8 @@ const zh: SynapseTranslationMessages = {
     },
     action: {
       send: "删除媒体",
-      send_success: "请求发送成功。",
+      send_success: "成功删除了 %{smart_count} 个媒体文件。",
+      send_success_none: "没有符合指定条件的媒体文件。未删除任何内容。",
       send_failure: "出现了一个错误。",
     },
     helper: {
@@ -195,7 +196,8 @@ const zh: SynapseTranslationMessages = {
     },
     action: {
       send: "清除远程媒体",
-      send_success: "远程媒体清除请求已发送。",
+      send_success: "成功清除了 %{smart_count} 个远程媒体文件。",
+      send_success_none: "没有符合指定条件的远程媒体文件。未清除任何内容。",
       send_failure: "发生错误，远程媒体清除请求未成功。",
     },
     helper: {
@@ -229,6 +231,9 @@ const zh: SynapseTranslationMessages = {
         filter_locked_true: "包含锁定",
         filter_guests_false: "排除访客",
         filter_guests_true: "包含访客",
+        show_system_users: "显示系统用户",
+        filter_system_users_false: "排除系统用户",
+        filter_system_users_true: "仅系统用户",
         show_suspended: "显示被锁定的账户",
         show_shadow_banned: "显示被影子封禁的用户",
         user_id: "搜索用户",
@@ -348,6 +353,7 @@ const zh: SynapseTranslationMessages = {
           success: "账户有效期已续期至 %{date}",
           failure: "续期账户有效期失败",
         },
+        system_users_scan_in_progress: "请稍候 — 仍在搜索匹配的用户，页面即将加载",
       },
       limits: {
         messages_per_second: "每秒消息数",

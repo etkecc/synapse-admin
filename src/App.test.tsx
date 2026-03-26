@@ -28,6 +28,6 @@ describe("App", () => {
   it("renders", async () => {
     render(<App i18nProvider={i18nProvider} />);
 
-    await screen.findAllByText("Welcome to Synapse Admin");
+    await screen.findAllByText("Welcome to Ketesa");
   });
 });

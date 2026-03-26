@@ -16,7 +16,7 @@ const i18nProvider = await createI18nProvider();
 // as a tricky workaround since hooks can't be used outside components,
 // and react-admin doesn't provide a way to set document title directly
 const icfg = GetInstanceConfig();
-document.head.dataset.baseTitle = icfg.name || "Synapse Admin";
+document.head.dataset.baseTitle = icfg.name || "Ketesa";
 // set <title> based on instance name, only if it's not already set
 if (icfg.name && !document.title.includes(icfg.name)) {
   document.title = icfg.name;

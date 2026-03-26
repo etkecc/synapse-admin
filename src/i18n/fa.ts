@@ -38,7 +38,7 @@ const fixedFarsiMessages = {
 
 const fa: SynapseTranslationMessages = {
   ...fixedFarsiMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "آدرس سرور",
       welcome: "به پنل مدیریت سیناپس خوش آمدید، %{name}",
@@ -159,7 +159,8 @@ const fa: SynapseTranslationMessages = {
     },
     action: {
       send: "حذف رسانه ها",
-      send_success: "درخواست با موفقیت ارسال شد.",
+      send_success: "%{smart_count} فایل رسانه‌ای با موفقیت حذف شد.",
+      send_success_none: "هیچ فایل رسانه‌ای با معیارهای مشخص شده مطابقت نداشت. چیزی حذف نشد.",
       send_failure: "خطایی رخ داده است.",
     },
     helper: {
@@ -173,7 +174,8 @@ const fa: SynapseTranslationMessages = {
     },
     action: {
       send: "پاک کردن رسانه‌های از راه دور",
-      send_success: "درخواست پاک کردن رسانه‌های از راه دور ارسال شد.",
+      send_success: "%{smart_count} فایل رسانه‌ای از راه دور با موفقیت پاک شد.",
+      send_success_none: "هیچ فایل رسانه‌ای از راه دور با معیارهای مشخص شده مطابقت نداشت. چیزی پاک نشد.",
       send_failure: "درخواست برای پاک کردن رسانه‌های از راه دور با خطا مواجه شد.",
     },
     helper: {
@@ -207,6 +209,9 @@ const fa: SynapseTranslationMessages = {
         filter_locked_true: "شامل قفل‌شده‌ها",
         filter_guests_false: "حذف مهمانان",
         filter_guests_true: "شامل مهمانان",
+        show_system_users: "نمایش کاربران سیستمی",
+        filter_system_users_false: "حذف کاربران سیستمی",
+        filter_system_users_true: "فقط کاربران سیستمی",
         show_suspended: "نمایش کاربران معلق",
         show_shadow_banned: "نمایش کاربران مسدود پنهان",
         user_id: "جستجوی کاربر",
@@ -332,6 +337,8 @@ const fa: SynapseTranslationMessages = {
           success: "اعتبار حساب تا %{date} تمدید شد",
           failure: "تمدید اعتبار حساب ناموفق بود",
         },
+        system_users_scan_in_progress:
+          "لطفاً صبر کنید — هنوز در حال جستجوی کاربران مطابق هستیم، صفحه به زودی بارگذاری می‌شود",
       },
       limits: {
         messages_per_second: "پیام در ثانیه",

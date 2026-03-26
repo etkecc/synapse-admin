@@ -5,13 +5,13 @@ This is useful for adding links to external sites or other pages in your documen
 
 ## Configuration
 
-The examples below contain the configuration settings to add a link to the [Synapse Admin issues](https://github.com/etke.cc/synapse-admin/issues).
+The examples below contain the configuration settings to add a link to the [Ketesa issues](https://github.com/etkecc/ketesa/issues).
 
 Each `menu` item can contain the following fields:
 
 * `url` (required): The URL to navigate to when the menu item is clicked.
 * `label` (required): The text to display in the menu.
-* `i18n` (optional): Dictionary of translations for the label. The keys should be [BCP 47 language tags](https://en.wikipedia.org/wiki/IETF_language_tag) (e.g., `en`, `fr`, `de`) supported by Synapse Admin (see [src/i18n/](../src/i18n)).
+* `i18n` (optional): Dictionary of translations for the label. The keys should be [BCP 47 language tags](https://en.wikipedia.org/wiki/IETF_language_tag) (e.g., `en`, `fr`, `de`) supported by Ketesa (see [src/i18n/](../src/i18n)).
 * `icon` (optional): The icon to display next to the label, one of the [src/utils/icons.ts](../src/utils/icons.ts) icons, otherwise a
 default icon will be used.
 
@@ -30,7 +30,7 @@ default icon will be used.
         "zh": "联系支持"
       },
       "icon": "SupportAgent",
-      "url": "https://github.com/etkecc/synapse-admin/issues"
+      "url": "https://github.com/etkecc/ketesa/issues"
     }
   ]
 }
@@ -40,7 +40,7 @@ default icon will be used.
 
 ```json
 {
-  "cc.etke.synapse-admin": {
+  "cc.etke.ketesa": {
     "menu": [
       {
         "label": "Contact support",
@@ -50,7 +50,7 @@ default icon will be used.
           "zh": "联系支持"
         },
         "icon": "SupportAgent",
-        "url": "https://github.com/etkecc/synapse-admin/issues"
+        "url": "https://github.com/etkecc/ketesa/issues"
       }
     ]
   }

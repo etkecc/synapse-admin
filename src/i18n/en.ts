@@ -4,7 +4,7 @@ import { SynapseTranslationMessages } from "./types";
 
 const en: SynapseTranslationMessages = {
   ...englishMessages,
-  synapseadmin: {
+  ketesa: {
     auth: {
       base_url: "Homeserver URL",
       welcome: "Welcome to %{name}",
@@ -125,7 +125,9 @@ const en: SynapseTranslationMessages = {
     },
     action: {
       send: "Delete media",
-      send_success: "Request successfully sent.",
+      send_success:
+        "Successfully deleted %{smart_count} media file. |||| Successfully deleted %{smart_count} media files.",
+      send_success_none: "No media files matched the specified criteria. Nothing was deleted.",
       send_failure: "An error has occurred.",
     },
     helper: {
@@ -139,7 +141,9 @@ const en: SynapseTranslationMessages = {
     },
     action: {
       send: "Purge remote media",
-      send_success: "Purge remote media request has been sent.",
+      send_success:
+        "Successfully purged %{smart_count} remote media file. |||| Successfully purged %{smart_count} remote media files.",
+      send_success_none: "No remote media files matched the specified criteria. Nothing was purged.",
       send_failure: "An error has occurred with the purge remote media request.",
     },
     helper: {
@@ -174,6 +178,9 @@ const en: SynapseTranslationMessages = {
         filter_locked_true: "Include locked",
         filter_guests_false: "Exclude guests",
         filter_guests_true: "Include guests",
+        show_system_users: "Show system users",
+        filter_system_users_false: "Exclude system",
+        filter_system_users_true: "Only system",
         show_suspended: "Show suspended users",
         show_shadow_banned: "Show shadow banned users",
         user_id: "Search user",
@@ -289,6 +296,7 @@ const en: SynapseTranslationMessages = {
           success: "Account validity renewed until %{date}",
           failure: "Failed to renew account validity",
         },
+        system_users_scan_in_progress: "Hang on — still scanning for matching users, the page will load shortly",
       },
       badge: {
         you: "You",
