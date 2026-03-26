@@ -22,7 +22,7 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Server Notices](#-server-notices)
     * [✅ Federation](#-federation)
     * [✅ Experimental Features](#-experimental-features)
-    * [🟡 Statistics](#-statistics)
+    * [✅ Statistics](#-statistics)
     * [✅ Account Validity](#-account-validity)
     * [✅ Purge History](#-purge-history)
     * [✅ Fetch Event](#-fetch-event)
