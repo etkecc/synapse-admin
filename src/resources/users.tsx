@@ -18,6 +18,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import BlockIcon from "@mui/icons-material/Block";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteIcon from "@mui/icons-material/Delete";
 import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -25,6 +26,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Alert,
   Box,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -59,7 +61,6 @@ import {
   Datagrid,
   DatagridConfigurable,
   DateField,
-  DateTimeInput,
   Create,
   CreateProps,
   Edit,
@@ -687,6 +688,7 @@ const MASSessionsPanel = () => {
                 secondaryText={record => String(record.scope || "")}
                 tertiaryText={() => <FinishOAuth2SessionButton />}
                 linkType={false}
+                sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
               />
             ) : (
               <Box sx={{ overflowX: "auto", mt: 1 }}>
@@ -696,7 +698,23 @@ const MASSessionsPanel = () => {
                   empty={<EmptyState resource="mas_oauth2_sessions" />}
                 >
                   <TextField source="client_id" sortable={false} />
-                  <TextField source="scope" sortable={false} />
+                  <FunctionField
+                    source="scope"
+                    label="resources.mas_oauth2_sessions.fields.scope"
+                    sortable={false}
+                    render={(record: { scope?: string }) =>
+                      record?.scope ? (
+                        <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+                          {record.scope
+                            .split(" ")
+                            .filter(Boolean)
+                            .map(s => (
+                              <Chip key={s} label={s} size="small" variant="outlined" sx={{ wordBreak: "break-all" }} />
+                            ))}
+                        </Box>
+                      ) : null
+                    }
+                  />
                   <TextField source="human_name" sortable={false} emptyText="-" />
                   <BooleanField source="active" sortable={false} />
                   <DateField source="created_at" showTime sortable={false} />
@@ -880,6 +898,7 @@ const MASEmailsPanel = () => {
   const dataProvider = useDataProvider();
   const notify = useNotify();
   const translate = useTranslate();
+  const locale = useLocale();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [newEmail, setNewEmail] = useState("");
@@ -935,12 +954,15 @@ const MASEmailsPanel = () => {
                   label="resources.mas_user_emails.action.remove.label"
                   onClick={() => handleDelete(String(email.id))}
                   size="small"
-                />
+                  color="error"
+                >
+                  <DeleteIcon />
+                </Button>
               }
             >
               <ListItemText
                 primary={String(email.email)}
-                secondary={new Date(String(email.created_at)).toLocaleString()}
+                secondary={new Date(String(email.created_at)).toLocaleString(locale, DATE_FORMAT)}
               />
             </ListItem>
           ))}
@@ -961,13 +983,16 @@ const MASEmailsPanel = () => {
         >
           <TextField source="email" sortable={false} />
           <DateField source="created_at" showTime sortable={false} />
-          <WrapperField label="resources.rooms.fields.actions">
+          <WrapperField label="resources.mas_user_emails.fields.actions">
             <FunctionField
               render={(emailRecord: { id: string }) => (
                 <Button
                   label="resources.mas_user_emails.action.remove.label"
                   onClick={() => handleDelete(emailRecord.id)}
-                />
+                  color="error"
+                >
+                  <DeleteIcon />
+                </Button>
               )}
             />
           </WrapperField>
@@ -1005,7 +1030,7 @@ const UserEditActions = () => {
 
   return (
     <TopToolbar sx={{ flexWrap: "wrap", gap: 0.5, whiteSpace: "normal" }}>
-      {!record?.deactivated && <LoginAsUserButton />}
+      {!record?.deactivated && !isMAS && <LoginAsUserButton />}
       {!record?.deactivated && !isMAS && <ResetPasswordButton />}
       {!record?.deactivated && isMAS && <MASSetPasswordButton />}
       {!record?.deactivated && !isMAS && <AllowCrossSigningButton />}
@@ -1427,7 +1452,7 @@ export const UserEdit = (props: EditProps) => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: { xs: "flex-start", sm: "center" },
+                  alignItems: "center",
                   minWidth: 140,
                   gap: 2,
                 }}
@@ -1449,9 +1474,26 @@ export const UserEdit = (props: EditProps) => {
           )}
 
           {isMAS() && (
-            <Box sx={{ mt: 1, mb: 2 }}>
-              <TextInput source="id" readOnly fullWidth label="resources.users.fields.id" />
-              <TextInput source="mas_id" readOnly fullWidth label="resources.mas_users.fields.id" />
+            <Box
+              sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 4, width: "100%", mb: 2, mt: 1 }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  minWidth: 140,
+                  gap: 2,
+                }}
+              >
+                <EditableAvatarField source="avatar_src" />
+                <UserInfoChips />
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <TextInput source="id" readOnly fullWidth label="resources.users.fields.id" />
+                <TextInput source="mas_id" readOnly fullWidth label="resources.mas_users.fields.id" />
+                <TextInput source="displayname" fullWidth />
+              </Box>
             </Box>
           )}
 
@@ -1480,7 +1522,22 @@ export const UserEdit = (props: EditProps) => {
             )}
             {isMAS() && (
               <Box sx={{ flex: 1 }}>
-                <BooleanInput source="locked" helperText="resources.mas_users.fields.locked" />
+                <UserBooleanInput
+                  sx={{ color: theme.palette.warning.main }}
+                  source="locked"
+                  helperText="resources.users.helper.lock"
+                  icon={<LockIcon fontSize="small" />}
+                />
+                <UserBooleanInput
+                  source="suspended"
+                  helperText="resources.users.helper.suspend"
+                  icon={<BlockIcon fontSize="small" />}
+                />
+                <UserBooleanInput
+                  source="shadow_banned"
+                  helperText="resources.users.helper.shadow_ban"
+                  icon={<VisibilityOffIcon fontSize="small" />}
+                />
               </Box>
             )}
             <Paper
@@ -1518,10 +1575,27 @@ export const UserEdit = (props: EditProps) => {
           </Box>
 
           {isMAS() && (
-            <Box sx={{ display: "flex", gap: 2, mt: 2, flexWrap: "wrap" }}>
-              <DateTimeInput source="created_at" disabled label="resources.mas_users.fields.created_at" />
-              <DateTimeInput source="locked_at" disabled label="resources.mas_users.fields.locked_at" />
-              <DateTimeInput source="deactivated_at" disabled label="resources.mas_users.fields.deactivated_at" />
+            <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
+              <FunctionField
+                render={(r: { locked_at?: string }) =>
+                  r?.locked_at ? (
+                    <Chip
+                      size="small"
+                      label={`${translate("resources.mas_users.fields.locked_at")}: ${new Date(r.locked_at).toLocaleString(locale, DATE_FORMAT)}`}
+                    />
+                  ) : null
+                }
+              />
+              <FunctionField
+                render={(r: { deactivated_at?: string }) =>
+                  r?.deactivated_at ? (
+                    <Chip
+                      size="small"
+                      label={`${translate("resources.mas_users.fields.deactivated_at")}: ${new Date(r.deactivated_at).toLocaleString(locale, DATE_FORMAT)}`}
+                    />
+                  ) : null
+                }
+              />
             </Box>
           )}
         </FormTab>
@@ -1553,7 +1627,7 @@ export const UserEdit = (props: EditProps) => {
         </FormTab>
 
         {isMAS() && (
-          <FormTab label="synapseadmin.users.tabs.sessions" icon={<HttpsIcon />} path="sessions">
+          <FormTab label="ketesa.users.tabs.sessions" icon={<HttpsIcon />} path="sessions">
             <MASSessionsPanel />
           </FormTab>
         )}

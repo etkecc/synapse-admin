@@ -641,12 +641,7 @@ export interface MASUserSessionListResponse {
 
 export interface MASPolicyDataAttributes {
   created_at: string;
-  data: {
-    type: string;
-    attributes: {
-      url: string;
-    };
-  };
+  data: unknown; // free-form JSON — operator-defined OPA data document
 }
 
 export interface MASPolicyDataResource {
@@ -658,7 +653,7 @@ export interface MASPolicyDataResource {
 
 export interface MASPolicyData {
   id: string;
-  url: string;
+  data: unknown;
   created_at: string;
 }
 
@@ -869,5 +864,5 @@ export interface SynapseDataProvider extends DataProvider {
   masRegeneratePersonalSession: (id: string) => Promise<{ success: boolean; token?: string; error?: string }>;
   masFinishUserSession: (id: string) => Promise<{ success: boolean; error?: string }>;
   getMASPolicyData: () => Promise<MASPolicyData | null>;
-  setMASPolicyData: (url: string) => Promise<{ success: boolean; error?: string }>;
+  setMASPolicyData: (data: unknown) => Promise<{ success: boolean; error?: string }>;
 }

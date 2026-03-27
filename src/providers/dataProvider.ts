@@ -14,10 +14,10 @@ import {
 import { jsonClient } from "./httpClients";
 import {
   getMASBaseUrl,
-  getMasNextPageCursor,
-  buildMasCursorKey,
-  getMasCursor,
-  setMasCursor,
+  getMASNextPageCursor,
+  buildMASCursorKey,
+  getMASCursor,
+  setMASCursor,
   filterUndefined,
   revokeRegistrationToken,
   isMAS,
@@ -296,8 +296,8 @@ const baseDataProvider: SynapseDataProvider = {
     // Build query based on API type
     let query: Record<string, any>;
     if (res.isMAS) {
-      const cursorKey = buildMasCursorKey(resource, perPage, params.filter);
-      const pageAfter = page > 1 ? getMasCursor(cursorKey, page) : undefined;
+      const cursorKey = buildMASCursorKey(resource, perPage, params.filter);
+      const pageAfter = page > 1 ? getMASCursor(cursorKey, page) : undefined;
       query = res.buildListQuery(perPage, pageAfter, params.filter);
     } else {
       // Synapse API
@@ -422,7 +422,6 @@ const baseDataProvider: SynapseDataProvider = {
         : scanState.filteredRecords.length >= nextPageThreshold;
 
       return {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: pagedData as any,
         total: scanState.backendExhausted ? scanState.filteredRecords.length : undefined,
         pageInfo: {
@@ -441,10 +440,10 @@ const baseDataProvider: SynapseDataProvider = {
     const formattedData = json[res.data].map(res.map);
 
     if (res.isMAS) {
-      const cursorKey = buildMasCursorKey(resource, perPage, params.filter);
-      const nextCursor = getMasNextPageCursor(json);
+      const cursorKey = buildMASCursorKey(resource, perPage, params.filter);
+      const nextCursor = getMASNextPageCursor(json);
       if (nextCursor) {
-        setMasCursor(cursorKey, page + 1, nextCursor);
+        setMASCursor(cursorKey, page + 1, nextCursor);
       }
     }
 
@@ -782,11 +781,35 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
         const masId = params.previousData.mas_id as string;
         const prev = params.previousData;
         const next = params.data;
+
+        // MAS-managed fields
         if (prev.admin !== next.admin) await (dataProvider as SynapseDataProvider).masSetAdmin(masId, next.admin);
         if (prev.locked !== next.locked) await (dataProvider as SynapseDataProvider).masLockUser(masId, next.locked);
         if (prev.deactivated !== next.deactivated)
           // masDeactivateUser(id, active): true = reactivate, false = deactivate
           await (dataProvider as SynapseDataProvider).masDeactivateUser(masId, !next.deactivated);
+
+        // Synapse-managed profile fields (not disabled by MSC3861)
+        if (prev.suspended !== next.suspended && next.suspended !== undefined)
+          await (dataProvider as SynapseDataProvider).suspendUser(params.id, next.suspended);
+        if (prev.shadow_banned !== next.shadow_banned && next.shadow_banned !== undefined)
+          await (dataProvider as SynapseDataProvider).shadowBanUser(params.id, next.shadow_banned);
+
+        // Synapse-managed profile fields sent via main PUT /_synapse/admin/v2/users/...
+        const synapseProfileChanged = prev.displayname !== next.displayname || prev.avatar_src !== next.avatar_src;
+        if (synapseProfileChanged) {
+          const baseUrl = localStorage.getItem("base_url") || "";
+          const matrixId = encodeURIComponent(String(params.id));
+
+          const body: Record<string, any> = {};
+          if (prev.displayname !== next.displayname) body.displayname = next.displayname ?? "";
+          if (prev.avatar_src !== next.avatar_src) body.avatar_url = next.avatar_src ?? "";
+          await jsonClient(`${baseUrl}/_synapse/admin/v2/users/${matrixId}`, {
+            method: "PUT",
+            body: JSON.stringify(body),
+          });
+        }
+
         return params;
       }
 

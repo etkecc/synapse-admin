@@ -772,6 +772,7 @@ const en: SynapseTranslationMessages = {
         email: "Email",
         user_id: "User ID",
         created_at: "Created at",
+        actions: "Actions",
       },
       action: {
         remove: {
@@ -835,8 +836,9 @@ const en: SynapseTranslationMessages = {
       current_policy: "Current Policy",
       no_policy: "No policy is currently set.",
       set_policy: "Set New Policy",
+      invalid_json: "Invalid JSON",
       fields: {
-        url: "Policy URL",
+        json_placeholder: "Enter policy data as JSON…",
         created_at: "Created at",
       },
       action: {
@@ -889,7 +891,7 @@ const en: SynapseTranslationMessages = {
       },
     },
     mas_upstream_oauth_providers: {
-      name: "Upstream OAuth Provider |||| Upstream OAuth Providers",
+      name: "OAuth Provider |||| OAuth Providers",
       fields: {
         issuer: "Issuer",
         human_name: "Name",
@@ -929,6 +931,13 @@ const en: SynapseTranslationMessages = {
           token_title: "Personal Access Token",
           token_content: "Copy this token now — it will not be shown again.",
         },
+      },
+    },
+    mas_sessions: {
+      status: {
+        active: "Active",
+        finished: "Finished",
+        revoked: "Revoked",
       },
     },
   },

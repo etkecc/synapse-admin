@@ -100,9 +100,9 @@ export const checkMASAdminApiAvailable = async (): Promise<boolean> => {
  */
 export const detectAndSetMAS = async (): Promise<void> => {
   const tokenEndpoint = localStorage.getItem("token_endpoint");
-  const isMasEndpoint = !!tokenEndpoint && tokenEndpoint.endsWith("/oauth2/token");
+  const isMASEndpoint = !!tokenEndpoint && tokenEndpoint.endsWith("/oauth2/token");
 
-  if (isMasEndpoint && (await checkMASAdminApiAvailable())) {
+  if (isMASEndpoint && (await checkMASAdminApiAvailable())) {
     setIsMAS(true);
   } else {
     setIsMAS(false);
@@ -150,14 +150,14 @@ export const revokeRegistrationToken = async (
 /**
  * Convert MAS registration token format to Synapse format
  */
-export const getMasTokenResource = (
+export const getMASTokenResource = (
   token: MASRegistrationToken | MASRegistrationTokenResource
 ): MASRegistrationTokenResource => {
   return "data" in token ? token.data : token;
 };
 
-export const convertMasTokenToSynapse = (masToken: MASRegistrationToken | MASRegistrationTokenResource) => {
-  const resource = getMasTokenResource(masToken);
+export const convertMASTokenToSynapse = (masToken: MASRegistrationToken | MASRegistrationTokenResource) => {
+  const resource = getMASTokenResource(masToken);
   return {
     token: resource.attributes.token,
     valid: resource.attributes.valid ?? true,
@@ -179,30 +179,30 @@ export const filterUndefined = (obj: Record<string, any>) => {
 // Generic MAS cursor cache keyed by resource+perPage+filter
 const masCursorCache = new Map<string, Map<number, string>>();
 
-export const buildMasCursorKey = (resource: string, perPage: number, filter: Record<string, unknown>): string => {
+export const buildMASCursorKey = (resource: string, perPage: number, filter: Record<string, unknown>): string => {
   return JSON.stringify({ resource, perPage, filter });
 };
 
-export const getMasCursor = (cacheKey: string, page: number): string | undefined => {
+export const getMASCursor = (cacheKey: string, page: number): string | undefined => {
   return masCursorCache.get(cacheKey)?.get(page);
 };
 
-export const setMasCursor = (cacheKey: string, page: number, cursor: string): void => {
+export const setMASCursor = (cacheKey: string, page: number, cursor: string): void => {
   const cache = masCursorCache.get(cacheKey) ?? new Map<number, string>();
   cache.set(page, cursor);
   masCursorCache.set(cacheKey, cache);
 };
 
 // Legacy registration-token helpers — delegate to generic functions
-export const getMasRegistrationTokensCursorKey = (params: PaginationPayload, valid?: boolean) =>
-  buildMasCursorKey("registration_tokens", params.perPage, { valid });
+export const getMASRegistrationTokensCursorKey = (params: PaginationPayload, valid?: boolean) =>
+  buildMASCursorKey("registration_tokens", params.perPage, { valid });
 
-export const getMasRegistrationTokensPageCursor = (cacheKey: string, page: number) => getMasCursor(cacheKey, page);
+export const getMASRegistrationTokensPageCursor = (cacheKey: string, page: number) => getMASCursor(cacheKey, page);
 
-export const setMasRegistrationTokensPageCursor = (cacheKey: string, page: number, cursor: string) =>
-  setMasCursor(cacheKey, page, cursor);
+export const setMASRegistrationTokensPageCursor = (cacheKey: string, page: number, cursor: string) =>
+  setMASCursor(cacheKey, page, cursor);
 
-export const getMasNextPageCursor = (json: {
+export const getMASNextPageCursor = (json: {
   links?: { next?: string };
   data?: { meta?: { page?: { cursor?: string } }; id?: string }[];
 }) => {
@@ -231,8 +231,8 @@ export const getMASRegistrationTokensResource = (): MASRegistrationTokensResourc
   path: "/api/admin/v1/user-registration-tokens",
   isMAS: true,
   map: (token: MASRegistrationToken | MASRegistrationTokenResource) => {
-    const resource = getMasTokenResource(token);
-    const converted = convertMasTokenToSynapse(resource);
+    const resource = getMASTokenResource(token);
+    const converted = convertMASTokenToSynapse(resource);
     return { ...converted, id: resource.id || converted.token };
   },
   data: "data",
@@ -255,8 +255,8 @@ export const getMASRegistrationTokensResource = (): MASRegistrationTokensResourc
     method: "POST",
   }),
   handleCreateResponse: (token: MASRegistrationToken) => {
-    const resource = getMasTokenResource(token);
-    const converted = convertMasTokenToSynapse(resource);
+    const resource = getMASTokenResource(token);
+    const converted = convertMASTokenToSynapse(resource);
     return { ...converted, id: resource.id || converted.token };
   },
   delete: (params: DeleteParams) => ({
@@ -356,18 +356,38 @@ export const getMASUsersAsMainResource = () => ({
   getOne: async (params: { id: string | number }) => {
     const id = String(params.id);
     const username = id.startsWith("@") ? id.slice(1).split(":")[0] : id;
+    const homeserver = localStorage.getItem("home_server") || "";
     const masBaseUrl = getMASBaseUrl();
     if (!masBaseUrl) throw new Error("MAS base URL not found");
 
+    // Fetch MAS user data
     const query = filterUndefined({ "page[first]": 10, "filter[search]": username, count: "true" });
-    const url = `${masBaseUrl}/api/admin/v1/users?${new URLSearchParams(query as Record<string, string>).toString()}`;
-    const { json } = await jsonClient(url);
+    const masUrl = `${masBaseUrl}/api/admin/v1/users?${new URLSearchParams(query as Record<string, string>).toString()}`;
+    const { json } = await jsonClient(masUrl);
 
     const items: MASUserResource[] = (json?.data as MASUserResource[]) || [];
     const item = items.find(u => u.attributes.username === username);
     if (!item) throw new Error(`MAS user not found: ${username}`);
-    const homeserver = localStorage.getItem("home_server") || "";
-    return { ...mapMASUserItem(item, homeserver), id: `@${item.attributes.username}:${homeserver}` };
+
+    const masRecord = { ...mapMASUserItem(item, homeserver), id: `@${item.attributes.username}:${homeserver}` };
+
+    // Merge Synapse profile data (avatar, displayname, creation_ts_ms, suspended, shadow_banned)
+    try {
+      const synapseBaseUrl = localStorage.getItem("base_url") || "";
+      const matrixId = encodeURIComponent(masRecord.id);
+      const { json: synapseJson } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
+      return {
+        ...masRecord,
+        avatar_src: synapseJson.avatar_url ?? null,
+        displayname: synapseJson.displayname ?? null,
+        creation_ts_ms: synapseJson.creation_ts != null ? synapseJson.creation_ts * 1000 : null,
+        suspended: !!synapseJson.suspended,
+        shadow_banned: !!synapseJson.shadow_banned,
+      };
+    } catch {
+      // Synapse data unavailable — return MAS-only record; UI gracefully shows what it has
+      return masRecord;
+    }
   },
   create: (params: RaRecord) => ({
     endpoint: "/api/admin/v1/users",
@@ -682,19 +702,19 @@ export const getMASPolicyData = async (): Promise<MASPolicyData | null> => {
   try {
     const { json } = await jsonClient(`${masBaseUrl}/api/admin/v1/policy-data/latest`);
     const d = json.data as MASPolicyDataResource;
-    return { id: d.id, url: d.attributes.data.attributes.url, created_at: d.attributes.created_at };
+    return { id: d.id, data: d.attributes.data, created_at: d.attributes.created_at };
   } catch {
     return null;
   }
 };
 
-export const setMASPolicyData = async (url: string): Promise<{ success: boolean; error?: string }> => {
+export const setMASPolicyData = async (data: unknown): Promise<{ success: boolean; error?: string }> => {
   const masBaseUrl = getMASBaseUrl();
   if (!masBaseUrl) return { success: false, error: "MAS base URL not found" };
   try {
     await jsonClient(`${masBaseUrl}/api/admin/v1/policy-data`, {
       method: "POST",
-      body: JSON.stringify({ data: { type: "policy-data", attributes: { url } } }),
+      body: JSON.stringify({ data }),
     });
     return { success: true };
   } catch (error) {

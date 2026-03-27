@@ -1,11 +1,15 @@
 import EmptyState from "../components/EmptyState";
+import BlockIcon from "@mui/icons-material/Block";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import DevicesIcon from "@mui/icons-material/Devices";
 import HttpsIcon from "@mui/icons-material/Https";
 import KeyIcon from "@mui/icons-material/Key";
-import StopCircleIcon from "@mui/icons-material/StopCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Box,
   Button as MuiButton,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
@@ -21,6 +25,7 @@ import {
   BooleanField,
   Button,
   Confirm,
+  FunctionField,
   Create,
   CreateProps,
   DatagridConfigurable,
@@ -52,13 +57,13 @@ import { SynapseDataProvider } from "../providers/types";
 // ─── Shared status filter ────────────────────────────────────────────────────
 
 const sessionStatusChoices = [
-  { id: "active", name: "Active" },
-  { id: "finished", name: "Finished" },
+  { id: "active", name: "resources.mas_sessions.status.active" },
+  { id: "finished", name: "resources.mas_sessions.status.finished" },
 ];
 
 const personalSessionStatusChoices = [
-  { id: "active", name: "Active" },
-  { id: "revoked", name: "Revoked" },
+  { id: "active", name: "resources.mas_sessions.status.active" },
+  { id: "revoked", name: "resources.mas_sessions.status.revoked" },
 ];
 
 // ─── Compat Sessions ─────────────────────────────────────────────────────────
@@ -98,8 +103,9 @@ export const FinishCompatSessionButton = () => {
         label="resources.mas_compat_sessions.action.finish.label"
         onClick={() => setOpen(true)}
         disabled={loading}
+        color="error"
       >
-        <StopCircleIcon />
+        <DeleteIcon />
       </Button>
       <Confirm
         isOpen={open}
@@ -187,8 +193,9 @@ export const FinishOAuth2SessionButton = () => {
         label="resources.mas_oauth2_sessions.action.finish.label"
         onClick={() => setOpen(true)}
         disabled={loading}
+        color="error"
       >
-        <StopCircleIcon />
+        <DeleteIcon />
       </Button>
       <Confirm
         isOpen={open}
@@ -227,7 +234,23 @@ export function MASOAuth2SessionsList(props: ListProps) {
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
           <TextField source="user_id" sortable={false} emptyText="-" />
           <TextField source="client_id" sortable={false} />
-          <TextField source="scope" sortable={false} />
+          <FunctionField
+            source="scope"
+            label="resources.mas_oauth2_sessions.fields.scope"
+            sortable={false}
+            render={(record: { scope?: string }) =>
+              record?.scope ? (
+                <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+                  {record.scope
+                    .split(" ")
+                    .filter(Boolean)
+                    .map(s => (
+                      <Chip key={s} label={s} size="small" variant="outlined" />
+                    ))}
+                </Box>
+              ) : null
+            }
+          />
           <TextField source="human_name" sortable={false} emptyText="-" />
           <BooleanField source="active" sortable={false} />
           <DateField source="created_at" showTime sortable={false} />
@@ -278,8 +301,9 @@ export const RevokePersonalSessionButton = () => {
         label="resources.mas_personal_sessions.action.revoke.label"
         onClick={() => setOpen(true)}
         disabled={loading}
+        color="error"
       >
-        <StopCircleIcon />
+        <DeleteIcon />
       </Button>
       <Confirm
         isOpen={open}
@@ -437,8 +461,13 @@ const DeleteEmailButton = () => {
 
   return (
     <>
-      <Button label="resources.mas_user_emails.action.remove.label" onClick={() => setOpen(true)} disabled={loading}>
-        <StopCircleIcon />
+      <Button
+        label="resources.mas_user_emails.action.remove.label"
+        onClick={() => setOpen(true)}
+        disabled={loading}
+        color="error"
+      >
+        <DeleteIcon />
       </Button>
       <Confirm
         isOpen={open}
@@ -533,8 +562,13 @@ export const FinishUserSessionButton = () => {
 
   return (
     <>
-      <Button label="resources.mas_user_sessions.action.finish.label" onClick={() => setOpen(true)} disabled={loading}>
-        <StopCircleIcon />
+      <Button
+        label="resources.mas_user_sessions.action.finish.label"
+        onClick={() => setOpen(true)}
+        disabled={loading}
+        color="error"
+      >
+        <DeleteIcon />
       </Button>
       <Confirm
         isOpen={open}
@@ -617,8 +651,9 @@ export const DeleteOAuthLinkButton = () => {
         label="resources.mas_upstream_oauth_links.action.remove.label"
         onClick={() => setOpen(true)}
         disabled={loading}
+        color="error"
       >
-        <StopCircleIcon />
+        <DeleteIcon />
       </Button>
       <Confirm
         isOpen={open}
@@ -670,6 +705,13 @@ export function MASUpstreamOAuthProvidersList(props: ListProps) {
         <SimpleList
           primaryText={record => record.human_name || String(record.id)}
           secondaryText={record => String(record.issuer || "")}
+          tertiaryText={record =>
+            record.enabled ? (
+              <CheckCircleIcon fontSize="small" sx={{ color: "success.main" }} />
+            ) : (
+              <BlockIcon fontSize="small" sx={{ color: "text.disabled" }} />
+            )
+          }
           linkType="show"
         />
       ) : (

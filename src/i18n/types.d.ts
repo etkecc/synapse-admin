@@ -741,6 +741,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         email: string;
         user_id: string;
         created_at: string;
+        actions: string;
       };
       action: {
         remove: {
@@ -831,13 +832,21 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         };
       };
     };
+    mas_sessions: {
+      status: {
+        active: string;
+        finished: string;
+        revoked: string;
+      };
+    };
     mas_policy_data: {
       name: string;
       current_policy: string;
       no_policy: string;
       set_policy: string;
+      invalid_json: string;
       fields: {
-        url: string;
+        json_placeholder: string;
         created_at: string;
       };
       action: {

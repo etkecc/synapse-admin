@@ -28,6 +28,7 @@ import {
 } from "react-admin";
 
 import { SynapseDataProvider } from "../providers/types";
+import { isMAS } from "../providers/mas";
 
 interface DeleteUserButtonProps {
   selectedIds: Identifier[];
@@ -68,7 +69,25 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
 
   const handleDialogOpen = () => setOpen(true);
 
-  const performDelete = () => {
+  const performMASDeactivate = async () => {
+    try {
+      await Promise.all(recordIds.map(id => dataProvider.masDeactivateUser(String(id), false)));
+      notify("ra.notification.deleted", {
+        messageArgs: { smart_count: recordIds.length },
+        type: "info" as NotificationType,
+      });
+      unselectAll();
+      redirect("/users");
+    } catch {
+      notify("ra.notification.data_provider_error", { type: "error" as NotificationType });
+    }
+  };
+
+  const performDelete = async () => {
+    if (isMAS()) {
+      await performMASDeactivate();
+      return;
+    }
     deleteMany(
       resourceName,
       { ids: recordIds, meta: { deleteMedia, redactEvents: false } },
@@ -88,13 +107,13 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
     );
   };
 
-  const handleDialogClose = () => {
+  const handleDialogClose = async () => {
     if (redactStatus === "active") {
       // Redaction continues server-side; proceed with delete so the user is erased
       stopPolling();
       setRedactStatus(null);
       setOpen(false);
-      performDelete();
+      await performDelete();
       return;
     }
     setOpen(false);
@@ -104,7 +123,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
   const handleConfirm = async () => {
     if (!redactEvents) {
       setOpen(false);
-      performDelete();
+      await performDelete();
       return;
     }
 
@@ -149,7 +168,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
             notify("resources.users.action.redact_success", { type: "success" as NotificationType });
           }
 
-          performDelete();
+          await performDelete();
         }
       }, 3000);
     } catch {
@@ -178,22 +197,26 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
         <DialogContent>
           <DialogContentText>{translate(props.confirmContent)}</DialogContentText>
           <SimpleForm toolbar={false}>
-            <BooleanInput
-              source="deleteMedia"
-              value={deleteMedia}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDeleteMedia(event.target.checked)}
-              label="resources.users.action.delete_media"
-              defaultValue={false}
-              disabled={loading}
-            />
-            <BooleanInput
-              source="redactEvents"
-              value={redactEvents}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setRedactEvents(event.target.checked)}
-              label="resources.users.action.redact_events"
-              defaultValue={false}
-              disabled={loading}
-            />
+            {!isMAS() && (
+              <>
+                <BooleanInput
+                  source="deleteMedia"
+                  value={deleteMedia}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setDeleteMedia(event.target.checked)}
+                  label="resources.users.action.delete_media"
+                  defaultValue={false}
+                  disabled={loading}
+                />
+                <BooleanInput
+                  source="redactEvents"
+                  value={redactEvents}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setRedactEvents(event.target.checked)}
+                  label="resources.users.action.redact_events"
+                  defaultValue={false}
+                  disabled={loading}
+                />
+              </>
+            )}
           </SimpleForm>
           {redactStatus === "active" && (
             <>
