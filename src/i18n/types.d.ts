@@ -22,7 +22,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     };
     users: {
       invalid_user_id: string;
-      tabs: { sso: string; experimental: string; limits: string; account_data: string };
+      tabs: { sso: string; experimental: string; limits: string; account_data: string; sessions: string };
       danger_zone: string;
     };
     rooms: {
@@ -702,6 +702,211 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           label: string;
           success: string;
         };
+      };
+    };
+    mas_users: {
+      name: string;
+      fields: {
+        id: string;
+        username: string;
+        admin: string;
+        locked: string;
+        deactivated: string;
+        legacy_guest: string;
+        created_at: string;
+        locked_at: string;
+        deactivated_at: string;
+      };
+      filter: {
+        status: string;
+        search: string;
+        status_active: string;
+        status_locked: string;
+        status_deactivated: string;
+      };
+      action: {
+        lock: { label: string; success: string };
+        unlock: { label: string; success: string };
+        deactivate: { label: string; success: string };
+        reactivate: { label: string; success: string };
+        set_admin: { label: string; success: string };
+        remove_admin: { label: string; success: string };
+        set_password: { label: string; title: string; success: string; failure: string };
+      };
+    };
+    mas_user_emails: {
+      name: string;
+      empty: string;
+      fields: {
+        email: string;
+        user_id: string;
+        created_at: string;
+        actions: string;
+      };
+      action: {
+        remove: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+        };
+        create: { success: string };
+      };
+    };
+    mas_compat_sessions: {
+      name: string;
+      empty: string;
+      fields: {
+        user_id: string;
+        device_id: string;
+        created_at: string;
+        user_agent: string;
+        last_active_at: string;
+        last_active_ip: string;
+        finished_at: string;
+        human_name: string;
+        active: string;
+      };
+      action: {
+        finish: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+        };
+      };
+    };
+    mas_oauth2_sessions: {
+      name: string;
+      empty: string;
+      fields: {
+        user_id: string;
+        client_id: string;
+        scope: string;
+        created_at: string;
+        user_agent: string;
+        last_active_at: string;
+        last_active_ip: string;
+        finished_at: string;
+        human_name: string;
+        active: string;
+      };
+      action: {
+        finish: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+        };
+      };
+    };
+    mas_personal_sessions: {
+      name: string;
+      empty: string;
+      fields: {
+        owner_user_id: string;
+        actor_user_id: string;
+        human_name: string;
+        scope: string;
+        created_at: string;
+        revoked_at: string;
+        last_active_at: string;
+        last_active_ip: string;
+        expires_at: string;
+        expires_in: string;
+        active: string;
+      };
+      helper: {
+        expires_in: string;
+      };
+      action: {
+        revoke: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+        };
+        create: {
+          token_title: string;
+          token_content: string;
+        };
+      };
+    };
+    mas_sessions: {
+      status: {
+        active: string;
+        finished: string;
+        revoked: string;
+      };
+    };
+    mas_policy_data: {
+      name: string;
+      current_policy: string;
+      no_policy: string;
+      set_policy: string;
+      invalid_json: string;
+      fields: {
+        json_placeholder: string;
+        created_at: string;
+      };
+      action: {
+        save: {
+          label: string;
+          success: string;
+          failure: string;
+        };
+      };
+    };
+    mas_user_sessions: {
+      name: string;
+      fields: {
+        user_id: string;
+        created_at: string;
+        finished_at: string;
+        user_agent: string;
+        last_active_at: string;
+        last_active_ip: string;
+        active: string;
+      };
+      action: {
+        finish: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+        };
+      };
+    };
+    mas_upstream_oauth_links: {
+      name: string;
+      fields: {
+        user_id: string;
+        provider_id: string;
+        subject: string;
+        human_account_name: string;
+        created_at: string;
+      };
+      helper: {
+        provider_id: string;
+      };
+      action: {
+        remove: {
+          label: string;
+          title: string;
+          content: string;
+          success: string;
+        };
+      };
+    };
+    mas_upstream_oauth_providers: {
+      name: string;
+      fields: {
+        issuer: string;
+        human_name: string;
+        brand_name: string;
+        created_at: string;
+        disabled_at: string;
+        enabled: string;
       };
     };
   };

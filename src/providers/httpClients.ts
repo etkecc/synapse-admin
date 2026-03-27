@@ -4,6 +4,9 @@ import { refreshAccessToken } from "./matrix";
 import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
 
+// Singleton refresh promise — prevents multiple concurrent refresh requests
+let ongoingRefresh: Promise<boolean> | null = null;
+
 // Adds the access token to all requests
 export const jsonClient = async (url: string, options: Options = {}) => {
   // Check if token needs refresh before making the request
@@ -18,7 +21,12 @@ export const jsonClient = async (url: string, options: Options = {}) => {
     // Refresh if token has expired or will expire in less than 2 minutes
     if (timeUntilExpiry < 120000) {
       console.log(`Token ${timeUntilExpiry <= 0 ? "expired" : "expiring soon"}, refreshing before API call...`);
-      await refreshAccessToken();
+      if (!ongoingRefresh) {
+        ongoingRefresh = refreshAccessToken().finally(() => {
+          ongoingRefresh = null;
+        });
+      }
+      await ongoingRefresh;
     }
   }
 

@@ -42,7 +42,9 @@ const UserInfoChips = () => {
 
   const createdDate = record.creation_ts_ms
     ? new Date(record.creation_ts_ms).toLocaleDateString(locale, DATE_FORMAT)
-    : null;
+    : record.created_at
+      ? new Date(String(record.created_at)).toLocaleDateString(locale, DATE_FORMAT)
+      : null;
 
   return (
     <Box

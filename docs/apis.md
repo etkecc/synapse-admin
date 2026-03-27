@@ -3,7 +3,7 @@
 Ketesa uses various APIs to manage Matrix homeservers and related services.
 This document lists all supported APIs and their usage status.
 
-> **Note:** This file was compiled based on Synapse v1.149.1 and MAS v1.13.0 documentation.
+> **Note:** This file was compiled based on Synapse **v1.149.1** and MAS **v1.13.0** documentation.
 > It is not updated often and is provided just for reference purposes.
 
 Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ superseded (newer version available)
@@ -30,16 +30,19 @@ Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ sup
     * [✅ Room Membership](#-room-membership)
     * [✅ Scheduled Tasks](#-scheduled-tasks)
     * [✅ Client-Server API Extensions](#-client-server-api-extensions)
-* [🟡 Matrix Authentication Service (MAS) Admin API](#-matrix-authentication-service-mas-admin-api)
+* [✅ Matrix Authentication Service (MAS) Admin API](#-matrix-authentication-service-mas-admin-api)
     * [✅ OAuth 2.0](#-oauth-20)
     * [✅ Server](#-server)
     * [✅ Registration Tokens](#-registration-tokens-1)
-    * [❌ Users](#-users-1)
-    * [❌ User Emails](#-user-emails)
-    * [❌ Compat Sessions](#-compat-sessions)
-    * [❌ OAuth 2.0 Sessions](#-oauth-20-sessions)
-    * [❌ Personal Sessions](#-personal-sessions)
-    * [❌ Policy Data](#-policy-data)
+    * [✅ Users](#-users-1)
+    * [✅ User Emails](#-user-emails)
+    * [✅ Compat Sessions](#-compat-sessions)
+    * [✅ OAuth 2.0 Sessions](#-oauth-20-sessions)
+    * [✅ Personal Sessions](#-personal-sessions)
+    * [✅ Browser Sessions](#-browser-sessions)
+    * [✅ Upstream OAuth Links](#-upstream-oauth-links)
+    * [✅ Upstream OAuth Providers](#-upstream-oauth-providers)
+    * [✅ Policy Data](#-policy-data)
 
 <!-- vim-markdown-toc -->
 
@@ -234,7 +237,7 @@ Superseded: redundant with existing user creation via User Admin API (already im
 | `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | GET | Get admin client configuration | ✅ |
 | `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | PUT | Set admin client configuration | ✅ |
 
-## 🟡 Matrix Authentication Service (MAS) Admin API
+## ✅ Matrix Authentication Service (MAS) Admin API
 
 [MAS Admin API specification](https://element-hq.github.io/matrix-authentication-service/api/spec.json)
 
@@ -262,60 +265,84 @@ Superseded: redundant with existing user creation via User Admin API (already im
 | `/api/admin/v1/user-registration-tokens/{id}/revoke` | POST | Revoke a registration token | ✅ |
 | `/api/admin/v1/user-registration-tokens/{id}/unrevoke` | POST | Unrevoke a registration token | ✅ |
 
-### ❌ Users
+### ✅ Users
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/api/admin/v1/users` | GET | List users | ❌ |
-| `/api/admin/v1/users` | POST | Create a new user | ❌ |
-| `/api/admin/v1/users/{id}` | GET | Get user by ID | ❌ |
-| `/api/admin/v1/users/by-username/{username}` | GET | Get user by username | ❌ |
-| `/api/admin/v1/users/{id}/set-password` | POST | Set user password | ❌ |
-| `/api/admin/v1/users/{id}/set-admin` | POST | Toggle admin flag | ❌ |
-| `/api/admin/v1/users/{id}/deactivate` | POST | Deactivate user | ❌ |
-| `/api/admin/v1/users/{id}/reactivate` | POST | Reactivate user | ❌ |
-| `/api/admin/v1/users/{id}/lock` | POST | Lock user | ❌ |
-| `/api/admin/v1/users/{id}/unlock` | POST | Unlock user | ❌ |
+| `/api/admin/v1/users` | GET | List users | ✅ |
+| `/api/admin/v1/users` | POST | Create a new user | ✅ |
+| `/api/admin/v1/users/{id}` | GET | Get user by ID | ✅ |
+| `/api/admin/v1/users/by-username/{username}` | GET | Get user by username | ⏭️ |
+| `/api/admin/v1/users/{id}/set-password` | POST | Set user password | ✅ |
+| `/api/admin/v1/users/{id}/set-admin` | POST | Toggle admin flag | ✅ |
+| `/api/admin/v1/users/{id}/deactivate` | POST | Deactivate user | ✅ |
+| `/api/admin/v1/users/{id}/reactivate` | POST | Reactivate user | ✅ |
+| `/api/admin/v1/users/{id}/lock` | POST | Lock user | ✅ |
+| `/api/admin/v1/users/{id}/unlock` | POST | Unlock user | ✅ |
 
-### ❌ User Emails
-
-| Endpoint | Method | Description | Status |
-|----------|--------|-------------|:------:|
-| `/api/admin/v1/user-emails` | GET | List user emails | ❌ |
-| `/api/admin/v1/user-emails` | POST | Add email to user | ❌ |
-| `/api/admin/v1/user-emails/{id}` | GET | Get email details | ❌ |
-| `/api/admin/v1/user-emails/{id}` | DELETE | Remove email from user | ❌ |
-
-### ❌ Compat Sessions
+### ✅ User Emails
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/api/admin/v1/compat-sessions` | GET | List compatibility sessions | ❌ |
-| `/api/admin/v1/compat-sessions/{id}` | GET | Get a compatibility session | ❌ |
-| `/api/admin/v1/compat-sessions/{id}/finish` | POST | Terminate a compatibility session | ❌ |
+| `/api/admin/v1/user-emails` | GET | List user emails | ✅ |
+| `/api/admin/v1/user-emails` | POST | Add email to user | ✅ |
+| `/api/admin/v1/user-emails/{id}` | GET | Get email details | ✅ |
+| `/api/admin/v1/user-emails/{id}` | DELETE | Remove email from user | ✅ |
 
-### ❌ OAuth 2.0 Sessions
-
-| Endpoint | Method | Description | Status |
-|----------|--------|-------------|:------:|
-| `/api/admin/v1/oauth2-sessions` | GET | List OAuth 2.0 sessions | ❌ |
-| `/api/admin/v1/oauth2-sessions/{id}` | GET | Get an OAuth 2.0 session | ❌ |
-| `/api/admin/v1/oauth2-sessions/{id}/finish` | POST | Terminate an OAuth 2.0 session | ❌ |
-
-### ❌ Personal Sessions
+### ✅ Compat Sessions
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/api/admin/v1/personal-sessions` | GET | List personal sessions | ❌ |
-| `/api/admin/v1/personal-sessions` | POST | Create a personal session | ❌ |
-| `/api/admin/v1/personal-sessions/{id}` | GET | Get personal session details | ❌ |
-| `/api/admin/v1/personal-sessions/{id}/revoke` | POST | Revoke a personal session | ❌ |
-| `/api/admin/v1/personal-sessions/{id}/regenerate` | POST | Regenerate personal session token | ❌ |
+| `/api/admin/v1/compat-sessions` | GET | List compatibility sessions | ✅ |
+| `/api/admin/v1/compat-sessions/{id}` | GET | Get a compatibility session | ✅ |
+| `/api/admin/v1/compat-sessions/{id}/finish` | POST | Terminate a compatibility session | ✅ |
 
-### ❌ Policy Data
+### ✅ OAuth 2.0 Sessions
 
 | Endpoint | Method | Description | Status |
 |----------|--------|-------------|:------:|
-| `/api/admin/v1/policy-data` | POST | Set policy data | ❌ |
-| `/api/admin/v1/policy-data/latest` | GET | Get latest policy data | ❌ |
-| `/api/admin/v1/policy-data/{id}` | GET | Get policy data by ID | ❌ |
+| `/api/admin/v1/oauth2-sessions` | GET | List OAuth 2.0 sessions | ✅ |
+| `/api/admin/v1/oauth2-sessions/{id}` | GET | Get an OAuth 2.0 session | ✅ |
+| `/api/admin/v1/oauth2-sessions/{id}/finish` | POST | Terminate an OAuth 2.0 session | ✅ |
+
+### ✅ Personal Sessions
+
+| Endpoint | Method | Description | Status |
+|----------|--------|-------------|:------:|
+| `/api/admin/v1/personal-sessions` | GET | List personal sessions | ✅ |
+| `/api/admin/v1/personal-sessions` | POST | Create a personal session | ✅ |
+| `/api/admin/v1/personal-sessions/{id}` | GET | Get personal session details | ✅ |
+| `/api/admin/v1/personal-sessions/{id}/revoke` | POST | Revoke a personal session | ✅ |
+| `/api/admin/v1/personal-sessions/{id}/regenerate` | POST | Regenerate personal session token | ✅ |
+
+### ✅ Browser Sessions
+
+| Endpoint | Method | Description | Status |
+|----------|--------|-------------|:------:|
+| `/api/admin/v1/user-sessions` | GET | List browser sessions | ✅ |
+| `/api/admin/v1/user-sessions/{id}` | GET | Get a browser session | ✅ |
+| `/api/admin/v1/user-sessions/{id}/finish` | POST | Terminate a browser session | ✅ |
+
+### ✅ Upstream OAuth Links
+
+| Endpoint | Method | Description | Status |
+|----------|--------|-------------|:------:|
+| `/api/admin/v1/upstream-oauth-links` | GET | List upstream OAuth links | ✅ |
+| `/api/admin/v1/upstream-oauth-links` | POST | Create an upstream OAuth link | ✅ |
+| `/api/admin/v1/upstream-oauth-links/{id}` | GET | Get an upstream OAuth link | ✅ |
+| `/api/admin/v1/upstream-oauth-links/{id}` | DELETE | Remove an upstream OAuth link | ✅ |
+
+### ✅ Upstream OAuth Providers
+
+| Endpoint | Method | Description | Status |
+|----------|--------|-------------|:------:|
+| `/api/admin/v1/upstream-oauth-providers` | GET | List upstream OAuth providers | ✅ |
+| `/api/admin/v1/upstream-oauth-providers/{id}` | GET | Get an upstream OAuth provider | ✅ |
+
+### ✅ Policy Data
+
+| Endpoint | Method | Description | Status |
+|----------|--------|-------------|:------:|
+| `/api/admin/v1/policy-data` | POST | Set policy data | ✅ |
+| `/api/admin/v1/policy-data/latest` | GET | Get latest policy data | ✅ |
+| `/api/admin/v1/policy-data/{id}` | GET | Get policy data by ID | ⏭️ |

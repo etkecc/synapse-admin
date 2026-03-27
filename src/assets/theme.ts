@@ -313,6 +313,9 @@ const lightComponents: ThemeOptions["components"] = {
     styleOverrides: {
       root: {
         backgroundColor: "transparent",
+        "&.RaToolbar-mobileToolbar": {
+          position: "static",
+        },
       },
     },
   },
@@ -366,6 +369,7 @@ const darkComponents: ThemeOptions["components"] = {
       root: {
         backgroundColor: "transparent",
         "&.RaToolbar-mobileToolbar": {
+          position: "static",
           marginBottom: "1rem",
         },
       },
