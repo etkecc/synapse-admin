@@ -18,8 +18,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
-import { useNavigate } from "react-router";
+import { useDataProvider, useLocale, useRedirect, useStore, useTranslate } from "react-admin";
 
 import { useAppContext } from "../../Context";
 import { ServerNotificationsResponse, ServerProcessResponse } from "../../providers/types";
@@ -96,7 +95,7 @@ const useServerNotifications = () => {
 };
 
 export const ServerNotificationsBadge = () => {
-  const navigate = useNavigate();
+  const redirect = useRedirect();
   const { success, notifications, deleteServerNotifications } = useServerNotifications();
   const theme = useTheme();
   const translate = useTranslate();
@@ -115,7 +114,7 @@ export const ServerNotificationsBadge = () => {
 
   const handleSeeAllNotifications = () => {
     handleClose();
-    navigate("/server_notifications");
+    redirect("/server_notifications");
   };
 
   const handleClearAllNotifications = async () => {

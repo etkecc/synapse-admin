@@ -77,9 +77,9 @@ import {
   useLocale,
   SimpleList,
   useGetMany,
+  Link,
 } from "react-admin";
 import { useFormContext } from "react-hook-form";
-import { Link } from "react-router-dom";
 
 import { MakeAdminBtn, RoomBulkActionButtons } from "./rooms";
 import AvatarField from "../components/AvatarField";

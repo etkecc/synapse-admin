@@ -15,6 +15,7 @@ const config: JestConfigWithTsJest = {
       {
         tsconfig: {
           esModuleInterop: true,
+          ignoreDeprecations: "6.0",
         },
         diagnostics: {
           ignoreCodes: [1343],

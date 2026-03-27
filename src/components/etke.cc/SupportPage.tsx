@@ -26,8 +26,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useCallback, useEffect, useState } from "react";
-import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
-import { useNavigate } from "react-router-dom";
+import { Title, useDataProvider, useLocale, useNotify, useRedirect, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import RichTextEditor from "./RichTextEditor";
@@ -134,7 +133,7 @@ const CreateRequestForm = ({
 const SupportPage = () => {
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider() as SynapseDataProvider;
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const notify = useNotify();
   const locale = useLocale();
   const translate = useTranslate();

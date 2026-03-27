@@ -10,10 +10,11 @@ import {
   DateField,
   RecordContextProvider,
   useLocale,
+  useParams,
+  useRedirect,
   useTranslate,
   Title,
 } from "react-admin";
-import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduledDeleteButton from "./ScheduledDeleteButton";
 import { ScheduledCommand } from "../../../../../providers/types";
@@ -23,7 +24,7 @@ import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 
 const ScheduledCommandShow = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const locale = useLocale();
   const translate = useTranslate();
   const [command, setCommand] = useState<ScheduledCommand | null>(null);
