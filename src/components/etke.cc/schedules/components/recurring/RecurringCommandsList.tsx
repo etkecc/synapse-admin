@@ -2,18 +2,17 @@ import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Loading, Button, useLocale, useTranslate } from "react-admin";
+import { Loading, Button, useLocale, useRedirect, useTranslate } from "react-admin";
 import { DateField, useRecordContext } from "react-admin";
 import { Datagrid } from "react-admin";
 import { ListContextProvider, TextField, TopToolbar, Identifier } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
-import { useNavigate } from "react-router-dom";
 
 import { DATE_FORMAT } from "../../../../../utils/date";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
 
 const ListActions = () => {
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const translate = useTranslate();
 
   return (

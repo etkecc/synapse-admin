@@ -5,11 +5,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Link } from "react-router-dom";
 import {
   DatagridConfigurable,
   ExportButton,
   FunctionField,
+  Link,
   List,
   ListProps,
   ReferenceField,

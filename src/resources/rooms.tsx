@@ -62,8 +62,8 @@ import {
   NullableBooleanInput,
   useLocale,
   useGetMany,
+  Link,
 } from "react-admin";
-import { Link } from "react-router-dom";
 import { useDataProvider } from "react-admin";
 import { Confirm } from "react-admin";
 

@@ -13,11 +13,12 @@ import {
   Loading,
   Button,
   SelectInput,
+  useParams,
+  useRedirect,
   useTranslate,
   Title,
 } from "react-admin";
 import { useWatch, useFormContext } from "react-hook-form";
-import { useParams, useNavigate } from "react-router-dom";
 
 import ScheduleDeleteButton from "./ScheduledDeleteButton";
 import { useAppContext } from "../../../../../Context";
@@ -67,7 +68,7 @@ const ArgumentsField = ({ serverCommands, units }) => {
 
 const ScheduledCommandEdit = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const notify = useNotify();
   const dataProvider = useDataProvider();
   const locale = useLocale();

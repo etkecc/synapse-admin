@@ -2,22 +2,21 @@ import AddIcon from "@mui/icons-material/Add";
 import { Paper } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Loading, Button, useLocale, useTranslate } from "react-admin";
+import { Loading, Button, useLocale, useTranslate, useRedirect } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
 import { Datagrid } from "react-admin";
 import { BooleanField, DateField, TopToolbar } from "react-admin";
 import { Identifier } from "react-admin";
-import { useNavigate } from "react-router-dom";
 
 import { DATE_FORMAT } from "../../../../../utils/date";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
 const ListActions = () => {
-  const navigate = useNavigate();
+  const redirect = useRedirect();
   const translate = useTranslate();
 
   const handleCreate = () => {
-    navigate("/server_actions/scheduled/create");
+    redirect("/server_actions/scheduled/create");
   };
 
   return (

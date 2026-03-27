@@ -1,9 +1,8 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
-import { useLocale, useNotify, useDataProvider, useRecordContext, useTranslate } from "react-admin";
+import { useLocale, useNotify, useDataProvider, useRecordContext, useRedirect, useTranslate } from "react-admin";
 import { Button, Confirm } from "react-admin";
-import { useNavigate } from "react-router-dom";
 
 import { useAppContext } from "../../../../../Context";
 import { ScheduledCommand } from "../../../../../providers/types";
@@ -16,7 +15,7 @@ const ScheduledDeleteButton = () => {
   const notify = useNotify();
   const translate = useTranslate();
   const theme = useTheme();
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const [open, setOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 

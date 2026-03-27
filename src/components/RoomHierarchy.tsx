@@ -21,8 +21,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
-import { useNavigate } from "react-router-dom";
+import { useDataProvider, useNotify, useRecordContext, useRedirect, useTranslate } from "react-admin";
 
 import { HierarchyRoom, SynapseDataProvider } from "../providers/types";
 
@@ -109,7 +108,7 @@ const TreeItem = ({
   depth: number;
   indent: number;
   translate: ReturnType<typeof useTranslate>;
-  navigate: ReturnType<typeof useNavigate>;
+  navigate: (path: string) => void;
 }) => {
   const [open, setOpen] = useState(depth < 2);
   const hasChildren = node.children.length > 0;
@@ -204,7 +203,7 @@ export const RoomHierarchy = () => {
   const record = useRecordContext();
   const translate = useTranslate();
   const notify = useNotify();
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const dataProvider = useDataProvider<SynapseDataProvider>();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));

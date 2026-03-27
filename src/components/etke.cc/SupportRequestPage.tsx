@@ -16,8 +16,16 @@ import {
 } from "@mui/material";
 import DOMPurify from "dompurify";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Title, useDataProvider, useLocale, useNotify, useStore, useTranslate } from "react-admin";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  Title,
+  useDataProvider,
+  useLocale,
+  useNotify,
+  useParams,
+  useRedirect,
+  useStore,
+  useTranslate,
+} from "react-admin";
 
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../providers/types";
@@ -45,7 +53,7 @@ const MessageRow = ({
   resolvedProfile?: ResolvedProfile;
   mxid?: string;
 }) => {
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const isCustomer = msg.type === "customer";
   const author = resolvedProfile?.displayName ?? msg.created_by?.firstName ?? msg.type;
   const avatarUrl = resolvedProfile?.avatarSrc ?? msg.created_by?.avatarUrl;
@@ -105,7 +113,7 @@ const SupportRequestPage = () => {
   const { id } = useParams<{ id: string }>();
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider() as SynapseDataProvider;
-  const navigate = useNavigate();
+  const navigate = useRedirect();
   const notify = useNotify();
   const locale = useLocale();
   const translate = useTranslate();
