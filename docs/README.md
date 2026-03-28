@@ -32,6 +32,36 @@ Specific topics:
 
 * [User badges](./user-badges.md) — role indicators on user avatars (admin, bot, system-managed, etc.)
 * [Prefilling the login form](./prefill-login-form.md) — pre-populate login fields via URL parameters
+* [Configurable columns](./configurable-columns.md) — show, hide, and reorder table columns per your workflow
+
+### 👥 User Management
+
+| Guide | What it covers |
+|-------|----------------|
+| [User management](./user-management.md) | Login-as-user, shadow ban, rate limits, experimental features, account data, server notices, MAS user management |
+| [Bulk CSV import](./csv-import.md) | Import many users at once from a CSV file |
+| [Registration tokens](./registration-tokens.md) | Create and manage invite tokens for Synapse and MAS |
+
+### 🏠 Room Management
+
+| Guide | What it covers |
+|-------|----------------|
+| [Room management](./room-management.md) | Block/unblock, purge history, delete, join users, assign admins, members/state/extremities tabs, messages viewer, Space hierarchy |
+| [Media management](./media.md) | Quarantine, protect, and delete media at file/user/room scope |
+
+### 🔍 Moderation
+
+* [Event reports](./event-reports.md) — review abuse reports submitted by users, use the event lookup tool
+
+### 📡 Federation
+
+* [Federation overview](./federation.md) — monitor remote server connections, reconnect failed destinations
+
+### 📊 Statistics & Tasks
+
+* [Server statistics & scheduled tasks](./server-statistics.md) — database room sizes, user media usage, background task monitoring
+
+---
 
 ### 🌟 etke.cc exclusive features
 

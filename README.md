@@ -49,39 +49,48 @@ the visibility and control you need — all from a clean, responsive web interfa
 
 ### 👥 Complete user management
 
-Ketesa covers the full lifecycle of a Matrix user account. You can suspend, shadow-ban,
-deactivate, or permanently erase users. Fine-grained controls let you manage rate limits,
-experimental features, and account data. You can view and manage third-party identifiers,
+Ketesa covers the full lifecycle of a Matrix user account. You can suspend, [shadow-ban](./docs/user-management.md#-shadow-ban),
+[deactivate, or permanently erase](./docs/user-management.md#-deactivation-vs-erasure) users. Fine-grained controls let you manage [rate limits](./docs/user-management.md#-rate-limits),
+[experimental features](./docs/user-management.md#-experimental-features), and [account data](./docs/user-management.md#-account-data). You can view and manage third-party identifiers,
 connected devices (create, rename, delete), room memberships, and cross-signing keys — all
-from one place. Need to onboard many users at once? Bulk registration via CSV import handles
+from one place. Need to onboard many users at once? [Bulk registration via CSV import](./docs/csv-import.md) handles
 it, including third-party identifiers. Passwords can be generated randomly or reset manually.
 User avatars carry [role badges](./docs/user-badges.md) (admin, bot, support, federated, system-managed)
 so you can identify account types at a glance.
 
 When [Matrix Authentication Service (MAS)](https://github.com/element-hq/matrix-authentication-service)
-is in use, Ketesa extends user management with MAS-native capabilities: browsing and revoking
+is in use, Ketesa extends user management with [MAS-native capabilities](./docs/user-management.md#-mas-user-management): browsing and revoking
 active sessions (compat, OAuth2, and personal), managing linked email addresses, reviewing
 upstream OAuth provider links, and creating users through MAS directly.
+
+[📄 User management guide](./docs/user-management.md)
 
 ### 🏠 Powerful room management
 
 Get a full picture of every room on your server. Block or unblock rooms, purge history,
-and delete rooms entirely. The messages viewer lets you browse room history with filters
-and jump-to-date navigation. Spaces are handled natively with a dedicated room hierarchy
+and delete rooms entirely. The [messages viewer](./docs/room-management.md#-messages-viewer) lets you browse room history with filters
+and jump-to-date navigation. [Spaces are handled natively](./docs/room-management.md#-room-hierarchy) with a dedicated room hierarchy
 tab. You can assign room admins and join users to rooms directly from the UI.
+[Media](./docs/media.md) can be quarantined, protected, or deleted at file, user, or room scope.
+
+[📄 Room management guide](./docs/room-management.md) · [📄 Media management guide](./docs/media.md)
 
 ### 🔐 Flexible authentication
 
 Log in with a username and password, a raw access token, or via OIDC/SSO — whatever your
 server setup requires. Ketesa has first-class support for [Matrix Authentication Service (MAS)](https://github.com/element-hq/matrix-authentication-service),
-including full session management and registration token administration. It also ships a
+including full session management and [registration token administration](./docs/registration-tokens.md). It also ships a
 dedicated [external auth provider mode](./docs/external-auth-provider.md) that adapts the interface
 when Synapse delegates authentication to an external system.
+
+[📄 Registration tokens guide](./docs/registration-tokens.md)
 
 ### ⚙️ Deep customization
 
 Every data table in Ketesa is built with [react-admin's Configurable](https://marmelab.com/react-admin/Configurable.html)
 component, so users can show, hide, and reorder columns to match their workflow — no code changes needed.
+
+[📄 Configurable columns guide](./docs/configurable-columns.md)
 
 Beyond the per-user table preferences, Ketesa can be tailored at the deployment level through a
 [`config.json`](./docs/config.md) file (or via `/.well-known/matrix/client`):
@@ -93,10 +102,12 @@ and [protect appservice-managed users](./docs/system-users.md) (bridge puppets) 
 
 ### 📊 Server statistics and insights
 
-Monitor your server with built-in statistics views: per-user media usage and database room
-stats give you a clear picture of what's consuming space. The federation overview shows
-the health and reachability of remote destinations. Reported events can be reviewed and
+Monitor your server with built-in statistics views: [per-user media usage and database room
+stats](./docs/server-statistics.md) give you a clear picture of what's consuming space. The [federation overview](./docs/federation.md) shows
+the health and reachability of remote destinations. [Reported events](./docs/event-reports.md) can be reviewed and
 acted upon directly from the reports list.
+
+[📄 Server statistics guide](./docs/server-statistics.md) · [📄 Federation guide](./docs/federation.md) · [📄 Event reports guide](./docs/event-reports.md)
 
 ### 🌍 Available in 9 languages
 

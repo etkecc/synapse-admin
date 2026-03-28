@@ -119,7 +119,7 @@ const common = {
     name: "Media",
     fields: {
       before_ts: "last access before",
-      size_gt: "Larger then (in bytes)",
+      size_gt: "Larger than (in bytes)",
       keep_profiles: "Keep profile images",
     },
     action: {

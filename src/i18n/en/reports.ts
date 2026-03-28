@@ -3,7 +3,7 @@ const reports = {
   fields: {
     id: "ID",
     received_ts: "Report Time",
-    user_id: "Announcer",
+    user_id: "Reporter",
     name: "Room Name",
     score: "Score",
     reason: "Reason",

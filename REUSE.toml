@@ -166,6 +166,13 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["docs/configurable-columns.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["docs/cors-credentials.md"]
 SPDX-FileCopyrightText = [
   "2025-2026 Nikita Chernyi <https://etke.cc>",
@@ -173,9 +180,23 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["docs/csv-import.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["docs/custom-menu.md"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/event-reports.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
@@ -188,9 +209,30 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["docs/federation.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/media.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["docs/prefill-login-form.md"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/registration-tokens.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
@@ -210,6 +252,20 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["docs/room-management.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/server-statistics.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["docs/system-users.md"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
@@ -220,6 +276,13 @@ SPDX-License-Identifier = "Apache-2.0"
 path = ["docs/user-badges.md"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/user-management.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
