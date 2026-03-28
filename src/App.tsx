@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Admin, CustomRoutes, Resource, reactRouterProvider } from "react-admin";
 import type { I18nProvider } from "ra-core";
 
-import AdminLayout from "./components/AdminLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
 import { useInstanceConfig } from "./components/etke.cc/InstanceConfig";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
@@ -16,14 +16,14 @@ import ScheduledCommandShow from "./components/etke.cc/schedules/components/sche
 import UserImport from "./components/user-import/UserImport";
 import LoginPage from "./pages/LoginPage";
 import MASPolicyDataPage from "./pages/MASPolicyDataPage";
-import { DatabaseRoomStatsList } from "./resources/database_room_statistics";
+import { DatabaseRoomStatsList } from "./resources/statistics";
 import destinations from "./resources/destinations";
-import registrationToken from "./resources/registration_tokens";
+import registrationToken from "./resources/registration-tokens";
 import reports from "./resources/reports";
-import scheduledTasks from "./resources/scheduled_tasks";
-import roomDirectory from "./resources/room_directory";
+import scheduledTasks from "./resources/scheduled-tasks";
+import roomDirectory from "./resources/room-directory";
 import rooms from "./resources/rooms";
-import userMediaStats from "./resources/user_media_statistics";
+import userMediaStats from "./resources/statistics/UserMedia";
 import users from "./resources/users";
 import {
   masCompatSessions,
@@ -32,10 +32,10 @@ import {
   masUpstreamOAuthLinks,
   masUpstreamOAuthProviders,
   masUserSessions,
-} from "./resources/mas_sessions";
-import authProvider from "./providers/authProvider";
-import dataProvider from "./providers/dataProvider";
-import { isMAS } from "./providers/mas";
+} from "./resources/mas";
+import authProvider from "./providers/auth";
+import dataProvider from "./providers/data";
+import { isMAS } from "./providers/data/mas";
 import { lightTheme, darkTheme } from "./assets/theme";
 
 const Route = reactRouterProvider.Route;

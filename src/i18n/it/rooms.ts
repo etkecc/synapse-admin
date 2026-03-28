@@ -1,0 +1,163 @@
+const rooms = {
+  name: "Stanza |||| Stanze",
+  fields: {
+    room_id: "ID della stanza",
+    name: "Nome",
+    canonical_alias: "Alias",
+    joined_members: "Membri",
+    joined_local_members: "Membri locali",
+    joined_local_devices: "Dispositivi locali",
+    state_events: "Eventi di stato / Complessità",
+    version: "Versione",
+    is_encrypted: "Criptato",
+    encryption: "Crittografia",
+    federatable: "Federabile",
+    public: "Visibile nella cartella della stanza",
+    creator: "Creatore",
+    join_rules: "Regole per entrare",
+    guest_access: "Entra come ospite",
+    history_visibility: "Visibilità temporale",
+    topic: "Topic",
+    avatar: "Avatar",
+    actions: "Azioni",
+  },
+  filter: {
+    public_rooms: "Stanze pubbliche",
+    empty_rooms: "Stanze vuote",
+  },
+  helper: {
+    forward_extremities:
+      "Le estremità forward sono gli eventi foglia alla fine di un grafo diretto aciclico (DAG) in una stanza, cioè eventi senza figli. Più ce ne sono, più Synapse deve risolvere lo stato (operazione costosa). Anche se Synapse evita che ce ne siano troppi, a volte dei bug li fanno ricomparire. Se una stanza ha >10 forward extremities, vale la pena identificare la stanza problematica e rimuoverli con le query SQL citate in #1760.",
+  },
+  enums: {
+    join_rules: {
+      public: "Pubblica",
+      knock: "Bussa",
+      invite: "Invita",
+      private: "Privata",
+    },
+    guest_access: {
+      can_join: "Gli utenti ospiti possono entrare",
+      forbidden: "Gli utenti ospiti non possono entrare",
+    },
+    history_visibility: {
+      invited: "Dall'invito",
+      joined: "Dall'entrata",
+      shared: "Dalla condivisione",
+      world_readable: "Chiunque",
+    },
+    unencrypted: "Non criptata",
+  },
+  action: {
+    erase: {
+      title: "Cancella stanza",
+      content:
+        "Sei sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
+      fields: {
+        block: "Blocca e impedisci agli utenti di entrare nella stanza",
+      },
+      in_progress: "Eliminazione in corso…",
+      background_note: "Puoi chiudere questa finestra, l'eliminazione continuerà in background.",
+      success: "Stanza/e eliminata/e con successo.",
+      failure: "Impossibile eliminare la stanza/le stanze.",
+    },
+    make_admin: {
+      assign_admin: "Assegna un amministratore",
+      title: "Assegna un amministratore alla stanza %{roomName}",
+      confirm: "Assegna un amministratore",
+      content:
+        "Inserisci la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
+      success: "L'utente è stato designato come amministratore della stanza.",
+      failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
+    },
+    join: {
+      label: "Unisci utente",
+      title: "Unisci un utente a %{roomName}",
+      confirm: "Unisci",
+      content:
+        "Inserisci la MXID completa dell'utente da unire a questa stanza.\nNota: devi essere nella stanza e avere il permesso di invitare utenti.",
+      success: "L'utente è stato unito alla stanza con successo.",
+      failure: "Impossibile unire l'utente alla stanza. %{errMsg}",
+    },
+    block: {
+      label: "Blocca",
+      title: "Blocca %{room}",
+      title_bulk: "Blocca %{smart_count} stanza |||| Blocca %{smart_count} stanze",
+      title_by_id: "Blocca una stanza",
+      content: "Gli utenti non potranno unirsi a questa stanza.",
+      content_bulk:
+        "Gli utenti non potranno unirsi a %{smart_count} stanza. |||| Gli utenti non potranno unirsi a %{smart_count} stanze.",
+      success: "Stanza bloccata con successo. |||| Stanze bloccate con successo.",
+      failure: "Impossibile bloccare la stanza. |||| Impossibile bloccare le stanze.",
+    },
+    unblock: {
+      label: "Sblocca",
+      success: "Stanza sbloccata con successo. |||| Stanze sbloccate con successo.",
+      failure: "Impossibile sbloccare la stanza. |||| Impossibile sbloccare le stanze.",
+    },
+    purge_history: {
+      label: "Elimina cronologia",
+      title: "Elimina cronologia di %{roomName}",
+      content:
+        "Tutti gli eventi prima della data selezionata verranno eliminati dal database. Lo stato della stanza (ingressi, uscite, argomento) viene sempre preservato. Almeno un messaggio viene sempre mantenuto.\nNota: questa operazione potrebbe richiedere diversi minuti per stanze grandi.",
+      date_label: "Elimina eventi prima di",
+      delete_local: "Elimina anche gli eventi inviati dagli utenti locali",
+      in_progress: "Eliminazione in corso…",
+      background_note: "Puoi chiudere questa finestra in sicurezza, l'eliminazione continuerà in background.",
+      success: "Cronologia della stanza eliminata con successo.",
+      failure: "Impossibile eliminare la cronologia della stanza. %{errMsg}",
+    },
+    quarantine_all: {
+      label: "Metti in quarantena tutti i media",
+      title: "Metti in quarantena tutti i media in %{roomName}",
+      content:
+        "Tutti i media locali e remoti in questa stanza verranno messi in quarantena. I media in quarantena non saranno più accessibili agli utenti.",
+      success:
+        "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
+      failure: "Impossibile mettere in quarantena i media. %{errMsg}",
+    },
+    event_context: {
+      jump_to_date: "Vai alla data",
+      direction: "Direzione",
+      forward: "Avanti",
+      backward: "Indietro",
+      target_event: "Evento di destinazione",
+      events_before: "Eventi precedenti",
+      events_after: "Eventi successivi",
+      not_found: "Nessun evento trovato all'ora specificata",
+      failure: "Impossibile recuperare il contesto dell'evento",
+    },
+    messages: {
+      load_older: "Carica precedenti",
+      load_newer: "Carica successivi",
+      no_messages: "Nessun messaggio in questa stanza",
+      failure: "Impossibile caricare i messaggi",
+      filter: "Filtri",
+      filter_type: "Tipi di evento",
+      filter_sender: "Mittenti",
+      advanced_filters: "Filtri avanzati",
+      filter_not_type: "Escludi tipi di evento",
+      filter_not_sender: "Escludi mittenti",
+      contains_url: "Contiene URL",
+      any: "Qualsiasi",
+      with_url: "Solo con URL",
+      without_url: "Solo senza URL",
+      apply_filter: "Applica",
+      clear_filters: "Cancella",
+    },
+    hierarchy: {
+      load_more: "Carica altro",
+      max_depth: "Profondità massima",
+      unlimited: "Illimitata",
+      refresh: "Aggiorna",
+      members: "%{count} membri",
+      space: "Spazio",
+      room: "Stanza",
+      suggested: "Consigliata",
+      no_children: "Questa stanza non ha una gerarchia",
+      failure: "Impossibile caricare la gerarchia",
+    },
+  },
+};
+
+export default rooms;

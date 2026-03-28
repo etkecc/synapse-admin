@@ -1,0 +1,163 @@
+const rooms = {
+  name: "Room |||| Rooms",
+  fields: {
+    room_id: "Room-ID",
+    name: "Name",
+    canonical_alias: "Alias",
+    joined_members: "Members",
+    joined_local_members: "Local members",
+    joined_local_devices: "Local devices",
+    state_events: "State events / Complexity",
+    version: "Version",
+    is_encrypted: "Encrypted",
+    encryption: "Encryption",
+    federatable: "Federatable",
+    public: "Visible in room directory",
+    creator: "Creator",
+    join_rules: "Join rules",
+    guest_access: "Guest access",
+    history_visibility: "History visibility",
+    topic: "Topic",
+    avatar: "Avatar",
+    actions: "Actions",
+  },
+  filter: {
+    public_rooms: "Public rooms",
+    empty_rooms: "Empty rooms",
+  },
+  helper: {
+    forward_extremities:
+      "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
+  },
+  enums: {
+    join_rules: {
+      public: "Public",
+      knock: "Knock",
+      invite: "Invite",
+      private: "Private",
+    },
+    guest_access: {
+      can_join: "Guests can join",
+      forbidden: "Guests can not join",
+    },
+    history_visibility: {
+      invited: "Since invited",
+      joined: "Since joined",
+      shared: "Since shared",
+      world_readable: "Anyone",
+    },
+    unencrypted: "Unencrypted",
+  },
+  action: {
+    erase: {
+      title: "Delete room",
+      content:
+        "Are you sure you want to delete the room? This cannot be undone. All messages and shared media in the room will be deleted from the server!",
+      fields: {
+        block: "Block and prevent users from joining the room",
+      },
+      in_progress: "Deletion in progress…",
+      background_note: "You can safely close this window, the deletion will continue in the background.",
+      success: "Room/s successfully deleted.",
+      failure: "The room/s could not be deleted.",
+    },
+    make_admin: {
+      assign_admin: "Assign admin",
+      title: "Assign a room admin to %{roomName}",
+      confirm: "Make admin",
+      content:
+        "Put the full MXID of the user which will be set as admin.\nWarning: for this to work, the room needs to have at least one local member as admin.",
+      success: "The user has been set as room admin.",
+      failure: "The user could not be set as room admin. %{errMsg}",
+    },
+    join: {
+      label: "Join user",
+      title: "Join user to %{roomName}",
+      confirm: "Join",
+      content:
+        "Put the full MXID of the user to join to this room.\nNote: you must be in the room and have permission to invite users.",
+      success: "User joined to the room successfully.",
+      failure: "Failed to join user to the room. %{errMsg}",
+    },
+    block: {
+      label: "Block",
+      title: "Block %{room}",
+      title_bulk: "Block %{smart_count} room |||| Block %{smart_count} rooms",
+      title_by_id: "Block a room",
+      content: "Users will be prevented from joining this room.",
+      content_bulk:
+        "Users will be prevented from joining %{smart_count} room. |||| Users will be prevented from joining %{smart_count} rooms.",
+      success: "Room blocked successfully. |||| Rooms blocked successfully.",
+      failure: "Failed to block room. |||| Failed to block rooms.",
+    },
+    unblock: {
+      label: "Unblock",
+      success: "Room unblocked successfully. |||| Rooms unblocked successfully.",
+      failure: "Failed to unblock room. |||| Failed to unblock rooms.",
+    },
+    purge_history: {
+      label: "Purge history",
+      title: "Purge history of %{roomName}",
+      content:
+        "All events before the selected date will be deleted from the database. Room state (joins, leaves, topic) is always preserved. At least one message is always retained.\nNote: this operation may take several minutes for large rooms.",
+      date_label: "Purge events before",
+      delete_local: "Also delete events sent by local users",
+      in_progress: "Purge in progress…",
+      background_note: "You can safely close this window, the purge will continue in the background.",
+      success: "Room history purged successfully.",
+      failure: "Failed to purge room history. %{errMsg}",
+    },
+    quarantine_all: {
+      label: "Quarantine all media",
+      title: "Quarantine all media in %{roomName}",
+      content:
+        "This will quarantine ALL local and remote media in this room. Quarantined media will no longer be accessible to users.",
+      success:
+        "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
+      failure: "Failed to quarantine media. %{errMsg}",
+    },
+    event_context: {
+      jump_to_date: "Jump to date",
+      direction: "Direction",
+      forward: "Forward",
+      backward: "Backward",
+      target_event: "Target event",
+      events_before: "Events before",
+      events_after: "Events after",
+      not_found: "No event found at the specified time",
+      failure: "Failed to retrieve event context",
+    },
+    messages: {
+      load_older: "Load older",
+      load_newer: "Load newer",
+      no_messages: "No messages in this room",
+      failure: "Failed to load messages",
+      filter: "Filters",
+      filter_type: "Event types",
+      filter_sender: "Senders",
+      advanced_filters: "Advanced filters",
+      filter_not_type: "Exclude event types",
+      filter_not_sender: "Exclude senders",
+      contains_url: "Contains URL",
+      any: "Any",
+      with_url: "With URL only",
+      without_url: "Without URL only",
+      apply_filter: "Apply",
+      clear_filters: "Clear",
+    },
+    hierarchy: {
+      load_more: "Load more",
+      max_depth: "Max depth",
+      unlimited: "Unlimited",
+      refresh: "Refresh",
+      members: "%{count} members",
+      space: "Space",
+      room: "Room",
+      suggested: "Suggested",
+      no_children: "This room has no hierarchy",
+      failure: "Failed to load hierarchy",
+    },
+  },
+};
+
+export default rooms;

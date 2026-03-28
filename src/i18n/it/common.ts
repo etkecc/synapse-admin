@@ -1,0 +1,496 @@
+import italianMessages from "ra-language-italian";
+
+const { prev: _itPrev, ...itNavigation } = italianMessages.ra.navigation;
+const { password: _itPassword, ...itRaWithoutPassword } = italianMessages.ra;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const common: Record<string, any> = {
+  ...italianMessages,
+  ra: {
+    ...itRaWithoutPassword,
+    navigation: {
+      ...itNavigation,
+      clear_filters: "Rimuovi filtri",
+      current_page: "Pagina %{page}",
+      first: "Prima",
+      last: "Ultima",
+      no_filtered_results: "Nessun risultato",
+      page: "Pagina",
+      partial_page_range_info: "%{offsetBegin}-%{offsetEnd} di %{total}",
+      previous: "Precedente",
+    },
+    action: {
+      ...itRaWithoutPassword.action,
+      clear_array_input: "Svuota elenco",
+      create_item: "Crea elemento",
+      move_down: "Sposta giù",
+      move_up: "Sposta su",
+      open: "Apri",
+      remove_all_filters: "Rimuovi tutti i filtri",
+      reset: "Reimposta",
+      search_columns: "Cerca colonne",
+      select_all: "Seleziona tutto",
+      select_all_button: "Seleziona tutti",
+      select_columns: "Seleziona colonne",
+      select_row: "Seleziona riga",
+      toggle_theme: "Cambia tema",
+      update: "Aggiorna",
+      update_application: "Aggiorna applicazione",
+    },
+    auth: {
+      ...itRaWithoutPassword.auth,
+      email: "Email",
+    },
+    guesser: {
+      empty: {
+        title: "Nessun dato da visualizzare",
+        message: "Controlla il provider dei dati",
+      },
+    },
+    configurable: {
+      ...itRaWithoutPassword.configurable,
+      Datagrid: {
+        ...itRaWithoutPassword.configurable?.Datagrid,
+        title: "Personalizza tabella",
+        unlabeled: "Senza etichetta",
+      },
+      SimpleForm: {
+        ...itRaWithoutPassword.configurable?.SimpleForm,
+        title: "Personalizza modulo",
+        unlabeled: "Senza etichetta",
+      },
+      SimpleList: {
+        ...itRaWithoutPassword.configurable?.SimpleList,
+        primaryText: "Testo principale",
+        secondaryText: "Testo secondario",
+        tertiaryText: "Testo terziario",
+        title: "Personalizza elenco",
+      },
+      configureMode: "Modalità configurazione",
+      customize: "Personalizza",
+      inspector: {
+        ...itRaWithoutPassword.configurable?.inspector,
+        content: "Personalizza la tua vista",
+        hideAll: "Nascondi tutto",
+        reset: "Ripristina",
+        showAll: "Mostra tutto",
+        title: "Ispettore",
+      },
+    },
+    input: {
+      ...itRaWithoutPassword.input,
+      password: {
+        ...itRaWithoutPassword.input?.password,
+        toggle_hidden: "Nascondi password",
+        toggle_visible: "Mostra password",
+      },
+    },
+    message: {
+      ...itRaWithoutPassword.message,
+      access_denied: "Accesso negato",
+      auth_error: "Errore di autenticazione",
+      authentication_error:
+        "Il server di autenticazione ha restituito un errore e non è stato possibile verificare le credenziali.",
+      bulk_update_content: "Vuoi aggiornare %{smart_count} elementi? |||| Vuoi aggiornare %{smart_count} elementi?",
+      bulk_update_title: "Aggiornare %{smart_count} elementi? |||| Aggiornare %{smart_count} elementi?",
+      clear_array_input: "Svuota l'elenco",
+      placeholder_data_warning: "Problema di rete: aggiornamento dei dati non riuscito.",
+      select_all_limit_reached: "Troppi elementi da selezionare. Sono stati selezionati solo i primi %{max}.",
+    },
+    notification: {
+      ...itRaWithoutPassword.notification,
+      application_update_available: "È disponibile un aggiornamento dell'applicazione.",
+      not_authorized: "Non autorizzato",
+      offline: "Offline. Impossibile recuperare i dati.",
+    },
+    page: {
+      ...itRaWithoutPassword.page,
+      access_denied: "Accesso negato",
+      authentication_error: "Errore di autenticazione",
+    },
+    saved_queries: {
+      ...itRaWithoutPassword.saved_queries,
+      help: "Salva le ricerche per un uso futuro",
+      label: "Query salvate",
+      new_dialog_title: "Salvare questa ricerca?",
+      new_label: "Salva questa ricerca",
+      query_name: "Nome della ricerca",
+      remove_dialog_title: "Eliminare la ricerca salvata?",
+      remove_label: "Elimina",
+      remove_label_with_name: 'Elimina "%{name}"',
+      remove_message: "La ricerca salvata verrà eliminata.",
+    },
+    validation: {
+      ...itRaWithoutPassword.validation,
+      unique: "Deve essere unico",
+    },
+  },
+  ketesa: {
+    auth: {
+      base_url: "URL dell'homeserver",
+      welcome: "Benvenuto in %{name}",
+      server_version: "Versione di Synapse",
+      username_error: "Per favore inserisci un ID utente completo: '@utente:dominio'",
+      protocol_error: "L'URL deve iniziare per 'http://' o 'https://'",
+      url_error: "URL del server Matrix non valido",
+      sso_sign_in: "Accedi con SSO",
+      credentials: "Credenziali",
+      access_token: "Token di accesso",
+      supports_specs: "supporta le specifiche Matrix",
+      logout_acces_token_dialog: {
+        title: "Stai utilizzando un token di accesso Matrix esistente.",
+        content:
+          "Vuoi distruggere questa sessione (che potrebbe essere utilizzata altrove, ad esempio in un client Matrix) o semplicemente disconnetterti dal pannello di amministrazione?",
+        confirm: "Distruggi sessione",
+        cancel: "Disconnetti solo dal pannello di amministrazione",
+      },
+    },
+    users: {
+      invalid_user_id: "ID utente non valido su questo homeserver.",
+      tabs: {
+        sso: "SSO",
+        experimental: "Sperimentale",
+        limits: "Limiti",
+        account_data: "Dati del profilo",
+        sessions: "Sessions",
+      },
+      danger_zone: "Zona pericolosa",
+    },
+    rooms: {
+      details: "Dettagli della stanza",
+      tabs: {
+        basic: "Semplice",
+        members: "Membro",
+        detail: "Dettagli",
+        permission: "Permessi",
+        media: "Media",
+        messages: "Messaggi",
+        hierarchy: "Gerarchia",
+      },
+    },
+    reports: { tabs: { basic: "Semplice", detail: "Dettagli" } },
+    admin_config: {
+      soft_failed_events: "Eventi con errore non critico",
+      spam_flagged_events: "Eventi contrassegnati come spam",
+      success: "Configurazione amministratore aggiornata",
+      failure: "Aggiornamento della configurazione amministratore non riuscito",
+    },
+  },
+  import_users: {
+    error: {
+      at_entry: "Alla voce %{entry}: %{message}",
+      error: "Errore",
+      required_field: "Il campo '%{field}' non è presente",
+      invalid_value: "Valore non valido alla riga %{row}. '%{field}' Il campo può essere solo 'true' o 'false'",
+      unreasonably_big: "Impossibile caricare un file così grosso (%{size} megabyte)",
+      already_in_progress: "Un import è attualmente già in caricamento",
+      id_exits: "L'ID %{id} è già presente",
+    },
+    title: "Importa utenti tramite file CSV",
+    goToPdf: "Vai al PDF",
+    cards: {
+      importstats: {
+        header: "Utenti analizzati per l'importazione",
+        users_total: "%{smart_count} utente nel file CSV |||| %{smart_count} utenti nel file CSV",
+        guest_count: "%{smart_count} ospite |||| %{smart_count} ospiti",
+        admin_count: "%{smart_count} amministratore |||| %{smart_count} amministratori",
+      },
+      conflicts: {
+        header: "Strategia di conflitto",
+        mode: {
+          stop: "Stoppa al conflitto",
+          skip: "Mostra l'errore e ignora il conflitto",
+        },
+      },
+      ids: {
+        header: "ID",
+        all_ids_present: "ID presenti in ogni voce",
+        count_ids_present: "%{smart_count} voce con ID |||| %{smart_count} voci con ID",
+        mode: {
+          ignore: "Ignora gli ID nel file CSV e creane di nuovi",
+          update: "Aggiorna le voci esistenti",
+        },
+      },
+      passwords: {
+        header: "Passwords",
+        all_passwords_present: "Password presenti in ogni voce",
+        count_passwords_present: "%{smart_count} voce con password |||| %{smart_count} voci con password",
+        use_passwords: "Usa le password dal file CSV",
+      },
+      upload: {
+        header: "Input file CSV",
+        explanation:
+          "Qui puoi caricare un file con valori separati da virgole che verrà poi utilizzato per creare o aggiornare gli utenti. Il file deve includere i campi 'id' and 'displayname'. Puoi scaricare un file di esempio per adattarlo: ",
+      },
+      startImport: {
+        simulate_only: "Solo simulazione",
+        run_import: "Importa",
+      },
+      results: {
+        header: "Importa i risultati",
+        total: "%{smart_count} voce in totale |||| %{smart_count} voci in totale",
+        successful: "%{smart_count} voci importate con successo",
+        skipped: "%{smart_count} voci ignorate",
+        download_skipped: "Scarica le voci ignorate",
+        with_error: "%{smart_count} voce con errori ||| %{smart_count} voci con errori",
+        simulated_only: "Il processo era stato solamente simulato",
+      },
+    },
+  },
+  delete_media: {
+    name: "Media",
+    fields: {
+      before_ts: "ultimo accesso effettuato prima",
+      size_gt: "Più grande di (in byte)",
+      keep_profiles: "Mantieni le immagini del profilo",
+    },
+    action: {
+      send: "Cancella media",
+      send_success:
+        "%{smart_count} file multimediale eliminato con successo. |||| %{smart_count} file multimediali eliminati con successo.",
+      send_success_none: "Nessun file multimediale corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
+      send_failure: "C'è stato un errore.",
+    },
+    helper: {
+      send: "Questa API cancella i media locali dal disco del tuo server. Questo include anche ogni miniatura e copia del media scaricato. Questa API non inciderà sui media che sono stati caricati nei repository esterni.",
+    },
+  },
+  purge_remote_media: {
+    name: "Media Remoti",
+    fields: {
+      before_ts: "ultimo accesso prima di",
+    },
+    action: {
+      send: "Elimina media remoti",
+      send_success:
+        "%{smart_count} file multimediale remoto eliminato con successo. |||| %{smart_count} file multimediali remoti eliminati con successo.",
+      send_success_none:
+        "Nessun file multimediale remoto corrispondeva ai criteri specificati. Non è stato eliminato nulla.",
+      send_failure: "Si è verificato un errore con la richiesta di eliminazione dei media remoti.",
+    },
+    helper: {
+      send: "Questa API elimina la cache dei media remoti dal disco del tuo server. Questo include qualsiasi miniatura locale e copie di media scaricati. Questa API non influirà sui media che sono stati caricati nel repository multimediale del server.",
+    },
+  },
+  etkecc: {
+    billing: {
+      name: "Fatturazione",
+      title: "Cronologia pagamenti",
+      no_payments: "Nessun pagamento trovato.",
+      no_payments_helper: "Se ritieni che si tratti di un errore, contatta l’assistenza etke.cc a",
+      description1:
+        "Da qui puoi visualizzare i pagamenti e generare le fatture. Puoi saperne di più sulla gestione degli abbonamenti su",
+      description2:
+        "Se desideri modificare l’email di fatturazione o aggiungere i dati aziendali, contatta l’assistenza etke.cc a",
+      fields: {
+        transaction_id: "ID transazione",
+        email: "Email",
+        type: "Tipo",
+        amount: "Importo",
+        paid_at: "Pagato il",
+        invoice: "Fattura",
+      },
+      enums: {
+        type: {
+          subscription: "Abbonamento",
+          one_time: "Una tantum",
+        },
+      },
+      helper: {
+        download_invoice: "Scarica fattura",
+        downloading: "Download in corso...",
+        download_started: "Il download della fattura è iniziato.",
+        invoice_not_available: "In sospeso",
+        loading: "Caricamento delle informazioni di fatturazione...",
+        loading_failed1: "Si è verificato un problema durante il caricamento delle informazioni di fatturazione.",
+        loading_failed2: "Riprova più tardi.",
+        loading_failed3: "Se il problema persiste, contatta l’assistenza etke.cc a",
+        loading_failed4: "con il seguente messaggio di errore:",
+      },
+    },
+    status: {
+      name: "Stato del server",
+      badge: {
+        default: "Clicca per visualizzare lo stato del server",
+        running: "In esecuzione: %{command}. %{text}",
+      },
+      category: {
+        "Host Metrics": "Metriche host",
+        Network: "Rete",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "Stato",
+      error: "Errore",
+      loading: "Recupero dello stato di salute del server in tempo reale... Un attimo!",
+      intro1: "Questo è un report di monitoraggio in tempo reale del tuo server. Puoi saperne di più su",
+      intro2: "Se uno dei controlli qui sotto ti preoccupa, consulta le azioni suggerite su",
+      help: "Aiuto",
+    },
+    maintenance: {
+      title: "Il sistema è attualmente in modalità manutenzione.",
+      try_again: "Riprova più tardi.",
+      note: "Non è necessario contattare l’assistenza per questo: ci stiamo già lavorando!",
+    },
+    actions: {
+      name: "Comandi del server",
+      available_title: "Comandi disponibili",
+      available_description: "I seguenti comandi possono essere eseguiti.",
+      available_help_intro: "Ulteriori dettagli su ciascuno sono disponibili su",
+      scheduled_title: "Comandi programmati",
+      scheduled_description:
+        "I seguenti comandi sono programmati per essere eseguiti in orari specifici. Puoi visualizzare i dettagli e modificarli se necessario.",
+      recurring_title: "Comandi ricorrenti",
+      recurring_description:
+        "I seguenti comandi sono impostati per essere eseguiti settimanalmente in un giorno e un orario specifici. Puoi visualizzare i dettagli e modificarli se necessario.",
+      scheduled_help_intro: "Ulteriori dettagli su questa modalità sono disponibili su",
+      recurring_help_intro: "Ulteriori dettagli su questa modalità sono disponibili su",
+      maintenance_title: "Il sistema è attualmente in modalità manutenzione.",
+      maintenance_try_again: "Riprova più tardi.",
+      maintenance_note: "Non è necessario contattare l’assistenza per questo: ci stiamo già lavorando!",
+      maintenance_commands_blocked: "I comandi non possono essere eseguiti finché la modalità manutenzione è attiva.",
+      table: {
+        command: "Comando",
+        description: "Descrizione",
+        arguments: "Argomenti",
+        is_recurring: "Ricorrente?",
+        run_at: "Esegui (ora locale)",
+        next_run_at: "Prossima esecuzione (ora locale)",
+        time_utc: "Ora (UTC)",
+        time_local: "Ora (locale)",
+      },
+      buttons: {
+        create: "Crea",
+        update: "Aggiorna",
+        back: "Indietro",
+        delete: "Elimina",
+        run: "Esegui",
+      },
+      command_scheduled: "Comando programmato: %{command}",
+      command_scheduled_args: "con argomenti aggiuntivi: %{args}",
+      expect_prefix: "Il risultato sarà disponibile nella pagina",
+      expect_suffix: "a breve.",
+      notifications_link: "Notifiche",
+      command_help_title: "Guida %{command}",
+      scheduled_title_create: "Crea comando programmato",
+      scheduled_title_edit: "Modifica comando programmato",
+      recurring_title_create: "Crea comando ricorrente",
+      recurring_title_edit: "Modifica comando ricorrente",
+      scheduled_details_title: "Dettagli comando programmato",
+      recurring_warning:
+        "I comandi programmati creati da uno ricorrente non sono modificabili perché verranno rigenerati automaticamente. Modifica invece il comando ricorrente.",
+      command_details_intro: "Ulteriori dettagli sul comando sono disponibili su",
+      form: {
+        id: "ID",
+        command: "Comando",
+        scheduled_at: "Programmato per",
+        day_of_week: "Giorno della settimana",
+      },
+      delete_scheduled_title: "Elimina comando programmato",
+      delete_recurring_title: "Elimina comando ricorrente",
+      delete_confirm: "Sei sicuro di voler eliminare il comando: %{command}?",
+      errors: {
+        unknown: "Si è verificato un errore sconosciuto",
+        delete_failed: "Errore: %{error}",
+      },
+      days: {
+        monday: "Lunedì",
+        tuesday: "Martedì",
+        wednesday: "Mercoledì",
+        thursday: "Giovedì",
+        friday: "Venerdì",
+        saturday: "Sabato",
+        sunday: "Domenica",
+      },
+      scheduled: {
+        action: {
+          create_success: "Comando programmato creato con successo",
+          update_success: "Comando programmato aggiornato con successo",
+          update_failure: "Si è verificato un errore",
+          delete_success: "Comando programmato eliminato con successo",
+          delete_failure: "Si è verificato un errore",
+        },
+      },
+      recurring: {
+        action: {
+          create_success: "Comando ricorrente creato con successo",
+          update_success: "Comando ricorrente aggiornato con successo",
+          update_failure: "Si è verificato un errore",
+          delete_success: "Comando ricorrente eliminato con successo",
+          delete_failure: "Si è verificato un errore",
+        },
+      },
+    },
+    notifications: {
+      title: "Notifiche",
+      new_notifications: "%{smart_count} nuova notifica |||| %{smart_count} nuove notifiche",
+      no_notifications: "Nessuna notifica per ora",
+      see_all: "Vedi tutte le notifiche",
+      clear_all: "Cancella tutto",
+      ago: "fa",
+    },
+    currently_running: {
+      command: "Attualmente in esecuzione:",
+      started_ago: "(avviato %{time} fa)",
+    },
+    time: {
+      less_than_minute: "qualche secondo",
+      minutes: "%{smart_count} minuto |||| %{smart_count} minuti",
+      hours: "%{smart_count} ora |||| %{smart_count} ore",
+      days: "%{smart_count} giorno |||| %{smart_count} giorni",
+      weeks: "%{smart_count} settimana |||| %{smart_count} settimane",
+      months: "%{smart_count} mese |||| %{smart_count} mesi",
+    },
+    support: {
+      name: "Supporto",
+      menu_label: "Contatta l'assistenza",
+      description:
+        "Apri una richiesta di supporto o segui una esistente. Il nostro team risponderà il prima possibile.",
+      create_title: "Nuova richiesta di supporto",
+      no_requests: "Nessuna richiesta di supporto ancora.",
+      no_messages: "Nessun messaggio ancora.",
+      closed_message: "Questa richiesta è chiusa. Se hai ancora un problema, aprine una nuova.",
+      fields: {
+        subject: "Oggetto",
+        message: "Messaggio",
+        reply: "Risposta",
+        status: "Stato",
+        created_at: "Creato",
+        updated_at: "Ultimo aggiornamento",
+      },
+      status: {
+        active: "In attesa dell'operatore",
+        open: "Aperto",
+        closed: "Chiuso",
+        pending: "In attesa di una tua risposta",
+      },
+      buttons: {
+        new_request: "Nuova richiesta",
+        submit: "Invia",
+        cancel: "Annulla",
+        send: "Invia",
+        back: "Torna al supporto",
+      },
+      helper: {
+        loading: "Caricamento delle richieste di supporto...",
+        reply_hint: "Ctrl+Invio per inviare",
+        reply_placeholder: "Includi quanti più dettagli possibili.",
+        before_contact_title: "Prima di contattarci",
+        help_pages_prompt: "Per favore, consulta prima le nostre pagine di aiuto:",
+        services_prompt: "Forniamo solo i servizi elencati nella pagina dei Servizi:",
+        topics_prompt: "Possiamo aiutarti solo con gli argomenti supportati:",
+        scope_confirm_label:
+          "Ho consultato le pagine di aiuto e confermo che questa richiesta riguarda gli argomenti supportati.",
+        english_only_notice: "Il supporto è disponibile solo in inglese.",
+        response_time_prompt: "Risposta entro 48 ore. Hai bisogno di tempi di risposta più rapidi? Vedi:",
+      },
+      actions: {
+        create_success: "Richiesta di supporto creata con successo.",
+        create_failure: "Impossibile creare la richiesta di supporto.",
+        send_failure: "Impossibile inviare il messaggio.",
+      },
+    },
+  },
+};
+
+export default common;

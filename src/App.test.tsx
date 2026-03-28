@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 fetchMock.enableMocks();
 
-jest.mock("./providers/authProvider", () => ({
+jest.mock("./providers/auth", () => ({
   __esModule: true,
   default: {
     logout: jest.fn().mockResolvedValue(undefined),

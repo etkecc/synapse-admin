@@ -17,10 +17,10 @@
 
 ---
 
-![Login](./screenshots/login.webp)
-![Users List](./screenshots/users-list.webp)
+![Login](./docs/screenshots/login.webp)
+![Users List](./docs/screenshots/users-list.webp)
 
-[View all screenshots](./screenshots/README.md)
+[View all screenshots](./docs/screenshots/README.md)
 
 ## About
 
@@ -251,7 +251,7 @@ You have three options:
 
 #### Steps for 3)
 
-- run the Docker container from the public docker registry: `docker run -p 8080:8080 ghcr.io/etkecc/ketesa` or use the [docker-compose.yml](docker-compose.yml): `docker-compose up -d`
+- run the Docker container from the public docker registry: `docker run -p 8080:8080 ghcr.io/etkecc/ketesa` or use the [docker-compose.yml](docker/docker-compose.yml): `docker-compose up -d`
 
   > note: if you're building on an architecture other than amd64 (for example a raspberry pi), make sure to define a maximum ram for node. otherwise the build will fail.
 
@@ -264,7 +264,7 @@ You have three options:
       hostname: ketesa
       build:
         context: https://github.com/etkecc/ketesa.git
-        dockerfile: Dockerfile.build
+        dockerfile: docker/Dockerfile.build
         args:
           - BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
         #   - NODE_OPTIONS="--max_old_space_size=1024"

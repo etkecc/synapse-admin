@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { getServerVersion } from "./synapse";
-import { getMASVersion, isMAS } from "./mas";
+import { getServerVersion } from "./data/synapse";
+import { getMASVersion, isMAS } from "./data/mas";
 
 interface ServerVersions {
   synapse: string;

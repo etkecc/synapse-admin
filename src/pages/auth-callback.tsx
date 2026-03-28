@@ -2,7 +2,7 @@ import { Loading } from "react-admin";
 import { createRoot } from "react-dom/client";
 import React from "react";
 
-import authProvider from "../providers/authProvider";
+import authProvider from "../providers/auth";
 import { FetchConfig, GetConfig } from "../utils/config";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 

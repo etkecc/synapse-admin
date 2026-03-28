@@ -13,7 +13,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 
 export default [
   {
-    ignores: ["coverage/", "dist/", "testdata/", "src/assets/webfonts/**"],
+    ignores: ["coverage/", "dist/", "docs/testdata/", "src/assets/webfonts/**"],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended.map(config => ({

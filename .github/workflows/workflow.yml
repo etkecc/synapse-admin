@@ -95,6 +95,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: .
           push: true
+          file: docker/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
@@ -142,7 +143,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           context: .
           push: true
-          file: Dockerfile.subpath-admin
+          file: docker/Dockerfile.subpath-admin
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |

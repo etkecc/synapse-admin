@@ -85,7 +85,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["Dockerfile"]
+path = ["docker/Dockerfile"]
 SPDX-FileCopyrightText = [
   "2019-2024 Manuel Stahl",
   "2021 Aaron Raimist",
@@ -98,7 +98,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["Dockerfile.build"]
+path = ["docker/Dockerfile.build"]
 SPDX-FileCopyrightText = [
   "2025-2026 Nikita Chernyi <https://etke.cc>",
 ]
@@ -132,7 +132,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["docker-compose-dev.yml"]
+path = ["docker/docker-compose-dev.yml"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -140,7 +140,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["docker-compose.yml"]
+path = ["docker/docker-compose.yml"]
 SPDX-FileCopyrightText = [
   "2021 Lukas Wolfsteiner",
   "2023 Dirk Klimpel",
@@ -315,63 +315,63 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/billing/page.webp"]
+path = ["docs/screenshots/etke.cc/billing/page.webp"]
 SPDX-FileCopyrightText = [
   "2025 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-actions/page.webp"]
+path = ["docs/screenshots/etke.cc/server-actions/page.webp"]
 SPDX-FileCopyrightText = [
   "2025 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-commands/panel.webp"]
+path = ["docs/screenshots/etke.cc/server-commands/panel.webp"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-notifications/badge.webp"]
+path = ["docs/screenshots/etke.cc/server-notifications/badge.webp"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-notifications/page.webp"]
+path = ["docs/screenshots/etke.cc/server-notifications/page.webp"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-status/indicator-sidebar.webp"]
+path = ["docs/screenshots/etke.cc/server-status/indicator-sidebar.webp"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-status/indicator.webp"]
+path = ["docs/screenshots/etke.cc/server-status/indicator.webp"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/server-status/page.webp"]
+path = ["docs/screenshots/etke.cc/server-status/page.webp"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/etke.cc/support/page.webp"]
+path = ["docs/screenshots/etke.cc/support/page.webp"]
 SPDX-FileCopyrightText = [
   "2026 Borislav Pantaleev <https://etke.cc>",
 ]
@@ -412,7 +412,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/AdminLayout.tsx"]
+path = ["src/components/README.md"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
   "2024-2026 Borislav Pantaleev <https://etke.cc>",
@@ -420,7 +420,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/AvatarField.test.tsx"]
+path = ["src/components/layout/AdminLayout.tsx"]
+SPDX-FileCopyrightText = [
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/users/fields/AvatarField.test.tsx"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
   "2024 Manuel Stahl",
@@ -429,7 +437,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/AvatarField.tsx"]
+path = ["src/components/users/fields/AvatarField.tsx"]
 SPDX-FileCopyrightText = [
   "2023 Dirk Klimpel",
   "2024 Manuel Stahl",
@@ -439,7 +447,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/DeleteRoomButton.tsx"]
+path = ["src/components/users/buttons/DeleteRoomButton.tsx"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
   "2024-2026 Nikita Chernyi <https://etke.cc>",
@@ -447,7 +455,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/DeleteUserButton.tsx"]
+path = ["src/components/users/buttons/DeleteUserButton.tsx"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
   "2024-2026 Nikita Chernyi <https://etke.cc>",
@@ -455,7 +463,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/DeviceRemoveButton.tsx"]
+path = ["src/components/users/buttons/DeviceRemoveButton.tsx"]
 SPDX-FileCopyrightText = [
   "2024 Manuel Stahl",
   "2024-2025 Nikita Chernyi <https://etke.cc>",
@@ -464,7 +472,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/ExperimentalFeatures.tsx"]
+path = ["src/components/users/ExperimentalFeatures.tsx"]
 SPDX-FileCopyrightText = [
   "2024-2025 Nikita Chernyi <https://etke.cc>",
   "2024-2026 Borislav Pantaleev <https://etke.cc>",
@@ -472,7 +480,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/Footer.tsx"]
+path = ["src/components/layout/Footer.tsx"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
   "2024-2026 Nikita Chernyi <https://etke.cc>",
@@ -480,7 +488,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/LoginFormBox.tsx"]
+path = ["src/components/layout/LoginFormBox.tsx"]
 SPDX-FileCopyrightText = [
   "2024 Borislav Pantaleev <https://etke.cc>",
   "2024-2025 Nikita Chernyi <https://etke.cc>",
@@ -488,7 +496,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/ServerNotices.tsx"]
+path = ["src/components/users/ServerNotices.tsx"]
 SPDX-FileCopyrightText = [
   "2020-2025 Dirk Klimpel",
   "2020-2024 Manuel Stahl",
@@ -498,7 +506,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/UserAccountData.tsx"]
+path = ["src/components/users/UserAccountData.tsx"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
   "2025-2026 Borislav Pantaleev <https://etke.cc>",
@@ -506,7 +514,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/UserRateLimits.tsx"]
+path = ["src/components/users/UserRateLimits.tsx"]
 SPDX-FileCopyrightText = [
   "2024-2025 Nikita Chernyi <https://etke.cc>",
   "2024-2026 Borislav Pantaleev <https://etke.cc>",
@@ -726,7 +734,62 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/media.tsx"]
+path = ["src/components/media/DeleteMediaButton.tsx"]
+SPDX-FileCopyrightText = [
+  "2021-2025 Dirk Klimpel",
+  "2024 Alexander Tumin",
+  "2024 Borislav Pantaleev <https://etke.cc>",
+  "2024 Manuel Stahl",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/media/index.ts"]
+SPDX-FileCopyrightText = [
+  "2021-2025 Dirk Klimpel",
+  "2024 Alexander Tumin",
+  "2024 Borislav Pantaleev <https://etke.cc>",
+  "2024 Manuel Stahl",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/media/ProtectMediaButton.tsx"]
+SPDX-FileCopyrightText = [
+  "2021-2025 Dirk Klimpel",
+  "2024 Alexander Tumin",
+  "2024 Borislav Pantaleev <https://etke.cc>",
+  "2024 Manuel Stahl",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/media/PurgeRemoteMediaButton.tsx"]
+SPDX-FileCopyrightText = [
+  "2021-2025 Dirk Klimpel",
+  "2024 Alexander Tumin",
+  "2024 Borislav Pantaleev <https://etke.cc>",
+  "2024 Manuel Stahl",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/media/QuarantineMediaButton.tsx"]
+SPDX-FileCopyrightText = [
+  "2021-2025 Dirk Klimpel",
+  "2024 Alexander Tumin",
+  "2024 Borislav Pantaleev <https://etke.cc>",
+  "2024 Manuel Stahl",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/media/ViewMedia.tsx"]
 SPDX-FileCopyrightText = [
   "2021-2025 Dirk Klimpel",
   "2024 Alexander Tumin",
@@ -825,7 +888,23 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/de.ts"]
+path = ["src/i18n/README.md"]
+SPDX-FileCopyrightText = [
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [
+  "src/i18n/de/common.ts",
+  "src/i18n/de/index.ts",
+  "src/i18n/de/mas.ts",
+  "src/i18n/de/misc_resources.ts",
+  "src/i18n/de/reports.ts",
+  "src/i18n/de/rooms.ts",
+  "src/i18n/de/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2020-2025 Dirk Klimpel",
   "2020-2024 Manuel Stahl",
@@ -841,7 +920,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/en.ts"]
+path = [
+  "src/i18n/en/common.ts",
+  "src/i18n/en/index.ts",
+  "src/i18n/en/mas.ts",
+  "src/i18n/en/misc_resources.ts",
+  "src/i18n/en/reports.ts",
+  "src/i18n/en/rooms.ts",
+  "src/i18n/en/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2020-2024 Dirk Klimpel",
   "2020-2024 Manuel Stahl",
@@ -861,7 +948,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/fa.ts"]
+path = [
+  "src/i18n/fa/common.ts",
+  "src/i18n/fa/index.ts",
+  "src/i18n/fa/mas.ts",
+  "src/i18n/fa/misc_resources.ts",
+  "src/i18n/fa/reports.ts",
+  "src/i18n/fa/rooms.ts",
+  "src/i18n/fa/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2024 Fateme Shamohammadi",
   "2024 Manuel Stahl",
@@ -871,7 +966,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/fr.ts"]
+path = [
+  "src/i18n/fr/common.ts",
+  "src/i18n/fr/index.ts",
+  "src/i18n/fr/mas.ts",
+  "src/i18n/fr/misc_resources.ts",
+  "src/i18n/fr/reports.ts",
+  "src/i18n/fr/rooms.ts",
+  "src/i18n/fr/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2023 Charlie Calendre",
   "2023 Michael Albert",
@@ -890,7 +993,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/it.ts"]
+path = [
+  "src/i18n/it/common.ts",
+  "src/i18n/it/index.ts",
+  "src/i18n/it/mas.ts",
+  "src/i18n/it/misc_resources.ts",
+  "src/i18n/it/reports.ts",
+  "src/i18n/it/rooms.ts",
+  "src/i18n/it/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2023 Francesco Carmelo Capria",
   "2024 Dirk Klimpel",
@@ -901,7 +1012,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/ja.ts"]
+path = [
+  "src/i18n/ja/common.ts",
+  "src/i18n/ja/index.ts",
+  "src/i18n/ja/mas.ts",
+  "src/i18n/ja/misc_resources.ts",
+  "src/i18n/ja/reports.ts",
+  "src/i18n/ja/rooms.ts",
+  "src/i18n/ja/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2025 Suguru Hirahara <https://etke.cc>",
   "2025-2026 Nikita Chernyi <https://etke.cc>",
@@ -910,7 +1029,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/ru.ts"]
+path = [
+  "src/i18n/ru/common.ts",
+  "src/i18n/ru/index.ts",
+  "src/i18n/ru/mas.ts",
+  "src/i18n/ru/misc_resources.ts",
+  "src/i18n/ru/reports.ts",
+  "src/i18n/ru/rooms.ts",
+  "src/i18n/ru/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2024 rkfg",
   "2024-2026 Nikita Chernyi <https://etke.cc>",
@@ -920,7 +1047,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/uk.ts"]
+path = [
+  "src/i18n/uk/common.ts",
+  "src/i18n/uk/index.ts",
+  "src/i18n/uk/mas.ts",
+  "src/i18n/uk/misc_resources.ts",
+  "src/i18n/uk/reports.ts",
+  "src/i18n/uk/rooms.ts",
+  "src/i18n/uk/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2025 khvalera",
   "2025-2026 Nikita Chernyi <https://etke.cc>",
@@ -929,7 +1064,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/i18n/zh.ts"]
+path = [
+  "src/i18n/zh/common.ts",
+  "src/i18n/zh/index.ts",
+  "src/i18n/zh/mas.ts",
+  "src/i18n/zh/misc_resources.ts",
+  "src/i18n/zh/reports.ts",
+  "src/i18n/zh/rooms.ts",
+  "src/i18n/zh/users.ts",
+]
 SPDX-FileCopyrightText = [
   "2021-2025 Dirk Klimpel",
   "2021-2024 Manuel Stahl",
@@ -956,6 +1099,14 @@ SPDX-License-Identifier = "Apache-2.0"
 path = ["src/jest.setup.ts"]
 SPDX-FileCopyrightText = [
   "2024 Manuel Stahl",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resourceMap.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
@@ -988,14 +1139,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/database_room_statistics.tsx"]
+path = ["src/resources/README.md"]
 SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/destinations.tsx"]
+path = ["src/resources/destinations/index.ts", "src/resources/destinations/List.tsx"]
 SPDX-FileCopyrightText = [
   "2023-2024 Dirk Klimpel",
   "2024 Borislav Pantaleev <https://etke.cc>",
@@ -1006,7 +1158,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/registration_tokens.tsx"]
+path = ["src/resources/registration-tokens/Create.tsx", "src/resources/registration-tokens/Edit.tsx", "src/resources/registration-tokens/index.ts", "src/resources/registration-tokens/List.tsx"]
 SPDX-FileCopyrightText = [
   "2022-2024 Dirk Klimpel",
   "2023-2024 sebix",
@@ -1017,7 +1169,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/reports.tsx"]
+path = ["src/resources/reports/index.ts", "src/resources/reports/List.tsx", "src/resources/reports/Show.tsx"]
 SPDX-FileCopyrightText = [
   "2021-2024 Dirk Klimpel",
   "2023 Ezwen",
@@ -1030,7 +1182,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/room_directory.tsx"]
+path = ["src/resources/room-directory/index.tsx"]
 SPDX-FileCopyrightText = [
   "2021 Michael Albert",
   "2021-2025 Dirk Klimpel",
@@ -1041,7 +1193,22 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/rooms.tsx"]
+path = ["src/resources/statistics/DatabaseRooms.tsx", "src/resources/statistics/index.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/rooms/index.ts"]
+SPDX-FileCopyrightText = [
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/rooms/List.tsx"]
 SPDX-FileCopyrightText = [
   "2020-2024 Dirk Klimpel",
   "2020-2024 Manuel Stahl",
@@ -1054,7 +1221,20 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/user_media_statistics.tsx"]
+path = ["src/resources/rooms/Show.tsx"]
+SPDX-FileCopyrightText = [
+  "2020-2024 Dirk Klimpel",
+  "2020-2024 Manuel Stahl",
+  "2020-2021 Michael Albert",
+  "2022 Timo Gurr",
+  "2024 rkfg",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/statistics/UserMedia.tsx"]
 SPDX-FileCopyrightText = [
   "2021-2024 Dirk Klimpel",
   "2024 Borislav Pantaleev <https://etke.cc>",
@@ -1064,7 +1244,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/mas_sessions.tsx"]
+path = ["src/resources/mas/CompatSessions.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Borislav Pantaleev <https://etke.cc>",
   "2026 Nikita Chernyi <https://etke.cc>",
@@ -1072,7 +1252,116 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/users.tsx"]
+path = ["src/resources/mas/index.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/OAuth2Sessions.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/PersonalSessions.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/shared.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/UpstreamOAuthLinks.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/UpstreamOAuthProviders.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/UserEmails.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/mas/UserSessions.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/users/Create.tsx"]
+SPDX-FileCopyrightText = [
+  "2020 Michael Albert",
+  "2020-2025 Dirk Klimpel",
+  "2020-2024 Manuel Stahl",
+  "2023 Przemysław Romanik",
+  "2024 Alexander Tumin",
+  "2024 rkfg",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+  "2025 Huw Carpenter",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/users/Edit.tsx"]
+SPDX-FileCopyrightText = [
+  "2020 Michael Albert",
+  "2020-2025 Dirk Klimpel",
+  "2020-2024 Manuel Stahl",
+  "2023 Przemysław Romanik",
+  "2024 Alexander Tumin",
+  "2024 rkfg",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+  "2025 Huw Carpenter",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/users/index.ts"]
+SPDX-FileCopyrightText = [
+  "2020 Michael Albert",
+  "2020-2025 Dirk Klimpel",
+  "2020-2024 Manuel Stahl",
+  "2023 Przemysław Romanik",
+  "2024 Alexander Tumin",
+  "2024 rkfg",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+  "2025 Huw Carpenter",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/resources/users/List.tsx"]
 SPDX-FileCopyrightText = [
   "2020 Michael Albert",
   "2020-2025 Dirk Klimpel",
@@ -1144,21 +1433,21 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/element/config.json"]
+path = ["docs/testdata/element/config.json"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/element/nginx.conf"]
+path = ["docs/testdata/element/nginx.conf"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/mas/config.yaml"]
+path = ["docs/testdata/mas/config.yaml"]
 SPDX-FileCopyrightText = [
   "2025-2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -1167,35 +1456,35 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/nginx/nginx.conf"]
+path = ["docs/testdata/nginx/nginx.conf"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/postgres.initdb/mas.sql"]
+path = ["docs/testdata/postgres.initdb/mas.sql"]
 SPDX-FileCopyrightText = [
   "2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/synapse/homeserver.yaml"]
+path = ["docs/testdata/synapse/homeserver.yaml"]
 SPDX-FileCopyrightText = [
   "2024-2025 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/synapse/synapse.log.config"]
+path = ["docs/testdata/synapse/synapse.log.config"]
 SPDX-FileCopyrightText = [
   "2024 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["testdata/synapse/synapse.signing.key"]
+path = ["docs/testdata/synapse/synapse.signing.key"]
 SPDX-FileCopyrightText = [
   "2024 Nikita Chernyi <https://etke.cc>",
 ]
@@ -1249,7 +1538,15 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/authProvider.ts"]
+path = ["src/providers/README.md"]
+SPDX-FileCopyrightText = [
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
+  "2024-2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/auth/index.ts"]
 SPDX-FileCopyrightText = [
   "2020 Michael Albert",
   "2020 teutates",
@@ -1263,7 +1560,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/authProvider.test.ts"]
+path = ["src/providers/auth/index.test.ts"]
 SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
   "2024-2026 Borislav Pantaleev <https://etke.cc>",
@@ -1273,7 +1570,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/dataProvider.ts"]
+path = ["src/providers/data/index.ts"]
 SPDX-FileCopyrightText = [
   "2020 Lukas Winkler",
   "2020 Michael Albert",
@@ -1290,7 +1587,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/dataProvider.test.ts"]
+path = ["src/providers/data/index.test.ts"]
 SPDX-FileCopyrightText = [
   "2020-2026 Manuel Stahl",
   "2024-2026 Nikita Chernyi <https://etke.cc>",
@@ -1330,7 +1627,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/etkeProvider.ts"]
+path = ["src/providers/data/etke.ts"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -1338,22 +1635,14 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/httpClients.ts"]
+path = ["src/providers/http.ts"]
 SPDX-FileCopyrightText = [
   "2026 Borislav Pantaleev <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/mas.ts"]
-SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi <https://etke.cc>",
-  "2026 Borislav Pantaleev <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["src/providers/resourceMap.ts"]
+path = ["src/providers/data/mas.ts"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -1368,7 +1657,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/synapse.ts"]
+path = ["src/providers/data/synapse.ts"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -1376,7 +1665,63 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/providers/types.ts"]
+path = ["src/providers/types/common.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/destinations.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/etke.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/index.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/mas.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/reports.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/rooms.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+  "2026 Borislav Pantaleev <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/providers/types/users.ts"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -1408,7 +1753,7 @@ SPDX-FileCopyrightText = "2015 The Work Sans Project Authors (https://github.com
 SPDX-License-Identifier = "OFL-1.1"
 
 [[annotations]]
-path = ["Dockerfile.subpath-admin"]
+path = ["docker/Dockerfile.subpath-admin"]
 SPDX-FileCopyrightText = [
   "2019-2024 Manuel Stahl",
   "2021 Aaron Raimist",
@@ -1436,7 +1781,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["screenshots/README.md"]
+path = ["docs/screenshots/README.md"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
@@ -1459,49 +1804,49 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/AdminClientConfigItems.tsx"]
+path = ["src/components/users/AdminClientConfigItems.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/AllowCrossSigningButton.tsx"]
+path = ["src/components/users/buttons/AllowCrossSigningButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/BlockRoomButton.tsx"]
+path = ["src/components/users/buttons/BlockRoomButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/DeviceCreateButton.tsx"]
+path = ["src/components/users/buttons/DeviceCreateButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/DeviceDisplayNameInput.tsx"]
+path = ["src/components/users/DeviceDisplayNameInput.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/EditableAvatarField.tsx"]
+path = ["src/components/users/fields/EditableAvatarField.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/EmptyState.tsx"]
+path = ["src/components/layout/EmptyState.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -1509,56 +1854,49 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/FindUserButton.tsx"]
+path = ["src/components/users/buttons/FindUserButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/LoginAsUserButton.tsx"]
+path = ["src/components/users/buttons/LoginAsUserButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/PurgeHistoryButton.tsx"]
+path = ["src/components/users/buttons/PurgeHistoryButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/QuarantineAllMediaButton.tsx"]
+path = ["src/components/users/buttons/QuarantineAllMediaButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/RenewAccountValidityButton.tsx"]
+path = ["src/components/users/buttons/RenewAccountValidityButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/ResetPasswordButton.tsx"]
+path = ["src/components/users/buttons/ResetPasswordButton.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/RoomMessages.tsx"]
-SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["src/components/RoomHierarchy.tsx"]
+path = ["src/components/rooms/RoomHierarchy.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Slavi Pantaleev <https://etke.cc>",
@@ -1566,7 +1904,14 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/components/UserCounts.tsx"]
+path = ["src/components/rooms/RoomMessages.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/components/users/UserCounts.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
   "2026 Slavi Pantaleev <https://etke.cc>",
@@ -1626,7 +1971,7 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["src/resources/scheduled_tasks.tsx"]
+path = ["src/resources/scheduled-tasks/index.ts", "src/resources/scheduled-tasks/List.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]

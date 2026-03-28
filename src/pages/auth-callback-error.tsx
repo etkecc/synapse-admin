@@ -5,8 +5,8 @@ import { useTranslate } from "react-admin";
 import { Root } from "react-dom/client";
 import React from "react";
 
-import LoginFormBox from "../components/LoginFormBox";
-import Footer from "../components/Footer";
+import LoginFormBox from "../components/layout/LoginFormBox";
+import Footer from "../components/layout/Footer";
 import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
 import { useInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { createI18nProvider } from "../i18n";

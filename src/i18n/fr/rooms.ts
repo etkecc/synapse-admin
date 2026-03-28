@@ -1,0 +1,163 @@
+const rooms = {
+  name: "Salon |||| Salons",
+  fields: {
+    room_id: "Identifiant du salon",
+    name: "Nom",
+    canonical_alias: "Alias",
+    joined_members: "Membres",
+    joined_local_members: "Membres locaux",
+    joined_local_devices: "Appareils locaux",
+    state_events: "Événements d'État / Complexité",
+    version: "Version",
+    is_encrypted: "Chiffré",
+    encryption: "Chiffrement",
+    federatable: "Fédérable",
+    public: "Visible dans le répertoire des salons",
+    creator: "Créateur",
+    join_rules: "Règles d'adhésion",
+    guest_access: "Accès des visiteurs",
+    history_visibility: "Visibilité de l'historique",
+    topic: "Sujet",
+    avatar: "Avatar",
+    actions: "Actions",
+  },
+  filter: {
+    public_rooms: "Salons publics",
+    empty_rooms: "Salons vides",
+  },
+  helper: {
+    forward_extremities:
+      "Les extrémités avant sont les événements feuilles à la fin d'un graphe orienté acyclique (DAG) dans un salon, c'est-à-dire les événements qui n'ont pas de descendants. Plus il y en a dans un salon, plus la résolution d'état que Synapse doit effectuer est importante (indice : c'est une opération coûteuse). Bien que Synapse dispose d'un algorithme pour éviter qu'un trop grand nombre de ces événements n'existent en même temps dans un salon, des bogues peuvent parfois les faire réapparaître. Si un salon présente plus de 10 extrémités avant, cela vaut la peine d'y prêter attention et éventuellement de les supprimer en utilisant les requêtes SQL mentionnées dans la discussion traitant du problème https://github.com/matrix-org/synapse/issues/1760.",
+  },
+  enums: {
+    join_rules: {
+      public: "Public",
+      knock: "Sur demande",
+      invite: "Sur invitation",
+      private: "Privé",
+    },
+    guest_access: {
+      can_join: "Les visiteurs peuvent rejoindre le salon",
+      forbidden: "Les visiteurs ne peuvent pas rejoindre le salon",
+    },
+    history_visibility: {
+      invited: "Depuis l'invitation",
+      joined: "Depuis l'adhésion",
+      shared: "Depuis le partage",
+      world_readable: "Tout le monde",
+    },
+    unencrypted: "Non chiffré",
+  },
+  action: {
+    erase: {
+      title: "Supprimer le salon",
+      content:
+        "Voulez-vous vraiment supprimer le salon ? Cette opération ne peut être annulée. Tous les messages et médias partagés du salon seront supprimés du serveur !",
+      fields: {
+        block: "Bloquer et empêcher les utilisateurs de rejoindre la salle",
+      },
+      in_progress: "Suppression en cours…",
+      background_note: "Vous pouvez fermer cette fenêtre, la suppression continuera en arrière-plan.",
+      success: "Salle/s supprimées avec succès.",
+      failure: "La/les salle/s n'ont pas pu être supprimées.",
+    },
+    make_admin: {
+      assign_admin: "Assigner un administrateur",
+      title: "Assigner un administrateur au salon %{roomName}",
+      confirm: "Assigner un administrateur",
+      content:
+        "Entrez la MXID complète de l'utilisateur qui sera désigné comme administrateur.\nAttention : pour que cela fonctionne, la salle doit avoir au moins un membre local en tant qu'administrateur.",
+      success: "L'utilisateur a été désigné comme administrateur de la salle.",
+      failure: "L'utilisateur n'a pas pu être désigné comme administrateur de la salle. %{errMsg}",
+    },
+    join: {
+      label: "Joindre utilisateur",
+      title: "Joindre un utilisateur à %{roomName}",
+      confirm: "Joindre",
+      content:
+        "Entrez la MXID complète de l'utilisateur à joindre à ce salon.\nNote : vous devez être dans le salon et avoir la permission d'inviter des utilisateurs.",
+      success: "L'utilisateur a rejoint le salon avec succès.",
+      failure: "L'utilisateur n'a pas pu rejoindre le salon. %{errMsg}",
+    },
+    block: {
+      label: "Bloquer",
+      title: "Bloquer %{room}",
+      title_bulk: "Bloquer %{smart_count} salon |||| Bloquer %{smart_count} salons",
+      title_by_id: "Bloquer un salon",
+      content: "Les utilisateurs ne pourront pas rejoindre ce salon.",
+      content_bulk:
+        "Les utilisateurs ne pourront pas rejoindre %{smart_count} salon. |||| Les utilisateurs ne pourront pas rejoindre %{smart_count} salons.",
+      success: "Salon bloqué avec succès. |||| Salons bloqués avec succès.",
+      failure: "Échec du blocage du salon. |||| Échec du blocage des salons.",
+    },
+    unblock: {
+      label: "Débloquer",
+      success: "Salon débloqué avec succès. |||| Salons débloqués avec succès.",
+      failure: "Échec du déblocage du salon. |||| Échec du déblocage des salons.",
+    },
+    purge_history: {
+      label: "Purger l'historique",
+      title: "Purger l'historique de %{roomName}",
+      content:
+        "Tous les événements avant la date sélectionnée seront supprimés de la base de données. L'état du salon (adhésions, départs, sujet) est toujours préservé. Au moins un message est toujours conservé.\nNote : cette opération peut prendre plusieurs minutes pour les grands salons.",
+      date_label: "Purger les événements avant",
+      delete_local: "Supprimer aussi les événements envoyés par les utilisateurs locaux",
+      in_progress: "Purge en cours…",
+      background_note: "Vous pouvez fermer cette fenêtre en toute sécurité, la purge continuera en arrière-plan.",
+      success: "Historique du salon purgé avec succès.",
+      failure: "Échec de la purge de l'historique du salon. %{errMsg}",
+    },
+    quarantine_all: {
+      label: "Quarantaine de tous les médias",
+      title: "Mettre en quarantaine tous les médias de %{roomName}",
+      content:
+        "Tous les médias locaux et distants de ce salon seront mis en quarantaine. Les médias en quarantaine ne seront plus accessibles aux utilisateurs.",
+      success:
+        "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
+      failure: "Échec de la mise en quarantaine. %{errMsg}",
+    },
+    event_context: {
+      jump_to_date: "Aller à la date",
+      direction: "Direction",
+      forward: "En avant",
+      backward: "En arrière",
+      target_event: "Événement cible",
+      events_before: "Événements avant",
+      events_after: "Événements après",
+      not_found: "Aucun événement trouvé à l'heure indiquée",
+      failure: "Impossible de récupérer le contexte de l'événement",
+    },
+    messages: {
+      load_older: "Charger les plus anciens",
+      load_newer: "Charger les plus récents",
+      no_messages: "Aucun message dans ce salon",
+      failure: "Impossible de charger les messages",
+      filter: "Filtres",
+      filter_type: "Types d'événements",
+      filter_sender: "Expéditeurs",
+      advanced_filters: "Filtres avancés",
+      filter_not_type: "Exclure les types d'événements",
+      filter_not_sender: "Exclure les expéditeurs",
+      contains_url: "Contient une URL",
+      any: "Tous",
+      with_url: "Avec URL uniquement",
+      without_url: "Sans URL uniquement",
+      apply_filter: "Appliquer",
+      clear_filters: "Effacer",
+    },
+    hierarchy: {
+      load_more: "Charger plus",
+      max_depth: "Profondeur maximale",
+      unlimited: "Illimitée",
+      refresh: "Actualiser",
+      members: "%{count} membres",
+      space: "Espace",
+      room: "Salon",
+      suggested: "Suggéré",
+      no_children: "Ce salon n'a pas de hiérarchie",
+      failure: "Impossible de charger la hiérarchie",
+    },
+  },
+};
+
+export default rooms;

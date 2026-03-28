@@ -46,8 +46,8 @@ location / {
 }
 ```
 
-This method is used in Ketesa's [Docker images (dist)](../Dockerfile) and [Docker image
-(build)](../Dockerfile.build) and is recommended for production deployments.
+This method is used in Ketesa's [Docker images (dist)](../docker/Dockerfile) and [Docker image
+(build)](../docker/Dockerfile.build) and is recommended for production deployments.
 
 ## Configuration
 

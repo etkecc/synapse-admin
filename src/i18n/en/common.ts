@@ -1,0 +1,371 @@
+import englishMessages from "ra-language-english";
+
+// Top-level non-resource keys: ra built-ins + ketesa + import_users + delete_media + purge_remote_media + etkecc
+const common = {
+  ...englishMessages,
+  ketesa: {
+    auth: {
+      base_url: "Homeserver URL",
+      welcome: "Welcome to %{name}",
+      server_version: "Synapse version",
+      supports_specs: "supports Matrix specs",
+      username_error: "Please enter fully qualified user ID: '@user:domain'",
+      protocol_error: "URL has to start with 'http://' or 'https://'",
+      url_error: "Not a valid Matrix server URL",
+      sso_sign_in: "Sign in with SSO",
+      credentials: "Credentials",
+      access_token: "Access token",
+      logout_acces_token_dialog: {
+        title: "You are using an existing Matrix access token.",
+        content:
+          "Do you want to destroy this session (that could be used elsewhere, e.g. in a Matrix client) or just logout from the admin panel?",
+        confirm: "Destroy session",
+        cancel: "Just logout from admin panel",
+      },
+    },
+    users: {
+      invalid_user_id: "Localpart of a Matrix user-id without homeserver.",
+      tabs: {
+        sso: "SSO",
+        experimental: "Experimental",
+        limits: "Rate Limits",
+        account_data: "Account Data",
+        sessions: "Sessions",
+      },
+      danger_zone: "Danger zone",
+    },
+    rooms: {
+      details: "Room details",
+      tabs: {
+        basic: "Basic",
+        members: "Members",
+        detail: "Details",
+        permission: "Permissions",
+        media: "Media",
+        messages: "Messages",
+        hierarchy: "Hierarchy",
+      },
+    },
+    reports: { tabs: { basic: "Basic", detail: "Details" } },
+    admin_config: {
+      soft_failed_events: "Soft-failed events",
+      spam_flagged_events: "Spam-flagged events",
+      success: "Admin config updated",
+      failure: "Failed to update admin config",
+    },
+  },
+  import_users: {
+    error: {
+      at_entry: "At entry %{entry}: %{message}",
+      error: "Error",
+      required_field: "Required field '%{field}' is not present",
+      invalid_value: "Invalid value on line %{row}. '%{field}' field may only be 'true' or 'false'",
+      unreasonably_big: "Refused to load unreasonably big file of %{size} megabytes",
+      already_in_progress: "An import run is already in progress",
+      id_exits: "ID %{id} already present",
+    },
+    title: "Import users via CSV",
+    goToPdf: "Go to PDF",
+    cards: {
+      importstats: {
+        header: "Parsed users for import",
+        users_total: "%{smart_count} user in CSV file |||| %{smart_count} users in CSV file",
+        guest_count: "%{smart_count} guest |||| %{smart_count} guests",
+        admin_count: "%{smart_count} admin |||| %{smart_count} admins",
+      },
+      conflicts: {
+        header: "Conflict strategy",
+        mode: {
+          stop: "Stop on conflict",
+          skip: "Show error and skip on conflict",
+        },
+      },
+      ids: {
+        header: "IDs",
+        all_ids_present: "IDs present on every entry",
+        count_ids_present: "%{smart_count} entry with ID |||| %{smart_count} entries with IDs",
+        mode: {
+          ignore: "Ignore IDs in CSV and create new ones",
+          update: "Update existing records",
+        },
+      },
+      passwords: {
+        header: "Passwords",
+        all_passwords_present: "Passwords present on every entry",
+        count_passwords_present: "%{smart_count} entry with password |||| %{smart_count} entries with passwords",
+        use_passwords: "Use passwords from CSV",
+      },
+      upload: {
+        header: "Input CSV file",
+        explanation:
+          "Here you can upload a file with comma separated values that is processed to create or update users. The file must include the fields 'id' and 'displayname'. You can download and adapt an example file here: ",
+      },
+      startImport: {
+        simulate_only: "Simulate only",
+        run_import: "Import",
+      },
+      results: {
+        header: "Import results",
+        total: "%{smart_count} entry in total |||| %{smart_count} entries in total",
+        successful: "%{smart_count} entries successfully imported",
+        skipped: "%{smart_count} entries skipped",
+        download_skipped: "Download skipped records",
+        with_error: "%{smart_count} entry with errors |||| %{smart_count} entries with errors",
+        simulated_only: "Run was only simulated",
+      },
+    },
+  },
+  delete_media: {
+    name: "Media",
+    fields: {
+      before_ts: "last access before",
+      size_gt: "Larger then (in bytes)",
+      keep_profiles: "Keep profile images",
+    },
+    action: {
+      send: "Delete media",
+      send_success:
+        "Successfully deleted %{smart_count} media file. |||| Successfully deleted %{smart_count} media files.",
+      send_success_none: "No media files matched the specified criteria. Nothing was deleted.",
+      send_failure: "An error has occurred.",
+    },
+    helper: {
+      send: "This API deletes the local media from the disk of your own server. This includes any local thumbnails and copies of media downloaded. This API will not affect media that has been uploaded to external media repositories.",
+    },
+  },
+  purge_remote_media: {
+    name: "Remote Media",
+    fields: {
+      before_ts: "last access before",
+    },
+    action: {
+      send: "Purge remote media",
+      send_success:
+        "Successfully purged %{smart_count} remote media file. |||| Successfully purged %{smart_count} remote media files.",
+      send_success_none: "No remote media files matched the specified criteria. Nothing was purged.",
+      send_failure: "An error has occurred with the purge remote media request.",
+    },
+    helper: {
+      send: "This API purges the remote media cache from the disk of your own server. This includes any local thumbnails and copies of media downloaded. This API will not affect media that has been uploaded to the server's own media repository.",
+    },
+  },
+  etkecc: {
+    billing: {
+      name: "Billing",
+      title: "Payment History",
+      no_payments: "No payments found.",
+      no_payments_helper: "If you believe that's an error, please contact etke.cc support on",
+      description1:
+        "View payments and generate invoices from here. You can learn more about subscription management on",
+      description2:
+        "If you'd like to change your billing email, or add company details, please contact etke.cc support on",
+      fields: {
+        transaction_id: "Transaction ID",
+        email: "Email",
+        type: "Type",
+        amount: "Amount",
+        paid_at: "Paid At",
+        invoice: "Invoice",
+      },
+      enums: {
+        type: {
+          subscription: "Subscription",
+          one_time: "One-time",
+        },
+      },
+      helper: {
+        download_invoice: "Download Invoice",
+        downloading: "Downloading...",
+        download_started: "Invoice download started.",
+        invoice_not_available: "Invoice pending",
+        loading: "Loading billing information...",
+        loading_failed1: "There was a problem loading billing information.",
+        loading_failed2: "Please try again later.",
+        loading_failed3: "If the problem persists, please contact etke.cc support on",
+        loading_failed4: "with the following error message:",
+      },
+    },
+    status: {
+      name: "Server Status",
+      badge: {
+        default: "Click to view Server Status",
+        running: "Running: %{command}. %{text}",
+      },
+      category: {
+        "Host Metrics": "Host Metrics",
+        Network: "Network",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "Status",
+      error: "Error",
+      loading: "Fetching real-time server health... Just a moment!",
+      intro1: "This is a real-time monitoring report of your server. You may learn more about it on",
+      intro2: "If any of the checks below concern you, please check the suggested actions on",
+      help: "Help",
+    },
+    maintenance: {
+      title: "The system is currently in maintenance mode.",
+      try_again: "Please try again later.",
+      note: "You don't need to contact support about this, we are already working on it!",
+    },
+    actions: {
+      name: "Server Actions",
+      available_title: "Available Commands",
+      available_description: "The following commands are available to run.",
+      available_help_intro: "More details about each of them can be found on",
+      scheduled_title: "Scheduled commands",
+      scheduled_description:
+        "The following commands are scheduled to run at specific times. You can view their details and modify them as needed.",
+      recurring_title: "Recurring commands",
+      recurring_description:
+        "The following commands are set to run at specific weekday and time (weekly). You can view their details and modify them as needed.",
+      scheduled_help_intro: "More details about the mode can be found on",
+      recurring_help_intro: "More details about the mode can be found on",
+      maintenance_title: "The system is currently in maintenance mode.",
+      maintenance_try_again: "Please try again later.",
+      maintenance_note: "You don't need to contact support about this, we are already working on it!",
+      maintenance_commands_blocked: "Commands cannot be run until maintenance mode is disabled.",
+      table: {
+        command: "Command",
+        description: "Description",
+        arguments: "Arguments",
+        is_recurring: "Is recurring?",
+        run_at: "Run at (local time)",
+        next_run_at: "Next run at (local time)",
+        time_utc: "Time (UTC)",
+        time_local: "Time (local time)",
+      },
+      buttons: {
+        create: "Create",
+        update: "Update",
+        back: "Back",
+        delete: "Delete",
+        run: "Run",
+      },
+      command_scheduled: "Command scheduled: %{command}",
+      command_scheduled_args: "with additional args: %{args}",
+      expect_prefix: "Expect your result in the",
+      expect_suffix: "page soon.",
+      notifications_link: "Notifications",
+      command_help_title: "%{command} help",
+      scheduled_title_create: "Create Scheduled Command",
+      scheduled_title_edit: "Edit Scheduled Command",
+      recurring_title_create: "Create Recurring Command",
+      recurring_title_edit: "Edit Recurring Command",
+      scheduled_details_title: "Scheduled Command Details",
+      recurring_warning:
+        "Scheduled commands created from a recurring one are not editable as they will be regenerated automatically. Please edit the recurring command instead.",
+      command_details_intro: "You can find more details about the command on",
+      form: {
+        id: "ID",
+        command: "Command",
+        scheduled_at: "Scheduled at",
+        day_of_week: "Day of Week",
+      },
+      delete_scheduled_title: "Delete Scheduled Command",
+      delete_recurring_title: "Delete Recurring Command",
+      delete_confirm: "Are you sure you want to delete the command: %{command}?",
+      errors: {
+        unknown: "Unknown error occurred",
+        delete_failed: "Error: %{error}",
+      },
+      days: {
+        monday: "Monday",
+        tuesday: "Tuesday",
+        wednesday: "Wednesday",
+        thursday: "Thursday",
+        friday: "Friday",
+        saturday: "Saturday",
+        sunday: "Sunday",
+      },
+      scheduled: {
+        action: {
+          create_success: "Scheduled command created successfully",
+          update_success: "Scheduled command updated successfully",
+          update_failure: "An error has occurred",
+          delete_success: "Scheduled command deleted successfully",
+          delete_failure: "An error has occurred",
+        },
+      },
+      recurring: {
+        action: {
+          create_success: "Recurring command created successfully",
+          update_success: "Recurring command updated successfully",
+          update_failure: "An error has occurred",
+          delete_success: "Recurring command deleted successfully",
+          delete_failure: "An error has occurred",
+        },
+      },
+    },
+    notifications: {
+      title: "Notifications",
+      new_notifications: "%{smart_count} new notification |||| %{smart_count} new notifications",
+      no_notifications: "No notifications yet",
+      see_all: "See all notifications",
+      clear_all: "Clear all",
+      ago: "ago",
+    },
+    currently_running: {
+      command: "Currently running:",
+      started_ago: "(started %{time} ago)",
+    },
+    time: {
+      less_than_minute: "a couple of seconds",
+      minutes: "%{smart_count} minute |||| %{smart_count} minutes",
+      hours: "%{smart_count} hour |||| %{smart_count} hours",
+      days: "%{smart_count} day |||| %{smart_count} days",
+      weeks: "%{smart_count} week |||| %{smart_count} weeks",
+      months: "%{smart_count} month |||| %{smart_count} months",
+    },
+    support: {
+      name: "Support",
+      menu_label: "Contact support",
+      description: "Open a support request or follow up on an existing one. Our team will respond as soon as possible.",
+      create_title: "New Support Request",
+      no_requests: "No support requests yet.",
+      no_messages: "No messages yet.",
+      closed_message: "This request is closed. If you still have a problem, please open a new one.",
+      fields: {
+        subject: "Subject",
+        message: "Message",
+        reply: "Reply",
+        status: "Status",
+        created_at: "Created",
+        updated_at: "Last updated",
+      },
+      status: {
+        active: "Waiting for operator",
+        open: "Open",
+        closed: "Closed",
+        pending: "Waiting for you",
+      },
+      buttons: {
+        new_request: "New Request",
+        submit: "Submit",
+        cancel: "Cancel",
+        send: "Send",
+        back: "Back to Support",
+      },
+      helper: {
+        loading: "Loading support requests...",
+        reply_hint: "Ctrl+Enter to send",
+        reply_placeholder: "Include as much detail as possible.",
+        before_contact_title: "Before you contact us",
+        help_pages_prompt: "Please check our Help pages first:",
+        services_prompt: "We only provide services listed on:",
+        topics_prompt: "We can help only with supported topics:",
+        scope_confirm_label: "I checked the Help pages and confirm this request matches the supported topics.",
+        english_only_notice: "Support is provided in English only.",
+        response_time_prompt: "Response within 48 hours. Need faster response times? See:",
+      },
+      actions: {
+        create_success: "Support request created successfully.",
+        create_failure: "Failed to create support request.",
+        send_failure: "Failed to send message.",
+      },
+    },
+  },
+};
+
+export default common;

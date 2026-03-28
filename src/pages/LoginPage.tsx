@@ -29,11 +29,11 @@ import {
 import { useFormContext } from "react-hook-form";
 
 import { useAppContext } from "../Context";
-import Footer from "../components/Footer";
-import LoginFormBox from "../components/LoginFormBox";
+import Footer from "../components/layout/Footer";
+import LoginFormBox from "../components/layout/LoginFormBox";
 import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
 import { useInstanceConfig } from "../components/etke.cc/InstanceConfig";
-import { getServerVersion } from "../providers/synapse";
+import { getServerVersion } from "../providers/data/synapse";
 import {
   getSupportedFeatures,
   getWellKnownUrl,

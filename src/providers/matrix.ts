@@ -1,6 +1,6 @@
 import { DeleteParams, RaRecord, fetchUtils } from "react-admin";
 
-import { jsonClient } from "./httpClients";
+import { jsonClient } from "./http";
 import { Room, UploadMediaParams, UploadMediaResult } from "./types";
 
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";

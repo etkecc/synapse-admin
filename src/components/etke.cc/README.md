@@ -24,7 +24,7 @@ Due to the specifics mentioned above, these components are documented here rathe
 
 ### Server Status icon
 
-![Server Status icon](../../../screenshots/etke.cc/server-status/indicator.webp)
+![Server Status icon](../../../docs/screenshots/etke.cc/server-status/indicator.webp)
 
 In the application bar, a new monitoring icon is displayed that shows the current server status and uses the following color dot (and tooltip indicators):
 
@@ -32,13 +32,13 @@ In the application bar, a new monitoring icon is displayed that shows the curren
 * 🟡 (yellow) - the server is up and running, but there is a command in progress (likely [maintenance](https://etke.cc/help/extras/scheduler/#maintenance)), so some temporary issues may occur - that's totally fine
 * 🔴 (red) - there is at least 1 issue with one of the server's components
 
-![Server Status icon in sidebar](../../../screenshots/etke.cc/server-status/indicator-sidebar.webp)
+![Server Status icon in sidebar](../../../docs/screenshots/etke.cc/server-status/indicator-sidebar.webp)
 
 The same icon, with a link to the [Server Status page](#server-status-page), is displayed in the sidebar.
 
 ### Server Status page
 
-![Server Status Page](../../../screenshots/etke.cc/server-status/page.webp)
+![Server Status Page](../../../docs/screenshots/etke.cc/server-status/page.webp)
 
 When you click on the [Server Status icon](#server-status-icon) in the application bar, you will be redirected to the
 Server Status page. This page contains the following information:
@@ -51,19 +51,19 @@ This is [a monitoring report](https://etke.cc/services/monitoring/)
 
 ### Server Notifications icon
 
-![Server Notifications icon](../../../screenshots/etke.cc/server-notifications/badge.webp)
+![Server Notifications icon](../../../docs/screenshots/etke.cc/server-notifications/badge.webp)
 
 In the application bar, a new notifications icon is displayed that shows the number of unread (not removed) notifications
 
 ### Server Notifications page
 
-![Server Notifications Page](../../../screenshots/etke.cc/server-notifications/page.webp)
+![Server Notifications Page](../../../docs/screenshots/etke.cc/server-notifications/page.webp)
 
 When you click a notification in the [Server Notifications icon](#server-notifications-icon)'s list in the application bar, you will be redirected to the Server Notifications page. This page contains the full text of all the notifications you have about your server.
 
 ### Server Actions Page
 
-![Server Actions Page](../../../screenshots/etke.cc/server-actions/page.webp)
+![Server Actions Page](../../../docs/screenshots/etke.cc/server-actions/page.webp)
 
 When you click on the `Server Actions` sidebar menu item, you will be redirected to the Server Actions page.
 On this page you can do the following:
@@ -74,7 +74,7 @@ On this page you can do the following:
 
 ### Server Commands Panel
 
-![Server Commands Panel](../../../screenshots/etke.cc/server-commands/panel.webp)
+![Server Commands Panel](../../../docs/screenshots/etke.cc/server-commands/panel.webp)
 
 When you open the [Server Actions page](#server-status-page), you will see the Server Commands panel.
 This panel contains all [the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in one click.
@@ -82,14 +82,14 @@ Once a command is finished, you will get a notification about the result.
 
 ### Billing Page
 
-![Billing Page](../../../screenshots/etke.cc/billing/page.webp)
+![Billing Page](../../../docs/screenshots/etke.cc/billing/page.webp)
 
 When you click on the `Billing` sidebar menu item, you will see the Billing page.
 On this page you can see the list of successful payments and invoices.
 
 ### Support Page
 
-![Support Page](../../../screenshots/etke.cc/support/page.webp)
+![Support Page](../../../docs/screenshots/etke.cc/support/page.webp)
 
 When you click on the `Contact support` sidebar menu item, you will see the Support page,
 where you can see the list of your support tickets, and create a new one if needed.
