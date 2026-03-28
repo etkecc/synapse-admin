@@ -12,7 +12,7 @@
       <img alt="REUSE compliance" src="https://api.reuse.software/badge/github.com/etkecc/ketesa">
     </a>
   </h3>
-  <p align="center"><strong>Admin UI for Matrix servers, formerly Synapse Admin.</strong></p>
+  <p align="center"><strong>The most complete admin UI for Matrix homeservers. Formerly Synapse Admin.</strong></p>
 </p>
 
 ---
@@ -20,120 +20,183 @@
 ![Login](./docs/screenshots/login.webp)
 ![Users List](./docs/screenshots/users-list.webp)
 
-[View all screenshots](./docs/screenshots/README.md)
+[View all screenshots →](./docs/screenshots/README.md)
 
-## About
+## 📖 About
 
-Ketesa is a feature-rich admin UI for Matrix servers, formerly known as Synapse Admin.
-What started as a fork of [Awesome-Technologies/synapse-admin](https://github.com/Awesome-Technologies/synapse-admin)
-has since grown into an independent project — with a redesigned UI, multi-backend support,
-extended management capabilities, visual customization, and much more.
+Ketesa is the most complete admin interface for Matrix homeservers. What began as a fork of
+[Awesome-Technologies/synapse-admin](https://github.com/Awesome-Technologies/synapse-admin)
+has evolved into a fully independent project — with a redesigned interface, comprehensive API coverage,
+multi-language support, and powerful management tools that go far beyond the original.
 
-**Ketesa is a fully compatible drop-in replacement for Synapse Admin.** If you're currently
-using the original, switching is as simple as changing the image or URL — no configuration
-changes needed.
+**Ketesa is a fully compatible drop-in replacement for Synapse Admin.** Migration is straightforward
+and requires no configuration changes:
 
-If you have any questions or need help, feel free to join the [community room](https://matrix.to/#/#ketesa:etke.cc)
-or create an issue on GitHub.
+| | Method | How |
+|---|---|---|
+| ☁️ | **Hosted (CDN)** | Use [admin.etke.cc](https://admin.etke.cc) — nothing to install |
+| 🐳 | **Docker** | Replace the image tag with `ghcr.io/etkecc/ketesa:latest` |
+| 📦 | **Static files** | Replace your existing dist directory with the Ketesa release tarball |
 
-## Features
+Whether you're managing a small private server or a large federated community, Ketesa gives you
+the visibility and control you need — all from a clean, responsive web interface.
 
-### User management
-- Suspend, shadow-ban, deactivate, erase users
-- Rate limits, experimental features, account data
-- 3PIDs, devices (create, rename, delete), room memberships
-- Cross-signing reset, account validity renewal
-- Bulk registration via CSV import (including 3PIDs)
-- Random password generation, password reset
-- User badges, avatar, display name
+> 💬 Questions? Join the [community room](https://matrix.to/#/#ketesa:etke.cc) or open an issue on GitHub.
 
-### Room management
-- Block/unblock, purge history, delete rooms
-- Media tab, messages viewer with filters and jump-to-date
-- Room hierarchy tab (for spaces)
-- Assign admin, join user to room
+---
 
-### Authentication
-- Username/password, access token, OIDC/SSO
-- Matrix Authentication Service (MAS) support, including registration tokens
-- External auth provider-compatible mode
+## ✨ Features
 
-### Customization
-- Logo, colors, custom menu items via `config.json`
-- Restrict available homeservers
-- Prefill login form via GET parameters or `/.well-known/matrix/client`
+### 👥 Complete user management
 
-### Other
-- Mobile-friendly responsive UI
-- 9 languages: EN, DE, FR, JA, RU, FA, UK, ZH, IT
-- Scheduled tasks list
-- Federation overview
-- Reports / event lookup
-- Admin flags for Matrix Client-Server APIs
-- And many, many more features!
+Ketesa covers the full lifecycle of a Matrix user account. You can suspend, shadow-ban,
+deactivate, or permanently erase users. Fine-grained controls let you manage rate limits,
+experimental features, and account data. You can view and manage third-party identifiers,
+connected devices (create, rename, delete), room memberships, and cross-signing keys — all
+from one place. Need to onboard many users at once? Bulk registration via CSV import handles
+it, including third-party identifiers. Passwords can be generated randomly or reset manually.
+User avatars carry [role badges](./docs/user-badges.md) (admin, bot, support, federated, system-managed)
+so you can identify account types at a glance.
 
-## Availability
+When [Matrix Authentication Service (MAS)](https://github.com/element-hq/matrix-authentication-service)
+is in use, Ketesa extends user management with MAS-native capabilities: browsing and revoking
+active sessions (compat, OAuth2, and personal), managing linked email addresses, reviewing
+upstream OAuth provider links, and creating users through MAS directly.
 
-* As a core/default component on [etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=ketesa)
-* As a standalone app on [admin.etke.cc](https://admin.etke.cc)
-* As a prebuilt distribution on [GitHub Releases](https://github.com/etkecc/ketesa/releases) for root-path (e.g., `https://admin.example.com`, `ketesa.tar.gz`) and `admin` subpath (e.g., `https://example.com/admin`, `ketesa-subpath-admin.tar.gz`) deployment
-* As a prebuilt snapshot of the latest development version from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml) (click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin` artifact depending on your desired deployment path)
-* As a Docker container on [Docker Hub](https://hub.docker.com/r/etkecc/ketesa) and [GitHub Container Registry](https://github.com/etkecc/ketesa/pkgs/container/ketesa)
-* As a component in [Matrix-Docker-Ansible-Deploy Playbook](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)
-* As a [Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc) maintained by [@Defelo](https://github.com/Defelo)
-* As an [Arch Linux AUR package](https://aur.archlinux.org/packages/synapse-admin-etke-git) maintained by [@drygdryg](https://github.com/drygdryg)
+### 🏠 Powerful room management
+
+Get a full picture of every room on your server. Block or unblock rooms, purge history,
+and delete rooms entirely. The messages viewer lets you browse room history with filters
+and jump-to-date navigation. Spaces are handled natively with a dedicated room hierarchy
+tab. You can assign room admins and join users to rooms directly from the UI.
+
+### 🔐 Flexible authentication
+
+Log in with a username and password, a raw access token, or via OIDC/SSO — whatever your
+server setup requires. Ketesa has first-class support for [Matrix Authentication Service (MAS)](https://github.com/element-hq/matrix-authentication-service),
+including full session management and registration token administration. It also ships a
+dedicated [external auth provider mode](./docs/external-auth-provider.md) that adapts the interface
+when Synapse delegates authentication to an external system.
+
+### ⚙️ Deep customization
+
+Every data table in Ketesa is built with [react-admin's Configurable](https://marmelab.com/react-admin/Configurable.html)
+component, so users can show, hide, and reorder columns to match their workflow — no code changes needed.
+
+Beyond the per-user table preferences, Ketesa can be tailored at the deployment level through a
+[`config.json`](./docs/config.md) file (or via `/.well-known/matrix/client`):
+[restrict which homeservers](./docs/restrict-hs.md) users can connect to,
+[add custom navigation menu items](./docs/custom-menu.md),
+[pre-fill the login form](./docs/prefill-login-form.md),
+[configure CORS credentials](./docs/cors-credentials.md),
+and [protect appservice-managed users](./docs/system-users.md) (bridge puppets) from accidental edits.
+
+### 📊 Server statistics and insights
+
+Monitor your server with built-in statistics views: per-user media usage and database room
+stats give you a clear picture of what's consuming space. The federation overview shows
+the health and reachability of remote destinations. Reported events can be reviewed and
+acted upon directly from the reports list.
+
+### 🌍 Available in 9 languages
+
+Ketesa ships with full translations in English, German, French, Japanese, Russian, Persian,
+Ukrainian, Chinese, and Italian — every string is fully translated, with no untranslated
+English stubs left behind.
+
+### 📱 Mobile-friendly by design
+
+The interface is fully responsive. Wherever you are, you can manage your server from a
+phone or tablet without sacrificing functionality. Tables collapse to readable mobile lists,
+long identifiers wrap gracefully, and every action is reachable on small screens.
+
+### 🌟 Built by etke.cc — and it shows
+
+Ketesa is built and actively maintained by [etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=ketesa),
+a managed Matrix hosting provider with a genuine [open-source-first](https://github.com/etkecc) philosophy.
+Every feature in this project is open source, developed in the open, and free to use by anyone.
+
+If you run your Matrix server on etke.cc, Ketesa becomes something even more powerful: a **unified
+control plane for your entire server**. Instead of juggling separate dashboards, log files, and support
+channels, everything you need is right here — in the same interface you already use for user and room
+management:
+
+| | Feature | What it does |
+|---|---|---|
+| 🟢 | **Server health** | Live status badge in the toolbar + a full dashboard showing every server component with color-coded indicators, error details, and suggested actions. Know what's wrong before your users do. |
+| 🔔 | **Notifications** | Important server events surface as an in-app feed with an unread badge — nothing slips through the cracks. |
+| ⚡ | **Server actions** | Trigger management commands on demand, schedule them for a precise date and time, or set up recurring weekly jobs. Routine maintenance becomes a few clicks, not a cron job. |
+| 💳 | **Billing** | View payment history, transaction details, and download invoices without ever leaving the admin panel. |
+| 💬 | **Support** | Open support requests, track their progress, and exchange messages with the etke.cc team — right from the interface you use every day. |
+| 🎨 | **White-labelling** | Custom name, logo, favicon, and background applied automatically from the platform. No extra configuration, no deploy step. |
+
+> 💡 **Interested?** [Learn more about etke.cc managed Matrix hosting →](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=ketesa)
+
+---
+
+## 📦 Availability
+
+| | Where | Details |
+|---|---|---|
+| 🏠 | **[etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=ketesa)** | Core component of the managed hosting platform |
+| 🌐 | **[admin.etke.cc](https://admin.etke.cc)** | Hosted instance, always on the latest version |
+| 📦 | **[GitHub Releases](https://github.com/etkecc/ketesa/releases)** | Prebuilt tarballs for root-path and `/admin` subpath deployment |
+| 🐳 | **[Docker Hub](https://hub.docker.com/r/etkecc/ketesa) / [GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa)** | Official Docker images |
+| 🤖 | **[matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)** | Ansible playbook component |
+| ❄️ | **[Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc)** | Maintained by [@Defelo](https://github.com/Defelo) |
+| 🐧 | **[Arch Linux AUR](https://aur.archlinux.org/packages/synapse-admin-etke-git)** | Maintained by [@drygdryg](https://github.com/drygdryg) |
+| 🌊 | **[IPFS](https://ipfs.io)** | Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net) — see [details below](#ipfs) |
 
 ### Prebuilt distributions
 
 We offer two prebuilt distributions for different deployment paths:
-* (default) for root path (e.g., `https://admin.example.com`) as `ketesa.tar.gz`
-* for `admin` subpath (e.g., `https://example.com/admin`) as `ketesa-subpath-admin.tar.gz`
 
-You can find the latest **released** versions on the [GitHub Releases](https://github.com/etkecc/ketesa/releases) - download the appropriate `.tar.gz` file and follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
+- **`ketesa.tar.gz`** — for root path deployment (e.g., `https://admin.example.com`)
+- **`ketesa-subpath-admin.tar.gz`** — for `/admin` subpath deployment (e.g., `https://example.com/admin`)
 
-You can find the latest **development (nightly)** versions in the [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml) - click on the latest successful workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin` artifact depending on your desired deployment path. After that, follow the instructions in the [step-by-step installation](#step-by-step-installation) section.
+Find the latest **released** versions on [GitHub Releases](https://github.com/etkecc/ketesa/releases).
+Find the latest **development (nightly)** builds in [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml)
+— click the latest successful run and download `dist-root` or `dist-subpath-admin` from the Artifacts section.
 
-### Nightly builds
+### 🌙 Nightly builds
 
-You can try the latest changes before they are released by:
-* using [admin.etke.cc](https://admin.etke.cc) - it is automatically updated with the latest development version
-* using the `latest` and/or `latest-subpath-admin` tags of the Docker image on [GitHub Container Registry](https://github.com/etkecc/ketesa/pkgs/container/ketesa) or [Docker Hub](https://hub.docker.com/r/etkecc/ketesa/tags) - these tags are automatically updated with the latest development version
-* using the `dist-root` and `dist-subpath-admin` artifacts from the latest successful [GitHub Actions workflow run](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml) -
-    these artifacts are automatically updated with the latest development version (click on the latest successful
-    workflow run, then scroll down to the "Artifacts" section and download either `dist-root` or `dist-subpath-admin`
-    artifact depending on your desired deployment path)
-* using `main` git branch - you can clone the repository and build the app yourself (see [step-by-step installation](#step-by-step-installation) section for instructions)
+Stay on the bleeding edge:
+
+- 🌐 **[admin.etke.cc](https://admin.etke.cc)** — always running the latest development version
+- 🐳 **Docker** — use the `latest` or `latest-subpath-admin` image tags on [GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa) or [Docker Hub](https://hub.docker.com/r/etkecc/ketesa/tags)
+- 📦 **Artifacts** — `dist-root` / `dist-subpath-admin` from the latest [GitHub Actions run](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml)
+- 🔧 **Source** — clone the `main` branch and build it yourself
 
 ### IPFS
 
 > Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net)
 
-**Latest version**
+**Latest version:** `/ipns/synapse-admin.sibnsk.net`
+(dnslink key `/ipns/k51qzi5uqu5dj91scsxoqu0ebmy7uqajrt9ohl98vs7fl7l429h0chgozk58i2`)
 
-`/ipns/synapse-admin.sibnsk.net` (dnslink key `/ipns/k51qzi5uqu5dj91scsxoqu0ebmy7uqajrt9ohl98vs7fl7l429h0chgozk58i2`)
+**Archive:** `/ipns/synapse-admin-archive.sibnsk.net`
+(dnslink key `/ipns/k51qzi5uqu5dhxwc36sld1hn6jn935k71ww8rdyqomrnqcqucixy7re08qeu7z`)
 
-**Archive**
+---
 
-`/ipns/synapse-admin-archive.sibnsk.net` (dnslink key `/ipns/k51qzi5uqu5dhxwc36sld1hn6jn935k71ww8rdyqomrnqcqucixy7re08qeu7z`)
+## ⚙️ Configuration
 
-## Configuration
-
-You can use `config.json` to configure a Ketesa instance,
-and `/.well-known/matrix/client` to provide configuration specifically for your homeserver.
-In the latter case, any instance of Ketesa will automatically pick up the configuration from the homeserver.
-Note that configuration inside `/.well-known/matrix/client` should go under the `cc.etke.ketesa` key,
-and it will override the configuration from `config.json`.
+Ketesa can be configured via a `config.json` file placed in the deployment root.
+Additionally, your homeserver's `/.well-known/matrix/client` file can carry Ketesa-specific
+configuration under the `cc.etke.ketesa` key — any instance of Ketesa will pick it up
+automatically, making it easy to distribute settings to your users without touching the
+deployment itself. Settings in `/.well-known/matrix/client` take precedence over `config.json`.
 
 > **Note:** The legacy key `cc.etke.synapse-admin` is still supported for backward compatibility, but is deprecated.
 > Please migrate to `cc.etke.ketesa` at your convenience.
 
-In case you use [spantaleev/matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) or
+If you use [spantaleev/matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy) or
 [etkecc/ansible](https://github.com/etkecc/ansible),
-configuration will be automatically added to the `/.well-known/matrix/client` file.
+configuration is automatically written to `/.well-known/matrix/client` for you.
 
-[Configuration options](./docs/config.md)
+[📄 Full configuration reference](./docs/config.md)
 
-The `config.json` can be injected into a Docker container using a bind mount.
+To inject a `config.json` into a Docker container, use a bind mount:
 
 ```yml
 services:
@@ -144,118 +207,137 @@ services:
     ...
 ```
 
-### Prefilling login form
+### 🔗 Prefilling the login form
 
-You can prefill all fields on the login page using GET parameters.
+Every field on the login page can be pre-filled via URL query parameters — handy for
+sharing direct-access links with your users.
 
 [Documentation](./docs/prefill-login-form.md)
 
-### Restricting available homeserver
+### 🔒 Restricting available homeservers
 
-You can restrict the homeserver(s), so that the user can no longer define it himself.
+Lock down the homeserver selection so users can only connect to servers you approve.
+Useful for managed deployments where the homeserver should never change.
 
 [Documentation](./docs/restrict-hs.md)
 
-### Configuring CORS credentials
+### 🌐 Configuring CORS credentials
 
-You can configure the CORS credentials mode for the Ketesa instance.
+Fine-tune the CORS credentials mode for your Ketesa deployment to match your server's
+cross-origin policies.
 
 [Documentation](./docs/cors-credentials.md)
 
-### Protecting appservice managed users
+### 🛡️ Protecting appservice-managed users
 
-To avoid accidental adjustments of appservice-managed users (e.g., puppets created by a bridge) and breaking the bridge,
-you can specify the list of MXIDs (regexp) that should be prohibited from any changes, except display name and avatar.
+Bridge puppets and other appservice-managed accounts can be shielded from accidental
+edits. Specify a list of MXID patterns (as regular expressions) to be restricted to
+display name and avatar changes only.
 
 [Documentation](./docs/system-users.md)
 
-### Adding custom menu items
+### 📋 Adding custom menu items
 
-You can add custom menu items to the main menu by providing a `menu` array in the config.
+Extend the navigation menu with links to your own tools or documentation — no rebuild required.
 
 [Documentation](./docs/custom-menu.md)
 
-### Enabling external auth provider-compatible mode
+### 🔑 External auth provider mode
 
-If you use an external authentication provider (like OIDC, LDAP, etc.) for your Synapse server,
-you can enable the `externalAuthProvider` mode to adjust Ketesa's behavior accordingly.
+When Synapse delegates authentication to an external provider (OIDC, LDAP, and similar),
+enable this mode to adjust Ketesa's behavior accordingly and avoid confusing UI elements
+that don't apply in your setup.
 
 [Documentation](./docs/external-auth-provider.md)
 
-#### Matrix Authentication Service (MAS) specifics
+#### Matrix Authentication Service (MAS)
 
-Please see [designated documentation section](./docs/external-auth-provider.md#matrix-authentication-service-mas) for details about using MAS - there are some specific changes that may be needed to enable admin API support in MAS.
+MAS requires a small amount of additional configuration to enable its admin API. See the
+[designated MAS section](./docs/external-auth-provider.md#matrix-authentication-service-mas) for the details.
 
-## Usage
+---
+
+## 🚀 Usage
 
 ### Supported APIs
 
-See [Supported APIs](./docs/apis.md) for a full list of API endpoints used by Ketesa.
+See [📄 Supported APIs](./docs/apis.md) for a full list of API endpoints used by Ketesa.
 
-### Supported Synapse
+### Supported Synapse versions
 
-It needs at least [Synapse](https://github.com/element-hq/synapse) v1.145.0 for all functions to work as expected!
+Ketesa requires [Synapse](https://github.com/element-hq/synapse) **v1.150.0 or newer** for all
+features to work correctly.
 
-You get your server version with the request `/_synapse/admin/v1/server_version`.
-See also [Synapse version API](https://element-hq.github.io/synapse/latest/admin_api/version_api.html).
+You can verify your server version by calling `/_synapse/admin/v1/server_version`,
+or simply look at the version indicator that appears below the homeserver URL field on
+the Ketesa login page.
 
-After entering the URL on the login page of Ketesa the server version appears below the input field.
+See also: [Synapse version API](https://element-hq.github.io/synapse/latest/admin_api/version_api.html)
 
 ### Prerequisites
 
-You need access to the following endpoints:
+Your browser needs access to the following endpoints on your homeserver:
 
 - `/_matrix`
 - `/_synapse/admin`
 
-See also [Synapse administration endpoints](https://element-hq.github.io/synapse/latest/reverse_proxy.html#synapse-administration-endpoints)
+See also: [Synapse administration endpoints](https://element-hq.github.io/synapse/latest/reverse_proxy.html#synapse-administration-endpoints)
 
-### Use without install
+### ☁️ Use without installing anything
 
-You can use the current version of Ketesa without your own installation directly
-via [admin.etke.cc](https://admin.etke.cc).
+The hosted version at [admin.etke.cc](https://admin.etke.cc) is always up to date and
+requires no installation. Just open it in your browser, enter your homeserver URL, and
+log in with your admin account.
 
-**Note:**
-If you want to use the deployment, you have to make sure that the admin endpoints (`/_synapse/admin`) are accessible for your browser.
-**Remember: You have no need to expose these endpoints to the internet but to your network.**
-If you want your own deployment, follow the [step-by-step installation guide](#step-by-step-installation) below.
+> 🔒 Your browser must be able to reach `/_synapse/admin` on your homeserver. The endpoints
+> do not need to be exposed to the public internet — access from your local network is sufficient.
 
-### Step-by-step installation
+### 📥 Step-by-step installation
 
-You have three options:
+Choose your preferred method:
 
-1.  [Download the tarball and serve with any webserver](#steps-for-1)
-2.  [Download the source code from github and run using nodejs](#steps-for-2)
-3.  [Run the Docker container](#steps-for-3)
+| | Method | Best for |
+|---|---|---|
+| [1️⃣](#steps-for-1) | **Tarball + webserver** | Any static hosting, full control |
+| [2️⃣](#steps-for-2) | **Source + Node.js** | Development or custom builds |
+| [3️⃣](#steps-for-3) | **Docker** | Containerized deployments |
 
 #### Steps for 1)
 
-- make sure you have a webserver installed that can serve static files (any webserver like nginx or apache will do)
-- configure a vhost for Ketesa on your webserver
-- download the appropriate `.tar.gz` file [from the latest release](https://github.com/etkecc/ketesa/releases/latest):
-- `ketesa.tar.gz` for root path (e.g., `https://admin.example.com`)
-- `ketesa-subpath-admin.tar.gz` for `/admin` subpath (e.g., `https://example.com/admin`)
-- unpack the .tar.gz
-- move or symlink the unpacked directory into your vhost's root directory
-- open the url of the vhost in your browser
+- Make sure you have a webserver installed that can serve static files (nginx, Apache, Caddy, or anything else will work)
+- Configure a virtual host for Ketesa on your webserver
+- Download the appropriate `.tar.gz` from the [latest release](https://github.com/etkecc/ketesa/releases/latest):
+  - `ketesa.tar.gz` for root path deployment (e.g., `https://admin.example.com`)
+  - `ketesa-subpath-admin.tar.gz` for `/admin` subpath deployment (e.g., `https://example.com/admin`)
+- Unpack the archive and place the contents in your virtual host's document root
+- Open the URL in your browser
 
-[Reverse Proxy Documentation with Examples](./docs/reverse-proxy.md)
+[📄 Reverse proxy configuration examples](./docs/reverse-proxy.md)
 
 #### Steps for 2)
 
-- make sure you have installed the following: git, yarn, nodejs
-- download the source code: `git clone https://github.com/etkecc/ketesa.git`
-- change into downloaded directory: `cd ketesa`
-- download dependencies: `yarn install`
-- start web server: `yarn start`
+- Make sure you have git, yarn, and Node.js installed
+- Clone the repository: `git clone https://github.com/etkecc/ketesa.git`
+- Enter the directory: `cd ketesa`
+- Install dependencies: `yarn install`
+- Start the development server: `yarn start`
 
 #### Steps for 3)
 
-- run the Docker container from the public docker registry: `docker run -p 8080:8080 ghcr.io/etkecc/ketesa` or use the [docker-compose.yml](docker/docker-compose.yml): `docker-compose up -d`
+- Run the Docker container: `docker run -p 8080:8080 ghcr.io/etkecc/ketesa`
 
-  > note: if you're building on an architecture other than amd64 (for example a raspberry pi), make sure to define a maximum ram for node. otherwise the build will fail.
+  Or use the provided [docker-compose.yml](docker/docker-compose.yml):
 
-  > note: if you're running on a ipv4-only system, make sure to set `SERVER_HOST=0.0.0.0` env var. Otherwise Ketesa will not be able to start.
+  ```sh
+  docker-compose -f docker/docker-compose.yml up -d
+  ```
+
+  > **Note:** If you're building on a non-amd64 architecture (e.g., Raspberry Pi), set a Node.js
+  > memory cap to prevent OOM failures during the build: `NODE_OPTIONS="--max_old_space_size=1024"`.
+
+  > **Note:** On IPv4-only systems, set `SERVER_HOST=0.0.0.0` so Ketesa binds correctly.
+
+  To build your own image from source:
 
   ```yml
   services:
@@ -274,23 +356,18 @@ You have three options:
       restart: unless-stopped
   ```
 
-- browse to http://localhost:8080
+- Open http://localhost:8080 in your browser
 
-### Serving Ketesa on a different path
+### 🛤️ Serving Ketesa under a custom path
 
-The path prefix where Ketesa is served can only be changed during the build step.
+The base path is baked in at build time and cannot be changed at runtime.
 
-If you need `/admin` specifically, use the prebuilt `ketesa-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-subpath-admin` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml), or `*-subpath-admin` tag of the Docker image.
-If you need the root path, use the prebuilt `ketesa` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml).
-For any other prefix, you must build your own distribution.
+- For `/admin` specifically: use the prebuilt `ketesa-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-subpath-admin` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml), or the `*-subpath-admin` Docker image tag.
+- For root path: use `ketesa.tar.gz` or the `dist-root` artifact.
+- For any other prefix: build from source with `yarn build --base=/my-prefix`, or pass the `BASE_PATH` build argument to Docker.
 
-If you downloaded the source code, use `yarn build --base=/my-prefix` to set a path prefix.
-
-If you want to build your own Docker container, use the `BASE_PATH` argument.
-
-We do not support directly changing the path where Ketesa is served in the pre-built Docker container. Instead please use a reverse proxy if you need to move Ketesa to a different base path. If you want to serve multiple applications with different paths on the same domain, you need a reverse proxy anyway.
-
-Example for Traefik:
+If you need a reverse proxy to expose Ketesa under a different base path without rebuilding,
+here is a Traefik example:
 
 `docker-compose.yml`
 
@@ -318,24 +395,29 @@ services:
       - "traefik.http.routers.admin.middlewares=admin-slashless-redirect,admin-strip-prefix"
 ```
 
-## Development
+---
 
-- See https://yarnpkg.com/getting-started/editor-sdks how to setup your IDE
-- Use `yarn lint` to run all style and linter checks
-- Use `yarn test` to run all unit tests
-- Use `yarn fix` to fix the coding style
+## 🛠️ Development
 
-`just run-dev` to start the development stack (depending on your system speed, you may want to re-run this command if
-   user creation fails)
+- See https://yarnpkg.com/getting-started/editor-sdks for IDE setup instructions
 
-This command initializes the development environment (local Synapse server, Element Web client app, and Postgres DB),
-and launches the app in a dev mode at `http://localhost:5173`
+| Command | What it does |
+|---|---|
+| `yarn lint` | Run all style and linter checks |
+| `yarn test` | Run all unit tests |
+| `yarn fix` | Auto-fix coding style issues |
+| `just run-dev` | Spin up the full local development stack |
 
-After that open [http://localhost:5173](http://localhost:5173?username=admin&password=admin&server=http://localhost:8008) in your browser,
-login using the following credentials:
+`just run-dev` launches a complete local environment: a Synapse homeserver, Element Web, and a Postgres
+database. The app starts in development mode at `http://localhost:5173`.
+(If user creation fails on first run, re-run the command — the server may still be starting up.)
 
-* Login: admin
-* Password: admin
-* Homeserver URL: http://localhost:8008
+Open [http://localhost:5173](http://localhost:5173?username=admin&password=admin&server=http://localhost:8008) and log in with:
 
-Element Web runs on http://localhost:8080
+| Field | Value |
+|---|---|
+| Login | `admin` |
+| Password | `admin` |
+| Homeserver URL | `http://localhost:8008` |
+
+Element Web is available at http://localhost:8080.
