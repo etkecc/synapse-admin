@@ -1,54 +1,69 @@
-# Configuration
+# ⚙️ Configuration
 
-Ketesa can be configured in the following ways (both are optional, and both can be used together):
+Ketesa is flexible by design — configure it once and let it work across any number of deployments or homeservers.
 
-* By providing the `config.json` file alongside the Ketesa deployment, example: [admin.etke.cc/config.json](https://admin.etke.cc/config.json)
-* By providing configuration under the `cc.etke.ketesa` key in the `/.well-known/matrix/client` file, example:
-[demo.etke.host/.well-known/matrix/client](https://demo.etke.host/.well-known/matrix/client)
+There are two ways to configure Ketesa (both are optional, and both can be used together):
+
+| Method | Best for |
+|--------|----------|
+| `config.json` alongside the deployment ([example](https://admin.etke.cc/config.json)) | Self-hosted deployments where you control the Ketesa files |
+| `cc.etke.ketesa` key in `/.well-known/matrix/client` ([example](https://demo.etke.host/.well-known/matrix/client)) | Any homeserver — works even if you don't host Ketesa yourself |
 
 If you are an [etke.cc](https://etke.cc) customer,
 or use [spantaleev/matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy),
 or [etkecc/ansible](https://github.com/etkecc/ansible),
 configuration is added automatically to the `/.well-known/matrix/client` file.
 
-**Why `/.well-known/matrix/client`?**
+> 💡 **Why `/.well-known/matrix/client`?**
+>
+> Because any instance of Ketesa will automatically pick up the configuration from the homeserver.
+> A common use case is when you have a Synapse server running, but don't want (or can't) to deploy Ketesa alongside it.
+> In this case, you could provide the configuration in the `/.well-known/matrix/client` file,
+> and any Ketesa instance (e.g., [admin.etke.cc](https://admin.etke.cc)) will pick it up.
+>
+> Another common case is when you have multiple Synapse servers running and want to use a single Ketesa instance to manage them all.
+> In this case, you could provide the configuration in the `/.well-known/matrix/client` file for each of the servers.
 
-Because any instance of Ketesa will automatically pick up the configuration from the homeserver.
-A common use case is when you have a Synapse server running, but don't want (or can't) to deploy Ketesa alongside it.
-In this case, you could provide the configuration in the `/.well-known/matrix/client` file,
-and any Ketesa instance (e.g., [admin.etke.cc](https://admin.etke.cc)) will pick it up.
+## 🔧 Configuration options
 
-Another common case is when you have multiple Synapse servers running and want to use a single Ketesa instance to manage them all.
-In this case, you could provide the configuration in the `/.well-known/matrix/client` file for each of the servers.
-
-## Configuration options
-
-* `restrictBaseUrl` - restrictBaseUrl restricts the Ketesa instance to work only with specific homeserver(-s).
-  It accepts both a string and an array of strings.
+* `restrictBaseUrl` — restricts the Ketesa instance to work only with specific homeserver(-s).
+  Accepts both a string and an array of strings.
   The homeserver URL should be the _actual_ homeserver URL, and not the delegated one.
   Example: `https://matrix.example.com` or `https://synapse.example.net`
   [More details](restrict-hs.md)
-* `externalAuthProvider` - set if an external authentication provider is used (e.g., OIDC, LDAP, etc).
-  It accepts a boolean value.
+
+* `externalAuthProvider` — set if an external authentication provider is used (e.g., OIDC, LDAP, etc).
+  Accepts a boolean value.
   [More details](external-auth-provider.md)
-* `corsCredentials` - configure the CORS credentials for the Ketesa instance.
-  It accepts the following values:
-  * `same-origin` (default): Cookies will be sent only if the request is made from the same origin as the server.
-  * `include`: Cookies will be sent regardless of the origin of the request.
-  * `omit`: Cookies will not be sent with the request.
+
+* `corsCredentials` — configure the CORS credentials for the Ketesa instance.
+  Accepts the following values:
+
+  | Value | Behavior |
+  |---|---|
+  | `same-origin` (default) | Cookies are sent only if the request is made from the same origin as the server |
+  | `include` | Cookies are sent regardless of the origin of the request |
+  | `omit` | Cookies are not sent with the request |
+
   [More details](cors-credentials.md)
-* `asManagedUsers` - protect system user accounts managed by appservices (such as bridges) / system (such as bots) from accidental changes.
+
+* `asManagedUsers` — protect system user accounts managed by appservices (such as bridges) / system (such as bots) from accidental changes.
   By defining a list of MXID regex patterns, you can protect these accounts from accidental changes.
   Example: `^@baibot:example\\.com$`, `^@slackbot:example\\.com$`, `^@slack_[a-zA-Z0-9\\-]+:example\\.com$`, `^@telegrambot:example\\.com$`, `^@telegram_[a-zA-Z0-9]+:example\\.com$`
   [More details](system-users.md)
-* `menu` - add custom menu items to the main menu (sidebar) by providing a `menu` array in the config.
+
+* `menu` — add custom menu items to the main menu (sidebar) by providing a `menu` array in the config.
   Each `menu` item can contain the following fields:
-  * `label` (required): The text to display in the menu.
-  * `icon` (optional): The icon to display next to the label, one of the [src/utils/icons.ts](../src/utils/icons.ts) icons, otherwise a default icon will be used.
-  * `url` (required): The URL to navigate to when the menu item is clicked.
+
+  | Field | Required | Description |
+  |---|---|---|
+  | `label` | ✅ Yes | The text to display in the menu |
+  | `icon` | No | Icon name from [src/utils/icons.ts](../src/utils/icons.ts); falls back to a default icon |
+  | `url` | ✅ Yes | The URL to navigate to when the menu item is clicked |
+
   [More details](custom-menu.md)
 
-## Examples
+## 📋 Examples
 
 ### config.json
 
@@ -77,7 +92,7 @@ In this case, you could provide the configuration in the `/.well-known/matrix/cl
 
 ### `/.well-known/matrix/client`
 
-> **Note:** The legacy key `cc.etke.synapse-admin` is still supported for backward compatibility, but is deprecated. Use `cc.etke.ketesa` going forward.
+> 📝 **Note:** The legacy key `cc.etke.synapse-admin` is still supported for backward compatibility, but is deprecated. Use `cc.etke.ketesa` going forward.
 
 ```json
 {

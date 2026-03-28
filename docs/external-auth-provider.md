@@ -1,21 +1,20 @@
-# External Auth Provider
+# 🔑 External Auth Provider
 
-When you use an external authentication provider (like OIDC, LDAP, etc.) your Ketesa API acts differently,
-but unfortunately, the API does not expose which provider is used (and if it is used at all), especially if you use a
-seamless/hidden password provider that does not announce itself.
+When Synapse delegates authentication to an external provider (OIDC, LDAP, and similar), the Synapse API doesn't announce which provider is in use — especially with seamless/hidden password providers that don't announce themselves. Ketesa needs a hint to adapt its interface accordingly.
 
-To work around such cases, the `externalAuthProvider` config option can be set to `true` to change Ketesa's
-behavior to better suit setups with external auth providers. Currently, the following changes are made:
-* Do not require a new password when reactivating a user
-* Do not show the guests filter in the users list
+Setting `externalAuthProvider: true` tells Ketesa to adjust its behavior for these setups. Currently, it makes the following changes:
 
-Note: For OIDC ("next-gen auth"), Ketesa adjusts its behavior automatically, so this config option is not required.
+- **No password required when reactivating a user** — because the password lives in the external provider, not in Synapse
+- **Hides the guests filter** in the users list — external auth providers typically don't support guest accounts
 
-## Matrix Authentication Service (MAS)
+> 📝 **Note:** For OIDC ("next-gen auth" / MAS), Ketesa adjusts its behavior automatically — this config option is not required for those setups.
+
+## 🔐 Matrix Authentication Service (MAS)
 
 When Synapse uses Matrix Authentication Service (MAS) for OIDC, Ketesa uses the MAS admin API for registration
 token management. The MAS admin API is not exposed by default, so it must be reachable from the Ketesa UI.
-If the MAS admin API is not exposed, registration token list/create/update/delete operations will fail.
+
+> ⚠️ **Warning:** If the MAS admin API is not exposed, registration token list/create/update/delete operations will fail.
 
 ```yaml
 http:
@@ -46,17 +45,18 @@ location / {
 }
 ```
 
-This method is used in Ketesa's [Docker images (dist)](../docker/Dockerfile) and [Docker image
-(build)](../docker/Dockerfile.build) and is recommended for production deployments.
+> 💡 This method is used in Ketesa's [Docker images (dist)](../docker/Dockerfile) and [Docker image (build)](../docker/Dockerfile.build) and is recommended for production deployments.
 
-## Configuration
+## ⚙️ Configuration
 
 `externalAuthProvider` accepts a boolean value:
-* `true`: Enable external auth provider mode
-* `false` (default): Disable external auth provider mode
+
+| Value | Behavior |
+|---|---|
+| `true` | Enable external auth provider mode |
+| `false` (default) | Disable external auth provider mode |
 
 [Configuration options](config.md)
-
 
 ### config.json
 

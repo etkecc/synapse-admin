@@ -1,121 +1,145 @@
-# etke.cc-specific components
+# 🌟 etke.cc-specific components
 
-This directory contains [etke.cc](https://etke.cc)-specific components that are unusable for any other purpose or configuration.
+This is where the etke.cc magic lives. We build everything open-source wherever possible — but some things are purpose-built for the [etke.cc](https://etke.cc) platform and simply wouldn't make sense anywhere else. This directory contains those components: deeply integrated features that turn Ketesa into a full control plane for managed Matrix servers.
 
-We at [etke.cc](https://etke.cc) are attempting to develop everything open-source, but some things are too specific to be used by anyone else. This directory contains such components; they are only available for [etke.cc](https://etke.cc) customers.
+> ⚠️ **Heads up:** These components are only available for [etke.cc](https://etke.cc) customers and are documented here rather than in the [main docs](../../../docs/README.md). They are **not supported** as part of the Ketesa open-source project — no issues, no PRs, no support requests.
 
-Due to the specifics mentioned above, these components are documented here rather than in the [docs](../../../docs/README.md). They are not supported as part of the Ketesa open-source project (i.e.: no issues, no PRs, no support, no requests, etc.).
+---
 
-## Components
+## 🧩 Components
 
-<!-- vim-markdown-toc GFM -->
-
-* [Server Status icon](#server-status-icon)
-* [Server Status page](#server-status-page)
-* [Server Notifications icon](#server-notifications-icon)
-* [Server Notifications page](#server-notifications-page)
-* [Server Actions Page](#server-actions-page)
-* [Server Commands Panel](#server-commands-panel)
-* [Billing Page](#billing-page)
-* [Support Page](#support-page)
-* [Instance config](#instance-config)
-
-<!-- vim-markdown-toc -->
-
-### Server Status icon
+### 🟢 Server Status icon
 
 ![Server Status icon](../../../docs/screenshots/etke.cc/server-status/indicator.webp)
 
-In the application bar, a new monitoring icon is displayed that shows the current server status and uses the following color dot (and tooltip indicators):
+A live monitoring indicator in the application bar showing current server health at a glance. It polls your server in the background and updates automatically — no manual refresh needed.
 
-* 🟢 (green) - the server is up and running, everything is fine, no issues detected
-* 🟡 (yellow) - the server is up and running, but there is a command in progress (likely [maintenance](https://etke.cc/help/extras/scheduler/#maintenance)), so some temporary issues may occur - that's totally fine
-* 🔴 (red) - there is at least 1 issue with one of the server's components
+| Color | Meaning |
+|-------|---------|
+| 🟢 Green | Server is up and running — no issues detected |
+| 🟡 Yellow | Server is up, but a command is in progress (likely [maintenance](https://etke.cc/help/extras/scheduler/#maintenance)) — temporary issues may occur, that's expected and fine |
+| 🔴 Red | At least one component has an issue — click to see what and why |
 
 ![Server Status icon in sidebar](../../../docs/screenshots/etke.cc/server-status/indicator-sidebar.webp)
 
-The same icon, with a link to the [Server Status page](#server-status-page), is displayed in the sidebar.
+The same indicator, with a link to the [Server Status page](#-server-status-page), is also displayed in the sidebar so it's always within reach.
 
-### Server Status page
+---
+
+### 📊 Server Status page
 
 ![Server Status Page](../../../docs/screenshots/etke.cc/server-status/page.webp)
 
-When you click on the [Server Status icon](#server-status-icon) in the application bar, you will be redirected to the
-Server Status page. This page contains the following information:
+Click the [Server Status icon](#-server-status-icon) to open this page. It surfaces the full [monitoring report](https://etke.cc/services/monitoring/) for your server — the same report that etke.cc's monitoring system watches around the clock:
 
-* Overall server status (up/updating/has issues)
-* Details about the currently running command (if any)
-* Details about the server's components statuses (up/down with error details and suggested actions) by categories
+- **Overall server status** — up, updating, or has issues
+- **Currently running command** — if maintenance is in progress, you'll see exactly what's happening
+- **Per-component breakdown** — every service on your server shown individually with its status, error details, and suggested corrective actions, grouped by category
 
-This is [a monitoring report](https://etke.cc/services/monitoring/)
+This is the first place to check when something feels off. If a component is red, the suggested action tells you what to do — often it's a single click in the [Server Actions page](#-server-actions-page).
 
-### Server Notifications icon
+---
+
+### 🔔 Server Notifications icon
 
 ![Server Notifications icon](../../../docs/screenshots/etke.cc/server-notifications/badge.webp)
 
-In the application bar, a new notifications icon is displayed that shows the number of unread (not removed) notifications
+An unread badge in the application bar showing the count of unread server notifications. Notifications are generated by the etke.cc platform for events like:
 
-### Server Notifications page
+- Completed or failed server commands
+- Service alerts and recoveries
+- Important platform announcements
+- Scheduled maintenance reminders
+
+The badge clears as you read and dismiss notifications.
+
+---
+
+### 📬 Server Notifications page
 
 ![Server Notifications Page](../../../docs/screenshots/etke.cc/server-notifications/page.webp)
 
-When you click a notification in the [Server Notifications icon](#server-notifications-icon)'s list in the application bar, you will be redirected to the Server Notifications page. This page contains the full text of all the notifications you have about your server.
+Click any notification in the [Server Notifications icon](#-server-notifications-icon)'s dropdown to open this page. It shows the full text of every server notification in one place, with the most recent at the top. You can dismiss individual notifications or clear them all at once.
 
-### Server Actions Page
+---
+
+### ⚡ Server Actions page
 
 ![Server Actions Page](../../../docs/screenshots/etke.cc/server-actions/page.webp)
 
-When you click on the `Server Actions` sidebar menu item, you will be redirected to the Server Actions page.
-On this page you can do the following:
+Accessible via the **Server Actions** sidebar menu item. This is your command center for server management — everything you'd normally do over SSH or by contacting support, available in one place:
 
-* [Run a command](#server-commands-panel) on your server immediately
-* [Schedule a command](https://etke.cc/help/extras/scheduler/#schedule) to run at a specific date and time
-* [Configure a recurring schedule](https://etke.cc/help/extras/scheduler/#recurring) for a command to run at a specific time every week
+| Action type | What it does |
+|-------------|-------------|
+| **[Run now](#-server-commands-panel)** | Execute a management command immediately — result arrives as a notification |
+| **[Schedule](https://etke.cc/help/extras/scheduler/#schedule)** | Run a command at a specific date and time — useful for planned maintenance windows |
+| **[Recurring](https://etke.cc/help/extras/scheduler/#recurring)** | Configure a command to run automatically at a set time every week — for routine tasks like backups or cleanups |
 
-### Server Commands Panel
+---
+
+### 🖥️ Server Commands Panel
 
 ![Server Commands Panel](../../../docs/screenshots/etke.cc/server-commands/panel.webp)
 
-When you open the [Server Actions page](#server-status-page), you will see the Server Commands panel.
-This panel contains all [the commands](https://etke.cc/help/extras/scheduler/#commands) you can run on your server in one click.
-Once a command is finished, you will get a notification about the result.
+Shown within the [Server Actions page](#-server-actions-page). Lists all [available management commands](https://etke.cc/help/extras/scheduler/#commands) for your server — things like restarting services, running updates, triggering backups, and more.
 
-### Billing Page
+Each command runs with a single click. Some commands accept optional arguments for fine-grained control. Once a command finishes, a notification arrives automatically with the result.
+
+> 💡 Commands that would normally require SSH access or a support ticket are available here directly. No terminal, no waiting.
+
+---
+
+### 💳 Billing page
 
 ![Billing Page](../../../docs/screenshots/etke.cc/billing/page.webp)
 
-When you click on the `Billing` sidebar menu item, you will see the Billing page.
-On this page you can see the list of successful payments and invoices.
+Accessible via the **Billing** sidebar menu item. Gives you a full view of your etke.cc account's financial history:
 
-### Support Page
+- **Payment history** — all successful transactions with dates and amounts
+- **Subscriptions and one-time payments** — both are shown with their details
+- **Invoice download** — download a PDF invoice for any transaction directly from this page
+
+No need to log in to a separate billing portal or contact support to get an invoice.
+
+---
+
+### 💬 Support page
 
 ![Support Page](../../../docs/screenshots/etke.cc/support/page.webp)
 
-When you click on the `Contact support` sidebar menu item, you will see the Support page,
-where you can see the list of your support tickets, and create a new one if needed.
+Accessible via the **Contact support** sidebar menu item. A full support ticketing interface built directly into Ketesa:
 
-This is a convenient interface for the existing support system, previously available only via email.
-All communication with support is duplicated to email, so you can use both interfaces simultaneously.
+- **View all your tickets** — see open, pending, and resolved requests in one list
+- **Create new tickets** — describe your issue and submit without leaving the admin panel
+- **Bidirectional messaging** — exchange messages with the etke.cc support team and see their replies inline
 
-### Instance config
+> 💡 All communication is mirrored to email — replies arrive in your inbox and you can respond from there too. Both interfaces stay in sync, so you can use whichever is more convenient.
 
-With instance config, you can white-label Ketesa and disable some features you don't need.
+---
 
-**White-labeling** - the following customizations are available:
+### 🎨 Instance config
 
-* Application name (browser tab title, error pages)
-* Logo (login page)
-* Favicon (browser tab icon)
-* Background image (login page background)
+White-label Ketesa and tailor the feature set for your deployment — all driven by platform configuration, no rebuild or deploy step needed. The configuration is fetched automatically from the etke.cc API when Ketesa loads.
 
-**Disabling features** - the following features can be disabled:
+**White-labeling** — make Ketesa look like yours:
 
-* Server Actions
-* Server Status
-* Server Notifications
-* Billing page
-* Support page
-* Federation page
-* Invite tokens page
+| Setting | What it changes |
+|---------|----------------|
+| Application name | Browser tab title and error page headings |
+| Logo | Image shown on the login page |
+| Favicon | Browser tab icon |
+| Background image | Full-page background on the login screen |
 
-Additionally, etke.cc attributions can be removed with the appropriate plan.
+**Disabling features** — hide sections that aren't relevant to your setup:
+
+| Feature | What gets hidden |
+|---------|-----------------|
+| Server Actions | The Server Actions page and sidebar entry |
+| Server Status | The status icon in the app bar and sidebar |
+| Server Notifications | The notifications badge and page |
+| Billing | The Billing page and sidebar entry |
+| Support | The Contact support page and sidebar entry |
+| Federation | The Federation overview page |
+| Invite tokens | The Registration tokens page |
+
+> 📝 etke.cc attributions (footer links and branding) can be removed on the appropriate plan. Contact support if you need this.

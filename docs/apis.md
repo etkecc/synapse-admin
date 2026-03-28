@@ -1,54 +1,18 @@
-# Supported APIs
+# 🔌 Supported APIs
 
 Ketesa uses various APIs to manage Matrix homeservers and related services.
-This document lists all supported APIs and their usage status.
+This document lists all supported APIs and their implementation status.
 
-> **Note:** This file was compiled based on Synapse **v1.149.1** and MAS **v1.13.0** documentation.
+> 📝 **Note:** This file was compiled based on Synapse **v1.149.1** and MAS **v1.13.0** documentation.
 > It is not updated often and is provided just for reference purposes.
 
-Legend: ✅ fully implemented, 🟡 in progress, ❌ not implemented, ⏭️ superseded (newer version available)
+**Legend:** ✅ fully implemented · 🟡 in progress · ❌ not implemented · ⏭️ superseded (newer version available)
 
-
-<!-- vim-markdown-toc GFM -->
-
-* [✅ Synapse Admin API](#-synapse-admin-api)
-    * [✅ Server Version](#-server-version)
-    * [✅ Users](#-users)
-    * [✅ User Devices](#-user-devices)
-    * [✅ Rooms](#-rooms)
-    * [✅ Registration Tokens](#-registration-tokens)
-    * [✅ Media](#-media)
-    * [✅ Event Reports](#-event-reports)
-    * [✅ Server Notices](#-server-notices)
-    * [✅ Federation](#-federation)
-    * [✅ Experimental Features](#-experimental-features)
-    * [✅ Statistics](#-statistics)
-    * [✅ Account Validity](#-account-validity)
-    * [✅ Purge History](#-purge-history)
-    * [✅ Fetch Event](#-fetch-event)
-    * [⏭️ Register (Shared-Secret Registration) — superseded](#-register-shared-secret-registration--superseded)
-    * [✅ Room Membership](#-room-membership)
-    * [✅ Scheduled Tasks](#-scheduled-tasks)
-    * [✅ Client-Server API Extensions](#-client-server-api-extensions)
-* [✅ Matrix Authentication Service (MAS) Admin API](#-matrix-authentication-service-mas-admin-api)
-    * [✅ OAuth 2.0](#-oauth-20)
-    * [✅ Server](#-server)
-    * [✅ Registration Tokens](#-registration-tokens-1)
-    * [✅ Users](#-users-1)
-    * [✅ User Emails](#-user-emails)
-    * [✅ Compat Sessions](#-compat-sessions)
-    * [✅ OAuth 2.0 Sessions](#-oauth-20-sessions)
-    * [✅ Personal Sessions](#-personal-sessions)
-    * [✅ Browser Sessions](#-browser-sessions)
-    * [✅ Upstream OAuth Links](#-upstream-oauth-links)
-    * [✅ Upstream OAuth Providers](#-upstream-oauth-providers)
-    * [✅ Policy Data](#-policy-data)
-
-<!-- vim-markdown-toc -->
+---
 
 ## ✅ Synapse Admin API
 
-[Synapse Admin API documentation](https://element-hq.github.io/synapse/latest/usage/administration/admin_api/index.html)
+[Synapse Admin API documentation →](https://element-hq.github.io/synapse/latest/usage/administration/admin_api/index.html)
 
 ### ✅ Server Version
 
@@ -237,9 +201,11 @@ Superseded: redundant with existing user creation via User Admin API (already im
 | `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | GET | Get admin client configuration | ✅ |
 | `/_matrix/client/v3/user/<user_id>/account_data/io.element.synapse.admin_client_config` | PUT | Set admin client configuration | ✅ |
 
+---
+
 ## ✅ Matrix Authentication Service (MAS) Admin API
 
-[MAS Admin API specification](https://element-hq.github.io/matrix-authentication-service/api/spec.json)
+[MAS Admin API specification →](https://element-hq.github.io/matrix-authentication-service/api/spec.json)
 
 ### ✅ OAuth 2.0
 

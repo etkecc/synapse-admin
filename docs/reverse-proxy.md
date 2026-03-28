@@ -1,29 +1,19 @@
-# Serving Ketesa behind a reverse proxy
+# 🌐 Serving Ketesa behind a reverse proxy
 
-You are supposed to do so for any service you want to expose to the internet,
-and here you can find specific instructions and example configurations for Ketesa.
+Running Ketesa behind a reverse proxy is the recommended approach for any internet-facing deployment. Here you'll find ready-to-use configurations for the most common setups.
 
-If you need `/admin`, use the prebuilt `ketesa-subpath-admin` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-admin` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml).
-For the root path, use the prebuilt `ketesa` tarball from [GitHub Releases](https://github.com/etkecc/ketesa/releases) or the `dist-root` artifact from [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml).
+**Pick the right build for your path:**
 
+| Deployment path | Tarball | Docker tag |
+|----------------|---------|------------|
+| Root path — `https://admin.example.com` | `ketesa.tar.gz` / `dist-root` | `latest` |
+| Subpath — `https://example.com/admin` | `ketesa-subpath-admin.tar.gz` / `dist-subpath-admin` | `latest-subpath-admin` |
 
-<!-- vim-markdown-toc GFM -->
+Downloads: [GitHub Releases](https://github.com/etkecc/ketesa/releases) · [GitHub Actions artifacts](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml)
 
-* [Nginx](#nginx)
-  * [Prebuilt tarball](#prebuilt-tarball)
-    * [Root path](#root-path)
-    * [`/admin` subpath](#admin-subpath)
-  * [Docker](#docker)
-    * [Root path](#root-path-1)
-    * [`/admin` subpath](#admin-subpath-1)
-* [Traefik (docker labels)](#traefik-docker-labels)
-* [Other reverse proxies](#other-reverse-proxies)
+## 🟢 Nginx
 
-<!-- vim-markdown-toc -->
-
-## Nginx
-
-### Prebuilt tarball
+### 📦 Prebuilt tarball
 
 #### Root path
 
@@ -79,7 +69,7 @@ server {
 }
 ```
 
-### Docker
+### 🐳 Docker
 
 The following snippets assume the nginx docker container is used and it is in the same network as Ketesa docker container.
 
@@ -132,10 +122,10 @@ server {
 After you've done that, ensure that the configuration is correct by running `nginx -t` and then reload Nginx
 (e.g. `systemctl reload nginx`).
 
-> **Note:** This configuration doesn't cover HTTPS, which is highly recommended to use. You can find more information
+> ⚠️ **Warning:** This configuration doesn't cover HTTPS, which is highly recommended to use. You can find more information
 about setting up HTTPS in the [Nginx documentation](https://nginx.org/en/docs/http/configuring_https_servers.html).
 
-## Traefik (docker labels)
+## 🔀 Traefik (docker labels)
 
 If you are using Traefik as a reverse proxy, you can use the following labels, `docker-compose.yml` example:
 
@@ -149,6 +139,6 @@ services:
       - "traefik.http.routers.ketesa.rule=Host(`example.com`)"
 ```
 
-## Other reverse proxies
+## 🔧 Other reverse proxies
 
 There are no examples for other reverse proxies yet, and PRs are greatly appreciated.

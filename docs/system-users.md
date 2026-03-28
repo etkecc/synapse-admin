@@ -1,32 +1,33 @@
-# System / Appservice-managed Users
+# 🤖 System / Appservice-managed Users
 
-Inadvertently altering system user accounts managed by appservices (such as bridges) or the system (such as bots) is a common issue.
-Editing, deleting, locking, or changing the passwords of these appservice-managed accounts can cause serious problems.
-To prevent this, we've added a new feature that blocks these types of modifications to such accounts,
-while still allowing other risk-free changes (changing display names and avatars).
-By defining a list of MXID regex patterns in the new `asManagedUsers` configuration setting,
-you can protect these accounts from accidental changes.
+Matrix bridges work by creating "puppet" accounts for every bridged user — a Telegram bridge, for example, will have one Matrix account for every Telegram contact that participates in bridged rooms. These accounts are entirely managed by the bridge appservice. Accidentally editing, deactivating, locking, or resetting the password of a puppet account will break the bridge for that user, often silently.
 
-If a system-managed user was locked, deactivated, or erased by mistake (e.g., from a client app or using any other way),
-Ketesa will allow you to restore it to an active state.
+Ketesa lets you define a list of MXID patterns to mark as appservice-managed. Once marked, these accounts are **protected from destructive changes** while still allowing harmless cosmetic edits (display name and avatar).
 
-## Filtering
+**Protected operations** (blocked for system-managed users):
+- Deactivating or erasing the account
+- Locking / shadow-banning
+- Resetting the password
+- Changing admin status
 
-When `asManagedUsers` is configured, a **System users** filter appears in the users list.
-It allows you to:
+**Always allowed** (safe for bridges):
+- Updating display name
+- Updating avatar
 
-* **Exclude system** — hide system/appservice-managed users from the list
-* **Only system** — show only system/appservice-managed users
+> 💡 **Recovery:** If a system-managed user was locked, deactivated, or erased by mistake (e.g., from a client app or using any other way), Ketesa will still allow you to restore it to an active state.
+
+## 🔍 Filtering
+
+When `asManagedUsers` is configured, a **System users** filter appears in the users list. It allows you to:
+
+- **Exclude system** — hide system/appservice-managed users from the list
+- **Only system** — show only system/appservice-managed users
 
 The filtering is performed client-side with cached regex results for optimal performance.
 
-## Configuration
+## ⚙️ Configuration
 
-The examples below contain the configuration settings to mark
-[Telegram bridge (mautrix-telegram)](https://github.com/mautrix/telegram),
-[Slack bridge (mautrix-slack)](https://github.com/mautrix/slack),
-and [Baibot](https://github.com/etkecc/baibot) users of `example.com` homeserver as appservice-managed users,
-just to illustrate the options to protect both specific MXIDs (as in the Baibot example) and all puppets of a bridge (as in the Telegram and Slack examples).
+The examples below contain the configuration settings to mark [Telegram bridge (mautrix-telegram)](https://github.com/mautrix/telegram), [Slack bridge (mautrix-slack)](https://github.com/mautrix/slack), and [Baibot](https://github.com/etkecc/baibot) users of `example.com` homeserver as appservice-managed users. This illustrates the options to protect both specific MXIDs (as in the Baibot example) and all puppets of a bridge (as in the Telegram and Slack examples).
 
 [Configuration options](config.md)
 

@@ -1,18 +1,22 @@
-# CORS Credentials
+# 🔐 CORS Credentials
 
-If you'd like to use cookie-based authentication
-(for example, [ForwardAuth with Authelia](https://github.com/Awesome-Technologies/synapse-admin/issues/655)),
-you can configure the `corsCredentials` option in the `config.json` file or in the `/.well-known/matrix/client` file.
+Controls how Ketesa sends cookies and credentials when making API requests. Most deployments don't need to touch this — the default works fine for standard setups. You'll typically only need it when adding a reverse-proxy authentication layer in front of your homeserver.
 
-## Configuration
+**When to change it:**
 
-> [Documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#including_credentials)
+- **`include`** — use this when you have cookie-based auth in front of your homeserver (e.g., [ForwardAuth with Authelia](https://github.com/Awesome-Technologies/synapse-admin/issues/655)). Cookies will be forwarded with every request regardless of origin.
+- **`omit`** — use this if your setup explicitly must not send any cookies (rare; usually for strict security policies).
+- **`same-origin`** — the default; works for the vast majority of deployments.
 
-The `corsCredentials` option accepts the following values:
+## ⚙️ Configuration
 
-* `same-origin` (default): Cookies will be sent only if the request is made from the same origin as the server.
-* `include`: Cookies will be sent regardless of the origin of the request.
-* `omit`: Cookies will not be sent with the request.
+> 📚 [MDN reference: credentials option](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#including_credentials)
+
+| Value | When to use | Behavior |
+|-------|-------------|----------|
+| `same-origin` *(default)* | Standard deployments | Cookies sent only for same-origin requests |
+| `include` | Cookie-based auth (ForwardAuth, Authelia, etc.) | Cookies sent with every request |
+| `omit` | Strict no-cookie policies | Cookies never sent |
 
 [Configuration options](config.md)
 
