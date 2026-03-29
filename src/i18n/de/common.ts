@@ -1,71 +1,8 @@
-import { formalGermanMessages } from "@haleos/ra-language-german";
-
-const fixedGermanMessages = {
-  ...formalGermanMessages,
-  ra: {
-    ...formalGermanMessages.ra,
-    navigation: {
-      ...formalGermanMessages.ra.navigation,
-      no_filtered_results: "Keine Ergebnisse",
-      clear_filters: "Alle Filter entfernen",
-      add_filter: "Filter hinzufügen",
-    },
-    auth: {
-      ...formalGermanMessages.ra.auth,
-      email: "E-Mail",
-    },
-    action: {
-      ...formalGermanMessages.ra.action,
-      update_application: "Anwendung aktualisieren",
-      select_all_button: "Alle auswählen",
-      search_columns: "Spalten durchsuchen",
-    },
-    page: {
-      ...formalGermanMessages.ra.page,
-      empty: "Leer",
-      access_denied: "Zugriff verweigert",
-      authentication_error: "Authentifizierungsfehler",
-    },
-    message: {
-      ...formalGermanMessages.ra.message,
-      access_denied: "Sie haben nicht die erforderlichen Berechtigungen, um auf diese Seite zuzugreifen.",
-      authentication_error:
-        "Der Authentifizierungsserver hat einen Fehler zurückgegeben und Ihre Anmeldedaten konnten nicht überprüft werden.",
-      select_all_limit_reached:
-        "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
-      placeholder_data_warning: "Netzwerkproblem: Datenaktualisierung fehlgeschlagen.",
-    },
-    notification: {
-      ...formalGermanMessages.ra.notification,
-      application_update_available: "Eine neue Version ist verfügbar.",
-      offline: "Keine Verbindung. Daten konnten nicht abgerufen werden.",
-    },
-  },
-};
-
-const { add_filter: _deAddFilter, ...deNavigation } = fixedGermanMessages.ra.navigation;
+import germanMessages from "./base";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const common: Record<string, any> = {
-  ...fixedGermanMessages,
-  ra: {
-    ...fixedGermanMessages.ra,
-    navigation: deNavigation,
-    action: {
-      ...fixedGermanMessages.ra.action,
-      reset: "Zurücksetzen",
-    },
-    guesser: {
-      empty: {
-        title: "Keine Daten zum Anzeigen",
-        message: "Bitte prüfen Sie Ihren Datenanbieter",
-      },
-    },
-    validation: {
-      ...fixedGermanMessages.ra.validation,
-      unique: "Muss eindeutig sein",
-    },
-  },
+  ...germanMessages,
   ketesa: {
     auth: {
       base_url: "Heimserver URL",

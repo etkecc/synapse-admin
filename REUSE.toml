@@ -1152,6 +1152,41 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["src/i18n/de/base.ts"]
+SPDX-FileCopyrightText = ["Haleos UG (haftungsbeschränkt)"]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["src/i18n/fa/base.ts"]
+SPDX-FileCopyrightText = ["Hamid Feizabadi"]
+SPDX-License-Identifier = "BSD-2-Clause"
+
+[[annotations]]
+path = ["src/i18n/it/base.ts"]
+SPDX-FileCopyrightText = ["Stefano Savanelli"]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["src/i18n/ja/base.ts"]
+SPDX-FileCopyrightText = ["2019 Oishi Takanori"]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["src/i18n/ru/base.ts"]
+SPDX-FileCopyrightText = ["Klucherev Alexey"]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["src/i18n/uk/base.ts"]
+SPDX-FileCopyrightText = ["Vasyl Boroviak"]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["src/i18n/zh/base.ts"]
+SPDX-FileCopyrightText = ["Haxqer", "Moca-Tech"]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
 path = ["src/index.tsx"]
 SPDX-FileCopyrightText = [
   "2020 Michael Albert",

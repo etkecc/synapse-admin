@@ -1,42 +1,8 @@
-import _farsiMessages from "ra-language-farsi";
-
-const farsiMessages = ("default" in _farsiMessages ? _farsiMessages.default : _farsiMessages) as typeof _farsiMessages;
-
-const fixedFarsiMessages = {
-  ...farsiMessages,
-  ra: {
-    ...farsiMessages.ra,
-    action: {
-      ...farsiMessages.ra.action,
-      reset: "بازنشانی",
-      search_columns: "جستجوی ستون‌ها",
-      select_all_button: "انتخاب همه",
-    },
-    auth: {
-      ...farsiMessages.ra.auth,
-      email: "ایمیل",
-    },
-    message: {
-      ...farsiMessages.ra.message,
-      placeholder_data_warning: "مشکل شبکه: به‌روزرسانی داده‌ها ناموفق بود.",
-      select_all_limit_reached: "تعداد انتخاب‌ها زیاد است. فقط %{max} مورد اول انتخاب شد.",
-    },
-    guesser: {
-      empty: {
-        title: "داده‌ای برای نمایش نیست",
-        message: "لطفاً ارائه‌دهندهٔ داده را بررسی کنید",
-      },
-    },
-    notification: {
-      ...farsiMessages.ra.notification,
-      offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",
-    },
-  },
-};
+import farsiMessages from "./base";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const common: Record<string, any> = {
-  ...fixedFarsiMessages,
+  ...farsiMessages,
   ketesa: {
     auth: {
       base_url: "آدرس سرور",

@@ -1,64 +1,8 @@
-import _russianMessages from "ra-language-russian";
-
-const russianMessages = (
-  "default" in _russianMessages ? _russianMessages.default : _russianMessages
-) as typeof _russianMessages;
-
-const fixedRussianMessages = {
-  ...russianMessages,
-  ra: {
-    ...russianMessages.ra,
-    navigation: {
-      ...russianMessages.ra.navigation,
-      no_filtered_results: "Нет результатов",
-      clear_filters: "Сбросить все фильтры",
-    },
-    action: {
-      ...russianMessages.ra.action,
-      select_all_button: "Выбрать все",
-      reset: "Сбросить",
-      search_columns: "Поиск по столбцам",
-    },
-    auth: {
-      ...russianMessages.ra.auth,
-      email: "Электронная почта",
-    },
-    page: {
-      ...russianMessages.ra.page,
-      empty: "Пусто",
-      access_denied: "Доступ запрещен",
-      authentication_error: "Ошибка аутентификации",
-    },
-    message: {
-      ...russianMessages.ra.message,
-      access_denied: "У вас нет прав доступа к этой странице.",
-      authentication_error: "Сервер аутентификации вернул ошибку и не смог проверить ваши учетные данные.",
-      select_all_limit_reached: "Слишком много элементов для выбора. Были выбраны только первые %{max} элементов.",
-      placeholder_data_warning: "Проблема с сетью: не удалось обновить данные.",
-    },
-    guesser: {
-      empty: {
-        title: "Нет данных для отображения",
-        message: "Проверьте поставщика данных",
-      },
-    },
-    notification: {
-      ...russianMessages.ra.notification,
-      offline: "Нет подключения. Не удалось загрузить данные.",
-    },
-  },
-};
-
-const { prev: _ruPrev, ...ruNavigation } = fixedRussianMessages.ra
-  .navigation as typeof fixedRussianMessages.ra.navigation & { prev?: unknown };
+import russianMessages from "./base";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const common: Record<string, any> = {
-  ...fixedRussianMessages,
-  ra: {
-    ...fixedRussianMessages.ra,
-    navigation: ruNavigation,
-  },
+  ...russianMessages,
   ketesa: {
     auth: {
       base_url: "Адрес домашнего сервера",

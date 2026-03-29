@@ -64,11 +64,8 @@
     "vite-plugin-version-mark": "^0.2.2"
   },
   "dependencies": {
-    "@bicstone/ra-language-japanese": "^5.12.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@haleos/ra-language-german": "^1.0.0",
-    "@haxqer/ra-language-chinese": "^4.16.2",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
     "@mui/utils": "^7.3.9",
@@ -85,11 +82,7 @@
     "ra-core": "^5.14.4",
     "ra-i18n-polyglot": "^5.14.4",
     "ra-language-english": "^5.14.4",
-    "ra-language-farsi": "^5.1.0",
     "ra-language-french": "^5.14.4",
-    "ra-language-italian": "^3.13.1",
-    "ra-language-russian": "^5.4.5",
-    "ra-language-ukrainian": "^4.0.0",
     "react": "^19.2.4",
     "react-admin": "^5.14.4",
     "react-dom": "^19.2.4",
