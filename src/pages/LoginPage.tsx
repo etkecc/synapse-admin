@@ -1,3 +1,4 @@
+import TranslateIcon from "@mui/icons-material/Translate";
 import {
   Avatar,
   Box,
@@ -523,20 +524,10 @@ const LoginPage = () => {
             )}
           </Box>
           <Box className="hint">{translate("ketesa.auth.welcome", { name: welcomeTo })}</Box>
+          <Box sx={{ display: "flex", justifyContent: "center", color: "text.secondary", fontSize: "0.85rem", mt: -1, mb: 1.5, px: 2, textAlign: "center" }}>
+            {translate("ketesa.auth.description")}
+          </Box>
           <Box className="form">
-            <Select
-              fullWidth
-              value={locale}
-              onChange={e => setLocale(e.target.value)}
-              disabled={loading}
-              className="select"
-            >
-              {locales.map(l => (
-                <MenuItem key={l.locale} value={l.locale}>
-                  {l.name}
-                </MenuItem>
-              ))}
-            </Select>
             <FormDataConsumer>{formDataProps => <UserData {...formDataProps} />}</FormDataConsumer>
             {loginMethod === "credentials" && (
               <CardActions
@@ -573,6 +564,39 @@ const LoginPage = () => {
                 </Button>
               </CardActions>
             )}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 0.5,
+              pb: 2,
+              opacity: 0.6,
+              "&:hover": { opacity: 0.85 },
+              transition: "opacity 150ms ease",
+            }}
+          >
+            <TranslateIcon sx={{ fontSize: "0.95rem", color: "text.secondary" }} />
+            <Select
+              variant="standard"
+              value={locale}
+              onChange={e => setLocale(e.target.value)}
+              disabled={loading}
+              disableUnderline
+              sx={{
+                fontSize: "0.8rem",
+                color: "text.secondary",
+                "& .MuiSelect-select": { py: 0 },
+                "& .MuiSvgIcon-root": { color: "text.secondary", fontSize: "1rem" },
+              }}
+            >
+              {locales.map(l => (
+                <MenuItem key={l.locale} value={l.locale} dense>
+                  {l.name}
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
         </Card>
       </LoginFormBox>

@@ -70,6 +70,7 @@ const common: Record<string, any> = {
     auth: {
       base_url: "Heimserver URL",
       welcome: "Willkommen bei %{name}",
+      description: "Die Weiterentwicklung von Synapse Admin. Verwalten, überwachen und betreiben Sie Ihren Matrix-Server über eine einzige, übersichtliche Oberfläche. Für kleine Privatserver ebenso geeignet wie für große föderierte Communities.",
       server_version: "Synapse Version",
       supports_specs: "unterstützt Matrix-Specs",
       username_error: "Bitte vollständigen Nutzernamen angeben: '@user:domain'",

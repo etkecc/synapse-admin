@@ -61,6 +61,7 @@ const common: Record<string, any> = {
     auth: {
       base_url: "URL домашнього сервера",
       welcome: "Ласкаво просимо до %{name}",
+      description: "Еволюція Synapse Admin. Керуйте, відстежуйте та обслуговуйте свій Matrix-сервер через єдиний зручний інтерфейс. Підходить як для невеликих приватних серверів, так і для великих федеративних спільнот.",
       server_version: "Версія Synapse",
       supports_specs: "підтримує специфікації Matrix",
       username_error: "Будь ласка, введіть повний ідентифікатор користувача: '@user:domain'",

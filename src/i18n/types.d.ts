@@ -5,6 +5,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     auth: {
       base_url: string;
       welcome: string;
+      description: string;
       server_version: string;
       supports_specs: string;
       username_error: string;

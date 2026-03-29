@@ -70,6 +70,7 @@ const common: Record<string, any> = {
     auth: {
       base_url: "服务器 URL",
       welcome: "欢迎来到 %{name}",
+      description: "Synapse Admin 的进化之作。通过一个简洁的界面，完成对 Matrix 服务器的管理、监控与维护。无论是小型私人服务器还是大型联邦社区，都能轻松应对。",
       server_version: "Synapse 版本",
       username_error: "请输入完整有效的用户 ID: '@user:domain'",
       protocol_error: "URL 需要以'http://'或'https://'作为起始",

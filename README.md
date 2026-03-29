@@ -12,7 +12,7 @@
       <img alt="REUSE compliance" src="https://api.reuse.software/badge/github.com/etkecc/ketesa">
     </a>
   </h3>
-  <p align="center"><strong>The most complete admin UI for Matrix homeservers. Formerly Synapse Admin.</strong></p>
+  <p align="center"><strong>The evolution of Synapse Admin. Manage, monitor, and maintain your Matrix homeserver from one clean interface. Built for small private servers and large federated communities alike. Formerly Synapse Admin.</strong></p>
 </p>
 
 ---
@@ -24,9 +24,9 @@
 
 ## 📖 About
 
-Ketesa is the most complete admin interface for Matrix homeservers. What began as a fork of
-[Awesome-Technologies/synapse-admin](https://github.com/Awesome-Technologies/synapse-admin)
-has evolved into a fully independent project — with a redesigned interface, comprehensive API coverage,
+Ketesa is the evolution of Synapse Admin — a fully independent admin interface for Matrix homeservers.
+What began as a fork of [Awesome-Technologies/synapse-admin](https://github.com/Awesome-Technologies/synapse-admin)
+has grown into its own project, with a redesigned interface, comprehensive API coverage,
 multi-language support, and powerful management tools that go far beyond the original.
 
 **Ketesa is a fully compatible drop-in replacement for Synapse Admin.** Migration is straightforward

@@ -162,9 +162,6 @@ const LoginFormBox = styled(Box, {
     [`& .form`]: {
       padding: "0 1.5rem 1.5rem 1.5rem",
     },
-    [`& .select`]: {
-      marginBottom: "2rem",
-    },
     [`& .actions`]: {
       padding: "0 1.5rem 1.5rem 1.5rem",
     },
