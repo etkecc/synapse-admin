@@ -1152,6 +1152,62 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["src/i18n/de/base.ts"]
+SPDX-FileCopyrightText = [
+  "2018-2023 Awesome Technologies Innovationslabor GmbH",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/i18n/fa/base.ts"]
+SPDX-FileCopyrightText = [
+  "ra-language-farsi contributors",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0 AND MIT"
+
+[[annotations]]
+path = ["src/i18n/it/base.ts"]
+SPDX-FileCopyrightText = [
+  "marmelab",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0 AND MIT"
+
+[[annotations]]
+path = ["src/i18n/ja/base.ts"]
+SPDX-FileCopyrightText = [
+  "bicstone",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0 AND MIT"
+
+[[annotations]]
+path = ["src/i18n/ru/base.ts"]
+SPDX-FileCopyrightText = [
+  "ra-language-russian contributors",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0 AND MIT"
+
+[[annotations]]
+path = ["src/i18n/uk/base.ts"]
+SPDX-FileCopyrightText = [
+  "ra-language-ukrainian contributors",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0 AND MIT"
+
+[[annotations]]
+path = ["src/i18n/zh/base.ts"]
+SPDX-FileCopyrightText = [
+  "haxqer",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0 AND MIT"
+
+[[annotations]]
 path = ["src/index.tsx"]
 SPDX-FileCopyrightText = [
   "2020 Michael Albert",
