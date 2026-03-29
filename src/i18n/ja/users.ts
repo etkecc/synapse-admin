@@ -16,7 +16,7 @@ const users = {
     deactivated: "無効化",
     erased: "消去",
     show_guests: "ゲストを表示",
-    show_deactivated: "無効化のみ表示",
+    show_deactivated: "無効化されたユーザーを表示",
     show_locked: "ロックされたユーザーを表示",
     filter_user_all: "すべて",
     filter_deactivated_false: "有効",
@@ -35,7 +35,7 @@ const users = {
     password: "パスワード",
     avatar_url: "アバターのURL",
     avatar_src: "アバター",
-    medium: "Medium",
+    medium: "種別",
     threepids: "サードパーティーのID",
     address: "アドレス",
     creation_ts_ms: "作成日時",
@@ -53,9 +53,9 @@ const users = {
     deactivate: "アカウントを再度有効にするにはパスワードを設定する必要があります。",
     suspend: "ユーザーを停止すると、ユーザーは読み込み限定のモードに設定されます。",
     shadow_ban:
-      "シャドウBANされたユーザーは正常なレスポンスを受け取りますが、イベントはルームに配信されません。最終手段として使用してください。",
+      "シャドウBANされたユーザーは通常の応答を受け取りますが、イベントは他のユーザーやルームに伝播しません。最終手段としてのみ使用してください。",
     erase: "ユーザーをGDPRに準拠した形で消去",
-    admin: "サーバーの管理者には、サーバーとユーザーに対する完全なコントロールの権利が与えられています。",
+    admin: "サーバーの管理者は、サーバーとユーザーに対して完全な管理権限を持ちます。",
     erase_text:
       "ユーザーが送信したメッセージは、メッセージが送信された時点にルームに参加していたユーザーは今後もこれを閲覧できますが、その後で参加したユーザーには表示されません。",
     erase_admin_error: "自分自身のユーザーは削除できません。",
@@ -141,7 +141,7 @@ const users = {
       failure: "アカウントの有効期限の更新に失敗しました",
     },
     system_users_scan_in_progress:
-      "少々お待ちください — 該当するユーザーをまだ検索中です。まもなくページが読み込まれます",
+      "少々お待ちください。該当するユーザーをまだ検索中です。まもなくページが読み込まれます。",
   },
   badge: {
     you: "あなた",
@@ -156,7 +156,7 @@ const users = {
     messages_per_second: "毎秒のメッセージ数",
     messages_per_second_text: "毎秒ごとに実行できるアクションの数。",
     burst_count: "バースト数",
-    burst_count_text: "制限が実行されるまで行えるアクションの数。",
+    burst_count_text: "レート制限が適用されるまでに実行できるアクションの数。",
   },
   account_data: {
     title: "アカウントのデータ",

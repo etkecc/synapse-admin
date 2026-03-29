@@ -156,7 +156,7 @@ const common: Record<string, any> = {
       upload: {
         header: "导入 CSV 文件",
         explanation:
-          "在这里，你可以上传一个用逗号分隔的文件，用于创建或更新用户。该文件必须包括 'id' 和 'displayname' 字段。你可以在这里下载并修改一个示例文件：",
+          "在这里，您可以上传一个用逗号分隔的文件，用于创建或更新用户。该文件必须包括 'id' 和 'displayname' 字段。您可以在这里下载并修改一个示例文件：",
       },
       startImport: {
         simulate_only: "模拟模式",
@@ -253,7 +253,7 @@ const common: Record<string, any> = {
       },
       status: "状态",
       error: "错误",
-      loading: "正在获取实时服务器健康状况... 请稍候！",
+      loading: "正在获取服务器实时运行状态... 请稍候！",
       intro1: "这是您的服务器实时监控报告。您可以在以下页面了解更多：",
       intro2: "如果您对下方任意检查项有疑问，请在以下页面查看建议操作：",
       help: "帮助",

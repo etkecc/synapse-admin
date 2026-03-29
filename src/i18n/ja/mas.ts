@@ -70,7 +70,7 @@ const mas = {
     action: {
       finish: {
         label: "終了",
-        title: "セッションを終了しますか？",
+        title: "このセッションを終了してよろしいですか？",
         content: "このセッションを終了します。",
         success: "セッションを終了しました",
       },
@@ -94,7 +94,7 @@ const mas = {
     action: {
       finish: {
         label: "終了",
-        title: "セッションを終了しますか？",
+        title: "このセッションを終了してよろしいですか？",
         content: "このセッションを終了します。",
         success: "セッションを終了しました",
       },
@@ -132,7 +132,7 @@ const mas = {
     action: {
       finish: {
         label: "終了",
-        title: "セッションを終了しますか？",
+        title: "このセッションを終了してよろしいですか？",
         content: "このブラウザセッションを終了します。",
         success: "セッションを終了しました",
       },
@@ -192,9 +192,9 @@ const mas = {
     action: {
       revoke: {
         label: "失効",
-        title: "セッションを失効しますか？",
+        title: "セッションを失効させますか？",
         content: "アクセストークンが永久に失効します。",
-        success: "セッションを失効しました",
+        success: "セッションを失効させました",
       },
       create: {
         token_title: "アクセストークンが作成されました",

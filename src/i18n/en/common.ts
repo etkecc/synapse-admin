@@ -10,7 +10,7 @@ const common = {
       description:
         "The evolution of Synapse Admin. Manage, monitor, and maintain your Matrix homeserver from one clean interface. Built for small private servers and large federated communities alike.",
       server_version: "Synapse version",
-      supports_specs: "supports Matrix specs",
+      supports_specs: "Supports Matrix specifications",
       username_error: "Please enter fully qualified user ID: '@user:domain'",
       protocol_error: "URL has to start with 'http://' or 'https://'",
       url_error: "Not a valid Matrix server URL",
@@ -26,7 +26,7 @@ const common = {
       },
     },
     users: {
-      invalid_user_id: "Localpart of a Matrix user-id without homeserver.",
+      invalid_user_id: "Enter the localpart of a Matrix user ID only — do not include the homeserver.",
       tabs: {
         sso: "SSO",
         experimental: "Experimental",
@@ -64,7 +64,7 @@ const common = {
       invalid_value: "Invalid value on line %{row}. '%{field}' field may only be 'true' or 'false'",
       unreasonably_big: "Refused to load unreasonably big file of %{size} megabytes",
       already_in_progress: "An import run is already in progress",
-      id_exits: "ID %{id} already present",
+      id_exits: "ID %{id} already exists",
     },
     title: "Import users via CSV",
     goToPdf: "Go to PDF",
@@ -84,8 +84,8 @@ const common = {
       },
       ids: {
         header: "IDs",
-        all_ids_present: "IDs present on every entry",
-        count_ids_present: "%{smart_count} entry with ID |||| %{smart_count} entries with IDs",
+        all_ids_present: "All entries have an ID",
+        count_ids_present: "%{smart_count} entry has an ID |||| %{smart_count} entries have IDs",
         mode: {
           ignore: "Ignore IDs in CSV and create new ones",
           update: "Update existing records",
@@ -93,8 +93,8 @@ const common = {
       },
       passwords: {
         header: "Passwords",
-        all_passwords_present: "Passwords present on every entry",
-        count_passwords_present: "%{smart_count} entry with password |||| %{smart_count} entries with passwords",
+        all_passwords_present: "All entries have a password",
+        count_passwords_present: "%{smart_count} entry has a password |||| %{smart_count} entries have passwords",
         use_passwords: "Use passwords from CSV",
       },
       upload: {
@@ -113,14 +113,14 @@ const common = {
         skipped: "%{smart_count} entries skipped",
         download_skipped: "Download skipped records",
         with_error: "%{smart_count} entry with errors |||| %{smart_count} entries with errors",
-        simulated_only: "Run was only simulated",
+        simulated_only: "This was a simulation only — no changes were made",
       },
     },
   },
   delete_media: {
     name: "Media",
     fields: {
-      before_ts: "last access before",
+      before_ts: "Last accessed before",
       size_gt: "Larger than (in bytes)",
       keep_profiles: "Keep profile images",
     },
@@ -138,7 +138,7 @@ const common = {
   purge_remote_media: {
     name: "Remote Media",
     fields: {
-      before_ts: "last access before",
+      before_ts: "Last accessed before",
     },
     action: {
       send: "Purge remote media",
@@ -156,17 +156,15 @@ const common = {
       name: "Billing",
       title: "Payment History",
       no_payments: "No payments found.",
-      no_payments_helper: "If you believe that's an error, please contact etke.cc support on",
-      description1:
-        "View payments and generate invoices from here. You can learn more about subscription management on",
-      description2:
-        "If you'd like to change your billing email, or add company details, please contact etke.cc support on",
+      no_payments_helper: "If you believe this is an error, please contact etke.cc support at",
+      description1: "View payments and generate invoices here. You can learn more about subscription management at",
+      description2: "To change your billing email or add company details, please contact etke.cc support at",
       fields: {
         transaction_id: "Transaction ID",
         email: "Email",
         type: "Type",
         amount: "Amount",
-        paid_at: "Paid At",
+        paid_at: "Paid at",
         invoice: "Invoice",
       },
       enums: {
@@ -183,7 +181,7 @@ const common = {
         loading: "Loading billing information...",
         loading_failed1: "There was a problem loading billing information.",
         loading_failed2: "Please try again later.",
-        loading_failed3: "If the problem persists, please contact etke.cc support on",
+        loading_failed3: "If the problem persists, please contact etke.cc support at",
         loading_failed4: "with the following error message:",
       },
     },
@@ -201,9 +199,9 @@ const common = {
       },
       status: "Status",
       error: "Error",
-      loading: "Fetching real-time server health... Just a moment!",
-      intro1: "This is a real-time monitoring report of your server. You may learn more about it on",
-      intro2: "If any of the checks below concern you, please check the suggested actions on",
+      loading: "Fetching real-time server health — just a moment…",
+      intro1: "This is a real-time monitoring report for your server. You can learn more about it at",
+      intro2: "If any of the checks below concern you, see the suggested actions at",
       help: "Help",
     },
     maintenance: {
@@ -214,16 +212,16 @@ const common = {
     actions: {
       name: "Server Actions",
       available_title: "Available Commands",
-      available_description: "The following commands are available to run.",
-      available_help_intro: "More details about each of them can be found on",
+      available_description: "The following commands are available to run on your server.",
+      available_help_intro: "More details about each command can be found at",
       scheduled_title: "Scheduled commands",
       scheduled_description:
         "The following commands are scheduled to run at specific times. You can view their details and modify them as needed.",
       recurring_title: "Recurring commands",
       recurring_description:
         "The following commands are set to run at specific weekday and time (weekly). You can view their details and modify them as needed.",
-      scheduled_help_intro: "More details about the mode can be found on",
-      recurring_help_intro: "More details about the mode can be found on",
+      scheduled_help_intro: "More details about this feature can be found at",
+      recurring_help_intro: "More details about this feature can be found at",
       maintenance_title: "The system is currently in maintenance mode.",
       maintenance_try_again: "Please try again later.",
       maintenance_note: "You don't need to contact support about this, we are already working on it!",
@@ -247,8 +245,8 @@ const common = {
       },
       command_scheduled: "Command scheduled: %{command}",
       command_scheduled_args: "with additional args: %{args}",
-      expect_prefix: "Expect your result in the",
-      expect_suffix: "page soon.",
+      expect_prefix: "Your result will appear on the",
+      expect_suffix: "page shortly.",
       notifications_link: "Notifications",
       command_help_title: "%{command} help",
       scheduled_title_create: "Create Scheduled Command",
@@ -257,7 +255,7 @@ const common = {
       recurring_title_edit: "Edit Recurring Command",
       scheduled_details_title: "Scheduled Command Details",
       recurring_warning:
-        "Scheduled commands created from a recurring one are not editable as they will be regenerated automatically. Please edit the recurring command instead.",
+        "Scheduled commands generated from a recurring command cannot be edited, as they are regenerated automatically. To make changes, edit the recurring command instead.",
       command_details_intro: "You can find more details about the command on",
       form: {
         id: "ID",
@@ -313,7 +311,7 @@ const common = {
       started_ago: "(started %{time} ago)",
     },
     time: {
-      less_than_minute: "a couple of seconds",
+      less_than_minute: "just now",
       minutes: "%{smart_count} minute |||| %{smart_count} minutes",
       hours: "%{smart_count} hour |||| %{smart_count} hours",
       days: "%{smart_count} day |||| %{smart_count} days",
@@ -327,7 +325,7 @@ const common = {
       create_title: "New Support Request",
       no_requests: "No support requests yet.",
       no_messages: "No messages yet.",
-      closed_message: "This request is closed. If you still have a problem, please open a new one.",
+      closed_message: "This request is closed. If you still need help, please open a new request.",
       fields: {
         subject: "Subject",
         message: "Message",
@@ -337,7 +335,7 @@ const common = {
         updated_at: "Last updated",
       },
       status: {
-        active: "Waiting for operator",
+        active: "Awaiting response from support",
         open: "Open",
         closed: "Closed",
         pending: "Waiting for you",
@@ -351,7 +349,7 @@ const common = {
       },
       helper: {
         loading: "Loading support requests...",
-        reply_hint: "Ctrl+Enter to send",
+        reply_hint: "Press Ctrl+Enter to send",
         reply_placeholder: "Include as much detail as possible.",
         before_contact_title: "Before you contact us",
         help_pages_prompt: "Please check our Help pages first:",
@@ -359,7 +357,7 @@ const common = {
         topics_prompt: "We can help only with supported topics:",
         scope_confirm_label: "I checked the Help pages and confirm this request matches the supported topics.",
         english_only_notice: "Support is provided in English only.",
-        response_time_prompt: "Response within 48 hours. Need faster response times? See:",
+        response_time_prompt: "We aim to respond within 48 hours. Need a faster response? See:",
       },
       actions: {
         create_success: "Support request created successfully.",

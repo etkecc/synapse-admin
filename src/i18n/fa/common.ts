@@ -40,9 +40,9 @@ const common: Record<string, any> = {
   ketesa: {
     auth: {
       base_url: "آدرس سرور",
-      welcome: "به پنل مدیریت سیناپس خوش آمدید، %{name}",
+      welcome: "به پنل مدیریت Synapse خوش آمدید، %{name}",
       description:
-        "تکامل Synapse Admin. مدیریت، نظارت و نگهداری سرور Matrix خود را از یک رابط ساده و تمیز انجام دهید. مناسب برای سرورهای خصوصی کوچک و جوامع فدرال بزرگ.",
+        "تکامل Synapse Admin. مدیریت، نظارت و نگهداری سرور Matrix خود را از یک رابط ساده و تمیز انجام دهید. مناسب برای سرورهای خصوصی کوچک و جوامع بزرگ فدراسیون.",
       server_version: "نسخه",
       username_error: "لطفاً شناسه کاربر را وارد کنید: '@user:domain'",
       protocol_error: "URL باید با 'http://' یا 'https://' شروع شود",
@@ -52,11 +52,11 @@ const common: Record<string, any> = {
       access_token: "توکن دسترسی",
       supports_specs: "پشتیبانی از مشخصات Matrix",
       logout_acces_token_dialog: {
-        title: "شما در حال استفاده از یک نشانه دسترسی ماتریکس موجود هستید.",
+        title: "شما در حال استفاده از یک توکن دسترسی موجود Matrix هستید.",
         content:
-          "آیا می‌خواهید این جلسه (که می‌تواند در جای دیگر، مانند یک کلاینت ماتریکس استفاده شود) را نابود کنید یا فقط از پنل مدیریت خارج شوید؟",
-        confirm: "نابودی جلسه",
-        cancel: "فقط خروج از پنل مدیریت",
+          "آیا می‌خواهید این نشست (که ممکن است در جای دیگر، مانند یک کلاینت Matrix نیز استفاده شود) را باطل کنید یا فقط از پنل مدیریت خارج شوید؟",
+        confirm: "ابطال نشست",
+        cancel: "خروج از پنل مدیریت",
       },
     },
     users: {
@@ -64,8 +64,8 @@ const common: Record<string, any> = {
       tabs: {
         sso: "SSO",
         experimental: "تجربی",
-        limits: "محدودیت ها",
-        account_data: "داده های کاربر",
+        limits: "محدودیت‌ها",
+        account_data: "داده‌های کاربر",
         sessions: "نشست‌ها",
       },
       danger_zone: "منطقه خطرناک",
@@ -77,7 +77,7 @@ const common: Record<string, any> = {
         members: "اعضا",
         detail: "جزئیات",
         permission: "مجوزها",
-        media: "رسانه ها",
+        media: "رسانه‌ها",
         messages: "پیام‌ها",
         hierarchy: "سلسله‌مراتب",
       },
@@ -93,7 +93,7 @@ const common: Record<string, any> = {
   import_users: {
     error: {
       at_entry: "در هنگام ورود %{entry}: %{message}",
-      error: "Error",
+      error: "خطا",
       required_field: "فیلد الزامی '%{field}' وجود ندارد",
       invalid_value: "خطا در خط %{row}. '%{field}' فیلد ممکن است فقط 'درست' یا 'نادرست' باشد",
       unreasonably_big: "از بارگذاری فایل هایی با حجم غیر منطقی خودداری کنید %{size} مگابایت",
@@ -105,9 +105,9 @@ const common: Record<string, any> = {
     cards: {
       importstats: {
         header: "کاربران پردازش شده برای وارد کردن",
-        users_total: "%{smart_count} user in CSV file |||| %{smart_count} users in CSV file",
-        guest_count: "%{smart_count} guest |||| %{smart_count} guests",
-        admin_count: "%{smart_count} admin |||| %{smart_count} admins",
+        users_total: "%{smart_count} کاربر در فایل CSV |||| %{smart_count} کاربر در فایل CSV",
+        guest_count: "%{smart_count} مهمان |||| %{smart_count} مهمان",
+        admin_count: "%{smart_count} مدیر |||| %{smart_count} مدیر",
       },
       conflicts: {
         header: "استراتژی متغارض",
@@ -121,7 +121,7 @@ const common: Record<string, any> = {
         all_ids_present: "شناسه های موجود در هر ورودی",
         count_ids_present: "%{smart_count} ورود با شناسه |||| %{smart_count} ورودی با شناسه",
         mode: {
-          ignore: "شناسه ها را در CSV نادیده بگیر و شناسه های جدید ایجاد کن",
+          ignore: "نادیده گرفتن شناسه‌های CSV و ایجاد شناسه‌های جدید",
           update: "سوابق موجود را به روز کنید",
         },
       },
@@ -129,10 +129,10 @@ const common: Record<string, any> = {
         header: "رمز عبور",
         all_passwords_present: "رمزهای عبور موجود در هر ورودی",
         count_passwords_present: "%{smart_count} ورود با رمز عبور |||| %{smart_count} ورودی با رمز عبور",
-        use_passwords: "از پسوردهای CSV استفاده کنید",
+        use_passwords: "از رمزهای عبور CSV استفاده کنید",
       },
       upload: {
-        header: "Input CSV file",
+        header: "بارگذاری فایل CSV",
         explanation:
           "در اینجا می توانید فایلی را با مقادیر جدا شده با کاما بارگذاری کنید که برای ایجاد یا به روز رسانی کاربران پردازش می شود. فایل باید شامل فیلدهای 'id' و 'displayname' باشد. می توانید یک فایل نمونه را از اینجا دانلود و تطبیق دهید: ",
       },
@@ -152,7 +152,7 @@ const common: Record<string, any> = {
     },
   },
   delete_media: {
-    name: "رسانه ها",
+    name: "رسانه‌ها",
     fields: {
       before_ts: "آخرین دسترسی قبل",
       size_gt: "بزرگتر از آن (به بایت)",
@@ -233,7 +233,7 @@ const common: Record<string, any> = {
       },
       status: "وضعیت",
       error: "خطا",
-      loading: "در حال دریافت وضعیت سلامت لحظه‌ای سرور... لطفاً کمی صبر کنید!",
+      loading: "در حال دریافت وضعیت لحظه‌ای سرور... لطفاً کمی صبر کنید!",
       intro1: "این گزارش پایش لحظه‌ایِ سرور شماست. می‌توانید درباره آن بیشتر در",
       intro2: "اگر هر یک از بررسی‌های زیر شما را نگران می‌کند، لطفاً اقدامات پیشنهادی را در",
       help: "راهنما",

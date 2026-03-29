@@ -16,7 +16,7 @@ const rooms = {
     creator: "Творець",
     join_rules: "Правила приєднання",
     guest_access: "Гостьовий доступ",
-    history_visibility: "History visibility",
+    history_visibility: "Видимість історії",
     topic: "Тема",
     avatar: "Аватар",
     actions: "Дії",
@@ -41,20 +41,20 @@ const rooms = {
       forbidden: "Гості не можуть приєднатися",
     },
     history_visibility: {
-      invited: "Since invited",
-      joined: "Since joined",
-      shared: "Since shared",
-      world_readable: "Anyone",
+      invited: "З моменту запрошення",
+      joined: "З моменту приєднання",
+      shared: "З моменту надання доступу",
+      world_readable: "Будь-хто",
     },
-    unencrypted: "Unencrypted",
+    unencrypted: "Незашифровано",
   },
   action: {
     erase: {
       title: "Видалити кімнату",
       content:
-        "Are you sure you want to delete the room? This cannot be undone. All messages and shared media in the room will be deleted from the server!",
+        "Ви впевнені, що хочете видалити кімнату? Цю дію не можна скасувати. Усі повідомлення та медіафайли в кімнаті буде видалено з сервера!",
       fields: {
-        block: "Block and prevent users from joining the room",
+        block: "Заблокувати та заборонити користувачам приєднуватися до кімнати",
       },
       in_progress: "Видалення виконується…",
       background_note: "Ви можете закрити це вікно, видалення продовжиться у фоновому режимі.",
@@ -76,8 +76,8 @@ const rooms = {
       confirm: "Приєднати",
       content:
         "Введіть повний MXID користувача, якого потрібно приєднати до цієї кімнати.\nПримітка: ви повинні бути в кімнаті та мати дозвіл запрошувати користувачів.",
-      success: "Користувача успішно приєднано до кімнати.",
-      failure: "Не вдалося приєднати користувача до кімнати. %{errMsg}",
+      success: "Користувача успішно додано до кімнати.",
+      failure: "Не вдалося додати користувача до кімнати. %{errMsg}",
     },
     block: {
       label: "Заблокувати",
@@ -157,7 +157,7 @@ const rooms = {
       space: "Простір",
       room: "Кімната",
       suggested: "Рекомендована",
-      no_children: "Ця кімната не має ієрархії",
+      no_children: "У цій кімнаті немає дочірніх кімнат",
       failure: "Не вдалося завантажити ієрархію",
     },
   },

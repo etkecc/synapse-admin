@@ -2,7 +2,7 @@ const reports = {
   name: "Reported event |||| Reported events",
   fields: {
     id: "ID",
-    received_ts: "Report Time",
+    received_ts: "Reported at",
     user_id: "Reporter",
     name: "Room Name",
     score: "Score",
@@ -16,9 +16,9 @@ const reports = {
       content: "Are you sure you want to delete the reported event? This cannot be undone.",
     },
     event_lookup: {
-      label: "Event Lookup",
-      title: "Fetch Event by ID",
-      fetch: "Fetch",
+      label: "Look Up Event",
+      title: "Look Up Event by ID",
+      fetch: "Look Up",
     },
     fetch_event_error: "Failed to fetch event",
   },

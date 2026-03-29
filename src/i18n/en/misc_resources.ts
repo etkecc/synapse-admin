@@ -34,7 +34,7 @@ const misc_resources = {
   devices: {
     name: "Device |||| Devices",
     fields: {
-      device_id: "Device-ID",
+      device_id: "Device ID",
       display_name: "Device name",
       last_seen_ts: "Timestamp",
       last_seen_ip: "IP address",
@@ -43,8 +43,8 @@ const misc_resources = {
     },
     action: {
       erase: {
-        title: "Removing %{id}",
-        title_bulk: "Removing %{smart_count} device |||| Removing %{smart_count} devices",
+        title: "Remove device %{id}?",
+        title_bulk: "Remove %{smart_count} device? |||| Remove %{smart_count} devices?",
         content: 'Are you sure you want to remove the device "%{name}"?',
         content_bulk:
           "Are you sure you want to remove %{smart_count} device? |||| Are you sure you want to remove %{smart_count} devices?",
@@ -76,7 +76,7 @@ const misc_resources = {
       last_access_ts: "Last access",
     },
     action: {
-      open: "Open media file in new window",
+      open: "Open media file in a new window",
     },
   },
   protect_media: {
@@ -124,7 +124,7 @@ const misc_resources = {
       send_failure: "An error has occurred.",
     },
     helper: {
-      send: 'Sends a server notice to the selected users. The feature "Server Notices" has to be activated at the server.',
+      send: 'Sends a server notice to the selected users. The feature "Server Notices" must be enabled on the server.',
     },
   },
   database_room_statistics: {
@@ -134,7 +134,7 @@ const misc_resources = {
       estimated_size: "Estimated size",
     },
     helper: {
-      info: "Shows the estimated disk space used by each room in the Synapse database. Numbers are approximate.",
+      info: "Shows the estimated disk space used by each room in the Synapse database. These numbers are approximate.",
     },
   },
   user_media_statistics: {
@@ -158,7 +158,7 @@ const misc_resources = {
     fields: {
       type: "Type",
       content: "Content",
-      origin_server_ts: "time of send",
+      origin_server_ts: "Sent at",
       sender: "Sender",
     },
   },
@@ -168,7 +168,7 @@ const misc_resources = {
       media_id: "Media ID",
     },
     helper: {
-      info: "This is a list of media that has been uploaded to the room. It is not possible to delete media that has been uploaded to external media repositories.",
+      info: "This lists all media uploaded to this room. Media hosted on external repositories cannot be deleted from here.",
     },
     action: {
       error: "%{errcode} (%{errstatus}) %{error}",
@@ -177,13 +177,13 @@ const misc_resources = {
   room_directory: {
     name: "Room directory",
     fields: {
-      world_readable: "guest users may view without joining",
-      guest_can_join: "guest users may join",
+      world_readable: "Guest users may view without joining",
+      guest_can_join: "Guest users may join",
     },
     action: {
       title: "Delete room from directory |||| Delete %{smart_count} rooms from directory",
       content:
-        "Are you sure you want to remove this room from directory? |||| Are you sure you want to remove these %{smart_count} rooms from directory?",
+        "Are you sure you want to remove this room from the directory? |||| Are you sure you want to remove these %{smart_count} rooms from the directory?",
       erase: "Delete from room directory",
       create: "Publish in room directory",
       send_success: "Room successfully published.",
@@ -216,15 +216,15 @@ const misc_resources = {
       last_used_at: "Last used at",
       revoked_at: "Revoked at",
     },
-    helper: { length: "Length of the token if no token is given." },
+    helper: { length: "The length of the generated token, used when no specific token value is provided." },
     action: {
       revoke: {
         label: "Revoke",
         success: "Token revoked",
       },
       unrevoke: {
-        label: "Unrevoke",
-        success: "Token unrevoked",
+        label: "Restore",
+        success: "Token restored",
       },
     },
   },

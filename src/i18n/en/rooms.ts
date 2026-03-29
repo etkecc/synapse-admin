@@ -1,7 +1,7 @@
 const rooms = {
   name: "Room |||| Rooms",
   fields: {
-    room_id: "Room-ID",
+    room_id: "Room ID",
     name: "Name",
     canonical_alias: "Alias",
     joined_members: "Members",
@@ -27,7 +27,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
+      "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, i.e., events with no children. The more that exist in a room, the more state resolution that Synapse needs to perform (note: this is an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
   },
   enums: {
     join_rules: {
@@ -38,7 +38,7 @@ const rooms = {
     },
     guest_access: {
       can_join: "Guests can join",
-      forbidden: "Guests can not join",
+      forbidden: "Guests cannot join",
     },
     history_visibility: {
       invited: "Since invited",
@@ -52,21 +52,21 @@ const rooms = {
     erase: {
       title: "Delete room",
       content:
-        "Are you sure you want to delete the room? This cannot be undone. All messages and shared media in the room will be deleted from the server!",
+        "Are you sure you want to delete this room? This action cannot be undone. All messages and shared media will be permanently deleted from the server.",
       fields: {
         block: "Block and prevent users from joining the room",
       },
       in_progress: "Deletion in progress…",
       background_note: "You can safely close this window, the deletion will continue in the background.",
-      success: "Room/s successfully deleted.",
-      failure: "The room/s could not be deleted.",
+      success: "Room deleted successfully. |||| Rooms deleted successfully.",
+      failure: "The room could not be deleted. |||| The rooms could not be deleted.",
     },
     make_admin: {
       assign_admin: "Assign admin",
       title: "Assign a room admin to %{roomName}",
       confirm: "Make admin",
       content:
-        "Put the full MXID of the user which will be set as admin.\nWarning: for this to work, the room needs to have at least one local member as admin.",
+        "Enter the full MXID of the user to set as room admin.\nNote: the room must already have at least one local member with admin permissions for this to work.",
       success: "The user has been set as room admin.",
       failure: "The user could not be set as room admin. %{errMsg}",
     },
@@ -75,9 +75,9 @@ const rooms = {
       title: "Join user to %{roomName}",
       confirm: "Join",
       content:
-        "Put the full MXID of the user to join to this room.\nNote: you must be in the room and have permission to invite users.",
-      success: "User joined to the room successfully.",
-      failure: "Failed to join user to the room. %{errMsg}",
+        "Enter the full MXID of the user to add to this room.\nNote: you must be a member of the room with permission to invite users.",
+      success: "User added to the room successfully.",
+      failure: "Failed to add user to the room. %{errMsg}",
     },
     block: {
       label: "Block",
@@ -154,7 +154,7 @@ const rooms = {
       space: "Space",
       room: "Room",
       suggested: "Suggested",
-      no_children: "This room has no hierarchy",
+      no_children: "This room has no child rooms",
       failure: "Failed to load hierarchy",
     },
   },

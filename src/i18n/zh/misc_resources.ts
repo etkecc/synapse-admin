@@ -160,7 +160,7 @@ const misc_resources = {
   room_media: {
     name: "媒体",
     fields: {
-      media_id: "媒体ID",
+      media_id: "媒体 ID",
     },
     helper: {
       info: "这是上传到房间的媒体列表。无法删除上传到外部媒体存储库的媒体。",

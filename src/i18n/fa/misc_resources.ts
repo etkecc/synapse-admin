@@ -5,7 +5,7 @@ const misc_resources = {
       id: "ID",
       action: "عملیات",
       status: "وضعیت",
-      timestamp: "زمان‌سنج",
+      timestamp: "مهر زمانی",
       resource_id: "شناسه منبع",
       result: "نتیجه",
       error: "خطا",
@@ -24,11 +24,11 @@ const misc_resources = {
     fields: {
       last_seen: "تاریخ",
       ip: "آدرس آی پی",
-      user_agent: "نماینده کاربر",
+      user_agent: "عامل کاربر",
     },
   },
   devices: {
-    name: "دستگاه |||| دستگاه ها",
+    name: "دستگاه |||| دستگاه‌ها",
     fields: {
       device_id: "شناسه دستگاه",
       display_name: "نام دستگاه",
@@ -60,7 +60,7 @@ const misc_resources = {
     },
   },
   users_media: {
-    name: "رسانه ها",
+    name: "رسانه‌ها",
     fields: {
       media_id: "شناسه رسانه",
       media_length: "اندازه فایل (به بایت)",
@@ -95,7 +95,7 @@ const misc_resources = {
     },
   },
   pushers: {
-    name: "هل دهنده |||| هل دهنده ها",
+    name: "ارسال‌کننده اعلان |||| ارسال‌کننده‌های اعلان",
     fields: {
       app: "برنامه",
       app_display_name: "نام نمایش برنامه",
@@ -109,7 +109,7 @@ const misc_resources = {
     },
   },
   servernotices: {
-    name: "اطلاعیه های سرور",
+    name: "اطلاعیه‌های سرور",
     send: "ارسال اعلانات سرور",
     fields: {
       body: "پیام",
@@ -146,7 +146,7 @@ const misc_resources = {
       id: "شناسه رویداد",
       received_ts: "مهر زمان",
       depth: "عمق",
-      state_group: "گروه دولتی",
+      state_group: "گروه وضعیت",
     },
   },
   room_state: {
@@ -159,12 +159,12 @@ const misc_resources = {
     },
   },
   room_media: {
-    name: "رسانه ها",
+    name: "رسانه‌ها",
     fields: {
       media_id: "شناسه رسانه",
     },
     helper: {
-      info: "این یک لیست از رسانه ها است که در اتاق بارگذاری شده است. نمی توان رسانه ها را حذف کرد که در اتاق های خارجی بارگذاری شده اند.",
+      info: "این یک لیست از رسانه‌ها است که در اتاق بارگذاری شده است. نمی‌توان رسانه‌ها را حذف کرد که در اتاق‌های خارجی بارگذاری شده اند.",
     },
     action: {
       error: "%{errcode} (%{errstatus}) %{error}",
@@ -179,7 +179,7 @@ const misc_resources = {
     action: {
       title: "اتاق را از فهرست حذف کنید |||| حذف کنید %{smart_count} اتاق ها از دایرکتوری",
       content:
-        "آیا مطمئنید که می خواهید این اتاق را از فهرست راهنمای حذف کنید؟ |||| آیا مطمئن هستید که می خواهید این موارد را %{smart_count} از راهنمای اتاق ها حذف کنید؟",
+        "آیا مطمئنید که می‌خواهید این اتاق را از فهرست راهنمای حذف کنید؟ |||| آیا مطمئن هستید که می‌خواهید این موارد را %{smart_count} از راهنمای اتاق‌ها حذف کنید؟",
       erase: "حذف از فهرست اتاق",
       create: "انتشار در راهنما اتاق",
       send_success: "اتاق با موفقیت منتشر شد.",
@@ -187,7 +187,7 @@ const misc_resources = {
     },
   },
   destinations: {
-    name: "سرور های مرتبط",
+    name: "سرورهای مرتبط",
     fields: {
       destination: "آدرس",
       failure_ts: "زمان شکست",
@@ -219,8 +219,8 @@ const misc_resources = {
         success: "توکن ابطال شد",
       },
       unrevoke: {
-        label: "بازگردانی",
-        success: "توکن بازگردانی شد",
+        label: "بازیابی",
+        success: "توکن بازیابی شد",
       },
     },
   },

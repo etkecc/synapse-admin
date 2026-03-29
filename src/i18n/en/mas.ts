@@ -54,8 +54,8 @@ const mas = {
     },
   },
   mas_compat_sessions: {
-    name: "Compat Session |||| Compat Sessions",
-    empty: "No compat sessions",
+    name: "Compatibility Session |||| Compatibility Sessions",
+    empty: "No compatibility sessions",
     fields: {
       user_id: "User ID",
       device_id: "Device ID",
@@ -69,10 +69,10 @@ const mas = {
     },
     action: {
       finish: {
-        label: "Finish",
-        title: "Finish session?",
+        label: "Terminate",
+        title: "Terminate this session?",
         content: "This will terminate the session.",
-        success: "Session finished",
+        success: "Session terminated",
       },
     },
   },
@@ -93,10 +93,10 @@ const mas = {
     },
     action: {
       finish: {
-        label: "Finish",
-        title: "Finish session?",
+        label: "Terminate",
+        title: "Terminate this session?",
         content: "This will terminate the session.",
-        success: "Session finished",
+        success: "Session terminated",
       },
     },
   },
@@ -104,7 +104,7 @@ const mas = {
     name: "Policy Data",
     current_policy: "Current Policy",
     no_policy: "No policy is currently set.",
-    set_policy: "Set New Policy",
+    set_policy: "Set a New Policy",
     invalid_json: "Invalid JSON",
     fields: {
       json_placeholder: "Enter policy data as JSON…",
@@ -131,10 +131,10 @@ const mas = {
     },
     action: {
       finish: {
-        label: "Finish",
-        title: "Finish session?",
+        label: "Terminate",
+        title: "Terminate this session?",
         content: "This will terminate the browser session.",
-        success: "Session finished",
+        success: "Session terminated",
       },
     },
   },
@@ -148,7 +148,7 @@ const mas = {
       created_at: "Created at",
     },
     helper: {
-      provider_id: "The ID of the upstream OAuth provider. Find it in the Upstream OAuth Providers list.",
+      provider_id: "The ID of the upstream OAuth provider. You can find it in the Upstream OAuth Providers list.",
     },
     action: {
       remove: {

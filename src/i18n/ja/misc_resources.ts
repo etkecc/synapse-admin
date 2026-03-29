@@ -78,7 +78,7 @@ const misc_resources = {
     action: {
       create: "保護する",
       delete: "保護解除",
-      none: "検疫済",
+      none: "未保護",
       send_success: "保護に関する状態を変更しました。",
       send_failure: "エラーが発生しました。",
     },
@@ -88,7 +88,7 @@ const misc_resources = {
       name: "検疫",
       create: "検疫",
       delete: "検疫解除",
-      none: "保護済",
+      none: "検疫済",
       send_success: "検疫に関する状態を変更しました。",
       send_failure: "エラーが発生しました: %{error}",
     },
@@ -163,7 +163,7 @@ const misc_resources = {
       media_id: "メディアのID",
     },
     helper: {
-      info: "ルームにアップロードされたメディアファイルの一覧です。外部のレポジトリーにアップロードされたメディアファイルは削除できません。",
+      info: "ルームにアップロードされたメディアファイルの一覧です。外部のリポジトリにアップロードされたメディアファイルは削除できません。",
     },
     action: {
       error: "%{errcode} (%{errstatus}) %{error}",
@@ -188,7 +188,7 @@ const misc_resources = {
   destinations: {
     name: "フェデレーション",
     fields: {
-      destination: "目的地",
+      destination: "接続先",
       failure_ts: "失敗した時点のタイムスタンプ",
       retry_last_ts: "最後に試行した時点のタイムスタンプ",
       retry_interval: "再試行までの間隔",
@@ -218,8 +218,8 @@ const misc_resources = {
         success: "トークンを失効しました",
       },
       unrevoke: {
-        label: "失効解除",
-        success: "トークンの失効を解除しました",
+        label: "復元",
+        success: "トークンが復元されました",
       },
     },
   },

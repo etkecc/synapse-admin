@@ -28,7 +28,7 @@ const fixedGermanMessages = {
     },
     message: {
       ...formalGermanMessages.ra.message,
-      access_denied: "Sie haben nicht die erforderlichen Berechtigungen um auf diese Seite zuzugreifen.",
+      access_denied: "Sie haben nicht die erforderlichen Berechtigungen, um auf diese Seite zuzugreifen.",
       authentication_error:
         "Der Authentifizierungsserver hat einen Fehler zurückgegeben und Ihre Anmeldedaten konnten nicht überprüft werden.",
       select_all_limit_reached:
@@ -73,8 +73,8 @@ const common: Record<string, any> = {
       description:
         "Die Weiterentwicklung von Synapse Admin. Verwalten, überwachen und betreiben Sie Ihren Matrix-Server über eine einzige, übersichtliche Oberfläche. Für kleine Privatserver ebenso geeignet wie für große föderierte Communities.",
       server_version: "Synapse Version",
-      supports_specs: "unterstützt Matrix-Specs",
-      username_error: "Bitte vollständigen Nutzernamen angeben: '@user:domain'",
+      supports_specs: "Unterstützt Matrix-Specs",
+      username_error: "Bitte geben Sie den vollständigen Benutzernamen an: '@user:domain'",
       protocol_error: "Die URL muss mit 'http://' oder 'https://' beginnen",
       url_error: "Keine gültige Matrix Server URL",
       sso_sign_in: "Anmeldung mit SSO",
@@ -131,7 +131,7 @@ const common: Record<string, any> = {
       id_exits: "ID %{id} existiert bereits",
     },
     title: "Benutzer aus CSV importieren",
-    goToPdf: "Gehe zum PDF",
+    goToPdf: "Zum PDF wechseln",
     cards: {
       importstats: {
         header: "Geparste Benutzer für den Import",
@@ -142,8 +142,8 @@ const common: Record<string, any> = {
       conflicts: {
         header: "Konfliktstrategie",
         mode: {
-          stop: "Stoppe bei Fehlern",
-          skip: "Zeige Fehler und überspringe fehlerhafte Einträge",
+          stop: "Bei Fehlern stoppen",
+          skip: "Fehler anzeigen und fehlerhafte Einträge überspringen",
         },
       },
       ids: {
@@ -151,15 +151,15 @@ const common: Record<string, any> = {
         all_ids_present: "IDs in jedem Eintrag vorhanden",
         count_ids_present: "%{smart_count} Eintrag mit ID |||| %{smart_count} Einträge mit IDs",
         mode: {
-          ignore: "Ignoriere IDs der CSV-Datei und erstelle neue",
-          update: "Aktualisiere existierende Benutzer",
+          ignore: "IDs der CSV-Datei ignorieren und neue erstellen",
+          update: "Existierende Benutzer aktualisieren",
         },
       },
       passwords: {
         header: "Passwörter",
         all_passwords_present: "Passwörter in jedem Eintrag vorhanden",
         count_passwords_present: "%{smart_count} Eintrag mit Passwort |||| %{smart_count} Einträge mit Passwörtern",
-        use_passwords: "Verwende Passwörter aus der CSV Datei",
+        use_passwords: "Passwörter aus der CSV-Datei verwenden",
       },
       upload: {
         header: "CSV Datei importieren",
@@ -202,7 +202,7 @@ const common: Record<string, any> = {
   purge_remote_media: {
     name: "Externe Medien",
     fields: {
-      before_ts: "letzter Zugriff vor",
+      before_ts: "Letzter Zugriff vor",
     },
     action: {
       send: "Externe Medien löschen",
@@ -266,7 +266,7 @@ const common: Record<string, any> = {
       },
       status: "Status",
       error: "Fehler",
-      loading: "Echtzeit-Serverzustand wird abgerufen... Einen Moment!",
+      loading: "Echtzeit-Betriebsstatus wird abgerufen... Einen Moment!",
       intro1: "Dies ist ein Echtzeit-Monitoringbericht Ihres Servers. Mehr dazu finden Sie unter",
       intro2: 'Falls ein Status nicht "OK" anzeigen sollte, prüfen Sie bitte die empfohlenen Maßnahmen unter',
       help: "Hilfe",
@@ -334,7 +334,7 @@ const common: Record<string, any> = {
       delete_recurring_title: "Wiederkehrenden Befehl löschen",
       delete_confirm: "Möchten Sie den Befehl wirklich löschen: %{command}?",
       errors: {
-        unknown: "Unbekannter Fehler ist aufgetreten",
+        unknown: "Ein unbekannter Fehler ist aufgetreten",
         delete_failed: "Fehler: %{error}",
       },
       days: {

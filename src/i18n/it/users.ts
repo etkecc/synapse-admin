@@ -47,12 +47,12 @@ const users = {
   },
   helper: {
     password: "Cambiando la password l'utente verrà disconnesso da tutte le sessioni attive.",
-    password_required_for_reactivation: "Devi fornire una password per riattivare l'account.",
+    password_required_for_reactivation: "Deve fornire una password per riattivare l'account.",
     create_password: "Genera una password forte e sicura utilizzando il pulsante sottostante.",
-    deactivate: "Devi fornire una password per riattivare l'account.",
+    deactivate: "Deve fornire una password per riattivare l'account.",
     suspend: "Sospendi l'utente",
     shadow_ban:
-      "L'utente bannato nell'ombra riceve risposte positive, ma i suoi eventi non vengono propagati nelle stanze. Da usare come ultima risorsa.",
+      "L'utente bannato nell'ombra riceve risposte normali, ma i suoi eventi non vengono propagati ad altri utenti o stanze. Da usare solo come ultima risorsa.",
     erase: "Constrassegna l'utente come cancellato dal GDPR",
     admin: "Un amministratore del server ha controllo totale sul server e sui suoi utenti.",
     lock: "Impedisce all'utente di utilizzare il server. Questa è un'azione non distruttiva che può essere annullata.",
@@ -66,7 +66,7 @@ const users = {
       "Numero totale di stanze a cui questo utente si è unito, incluse quelle che ha lasciato o da cui è stato bannato.",
   },
   badge: {
-    you: "Tu",
+    you: "Lei",
     bot: "Bot",
     admin: "Amministratore",
     support: "Supporto",
@@ -80,7 +80,7 @@ const users = {
     delete_media: "Elimina tutti i media caricati dall'utente(-s)",
     redact_events: "Oscura tutti gli eventi inviati dall'utente(-i)",
     redact_in_progress: "Oscuramento in corso\u2026",
-    redact_background_note: "Puoi chiudere questa finestra in sicurezza, l'oscuramento continuerà in background.",
+    redact_background_note: "Può chiudere questa finestra in sicurezza, l'oscuramento continuerà in background.",
     redact_success: "Tutti gli eventi sono stati oscurati con successo.",
     redact_failure:
       "Oscuramento completato con %{smart_count} evento fallito. |||| Oscuramento completato con %{smart_count} eventi falliti.",
@@ -108,8 +108,7 @@ const users = {
       expires_at: "Questo token di accesso scadrà il %{date}",
     },
     overwrite_title: "Attenzione!",
-    overwrite_content:
-      "Questo nome utente è già stato utilizzato. Sei sicuro di voler sovrascrivere l'utente esistente?",
+    overwrite_content: "Questo nome utente è già stato utilizzato. È sicuro di voler sovrascrivere l'utente esistente?",
     overwrite_cancel: "Annulla",
     overwrite_confirm: "Sovrascrivi",
     quarantine_all: {
@@ -146,7 +145,7 @@ const users = {
       label: "Rinnova account",
       title: "Rinnova la validità dell'account",
       content:
-        "Rinnova la validità dell'account di %{user}. Puoi facoltativamente impostare una data di scadenza personalizzata. Se lasciato vuoto, verrà utilizzato il periodo di rinnovo predefinito del server.",
+        "Rinnova la validità dell'account di %{user}. Può facoltativamente impostare una data di scadenza personalizzata. Se lasciato vuoto, verrà utilizzato il periodo di rinnovo predefinito del server.",
       expiration: "Data di scadenza",
       expiration_helper: "Lascia vuoto per utilizzare il periodo di rinnovo predefinito del server",
       renewal_emails: "Invia e-mail di notifica di rinnovo",

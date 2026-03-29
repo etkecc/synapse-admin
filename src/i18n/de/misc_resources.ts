@@ -62,7 +62,7 @@ const misc_resources = {
   users_media: {
     name: "Medien",
     fields: {
-      media_id: "Medien ID",
+      media_id: "Medien-ID",
       media_length: "Größe",
       media_type: "Typ",
       upload_name: "Dateiname",
@@ -115,12 +115,12 @@ const misc_resources = {
       body: "Nachricht",
     },
     action: {
-      send: "Sende Nachricht",
+      send: "Nachricht senden",
       send_success: "Nachricht erfolgreich versendet.",
       send_failure: "Beim Versenden ist ein Fehler aufgetreten.",
     },
     helper: {
-      send: 'Sendet eine Serverbenachrichtigung an die ausgewählten Nutzer. Hierfür muss das Feature "Server Notices" auf dem Server aktiviert sein.',
+      send: 'Sendet eine Serverbenachrichtigung an die ausgewählten Benutzer. Hierfür muss das Feature "Server Notices" auf dem Server aktiviert sein.',
     },
   },
   database_room_statistics: {
@@ -134,7 +134,7 @@ const misc_resources = {
     },
   },
   user_media_statistics: {
-    name: "Benutzer Dateien",
+    name: "Benutzerdateien",
     fields: {
       media_count: "Anzahl der Dateien",
       media_length: "Größe der Dateien",
@@ -161,7 +161,7 @@ const misc_resources = {
   room_media: {
     name: "Medien",
     fields: {
-      media_id: "Medien ID",
+      media_id: "Medien-ID",
     },
     helper: {
       info: "Dies ist eine Liste der Medien, die in den Raum hochgeladen wurden. Es ist nicht möglich, Medien zu löschen, die in externen Medien-Repositories hochgeladen wurden.",
@@ -193,7 +193,7 @@ const misc_resources = {
       failure_ts: "Fehlerzeitpunkt",
       retry_last_ts: "Letzter Wiederholungsversuch",
       retry_interval: "Wiederholungsintervall",
-      last_successful_stream_ordering: "letzte erfogreicher Stream",
+      last_successful_stream_ordering: "Letzter erfolgreicher Stream",
       stream_ordering: "Stream",
     },
     action: { reconnect: "Neu verbinden" },

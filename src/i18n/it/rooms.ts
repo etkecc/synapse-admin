@@ -52,12 +52,12 @@ const rooms = {
     erase: {
       title: "Cancella stanza",
       content:
-        "Sei sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
+        "È sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
       fields: {
         block: "Blocca e impedisci agli utenti di entrare nella stanza",
       },
       in_progress: "Eliminazione in corso…",
-      background_note: "Puoi chiudere questa finestra, l'eliminazione continuerà in background.",
+      background_note: "Può chiudere questa finestra, l'eliminazione continuerà in background.",
       success: "Stanza/e eliminata/e con successo.",
       failure: "Impossibile eliminare la stanza/le stanze.",
     },
@@ -66,7 +66,7 @@ const rooms = {
       title: "Assegna un amministratore alla stanza %{roomName}",
       confirm: "Assegna un amministratore",
       content:
-        "Inserisci la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
+        "Inserisca la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
       success: "L'utente è stato designato come amministratore della stanza.",
       failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
     },
@@ -75,9 +75,9 @@ const rooms = {
       title: "Unisci un utente a %{roomName}",
       confirm: "Unisci",
       content:
-        "Inserisci la MXID completa dell'utente da unire a questa stanza.\nNota: devi essere nella stanza e avere il permesso di invitare utenti.",
-      success: "L'utente è stato unito alla stanza con successo.",
-      failure: "Impossibile unire l'utente alla stanza. %{errMsg}",
+        "Inserisca la MXID completa dell'utente da unire a questa stanza.\nNota: deve essere nella stanza e avere il permesso di invitare utenti.",
+      success: "L'utente è stato aggiunto alla stanza con successo.",
+      failure: "Impossibile aggiungere l'utente alla stanza. %{errMsg}",
     },
     block: {
       label: "Blocca",
@@ -103,7 +103,7 @@ const rooms = {
       date_label: "Elimina eventi prima di",
       delete_local: "Elimina anche gli eventi inviati dagli utenti locali",
       in_progress: "Eliminazione in corso…",
-      background_note: "Puoi chiudere questa finestra in sicurezza, l'eliminazione continuerà in background.",
+      background_note: "Può chiudere questa finestra in sicurezza, l'eliminazione continuerà in background.",
       success: "Cronologia della stanza eliminata con successo.",
       failure: "Impossibile eliminare la cronologia della stanza. %{errMsg}",
     },
@@ -154,7 +154,7 @@ const rooms = {
       space: "Spazio",
       room: "Stanza",
       suggested: "Consigliata",
-      no_children: "Questa stanza non ha una gerarchia",
+      no_children: "Questa stanza non ha stanze figlie",
       failure: "Impossibile caricare la gerarchia",
     },
   },

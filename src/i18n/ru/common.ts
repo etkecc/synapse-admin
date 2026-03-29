@@ -11,7 +11,7 @@ const fixedRussianMessages = {
     navigation: {
       ...russianMessages.ra.navigation,
       no_filtered_results: "Нет результатов",
-      clear_filters: "Все фильтры сбросить",
+      clear_filters: "Сбросить все фильтры",
     },
     action: {
       ...russianMessages.ra.action,
@@ -126,7 +126,7 @@ const common: Record<string, any> = {
     goToPdf: "Перейти к PDF",
     cards: {
       importstats: {
-        header: "Анализированные пользователи для импорта",
+        header: "Сводка по импорту пользователей",
         users_total:
           "%{smart_count} пользователь в CSV файле |||| %{smart_count} пользователя в CSV файле |||| %{smart_count} пользователей в CSV файле",
         guest_count: "%{smart_count} гость |||| %{smart_count} гостя |||| %{smart_count} гостей",
@@ -203,7 +203,7 @@ const common: Record<string, any> = {
   purge_remote_media: {
     name: "Внешние медиа",
     fields: {
-      before_ts: "последний доступ до",
+      before_ts: "Последний доступ до",
     },
     action: {
       send: "Очистить внешние медиа",
@@ -266,7 +266,7 @@ const common: Record<string, any> = {
       },
       status: "Статус",
       error: "Ошибка",
-      loading: "Получаем данные о состоянии сервера в реальном времени... Подождите немного!",
+      loading: "Получаем данные о состоянии сервера в реальном времени… Подождите немного!",
       intro1: "Это отчёт мониторинга вашего сервера в реальном времени. Подробнее — на",
       intro2: "Если какая-либо из проверок ниже вас беспокоит, ознакомьтесь с рекомендуемыми действиями на",
       help: "Справка",

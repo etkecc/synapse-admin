@@ -13,7 +13,7 @@ const reports = {
   action: {
     erase: {
       title: "Elimina evento segnalato",
-      content: "Sei sicuro di voler eliminare l'evento segnalato? Questa azione è irreversibile.",
+      content: "È sicuro di voler eliminare l'evento segnalato? Questa azione è irreversibile.",
     },
     event_lookup: {
       label: "Ricerca evento",

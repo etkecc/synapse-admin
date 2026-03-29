@@ -15,10 +15,10 @@ const common: Record<string, any> = {
       url_error: "L'URL du serveur Matrix n'est pas valide",
       sso_sign_in: "Se connecter avec l'authentification unique",
       credentials: "Identifiants",
-      access_token: "Jeton d'accès",
+      access_token: "Token d'accès",
       supports_specs: "prend en charge les spécifications Matrix",
       logout_acces_token_dialog: {
-        title: "Vous utilisez un jeton d'accès Matrix existant.",
+        title: "Vous utilisez un token d'accès Matrix existant.",
         content:
           "Voulez-vous détruire cette session (qui pourrait être utilisée ailleurs, par exemple dans un client Matrix) ou simplement vous déconnecter du panneau d'administration?",
         confirm: "Détruire la session",
@@ -141,7 +141,7 @@ const common: Record<string, any> = {
   purge_remote_media: {
     name: "Médias distants",
     fields: {
-      before_ts: "dernier accès avant",
+      before_ts: "Dernier accès avant",
     },
     action: {
       send: "Purger les médias distants",
@@ -193,7 +193,7 @@ const common: Record<string, any> = {
     status: {
       name: "État du serveur",
       badge: {
-        default: "Cliquer pour voir l’état du serveur",
+        default: "Cliquez pour voir l’état du serveur",
         running: "En cours d’exécution : %{command}. %{text}",
       },
       category: {
@@ -204,7 +204,7 @@ const common: Record<string, any> = {
       },
       status: "État",
       error: "Erreur",
-      loading: "Récupération de l’état de santé du serveur en temps réel... Un instant !",
+      loading: "Récupération de l’état de fonctionnement du serveur en temps réel... Un instant !",
       intro1: "Ceci est un rapport de surveillance en temps réel de votre serveur. Vous pouvez en savoir plus sur",
       intro2: "Si l’une des vérifications ci-dessous vous inquiète, consultez les actions recommandées sur",
       help: "Aide",

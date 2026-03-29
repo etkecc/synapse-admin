@@ -166,7 +166,7 @@ const mas = {
       human_name: "نام",
       brand_name: "برند",
       created_at: "ایجاد شده در",
-      disabled_at: "غیرفعال شده در",
+      disabled_at: "غیرفعال‌شده در",
       enabled: "فعال",
     },
   },
@@ -206,7 +206,7 @@ const mas = {
     status: {
       active: "فعال",
       finished: "پایان‌یافته",
-      revoked: "لغو شده",
+      revoked: "ابطال‌شده",
     },
   },
 };

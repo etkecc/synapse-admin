@@ -24,8 +24,8 @@ const mas = {
       unlock: { label: "Déverrouiller", success: "Utilisateur déverrouillé" },
       deactivate: { label: "Désactiver", success: "Utilisateur désactivé" },
       reactivate: { label: "Réactiver", success: "Utilisateur réactivé" },
-      set_admin: { label: "Accorder l'admin", success: "Statut admin mis à jour" },
-      remove_admin: { label: "Révoquer l'admin", success: "Statut admin mis à jour" },
+      set_admin: { label: "Accorder les droits d'administrateur", success: "Statut d'administrateur mis à jour" },
+      remove_admin: { label: "Révoquer les droits d'administrateur", success: "Statut d'administrateur mis à jour" },
       set_password: {
         label: "Définir le mot de passe",
         title: "Définir le mot de passe",
@@ -193,12 +193,12 @@ const mas = {
       revoke: {
         label: "Révoquer",
         title: "Révoquer la session ?",
-        content: "Le jeton d'accès sera révoqué définitivement.",
+        content: "Le token d'accès sera révoqué définitivement.",
         success: "Session révoquée",
       },
       create: {
-        token_title: "Jeton d'accès créé",
-        token_content: "Copiez ce jeton. Il ne sera plus affiché après la fermeture de cette fenêtre.",
+        token_title: "Token d'accès créé",
+        token_content: "Copiez ce token. Il ne sera plus affiché après la fermeture de cette fenêtre.",
       },
     },
   },

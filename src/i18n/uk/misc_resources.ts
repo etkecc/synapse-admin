@@ -23,7 +23,7 @@ const misc_resources = {
     name: "Підключення",
     fields: {
       last_seen: "Дата",
-      ip: "IP address",
+      ip: "IP-адреса",
       user_agent: "Агент користувача",
     },
   },
@@ -45,8 +45,8 @@ const misc_resources = {
         content: 'Ви впевнені, що хочете видалити пристрій "%{name}"?',
         content_bulk:
           "Ви впевнені, що хочете видалити %{smart_count} пристрій? |||| Ви впевнені, що хочете видалити %{smart_count} пристрої? |||| Ви впевнені, що хочете видалити %{smart_count} пристроїв?",
-        success: "Device successfully removed.",
-        failure: "An error has occurred.",
+        success: "Пристрій успішно видалено.",
+        failure: "Сталася помилка.",
       },
       display_name: {
         success: "Назву пристрою оновлено",
@@ -98,13 +98,13 @@ const misc_resources = {
   pushers: {
     name: "Pusher |||| Pushers",
     fields: {
-      app: "App",
-      app_display_name: "App display name",
-      app_id: "App ID",
-      device_display_name: "Device display name",
-      kind: "Kind",
-      lang: "Language",
-      profile_tag: "Profile tag",
+      app: "Застосунок",
+      app_display_name: "Назва застосунку",
+      app_id: "ID застосунку",
+      device_display_name: "Назва пристрою",
+      kind: "Тип",
+      lang: "Мова",
+      profile_tag: "Тег профілю",
       pushkey: "Pushkey",
       data: { url: "URL" },
     },
@@ -147,7 +147,7 @@ const misc_resources = {
       id: "ID події",
       received_ts: "Мітка часу",
       depth: "Глибина",
-      state_group: "State group",
+      state_group: "Група стану",
     },
   },
   room_state: {
@@ -155,7 +155,7 @@ const misc_resources = {
     fields: {
       type: "Тип",
       content: "Зміст",
-      origin_server_ts: "час відправки",
+      origin_server_ts: "Час відправки",
       sender: "Відправник",
     },
   },
@@ -174,8 +174,8 @@ const misc_resources = {
   room_directory: {
     name: "Каталог кімнат",
     fields: {
-      world_readable: "гість може переглядати без приєднання",
-      guest_can_join: "гості можуть приєднатися",
+      world_readable: "Гість може переглядати без приєднання",
+      guest_can_join: "Гості можуть приєднатися",
     },
     action: {
       title: "Видалити кімнату з каталогу кімнат |||| Видалити %{smart_count} кімнати із каталогу кімнат",

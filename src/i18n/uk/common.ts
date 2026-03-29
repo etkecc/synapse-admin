@@ -112,67 +112,71 @@ const common: Record<string, any> = {
   },
   import_users: {
     error: {
-      at_entry: "At entry %{entry}: %{message}",
+      at_entry: "Запис %{entry}: %{message}",
       error: "Помилка",
-      required_field: "Required field '%{field}' is not present",
-      invalid_value: "Invalid value on line %{row}. '%{field}' field may only be 'true' or 'false'",
-      unreasonably_big: "Refused to load unreasonably big file of %{size} megabytes",
-      already_in_progress: "An import run is already in progress",
-      id_exits: "ID %{id} already present",
+      required_field: "Обов'язкове поле '%{field}' відсутнє",
+      invalid_value: "Неприпустиме значення у рядку %{row}. Поле '%{field}' може бути лише 'true' або 'false'",
+      unreasonably_big: "Відмовлено у завантаженні надто великого файлу розміром %{size} МБ",
+      already_in_progress: "Імпорт вже виконується",
+      id_exits: "ID %{id} вже існує",
     },
     title: "Імпорт користувачів через CSV",
-    goToPdf: "Go to PDF",
+    goToPdf: "Перейти до PDF",
     cards: {
       importstats: {
         header: "Імпорт користувачів",
-        users_total: "%{smart_count} user in CSV file |||| %{smart_count} users in CSV file",
-        guest_count: "%{smart_count} guest |||| %{smart_count} guests",
-        admin_count: "%{smart_count} admin |||| %{smart_count} admins",
+        users_total:
+          "%{smart_count} користувач у CSV-файлі |||| %{smart_count} користувачі у CSV-файлі |||| %{smart_count} користувачів у CSV-файлі",
+        guest_count: "%{smart_count} гість |||| %{smart_count} гості |||| %{smart_count} гостей",
+        admin_count:
+          "%{smart_count} адміністратор |||| %{smart_count} адміністратори |||| %{smart_count} адміністраторів",
       },
       conflicts: {
-        header: "Conflict strategy",
+        header: "Стратегія конфлікту",
         mode: {
-          stop: "Stop on conflict",
-          skip: "Show error and skip on conflict",
+          stop: "Зупинитись при конфлікті",
+          skip: "Показати помилку та пропустити при конфлікті",
         },
       },
       ids: {
         header: "IDs",
-        all_ids_present: "IDs present on every entry",
-        count_ids_present: "%{smart_count} entry with ID |||| %{smart_count} entries with IDs",
+        all_ids_present: "ID присутній у кожному записі",
+        count_ids_present: "%{smart_count} запис з ID |||| %{smart_count} записи з ID |||| %{smart_count} записів з ID",
         mode: {
-          ignore: "Ignore IDs in CSV and create new ones",
-          update: "Update existing records",
+          ignore: "Ігнорувати ID у CSV та створювати нові",
+          update: "Оновити існуючі записи",
         },
       },
       passwords: {
         header: "Паролі",
-        all_passwords_present: "Passwords present on every entry",
-        count_passwords_present: "%{smart_count} entry with password |||| %{smart_count} entries with passwords",
-        use_passwords: "Use passwords from CSV",
+        all_passwords_present: "Пароль присутній у кожному записі",
+        count_passwords_present:
+          "%{smart_count} запис з паролем |||| %{smart_count} записи з паролями |||| %{smart_count} записів з паролями",
+        use_passwords: "Використовувати паролі з CSV",
       },
       upload: {
-        header: "Input CSV file",
+        header: "Завантажити CSV-файл",
         explanation:
-          "Here you can upload a file with comma separated values that is processed to create or update users. The file must include the fields 'id' and 'displayname'. You can download and adapt an example file here: ",
+          "Тут можна завантажити файл із значеннями, розділеними комами, для створення або оновлення користувачів. Файл має містити поля 'id' та 'displayname'. Зразок файлу можна завантажити тут: ",
       },
       startImport: {
-        simulate_only: "Simulate only",
-        run_import: "Import",
+        simulate_only: "Лише симуляція",
+        run_import: "Імпортувати",
       },
       results: {
-        header: "Import results",
-        total: "%{smart_count} entry in total |||| %{smart_count} entries in total",
-        successful: "%{smart_count} entries successfully imported",
-        skipped: "%{smart_count} entries skipped",
-        download_skipped: "Download skipped records",
-        with_error: "%{smart_count} entry with errors |||| %{smart_count} entries with errors",
-        simulated_only: "Run was only simulated",
+        header: "Результати імпорту",
+        total: "%{smart_count} запис загалом |||| %{smart_count} записи загалом |||| %{smart_count} записів загалом",
+        successful: "%{smart_count} записів успішно імпортовано",
+        skipped: "%{smart_count} записів пропущено",
+        download_skipped: "Завантажити пропущені записи",
+        with_error:
+          "%{smart_count} запис з помилками |||| %{smart_count} записи з помилками |||| %{smart_count} записів з помилками",
+        simulated_only: "Запуск був лише симульованим",
       },
     },
   },
   delete_media: {
-    name: "Media",
+    name: "Медіа",
     fields: {
       before_ts: "останній доступ раніше ніж:",
       size_gt: "розмір більше ніж (у байтах):",
@@ -190,7 +194,7 @@ const common: Record<string, any> = {
     },
   },
   purge_remote_media: {
-    name: "Remote Media",
+    name: "Віддалені медіа",
     fields: {
       before_ts: "останній доступ раніше ніж:",
     },

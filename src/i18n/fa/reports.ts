@@ -3,7 +3,7 @@ const reports = {
   fields: {
     id: "شناسه",
     received_ts: "زمان گزارش",
-    user_id: "گوینده",
+    user_id: "کاربر گزارش‌دهنده",
     name: "نام اتاق",
     score: "نمره",
     reason: "دلیل",

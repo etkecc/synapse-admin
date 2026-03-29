@@ -89,7 +89,7 @@ const common: Record<string, any> = {
       id_exits: "ID %{id} は既に存在しています",
     },
     title: "CSVでユーザーをインポート",
-    goToPdf: "Go to PDF",
+    goToPdf: "PDFを開く",
     cards: {
       importstats: {
         header: "インポートするユーザー",
@@ -122,7 +122,7 @@ const common: Record<string, any> = {
       upload: {
         header: "CSVファイルを送信",
         explanation:
-          "作成またはアップデートするユーザーをコンマで区切って入力したファイルをアップロードできます。ファイルには「id」と「displayname」のフィールドを含めてください。参照用のファイルは以下からダウンロードできます。",
+          "作成または更新するユーザーをコンマで区切って入力したファイルをアップロードできます。ファイルには「id」と「displayname」のフィールドを含めてください。参照用のファイルは以下からダウンロードできます。",
       },
       startImport: {
         simulate_only: "シミュレーション",
@@ -153,7 +153,7 @@ const common: Record<string, any> = {
       send_failure: "エラーが発生しました。",
     },
     helper: {
-      send: "このAPIを使うとサーバーからローカルメディアファイルを削除できます。削除できるファイルは、ローカルのサムネイルファイルと、ダウンロードしたメディアファイルのコピーも含みます。外部のメディアリポジトリーにアップロードされたメディアファイルは削除できません。",
+      send: "このAPIを使うとサーバーからローカルメディアファイルを削除できます。削除できるファイルは、ローカルのサムネイルファイルと、ダウンロードしたメディアファイルのコピーも含みます。外部のメディアリポジトリにアップロードされたメディアファイルは削除できません。",
     },
   },
   purge_remote_media: {
@@ -168,7 +168,7 @@ const common: Record<string, any> = {
       send_failure: "エラーが発生しました。",
     },
     helper: {
-      send: "このAPIを使うとサーバーからリモートメディアファイルのキャッシュを削除できます。削除できるファイルは、ローカルのサムネイルファイルと、ダウンロードしたメディアファイルのコピーも含みます。サーバーのメディアリポジトリーにアップロードされたメディアファイルは削除できません。",
+      send: "このAPIを使うとサーバーからリモートメディアファイルのキャッシュを削除できます。削除できるファイルは、ローカルのサムネイルファイルと、ダウンロードしたメディアファイルのコピーも含みます。サーバーのメディアリポジトリにアップロードされたメディアファイルは削除できません。",
     },
   },
   etkecc: {
@@ -206,9 +206,9 @@ const common: Record<string, any> = {
       },
     },
     status: {
-      name: "サーバーの状態",
+      name: "サーバーの稼働状況",
       badge: {
-        default: "クリックしてサーバーの状態を表示",
+        default: "クリックしてサーバーの稼働状況を表示",
         running: "実行中: %{command}。%{text}",
       },
       category: {
@@ -219,7 +219,7 @@ const common: Record<string, any> = {
       },
       status: "ステータス",
       error: "エラー",
-      loading: "現在のサーバーの状態を確認しています... 少々お待ちください！",
+      loading: "サーバーの稼働状況を確認しています… 少々お待ちください！",
       intro1: "これはサーバーのリアルタイム監視レポートです。詳しくは",
       intro2: "以下のチェック内容が気になる場合は、推奨される対処方法を",
       help: "ヘルプ",
@@ -250,7 +250,7 @@ const common: Record<string, any> = {
         command: "コマンド",
         description: "説明",
         arguments: "引数",
-        is_recurring: "繰り返し？",
+        is_recurring: "繰り返し",
         run_at: "実行（ローカル時間）",
         next_run_at: "次回実行（ローカル時間）",
         time_utc: "時刻（UTC）",
@@ -368,7 +368,7 @@ const common: Record<string, any> = {
         back: "サポートに戻る",
       },
       helper: {
-        loading: "サポートリクエストを読み込んでいます...",
+        loading: "サポートリクエストを読み込んでいます…",
         reply_hint: "Ctrl+Enterで送信",
         reply_placeholder: "できる限り詳細な情報を記入してください。",
         before_contact_title: "お問い合わせの前に",

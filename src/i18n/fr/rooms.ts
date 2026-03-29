@@ -27,7 +27,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Les extrémités avant sont les événements feuilles à la fin d'un graphe orienté acyclique (DAG) dans un salon, c'est-à-dire les événements qui n'ont pas de descendants. Plus il y en a dans un salon, plus la résolution d'état que Synapse doit effectuer est importante (indice : c'est une opération coûteuse). Bien que Synapse dispose d'un algorithme pour éviter qu'un trop grand nombre de ces événements n'existent en même temps dans un salon, des bogues peuvent parfois les faire réapparaître. Si un salon présente plus de 10 extrémités avant, cela vaut la peine d'y prêter attention et éventuellement de les supprimer en utilisant les requêtes SQL mentionnées dans la discussion traitant du problème https://github.com/matrix-org/synapse/issues/1760.",
+      "Les extrémités avant sont les événements feuilles à la fin d'un graphe orienté acyclique (DAG) dans un salon, c'est-à-dire les événements qui n'ont pas de descendants. Plus il y en a dans un salon, plus la résolution d'état que Synapse doit effectuer est importante (indice : c'est une opération coûteuse). Bien que Synapse dispose d'un algorithme pour éviter qu'un trop grand nombre de ces événements n'existent en même temps dans un salon, des bogues peuvent parfois les faire réapparaître. Si un salon présente plus de 10 extrémités avant, cela vaut la peine d'y prêter attention et de les supprimer si nécessaire en utilisant les requêtes SQL mentionnées dans la discussion traitant du problème https://github.com/matrix-org/synapse/issues/1760.",
   },
   enums: {
     join_rules: {
@@ -54,21 +54,21 @@ const rooms = {
       content:
         "Voulez-vous vraiment supprimer le salon ? Cette opération ne peut être annulée. Tous les messages et médias partagés du salon seront supprimés du serveur !",
       fields: {
-        block: "Bloquer et empêcher les utilisateurs de rejoindre la salle",
+        block: "Bloquer et empêcher les utilisateurs de rejoindre le salon",
       },
       in_progress: "Suppression en cours…",
       background_note: "Vous pouvez fermer cette fenêtre, la suppression continuera en arrière-plan.",
-      success: "Salle/s supprimées avec succès.",
-      failure: "La/les salle/s n'ont pas pu être supprimées.",
+      success: "Salon supprimé avec succès. |||| Salons supprimés avec succès.",
+      failure: "Le salon n'a pas pu être supprimé. |||| Les salons n'ont pas pu être supprimés.",
     },
     make_admin: {
       assign_admin: "Assigner un administrateur",
       title: "Assigner un administrateur au salon %{roomName}",
       confirm: "Assigner un administrateur",
       content:
-        "Entrez la MXID complète de l'utilisateur qui sera désigné comme administrateur.\nAttention : pour que cela fonctionne, la salle doit avoir au moins un membre local en tant qu'administrateur.",
-      success: "L'utilisateur a été désigné comme administrateur de la salle.",
-      failure: "L'utilisateur n'a pas pu être désigné comme administrateur de la salle. %{errMsg}",
+        "Entrez la MXID complète de l'utilisateur qui sera désigné comme administrateur.\nAttention : pour que cela fonctionne, le salon doit avoir au moins un membre local en tant qu'administrateur.",
+      success: "L'utilisateur a été désigné comme administrateur du salon.",
+      failure: "L'utilisateur n'a pas pu être désigné comme administrateur du salon. %{errMsg}",
     },
     join: {
       label: "Joindre utilisateur",
@@ -76,8 +76,8 @@ const rooms = {
       confirm: "Joindre",
       content:
         "Entrez la MXID complète de l'utilisateur à joindre à ce salon.\nNote : vous devez être dans le salon et avoir la permission d'inviter des utilisateurs.",
-      success: "L'utilisateur a rejoint le salon avec succès.",
-      failure: "L'utilisateur n'a pas pu rejoindre le salon. %{errMsg}",
+      success: "L'utilisateur a été ajouté au salon avec succès.",
+      failure: "L'utilisateur n'a pas pu être ajouté au salon. %{errMsg}",
     },
     block: {
       label: "Bloquer",
@@ -154,7 +154,7 @@ const rooms = {
       space: "Espace",
       room: "Salon",
       suggested: "Suggéré",
-      no_children: "Ce salon n'a pas de hiérarchie",
+      no_children: "Ce salon n'a pas de sous-salons",
       failure: "Impossible de charger la hiérarchie",
     },
   },

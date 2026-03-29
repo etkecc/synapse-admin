@@ -88,7 +88,7 @@ const misc_resources = {
     action: {
       name: "Quarantaine",
       create: "Quarantaine",
-      delete: "Déquarantainer",
+      delete: "Lever la quarantaine",
       none: "Protégé(e)",
       send_success: "Le statut de la quarantaine a été modifié avec succès",
       send_failure: "Une erreur s'est produite: %{error}",
@@ -199,10 +199,10 @@ const misc_resources = {
     action: { reconnect: "Reconnecter" },
   },
   registration_tokens: {
-    name: "Jetons d'inscription",
+    name: "Tokens d'inscription",
     fields: {
-      token: "Jeton",
-      valid: "Jeton valide",
+      token: "Token",
+      valid: "Token valide",
       uses_allowed: "Nombre d'inscription autorisées",
       pending: "Nombre d'inscription en cours",
       completed: "Nombre d'inscription accomplie",
@@ -213,16 +213,16 @@ const misc_resources = {
       revoked_at: "Date de révocation",
     },
     helper: {
-      length: "Longueur du jeton généré aléatoirement si aucun jeton n'est pas spécifié",
+      length: "Longueur du token généré aléatoirement si aucun token n'est spécifié",
     },
     action: {
       revoke: {
         label: "Révoquer",
-        success: "Jeton révoqué",
+        success: "Token révoqué",
       },
       unrevoke: {
         label: "Restaurer",
-        success: "Jeton restauré",
+        success: "Token restauré",
       },
     },
   },

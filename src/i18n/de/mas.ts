@@ -1,6 +1,6 @@
 const mas = {
   mas_users: {
-    name: "MAS-Nutzer |||| MAS-Nutzer",
+    name: "MAS-Benutzer |||| MAS-Benutzer",
     fields: {
       id: "MAS-ID",
       username: "Benutzername",
@@ -20,10 +20,10 @@ const mas = {
       status_deactivated: "Deaktiviert",
     },
     action: {
-      lock: { label: "Sperren", success: "Nutzer gesperrt" },
-      unlock: { label: "Entsperren", success: "Nutzer entsperrt" },
-      deactivate: { label: "Deaktivieren", success: "Nutzer deaktiviert" },
-      reactivate: { label: "Reaktivieren", success: "Nutzer reaktiviert" },
+      lock: { label: "Sperren", success: "Benutzer gesperrt" },
+      unlock: { label: "Entsperren", success: "Benutzer entsperrt" },
+      deactivate: { label: "Deaktivieren", success: "Benutzer deaktiviert" },
+      reactivate: { label: "Reaktivieren", success: "Benutzer reaktiviert" },
       set_admin: { label: "Admin erteilen", success: "Admin-Status aktualisiert" },
       remove_admin: { label: "Admin entziehen", success: "Admin-Status aktualisiert" },
       set_password: {
@@ -187,7 +187,7 @@ const mas = {
       active: "Aktiv",
     },
     helper: {
-      expires_in: "Optional. Anzahl Sekunden bis zum Ablauf. Leer lassen für kein Ablaufdatum.",
+      expires_in: "Optional. Anzahl der Sekunden bis zum Ablauf. Leer lassen für kein Ablaufdatum.",
     },
     action: {
       revoke: {

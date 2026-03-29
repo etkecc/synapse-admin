@@ -44,7 +44,7 @@ const common: Record<string, any> = {
     guesser: {
       empty: {
         title: "Nessun dato da visualizzare",
-        message: "Controlla il provider dei dati",
+        message: "Controlli il provider dei dati",
       },
     },
     configurable: {
@@ -70,7 +70,7 @@ const common: Record<string, any> = {
       customize: "Personalizza",
       inspector: {
         ...itRaWithoutPassword.configurable?.inspector,
-        content: "Personalizza la tua vista",
+        content: "Personalizza la Sua vista",
         hideAll: "Nascondi tutto",
         reset: "Ripristina",
         showAll: "Mostra tutto",
@@ -91,7 +91,7 @@ const common: Record<string, any> = {
       auth_error: "Errore di autenticazione",
       authentication_error:
         "Il server di autenticazione ha restituito un errore e non è stato possibile verificare le credenziali.",
-      bulk_update_content: "Vuoi aggiornare %{smart_count} elementi? |||| Vuoi aggiornare %{smart_count} elementi?",
+      bulk_update_content: "Vuole aggiornare %{smart_count} elementi? |||| Vuole aggiornare %{smart_count} elementi?",
       bulk_update_title: "Aggiornare %{smart_count} elementi? |||| Aggiornare %{smart_count} elementi?",
       clear_array_input: "Svuota l'elenco",
       placeholder_data_warning: "Problema di rete: aggiornamento dei dati non riuscito.",
@@ -130,9 +130,9 @@ const common: Record<string, any> = {
       base_url: "URL dell'homeserver",
       welcome: "Benvenuto in %{name}",
       description:
-        "L'evoluzione di Synapse Admin. Gestisci, monitora e mantieni il tuo server Matrix da un'unica interfaccia pulita. Pensato per i piccoli server privati e le grandi community federate.",
+        "L'evoluzione di Synapse Admin. Gestire, monitorare e mantenere il Suo server Matrix da un'unica interfaccia pulita. Pensato per i piccoli server privati e le grandi community federate.",
       server_version: "Versione di Synapse",
-      username_error: "Per favore inserisci un ID utente completo: '@utente:dominio'",
+      username_error: "Per favore inserisca un ID utente completo: '@utente:dominio'",
       protocol_error: "L'URL deve iniziare per 'http://' o 'https://'",
       url_error: "URL del server Matrix non valido",
       sso_sign_in: "Accedi con SSO",
@@ -140,9 +140,9 @@ const common: Record<string, any> = {
       access_token: "Token di accesso",
       supports_specs: "supporta le specifiche Matrix",
       logout_acces_token_dialog: {
-        title: "Stai utilizzando un token di accesso Matrix esistente.",
+        title: "Sta utilizzando un token di accesso Matrix esistente.",
         content:
-          "Vuoi distruggere questa sessione (che potrebbe essere utilizzata altrove, ad esempio in un client Matrix) o semplicemente disconnetterti dal pannello di amministrazione?",
+          "Vuole distruggere questa sessione (che potrebbe essere utilizzata altrove, ad esempio in un client Matrix) o semplicemente disconnettersi dal pannello di amministrazione?",
         confirm: "Distruggi sessione",
         cancel: "Disconnetti solo dal pannello di amministrazione",
       },
@@ -154,7 +154,7 @@ const common: Record<string, any> = {
         experimental: "Sperimentale",
         limits: "Limiti",
         account_data: "Dati del profilo",
-        sessions: "Sessions",
+        sessions: "Sessioni",
       },
       danger_zone: "Zona pericolosa",
     },
@@ -222,7 +222,7 @@ const common: Record<string, any> = {
       upload: {
         header: "Input file CSV",
         explanation:
-          "Qui puoi caricare un file con valori separati da virgole che verrà poi utilizzato per creare o aggiornare gli utenti. Il file deve includere i campi 'id' and 'displayname'. Puoi scaricare un file di esempio per adattarlo: ",
+          "Qui può caricare un file con valori separati da virgole che verrà poi utilizzato per creare o aggiornare gli utenti. Il file deve includere i campi 'id' and 'displayname'. Può scaricare un file di esempio per adattarlo: ",
       },
       startImport: {
         simulate_only: "Solo simulazione",
@@ -254,7 +254,7 @@ const common: Record<string, any> = {
       send_failure: "C'è stato un errore.",
     },
     helper: {
-      send: "Questa API cancella i media locali dal disco del tuo server. Questo include anche ogni miniatura e copia del media scaricato. Questa API non inciderà sui media che sono stati caricati nei repository esterni.",
+      send: "Questa API cancella i media locali dal disco del Suo server. Questo include anche ogni miniatura e copia del media scaricato. Questa API non inciderà sui media che sono stati caricati nei repository esterni.",
     },
   },
   purge_remote_media: {
@@ -271,7 +271,7 @@ const common: Record<string, any> = {
       send_failure: "Si è verificato un errore con la richiesta di eliminazione dei media remoti.",
     },
     helper: {
-      send: "Questa API elimina la cache dei media remoti dal disco del tuo server. Questo include qualsiasi miniatura locale e copie di media scaricati. Questa API non influirà sui media che sono stati caricati nel repository multimediale del server.",
+      send: "Questa API elimina la cache dei media remoti dal disco del Suo server. Questo include qualsiasi miniatura locale e copie di media scaricati. Questa API non influirà sui media che sono stati caricati nel repository multimediale del server.",
     },
   },
   etkecc: {
@@ -279,11 +279,11 @@ const common: Record<string, any> = {
       name: "Fatturazione",
       title: "Cronologia pagamenti",
       no_payments: "Nessun pagamento trovato.",
-      no_payments_helper: "Se ritieni che si tratti di un errore, contatta l’assistenza etke.cc a",
+      no_payments_helper: "Se ritiene che si tratti di un errore, contatti l’assistenza etke.cc a",
       description1:
-        "Da qui puoi visualizzare i pagamenti e generare le fatture. Puoi saperne di più sulla gestione degli abbonamenti su",
+        "Da qui può visualizzare i pagamenti e generare le fatture. Può saperne di più sulla gestione degli abbonamenti su",
       description2:
-        "Se desideri modificare l’email di fatturazione o aggiungere i dati aziendali, contatta l’assistenza etke.cc a",
+        "Se desidera modificare l’email di fatturazione o aggiungere i dati aziendali, contatti l’assistenza etke.cc a",
       fields: {
         transaction_id: "ID transazione",
         email: "Email",
@@ -306,7 +306,7 @@ const common: Record<string, any> = {
         loading: "Caricamento delle informazioni di fatturazione...",
         loading_failed1: "Si è verificato un problema durante il caricamento delle informazioni di fatturazione.",
         loading_failed2: "Riprova più tardi.",
-        loading_failed3: "Se il problema persiste, contatta l’assistenza etke.cc a",
+        loading_failed3: "Se il problema persiste, contatti l’assistenza etke.cc a",
         loading_failed4: "con il seguente messaggio di errore:",
       },
     },
@@ -324,9 +324,9 @@ const common: Record<string, any> = {
       },
       status: "Stato",
       error: "Errore",
-      loading: "Recupero dello stato di salute del server in tempo reale... Un attimo!",
-      intro1: "Questo è un report di monitoraggio in tempo reale del tuo server. Puoi saperne di più su",
-      intro2: "Se uno dei controlli qui sotto ti preoccupa, consulta le azioni suggerite su",
+      loading: "Recupero dello stato operativo del server in tempo reale... Un attimo!",
+      intro1: "Questo è un report di monitoraggio in tempo reale del Suo server. Può saperne di più su",
+      intro2: "Se uno dei controlli qui sotto La preoccupa, consulti le azioni suggerite su",
       help: "Aiuto",
     },
     maintenance: {
@@ -341,10 +341,10 @@ const common: Record<string, any> = {
       available_help_intro: "Ulteriori dettagli su ciascuno sono disponibili su",
       scheduled_title: "Comandi programmati",
       scheduled_description:
-        "I seguenti comandi sono programmati per essere eseguiti in orari specifici. Puoi visualizzare i dettagli e modificarli se necessario.",
+        "I seguenti comandi sono programmati per essere eseguiti in orari specifici. Può visualizzare i dettagli e modificarli se necessario.",
       recurring_title: "Comandi ricorrenti",
       recurring_description:
-        "I seguenti comandi sono impostati per essere eseguiti settimanalmente in un giorno e un orario specifici. Puoi visualizzare i dettagli e modificarli se necessario.",
+        "I seguenti comandi sono impostati per essere eseguiti settimanalmente in un giorno e un orario specifici. Può visualizzare i dettagli e modificarli se necessario.",
       scheduled_help_intro: "Ulteriori dettagli su questa modalità sono disponibili su",
       recurring_help_intro: "Ulteriori dettagli su questa modalità sono disponibili su",
       maintenance_title: "Il sistema è attualmente in modalità manutenzione.",
@@ -390,7 +390,7 @@ const common: Record<string, any> = {
       },
       delete_scheduled_title: "Elimina comando programmato",
       delete_recurring_title: "Elimina comando ricorrente",
-      delete_confirm: "Sei sicuro di voler eliminare il comando: %{command}?",
+      delete_confirm: "È sicuro di voler eliminare il comando: %{command}?",
       errors: {
         unknown: "Si è verificato un errore sconosciuto",
         delete_failed: "Errore: %{error}",
@@ -451,7 +451,7 @@ const common: Record<string, any> = {
       create_title: "Nuova richiesta di supporto",
       no_requests: "Nessuna richiesta di supporto ancora.",
       no_messages: "Nessun messaggio ancora.",
-      closed_message: "Questa richiesta è chiusa. Se hai ancora un problema, aprine una nuova.",
+      closed_message: "Questa richiesta è chiusa. Se ha ancora un problema, ne apra una nuova.",
       fields: {
         subject: "Oggetto",
         message: "Messaggio",
@@ -464,7 +464,7 @@ const common: Record<string, any> = {
         active: "In attesa dell'operatore",
         open: "Aperto",
         closed: "Chiuso",
-        pending: "In attesa di una tua risposta",
+        pending: "In attesa di una Sua risposta",
       },
       buttons: {
         new_request: "Nuova richiesta",
@@ -476,15 +476,15 @@ const common: Record<string, any> = {
       helper: {
         loading: "Caricamento delle richieste di supporto...",
         reply_hint: "Ctrl+Invio per inviare",
-        reply_placeholder: "Includi quanti più dettagli possibili.",
+        reply_placeholder: "Includa quanti più dettagli possibili.",
         before_contact_title: "Prima di contattarci",
-        help_pages_prompt: "Per favore, consulta prima le nostre pagine di aiuto:",
+        help_pages_prompt: "Per favore, consulti prima le nostre pagine di aiuto:",
         services_prompt: "Forniamo solo i servizi elencati nella pagina dei Servizi:",
-        topics_prompt: "Possiamo aiutarti solo con gli argomenti supportati:",
+        topics_prompt: "Possiamo aiutarLa solo con gli argomenti supportati:",
         scope_confirm_label:
           "Ho consultato le pagine di aiuto e confermo che questa richiesta riguarda gli argomenti supportati.",
         english_only_notice: "Il supporto è disponibile solo in inglese.",
-        response_time_prompt: "Risposta entro 48 ore. Hai bisogno di tempi di risposta più rapidi? Vedi:",
+        response_time_prompt: "Risposta entro 48 ore. Ha bisogno di tempi di risposta più rapidi? Veda:",
       },
       actions: {
         create_success: "Richiesta di supporto creata con successo.",

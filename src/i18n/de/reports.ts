@@ -7,21 +7,21 @@ const reports = {
     name: "Raumname",
     score: "Bewertung",
     reason: "Grund",
-    event_id: "Event-ID",
+    event_id: "Ereignis-ID",
     sender: "Absender",
   },
   action: {
     erase: {
-      title: "Gemeldetes Event löschen",
+      title: "Gemeldetes Ereignis löschen",
       content:
-        "Sind Sie sicher, dass Sie das gemeldete Event löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "Sind Sie sicher, dass Sie das gemeldete Ereignis löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
     },
     event_lookup: {
-      label: "Event-Suche",
-      title: "Event nach ID abrufen",
+      label: "Ereignis-Suche",
+      title: "Ereignis nach ID abrufen",
       fetch: "Abrufen",
     },
-    fetch_event_error: "Fehler beim Abrufen des Events",
+    fetch_event_error: "Fehler beim Abrufen des Ereignisses",
   },
 };
 

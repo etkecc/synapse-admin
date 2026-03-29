@@ -148,7 +148,7 @@ const mas = {
       created_at: "Creato il",
     },
     helper: {
-      provider_id: "L'ID del provider OAuth upstream. Puoi trovarlo nell'elenco dei provider OAuth upstream.",
+      provider_id: "L'ID del provider OAuth upstream. Può trovarlo nell'elenco dei provider OAuth upstream.",
     },
     action: {
       remove: {
@@ -187,7 +187,7 @@ const mas = {
       active: "Attivo",
     },
     helper: {
-      expires_in: "Facoltativo. Numero di secondi prima della scadenza del token. Lascia vuoto per nessuna scadenza.",
+      expires_in: "Facoltativo. Numero di secondi prima della scadenza del token. Lasci vuoto per nessuna scadenza.",
     },
     action: {
       revoke: {

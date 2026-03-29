@@ -1,5 +1,5 @@
 const reports = {
-  name: "Reported event |||| Reported events",
+  name: "Скарга на подію |||| Скарги на події |||| Скарг на події",
   fields: {
     id: "ID",
     received_ts: "Час скарги",

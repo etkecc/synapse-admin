@@ -24,7 +24,7 @@ const misc_resources = {
     fields: {
       last_seen: "Data",
       ip: "Indirizzo IP",
-      user_agent: "agente utente",
+      user_agent: "User agent",
     },
   },
   devices: {
@@ -41,9 +41,9 @@ const misc_resources = {
       erase: {
         title: "Rimozione del dispositivo %{id}",
         title_bulk: "Rimozione di %{smart_count} dispositivo |||| Rimozione di %{smart_count} dispositivi",
-        content: 'Sei sicuro di voler rimuovere il dispositivo "%{name}"?',
+        content: 'È sicuro di voler rimuovere il dispositivo "%{name}"?',
         content_bulk:
-          "Sei sicuro di voler rimuovere %{smart_count} dispositivo? |||| Sei sicuro di voler rimuovere %{smart_count} dispositivi?",
+          "È sicuro di voler rimuovere %{smart_count} dispositivo? |||| È sicuro di voler rimuovere %{smart_count} dispositivi?",
         success: "Dispositivo rimosso con successo.",
         failure: "C'è stato un errore.",
       },
@@ -173,13 +173,13 @@ const misc_resources = {
   room_directory: {
     name: "Elenco delle stanze",
     fields: {
-      world_readable: "gli utenti ospite possono vedere senza entrare",
-      guest_can_join: "gli utenti ospite possono entrare",
+      world_readable: "Gli utenti ospite possono vedere senza entrare",
+      guest_can_join: "Gli utenti ospite possono entrare",
     },
     action: {
       title: "Cancella stanza dall'elenco |||| Cancella %{smart_count} stanze dall'elenco",
       content:
-        "Sei sicuro di voler rimuovere questa stanza dall'elenco? |||| Sei sicuro di voler rimuovere %{smart_count} stanze dall'elenco?",
+        "È sicuro di voler rimuovere questa stanza dall'elenco? |||| È sicuro di voler rimuovere %{smart_count} stanze dall'elenco?",
       erase: "Rimuovi dall'elenco",
       create: "Crea",
       send_success: "Stanza creata con successo.",

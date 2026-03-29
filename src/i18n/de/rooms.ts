@@ -76,8 +76,8 @@ const rooms = {
       confirm: "Beitreten",
       content:
         "Geben Sie die vollständige MXID des Benutzers ein, der diesem Raum beitreten soll.\nHinweis: Sie müssen im Raum sein und die Berechtigung haben, Benutzer einzuladen.",
-      success: "Benutzer ist dem Raum erfolgreich beigetreten.",
-      failure: "Benutzer konnte dem Raum nicht beitreten. %{errMsg}",
+      success: "Benutzer wurde erfolgreich zum Raum hinzugefügt.",
+      failure: "Benutzer konnte dem Raum nicht hinzugefügt werden. %{errMsg}",
     },
     block: {
       label: "Sperren",
@@ -155,7 +155,7 @@ const rooms = {
       space: "Space",
       room: "Raum",
       suggested: "Empfohlen",
-      no_children: "Dieser Raum hat keine Hierarchie",
+      no_children: "Dieser Raum hat keine untergeordneten Räume",
       failure: "Hierarchie konnte nicht geladen werden",
     },
   },
