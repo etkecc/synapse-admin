@@ -1,29 +1,8 @@
-import _japaneseMessages from "@bicstone/ra-language-japanese";
-
-const japaneseMessages = (
-  "default" in _japaneseMessages ? _japaneseMessages.default : _japaneseMessages
-) as typeof _japaneseMessages;
-
-const fixedJapaneseMessages = {
-  ...japaneseMessages,
-  ra: {
-    ...japaneseMessages.ra,
-    guesser: {
-      empty: {
-        title: "表示するデータがありません",
-        message: "データプロバイダーを確認してください",
-      },
-    },
-    validation: {
-      ...japaneseMessages.ra.validation,
-      unique: "一意である必要があります",
-    },
-  },
-};
+import japaneseMessages from "./base";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const common: Record<string, any> = {
-  ...fixedJapaneseMessages,
+  ...japaneseMessages,
   ketesa: {
     auth: {
       base_url: "ホームサーバーのURL",

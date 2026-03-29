@@ -1,62 +1,8 @@
-import _ukrainianMessages from "ra-language-ukrainian";
-
-const ukrainianMessages = (
-  "default" in _ukrainianMessages ? _ukrainianMessages.default : _ukrainianMessages
-) as typeof _ukrainianMessages;
-
-const { prev: _ukPrev, ...ukNavigation } = ukrainianMessages.ra.navigation;
-
-const fixedUkrainianMessages = {
-  ...ukrainianMessages,
-  ra: {
-    ...ukrainianMessages.ra,
-    navigation: {
-      ...ukNavigation,
-      clear_filters: "Очистити всі фільтри",
-      no_filtered_results: "Немає результатів",
-    },
-    action: {
-      ...ukrainianMessages.ra.action,
-      reset: "Скинути",
-      search_columns: "Пошук по стовпцях",
-      select_all_button: "Вибрати всі",
-    },
-    auth: {
-      ...ukrainianMessages.ra.auth,
-      email: "Електронна пошта",
-    },
-    message: {
-      ...ukrainianMessages.ra.message,
-      access_denied: "Ви не маєте доступу до цієї сторінки.",
-      authentication_error: "Сервер автентифікації повернув помилку, перевірити ваші дані не вдалося.",
-      placeholder_data_warning: "Проблема з мережею: оновлення даних не вдалося.",
-      select_all_limit_reached: "Занадто багато елементів для вибору. Обрано лише перші %{max}.",
-    },
-    guesser: {
-      empty: {
-        title: "Немає даних для відображення",
-        message: "Перевірте постачальника даних",
-      },
-    },
-    notification: {
-      ...ukrainianMessages.ra.notification,
-      offline: "Немає з’єднання. Дані не вдалося отримати.",
-    },
-    page: {
-      ...ukrainianMessages.ra.page,
-      access_denied: "Доступ заборонено",
-      authentication_error: "Помилка автентифікації",
-    },
-    validation: {
-      ...ukrainianMessages.ra.validation,
-      unique: "Має бути унікальним",
-    },
-  },
-};
+import ukrainianMessages from "./base";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const common: Record<string, any> = {
-  ...fixedUkrainianMessages,
+  ...ukrainianMessages,
   ketesa: {
     auth: {
       base_url: "URL домашнього сервера",

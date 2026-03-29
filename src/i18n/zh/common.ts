@@ -1,71 +1,8 @@
-import _chineseMessages from "@haxqer/ra-language-chinese";
-
-const chineseMessages = (
-  "default" in _chineseMessages ? _chineseMessages.default : _chineseMessages
-) as typeof _chineseMessages;
-
-const fixedChineseMessages = {
-  ...chineseMessages,
-  ra: {
-    ...chineseMessages.ra,
-    navigation: {
-      ...chineseMessages.ra.navigation,
-      no_filtered_results: "没有结果",
-      clear_filters: "清除所有过滤器",
-    },
-    auth: {
-      ...chineseMessages.ra.auth,
-      email: "邮箱",
-    },
-    action: {
-      ...chineseMessages.ra.action,
-      update_application: "更新应用",
-      select_all_button: "全部选择",
-    },
-    page: {
-      ...chineseMessages.ra.page,
-      access_denied: "拒绝访问",
-      authentication_error: "认证错误",
-    },
-    message: {
-      ...chineseMessages.ra.message,
-      access_denied: "您没有访问此页面的权限。",
-      authentication_error: "身份验证服务器返回错误，无法验证您的凭据。",
-      select_all_limit_reached: "选择的元素太多。只选择了前 %{max} 个元素。",
-      placeholder_data_warning: "网络问题：数据刷新失败。",
-    },
-    guesser: {
-      empty: {
-        title: "没有可显示的数据",
-        message: "请检查数据提供程序",
-      },
-    },
-  },
-};
-
-const { prev: _zhPrev, ...zhNavigation } = fixedChineseMessages.ra
-  .navigation as typeof fixedChineseMessages.ra.navigation & { prev?: unknown };
+import chineseMessages from "./base";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const common: Record<string, any> = {
-  ...fixedChineseMessages,
-  ra: {
-    ...fixedChineseMessages.ra,
-    navigation: zhNavigation,
-    action: {
-      ...fixedChineseMessages.ra.action,
-      reset: "重置",
-      search_columns: "搜索列",
-    },
-    notification: {
-      ...fixedChineseMessages.ra.notification,
-      offline: "离线。无法获取数据。",
-    },
-    validation: {
-      ...fixedChineseMessages.ra.validation,
-      unique: "必须唯一",
-    },
-  },
+  ...chineseMessages,
   ketesa: {
     auth: {
       base_url: "服务器 URL",
