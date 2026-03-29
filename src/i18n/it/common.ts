@@ -129,7 +129,8 @@ const common: Record<string, any> = {
     auth: {
       base_url: "URL dell'homeserver",
       welcome: "Benvenuto in %{name}",
-      description: "L'evoluzione di Synapse Admin. Gestisci, monitora e mantieni il tuo server Matrix da un'unica interfaccia pulita. Pensato per i piccoli server privati e le grandi community federate.",
+      description:
+        "L'evoluzione di Synapse Admin. Gestisci, monitora e mantieni il tuo server Matrix da un'unica interfaccia pulita. Pensato per i piccoli server privati e le grandi community federate.",
       server_version: "Versione di Synapse",
       username_error: "Per favore inserisci un ID utente completo: '@utente:dominio'",
       protocol_error: "L'URL deve iniziare per 'http://' o 'https://'",

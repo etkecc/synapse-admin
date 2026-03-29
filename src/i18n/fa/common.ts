@@ -41,7 +41,8 @@ const common: Record<string, any> = {
     auth: {
       base_url: "آدرس سرور",
       welcome: "به پنل مدیریت سیناپس خوش آمدید، %{name}",
-      description: "تکامل Synapse Admin. مدیریت، نظارت و نگهداری سرور Matrix خود را از یک رابط ساده و تمیز انجام دهید. مناسب برای سرورهای خصوصی کوچک و جوامع فدرال بزرگ.",
+      description:
+        "تکامل Synapse Admin. مدیریت، نظارت و نگهداری سرور Matrix خود را از یک رابط ساده و تمیز انجام دهید. مناسب برای سرورهای خصوصی کوچک و جوامع فدرال بزرگ.",
       server_version: "نسخه",
       username_error: "لطفاً شناسه کاربر را وارد کنید: '@user:domain'",
       protocol_error: "URL باید با 'http://' یا 'https://' شروع شود",

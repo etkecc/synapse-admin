@@ -524,7 +524,18 @@ const LoginPage = () => {
             )}
           </Box>
           <Box className="hint">{translate("ketesa.auth.welcome", { name: welcomeTo })}</Box>
-          <Box sx={{ display: "flex", justifyContent: "center", color: "text.secondary", fontSize: "0.85rem", mt: -1, mb: 1.5, px: 2, textAlign: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              color: "text.secondary",
+              fontSize: "0.85rem",
+              mt: -1,
+              mb: 1.5,
+              px: 2,
+              textAlign: "center",
+            }}
+          >
             {translate("ketesa.auth.description")}
           </Box>
           <Box className="form">

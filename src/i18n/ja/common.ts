@@ -28,7 +28,8 @@ const common: Record<string, any> = {
     auth: {
       base_url: "ホームサーバーのURL",
       welcome: "%{name}にようこそ",
-      description: "Synapse Adminの進化形。シンプルなひとつのインターフェースで、Matrixサーバーの管理・監視・運用を完結。小規模なプライベートサーバーから大規模なフェデレーションコミュニティまで、幅広く対応します。",
+      description:
+        "Synapse Adminの進化形。シンプルなひとつのインターフェースで、Matrixサーバーの管理・監視・運用を完結。小規模なプライベートサーバーから大規模なフェデレーションコミュニティまで、幅広く対応します。",
       server_version: "Synapseのバージョン",
       supports_specs: "次のMatrixのスペックをサポートしています",
       username_error: "有効なユーザーIDを入力してください。形式は「@user:domain」です。",

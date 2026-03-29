@@ -7,7 +7,8 @@ const common = {
     auth: {
       base_url: "Homeserver URL",
       welcome: "Welcome to %{name}",
-      description: "The evolution of Synapse Admin. Manage, monitor, and maintain your Matrix homeserver from one clean interface. Built for small private servers and large federated communities alike.",
+      description:
+        "The evolution of Synapse Admin. Manage, monitor, and maintain your Matrix homeserver from one clean interface. Built for small private servers and large federated communities alike.",
       server_version: "Synapse version",
       supports_specs: "supports Matrix specs",
       username_error: "Please enter fully qualified user ID: '@user:domain'",
