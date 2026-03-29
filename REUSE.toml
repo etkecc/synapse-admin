@@ -1153,60 +1153,38 @@ SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = ["src/i18n/de/base.ts"]
-SPDX-FileCopyrightText = [
-  "Haleos UG (haftungsbeschränkt)",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND MIT"
+SPDX-FileCopyrightText = ["Haleos UG (haftungsbeschränkt)"]
+SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["src/i18n/fa/base.ts"]
-SPDX-FileCopyrightText = [
-  "Hamid Feizabadi",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND BSD-2-Clause"
+SPDX-FileCopyrightText = ["Hamid Feizabadi"]
+SPDX-License-Identifier = "BSD-2-Clause"
 
 [[annotations]]
 path = ["src/i18n/it/base.ts"]
-SPDX-FileCopyrightText = [
-  "Stefano Savanelli",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND MIT"
+SPDX-FileCopyrightText = ["Stefano Savanelli"]
+SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["src/i18n/ja/base.ts"]
-SPDX-FileCopyrightText = [
-  "2019 Oishi Takanori",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND MIT"
+SPDX-FileCopyrightText = ["2019 Oishi Takanori"]
+SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["src/i18n/ru/base.ts"]
-SPDX-FileCopyrightText = [
-  "Klucherev Alexey",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND MIT"
+SPDX-FileCopyrightText = ["Klucherev Alexey"]
+SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["src/i18n/uk/base.ts"]
-SPDX-FileCopyrightText = [
-  "Vasyl Boroviak",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND MIT"
+SPDX-FileCopyrightText = ["Vasyl Boroviak"]
+SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["src/i18n/zh/base.ts"]
-SPDX-FileCopyrightText = [
-  "Haxqer",
-  "Moca-Tech",
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0 AND MIT"
+SPDX-FileCopyrightText = ["Haxqer", "Moca-Tech"]
+SPDX-License-Identifier = "MIT"
 
 [[annotations]]
 path = ["src/index.tsx"]
