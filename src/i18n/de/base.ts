@@ -178,7 +178,7 @@ const germanMessages: TranslationMessages = {
       new_label: "Speichere aktuelle Anfrage...",
       new_dialog_title: "Speichere aktuelle Anfrage als",
       remove_label: "Gespeicherte Anfrage löschen",
-      remove_label_with_name: "Anfrage \"%{name}\" löschen",
+      remove_label_with_name: 'Anfrage "%{name}" löschen',
       remove_dialog_title: "Gespeicherte Anfrage löschen?",
       remove_message: "Sicher, dass Sie diese Anfrage aus der Liste der gespeicherten löschen wollen?",
       help: "Liste filtern und diese Anfrage für später speichern",

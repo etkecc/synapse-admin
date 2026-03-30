@@ -176,7 +176,7 @@ const farsiMessages: TranslationMessages = {
       new_label: "ذخیره کوئری فعلی...",
       new_dialog_title: "ذخیره کوئری فعلی به عنوان",
       remove_label: "حذف کوئری ذخیره شده",
-      remove_label_with_name: "حذف کوئری \"%{name}\"",
+      remove_label_with_name: 'حذف کوئری "%{name}"',
       remove_dialog_title: "کوئری ذخیره شده حدف شود؟",
       remove_message: "آیا از حذف آینم از لیست کوئری‌های ذخیره شده اطمینان دارید؟",
       help: "لیست را فیلتر کنید و کوئری را برای استفاده بعدی ذخیره کنید",

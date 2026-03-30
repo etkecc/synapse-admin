@@ -38,7 +38,6 @@ const Footer = ({ logoSrc = "./images/logo.webp" }: { logoSrc?: string }) => {
         Ketesa {version}
       </Link>
       <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
-        {" "}
         by{" "}
         <Link
           href="https://etke.cc/?utm_source=ketesa&utm_medium=footer&utm_campaign=ketesa"

@@ -2,7 +2,9 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { resolve, join, dirname } from "node:path";
 import { promises as fs } from "node:fs";
-import { vitePluginVersionMark } from "vite-plugin-version-mark";
+import { resolveVersion, injectVersion } from "./src/utils/version";
+
+const version = resolveVersion();
 
 let resolvedOutDir = "dist";
 let resolvedBase = "./";
@@ -24,6 +26,7 @@ export default defineConfig(({ mode }) => ({
           groups: [
             { name: "ra", test: /node_modules[\\/].*(react-admin|ra-)/, priority: 20 },
             { name: "mui", test: /node_modules[\\/]@mui/, priority: 15 },
+            { name: "react", test: /node_modules[\\/](react|react-dom|react-is|scheduler)[\\/]/, priority: 10 },
             { name: "vendor", test: /node_modules/, priority: 5 },
           ],
         },
@@ -81,8 +84,10 @@ export default defineConfig(({ mode }) => ({
           if (!hasAssets) {
             return;
           }
+          // Strip inline <style> blocks — CSS url() tokens use different quoting and are not HTML attribute paths
+          const htmlOnly = content.replace(/<style>[\s\S]*?<\/style>/g, "");
           const invalidAssets = new RegExp(`["'](?!${assetsPrefix.replace(/\//g, "\\/")})[^"']*assets\\/`);
-          if (invalidAssets.test(content)) {
+          if (invalidAssets.test(htmlOnly)) {
             throw new Error(`Unexpected assets path in ${filePath}`);
           }
         };
@@ -114,62 +119,70 @@ export default defineConfig(({ mode }) => ({
       },
     },
     react(),
-    vitePluginVersionMark({
-      name: "Ketesa",
-      command:
-        'git describe --tags || git rev-parse --short HEAD || echo "${KETESA_VERSION:-${SYNAPSE_ADMIN_VERSION:-unknown}}"',
-      ifMeta: false,
-      ifLog: false,
-      ifGlobal: true,
-      outputFile: version => {
+    (() => {
+      let fontsCss = "";
+      return {
+        name: "inline-fonts-css",
+        apply: "build",
+        generateBundle(_options, bundle) {
+          for (const [fileName, chunk] of Object.entries(bundle)) {
+            if (fileName.endsWith(".css") && chunk.type === "asset") {
+              fontsCss = (chunk.source as string).replace(/url\(\.\//g, "url(./assets/");
+              delete bundle[fileName];
+            }
+          }
+        },
+        transformIndexHtml: {
+          order: "post",
+          handler(html) {
+            if (!fontsCss) return html;
+            return html
+              .replace(/<link[^>]+rel="stylesheet"[^>]*>\n?/g, "")
+              .replace("</head>", `<style>${fontsCss}</style>\n</head>`);
+          },
+        },
+      };
+    })(),
+    {
+      name: "version-inject",
+      transformIndexHtml(html) {
+        return injectVersion(html, version);
+      },
+    },
+    {
+      name: "manifests",
+      apply: "build",
+      generateBundle() {
         const base = {
           name: "Ketesa",
           short_name: "Ketesa",
-          version: version,
+          version,
           description: "Ketesa is an admin UI for Matrix servers, formerly Synapse Admin.",
           lang: "en",
           dir: "auto",
           categories: ["productivity", "utilities"],
           orientation: "landscape",
           icons: [
-            {
-              src: "favicon.ico",
-              sizes: "32x32",
-              type: "image/x-icon",
-            },
-            {
-              src: "images/logo.webp",
-              sizes: "512x512",
-              type: "image/webp",
-              purpose: "any maskable",
-            },
+            { src: "favicon.ico", sizes: "32x32", type: "image/x-icon" },
+            { src: "images/logo.webp", sizes: "512x512", type: "image/webp", purpose: "any maskable" },
           ],
           start_url: ".",
           scope: ".",
           id: ".",
           display: "standalone",
         };
-
-        return [
-          {
-            path: "manifest.json",
-            content: JSON.stringify({
-              ...base,
-              theme_color: "#F5F5F5",
-              background_color: "#F5F5F5",
-            }),
-          },
-          {
-            path: "manifest-dark.json",
-            content: JSON.stringify({
-              ...base,
-              theme_color: "#0C1318",
-              background_color: "#0C1318",
-            }),
-          },
-        ];
+        this.emitFile({
+          type: "asset",
+          fileName: "manifest.json",
+          source: JSON.stringify({ ...base, theme_color: "#F5F5F5", background_color: "#F5F5F5" }),
+        });
+        this.emitFile({
+          type: "asset",
+          fileName: "manifest-dark.json",
+          source: JSON.stringify({ ...base, theme_color: "#0C1318", background_color: "#0C1318" }),
+        });
       },
-    }),
+    },
   ],
   ssr: {
     noExternal: ["react-dropzone", "react-admin", "ra-ui-materialui"],

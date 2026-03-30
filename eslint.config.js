@@ -1,5 +1,3 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import importPlugin from "eslint-plugin-import";
 import prettierPlugin from "eslint-plugin-prettier";
@@ -7,9 +5,21 @@ import reactHooks from "eslint-plugin-react-hooks";
 import unusedImports from "eslint-plugin-unused-imports";
 import globals from "globals";
 import tseslint from "typescript-eslint";
-import tsCompat from "./eslint-plugin-ts-compat.js";
+import tsEslintPlugin from "@typescript-eslint/eslint-plugin";
 
-const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const baseRule = tsEslintPlugin.rules["consistent-generic-constructors"];
+const tsCompat = {
+  rules: {
+    "consistent-generic-constructors": {
+      meta: baseRule.meta,
+      create(context) {
+        const proxyContext = Object.create(context);
+        proxyContext.parserOptions = { isolatedDeclarations: false, ...(context.parserOptions ?? {}) };
+        return baseRule.create(proxyContext);
+      },
+    },
+  },
+};
 
 export default [
   {
@@ -23,8 +33,7 @@ export default [
       ...config.languageOptions,
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.eslint.json",
-        tsconfigRootDir: projectRoot,
+        projectService: { allowDefaultProject: ["vite.config.ts", "jest.config.ts", "docs/*.ts"] },
       },
     },
   })),
@@ -35,8 +44,7 @@ export default [
       ...config.languageOptions,
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.eslint.json",
-        tsconfigRootDir: projectRoot,
+        projectService: { allowDefaultProject: ["vite.config.ts", "jest.config.ts", "docs/*.ts"] },
       },
     },
   })),
@@ -45,8 +53,7 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        project: "./tsconfig.eslint.json",
-        tsconfigRootDir: projectRoot,
+        projectService: { allowDefaultProject: ["vite.config.ts", "jest.config.ts", "docs/*.ts"] },
       },
       globals: {
         ...globals.browser,

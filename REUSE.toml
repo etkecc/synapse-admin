@@ -292,13 +292,6 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["eslint-plugin-ts-compat.js"]
-SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
 path = ["eslint.config.js"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
@@ -945,13 +938,6 @@ path = ["src/components/user-import/useImportFile.tsx"]
 SPDX-FileCopyrightText = [
   "2025 Borislav Pantaleev <https://etke.cc>",
   "2025-2026 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["src/declarations.d.ts"]
-SPDX-FileCopyrightText = [
-  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
@@ -2048,6 +2034,13 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["src/utils/version.test.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["src/pages/auth-callback.test.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Borislav Pantaleev <https://etke.cc>",
@@ -2091,5 +2084,14 @@ SPDX-License-Identifier = "Apache-2.0"
 path = ["src/utils/safety.ts"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/utils/version.ts"]
+SPDX-FileCopyrightText = [
+  "2024 Dirk Klimpel",
+  "2024 Manuel Stahl",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
