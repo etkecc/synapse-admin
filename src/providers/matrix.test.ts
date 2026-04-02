@@ -9,25 +9,66 @@ jest.mock("react-admin", () => ({
 }));
 
 describe("splitMxid", () => {
-  it("splits valid MXIDs", () =>
-    expect(splitMxid("@name:domain.tld")).toEqual({
-      name: "name",
-      domain: "domain.tld",
-    }));
-  it("rejects invalid MXIDs", () => expect(splitMxid("foo")).toBeUndefined());
+  test.each([
+    // valid — hostname
+    ["@name:domain.tld", { name: "name", domain: "domain.tld" }],
+    ["@name:domain.tld:8448", { name: "name", domain: "domain.tld:8448" }],
+    // valid — single-label / localhost
+    ["@name:localhost", { name: "name", domain: "localhost" }],
+    ["@name:localhost:8448", { name: "name", domain: "localhost:8448" }],
+    // valid — IPv4
+    ["@name:192.168.1.1", { name: "name", domain: "192.168.1.1" }],
+    ["@name:192.168.1.1:8448", { name: "name", domain: "192.168.1.1:8448" }],
+    // valid — IPv6
+    ["@name:[::1]", { name: "name", domain: "[::1]" }],
+    ["@name:[::1]:8448", { name: "name", domain: "[::1]:8448" }],
+    ["@name:[2001:db8::1]", { name: "name", domain: "[2001:db8::1]" }],
+    ["@name:[2001:db8::1]:8448", { name: "name", domain: "[2001:db8::1]:8448" }],
+    // invalid
+    ["foo", undefined],
+    ["@noserver", undefined],
+    ["notanmxid:domain.tld", undefined],
+  ])("splitMxid(%s)", (mxid, expected) => {
+    expect(splitMxid(mxid)).toEqual(expected);
+  });
 });
 
 describe("isValidBaseUrl", () => {
-  it("accepts a http URL", () => expect(isValidBaseUrl("http://foo.bar")).toBeTruthy());
-  it("accepts a https URL", () => expect(isValidBaseUrl("https://foo.bar")).toBeTruthy());
-  it("accepts a valid URL with port", () => expect(isValidBaseUrl("https://foo.bar:1234")).toBeTruthy());
-  it("rejects undefined base URLs", () => expect(isValidBaseUrl(undefined)).toBeFalsy());
-  it("rejects null base URLs", () => expect(isValidBaseUrl(null)).toBeFalsy());
-  it("rejects empty base URLs", () => expect(isValidBaseUrl("")).toBeFalsy());
-  it("rejects non-string base URLs", () => expect(isValidBaseUrl({})).toBeFalsy());
-  it("rejects base URLs without protocol", () => expect(isValidBaseUrl("foo.bar")).toBeFalsy());
-  it("rejects base URLs with path", () => expect(isValidBaseUrl("http://foo.bar/path")).toBeFalsy());
-  it("rejects invalid base URLs", () => expect(isValidBaseUrl("http:/foo.bar")).toBeFalsy());
+  test.each([
+    // valid — hostname
+    ["http://foo.bar", true],
+    ["https://foo.bar", true],
+    ["https://foo.bar:1234", true],
+    ["https://foo.bar/", true],
+    ["https://foo.bar:1234/", true],
+    // valid — IPv4
+    ["http://192.168.1.1", true],
+    ["https://192.168.1.1:8448", true],
+    // valid — IPv6
+    ["http://[::1]", true],
+    ["https://[::1]", true],
+    ["http://[::1]:8448", true],
+    ["https://[::1]:8448/", true],
+    ["https://[2001:db8::1]", true],
+    ["https://[2001:db8::1]:443", true],
+    ["https://[2001:db8::1]:443/", true],
+    ["http://[2001:db8:cafe::1]:7000", true],
+    // invalid — missing / wrong protocol
+    [undefined, false],
+    [null, false],
+    ["", false],
+    [{}, false],
+    ["foo.bar", false],
+    ["ftp://foo.bar", false],
+    ["http:/foo.bar", false],
+    // invalid — has path
+    ["http://foo.bar/path", false],
+    ["https://[::1]/path", false],
+    // invalid — bare IPv6 without brackets
+    ["http://::1", false],
+  ])("isValidBaseUrl(%s) === %s", (url, expected) => {
+    expect(isValidBaseUrl(url)).toBe(expected);
+  });
 });
 
 describe("resolveBaseUrlWithWellKnown", () => {

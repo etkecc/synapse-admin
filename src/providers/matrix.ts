@@ -6,12 +6,13 @@ import { Room, UploadMediaParams, UploadMediaResult } from "./types";
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { generateDeviceId } from "../utils/password";
 
-export const splitMxid = mxid => {
-  const re = /^@(?<name>[a-zA-Z0-9._=\-/]+):(?<domain>[a-zA-Z0-9\-.]+\.[a-zA-Z]+)$/;
+export const splitMxid = (mxid: string) => {
+  const re = /^@(?<name>[a-zA-Z0-9._=\-/]+):(?<domain>(?:\[[\da-fA-F:]+\]|[a-zA-Z0-9\-.]+)(?::\d{1,5})?)$/;
   return re.exec(mxid)?.groups;
 };
 
-export const isValidBaseUrl = baseUrl => /^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?\/?$/.test(baseUrl);
+export const isValidBaseUrl = (baseUrl: unknown): boolean =>
+  typeof baseUrl === "string" && /^(https?):\/\/(\[[\da-fA-F:]+\]|[a-zA-Z0-9\-.]+)(:\d{1,5})?\/?$/.test(baseUrl);
 
 /**
  * Resolve a base URL using /.well-known/matrix/client if present.
@@ -46,7 +47,7 @@ export const resolveBaseUrlWithWellKnown = async (baseUrl: string): Promise<stri
  * @param domain  the domain part of an MXID
  * @returns homeserver base URL
  */
-export const getWellKnownUrl = async domain => {
+export const getWellKnownUrl = async (domain: string) => {
   const wellKnownUrl = `https://${domain}/.well-known/matrix/client`;
   try {
     const response = await fetchUtils.fetchJson(wellKnownUrl, { method: "GET" });
@@ -58,7 +59,7 @@ export const getWellKnownUrl = async domain => {
 };
 
 /** Get supported Matrix features */
-export const getSupportedFeatures = async baseUrl => {
+export const getSupportedFeatures = async (baseUrl: string) => {
   const versionUrl = `${baseUrl}/_matrix/client/versions`;
   const response = await fetchUtils.fetchJson(versionUrl, { method: "GET" });
   return response.json;

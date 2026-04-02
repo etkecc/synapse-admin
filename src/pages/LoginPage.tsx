@@ -165,10 +165,10 @@ const LoginPage = () => {
     }
   }, [loginToken, login]);
 
-  const validateBaseUrl = value => {
-    if (!value.match(/^(http|https):\/\//)) {
+  const validateBaseUrl = (value: string) => {
+    if (!value.match(/^(https?):\/\//)) {
       return translate("ketesa.auth.protocol_error");
-    } else if (!value.match(/^(http|https):\/\/[a-zA-Z0-9\-.]+(:\d{1,5})?[^?&\s]*$/)) {
+    } else if (!isValidBaseUrl(value)) {
       return translate("ketesa.auth.url_error");
     } else {
       return undefined;
