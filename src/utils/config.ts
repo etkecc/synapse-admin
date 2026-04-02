@@ -1,3 +1,7 @@
+import createLogger from "./logger";
+
+const log = createLogger("config");
+
 export interface Config {
   restrictBaseUrl: string | string[];
   corsCredentials: string;
@@ -44,10 +48,10 @@ export const FetchConfig = async () => {
   try {
     const resp = await fetch(configJSONUrl);
     const configJSON = await resp.json();
-    console.log("Loaded", configJSONUrl, configJSON);
+    log.debug("config.json loaded", { url: configJSONUrl });
     LoadConfig(configJSON);
   } catch (e) {
-    console.error(e);
+    log.warn("config.json not found, using defaults", e);
   }
 
   await FetchWellKnownConfig();
@@ -78,7 +82,7 @@ export const FetchWellKnownConfig = async () => {
         }
       } catch (e) {
         // invalid URL, ignore
-        console.log("Invalid restrictBaseUrl", restrictBaseUrl, e);
+        log.warn("invalid restrictBaseUrl, skipping", { restrictBaseUrl, error: e });
       }
     } else if (Array.isArray(restrictBaseUrl) && restrictBaseUrl.length > 0 && restrictBaseUrl[0] !== "") {
       try {
@@ -88,7 +92,7 @@ export const FetchWellKnownConfig = async () => {
           homeserver = host;
         }
       } catch (e) {
-        console.log("Invalid restrictBaseUrl", restrictBaseUrl[0], e);
+        log.warn("invalid restrictBaseUrl, skipping", { restrictBaseUrl: restrictBaseUrl[0], error: e });
       }
     }
   }
@@ -102,18 +106,20 @@ export const FetchWellKnownConfig = async () => {
     const configWK = await resp.json();
     const wkConfig = configWK[WellKnownKey] || configWK[WellKnownKeyLegacy];
     if (!wkConfig) {
-      console.log(
-        `Loaded ${protocol}://${homeserver}/.well-known/matrix/client, but it doesn't contain ${WellKnownKey} (or legacy ${WellKnownKeyLegacy}) key, skipping`,
-        configWK
-      );
+      log.debug("well-known loaded but no Ketesa config key found", {
+        homeserver,
+        expectedKey: WellKnownKey,
+        legacyKey: WellKnownKeyLegacy,
+        response: configWK,
+      });
       return false;
     }
 
-    console.log(`Loaded ${protocol}://${homeserver}/.well-known/matrix/client`, configWK);
+    log.info("well-known config loaded", { homeserver });
     LoadConfig(wkConfig);
     return true;
   } catch (e) {
-    console.log(`${protocol}://${homeserver}/.well-known/matrix/client not found, skipping`, e);
+    log.debug("well-known not found, skipping", { homeserver, error: e });
     return false;
   }
 };

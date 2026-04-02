@@ -28,6 +28,9 @@ import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useUnits } from "../../../hooks/useUnits";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
+import createLogger from "../../../../../utils/logger";
+
+const log = createLogger("schedules");
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const transformCommandsToChoices = (commands: Record<string, any>) => {
@@ -160,7 +163,7 @@ const RecurringCommandEdit = () => {
 
       navigate("/server_actions");
     } catch (error) {
-      console.error("Error saving recurring command:", error);
+      log.error("failed to save recurring command", error);
       notify("etkecc.actions.recurring.action.update_failure", { type: "error" });
     }
   };

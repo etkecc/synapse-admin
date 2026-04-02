@@ -8,6 +8,9 @@ import { Button, useNotify, useRecordContext, useTranslate } from "react-admin";
 
 import { decodeURLComponent } from "../../utils/safety";
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("media");
 
 export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype, preview = false }) => {
   const translate = useTranslate();
@@ -26,7 +29,7 @@ export const ViewMediaButton = ({ mxcURL, label, uploadName, mimetype, preview =
   };
 
   const downloadFile = async (blobURL: string) => {
-    console.log("downloadFile", blobURL, uploadName);
+    log.debug("download triggered", { uploadName });
     const anchorElement = document.createElement("a");
     anchorElement.href = blobURL;
     anchorElement.download = uploadName;

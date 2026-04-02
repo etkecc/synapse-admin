@@ -7,7 +7,7 @@ export function resolveVersion(): string {
       { encoding: "utf8", shell: "/bin/sh" }
     ).trim();
   } catch (e) {
-    console.error("[version] failed to resolve version:", e);
+    console.error("[version] failed to resolve version", e);
     return process.env.KETESA_VERSION || process.env.SYNAPSE_ADMIN_VERSION || "unknown";
   }
 }

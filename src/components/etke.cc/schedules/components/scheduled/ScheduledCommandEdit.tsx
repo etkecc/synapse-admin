@@ -28,6 +28,9 @@ import { EtkeAttribution } from "../../../EtkeAttribution";
 import { useServerCommands } from "../../../hooks/useServerCommands";
 import { useUnits } from "../../../hooks/useUnits";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
+import createLogger from "../../../../../utils/logger";
+
+const log = createLogger("schedules");
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 const transformCommandsToChoices = (commands: Record<string, any>) => {
@@ -113,7 +116,7 @@ const ScheduledCommandEdit = () => {
 
       navigate("/server_actions");
     } catch (error) {
-      console.log("Error saving scheduled command:", error);
+      log.error("failed to save scheduled command", error);
       notify("etkecc.actions.scheduled.action.update_failure", { type: "error" });
     }
   };

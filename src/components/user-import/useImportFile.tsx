@@ -7,6 +7,9 @@ import dataProvider from "../../providers/data";
 import { returnMXID } from "../../utils/mxid";
 import { generateRandomMXID } from "../../utils/mxid";
 import { generateRandomPassword } from "../../utils/password";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("import");
 
 const LOGGING = true;
 
@@ -138,7 +141,7 @@ export const validateCsvImport = (
         return;
       }
 
-      console.log("invalid value", rawValue, "for field " + f + " in row " + idx);
+      log.warn("invalid value in CSV", { field: f, row: idx, value: rawValue });
       errorMessages.push(
         translate("import_users.error.invalid_value", {
           field: f,
@@ -281,8 +284,7 @@ const useImportFile = () => {
     // (so that the user doesn't have to filter out successful
     // records manually when fixing stuff in the CSV)
     setSkippedRecords(unparseCsv(results.skippedRecords));
-    if (LOGGING) console.log("Skipped records:");
-    if (LOGGING) console.log(skippedRecords);
+    if (LOGGING) log.debug("skipped records after parse", { count: skippedRecords.length });
   };
 
   const doImport = async (): Promise<ImportResult> => {
@@ -363,13 +365,13 @@ const useImportFile = () => {
          * We do a simple retry loop so that an accidental hit on an existing ID
          * doesn't trip us up.
          */
-        if (LOGGING) console.log("will check for existence of record " + JSON.stringify(userRecord));
+        if (LOGGING) log.debug("checking existence", { id: userRecord.id });
         let retries = 0;
         const submitRecord = async (recordData: ImportLine) => {
           try {
             await dataProvider.getOne("users", { id: recordData.id });
 
-            if (LOGGING) console.log("already existed");
+            if (LOGGING) log.debug("user already exists", { id: recordData.id });
 
             if (conflictMode === "stop") {
               throw new Error(
@@ -390,7 +392,7 @@ const useImportFile = () => {
             retries++;
 
             if (retries > 512) {
-              console.warn("retry loop got stuck? pathological situation?");
+              log.warn("retry loop stuck", { id: recordData.id, retries });
               skippedRecords.push(recordData);
               return;
             }
@@ -401,7 +403,7 @@ const useImportFile = () => {
               throw e;
             }
 
-            if (LOGGING) console.log("OK to create record " + recordData.id + " (" + recordData.displayname + ").");
+            if (LOGGING) log.debug("creating record", { id: recordData.id, displayname: recordData.displayname });
 
             if (!dryRun) {
               await dataProvider.create("users", { data: recordData });
@@ -438,7 +440,7 @@ const useImportFile = () => {
 
   const downloadSkippedRecords = () => {
     const element = document.createElement("a");
-    console.log(skippedRecords);
+    log.info("downloading skipped records");
     const file = new Blob([skippedRecords], {
       type: "text/comma-separated-values",
     });

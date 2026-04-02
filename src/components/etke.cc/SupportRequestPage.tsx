@@ -32,6 +32,9 @@ import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../..
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
 import { useDocTitle } from "../hooks/useDocTitle";
 import RichTextEditor from "./RichTextEditor";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("support");
 
 interface ResolvedProfile {
   displayName: string;
@@ -142,7 +145,7 @@ const SupportRequestPage = () => {
       const data = await dataProvider.getSupportRequest(etkeccAdmin, locale, id);
       setRequest(data);
     } catch (error) {
-      console.error("Error fetching support request:", error);
+      log.error("failed to fetch support request", { id, error });
       setFailure(error instanceof Error ? error.message : String(error));
     } finally {
       setLoading(false);
@@ -243,7 +246,7 @@ const SupportRequestPage = () => {
       setRequest(prev => (prev ? { ...prev, messages: [...prev.messages, optimisticMsg] } : prev));
       fetchRequest();
     } catch (error) {
-      console.error("Error sending message:", error);
+      log.error("failed to send message", { id, error });
       notify(error instanceof Error ? error.message : "etkecc.support.actions.send_failure", { type: "error" });
     } finally {
       setSending(false);

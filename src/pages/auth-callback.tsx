@@ -5,6 +5,9 @@ import React from "react";
 import authProvider from "../providers/auth";
 import { FetchConfig, GetConfig } from "../utils/config";
 import { FetchInstanceConfig, GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
+import createLogger from "../utils/logger";
+
+const log = createLogger("auth-callback");
 
 interface AuthProviderLike {
   handleCallback?: () => Promise<{ redirectTo?: string } | void>;
@@ -89,7 +92,7 @@ export const bootstrapAuthCallback = (
     })
     .catch(async error => {
       const message = getErrorMessage(error);
-      console.error(`OAuth callback to ${location.href} error: ${message}`);
+      log.error("OAuth callback error", { href: location.href, message });
       if (!root) {
         return;
       }

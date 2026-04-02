@@ -4,6 +4,7 @@
 ## local state
 docs/apis/*
 docs/testdata/postgres.data
+docs/testdata/synapse.data
 
 ### Node ###
 # Logs

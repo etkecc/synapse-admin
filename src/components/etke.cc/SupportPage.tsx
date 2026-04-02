@@ -33,6 +33,9 @@ import RichTextEditor from "./RichTextEditor";
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, SupportRequest } from "../../providers/types";
 import { useDocTitle } from "../hooks/useDocTitle";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("support");
 
 const CreateRequestForm = ({
   onSubmit,
@@ -157,7 +160,7 @@ const SupportPage = () => {
       const data = await dataProvider.getSupportRequests(etkeccAdmin, locale);
       setRequests(data);
     } catch (error) {
-      console.error("Error fetching support requests:", error);
+      log.error("failed to fetch support requests", error);
       setFailure(error instanceof Error ? error.message : String(error));
     } finally {
       setLoading(false);
@@ -174,7 +177,7 @@ const SupportPage = () => {
       notify("etkecc.support.actions.create_success", { type: "success" });
       navigate(`/support/${created.id}`);
     } catch (error) {
-      console.error("Error creating support request:", error);
+      log.error("failed to create support request", error);
       notify(error instanceof Error ? error.message : "etkecc.support.actions.create_failure", { type: "error" });
       throw error;
     }

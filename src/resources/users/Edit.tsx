@@ -1198,7 +1198,7 @@ export const UserEdit = (props: EditProps) => {
           {isMAS() ? (
             <MASUpstreamOAuthLinksPanel />
           ) : (
-            <ArrayInput source="external_ids" label={false}>
+            <ArrayInput source="external_ids" label="">
               <SimpleFormIterator disableReordering>
                 <TextInput source="auth_provider" validate={required()} />
                 <TextInput source="external_id" label="resources.users.fields.id" validate={required()} />
@@ -1218,7 +1218,7 @@ export const UserEdit = (props: EditProps) => {
           <ReferenceManyField
             reference="devices"
             target="user_id"
-            label={false}
+            label=""
             pagination={<UserPagination />}
             perPage={10}
           >
@@ -1232,6 +1232,12 @@ export const UserEdit = (props: EditProps) => {
                   )}
                   secondaryText={record => (
                     <>
+                      {record.display_name && (
+                        <>
+                          {record.display_name}
+                          <br />
+                        </>
+                      )}
                       {record.last_seen_ip && (
                         <>
                           {record.last_seen_ip}
@@ -1239,9 +1245,6 @@ export const UserEdit = (props: EditProps) => {
                         </>
                       )}
                       {record.last_seen_ts && new Date(record.last_seen_ts).toLocaleString(locale)}
-                      <Box sx={{ mt: 1 }}>
-                        <DeviceDisplayNameInput />
-                      </Box>
                     </>
                   )}
                   tertiaryText={() => <DeviceRemoveButton />}
@@ -1268,7 +1271,7 @@ export const UserEdit = (props: EditProps) => {
         </FormTab>
 
         <FormTab label="resources.connections.name" icon={<SettingsInputComponentIcon />} path="connections">
-          <ReferenceField reference="connections" source="id" label={false} link={false}>
+          <ReferenceField reference="connections" source="id" label="" link={false}>
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
               {isSmall ? (
                 <SimpleList
@@ -1308,7 +1311,7 @@ export const UserEdit = (props: EditProps) => {
           <ReferenceManyField
             reference="users_media"
             target="user_id"
-            label={false}
+            label=""
             pagination={<UserPagination />}
             perPage={10}
             sort={{ field: "created_ts", order: "DESC" }}
@@ -1329,7 +1332,7 @@ export const UserEdit = (props: EditProps) => {
                   </>
                 )}
                 tertiaryText={() => (
-                  <Box sx={{ display: "flex", gap: 0.5 }}>
+                  <Box component="span" sx={{ display: "flex", gap: 0.5 }}>
                     <QuarantineMediaButton />
                     <ProtectMediaButton />
                     <DeleteButton mutationMode="pessimistic" redirect={false} />
@@ -1361,7 +1364,7 @@ export const UserEdit = (props: EditProps) => {
           <ReferenceManyField
             reference="joined_rooms"
             target="user_id"
-            label={false}
+            label=""
             perPage={10}
             pagination={<Pagination />}
           >
@@ -1373,7 +1376,7 @@ export const UserEdit = (props: EditProps) => {
                 rowClick={id => "/rooms/" + id + "/show"}
                 bulkActionButtons={<RoomBulkActionButtons />}
               >
-                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                <ReferenceField reference="rooms" source="id" label="" link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
                 <TextField
@@ -1406,7 +1409,7 @@ export const UserEdit = (props: EditProps) => {
                 >
                   <TextField source="joined_members" sortable={false} />
                 </ReferenceField>
-                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                <ReferenceField reference="rooms" source="id" label="" link={false} sortable={false}>
                   <MakeAdminBtn />
                 </ReferenceField>
               </DatagridConfigurable>
@@ -1422,7 +1425,7 @@ export const UserEdit = (props: EditProps) => {
           <ReferenceManyField
             reference="memberships"
             target="user_id"
-            label={false}
+            label=""
             perPage={10}
             pagination={<Pagination />}
           >
@@ -1434,7 +1437,7 @@ export const UserEdit = (props: EditProps) => {
                 rowClick={id => "/rooms/" + id + "/show"}
                 bulkActionButtons={false}
               >
-                <ReferenceField reference="rooms" source="id" label={false} link={false} sortable={false}>
+                <ReferenceField reference="rooms" source="id" label="" link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
                 </ReferenceField>
                 <TextField
@@ -1467,13 +1470,7 @@ export const UserEdit = (props: EditProps) => {
           icon={<NotificationsIcon />}
           path="pushers"
         >
-          <ReferenceManyField
-            reference="pushers"
-            target="user_id"
-            label={false}
-            pagination={<Pagination />}
-            perPage={10}
-          >
+          <ReferenceManyField reference="pushers" target="user_id" label="" pagination={<Pagination />} perPage={10}>
             {isSmall ? (
               <SimpleList
                 primaryText={record => (

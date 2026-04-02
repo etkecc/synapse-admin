@@ -1,4 +1,7 @@
 import { etkeClient } from "../http";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("data");
 import {
   PaymentsResponse,
   RecurringCommand,
@@ -33,7 +36,7 @@ export const etkeProviderMethods = {
       }
 
       if (!response.ok) {
-        console.error(`Error getting server running process: ${response.status} ${response.statusText}`);
+        log.error(`getServerRunningProcess: HTTP ${response.status} ${response.statusText}`, { url: serverURL });
         return { locked_at, command, maintenance: false };
       }
       const status = response.status;
@@ -46,7 +49,7 @@ export const etkeProviderMethods = {
         return { locked_at, command, maintenance: false };
       }
     } catch (error) {
-      console.error("Error getting server running process", error);
+      log.error("getServerRunningProcess failed", error);
     }
 
     return { locked_at, command, maintenance: false };
@@ -66,7 +69,7 @@ export const etkeProviderMethods = {
       }
 
       if (!response.ok) {
-        console.error(`Error getting server status: ${response.status} ${response.statusText}`);
+        log.error(`getServerStatus: HTTP ${response.status} ${response.statusText}`, { url: serverURL });
         return { success: false, ok: false, host: "", results: [] };
       }
 
@@ -76,7 +79,7 @@ export const etkeProviderMethods = {
         return { success: true, ...json } as ServerStatusResponse;
       }
     } catch (error) {
-      console.error("Error getting server status", error);
+      log.error("getServerStatus failed", error);
     }
 
     return { success: false, ok: false, host: "", results: [] };
@@ -98,7 +101,7 @@ export const etkeProviderMethods = {
         return { success: false, notifications: [] };
       }
       if (!response.ok) {
-        console.error(`Error getting server notifications: ${response.status} ${response.statusText}`);
+        log.error(`getServerNotifications: HTTP ${response.status} ${response.statusText}`, { url: serverURL });
         return { success: false, notifications: [] };
       }
 
@@ -114,7 +117,7 @@ export const etkeProviderMethods = {
 
       return { success: true, notifications: [] };
     } catch (error) {
-      console.error("Error getting server notifications", error);
+      log.error("getServerNotifications failed", error);
     }
 
     return { success: false, notifications: [] };
@@ -126,7 +129,7 @@ export const etkeProviderMethods = {
         method: "DELETE",
       });
       if (!response.ok) {
-        console.error(`Error deleting server notifications: ${response.status} ${response.statusText}`);
+        log.error(`deleteServerNotifications: HTTP ${response.status} ${response.statusText}`);
         return { success: false };
       }
 
@@ -135,7 +138,7 @@ export const etkeProviderMethods = {
         return { success: true };
       }
     } catch (error) {
-      console.error("Error deleting server notifications", error);
+      log.error("deleteServerNotifications failed", error);
     }
 
     return { success: false };
@@ -146,7 +149,7 @@ export const etkeProviderMethods = {
       const response = await etkeClient(`${etkeAdminUrl}/units`, locale);
 
       if (!response.ok) {
-        console.error(`Error fetching units: ${response.status} ${response.statusText}`);
+        log.error(`getUnits: HTTP ${response.status} ${response.statusText}`);
         return [];
       }
 
@@ -159,7 +162,7 @@ export const etkeProviderMethods = {
         return json as string[];
       }
     } catch (error) {
-      console.error("Error fetching units:", error);
+      log.error("getUnits failed", error);
     }
 
     return [];
@@ -174,7 +177,7 @@ export const etkeProviderMethods = {
       }
 
       if (!response.ok) {
-        console.error(`Error fetching server commands: ${response.status} ${response.statusText}`);
+        log.error(`getServerCommands: HTTP ${response.status} ${response.statusText}`);
         return { maintenance: false, commands: [] };
       }
 
@@ -187,7 +190,7 @@ export const etkeProviderMethods = {
 
       return { maintenance: false, commands: [] };
     } catch (error) {
-      console.error("Error fetching server commands:", error);
+      log.error("getServerCommands failed", error);
     }
 
     return { maintenance: false, commands: [] };
@@ -214,11 +217,12 @@ export const etkeProviderMethods = {
     }
 
     if (!response.ok) {
-      console.error(`Error running server command: ${response.status} ${response.statusText}`);
+      log.error(`runServerCommand: HTTP ${response.status} ${response.statusText}`, { command });
       return { success: false, maintenance: false };
     }
 
     if (response.status === 204) {
+      log.info("server command executed", { command });
       return { success: true, maintenance: false };
     }
 
@@ -233,7 +237,7 @@ export const etkeProviderMethods = {
       }
 
       if (!response.ok) {
-        console.error(`Error fetching scheduled commands: ${response.status} ${response.statusText}`);
+        log.error(`getScheduledCommands: HTTP ${response.status} ${response.statusText}`);
         return [];
       }
 
@@ -246,7 +250,7 @@ export const etkeProviderMethods = {
 
       return [];
     } catch (error) {
-      console.error("Error fetching scheduled commands:", error);
+      log.error("getScheduledCommands failed", error);
     }
     return [];
   },
@@ -260,7 +264,7 @@ export const etkeProviderMethods = {
       }
 
       if (!response.ok) {
-        console.error(`Error fetching recurring commands: ${response.status} ${response.statusText}`);
+        log.error(`getRecurringCommands: HTTP ${response.status} ${response.statusText}`);
         return [];
       }
 
@@ -273,7 +277,7 @@ export const etkeProviderMethods = {
 
       return [];
     } catch (error) {
-      console.error("Error fetching recurring commands:", error);
+      log.error("getRecurringCommands failed", error);
     }
     return [];
   },
@@ -289,7 +293,7 @@ export const etkeProviderMethods = {
       });
 
       if (!response.ok) {
-        console.error(`Error creating scheduled command: ${response.status} ${response.statusText}`);
+        log.error(`createScheduledCommand: HTTP ${response.status} ${response.statusText}`, { command });
         throw new Error("Failed to create scheduled command");
       }
 
@@ -300,7 +304,7 @@ export const etkeProviderMethods = {
       const json = await response.json();
       return json as ScheduledCommand;
     } catch (error) {
-      console.error("Error creating scheduled command", error);
+      log.error("createScheduledCommand failed", error);
       throw error;
     }
   },
@@ -318,7 +322,7 @@ export const etkeProviderMethods = {
 
       if (!response.ok) {
         const jsonErr = JSON.parse(await response.text());
-        console.error(`Error updating scheduled command: ${response.status} ${response.statusText}`);
+        log.error(`updateScheduledCommand: HTTP ${response.status} ${response.statusText}`, { command });
         throw new Error(jsonErr.error);
       }
 
@@ -330,10 +334,9 @@ export const etkeProviderMethods = {
 
       // If server does return data (though docs suggest it returns 204)
       const json = await response.json();
-      console.log("JSON", json);
       return json as ScheduledCommand;
     } catch (error) {
-      console.error("Error updating scheduled command", error);
+      log.error("updateScheduledCommand failed", error);
       throw error;
     }
   },
@@ -345,13 +348,13 @@ export const etkeProviderMethods = {
       });
 
       if (!response.ok) {
-        console.error(`Error deleting scheduled command: ${response.status} ${response.statusText}`);
+        log.error(`deleteScheduledCommand: HTTP ${response.status} ${response.statusText}`, { id });
         return { success: false };
       }
 
       return { success: true };
     } catch (error) {
-      console.error("Error deleting scheduled command", error);
+      log.error("deleteScheduledCommand failed", { id, error });
       return { success: false };
     }
   },
@@ -367,7 +370,7 @@ export const etkeProviderMethods = {
       });
 
       if (!response.ok) {
-        console.error(`Error creating recurring command: ${response.status} ${response.statusText}`);
+        log.error(`createRecurringCommand: HTTP ${response.status} ${response.statusText}`, { command });
         throw new Error("Failed to create recurring command");
       }
 
@@ -379,7 +382,7 @@ export const etkeProviderMethods = {
       const json = await response.json();
       return json as RecurringCommand;
     } catch (error) {
-      console.error("Error creating recurring command", error);
+      log.error("createRecurringCommand failed", error);
       throw error;
     }
   },
@@ -395,7 +398,7 @@ export const etkeProviderMethods = {
       });
 
       if (!response.ok) {
-        console.error(`Error updating recurring command: ${response.status} ${response.statusText}`);
+        log.error(`updateRecurringCommand: HTTP ${response.status} ${response.statusText}`, { command });
         throw new Error("Failed to update recurring command");
       }
 
@@ -407,7 +410,7 @@ export const etkeProviderMethods = {
       const json = await response.json();
       return json as RecurringCommand;
     } catch (error) {
-      console.error("Error updating recurring command", error);
+      log.error("updateRecurringCommand failed", error);
       throw error;
     }
   },
@@ -419,13 +422,13 @@ export const etkeProviderMethods = {
       });
 
       if (!response.ok) {
-        console.error(`Error deleting recurring command: ${response.status} ${response.statusText}`);
+        log.error(`deleteRecurringCommand: HTTP ${response.status} ${response.statusText}`, { id });
         return { success: false };
       }
 
       return { success: true };
     } catch (error) {
-      console.error("Error deleting recurring command", error);
+      log.error("deleteRecurringCommand failed", { id, error });
       return { success: false };
     }
   },
@@ -480,7 +483,7 @@ export const etkeProviderMethods = {
             errorMessage = `Failed to fetch invoice (${response.status}): ${response.statusText}`;
         }
 
-        console.error(errorMessage);
+        log.error("getInvoice failed", { transactionId, status: response.status, message: errorMessage });
         throw new Error(errorMessage);
       }
 
@@ -509,7 +512,7 @@ export const etkeProviderMethods = {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error downloading invoice:", error);
+      log.error("getInvoice download failed", { transactionId, error });
       throw error; // Re-throw to let the UI handle the error
     }
   },

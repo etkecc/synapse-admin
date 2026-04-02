@@ -265,9 +265,12 @@ const getSystemUsersScanCacheKey = (
     wantSystem,
   });
 
+import createLogger from "../../utils/logger";
+
+const log = createLogger("data");
+
 const baseDataProvider: SynapseDataProvider = {
   getList: async (resource, params) => {
-    console.log("getList " + resource, params);
     const { res, baseUrl } = resolveResource(resource);
 
     const {
@@ -290,6 +293,7 @@ const baseDataProvider: SynapseDataProvider = {
       system_users,
     } = params.filter;
     const { page, perPage } = params.pagination as PaginationPayload;
+    log.debug("getList", resource, { page, perPage, filter: params.filter });
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
 
@@ -437,7 +441,7 @@ const baseDataProvider: SynapseDataProvider = {
       : `${endpoint_url}?${new URLSearchParams(filterUndefined(query)).toString()}`;
 
     const { json } = await jsonClient(url);
-    const formattedData = json[res.data].map(res.map);
+    let formattedData = json[res.data].map(res.map);
 
     if (res.isMAS) {
       const cursorKey = buildMASCursorKey(resource, perPage, params.filter);
@@ -447,6 +451,10 @@ const baseDataProvider: SynapseDataProvider = {
       }
     }
 
+    if (res.enrichList) {
+      formattedData = await res.enrichList(formattedData);
+    }
+
     return {
       data: formattedData,
       total: res.total(json, from, perPage),
@@ -454,7 +462,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   getOne: async (resource, params) => {
-    console.log("getOne " + resource);
+    log.debug("getOne", resource, params.id);
     const { res, baseUrl } = resolveResource(resource);
 
     // Allow resource configs to provide a custom async getOne (e.g. MAS users by Matrix ID)
@@ -469,9 +477,29 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   getMany: async (resource, params) => {
-    console.log("getMany " + resource);
+    log.debug("getMany", resource, `${params.ids.length} ids`);
     const { res, baseUrl } = resolveResource(resource);
     const homeserver = localStorage.getItem("home_server");
+
+    // If the resource provides a custom getOne (e.g. MAS users, which use ULIDs and can't be
+    // fetched by Matrix ID via the standard path), delegate each lookup to it.
+    if (res.getOne) {
+      const data = await Promise.all(
+        params.ids.map(async id => {
+          // external/federated users are not on this homeserver — return stub as in Synapse path
+          if (homeserver && resource === "users" && !(id as string).endsWith(homeserver)) {
+            return { id, name: id } as RaRecord;
+          }
+          try {
+            return (await res.getOne({ id })) as RaRecord;
+          } catch {
+            return { id } as RaRecord;
+          }
+        })
+      );
+      return { data, total: data.length };
+    }
+
     const endpoint_url = baseUrl + res.path;
     const responses = await Promise.all(
       params.ids.map(async id => {
@@ -507,7 +535,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   getManyReference: async (resource, params) => {
-    console.log("getManyReference " + resource);
+    log.debug("getManyReference", resource, `ref=${params.id}`);
     const { res, homeserver } = resolveResource(resource);
     const { page, perPage } = params.pagination;
     const { field, order } = params.sort;
@@ -557,7 +585,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   update: async (resource, params) => {
-    console.log("update " + resource);
+    log.debug("update", resource, params.id);
     const { res, baseUrl } = resolveResource(resource);
     const endpoint_url = baseUrl + res.path;
 
@@ -579,7 +607,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   updateMany: async (resource, params) => {
-    console.log("updateMany " + resource);
+    log.debug("updateMany", resource, `${params.ids.length} ids`);
     const { res, homeserver } = resolveResource(resource);
     const endpoint_url = homeserver + res.path;
     const responses = await Promise.all(
@@ -594,7 +622,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   create: async (resource, params) => {
-    console.log("create " + resource);
+    log.debug("create", resource);
     const { res, baseUrl } = resolveResource(resource);
     if (!("create" in res)) return Promise.reject(new Error(`Create not supported for ${resource}`));
 
@@ -620,7 +648,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   createMany: async (resource: string, params: { ids: Identifier[]; data: RaRecord }) => {
-    console.log("createMany " + resource);
+    log.debug("createMany", resource, `${params.ids.length} ids`);
     const { res, homeserver } = resolveResource(resource);
     if (!("create" in res)) throw Error(`Create ${resource} is not allowed`);
 
@@ -639,7 +667,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   delete: async (resource, params) => {
-    console.log("delete " + resource);
+    log.debug("delete", resource, params.id);
     const { res, baseUrl } = resolveResource(resource);
 
     if ("delete" in res) {
@@ -665,7 +693,7 @@ const baseDataProvider: SynapseDataProvider = {
   },
 
   deleteMany: async (resource, params) => {
-    console.log("deleteMany " + resource, "params", params);
+    log.debug("deleteMany", resource, `${params.ids.length} ids`);
     const { res, baseUrl } = resolveResource(resource);
 
     if ("delete" in res) {
@@ -782,18 +810,46 @@ const dataProvider = withLifecycleCallbacks(baseDataProvider, [
         const prev = params.previousData;
         const next = params.data;
 
-        // MAS-managed fields
-        if (prev.admin !== next.admin) await (dataProvider as SynapseDataProvider).masSetAdmin(masId, next.admin);
-        if (prev.locked !== next.locked) await (dataProvider as SynapseDataProvider).masLockUser(masId, next.locked);
-        if (prev.deactivated !== next.deactivated)
+        // MAS-managed fields — only fire when the field was actually submitted (not disabled/omitted).
+        // Disabled BooleanInputs (e.g. admin editing their own account) are excluded from react-hook-form
+        // submission, leaving the value as undefined. Guarding with !== undefined prevents spurious API
+        // calls that would e.g. strip admin from the current user or unlock an already-unlocked account.
+        // Also normalise to strict booleans to guard against undefined/null from incomplete cache data.
+        const prevAdmin = prev.admin === true;
+        const nextAdmin = next.admin === true;
+        if (next.admin !== undefined && prevAdmin !== nextAdmin)
+          await (dataProvider as SynapseDataProvider).masSetAdmin(masId, nextAdmin);
+
+        const prevLocked = prev.locked === true;
+        const nextLocked = next.locked === true;
+        if (next.locked !== undefined && prevLocked !== nextLocked)
+          await (dataProvider as SynapseDataProvider).masLockUser(masId, nextLocked);
+
+        const prevDeactivated = prev.deactivated === true;
+        const nextDeactivated = next.deactivated === true;
+        if (next.deactivated !== undefined && prevDeactivated !== nextDeactivated)
           // masDeactivateUser(id, active): true = reactivate, false = deactivate
-          await (dataProvider as SynapseDataProvider).masDeactivateUser(masId, !next.deactivated);
+          await (dataProvider as SynapseDataProvider).masDeactivateUser(masId, !nextDeactivated);
 
         // Synapse-managed profile fields (not disabled by MSC3861)
         if (prev.suspended !== next.suspended && next.suspended !== undefined)
           await (dataProvider as SynapseDataProvider).suspendUser(params.id, next.suspended);
         if (prev.shadow_banned !== next.shadow_banned && next.shadow_banned !== undefined)
           await (dataProvider as SynapseDataProvider).shadowBanUser(params.id, next.shadow_banned);
+
+        // Handle avatar upload / erase before the Synapse profile PUT
+        const avatarFile = next.avatar_file?.rawFile;
+        const avatarErase = next.avatar_erase;
+        if (avatarErase) {
+          next.avatar_src = null;
+        } else if (avatarFile instanceof File) {
+          const uploaded = await (dataProvider as SynapseDataProvider).uploadMedia({
+            file: avatarFile,
+            filename: next.avatar_file.title,
+            content_type: avatarFile.type,
+          });
+          next.avatar_src = uploaded.content_uri;
+        }
 
         // Synapse-managed profile fields sent via main PUT /_synapse/admin/v2/users/...
         const synapseProfileChanged = prev.displayname !== next.displayname || prev.avatar_src !== next.avatar_src;

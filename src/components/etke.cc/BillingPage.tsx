@@ -29,6 +29,9 @@ import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "reac
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
 import { SynapseDataProvider, Payment } from "../../providers/types";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("billing");
 import { useDocTitle } from "../hooks/useDocTitle";
 
 const TruncatedUUID = ({ uuid }): React.ReactElement => {
@@ -72,7 +75,7 @@ const BillingPage = () => {
         setPaymentsData(response.payments);
         setMaintenance(response.maintenance);
       } catch (error) {
-        console.error("Error fetching billing data:", error);
+        log.error("failed to fetch billing data", error);
         setFailure(error instanceof Error ? error.message : (error as string));
       } finally {
         setLoading(false);
@@ -93,7 +96,7 @@ const BillingPage = () => {
       // Use the specific error message from the dataProvider
       const errorMessage = error instanceof Error ? error.message : "Error downloading invoice";
       notify(errorMessage, { type: "error" });
-      console.error("Error downloading invoice:", error);
+      log.error("failed to download invoice", { transactionId, error });
     } finally {
       setDownloadingInvoice(null);
     }

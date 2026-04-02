@@ -45,6 +45,9 @@ import {
   resolveBaseUrlWithWellKnown,
 } from "../providers/matrix";
 import { SetExternalAuthProvider } from "../utils/config";
+import createLogger from "../utils/logger";
+
+const log = createLogger("login");
 
 export type LoginMethod = "credentials" | "accessToken";
 
@@ -160,7 +163,7 @@ const LoginPage = () => {
               ? "ra.auth.sign_in_error"
               : error.message
         );
-        console.error(error);
+        log.error("login with token failed", error);
       });
     }
   }, [loginToken, login]);
@@ -207,7 +210,7 @@ const LoginPage = () => {
   };
 
   const handleOIDC = () => {
-    console.log("baseUrl:", baseUrl);
+    log.debug("OIDC login initiated", { baseUrl });
     login({
       base_url: baseUrl,
       clientUrl: window.location.origin + window.location.pathname,

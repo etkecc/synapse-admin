@@ -36,6 +36,9 @@ import { useServerCommands } from "./hooks/useServerCommands";
 import { useUnits } from "./hooks/useUnits";
 import { ServerCommand, ServerProcessResponse } from "../../providers/types";
 import { Icons } from "../../utils/icons";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("commands");
 
 const renderIcon = (icon: string) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -113,7 +116,7 @@ const ServerCommandsPanel = () => {
       // Update server process status
       await updateServerProcessStatus(serverCommands[command]);
     } catch (error) {
-      console.error("Error running command:", error);
+      log.error("command execution failed", error);
       setCommandIsRunning(false);
     }
   };

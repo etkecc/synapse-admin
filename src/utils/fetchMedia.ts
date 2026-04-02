@@ -1,3 +1,7 @@
+import createLogger from "./logger";
+
+const log = createLogger("media");
+
 export const getServerAndMediaIdFromMxcUrl = (mxcUrl: string): { serverName: string; mediaId: string } => {
   const re = /^mxc:\/\/([^/]+)\/([\w-]+)$/;
   const ret = re.exec(mxcUrl);
@@ -17,7 +21,7 @@ export const fetchAuthenticatedMedia = async (mxcUrl: string, type: MediaType): 
 
   const { serverName, mediaId } = getServerAndMediaIdFromMxcUrl(mxcUrl);
   if (!serverName || !mediaId) {
-    console.error("Invalid mxcUrl", mxcUrl, "serverName:", serverName, "mediaId:", mediaId);
+    log.error("invalid mxc URL", { mxcUrl, serverName, mediaId });
     return new Response(null, { status: 400, statusText: "Invalid mxcUrl" });
   }
 

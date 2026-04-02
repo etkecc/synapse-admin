@@ -1,5 +1,9 @@
 import { useSyncExternalStore } from "react";
 
+import createLogger from "../../utils/logger";
+
+const log = createLogger("instance-config");
+
 export interface InstanceConfig {
   name?: string;
   logo_url?: string;
@@ -49,7 +53,7 @@ export const FetchInstanceConfig = async (etkeccAdminUrl: string | undefined, lo
     if (resp.status === 200) {
       const configJSON = (await resp.json()) as InstanceConfig;
       instanceConfig = configJSON;
-      console.log("Fetched instance config:", instanceConfig);
+      log.debug("instance config loaded", { url: etkeccAdminUrl });
       notifyInstanceConfigListeners();
       return;
     }
@@ -61,9 +65,9 @@ export const FetchInstanceConfig = async (etkeccAdminUrl: string | undefined, lo
         setTimeout(() => FetchInstanceConfig(etkeccAdminUrl, locale), 1000);
         return;
     }
-    console.error(`Error fetching instance config: ${resp.status} ${resp.statusText}`);
+    log.error(`FetchInstanceConfig: HTTP ${resp.status} ${resp.statusText}`, { url: etkeccAdminUrl });
   } catch (e) {
-    console.error(`Error fetching instance config: ${e}`);
+    log.error("FetchInstanceConfig failed", { url: etkeccAdminUrl, error: e });
   }
 };
 

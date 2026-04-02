@@ -1,6 +1,10 @@
 import { UserManager } from "oidc-client-ts";
 import { AuthProvider, HttpError, Options, fetchUtils } from "react-admin";
 
+import createLogger from "../../utils/logger";
+
+const log = createLogger("auth");
+
 import { AuthMetadata, handleOIDCAuth, refreshAccessToken } from "../matrix";
 import { detectAndSetMAS } from "../data/mas";
 import { initResources } from "../data";
@@ -30,7 +34,6 @@ const authProvider: AuthProvider = {
     clientUrl: string;
     authMetadata: AuthMetadata;
   }) => {
-    console.log("login ");
     // use the base_url from login instead of the well_known entry from the
     // server, since the admin might want to access the admin API via some
     // private address
@@ -42,6 +45,11 @@ const authProvider: AuthProvider = {
     }
     base_url = base_url.replace(/\/+$/g, "");
     localStorage.setItem("base_url", base_url);
+
+    log.info("login", {
+      base_url,
+      method: clientUrl && authMetadata ? "oidc" : loginToken ? "token" : accessToken ? "access_token" : "password",
+    });
 
     const decoded_base_url = decodeURLComponent(base_url);
     localStorage.setItem("decoded_base_url", decoded_base_url);
@@ -192,19 +200,19 @@ const authProvider: AuthProvider = {
         avatar: avatar_url,
       });
     } catch (err) {
-      console.log("Error getting identity", err);
+      log.error("getIdentity failed", err);
       return Promise.reject();
     }
   },
   handleCallback: async () => {
-    console.log("handleCallback");
+    log.debug("handleCallback start");
     const clientId = localStorage.getItem("clientId");
     const issuer = localStorage.getItem("oidc_issuer");
     const scope = localStorage.getItem("oidc_scope") || "openid";
     const redirectUri = localStorage.getItem("oidc_redirect_uri") || `${window.location.origin}/auth-callback`;
 
     if (!clientId || !issuer) {
-      console.error("Missing OIDC configuration in storage");
+      log.error("handleCallback: missing OIDC config in storage", { hasClientId: !!clientId, hasIssuer: !!issuer });
       return Promise.reject(new Error("Missing OAuth configuration"));
     }
 
@@ -245,7 +253,7 @@ const authProvider: AuthProvider = {
     const decoded_base_url = localStorage.getItem("decoded_base_url") || "";
 
     if (!decoded_base_url) {
-      console.error("No base_url found in storage");
+      log.error("handleCallback: no base_url in storage");
       throw new Error("Base URL not found");
     }
 
@@ -290,19 +298,20 @@ const authProvider: AuthProvider = {
         pageToRedirectTo = "/server_status";
       }
 
+      log.info("authenticated via OIDC", { userId });
       await detectAndSetMAS();
       initResources();
       fetchServerVersions();
       return Promise.resolve({ redirectTo: pageToRedirectTo });
     } catch (err) {
-      console.error("Failed to get user info:", err);
+      log.error("handleCallback: failed to get user info", err);
       ClearConfig();
       throw err;
     }
   },
   // called when the user clicks on the logout button
   logout: async () => {
-    console.log("logout");
+    log.info("logout");
 
     const logout_api_url = localStorage.getItem("base_url") + "/_matrix/client/v3/logout";
     const access_token = localStorage.getItem("access_token");
@@ -324,7 +333,7 @@ const authProvider: AuthProvider = {
       try {
         await fetchUtils.fetchJson(logout_api_url, options);
       } catch (err) {
-        console.log("Error logging out", err);
+        log.warn("logout: server call failed (session cleared anyway)", err);
       } finally {
         clearServerVersions();
         ClearConfig();
@@ -361,16 +370,16 @@ const authProvider: AuthProvider = {
       const now = Date.now();
 
       if (now >= expirationTime) {
-        console.log("Access token has expired, attempting refresh...");
+        log.debug("checkAuth: token expired, refreshing");
 
         // Attempt to refresh the token
         const refreshSuccess = await refreshAccessToken();
 
         if (refreshSuccess) {
-          console.log("Token refreshed successfully");
+          log.debug("checkAuth: token refreshed");
           return Promise.resolve();
         } else {
-          console.log("Token refresh failed, redirecting to login");
+          log.warn("checkAuth: token refresh failed, redirecting to login");
           return Promise.reject();
         }
       }

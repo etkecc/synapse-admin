@@ -1,6 +1,9 @@
 import { DeleteParams, RaRecord, fetchUtils } from "react-admin";
 
 import { jsonClient } from "./http";
+import createLogger from "../utils/logger";
+
+const log = createLogger("matrix");
 import { Room, UploadMediaParams, UploadMediaResult } from "./types";
 
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
@@ -33,7 +36,9 @@ export const resolveBaseUrlWithWellKnown = async (baseUrl: string): Promise<stri
     const response = await fetchUtils.fetchJson(wellKnownUrl, { method: "GET" });
     const wkBaseUrl = response.json?.["m.homeserver"]?.base_url;
     if (typeof wkBaseUrl === "string" && wkBaseUrl.trim() !== "") {
-      return wkBaseUrl.replace(/\/+$/g, "");
+      const resolved = wkBaseUrl.replace(/\/+$/g, "");
+      log.debug("resolved base URL via well-known", { original: baseUrl, resolved });
+      return resolved;
     }
   } catch {
     // ignore and fall back to the provided URL
@@ -102,12 +107,16 @@ export const refreshAccessToken = async (): Promise<boolean> => {
   const clientId = localStorage.getItem("clientId");
 
   if (!refreshToken || !tokenEndpoint || !clientId) {
-    console.error("Missing refresh token, token endpoint, or client ID");
+    log.error("refreshAccessToken: missing credentials", {
+      hasRefreshToken: !!refreshToken,
+      hasTokenEndpoint: !!tokenEndpoint,
+      hasClientId: !!clientId,
+    });
     return false;
   }
 
   try {
-    console.log("Refreshing access token...");
+    log.debug("refreshing access token", { tokenEndpoint });
     const tokenParams = new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
@@ -128,7 +137,7 @@ export const refreshAccessToken = async (): Promise<boolean> => {
     // Update tokens in localStorage
     if (access_token) {
       localStorage.setItem("access_token", access_token);
-      console.log("Access token refreshed successfully");
+      log.debug("access token refreshed", { expiresIn: expires_in });
     }
 
     // Some providers return a new refresh token
@@ -148,7 +157,7 @@ export const refreshAccessToken = async (): Promise<boolean> => {
 
     return true;
   } catch (error) {
-    console.error("Failed to refresh access token:", error);
+    log.error("access token refresh failed", error);
     return false;
   }
 };
@@ -197,6 +206,7 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
   };
   const registerResponse = await fetchUtils.fetchJson(`${registrationEndpoint}`, registerOpts);
   const json = registerResponse.json;
+  log.debug("OIDC client registered", { clientId: json.client_id, clientName });
   return json;
 };
 

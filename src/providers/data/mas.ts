@@ -341,6 +341,24 @@ export const getMASUsersAsMainResource = () => ({
       id: `@${u.attributes.username}:${homeserver}`,
     };
   },
+  enrichList: async (records: RaRecord[]) => {
+    const synapseBaseUrl = localStorage.getItem("base_url") || "";
+    return Promise.all(
+      records.map(async record => {
+        try {
+          const matrixId = encodeURIComponent(record.id);
+          const { json } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
+          return {
+            ...record,
+            avatar_src: json.avatar_url ?? null,
+            displayname: json.displayname ?? null,
+          };
+        } catch {
+          return record;
+        }
+      })
+    );
+  },
   data: "data",
   total: (json: MASUserListResponse) => json.meta?.count || 0,
   buildListQuery: (perPage: number, cursor: string | undefined, filter: Record<string, any>) =>

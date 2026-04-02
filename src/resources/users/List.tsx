@@ -224,7 +224,7 @@ export const UserList = (props: ListProps) => {
             </Box>
           )}
           tertiaryText={record => (
-            <Box sx={{ display: "flex", gap: 0.5 }}>
+            <Box component="span" sx={{ display: "flex", gap: 0.5 }}>
               {record.admin && (
                 <Tooltip title={translate("resources.users.fields.admin")}>
                   <AdminPanelSettingsIcon fontSize="small" color="primary" />

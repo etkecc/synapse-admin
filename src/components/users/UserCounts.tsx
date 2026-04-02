@@ -8,6 +8,9 @@ import { useDataProvider, useLocale, useRecordContext, useTranslate } from "reac
 
 import { SynapseDataProvider } from "../../providers/types";
 import { DATE_FORMAT } from "../../utils/date";
+import createLogger from "../../utils/logger";
+
+const log = createLogger("users");
 
 const tooltipSx = { tooltip: { sx: { fontSize: "0.875rem" } } };
 
@@ -30,7 +33,7 @@ const UserInfoChips = () => {
         setInviteCount(invites);
         setJoinedRoomCount(rooms);
       } catch (error) {
-        console.error("Failed to fetch user counts for", record.id, error);
+        log.error("failed to fetch user counts", { id: record.id, error });
       }
     };
     fetchCounts();

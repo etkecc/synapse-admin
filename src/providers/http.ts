@@ -3,6 +3,9 @@ import { HttpError, Options, fetchUtils } from "react-admin";
 import { refreshAccessToken } from "./matrix";
 import { GetConfig } from "../utils/config";
 import { MatrixError, displayError } from "../utils/error";
+import createLogger from "../utils/logger";
+
+const log = createLogger("http");
 
 // Singleton refresh promise — prevents multiple concurrent refresh requests
 let ongoingRefresh: Promise<boolean> | null = null;
@@ -20,7 +23,10 @@ export const jsonClient = async (url: string, options: Options = {}) => {
 
     // Refresh if token has expired or will expire in less than 2 minutes
     if (timeUntilExpiry < 120000) {
-      console.log(`Token ${timeUntilExpiry <= 0 ? "expired" : "expiring soon"}, refreshing before API call...`);
+      log.debug("proactive token refresh", {
+        status: timeUntilExpiry <= 0 ? "expired" : "expiring soon",
+        timeUntilExpiry,
+      });
       if (!ongoingRefresh) {
         ongoingRefresh = refreshAccessToken().finally(() => {
           ongoingRefresh = null;
@@ -31,7 +37,7 @@ export const jsonClient = async (url: string, options: Options = {}) => {
   }
 
   const token = localStorage.getItem("access_token");
-  console.log("httpClient " + url);
+  log.debug(url);
   options.credentials = GetConfig().corsCredentials as RequestCredentials;
   if (token !== null) {
     options.user = {
