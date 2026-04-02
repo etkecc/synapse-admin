@@ -501,37 +501,29 @@ const baseDataProvider: SynapseDataProvider = {
     }
 
     const endpoint_url = baseUrl + res.path;
-    const responses = await Promise.all(
+    const data = await Promise.all(
       params.ids.map(async id => {
-        // edge case: when user is external / federated, homeserver will return error, as querying external users via
-        // /_synapse/admin/v2/users is not allowed.
-        // That leads to an issue when a user is referenced (e.g., in room state datagrid) - the user cell is just empty.
-        // To avoid that, we fake the response with one specific field (name) which is used in the datagrid.
-        if (homeserver && resource === "users") {
-          if (!(id as string).endsWith(homeserver)) {
-            const json = {
-              name: id,
-            };
-            return { json };
-          }
+        // Federated/external users can't be queried via the Synapse admin API.
+        // Return a minimal stub without going through res.map — this prevents res.map
+        // from setting boolean fields like is_guest: false on records that have no real data.
+        if (homeserver && resource === "users" && !(id as string).endsWith(homeserver)) {
+          return { id, name: id } as RaRecord;
         }
         try {
-          return await jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
+          const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
+          return (await Promise.resolve(res.map(json))) as RaRecord;
         } catch (error) {
           // Handle deleted/non-existent resources gracefully by returning minimal data
           // This can happen when a room is deleted but still referenced in joined_rooms
           if (error instanceof HttpError && error.status === 404) {
             const json = resource === "rooms" ? { room_id: id, name: id } : { id };
-            return { json };
+            return (await Promise.resolve(res.map(json))) as RaRecord;
           }
           throw error;
         }
       })
     );
-    return {
-      data: responses.map(({ json }) => res.map(json)),
-      total: responses.length,
-    };
+    return { data: data as any[], total: data.length };
   },
 
   getManyReference: async (resource, params) => {
