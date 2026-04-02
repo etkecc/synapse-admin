@@ -22,6 +22,7 @@ import {
 
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { User, UsernameAvailabilityResult } from "../../providers/types";
+import type { SynapseDataProvider } from "../../providers/types";
 import { isMAS } from "../../providers/data/mas";
 import { choices_medium, choices_type, validateUser, validateAddress, UserPasswordInput } from "./Edit";
 
@@ -34,11 +35,49 @@ export const UserCreate = (props: CreateProps) => {
 
 const MASUserCreate = (props: CreateProps) => {
   const translate = useTranslate();
+  const dataProvider = useDataProvider() as SynapseDataProvider;
+  const redirect = useRedirect();
+  const notify = useNotify();
+  const [create] = useCreate();
+
   useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name") }));
+
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  const handleSubmit = async (data: Record<string, any>) => {
+    let record: User;
+    try {
+      record = await create("users", { data: { username: data.username } }, { returnPromise: true });
+    } catch {
+      return; // RA shows error notification automatically
+    }
+
+    const masId = (record as unknown as Record<string, unknown>)?.mas_id as string | undefined;
+
+    if (masId && data.admin) {
+      try {
+        await dataProvider.masSetAdmin(masId, true);
+      } catch (e) {
+        console.error("masSetAdmin failed:", e);
+      }
+    }
+
+    if (masId && data.password) {
+      const result = await dataProvider.masSetPassword(masId, data.password);
+      if (!result.success) {
+        notify(result.error || "resources.users.action.password.failure", { type: "warning" });
+      }
+    }
+
+    notify("ra.notification.created", { messageArgs: { smart_count: 1 } });
+    redirect(() => `users/${encodeURIComponent(record.id as string)}`);
+  };
+
   return (
-    <Create {...props} redirect="list">
-      <SimpleForm>
+    <Create {...props}>
+      <SimpleForm onSubmit={handleSubmit}>
         <TextInput source="username" required autoComplete="off" />
+        <UserPasswordInput source="password" autoComplete="new-password" />
+        <BooleanInput source="admin" />
       </SimpleForm>
     </Create>
   );
