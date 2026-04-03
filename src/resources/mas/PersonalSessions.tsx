@@ -113,7 +113,7 @@ export function MASPersonalSessionsList(props: ListProps) {
           primaryText={record => record.human_name || String(record.id)}
           secondaryText={record => String(record.scope || "")}
           tertiaryText={() => <RevokePersonalSessionButton />}
-          linkType={false}
+          rowClick={false}
           sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
         />
       ) : (

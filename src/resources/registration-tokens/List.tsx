@@ -59,7 +59,7 @@ export const RegistrationTokenList = (props: ListProps) => {
             </>
           )}
           tertiaryText={() => <DeleteButton redirect={false} />}
-          linkType="edit"
+          rowClick="edit"
         />
       ) : (
         <DatagridConfigurable rowClick="edit">

@@ -96,7 +96,7 @@ export const ScheduledTaskList = (props: ListProps) => {
               ""
             )
           }
-          linkType={false}
+          rowClick={false}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false}>

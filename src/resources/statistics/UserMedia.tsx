@@ -1,5 +1,8 @@
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import { Box, useMediaQuery } from "@mui/material";
+import MuiList from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import {
   BooleanField,
@@ -7,15 +10,16 @@ import {
   ExportButton,
   FunctionField,
   List,
+  Link,
   ListProps,
   NumberField,
   Pagination,
   ReferenceField,
   ResourceProps,
   SearchInput,
-  SimpleList,
   TextField,
   TopToolbar,
+  useGetMany,
   useListContext,
   useTranslate,
 } from "react-admin";
@@ -41,6 +45,49 @@ const UserMediaStatsPagination = () => <Pagination rowsPerPageOptions={[10, 25, 
 
 const userMediaStatsFilters = [<SearchInput source="search_term" alwaysOn />];
 
+const UserMediaMobileList = () => {
+  const { data: stats } = useListContext();
+  const translate = useTranslate();
+  const ids = (stats || []).map(r => r.id);
+  const { data: users } = useGetMany("users", { ids }, { enabled: ids.length > 0 });
+  const userMap = new Map((users || []).map(u => [u.id, u]));
+
+  if (!stats?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {stats.map(record => {
+        const user = userMap.get(record.id);
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/users/" + record.id + "/media"}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={user || record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {record.displayname || record.user_id}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {record.displayname && (
+                  <Box component="span" sx={{ wordBreak: "break-all", display: "block" }}>
+                    {record.user_id}
+                  </Box>
+                )}
+                {translate("resources.user_media_statistics.fields.media_count")}: {record.media_count}
+                {" · "}
+                {translate("resources.user_media_statistics.fields.media_length")}: {formatBytes(record.media_length)}
+              </Typography>
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
 export const UserMediaStatsList = (props: ListProps) => {
   const translate = useTranslate();
   const theme = useTheme();
@@ -57,29 +104,7 @@ export const UserMediaStatsList = (props: ListProps) => {
       empty={<EmptyState />}
     >
       {isSmall ? (
-        <SimpleList
-          primaryText={record => (
-            <Box component="span" sx={{ wordBreak: "break-all" }}>
-              {record.displayname || record.user_id}
-            </Box>
-          )}
-          secondaryText={record => (
-            <>
-              {record.displayname && (
-                <>
-                  <Box component="span" sx={{ wordBreak: "break-all" }}>
-                    {record.user_id}
-                  </Box>
-                  <br />
-                </>
-              )}
-              {translate("resources.user_media_statistics.fields.media_count")}: {record.media_count}
-              {" · "}
-              {translate("resources.user_media_statistics.fields.media_length")}: {formatBytes(record.media_length)}
-            </>
-          )}
-          rowClick={id => "/users/" + id + "/media"}
-        />
+        <UserMediaMobileList />
       ) : (
         <DatagridConfigurable rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
           <ReferenceField label="resources.users.fields.avatar" source="id" reference="users" sortable={false} link="">

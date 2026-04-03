@@ -95,7 +95,7 @@ export function MASUserSessionsList(props: ListProps) {
           primaryText={record => String(record.user_id || "")}
           secondaryText={record => String(record.user_agent || record.last_active_ip || "")}
           tertiaryText={() => <FinishUserSessionButton />}
-          linkType={false}
+          rowClick={false}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>

@@ -4,6 +4,8 @@ import StorageIcon from "@mui/icons-material/Storage";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import PersonIcon from "@mui/icons-material/Person";
 import Box from "@mui/material/Box";
+import MuiList from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -25,9 +27,9 @@ import {
   ReferenceField,
   SearchInput,
   SelectColumnsButton,
-  SimpleList,
   TextField as RaTextField,
   TopToolbar,
+  useGetMany,
   useRecordContext,
   useTranslate,
   useListContext,
@@ -281,6 +283,62 @@ const RoomListActions = () => {
   );
 };
 
+const RoomsMobileList = () => {
+  const { data: rooms } = useListContext();
+  const theme = useTheme();
+  const translate = useTranslate();
+  const ids = (rooms || []).map(r => r.id);
+  const { data: roomDetails } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
+  const roomMap = new Map((roomDetails || []).map(r => [r.id, r]));
+
+  if (!rooms?.length) return null;
+
+  return (
+    <MuiList disablePadding>
+      {rooms.map(record => {
+        const room = roomMap.get(record.id) || record;
+        return (
+          <ListItemButton
+            key={record.id as string}
+            component={Link}
+            to={"/rooms/" + record.id + "/show"}
+            sx={{ gap: 1, alignItems: "center" }}
+          >
+            <AvatarField record={room} source="avatar" sx={{ height: "40px", width: "40px" }} />
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Typography variant="body1" sx={{ wordBreak: "break-all" }}>
+                {record.name || record.canonical_alias || record.id}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {translate("resources.rooms.fields.joined_members")}: {record.joined_members ?? 0}
+                {record.creator && (
+                  <>
+                    <br />
+                    <Box component="span" sx={{ wordBreak: "break-all" }}>
+                      {translate("resources.rooms.fields.creator")}: {record.creator}
+                    </Box>
+                  </>
+                )}
+              </Typography>
+            </Box>
+            <Box sx={{ display: "flex", gap: 0.5, ml: 1 }}>
+              {record.is_encrypted ? (
+                <Tooltip title={translate("resources.rooms.fields.encryption")}>
+                  <HttpsIcon fontSize="small" sx={{ color: theme.palette.success.main }} />
+                </Tooltip>
+              ) : (
+                <Tooltip title={translate("resources.rooms.fields.encryption")}>
+                  <NoEncryptionIcon fontSize="small" sx={{ color: theme.palette.error.main }} />
+                </Tooltip>
+              )}
+            </Box>
+          </ListItemButton>
+        );
+      })}
+    </MuiList>
+  );
+};
+
 export const RoomList = (props: ListProps) => {
   const theme = useTheme();
   const translate = useTranslate();
@@ -298,43 +356,7 @@ export const RoomList = (props: ListProps) => {
       empty={<EmptyState />}
     >
       {isSmall ? (
-        <SimpleList
-          primaryText={record => (
-            <Box component="span" sx={{ wordBreak: "break-all" }}>
-              {record.name || record.canonical_alias || record.id}
-            </Box>
-          )}
-          secondaryText={record => (
-            <>
-              {translate("resources.rooms.fields.joined_members")}: {record.joined_members ?? 0}
-              {record.creator && (
-                <>
-                  <br />
-                  <Box component="span" sx={{ wordBreak: "break-all" }}>
-                    {translate("resources.rooms.fields.creator")}: {record.creator}
-                  </Box>
-                </>
-              )}
-            </>
-          )}
-          tertiaryText={record => (
-            <Box sx={{ display: "flex", gap: 0.5 }}>
-              {record.is_encrypted ? (
-                <Tooltip title={translate("resources.rooms.fields.encryption")}>
-                  <HttpsIcon fontSize="small" sx={{ color: theme.palette.success.main }} />
-                </Tooltip>
-              ) : (
-                <Tooltip title={translate("resources.rooms.fields.encryption")}>
-                  <NoEncryptionIcon fontSize="small" sx={{ color: theme.palette.error.main }} />
-                </Tooltip>
-              )}
-            </Box>
-          )}
-          linkType="show"
-          leftIcon={record => (
-            <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
-          )}
-        />
+        <RoomsMobileList />
       ) : (
         <DatagridConfigurable
           rowClick="show"

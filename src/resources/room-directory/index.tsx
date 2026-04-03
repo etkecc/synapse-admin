@@ -179,7 +179,7 @@ export const RoomDirectoryList = () => {
               {translate("resources.rooms.fields.joined_members")}: {record.num_joined_members ?? 0}
             </>
           )}
-          linkType="show"
+          rowClick="show"
           leftIcon={record => (
             <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
           )}

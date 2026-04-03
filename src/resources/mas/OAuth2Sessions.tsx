@@ -97,7 +97,7 @@ export function MASOAuth2SessionsList(props: ListProps) {
           primaryText={record => record.human_name || record.client_id || String(record.id)}
           secondaryText={record => String(record.user_id || "")}
           tertiaryText={() => <FinishOAuth2SessionButton />}
-          linkType={false}
+          rowClick={false}
           sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
         />
       ) : (

@@ -33,7 +33,7 @@ export function MASUpstreamOAuthProvidersList(props: ListProps) {
               <BlockIcon fontSize="small" sx={{ color: "text.disabled" }} />
             )
           }
-          linkType="show"
+          rowClick="show"
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick="show">

@@ -257,7 +257,7 @@ export const UserList = (props: ListProps) => {
               )}
             </Box>
           )}
-          linkType="edit"
+          rowClick="edit"
           leftIcon={record => (
             <AvatarField record={record} source="avatar_src" sx={{ height: "40px", width: "40px" }} />
           )}
@@ -294,13 +294,23 @@ export const UserList = (props: ListProps) => {
           <BooleanField source="locked" label="resources.users.fields.locked" />
           <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
           <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-          <DateField
-            source="creation_ts"
-            label="resources.users.fields.creation_ts_ms"
-            showTime
-            options={DATE_FORMAT}
-            locales={locale}
-          />
+          {isMAS() ? (
+            <DateField
+              source="created_at"
+              label="resources.users.fields.creation_ts_ms"
+              showTime
+              options={DATE_FORMAT}
+              locales={locale}
+            />
+          ) : (
+            <DateField
+              source="creation_ts"
+              label="resources.users.fields.creation_ts_ms"
+              showTime
+              options={DATE_FORMAT}
+              locales={locale}
+            />
+          )}
         </DatagridConfigurable>
       )}
     </List>

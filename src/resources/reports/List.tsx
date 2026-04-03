@@ -184,7 +184,7 @@ export const ReportList = (props: ListProps) => {
               </Box>
             );
           }}
-          linkType="show"
+          rowClick="show"
         />
       ) : (
         <DatagridConfigurable rowClick="show" bulkActionButtons={false}>

@@ -90,7 +90,7 @@ export function MASUserEmailsList(props: ListProps) {
           primaryText={record => String(record.email || "")}
           secondaryText={record => String(record.user_id || "")}
           tertiaryText={() => <DeleteEmailButton />}
-          linkType={false}
+          rowClick={false}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>

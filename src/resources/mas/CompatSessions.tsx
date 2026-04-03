@@ -95,7 +95,7 @@ export function MASCompatSessionsList(props: ListProps) {
           primaryText={record => record.human_name || record.device_id || String(record.id)}
           secondaryText={record => String(record.user_id || "")}
           tertiaryText={() => <FinishCompatSessionButton />}
-          linkType={false}
+          rowClick={false}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>

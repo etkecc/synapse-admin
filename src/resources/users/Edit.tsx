@@ -349,7 +349,7 @@ const MASSessionsPanel = () => {
                   primaryText={record => record.human_name || String(record.id)}
                   secondaryText={record => String(record.scope || "")}
                   tertiaryText={() => <RevokePersonalSessionButton />}
-                  linkType={false}
+                  rowClick={false}
                   sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
                 />
               ) : (
@@ -380,7 +380,7 @@ const MASSessionsPanel = () => {
                 primaryText={record => String(record.user_agent || record.last_active_ip || record.id)}
                 secondaryText={record => String(record.last_active_ip || "")}
                 tertiaryText={() => <FinishUserSessionButton />}
-                linkType={false}
+                rowClick={false}
               />
             ) : (
               <Box sx={{ overflowX: "auto", mt: 1 }}>
@@ -409,7 +409,7 @@ const MASSessionsPanel = () => {
                 primaryText={record => record.human_name || record.client_id || String(record.id)}
                 secondaryText={record => String(record.scope || "")}
                 tertiaryText={() => <FinishOAuth2SessionButton />}
-                linkType={false}
+                rowClick={false}
                 sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
               />
             ) : (
@@ -456,7 +456,7 @@ const MASSessionsPanel = () => {
                 primaryText={record => record.human_name || record.device_id || String(record.id)}
                 secondaryText={record => String(record.last_active_ip || "")}
                 tertiaryText={() => <FinishCompatSessionButton />}
-                linkType={false}
+                rowClick={false}
               />
             ) : (
               <Box sx={{ overflowX: "auto", mt: 1 }}>
@@ -592,7 +592,7 @@ const MASUpstreamOAuthLinksPanel = () => {
               primaryText={record => String(record.subject || "")}
               secondaryText={record => String(record.provider_id || "")}
               tertiaryText={() => <DeleteOAuthLinkButton />}
-              linkType={false}
+              rowClick={false}
             />
           ) : (
             <Datagrid
@@ -1248,7 +1248,7 @@ export const UserEdit = (props: EditProps) => {
                     </>
                   )}
                   tertiaryText={() => <DeviceRemoveButton />}
-                  linkType={false}
+                  rowClick={false}
                 />
               ) : (
                 <DatagridConfigurable
@@ -1289,7 +1289,7 @@ export const UserEdit = (props: EditProps) => {
                       )}
                     </>
                   )}
-                  linkType={false}
+                  rowClick={false}
                 />
               ) : (
                 <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
@@ -1338,7 +1338,7 @@ export const UserEdit = (props: EditProps) => {
                     <DeleteButton mutationMode="pessimistic" redirect={false} />
                   </Box>
                 )}
-                linkType={false}
+                rowClick={false}
               />
             ) : (
               <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
@@ -1492,7 +1492,7 @@ export const UserEdit = (props: EditProps) => {
                     )}
                   </>
                 )}
-                linkType={false}
+                rowClick={false}
               />
             ) : (
               <DatagridConfigurable

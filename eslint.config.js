@@ -23,7 +23,7 @@ const tsCompat = {
 
 export default [
   {
-    ignores: ["coverage/", "dist/", "docs/testdata/", "src/assets/webfonts/**"],
+    ignores: ["coverage/", "dist/", "docs/testdata/", "docs/screenshots/prepare.js", "src/assets/webfonts/**"],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended.map(config => ({

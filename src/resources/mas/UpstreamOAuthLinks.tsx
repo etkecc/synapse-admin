@@ -82,7 +82,7 @@ export function MASUpstreamOAuthLinksList(props: ListProps) {
           primaryText={record => String(record.subject || "")}
           secondaryText={record => String(record.user_id || "")}
           tertiaryText={() => <DeleteOAuthLinkButton />}
-          linkType={false}
+          rowClick={false}
         />
       ) : (
         <DatagridConfigurable bulkActionButtons={false} rowClick={false}>

@@ -402,7 +402,7 @@ const RoomShowLayout = () => {
                 </Box>
               )}
               tertiaryText={() => <DeleteButton mutationMode="pessimistic" redirect={false} />}
-              linkType={false}
+              rowClick={false}
             />
           ) : (
             <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
@@ -454,7 +454,7 @@ const RoomShowLayout = () => {
                   </Box>
                 </>
               )}
-              linkType={false}
+              rowClick={false}
             />
           ) : (
             <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
@@ -517,7 +517,7 @@ const RoomShowLayout = () => {
                   )}
                 </>
               )}
-              linkType={false}
+              rowClick={false}
             />
           ) : (
             <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
