@@ -9,6 +9,8 @@ There are two ways to configure Ketesa (both are optional, and both can be used 
 | `config.json` alongside the deployment ([example](https://admin.etke.cc/config.json)) | Self-hosted deployments where you control the Ketesa files |
 | `cc.etke.ketesa` key in `/.well-known/matrix/client` ([example](https://demo.etke.host/.well-known/matrix/client)) | Any homeserver — works even if you don't host Ketesa yourself |
 
+> 📝 **Existing configurations using the legacy `cc.etke.synapse-admin` key continue to work** — Ketesa reads both keys automatically and you don't need to change anything. Migrating to `cc.etke.ketesa` is optional and can be done at your convenience.
+
 If you are an [etke.cc](https://etke.cc) customer,
 or use [spantaleev/matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy),
 or [etkecc/ansible](https://github.com/etkecc/ansible),
@@ -91,8 +93,6 @@ configuration is added automatically to the `/.well-known/matrix/client` file.
 ```
 
 ### `/.well-known/matrix/client`
-
-> 📝 **Note:** The legacy key `cc.etke.synapse-admin` is still supported for backward compatibility, but is deprecated. Use `cc.etke.ketesa` going forward.
 
 ```json
 {

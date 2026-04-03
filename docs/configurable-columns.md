@@ -1,5 +1,9 @@
 # 🗂️ Configurable Table Columns
 
+| Light | Dark |
+|-------|------|
+| ![Rooms List (light)](./screenshots/light/rooms-list.webp) | ![Rooms List (dark)](./screenshots/dark/rooms-list.webp) |
+
 Every data table in Ketesa supports configurable columns — you can show, hide, and reorder columns to match your workflow. Preferences are stored in your browser (localStorage), not on the server, so each browser or device maintains independent settings.
 
 ---

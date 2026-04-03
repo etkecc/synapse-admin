@@ -1,5 +1,9 @@
 # 👤 User Management
 
+| Light | Dark |
+|-------|------|
+| ![Users List (light)](./screenshots/light/users-list.webp) | ![Users List (dark)](./screenshots/dark/users-list.webp) |
+
 This guide covers all user management features available in Ketesa, from basic account control to advanced MAS-integrated session and email management.
 
 ---
@@ -20,6 +24,10 @@ This guide covers all user management features available in Ketesa, from basic a
 ---
 
 ## 🔑 Login as user
+
+| Light | Dark |
+|-------|------|
+| ![User Edit (light)](./screenshots/light/users-edit.webp) | ![User Edit (dark)](./screenshots/dark/users-edit.webp) |
 
 The **Login as user** button appears in the top toolbar of the user edit page (only when the user is not deactivated and MAS is not configured). Clicking it generates a short-lived access token scoped to that user account, allowing an administrator to act on their behalf — this is commonly called impersonation.
 

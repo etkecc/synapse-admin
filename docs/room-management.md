@@ -132,6 +132,10 @@ Grants a user the highest power level in the room, making them a room administra
 
 ## 📑 Room Detail Tabs
 
+| Light |
+|-------|
+| ![Room View (light)](./screenshots/light/rooms-view.webp) |
+
 Open a room and use the tabs to inspect different aspects of it.
 
 ---
@@ -186,13 +190,13 @@ Shows the **forward extremities** of the room's event DAG — the most recent ev
 
 ### 💬 Messages Tab
 
-The **Messages** tab shows paginated room history with rich filtering and jump-to-date navigation. See the detailed sections below.
+Paginated room history with rich filtering and jump-to-date navigation. See [Messages Viewer](#-messages-viewer) below.
 
 ---
 
 ### 🌳 Hierarchy Tab
 
-Available only on **Space** rooms. Shows the full nested room tree. See the detailed section below.
+Available only on **Space** rooms. Shows the full nested room tree. See [Room Hierarchy](#-room-hierarchy) below.
 
 ---
 
