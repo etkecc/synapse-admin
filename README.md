@@ -153,7 +153,7 @@ management:
 | 🌐 | **[admin.etke.cc](https://admin.etke.cc)** | Hosted instance, always on the latest version |
 | 📦 | **[GitHub Releases](https://github.com/etkecc/ketesa/releases)** | Prebuilt tarballs for root-path and `/admin` subpath deployment |
 | 🐳 | **[Docker Hub](https://hub.docker.com/r/etkecc/ketesa) / [GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa)** | Official Docker images |
-| 🤖 | **[matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-synapse-admin.md)** | Ansible playbook component |
+| 🤖 | **[matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-ketesa.md)** | Ansible playbook component |
 | ❄️ | **[Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc)** | Maintained by [@Defelo](https://github.com/Defelo) |
 | 🐧 | **[Arch Linux AUR](https://aur.archlinux.org/packages/synapse-admin-etke-git)** | Maintained by [@drygdryg](https://github.com/drygdryg) |
 | 🌊 | **[IPFS](https://ipfs.io)** | Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net) — see [details below](#ipfs) |
