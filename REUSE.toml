@@ -376,67 +376,19 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["docs/screenshots/etke.cc/billing/page.webp"]
+path = ["docs/screenshots/dark/**"]
 SPDX-FileCopyrightText = [
-  "2025 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["docs/screenshots/etke.cc/server-actions/page.webp"]
+path = ["docs/screenshots/light/**"]
 SPDX-FileCopyrightText = [
-  "2025 Borislav Pantaleev <https://etke.cc>",
+  "2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
-[[annotations]]
-path = ["docs/screenshots/etke.cc/server-commands/panel.webp"]
-SPDX-FileCopyrightText = [
-  "2025 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["docs/screenshots/etke.cc/server-notifications/badge.webp"]
-SPDX-FileCopyrightText = [
-  "2024 Borislav Pantaleev <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["docs/screenshots/etke.cc/server-notifications/page.webp"]
-SPDX-FileCopyrightText = [
-  "2024 Borislav Pantaleev <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["docs/screenshots/etke.cc/server-status/indicator-sidebar.webp"]
-SPDX-FileCopyrightText = [
-  "2025 Nikita Chernyi <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["docs/screenshots/etke.cc/server-status/indicator.webp"]
-SPDX-FileCopyrightText = [
-  "2024 Borislav Pantaleev <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["docs/screenshots/etke.cc/server-status/page.webp"]
-SPDX-FileCopyrightText = [
-  "2024 Borislav Pantaleev <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["docs/screenshots/etke.cc/support/page.webp"]
-SPDX-FileCopyrightText = [
-  "2026 Borislav Pantaleev <https://etke.cc>",
-]
-SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = ["src/App.test.tsx"]
@@ -1864,6 +1816,13 @@ SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
 path = ["docs/update-api-docs.ts"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["docs/screenshots/prepare.js"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",
 ]

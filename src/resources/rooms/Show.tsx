@@ -77,7 +77,7 @@ const RoomTitle = () => {
   }
   return (
     <span>
-      {baseTitle} <AvatarField source="avatar_src" sx={{ height: "25px", width: "25px" }} /> {name}
+      {baseTitle} <AvatarField source="avatar" sx={{ height: "25px", width: "25px" }} /> {name}
     </span>
   );
 };

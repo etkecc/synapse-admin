@@ -17,8 +17,8 @@
 
 ---
 
-![Login](./docs/screenshots/login.webp)
-![Users List](./docs/screenshots/users-list.webp)
+![Login](./docs/screenshots/light/login.webp)
+![Users List](./docs/screenshots/light/users-list.webp)
 
 [View all screenshots →](./docs/screenshots/README.md)
 

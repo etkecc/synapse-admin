@@ -6,6 +6,10 @@ Ketesa exposes three read-focused views that help administrators understand serv
 
 ## 🗄️ Database Room Statistics
 
+| Light | Dark |
+|-------|------|
+| ![Room Statistics (light)](./screenshots/light/rooms-stats.webp) | ![Room Statistics (dark)](./screenshots/dark/rooms-stats.webp) |
+
 ### 📋 What it shows
 
 The **Statistics → Database Rooms** page lists every room that exists on your homeserver, ranked by its estimated footprint in the Synapse database. This helps you identify which rooms are consuming the most storage and decide whether to purge history, restrict membership, or take other remediation steps.
@@ -86,6 +90,10 @@ An **Export** button is available in the toolbar alongside the media action butt
 ---
 
 ## ⏱️ Scheduled Tasks
+
+| Light | Dark |
+|-------|------|
+| ![Scheduled Tasks (light)](./screenshots/light/scheduled-tasks.webp) | ![Scheduled Tasks (dark)](./screenshots/dark/scheduled-tasks.webp) |
 
 ### 📋 What it is
 

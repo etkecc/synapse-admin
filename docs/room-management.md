@@ -204,6 +204,10 @@ Shows all media files associated with the room. Supports per-file deletion and b
 
 ## 💬 Messages Viewer
 
+| Light | Dark |
+|-------|------|
+| ![Room Messages (light)](./screenshots/light/rooms-view-messages.webp) | ![Room Messages (dark)](./screenshots/dark/rooms-view-messages.webp) |
+
 The **Messages** tab shows the paginated event history of a room. Each event card displays:
 
 | Field | Description |
@@ -304,6 +308,10 @@ After jumping, the target event is highlighted and the view centres on it. You c
 ---
 
 ## 🌳 Room Hierarchy
+
+| Light | Dark |
+|-------|------|
+| ![Room Hierarchy (light)](./screenshots/light/rooms-view-hierarchy.webp) | ![Room Hierarchy (dark)](./screenshots/dark/rooms-view-hierarchy.webp) |
 
 The **Hierarchy** tab is available only on **Space** rooms (`room_type: m.space`). It shows the full nested structure as an expandable tree.
 

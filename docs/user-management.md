@@ -14,6 +14,7 @@ This guide covers all user management features available in Ketesa, from basic a
 - [Account data](#-account-data)
 - [Server notices](#-server-notices)
 - [MAS user management](#-mas-user-management)
+- [MAS Policy Data](#-mas-policy-data)
 - [Bulk user import](#-bulk-user-import)
 
 ---
@@ -169,7 +170,19 @@ When MAS is active, Ketesa integrates with the MAS Admin API to provide account 
 
 ### ➕ Creating users through MAS
 
-When MAS is configured, the standard user create form is replaced by a MAS-aware form. New users are provisioned through the MAS API and a corresponding Synapse account is created automatically.
+When MAS is configured, creating a user is a two-step process:
+
+**Step 1 — MAS create form:** A focused form with three fields:
+
+| Field | Required | Notes |
+|---|---|---|
+| `username` | Yes | The local part of the MXID (no `@` or homeserver suffix). |
+| `password` | No | Optional initial password. Use the generate button for a strong random password. |
+| `admin` | No | Grant server administrator status immediately on creation. |
+
+On save, MAS creates the account and Synapse provisions the corresponding user record automatically.
+
+**Step 2 — Full edit page:** After the account is created you are redirected to the standard user edit page, where you can set the displayname, avatar, threepids, and all other profile details.
 
 ### 🔐 Setting a password via MAS
 
@@ -193,7 +206,7 @@ The **Sessions** tab (only shown in MAS mode) provides a sub-tabbed view of all 
 | Session type | What it represents | How to revoke |
 |-------------|-------------------|--------------|
 | **Personal sessions** | Long-lived API tokens created by admins or by the user directly (e.g. for bots or automation). Shows scope, human name, active status, and expiry. | Click the revoke button on the session row. |
-| **Browser sessions** (User sessions) | Interactive browser-based login sessions tracked by MAS. Shows IP address, user agent, last active time. | Click the finish button on the session row. |
+| **Browser sessions** | Interactive browser-based login sessions tracked by MAS. Shows IP address, user agent, last active time. | Click the finish button on the session row. |
 | **OAuth2 sessions** | Sessions established via OAuth 2.0 client applications. Shows client ID, granted scopes (displayed as chips), human name, and last active time. | Click the finish button on the session row. |
 | **Compat sessions** | Legacy Matrix compatibility sessions that bridge the old Synapse login flow with MAS. Shows device ID, human name, last active IP. | Click the finish button on the session row. |
 
@@ -215,11 +228,19 @@ The **3PIDs / Emails** tab in MAS mode shows all email addresses linked to the u
 
 The **SSO / Upstream OAuth** tab in MAS mode displays links between the user's MAS account and external OAuth providers (e.g. Google, GitHub, a corporate IdP) that have been configured in MAS.
 
-- **View:** All upstream OAuth links are listed, showing the provider, subject identifier, and human account name (if set).
-- **Add:** Select a provider from the dropdown, enter the provider-side subject identifier and optional human account name, then click **Create**.
+- **View:** All upstream OAuth links are listed, showing the provider ID, subject identifier, and human account name (if set).
 - **Remove:** Click the delete button on the link row.
 
 > ⚠️ Removing an upstream OAuth link means the user can no longer log in using that external provider unless the link is re-created. Ensure the user has an alternative login method (password or another provider) before removing a link.
+
+### 📋 MAS Policy Data
+
+The **Policy Data** page (accessible from the MAS section of the sidebar) allows administrators to view and update the MAS consent policy.
+
+- **Current policy:** Displays the active policy as formatted JSON, with its creation timestamp. If no policy has been set, a "No policy is currently set" message is shown.
+- **Set a New Policy:** Enter new policy data as a JSON object in the editor and click **Set Policy**. The editor validates JSON on the fly — the save button is disabled until the input is valid JSON.
+
+> ⚠️ Setting a new policy replaces the existing one immediately. MAS users may be prompted to accept the updated policy terms on their next login.
 
 ---
 

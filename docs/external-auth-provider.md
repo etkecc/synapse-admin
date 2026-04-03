@@ -11,10 +11,14 @@ Setting `externalAuthProvider: true` tells Ketesa to adjust its behavior for the
 
 ## 🔐 Matrix Authentication Service (MAS)
 
-When Synapse uses Matrix Authentication Service (MAS) for OIDC, Ketesa uses the MAS admin API for registration
-token management. The MAS admin API is not exposed by default, so it must be reachable from the Ketesa UI.
+When Synapse uses Matrix Authentication Service (MAS) for OIDC, Ketesa detects this automatically and activates
+the full MAS integration: registration token management, the MAS user management panel (sessions, emails,
+upstream OAuth links, policy data), and adapted create/edit workflows for users.
+See the [MAS user management guide](./user-management.md#-mas-user-management) for the full feature list.
 
-> ⚠️ **Warning:** If the MAS admin API is not exposed, registration token list/create/update/delete operations will fail.
+The MAS admin API is not exposed by default, so it must be reachable from the Ketesa UI.
+
+> ⚠️ **Warning:** If the MAS admin API is not exposed, MAS-specific operations (registration tokens, sessions, emails, etc.) will fail.
 
 ```yaml
 http:
