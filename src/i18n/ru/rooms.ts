@@ -124,6 +124,7 @@ const rooms = {
       failure: "Не удалось поместить медиа на карантин. %{errMsg}",
     },
     event_context: {
+      lookup_title: "Поиск события по ID",
       jump_to_date: "Перейти к дате",
       direction: "Направление",
       forward: "Вперёд",

@@ -117,6 +117,7 @@ const rooms = {
       failure: "Échec de la mise en quarantaine. %{errMsg}",
     },
     event_context: {
+      lookup_title: "Rechercher un événement par ID",
       jump_to_date: "Aller à la date",
       direction: "Direction",
       forward: "En avant",

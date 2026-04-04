@@ -115,6 +115,7 @@ const rooms = {
       failure: "メディアの検疫を行えませんでした。%{errMsg}",
     },
     event_context: {
+      lookup_title: "イベント ID で検索",
       jump_to_date: "日付にジャンプ",
       direction: "方向",
       forward: "前方",

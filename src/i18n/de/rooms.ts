@@ -118,6 +118,7 @@ const rooms = {
       failure: "Quarantäne fehlgeschlagen. %{errMsg}",
     },
     event_context: {
+      lookup_title: "Ereignis nach ID nachschlagen",
       jump_to_date: "Zu Datum springen",
       direction: "Richtung",
       forward: "Vorwärts",

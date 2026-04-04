@@ -1959,6 +1959,13 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["src/components/rooms/EventLookupDialog.tsx"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["src/components/rooms/RoomMessages.tsx"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",

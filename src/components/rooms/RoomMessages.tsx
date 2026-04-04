@@ -23,27 +23,106 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 
+import { EventLookupDialog, renderWithEventIds } from "./EventLookupDialog";
 import { RoomEvent, SynapseDataProvider } from "../../providers/types";
 
-const COMMON_EVENT_TYPES = [
+export const COMMON_EVENT_TYPES = [
+  // ===== Room timeline (message-like events) =====
   "m.room.message",
-  "m.room.member",
+  "m.room.encrypted",
+  "m.room.redaction",
+  "m.reaction",
+  "m.sticker",
+  "m.call.invite",
+  "m.call.answer",
+  "m.call.hangup",
+  "m.call.candidates",
+  "m.call.reject",
+  "m.call.negotiate",
+  "m.location",
+  "m.beacon",
+  "m.beacon_info",
+  "m.poll.start",
+  "m.poll.response",
+  "m.poll.end",
+
+  // ===== Room state events =====
+  "m.room.create",
   "m.room.name",
   "m.room.topic",
   "m.room.avatar",
-  "m.room.power_levels",
-  "m.room.join_rules",
-  "m.room.history_visibility",
   "m.room.canonical_alias",
+  "m.room.join_rules",
+  "m.room.member",
+  "m.room.power_levels",
+  "m.room.history_visibility",
+  "m.room.guest_access",
+  "m.room.server_acl",
+  "m.room.tombstone",
   "m.room.encryption",
-  "m.room.redaction",
-  "m.room.third_party_invite",
   "m.room.pinned_events",
-  "m.sticker",
-  "m.reaction",
+  "m.room.aliases",
+  "m.room.retention",
+  "m.room.third_party_invite",
+  "m.room.related_groups",
+
+  // ===== Spaces =====
+  "m.space.child",
+  "m.space.parent",
+
+  // ===== Ephemeral events =====
+  "m.typing",
+  "m.receipt",
+  "m.presence",
+
+  // ===== Account data =====
+  "m.direct",
+  "m.ignored_user_list",
+  "m.push_rules",
+  "m.tag",
+  "m.fully_read",
+
+  // ===== To-device events =====
+  "m.room_key",
+  "m.room_key_request",
+  "m.forwarded_room_key",
+  "m.room_key.withheld",
+  "m.dummy",
+
+  // ===== Key verification =====
+  "m.key.verification.request",
+  "m.key.verification.start",
+  "m.key.verification.ready",
+  "m.key.verification.accept",
+  "m.key.verification.key",
+  "m.key.verification.mac",
+  "m.key.verification.done",
+  "m.key.verification.cancel",
+
+  // ===== Secrets =====
+  "m.secret.request",
+  "m.secret.send",
+
+  // ===== Relations (used in content but standardized) =====
+  "m.annotation",
+  "m.replace",
+  "m.reference",
+
+  // ===== Legacy / deprecated but still in spec history =====
+  "m.room.message.feedback",
 ];
 
-const EventCard = ({ event, isTarget, locale }: { event: RoomEvent; isTarget: boolean; locale: string }) => {
+const EventCard = ({
+  event,
+  isTarget,
+  locale,
+  onEventIdClick,
+}: {
+  event: RoomEvent;
+  isTarget: boolean;
+  locale: string;
+  onEventIdClick?: (eventId: string) => void;
+}) => {
   const theme = useTheme();
   const body =
     event.content?.body || event.content?.membership || event.content?.displayname || event.content?.name || null;
@@ -70,8 +149,20 @@ const EventCard = ({ event, isTarget, locale }: { event: RoomEvent; isTarget: bo
           </Typography>
         </Box>
         <Typography variant="caption" color="text.secondary" sx={{ display: "block", mb: 0.5 }}>
-          {event.type}
-          {!isSimple && <> &middot; {event.event_id}</>}
+          {event.type} &middot;{" "}
+          <Box
+            component="button"
+            onClick={onEventIdClick ? () => onEventIdClick(event.event_id) : undefined}
+            sx={{
+              all: "unset",
+              cursor: onEventIdClick ? "pointer" : "text",
+              color: onEventIdClick ? "primary.main" : "inherit",
+              textDecoration: onEventIdClick ? "underline" : "none",
+              wordBreak: "break-all",
+            }}
+          >
+            {event.event_id}
+          </Box>
         </Typography>
         <Typography
           variant="body2"
@@ -85,7 +176,7 @@ const EventCard = ({ event, isTarget, locale }: { event: RoomEvent; isTarget: bo
             overflow: "auto",
           }}
         >
-          {contentStr}
+          {isSimple ? contentStr : renderWithEventIds(contentStr, onEventIdClick)}
         </Typography>
       </CardContent>
     </Card>
@@ -172,6 +263,7 @@ export const RoomMessages = () => {
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
   const [targetEventId, setTargetEventId] = useState<string | null>(null);
+  const [lookupEventId, setLookupEventId] = useState<string | null>(null);
   const [dateInput, setDateInput] = useState("");
   const [direction, setDirection] = useState<"f" | "b">("b");
   const [showFilters, setShowFilters] = useState(false);
@@ -522,7 +614,12 @@ export const RoomMessages = () => {
 
           {messages.map(evt => (
             <Box key={evt.event_id} ref={evt.event_id === targetEventId ? targetRef : undefined}>
-              <EventCard event={evt} isTarget={evt.event_id === targetEventId} locale={locale} />
+              <EventCard
+                event={evt}
+                isTarget={evt.event_id === targetEventId}
+                locale={locale}
+                onEventIdClick={setLookupEventId}
+              />
             </Box>
           ))}
 
@@ -533,6 +630,11 @@ export const RoomMessages = () => {
           )}
         </>
       )}
+      <EventLookupDialog
+        open={!!lookupEventId}
+        onClose={() => setLookupEventId(null)}
+        initialEventId={lookupEventId ?? undefined}
+      />
     </Box>
   );
 };

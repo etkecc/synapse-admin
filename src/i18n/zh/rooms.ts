@@ -111,6 +111,7 @@ const rooms = {
       failure: "隔离媒体失败。%{errMsg}",
     },
     event_context: {
+      lookup_title: "按 ID 查找事件",
       jump_to_date: "跳转到日期",
       direction: "方向",
       forward: "向前",

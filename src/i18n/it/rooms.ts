@@ -117,6 +117,7 @@ const rooms = {
       failure: "Impossibile mettere in quarantena i media. %{errMsg}",
     },
     event_context: {
+      lookup_title: "Cerca evento per ID",
       jump_to_date: "Vai alla data",
       direction: "Direzione",
       forward: "Avanti",

@@ -116,6 +116,7 @@ const rooms = {
       failure: "قرنطینه رسانه‌ها با شکست مواجه شد. %{errMsg}",
     },
     event_context: {
+      lookup_title: "جستجوی رویداد بر اساس ID",
       jump_to_date: "پرش به تاریخ",
       direction: "جهت",
       forward: "به جلو",
