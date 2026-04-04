@@ -149,7 +149,7 @@ const common: Record<string, any> = {
       no_payments: "未找到付款记录。",
       no_payments_helper: "如果您认为这是错误，请通过以下方式联系 etke.cc 支持：",
       description1: "您可以在此查看付款并生成发票。有关订阅管理的更多信息，请访问",
-      description2: "如果您想更改账单邮箱或添加公司信息，请通过以下方式联系 etke.cc 支持：",
+      description2: "如需更改账单邮箱或向发票添加公司信息，请参阅",
       fields: {
         transaction_id: "交易ID",
         email: "邮箱",

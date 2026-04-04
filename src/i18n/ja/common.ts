@@ -157,7 +157,7 @@ const common: Record<string, any> = {
       no_payments: "支払が見つかりませんでした。",
       no_payments_helper: "誤りだと思われる場合は、etke.cc サポート（",
       description1: "ここから支払の確認や請求書の作成ができます。サブスクリプション管理の詳細は",
-      description2: "請求先メールアドレスの変更や会社情報の追加をご希望の場合は、etke.cc サポート（",
+      description2: "請求先メールアドレスの変更や請求書への会社情報の追加については、以下をご参照ください：",
       fields: {
         transaction_id: "取引ID",
         email: "メール",

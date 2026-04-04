@@ -161,7 +161,7 @@ const common: Record<string, any> = {
       description1:
         "Da qui può visualizzare i pagamenti e generare le fatture. Può saperne di più sulla gestione degli abbonamenti su",
       description2:
-        "Se desidera modificare l’email di fatturazione o aggiungere i dati aziendali, contatti l’assistenza etke.cc a",
+        "Per modificare l’email di fatturazione o aggiungere i dati aziendali alle fatture, consulti",
       fields: {
         transaction_id: "ID transazione",
         email: "Email",

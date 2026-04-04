@@ -162,7 +162,7 @@ const common: Record<string, any> = {
       description1:
         "Hier können Sie Zahlungen einsehen und Rechnungen erstellen. Mehr zur Verwaltung von Abonnements erfahren Sie unter",
       description2:
-        "Wenn Sie Ihre Abrechnungs-E-Mail ändern oder Firmendaten hinzufügen möchten, kontaktieren Sie bitte den etke.cc-Support unter",
+        "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen, siehe",
       fields: {
         transaction_id: "Transaktions-ID",
         email: "E-Mail",

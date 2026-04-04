@@ -158,7 +158,7 @@ const common = {
       no_payments: "No payments found.",
       no_payments_helper: "If you believe this is an error, please contact etke.cc support at",
       description1: "View payments and generate invoices here. You can learn more about subscription management at",
-      description2: "To change your billing email or add company details, please contact etke.cc support at",
+      description2: "To change your billing email or add company details to invoices, see",
       fields: {
         transaction_id: "Transaction ID",
         email: "Email",

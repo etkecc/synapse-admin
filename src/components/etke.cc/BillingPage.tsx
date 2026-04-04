@@ -144,8 +144,8 @@ const BillingPage = () => {
             .
             <br />
             {translate("etkecc.billing.description2")}{" "}
-            <Link href="https://etke.cc/contacts/" target="_blank">
-              etke.cc/contacts
+            <Link href="https://etke.cc/help/payments/#how-to-add-company-details-to-the-invoices" target="_blank">
+              etke.cc/help/payments/#how-to-add-company-details-to-the-invoices
             </Link>
             .
           </Typography>
