@@ -213,7 +213,7 @@ const buildSynapseListQuery = (
   suspended: params.suspended,
   shadow_banned: params.shadow_banned,
   valid: params.valid,
-  order_by: field,
+  order_by: field === "creation_ts_ms" ? "creation_ts" : field,
   dir: getSearchOrder(order),
   public_rooms: params.public_rooms,
   empty_rooms: params.empty_rooms,

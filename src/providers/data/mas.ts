@@ -1,4 +1,4 @@
-import { DeleteParams, HttpError, PaginationPayload, RaRecord, UpdateParams } from "react-admin";
+import { DeleteParams, HttpError, PaginationPayload, RaRecord, SortPayload, UpdateParams } from "react-admin";
 import { useStore } from "react-admin";
 
 import {
@@ -352,6 +352,7 @@ export const getMASUsersAsMainResource = () => ({
             ...record,
             avatar_src: json.avatar_url ?? null,
             displayname: json.displayname ?? null,
+            creation_ts_ms: json.creation_ts != null ? json.creation_ts * 1000 : null,
           };
         } catch {
           return record;

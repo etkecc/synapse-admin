@@ -77,8 +77,7 @@ export const synapseResourceMap = {
       admin: !!u.admin,
       deactivated: !!u.deactivated,
       shadow_banned: !!u.shadow_banned,
-      // need timestamp in milliseconds
-      creation_ts_ms: u.creation_ts * 1000,
+      creation_ts_ms: u.creation_ts,
     }),
     data: "users",
     total: (json: { total: number }) => json.total,

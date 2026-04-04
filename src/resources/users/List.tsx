@@ -294,23 +294,13 @@ export const UserList = (props: ListProps) => {
           <BooleanField source="locked" label="resources.users.fields.locked" />
           <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
           <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
-          {isMAS() ? (
-            <DateField
-              source="created_at"
-              label="resources.users.fields.creation_ts_ms"
-              showTime
-              options={DATE_FORMAT}
-              locales={locale}
-            />
-          ) : (
-            <DateField
-              source="creation_ts"
-              label="resources.users.fields.creation_ts_ms"
-              showTime
-              options={DATE_FORMAT}
-              locales={locale}
-            />
-          )}
+          <DateField
+            source="creation_ts_ms"
+            label="resources.users.fields.creation_ts_ms"
+            showTime
+            options={DATE_FORMAT}
+            locales={locale}
+          />
         </DatagridConfigurable>
       )}
     </List>

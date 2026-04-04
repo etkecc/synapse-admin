@@ -23,6 +23,7 @@ import {
   NotificationType,
   useDeleteMany,
   useDataProvider,
+  useListContext,
   Identifier,
   useUnselectAll,
 } from "react-admin";
@@ -53,6 +54,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
 
   const [deleteMany, { isLoading }] = useDeleteMany();
   const unselectAll = useUnselectAll(resourceName);
+  const { data: listData } = useListContext();
   const recordIds = props.selectedIds;
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -71,7 +73,11 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
 
   const performMASDeactivate = async () => {
     try {
-      await Promise.all(recordIds.map(id => dataProvider.masDeactivateUser(String(id), false)));
+      const masIds = recordIds.map(id => {
+        const record = listData?.find(r => r.id === id);
+        return record?.mas_id ? String(record.mas_id) : String(id);
+      });
+      await Promise.all(masIds.map(masId => dataProvider.masDeactivateUser(masId, false)));
       notify("ra.notification.deleted", {
         messageArgs: { smart_count: recordIds.length },
         type: "info" as NotificationType,
