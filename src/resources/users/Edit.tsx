@@ -764,6 +764,7 @@ const UserEditActions = () => {
             selectedIds={[record?.id]}
             confirmTitle="resources.users.helper.erase"
             confirmContent="resources.users.helper.erase_text"
+            masIdMap={record?.mas_id ? { [String(record.id)]: String(record.mas_id) } : undefined}
           />
         </UserPreventSelfDelete>
       )}

@@ -23,7 +23,6 @@ import {
   NotificationType,
   useDeleteMany,
   useDataProvider,
-  useListContext,
   Identifier,
   useUnselectAll,
 } from "react-admin";
@@ -35,6 +34,8 @@ interface DeleteUserButtonProps {
   selectedIds: Identifier[];
   confirmTitle: string;
   confirmContent: string;
+  /** MXID → mas_id mapping; required for MAS bulk deactivation. Callers must resolve this from their own context. */
+  masIdMap?: Record<string, string>;
 }
 
 const resourceName = "users";
@@ -54,7 +55,6 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
 
   const [deleteMany, { isLoading }] = useDeleteMany();
   const unselectAll = useUnselectAll(resourceName);
-  const { data: listData } = useListContext();
   const recordIds = props.selectedIds;
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -74,8 +74,8 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
   const performMASDeactivate = async () => {
     try {
       const masIds = recordIds.map(id => {
-        const record = listData?.find(r => r.id === id);
-        return record?.mas_id ? String(record.mas_id) : String(id);
+        const masId = props.masIdMap?.[String(id)];
+        return masId ?? String(id);
       });
       await Promise.all(masIds.map(masId => dataProvider.masDeactivateUser(masId, false)));
       notify("ra.notification.deleted", {

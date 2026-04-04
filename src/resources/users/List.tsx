@@ -198,6 +198,7 @@ const UserBulkActionButtons = () => {
   const [ownUserIsSelected, setOwnUserIsSelected] = useState(false);
   const [systemUserIsSelected, setSystemUserIsSelected] = useState(false);
   const selectedIds = record.selectedIds;
+  const masIdMap = Object.fromEntries((record.data || []).map(r => [String(r.id), String(r.mas_id || r.id)]));
   const ownUserId = localStorage.getItem("user_id");
 
   useEffect(() => {
@@ -213,6 +214,7 @@ const UserBulkActionButtons = () => {
           selectedIds={selectedIds}
           confirmTitle="resources.users.helper.erase"
           confirmContent="resources.users.helper.erase_text"
+          masIdMap={masIdMap}
         />
       </UserPreventSelfDelete>
     </>
