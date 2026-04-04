@@ -185,11 +185,11 @@ export const GetConfig = (): Config => {
   return config;
 };
 
-// clear config
+// Clear session-specific runtime state from config and localStorage.
+// Static deployment config (restrictBaseUrl, corsCredentials, asManagedUsers, menu, etkeccAdmin)
+// is preserved so the login page behaves correctly after logout.
 export const ClearConfig = () => {
-  // config.json
-  config = {} as Config;
-  // session
+  config = { ...config, externalAuthProvider: undefined };
   localStorage.clear();
   notifyConfigListeners();
 };
