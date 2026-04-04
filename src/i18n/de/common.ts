@@ -161,8 +161,7 @@ const common: Record<string, any> = {
       no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support unter",
       description1:
         "Hier können Sie Zahlungen einsehen und Rechnungen erstellen. Mehr zur Verwaltung von Abonnements erfahren Sie unter",
-      description2:
-        "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen, siehe",
+      description2: "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen, siehe",
       fields: {
         transaction_id: "Transaktions-ID",
         email: "E-Mail",

@@ -346,6 +346,7 @@ const MASSessionsPanel = () => {
             <ListContextProvider value={personalListCtx}>
               {isSmall ? (
                 <SimpleList
+                  empty={<EmptyState resource="mas_personal_sessions" />}
                   primaryText={record => record.human_name || String(record.id)}
                   secondaryText={record => String(record.scope || "")}
                   tertiaryText={() => <RevokePersonalSessionButton />}
@@ -377,6 +378,7 @@ const MASSessionsPanel = () => {
           <ListContextProvider value={userListCtx}>
             {isSmall ? (
               <SimpleList
+                empty={<EmptyState resource="mas_user_sessions" />}
                 primaryText={record => String(record.user_agent || record.last_active_ip || record.id)}
                 secondaryText={record => String(record.last_active_ip || "")}
                 tertiaryText={() => <FinishUserSessionButton />}
@@ -406,6 +408,7 @@ const MASSessionsPanel = () => {
           <ListContextProvider value={oauth2ListCtx}>
             {isSmall ? (
               <SimpleList
+                empty={<EmptyState resource="mas_oauth2_sessions" />}
                 primaryText={record => record.human_name || record.client_id || String(record.id)}
                 secondaryText={record => String(record.scope || "")}
                 tertiaryText={() => <FinishOAuth2SessionButton />}
@@ -453,6 +456,7 @@ const MASSessionsPanel = () => {
           <ListContextProvider value={compatListCtx}>
             {isSmall ? (
               <SimpleList
+                empty={<EmptyState resource="mas_compat_sessions" />}
                 primaryText={record => record.human_name || record.device_id || String(record.id)}
                 secondaryText={record => String(record.last_active_ip || "")}
                 tertiaryText={() => <FinishCompatSessionButton />}
@@ -589,6 +593,7 @@ const MASUpstreamOAuthLinksPanel = () => {
         <ListContextProvider value={linksListCtx}>
           {isSmall ? (
             <SimpleList
+              empty={<EmptyState resource="mas_upstream_oauth_links" />}
               primaryText={record => String(record.subject || "")}
               secondaryText={record => String(record.provider_id || "")}
               tertiaryText={() => <DeleteOAuthLinkButton />}
@@ -696,11 +701,7 @@ const MASEmailsPanel = () => {
           isLoading={isLoading}
           bulkActionButtons={false}
           rowClick={false}
-          empty={
-            <Typography variant="body2" sx={{ p: 1 }}>
-              {translate("resources.mas_user_emails.empty")}
-            </Typography>
-          }
+          empty={<EmptyState resource="mas_user_emails" />}
           sx={{ width: "100%", mb: 2 }}
         >
           <TextField source="email" sortable={false} />
@@ -927,7 +928,8 @@ const JoinedRoomsMobileList = () => {
   const { data: rooms } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
   const roomMap = new Map((rooms || []).map(r => [r.id, r]));
 
-  if (!joinedRooms?.length) return null;
+  if (!joinedRooms) return null;
+  if (!joinedRooms.length) return <EmptyState resource="joined_rooms" />;
 
   return (
     <MuiList disablePadding>
@@ -971,7 +973,8 @@ const MembershipsMobileList = () => {
   const { data: rooms } = useGetMany("rooms", { ids }, { enabled: ids.length > 0 });
   const roomMap = new Map((rooms || []).map(r => [r.id, r]));
 
-  if (!memberships?.length) return null;
+  if (!memberships) return null;
+  if (!memberships.length) return <EmptyState resource="memberships" />;
 
   return (
     <MuiList disablePadding>
@@ -1226,6 +1229,7 @@ export const UserEdit = (props: EditProps) => {
             <Box sx={{ width: "100%" }}>
               {isSmall ? (
                 <SimpleList
+                  empty={<EmptyState resource="devices" />}
                   primaryText={record => (
                     <Box component="span" sx={{ wordBreak: "break-all" }}>
                       {record.device_id}
@@ -1255,6 +1259,7 @@ export const UserEdit = (props: EditProps) => {
                 <DatagridConfigurable
                   bulkActionButtons={<DeviceBulkRemoveButton />}
                   omit={["last_seen_user_agent", "dehydrated"]}
+                  empty={<EmptyState resource="devices" />}
                 >
                   <TextField source="device_id" sortable={false} />
                   <DeviceDisplayNameInput />
@@ -1276,6 +1281,7 @@ export const UserEdit = (props: EditProps) => {
             <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
               {isSmall ? (
                 <SimpleList
+                  empty={<EmptyState resource="connections" />}
                   primaryText={record => record.ip}
                   secondaryText={record => (
                     <>
@@ -1293,7 +1299,11 @@ export const UserEdit = (props: EditProps) => {
                   rowClick={false}
                 />
               ) : (
-                <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+                <DatagridConfigurable
+                  sx={{ width: "100%" }}
+                  bulkActionButtons={false}
+                  empty={<EmptyState resource="connections" />}
+                >
                   <TextField source="ip" sortable={false} />
                   <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
                   <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
@@ -1319,6 +1329,7 @@ export const UserEdit = (props: EditProps) => {
           >
             {isSmall ? (
               <SimpleList
+                empty={<EmptyState resource="users_media" />}
                 primaryText={record => (
                   <Box component="span" sx={{ wordBreak: "break-all" }}>
                     {record.upload_name ? decodeURLComponent(record.upload_name) : record.media_id}
@@ -1342,7 +1353,11 @@ export const UserEdit = (props: EditProps) => {
                 rowClick={false}
               />
             ) : (
-              <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={<BulkDeleteButton />}>
+              <DatagridConfigurable
+                sx={{ width: "100%" }}
+                bulkActionButtons={<BulkDeleteButton />}
+                empty={<EmptyState resource="users_media" />}
+              >
                 <MediaIDField source="media_id" />
                 <DateField source="created_ts" showTime options={DATE_FORMAT} locales={locale} />
                 <DateField source="last_access_ts" showTime options={DATE_FORMAT} locales={locale} />
@@ -1376,6 +1391,7 @@ export const UserEdit = (props: EditProps) => {
                 sx={{ width: "100%" }}
                 rowClick={id => "/rooms/" + id + "/show"}
                 bulkActionButtons={<RoomBulkActionButtons />}
+                empty={<EmptyState resource="joined_rooms" />}
               >
                 <ReferenceField reference="rooms" source="id" label="" link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
@@ -1437,6 +1453,7 @@ export const UserEdit = (props: EditProps) => {
                 sx={{ width: "100%" }}
                 rowClick={id => "/rooms/" + id + "/show"}
                 bulkActionButtons={false}
+                empty={<EmptyState resource="memberships" />}
               >
                 <ReferenceField reference="rooms" source="id" label="" link={false} sortable={false}>
                   <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
@@ -1474,6 +1491,7 @@ export const UserEdit = (props: EditProps) => {
           <ReferenceManyField reference="pushers" target="user_id" label="" pagination={<Pagination />} perPage={10}>
             {isSmall ? (
               <SimpleList
+                empty={<EmptyState resource="pushers" />}
                 primaryText={record => (
                   <Box component="span" sx={{ wordBreak: "break-all" }}>
                     {record.app_display_name || record.app_id}
@@ -1500,6 +1518,7 @@ export const UserEdit = (props: EditProps) => {
                 sx={{ width: "100%" }}
                 bulkActionButtons={false}
                 omit={["app_id", "data.url", "profile_tag", "pushkey"]}
+                empty={<EmptyState resource="pushers" />}
               >
                 <TextField source="kind" sortable={false} />
                 <TextField source="app_display_name" sortable={false} />

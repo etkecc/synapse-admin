@@ -234,6 +234,10 @@ export const synapseResourceMap = {
     data: "rooms",
     total: (json: { rooms: DatabaseRoomStatistic[] }) => json.rooms.length,
     noQueryParams: true,
+    // Synapse returns 500 when the stats table hasn't been populated yet.
+    // Treat it as an empty result so the empty state renders instead of an error.
+    // See: https://github.com/element-hq/synapse/issues/19561
+    ignoredErrors: [500],
   },
   user_media_statistics: {
     path: "/_synapse/admin/v1/statistics/users/media",

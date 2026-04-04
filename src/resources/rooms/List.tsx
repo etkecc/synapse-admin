@@ -20,7 +20,6 @@ import {
   ExportButton,
   FilterButton,
   FunctionField,
-  List,
   ListProps,
   NullableBooleanInput,
   Pagination,
@@ -48,6 +47,7 @@ import {
 } from "../../components/users/buttons/BlockRoomButton";
 import DeleteRoomButton from "../../components/users/buttons/DeleteRoomButton";
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { Room } from "../../providers/types";
 
@@ -270,6 +270,7 @@ const roomFilters = [
 const RoomListActions = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const { total } = useListContext();
   return (
     <TopToolbar>
       <RaButton component={Link} to="/database_room_statistics" label="resources.database_room_statistics.name">
@@ -277,8 +278,8 @@ const RoomListActions = () => {
       </RaButton>
       <FilterButton />
       <BlockRoomByIdButton />
-      {!isSmall && <SelectColumnsButton />}
-      <ExportButton />
+      {!isSmall && !!total && <SelectColumnsButton />}
+      {!!total && <ExportButton />}
     </TopToolbar>
   );
 };

@@ -8,7 +8,6 @@ import {
   BooleanField,
   DatagridConfigurable,
   DateField,
-  List,
   ListProps,
   ResourceProps,
   Show,
@@ -16,6 +15,7 @@ import {
   SimpleShowLayout,
   TextField,
 } from "react-admin";
+import List from "../../components/layout/List";
 
 export function MASUpstreamOAuthProvidersList(props: ListProps) {
   const theme = useTheme();

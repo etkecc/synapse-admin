@@ -707,6 +707,21 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         };
       };
     };
+    account_data: {
+      name: string;
+    };
+    joined_rooms: {
+      name: string;
+    };
+    memberships: {
+      name: string;
+    };
+    room_members: {
+      name: string;
+    };
+    destination_rooms: {
+      name: string;
+    };
     mas_users: {
       name: string;
       fields: {

@@ -10,7 +10,6 @@ import {
   ExportButton,
   FunctionField,
   Link,
-  List,
   ListProps,
   ReferenceField,
   ResourceProps,
@@ -22,16 +21,14 @@ import {
 } from "react-admin";
 
 import AvatarField from "../../components/users/fields/AvatarField";
+import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { formatBytes } from "../../utils/formatBytes";
 
 const ListActions = () => {
-  const { isLoading, total } = useListContext();
-  return (
-    <TopToolbar>
-      <ExportButton disabled={isLoading || total === 0} />
-    </TopToolbar>
-  );
+  const { total } = useListContext();
+  return <TopToolbar>{!!total && <ExportButton />}</TopToolbar>;
 };
 
 const DatabaseRoomStatsMobileList = () => {
@@ -79,7 +76,14 @@ export const DatabaseRoomStatsList = (props: ListProps) => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   useDocTitle(translate("resources.database_room_statistics.name", { smart_count: 2 }));
   return (
-    <List {...props} resource="database_room_statistics" actions={<ListActions />} pagination={false} perPage={100}>
+    <List
+      {...props}
+      resource="database_room_statistics"
+      actions={<ListActions />}
+      pagination={false}
+      perPage={100}
+      empty={<EmptyState />}
+    >
       <Box sx={{ fontFamily: "Roboto, Helvetica, Arial, sans-serif", margin: "0.5em" }}>
         {translate("resources.database_room_statistics.helper.info")}
       </Box>

@@ -10,7 +10,6 @@ import {
   Confirm,
   DatagridConfigurable,
   DateField,
-  List,
   ListProps,
   ResourceProps,
   SelectInput,
@@ -22,6 +21,7 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
+import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
 import { sessionStatusChoices } from "./shared";

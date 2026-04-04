@@ -18,7 +18,6 @@ import {
   DatagridConfigurable,
   DateField,
   ExportButton,
-  List,
   ListProps,
   NullableBooleanInput,
   Pagination,
@@ -39,6 +38,7 @@ import AvatarField from "../../components/users/fields/AvatarField";
 import DeleteUserButton from "../../components/users/buttons/DeleteUserButton";
 import { ServerNoticeBulkButton } from "../../components/users/ServerNotices";
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { FindUserButton } from "../../components/users/buttons/FindUserButton";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { GetConfig } from "../../utils/config";
@@ -47,12 +47,12 @@ import { isSystemUser, getLocalpart } from "../../utils/mxid";
 import { isMAS } from "../../providers/data/mas";
 
 const UserListActions = () => {
-  const { isLoading, total } = useListContext();
+  const { total } = useListContext();
   return (
     <TopToolbar>
       <FindUserButton />
       <CreateButton />
-      <ExportButton disabled={isLoading || total === 0} maxResults={10000} />
+      {!!total && <ExportButton maxResults={10000} />}
       <Button component={Link} to="/import_users" label="CSV Import">
         <GetAppIcon sx={{ transform: "rotate(180deg)", fontSize: "20px" }} />
       </Button>

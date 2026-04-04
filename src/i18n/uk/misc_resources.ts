@@ -225,6 +225,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "Дані облікового запису",
+  },
+  joined_rooms: {
+    name: "Кімнати",
+  },
+  memberships: {
+    name: "Членства",
+  },
+  room_members: {
+    name: "Учасники",
+  },
+  destination_rooms: {
+    name: "Кімнати",
+  },
 };
 
 export default misc_resources;

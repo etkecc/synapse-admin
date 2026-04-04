@@ -222,6 +222,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "账户数据",
+  },
+  joined_rooms: {
+    name: "已加入的房间",
+  },
+  memberships: {
+    name: "成员资格",
+  },
+  room_members: {
+    name: "成员",
+  },
+  destination_rooms: {
+    name: "房间",
+  },
 };
 
 export default misc_resources;

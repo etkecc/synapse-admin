@@ -228,6 +228,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "Account data",
+  },
+  joined_rooms: {
+    name: "Joined rooms",
+  },
+  memberships: {
+    name: "Memberships",
+  },
+  room_members: {
+    name: "Members",
+  },
+  destination_rooms: {
+    name: "Rooms",
+  },
 };
 
 export default misc_resources;

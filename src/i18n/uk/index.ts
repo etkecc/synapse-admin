@@ -34,6 +34,11 @@ const uk: SynapseTranslationMessages = {
     room_directory: misc_resources.room_directory,
     destinations: misc_resources.destinations,
     registration_tokens: misc_resources.registration_tokens,
+    account_data: misc_resources.account_data,
+    joined_rooms: misc_resources.joined_rooms,
+    memberships: misc_resources.memberships,
+    room_members: misc_resources.room_members,
+    destination_rooms: misc_resources.destination_rooms,
     ...mas,
   },
 };

@@ -226,6 +226,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "Данные пользователя",
+  },
+  joined_rooms: {
+    name: "Участие в комнатах",
+  },
+  memberships: {
+    name: "Членства",
+  },
+  room_members: {
+    name: "Участники",
+  },
+  destination_rooms: {
+    name: "Комнаты",
+  },
 };
 
 export default misc_resources;

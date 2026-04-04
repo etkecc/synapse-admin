@@ -6,7 +6,6 @@ import {
   DateField,
   DateTimeInput,
   FunctionField,
-  List,
   ListProps,
   Pagination,
   SelectInput,
@@ -18,6 +17,7 @@ import {
 } from "react-admin";
 
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { DATE_FORMAT, dateParser } from "../../utils/date";
 import { JSONStringify } from "../../utils/safety";

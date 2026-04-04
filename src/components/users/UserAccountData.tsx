@@ -3,6 +3,8 @@ import { Typography, Box, Stack, Accordion, AccordionSummary, AccordionDetails }
 import { useEffect, useState } from "react";
 import { useDataProvider, useRecordContext, useTranslate } from "react-admin";
 
+import EmptyState from "../layout/EmptyState";
+
 import { SynapseDataProvider } from "../../providers/types";
 
 const UserAccountData = () => {
@@ -27,14 +29,7 @@ const UserAccountData = () => {
   }
 
   if (Object.keys(globalAccountData).length === 0 && Object.keys(roomsAccountData).length === 0) {
-    return (
-      <Typography variant="body2">
-        {translate("ra.navigation.no_results", {
-          name: "Account Data",
-          _: "No results found.",
-        })}
-      </Typography>
-    );
+    return <EmptyState resource="account_data" />;
   }
 
   return (

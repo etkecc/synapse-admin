@@ -9,7 +9,6 @@ import {
   DatagridConfigurable,
   ExportButton,
   FunctionField,
-  List,
   Link,
   ListProps,
   NumberField,
@@ -26,17 +25,18 @@ import {
 
 import AvatarField from "../../components/users/fields/AvatarField";
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { formatBytes } from "../../utils/formatBytes";
 import { DeleteMediaButton, PurgeRemoteMediaButton } from "../../components/media";
 
 const ListActions = () => {
-  const { isLoading, total } = useListContext();
+  const { total } = useListContext();
   return (
     <TopToolbar>
       <DeleteMediaButton />
       <PurgeRemoteMediaButton />
-      <ExportButton disabled={isLoading || total === 0} />
+      {!!total && <ExportButton />}
     </TopToolbar>
   );
 };

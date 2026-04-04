@@ -224,6 +224,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "داده‌های کاربر",
+  },
+  joined_rooms: {
+    name: "اتاق‌های عضو شده",
+  },
+  memberships: {
+    name: "عضویت‌ها",
+  },
+  room_members: {
+    name: "اعضا",
+  },
+  destination_rooms: {
+    name: "اتاق‌ها",
+  },
 };
 
 export default misc_resources;

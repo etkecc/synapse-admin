@@ -451,7 +451,20 @@ const baseDataProvider: SynapseDataProvider = {
       ? endpoint_url
       : `${endpoint_url}?${new URLSearchParams(filterUndefined(query)).toString()}`;
 
-    const { json } = await jsonClient(url);
+    let json: Record<string, any>;
+    try {
+      ({ json } = await jsonClient(url));
+    } catch (error) {
+      // Some resources map known server errors to an empty result rather than
+      // propagating the error to React-Admin (which would prevent the empty
+      // state from rendering).  E.g. Synapse returns 500 for
+      // database_room_statistics when the stats table hasn't been populated yet.
+      // See: https://github.com/element-hq/synapse/issues/19561
+      if (res.ignoredErrors?.includes((error as any)?.status)) {
+        return { data: [], total: 0 };
+      }
+      throw error;
+    }
     let formattedData = json[res.data].map(res.map);
 
     if (res.isMAS) {

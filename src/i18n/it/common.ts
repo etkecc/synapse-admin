@@ -160,8 +160,7 @@ const common: Record<string, any> = {
       no_payments_helper: "Se ritiene che si tratti di un errore, contatti l’assistenza etke.cc a",
       description1:
         "Da qui può visualizzare i pagamenti e generare le fatture. Può saperne di più sulla gestione degli abbonamenti su",
-      description2:
-        "Per modificare l’email di fatturazione o aggiungere i dati aziendali alle fatture, consulti",
+      description2: "Per modificare l’email di fatturazione o aggiungere i dati aziendali alle fatture, consulti",
       fields: {
         transaction_id: "ID transazione",
         email: "Email",

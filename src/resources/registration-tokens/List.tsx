@@ -5,7 +5,6 @@ import {
   DatagridConfigurable,
   DateField,
   DeleteButton,
-  List,
   ListProps,
   NumberField,
   SimpleList,
@@ -15,6 +14,7 @@ import {
 } from "react-admin";
 
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { useIsMAS } from "../../providers/data/mas";
 import { DATE_FORMAT } from "../../utils/date";

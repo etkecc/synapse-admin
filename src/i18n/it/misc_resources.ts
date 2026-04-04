@@ -224,6 +224,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "Dati del profilo",
+  },
+  joined_rooms: {
+    name: "Stanze partecipate",
+  },
+  memberships: {
+    name: "Appartenenze",
+  },
+  room_members: {
+    name: "Membri",
+  },
+  destination_rooms: {
+    name: "Stanze",
+  },
 };
 
 export default misc_resources;

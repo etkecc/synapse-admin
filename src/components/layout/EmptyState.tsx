@@ -1,6 +1,7 @@
 import InboxIcon from "@mui/icons-material/Inbox";
 import { Box, Typography, keyframes } from "@mui/material";
-import { CreateButton, useResourceContext, useResourceDefinition, useTranslate } from "react-admin";
+import { ReactNode } from "react";
+import { CreateButton, FilterContext, useResourceContext, useResourceDefinition, useTranslate } from "react-admin";
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(16px); }
@@ -30,7 +31,7 @@ const pulseGlow = keyframes`
   50% { box-shadow: 0 0 20px rgba(244,147,0,0.35), 0 0 40px rgba(244,147,0,0.12); }
 `;
 
-const EmptyState = ({ resource: resourceProp }: { resource?: string } = {}) => {
+const EmptyState = ({ resource: resourceProp, actions }: { resource?: string; actions?: ReactNode }) => {
   const translate = useTranslate();
   const contextResource = useResourceContext();
   const resource = resourceProp ?? contextResource;
@@ -44,6 +45,7 @@ const EmptyState = ({ resource: resourceProp }: { resource?: string } = {}) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        width: "100%",
         py: 12,
         px: 3,
         animation: `${fadeIn} 500ms ease-out`,
@@ -129,6 +131,11 @@ const EmptyState = ({ resource: resourceProp }: { resource?: string } = {}) => {
         >
           <CreateButton variant="contained" resource={resource} />
         </Box>
+      )}
+      {actions && (
+        <FilterContext.Provider value={[]}>
+          <Box sx={{ mt: 2, display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 1 }}>{actions}</Box>
+        </FilterContext.Provider>
       )}
     </Box>
   );

@@ -9,7 +9,6 @@ import {
   Confirm,
   DatagridConfigurable,
   DateField,
-  List,
   ListProps,
   ResourceProps,
   SearchInput,
@@ -21,6 +20,7 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
+import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
 

@@ -12,7 +12,6 @@ import {
   DeleteButton,
   DeleteButtonProps,
   ExportButton,
-  List,
   NumberField,
   Pagination,
   ResourceProps,
@@ -33,6 +32,7 @@ import {
 import { MakeAdminBtn } from "../rooms";
 import AvatarField from "../../components/users/fields/AvatarField";
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 
 const RoomDirectoryPagination = () => <Pagination rowsPerPageOptions={[100, 500, 1000, 2000]} />;
@@ -139,10 +139,11 @@ export const RoomDirectoryPublishButton = (props: ButtonProps) => {
 const RoomDirectoryListActions = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const { total } = useListContext();
   return (
     <TopToolbar>
-      {!isSmall && <SelectColumnsButton />}
-      <ExportButton />
+      {!isSmall && !!total && <SelectColumnsButton />}
+      {!!total && <ExportButton />}
     </TopToolbar>
   );
 };

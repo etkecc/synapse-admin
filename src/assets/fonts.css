@@ -1,3 +1,17 @@
+/*
+ * DatagridConfigurable wraps its content in a styled <span class="RaConfigurable-root">.
+ * That span has display:inline-block as its base style and no explicit width, causing it
+ * to shrink-to-content inside flex column containers (e.g. TabbedForm tab panels).
+ * This breaks the EmptyState centering when there are no records in a tab's Datagrid.
+ * Setting width:100% here ensures the span fills the tab panel and EmptyState centers correctly.
+ * RaReferenceField-root is the ReferenceManyField wrapper that wraps RaConfigurable-root
+ * in some tabs (e.g. Connections), so it also needs width:100%.
+ */
+.RaConfigurable-root,
+.RaReferenceField-root {
+  width: 100%;
+}
+
 @font-face {
   font-family: "Inter";
   font-style: normal;

@@ -223,6 +223,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "アカウントのデータ",
+  },
+  joined_rooms: {
+    name: "参加中のルーム",
+  },
+  memberships: {
+    name: "メンバーシップ",
+  },
+  room_members: {
+    name: "メンバー",
+  },
+  destination_rooms: {
+    name: "ルーム",
+  },
 };
 
 export default misc_resources;

@@ -12,7 +12,6 @@ import {
   DateField,
   DateFieldProps,
   FunctionField,
-  List,
   ListProps,
   Pagination,
   RaRecord,
@@ -33,6 +32,7 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
+import List from "../../components/layout/List";
 
 import EmptyState from "../../components/layout/EmptyState";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
@@ -210,7 +210,11 @@ export const DestinationShow = (props: ShowProps) => {
             pagination={<DestinationPagination />}
             perPage={50}
           >
-            <DatagridConfigurable style={{ width: "100%" }} rowClick={id => `/rooms/${id}/show`}>
+            <DatagridConfigurable
+              style={{ width: "100%" }}
+              rowClick={id => `/rooms/${id}/show`}
+              empty={<EmptyState resource="destination_rooms" />}
+            >
               <TextField source="room_id" label="resources.rooms.fields.room_id" sx={{ wordBreak: "break-all" }} />
               <TextField source="stream_ordering" sortable={false} />
               <ReferenceField

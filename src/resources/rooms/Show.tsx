@@ -52,6 +52,7 @@ import { QuarantineRoomMediaButton } from "../../components/users/buttons/Quaran
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { MediaIDField } from "../../components/media";
 import { DATE_FORMAT } from "../../utils/date";
+import EmptyState from "../../components/layout/EmptyState";
 import { RoomDirectoryUnpublishButton, RoomDirectoryPublishButton } from "../room-directory";
 import { MakeAdminBtn, JoinUserBtn, RoomPagination } from "./List";
 
@@ -318,7 +319,12 @@ const RoomShowLayout = () => {
           {isSmall ? (
             <RoomMembersMobileList />
           ) : (
-            <DatagridConfigurable sx={{ width: "100%" }} rowClick={id => "/users/" + id} bulkActionButtons={false}>
+            <DatagridConfigurable
+              sx={{ width: "100%" }}
+              rowClick={id => "/users/" + id}
+              bulkActionButtons={false}
+              empty={<EmptyState resource="room_members" />}
+            >
               <ReferenceField
                 label="resources.users.fields.avatar"
                 source="id"
@@ -396,6 +402,7 @@ const RoomShowLayout = () => {
         >
           {isSmall ? (
             <SimpleList
+              empty={<EmptyState resource="room_media" />}
               primaryText={() => (
                 <Box sx={{ wordBreak: "break-all" }}>
                   <MediaIDField source="media_id" />
@@ -405,7 +412,11 @@ const RoomShowLayout = () => {
               rowClick={false}
             />
           ) : (
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+            <DatagridConfigurable
+              sx={{ width: "100%" }}
+              bulkActionButtons={false}
+              empty={<EmptyState resource="room_media" />}
+            >
               <MediaIDField source="media_id" />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
             </DatagridConfigurable>
@@ -423,6 +434,7 @@ const RoomShowLayout = () => {
         >
           {isSmall ? (
             <SimpleList
+              empty={<EmptyState resource="room_state" />}
               primaryText={record => record.type}
               secondaryText={record => (
                 <>
@@ -457,7 +469,11 @@ const RoomShowLayout = () => {
               rowClick={false}
             />
           ) : (
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false}>
+            <DatagridConfigurable
+              sx={{ width: "100%" }}
+              bulkActionButtons={false}
+              empty={<EmptyState resource="room_state" />}
+            >
               <RaTextField source="type" sortable={false} />
               <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <FunctionField
@@ -501,6 +517,7 @@ const RoomShowLayout = () => {
         >
           {isSmall ? (
             <SimpleList
+              empty={<EmptyState resource="forward_extremities" />}
               primaryText={record => (
                 <Box component="span" sx={{ wordBreak: "break-all" }}>
                   {record.id}
@@ -520,7 +537,12 @@ const RoomShowLayout = () => {
               rowClick={false}
             />
           ) : (
-            <DatagridConfigurable sx={{ width: "100%" }} bulkActionButtons={false} omit={["depth", "received_ts"]}>
+            <DatagridConfigurable
+              sx={{ width: "100%" }}
+              bulkActionButtons={false}
+              omit={["depth", "received_ts"]}
+              empty={<EmptyState resource="forward_extremities" />}
+            >
               <RaTextField source="id" sortable={false} sx={{ wordBreak: "break-all" }} />
               <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
               <NumberField source="depth" sortable={false} />

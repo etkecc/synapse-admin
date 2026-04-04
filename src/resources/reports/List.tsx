@@ -19,7 +19,6 @@ import {
   Button,
   DatagridConfigurable,
   DateField,
-  List,
   ListProps,
   Pagination,
   SimpleList,
@@ -32,6 +31,7 @@ import {
 } from "react-admin";
 
 import EmptyState from "../../components/layout/EmptyState";
+import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { SynapseDataProvider } from "../../providers/types";
 import { DATE_FORMAT } from "../../utils/date";

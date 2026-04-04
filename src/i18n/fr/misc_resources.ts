@@ -226,6 +226,21 @@ const misc_resources = {
       },
     },
   },
+  account_data: {
+    name: "Données du compte",
+  },
+  joined_rooms: {
+    name: "Salons rejoints",
+  },
+  memberships: {
+    name: "Appartenances",
+  },
+  room_members: {
+    name: "Membres",
+  },
+  destination_rooms: {
+    name: "Salons",
+  },
 };
 
 export default misc_resources;
