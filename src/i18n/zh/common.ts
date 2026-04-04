@@ -143,6 +143,17 @@ const common: Record<string, any> = {
     },
   },
   etkecc: {
+    donate: {
+      menu_label: "捐助",
+      name: "支持 Ketesa 的开发",
+      title: "支持 Ketesa 的开发",
+      description_1: "Ketesa 项目是自由且开源的，我们一直以开放的方式为 Matrix 社区构建并维护它。",
+      description_2: "如果 Ketesa 项目对您有所帮助，捐助将帮助我们继续投入这项工作，包括开发、维护、修复和持续改进。",
+      description_3: "这能让我们投入更多时间，为所有依赖这个项目的人持续改进它。",
+      description_4: "每一份支持都很重要，我们由衷感谢您的支持！ ❤️",
+      button: "捐助",
+      signature_team: "etke.cc 团队",
+    },
     billing: {
       name: "账单",
       title: "付款记录",

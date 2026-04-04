@@ -2,7 +2,7 @@ import { act, render, screen } from "@testing-library/react";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { AdminContext } from "react-admin";
 
-import LoginPage from "./LoginPage";
+import LoginPage, { getDefaultProtocolForHomeserverInput } from "./LoginPage";
 import { AppContext } from "../Context";
 import englishMessages from "../i18n/en";
 
@@ -10,6 +10,19 @@ const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale
 const welcomeText = englishMessages.ketesa.auth.welcome.replace("%{name}", "Ketesa");
 
 describe("LoginForm", () => {
+  it.each([
+    ["localhost", "http"],
+    ["localhost:8008", "http"],
+    ["127.0.0.1", "http"],
+    ["127.0.0.1:8008", "http"],
+    ["::1", "http"],
+    ["[::1]:8008", "http"],
+    ["matrix.example.com", "https"],
+    ["matrix.example.com:8448", "https"],
+  ])("selects %s for %s homeserver inputs", (input, expectedProtocol) => {
+    expect(getDefaultProtocolForHomeserverInput(input)).toBe(expectedProtocol);
+  });
+
   it("renders with no restriction to homeserver", async () => {
     await act(async () => {
       render(

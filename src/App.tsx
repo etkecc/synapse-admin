@@ -14,6 +14,7 @@ import RecurringCommandEdit from "./components/etke.cc/schedules/components/recu
 import ScheduledCommandEdit from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandEdit";
 import ScheduledCommandShow from "./components/etke.cc/schedules/components/scheduled/ScheduledCommandShow";
 import UserImport from "./components/user-import/UserImport";
+import DonatePage from "./pages/DonatePage";
 import LoginPage from "./pages/LoginPage";
 import MASPolicyDataPage from "./pages/MASPolicyDataPage";
 import { DatabaseRoomStatsList } from "./resources/statistics";
@@ -64,6 +65,7 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
         darkTheme={darkTheme}
       >
         <CustomRoutes>
+          <Route path="/donate" element={<DonatePage />} />
           <Route path="/import_users" element={<UserImport />} />
           {!icfg.disabled.monitoring && <Route path="/server_status" element={<ServerStatusPage />} />}
           {!icfg.disabled.actions && <Route path="/server_actions" element={<ServerActionsPage />} />}

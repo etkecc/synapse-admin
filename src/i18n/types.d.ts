@@ -929,6 +929,17 @@ export interface SynapseTranslationMessages extends TranslationMessages {
     };
   };
   etkecc: {
+    donate: {
+      menu_label: string;
+      name: string;
+      title: string;
+      description_1: string;
+      description_2: string;
+      description_3: string;
+      description_4: string;
+      button: string;
+      signature_team: string;
+    };
     billing: {
       name: string;
       title: string;

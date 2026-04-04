@@ -152,6 +152,19 @@ const common = {
     },
   },
   etkecc: {
+    donate: {
+      menu_label: "Donate",
+      name: "Support Ketesa Development",
+      title: "Support Ketesa Development",
+      description_1:
+        "The Ketesa project is free and open source, and we build and maintain it in the open for the Matrix community.",
+      description_2:
+        "If the Ketesa project has been useful to you, a donation helps us continue the work behind it: development, maintenance, fixes, and steady improvements.",
+      description_3: "It helps us spend more time improving the project for everyone who relies on it.",
+      description_4: "Every contribution helps, and we truly appreciate your support! ❤️",
+      button: "Donate",
+      signature_team: "the etke.cc team",
+    },
     billing: {
       name: "Billing",
       title: "Payment History",

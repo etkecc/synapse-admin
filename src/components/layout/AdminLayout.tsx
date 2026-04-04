@@ -3,6 +3,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import PaymentIcon from "@mui/icons-material/Payment";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import TranslateIcon from "@mui/icons-material/Translate";
 import { Box, Divider, ListItemIcon, ListItemText, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -124,7 +125,28 @@ const ProfileMenuItem = () => {
   );
 };
 
-const AdminUserMenu = () => {
+const DonateMenuItem = () => {
+  const translate = useTranslate();
+  const userMenu = useUserMenu();
+  const onClose = userMenu?.onClose;
+
+  return (
+    <MenuItem
+      dense
+      onClick={() => {
+        onClose?.();
+        window.location.hash = "/donate";
+      }}
+    >
+      <ListItemIcon>
+        <VolunteerActivismIcon fontSize="small" />
+      </ListItemIcon>
+      <ListItemText>{translate("etkecc.donate.menu_label")}</ListItemText>
+    </MenuItem>
+  );
+};
+
+export const AdminUserMenu = () => {
   const [open, setOpen] = useState(false);
   const logout = useLogout();
   const checkLoginType = (ev: React.MouseEvent<HTMLDivElement>) => {
@@ -156,6 +178,7 @@ const AdminUserMenu = () => {
       <Divider sx={{ my: 0.5 }} />
       <AdminClientConfigItems />
       <LocaleMenuItems />
+      <DonateMenuItem />
       <div onClickCapture={checkLoginType}>
         <Logout />
       </div>

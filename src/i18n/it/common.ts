@@ -153,6 +153,20 @@ const common: Record<string, any> = {
     },
   },
   etkecc: {
+    donate: {
+      menu_label: "Dona",
+      name: "Sostieni lo sviluppo di Ketesa",
+      title: "Sostieni lo sviluppo di Ketesa",
+      description_1:
+        "Il progetto Ketesa è libero e open source, e lo sviluppiamo e manteniamo apertamente per la comunità Matrix.",
+      description_2:
+        "Se il progetto Ketesa Le è stato utile, una donazione ci aiuta a continuare il lavoro che c'è dietro: sviluppo, manutenzione, correzioni e miglioramenti continui.",
+      description_3:
+        "Ci aiuta a dedicare più tempo a migliorare il progetto per tutte le persone che vi fanno affidamento.",
+      description_4: "Ogni contributo aiuta, e apprezziamo sinceramente il Suo supporto! ❤️",
+      button: "Dona",
+      signature_team: "il team di etke.cc",
+    },
     billing: {
       name: "Fatturazione",
       title: "Cronologia pagamenti",

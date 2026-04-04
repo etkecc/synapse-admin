@@ -95,6 +95,28 @@ function useRestrictedBaseUrl(): [string | null, string[] | null] {
   return [null, null];
 }
 
+export const getDefaultProtocolForHomeserverInput = (value: string): "http" | "https" => {
+  const normalizedValue = value.trim().replace(/\/+$/g, "");
+
+  if (
+    /^(localhost|127\.0\.0\.1)(:\d{1,5})?$/i.test(normalizedValue) ||
+    /^::1$/i.test(normalizedValue) ||
+    /^\[::1\](:\d{1,5})?$/i.test(normalizedValue)
+  ) {
+    return "http";
+  }
+
+  return "https";
+};
+
+const prependDefaultProtocol = (value: string): string => {
+  if (value.match(/^https?:\/\//)) {
+    return value;
+  }
+
+  return `${getDefaultProtocolForHomeserverInput(value)}://${value}`;
+};
+
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
@@ -347,9 +369,8 @@ const LoginPage = () => {
         return;
       }
 
-      // Auto-prepend https:// if the user didn't include a protocol
       if (!value.match(/^https?:\/\//)) {
-        value = `https://${value}`;
+        value = prependDefaultProtocol(value);
         if (!restrictBaseUrlMultiple && !restrictBaseUrlSingle) {
           form.setValue("base_url", value, {
             shouldValidate: true,
@@ -401,7 +422,7 @@ const LoginPage = () => {
         if (serverURL) {
           const isFullUrl = serverURL.match(/^(http|https):\/\//);
           if (!isFullUrl) {
-            serverURL = `https://${serverURL}`;
+            serverURL = prependDefaultProtocol(serverURL);
           }
 
           form.setValue("base_url", serverURL, {
