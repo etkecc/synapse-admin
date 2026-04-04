@@ -64,6 +64,9 @@ const users = {
     sent_invite_count: "Total number of invites sent by this user across all rooms.",
     cumulative_joined_room_count:
       "Total number of rooms this user has ever joined, including rooms they have since left or been banned from.",
+    mas_synapse_sort:
+      "MAS does not support native sorting. Results are fetched from Synapse — some filters are unavailable in this mode.",
+    mas_synapse_sort_reset: "Remove sorting",
   },
   action: {
     erase: "Erase user data",

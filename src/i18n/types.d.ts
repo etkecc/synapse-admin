@@ -202,6 +202,8 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         username_available: string;
         sent_invite_count: string;
         cumulative_joined_room_count: string;
+        mas_synapse_sort: string;
+        mas_synapse_sort_reset: string;
       };
       action: {
         erase: string;

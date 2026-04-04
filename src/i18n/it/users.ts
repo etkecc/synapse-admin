@@ -64,6 +64,9 @@ const users = {
     sent_invite_count: "Numero totale di inviti inviati da questo utente in tutte le stanze.",
     cumulative_joined_room_count:
       "Numero totale di stanze a cui questo utente si è unito, incluse quelle che ha lasciato o da cui è stato bannato.",
+    mas_synapse_sort:
+      "MAS non supporta l'ordinamento nativo. I risultati vengono recuperati da Synapse — alcuni filtri non sono disponibili in questa modalità.",
+    mas_synapse_sort_reset: "Rimuovi ordinamento",
   },
   badge: {
     you: "Lei",

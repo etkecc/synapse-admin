@@ -6,7 +6,7 @@ import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert, Box, Tooltip } from "@mui/material";
+import { Alert, Box, Button as MuiButton, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
@@ -82,19 +82,28 @@ const SystemUsersFilter = (props: Record<string, unknown>) => {
   );
 };
 
+const MASStatusFilter = (props: Record<string, unknown>) => {
+  const { sort } = useListContext();
+  const synapseSortActive = isMAS() && !(sort.field === "name" && sort.order === "ASC");
+  return (
+    <SelectInput
+      {...props}
+      source="status"
+      choices={[
+        { id: "active", name: "resources.mas_users.filter.status_active" },
+        { id: "locked", name: "resources.mas_users.filter.status_locked" },
+        { id: "deactivated", name: "resources.mas_users.filter.status_deactivated" },
+      ]}
+      disabled={synapseSortActive}
+    />
+  );
+};
+
 const userFilters = () => {
   if (isMAS()) {
     return [
       <SearchInput key="name" source="name" alwaysOn />,
-      <SelectInput
-        key="status"
-        source="status"
-        choices={[
-          { id: "active", name: "resources.mas_users.filter.status_active" },
-          { id: "locked", name: "resources.mas_users.filter.status_locked" },
-          { id: "deactivated", name: "resources.mas_users.filter.status_deactivated" },
-        ]}
-      />,
+      <MASStatusFilter key="status" source="status" />,
       <BooleanInput key="admin" source="admin" />,
     ];
   }
@@ -162,6 +171,28 @@ export const UserPreventSelfDelete: React.FC<{
   return <div onClickCapture={handleDeleteClick}>{props.children}</div>;
 };
 
+const MASSortAlert = () => {
+  const { sort, setSort } = useListContext();
+  const translate = useTranslate();
+  if (!isMAS() || (sort.field === "name" && sort.order === "ASC")) {
+    return null;
+  }
+  return (
+    <Box sx={{ mb: 1 }}>
+      <Alert
+        severity="warning"
+        action={
+          <MuiButton size="small" color="inherit" onClick={() => setSort({ field: "name", order: "ASC" })}>
+            {translate("resources.users.helper.mas_synapse_sort_reset")}
+          </MuiButton>
+        }
+      >
+        {translate("resources.users.helper.mas_synapse_sort")}
+      </Alert>
+    </Box>
+  );
+};
+
 const UserBulkActionButtons = () => {
   const record = useListContext();
   const [ownUserIsSelected, setOwnUserIsSelected] = useState(false);
@@ -198,7 +229,7 @@ export const UserList = (props: ListProps) => {
     <List
       {...props}
       filters={userFilters()}
-      filterDefaultValues={{ guests: false, locked: false, suspended: false }} // shadow_banned: no API yet
+      filterDefaultValues={isMAS() ? {} : { guests: false, locked: false, suspended: false }} // shadow_banned: no API yet
       sort={{ field: "name", order: "ASC" }}
       actions={<UserListActions />}
       pagination={<UserPagination />}
@@ -211,6 +242,7 @@ export const UserList = (props: ListProps) => {
         },
       })}
     >
+      <MASSortAlert />
       {isSmall ? (
         <SimpleList
           primaryText={record => (
@@ -288,10 +320,14 @@ export const UserList = (props: ListProps) => {
             }}
             label="resources.users.fields.displayname"
           />
-          <BooleanField source="is_guest" label="resources.users.fields.is_guest" />
+          <BooleanField
+            source="is_guest"
+            label="resources.users.fields.is_guest"
+            sortable={isMAS() ? false : undefined}
+          />
           <BooleanField source="admin" label="resources.users.fields.admin" />
           <BooleanField source="deactivated" label="resources.users.fields.deactivated" />
-          <BooleanField source="locked" label="resources.users.fields.locked" />
+          <BooleanField source="locked" label="resources.users.fields.locked" sortable={isMAS() ? false : undefined} />
           <BooleanField source="shadow_banned" label="resources.users.fields.shadow_banned" />
           <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
           <DateField

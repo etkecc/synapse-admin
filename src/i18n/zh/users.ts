@@ -62,6 +62,8 @@ const users = {
     username_available: "用户名可用",
     sent_invite_count: "该用户在所有房间中发送的邀请总数。",
     cumulative_joined_room_count: "该用户曾经加入过的房间总数，包括已离开或被封禁的房间。",
+    mas_synapse_sort: "MAS 不支持原生排序。结果从 Synapse 获取 — 在此模式下部分筛选器不可用。",
+    mas_synapse_sort_reset: "移除排序",
   },
   badge: {
     you: "您",

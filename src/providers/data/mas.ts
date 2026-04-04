@@ -341,6 +341,9 @@ export const getMASUsersAsMainResource = () => ({
       id: `@${u.attributes.username}:${homeserver}`,
     };
   },
+  // enrichList fetches Synapse user data for each MAS record in cursor-mode (default name ASC sort).
+  // It must include ALL fields that getList (Synapse-first mode) populates from Synapse,
+  // so both modes expose a unified record shape to the UI.
   enrichList: async (records: RaRecord[]) => {
     const synapseBaseUrl = localStorage.getItem("base_url") || "";
     return Promise.all(
@@ -353,12 +356,126 @@ export const getMASUsersAsMainResource = () => ({
             avatar_src: json.avatar_url ?? null,
             displayname: json.displayname ?? null,
             creation_ts_ms: json.creation_ts != null ? json.creation_ts * 1000 : null,
+            is_guest: !!json.is_guest,
+            shadow_banned: !!json.shadow_banned,
+            erased: !!json.erased,
+            deactivated: !!json.deactivated,
+            suspended: !!json.suspended,
           };
         } catch {
           return record;
         }
       })
     );
+  },
+  getList: async (params: { pagination: PaginationPayload; sort: SortPayload; filter: Record<string, any> }) => {
+    // Fall through to MAS cursor path for default sort (name ASC)
+    if (params.sort.field === "name" && params.sort.order === "ASC") {
+      return null;
+    }
+
+    // Synapse-first path: fetch from Synapse v3 users API, then enrich with MAS data
+    const synapseBaseUrl = localStorage.getItem("base_url") || "";
+    const masBaseUrl = getMASBaseUrl();
+    const homeserver = localStorage.getItem("home_server") || "";
+    const { page, perPage } = params.pagination;
+    const { field, order } = params.sort;
+
+    // Map sort field to Synapse order_by
+    const orderByMap: Record<string, string> = {
+      creation_ts_ms: "creation_ts",
+    };
+    const orderBy = orderByMap[field] ?? field;
+
+    const synapseQuery = filterUndefined({
+      from: (page - 1) * perPage,
+      limit: perPage,
+      order_by: orderBy,
+      dir: order === "DESC" ? "b" : "f",
+      name: params.filter.name || params.filter.search || undefined,
+      guests: false,
+    });
+
+    const synapseUrl = `${synapseBaseUrl}/_synapse/admin/v3/users?${new URLSearchParams(
+      synapseQuery as Record<string, string>
+    ).toString()}`;
+    const { json } = await jsonClient(synapseUrl);
+
+    const synapseUsers: any[] = json.users || [];
+
+    const mergedRecords = await Promise.all(
+      synapseUsers.map(async u => {
+        // Extract local username from MXID (@user:homeserver)
+        const mxid: string = u.name || "";
+        const username = mxid.startsWith("@") ? mxid.slice(1).split(":")[0] : mxid;
+
+        // Synapse-only base record
+        const synapseRecord = {
+          id: mxid,
+          name: mxid,
+          mas_id: undefined as string | undefined,
+          username,
+          admin: !!u.admin,
+          deactivated: !!u.deactivated,
+          locked: false,
+          created_at: undefined as string | undefined,
+          locked_at: null as string | null,
+          deactivated_at: null as string | null,
+          legacy_guest: undefined as boolean | undefined,
+          is_guest: !!u.is_guest,
+          erased: !!u.erased,
+          shadow_banned: !!u.shadow_banned,
+          suspended: !!u.suspended,
+          avatar_src: u.avatar_url ?? null,
+          displayname: u.displayname ?? null,
+          creation_ts_ms: u.creation_ts,
+        };
+
+        if (!masBaseUrl) return synapseRecord;
+
+        try {
+          const masQuery = new URLSearchParams(
+            filterUndefined({ "filter[search]": username, "page[first]": "50", count: "true" }) as Record<
+              string,
+              string
+            >
+          ).toString();
+          const { json: masJson } = await jsonClient(`${masBaseUrl}/api/admin/v1/users?${masQuery}`);
+          const masUsers: MASUserResource[] = (masJson?.data as MASUserResource[]) || [];
+          const masUser = masUsers.find(mu => mu.attributes.username === username);
+
+          if (!masUser) return synapseRecord;
+
+          const masBase = mapMASUserItem(masUser, homeserver);
+          return {
+            ...masBase,
+            id: mxid,
+            name: mxid,
+            mas_id: masUser.id,
+            username,
+            admin: masBase.admin,
+            deactivated: masBase.deactivated,
+            locked: !!masUser.attributes.locked_at,
+            created_at: masBase.created_at,
+            locked_at: masUser.attributes.locked_at ?? null,
+            deactivated_at: masUser.attributes.deactivated_at ?? null,
+            legacy_guest: masBase.legacy_guest,
+            is_guest: !!u.is_guest,
+            erased: !!u.erased,
+            shadow_banned: !!u.shadow_banned,
+            suspended: !!u.suspended,
+            avatar_src: u.avatar_url ?? null,
+            displayname: u.displayname ?? null,
+            creation_ts_ms: u.creation_ts,
+          };
+        } catch {
+          // MAS lookup failed — return Synapse-only record
+          return synapseRecord;
+        }
+      })
+    );
+
+    return { data: mergedRecords, total: json.total || 0 };
   },
   data: "data",
   total: (json: MASUserListResponse) => json.meta?.count || 0,

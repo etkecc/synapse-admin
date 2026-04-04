@@ -63,6 +63,9 @@ const users = {
     username_available: "ユーザー名を利用できます",
     sent_invite_count: "このユーザーが全ルームで送信した招待の合計数。",
     cumulative_joined_room_count: "このユーザーが参加したことのあるルームの累計数（退出、追放されたルームを含む）。",
+    mas_synapse_sort:
+      "MASはネイティブの並び替えをサポートしていません。結果はSynapseから取得されます — このモードでは一部のフィルターが利用できません。",
+    mas_synapse_sort_reset: "並び替えを解除",
   },
   action: {
     erase: "ユーザーのデータを消去",

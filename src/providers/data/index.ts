@@ -207,7 +207,7 @@ const buildSynapseListQuery = (
   search_term: params.search_term,
   name: params.name,
   destination: params.destination,
-  guests: params.guests,
+  guests: isMAS() ? false : params.guests,
   deactivated: params.deactivated,
   locked: params.locked,
   suspended: params.suspended,
@@ -297,6 +297,16 @@ const baseDataProvider: SynapseDataProvider = {
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
 
+    // Allow resource to override getList entirely (e.g. MAS users Synapse-first sort)
+    if (res.getList) {
+      const result = await res.getList({
+        pagination: params.pagination as PaginationPayload,
+        sort: params.sort as SortPayload,
+        filter: params.filter,
+      });
+      if (result !== null) return result;
+    }
+
     // Build query based on API type
     let query: Record<string, any>;
     if (res.isMAS) {
@@ -332,7 +342,8 @@ const baseDataProvider: SynapseDataProvider = {
     }
 
     // Client-side post-filter for system (appservice-managed) users
-    const shouldFilterSystemUsers = resource === "users" && system_users !== undefined && system_users !== null;
+    const shouldFilterSystemUsers =
+      resource === "users" && !res.isMAS && system_users !== undefined && system_users !== null;
     if (shouldFilterSystemUsers) {
       const wantSystem = system_users === true || system_users === "true";
       const endpoint_url = baseUrl + (res.listPath || res.path);
