@@ -336,6 +336,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           knock: string;
           invite: string;
           private: string;
+          restricted: string;
         };
         guest_access: {
           can_join: string;

@@ -35,6 +35,7 @@ const rooms = {
       knock: "Auf Anfrage",
       invite: "Nur auf Einladung",
       private: "Privat",
+      restricted: "Eingeschränkt",
     },
     guest_access: {
       can_join: "Gäste können beitreten",

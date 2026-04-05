@@ -35,6 +35,7 @@ const rooms = {
       knock: "در زدن",
       invite: "دعوت کردن",
       private: "خصوصی",
+      restricted: "محدود",
     },
     guest_access: {
       can_join: "مهمانان می‌توانند ملحق شوند",

@@ -54,6 +54,7 @@ import { QuarantineRoomMediaButton } from "../../components/users/buttons/Quaran
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { MediaIDField } from "../../components/media";
 import { DATE_FORMAT } from "../../utils/date";
+import { tt } from "../../utils/safety";
 import EmptyState from "../../components/layout/EmptyState";
 import { RoomDirectoryUnpublishButton, RoomDirectoryPublishButton } from "../room-directory";
 import { MakeAdminBtn, JoinUserBtn, RoomPagination } from "./List";
@@ -219,7 +220,7 @@ const RoomOverviewTab = () => {
                   {translate("resources.rooms.fields.join_rules")}
                 </Typography>
                 <Typography variant="body2">
-                  {record.join_rules ? translate(`resources.rooms.enums.join_rules.${record.join_rules}`) : "—"}
+                  {record.join_rules ? tt(translate, `resources.rooms.enums.join_rules.${record.join_rules}`, record.join_rules) : "—"}
                 </Typography>
               </Box>
               <Box>
@@ -227,7 +228,7 @@ const RoomOverviewTab = () => {
                   {translate("resources.rooms.fields.guest_access")}
                 </Typography>
                 <Typography variant="body2">
-                  {record.guest_access ? translate(`resources.rooms.enums.guest_access.${record.guest_access}`) : "—"}
+                  {record.guest_access ? tt(translate, `resources.rooms.enums.guest_access.${record.guest_access}`, record.guest_access) : "—"}
                 </Typography>
               </Box>
               <Box>
@@ -236,7 +237,7 @@ const RoomOverviewTab = () => {
                 </Typography>
                 <Typography variant="body2">
                   {record.history_visibility
-                    ? translate(`resources.rooms.enums.history_visibility.${record.history_visibility}`)
+                    ? tt(translate, `resources.rooms.enums.history_visibility.${record.history_visibility}`, record.history_visibility)
                     : "—"}
                 </Typography>
               </Box>

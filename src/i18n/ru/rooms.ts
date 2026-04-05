@@ -38,6 +38,7 @@ const rooms = {
       knock: "Надо постучать",
       invite: "По приглашению",
       private: "Приватная",
+      restricted: "Ограниченный доступ",
     },
     guest_access: {
       can_join: "Гости могут войти",

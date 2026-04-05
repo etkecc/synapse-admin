@@ -35,6 +35,7 @@ const rooms = {
       knock: "申请",
       invite: "邀请",
       private: "私有",
+      restricted: "受限",
     },
     guest_access: {
       can_join: "访客可以加入",
