@@ -12,6 +12,19 @@ let resolvedBase = "./";
 export default defineConfig(({ mode }) => ({
   appType: "mpa",
   base: "./",
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/vitest.setup.ts"],
+    css: true,
+    clearMocks: true,
+    restoreMocks: true,
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "html"],
+      exclude: ["dist/**", "node_modules/**"],
+    },
+  },
   build: {
     target: "esnext",
     chunkSizeWarningLimit: 1500, // react-admin itself is 500kb, @mui 350kb, and other vendor libs are 730kb+ at the moment of writing

@@ -21,10 +21,8 @@ const baseConfig: Config = {
 
 const renderPoller = async (config: Config = baseConfig) => {
   const dataProvider = {
-    getServerStatus: jest
-      .fn()
-      .mockResolvedValue({ success: true, ok: true, maintenance: false, host: "", results: [] }),
-    getServerRunningProcess: jest.fn().mockResolvedValue({ command: "", locked_at: "", maintenance: false }),
+    getServerStatus: vi.fn().mockResolvedValue({ success: true, ok: true, maintenance: false, host: "", results: [] }),
+    getServerRunningProcess: vi.fn().mockResolvedValue({ command: "", locked_at: "", maintenance: false }),
   };
 
   const store = memoryStore({
@@ -49,14 +47,8 @@ const renderPoller = async (config: Config = baseConfig) => {
 };
 
 describe("EtkeStatusPoller", () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-
   afterEach(() => {
-    jest.clearAllTimers();
-    jest.useRealTimers();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("polls server status and process when etkeccAdmin is set", async () => {

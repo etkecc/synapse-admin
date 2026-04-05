@@ -1,30 +1,44 @@
-import { act } from "react-dom/test-utils";
+import { act } from "react";
+import { waitFor } from "@testing-library/react";
 
 describe("auth-callback entrypoint", () => {
   beforeEach(() => {
-    jest.resetModules();
-    jest.unmock("../utils/config");
-    jest.unmock("../components/etke.cc/InstanceConfig");
-    jest.unmock("../providers/auth");
+    vi.resetModules();
+    vi.doUnmock("../utils/config");
+    vi.doUnmock("../components/etke.cc/InstanceConfig");
+    vi.doUnmock("../providers/auth");
   });
 
   it("redirects to provided path on success", async () => {
     const { runAuthCallback } = await import("./auth-callback");
-    const handleCallback = jest.fn().mockResolvedValue({ redirectTo: "/server_status" });
+    const handleCallback = vi.fn().mockResolvedValue({ redirectTo: "/server_status" });
 
     const result = await runAuthCallback({ handleCallback });
 
     expect(handleCallback).toHaveBeenCalledTimes(1);
     expect(result).toEqual({ redirectTo: "/server_status" });
-  });
+  }, 15000);
 
   it("shows error and does not redirect on failure", async () => {
+    vi.doMock("../utils/config", async () => ({
+      __esModule: true,
+      ...(await vi.importActual("../utils/config")),
+      FetchConfig: vi.fn().mockResolvedValue(undefined),
+      GetConfig: () => ({ etkeccAdmin: "" }),
+    }));
+    vi.doMock("../components/etke.cc/InstanceConfig", async () => ({
+      __esModule: true,
+      ...(await vi.importActual("../components/etke.cc/InstanceConfig")),
+      FetchInstanceConfig: vi.fn().mockResolvedValue(undefined),
+      GetInstanceConfig: () => ({ name: "" }),
+      useInstanceConfig: () => ({ name: "", disabled: { attributions: false } }),
+    }));
     const { bootstrapAuthCallback } = await import("./auth-callback");
     document.body.innerHTML = '<div id="root"></div>';
     const rootElement = document.getElementById("root");
     const location = { origin: "http://localhost", href: "http://localhost/auth-callback?code=abc" };
-    const handleCallback = jest.fn().mockRejectedValue(new Error("nope"));
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => undefined);
+    const handleCallback = vi.fn().mockRejectedValue(new Error("nope"));
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
 
     await act(async () => {
       bootstrapAuthCallback(rootElement, location, { handleCallback });
@@ -35,7 +49,7 @@ describe("auth-callback entrypoint", () => {
     });
 
     expect(location.href).toBe("http://localhost/auth-callback?code=abc");
-    expect(rootElement?.textContent).toContain("Authentication error");
+    await waitFor(() => expect(rootElement?.textContent).toContain("Authentication error"));
     expect(rootElement?.textContent).toContain("nope");
     expect(rootElement?.textContent).toContain("Welcome to Ketesa");
     expect(rootElement?.textContent).toContain("Go Back");
@@ -45,11 +59,11 @@ describe("auth-callback entrypoint", () => {
     expect(button).toBeTruthy();
     button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     expect(location.href).toBe("http://localhost/#/login");
-  });
+  }, 15000);
 
   it("preserves subpath when redirecting", async () => {
     const { bootstrapAuthCallback } = await import("./auth-callback");
-    const handleCallback = jest.fn().mockResolvedValue({ redirectTo: "/server_status" });
+    const handleCallback = vi.fn().mockResolvedValue({ redirectTo: "/server_status" });
     const location = { origin: "http://localhost", href: "http://localhost/admin/auth-callback?code=abc" };
 
     document.body.innerHTML = '<div id="root"></div>';
@@ -66,10 +80,10 @@ describe("auth-callback entrypoint", () => {
   });
 
   it("loads config before handling callback", async () => {
-    const fetchConfig = jest.fn().mockResolvedValue(undefined);
-    const fetchInstanceConfig = jest.fn().mockResolvedValue(undefined);
-    const getConfig = jest.fn().mockReturnValue({ etkeccAdmin: "https://admin.example" });
-    const handleCallback = jest.fn().mockResolvedValue({ redirectTo: "/" });
+    const fetchConfig = vi.fn().mockResolvedValue(undefined);
+    const fetchInstanceConfig = vi.fn().mockResolvedValue(undefined);
+    const getConfig = vi.fn().mockReturnValue({ etkeccAdmin: "https://admin.example" });
+    const handleCallback = vi.fn().mockResolvedValue({ redirectTo: "/" });
     const callOrder: string[] = [];
 
     fetchConfig.mockImplementation(async () => {
@@ -83,17 +97,20 @@ describe("auth-callback entrypoint", () => {
       return { redirectTo: "/" };
     });
 
-    jest.doMock("../utils/config", () => ({
+    vi.doMock("../utils/config", async () => ({
       __esModule: true,
+      ...(await vi.importActual("../utils/config")),
       FetchConfig: fetchConfig,
       GetConfig: getConfig,
     }));
-    jest.doMock("../components/etke.cc/InstanceConfig", () => ({
+    vi.doMock("../components/etke.cc/InstanceConfig", async () => ({
       __esModule: true,
+      ...(await vi.importActual("../components/etke.cc/InstanceConfig")),
       FetchInstanceConfig: fetchInstanceConfig,
       GetInstanceConfig: () => ({ name: "" }),
+      useInstanceConfig: () => ({ name: "", disabled: { attributions: false } }),
     }));
-    jest.doMock("../providers/auth", () => ({
+    vi.doMock("../providers/auth", () => ({
       __esModule: true,
       default: { handleCallback },
     }));
@@ -147,7 +164,7 @@ describe("auth-callback entrypoint", () => {
     ],
   ])("normalizes callback base (%s)", async (href, expectedHref) => {
     const { bootstrapAuthCallback } = await import("./auth-callback");
-    const handleCallback = jest.fn().mockResolvedValue({ redirectTo: "/server_status" });
+    const handleCallback = vi.fn().mockResolvedValue({ redirectTo: "/server_status" });
     const location = {
       origin: new URL(href).origin,
       href: href,

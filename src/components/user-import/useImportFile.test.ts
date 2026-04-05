@@ -23,7 +23,7 @@ describe("anyToBoolean", () => {
 });
 
 describe("validateCsvImport", () => {
-  const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => undefined);
+  const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
 
   afterAll(() => {
     consoleSpy.mockRestore();

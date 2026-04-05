@@ -1,52 +1,53 @@
-jest.mock("oidc-client-ts", () => {
+vi.mock("oidc-client-ts", () => {
   return {
-    UserManager: jest.fn().mockImplementation(() => ({
-      signinRedirectCallback: jest.fn().mockResolvedValue({
-        access_token: "oidc_access_token",
-        refresh_token: "oidc_refresh_token",
-        id_token: "oidc_id_token",
-        expires_in: 3600,
-      }),
-    })),
+    UserManager: vi.fn(function UserManager() {
+      return {
+        signinRedirectCallback: vi.fn().mockResolvedValue({
+          access_token: "oidc_access_token",
+          refresh_token: "oidc_refresh_token",
+          id_token: "oidc_id_token",
+          expires_in: 3600,
+        }),
+      };
+    }),
   };
 });
 
-jest.mock("../data", () => ({
-  initResources: jest.fn(),
+vi.mock("../data", () => ({
+  initResources: vi.fn(),
 }));
 
-jest.mock("../data/mas", () => ({
-  ...jest.requireActual("../data/mas"),
-  detectAndSetMAS: jest.fn().mockResolvedValue(undefined),
+vi.mock("../data/mas", async () => ({
+  ...(await vi.importActual("../data/mas")),
+  detectAndSetMAS: vi.fn().mockResolvedValue(undefined),
 }));
 
-import fetchMock from "jest-fetch-mock";
 import { HttpError } from "ra-core";
 
 import authProvider from "./index";
 import { initResources } from "../data";
 import { UserManager } from "oidc-client-ts";
 
-fetchMock.enableMocks();
-
 describe("authProvider", () => {
   beforeEach(() => {
-    fetchMock.resetMocks();
-    jest.clearAllMocks();
+    vi.stubGlobal("fetch", vi.fn());
+    vi.clearAllMocks();
     localStorage.clear();
   });
 
   describe("login", () => {
     it("should successfully login with username and password", async () => {
-      fetchMock.once(
-        JSON.stringify({
-          home_server: "example.com",
-          user_id: "@user:example.com",
-          access_token: "foobar",
-          device_id: "some_device",
-        })
+      vi.mocked(fetch).mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            home_server: "example.com",
+            user_id: "@user:example.com",
+            access_token: "foobar",
+            device_id: "some_device",
+          })
+        )
       );
-      fetchMock.once(JSON.stringify({}));
+      vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({})));
 
       const ret = await authProvider.login({
         base_url: "http://example.com",
@@ -72,15 +73,17 @@ describe("authProvider", () => {
   });
 
   it("should successfully login with token", async () => {
-    fetchMock.once(
-      JSON.stringify({
-        home_server: "example.com",
-        user_id: "@user:example.com",
-        access_token: "foobar",
-        device_id: "some_device",
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          home_server: "example.com",
+          user_id: "@user:example.com",
+          access_token: "foobar",
+          device_id: "some_device",
+        })
+      )
     );
-    fetchMock.once(JSON.stringify({}));
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({})));
 
     const ret = await authProvider.login({
       base_url: "https://example.com/",
@@ -110,13 +113,15 @@ describe("authProvider", () => {
     localStorage.setItem("oidc_redirect_uri", "http://localhost:5173/auth-callback");
     localStorage.setItem("decoded_base_url", "http://example.com");
 
-    fetchMock.once(
-      JSON.stringify({
-        user_id: "@user:example.com",
-        device_id: "DEVICE",
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          user_id: "@user:example.com",
+          device_id: "DEVICE",
+        })
+      )
     );
-    fetchMock.once(JSON.stringify({}));
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({})));
 
     const result = await authProvider.handleCallback?.();
 
@@ -127,7 +132,7 @@ describe("authProvider", () => {
       response_type: "code",
       scope: "openid profile",
     });
-    const userManagerInstance = (UserManager as jest.Mock).mock.results[0].value;
+    const userManagerInstance = vi.mocked(UserManager).mock.results[0].value;
     expect(userManagerInstance.signinRedirectCallback).toHaveBeenCalledTimes(1);
     expect(localStorage.getItem("access_token")).toBe("oidc_access_token");
     expect(localStorage.getItem("refresh_token")).toBe("oidc_refresh_token");
@@ -141,7 +146,7 @@ describe("authProvider", () => {
     it("should remove the access_token from storage", async () => {
       localStorage.setItem("base_url", "example.com");
       localStorage.setItem("access_token", "foo");
-      fetchMock.mockResponse(JSON.stringify({}));
+      vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({})));
 
       await authProvider.logout(null);
 

@@ -1,12 +1,13 @@
+import { MockedFunction } from "vitest";
 import { resolveBrowserLocale } from "react-admin";
 
 import { createI18nProvider } from ".";
 
-jest.mock("react-admin", () => ({
-  resolveBrowserLocale: jest.fn(() => "en"),
+vi.mock("react-admin", () => ({
+  resolveBrowserLocale: vi.fn(() => "en"),
 }));
 
-const mockedResolveBrowserLocale = resolveBrowserLocale as jest.MockedFunction<typeof resolveBrowserLocale>;
+const mockedResolveBrowserLocale = resolveBrowserLocale as MockedFunction<typeof resolveBrowserLocale>;
 
 describe("createI18nProvider", () => {
   beforeEach(() => {

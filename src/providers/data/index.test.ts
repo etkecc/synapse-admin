@@ -1,17 +1,15 @@
-jest.mock("../matrix", () => ({
-  refreshAccessToken: jest.fn().mockResolvedValue(undefined),
+vi.mock("../matrix", async () => ({
+  ...(await vi.importActual("../matrix")),
+  refreshAccessToken: vi.fn().mockResolvedValue(undefined),
 }));
 
-import fetchMock from "jest-fetch-mock";
 import dataProvider from "./index";
 import { clearSystemUsersScanCache } from "./index";
 import { LoadConfig } from "../../utils/config";
 
-fetchMock.enableMocks();
-
 beforeEach(() => {
-  fetchMock.resetMocks();
-  jest.clearAllMocks();
+  vi.stubGlobal("fetch", vi.fn());
+  vi.clearAllMocks();
   localStorage.clear();
   localStorage.setItem("base_url", "http://localhost");
   localStorage.setItem("access_token", "access_token");
@@ -27,31 +25,33 @@ beforeEach(() => {
 
 describe("dataProvider", () => {
   it("fetches all users", async () => {
-    fetchMock.mockResponseOnce(
-      JSON.stringify({
-        users: [
-          {
-            name: "@user_id1:provider",
-            password_hash: "password_hash1",
-            is_guest: 0,
-            admin: 0,
-            user_type: null,
-            deactivated: 0,
-            displayname: "User One",
-          },
-          {
-            name: "@user_id2:provider",
-            password_hash: "password_hash2",
-            is_guest: 0,
-            admin: 1,
-            user_type: null,
-            deactivated: 0,
-            displayname: "User Two",
-          },
-        ],
-        next_token: "100",
-        total: 200,
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          users: [
+            {
+              name: "@user_id1:provider",
+              password_hash: "password_hash1",
+              is_guest: 0,
+              admin: 0,
+              user_type: null,
+              deactivated: 0,
+              displayname: "User One",
+            },
+            {
+              name: "@user_id2:provider",
+              password_hash: "password_hash2",
+              is_guest: 0,
+              admin: 1,
+              user_type: null,
+              deactivated: 0,
+              displayname: "User Two",
+            },
+          ],
+          next_token: "100",
+          total: 200,
+        })
+      )
     );
 
     const users = await dataProvider.getList("users", {
@@ -66,26 +66,28 @@ describe("dataProvider", () => {
   });
 
   it("fetches one user", async () => {
-    fetchMock.mockResponseOnce(
-      JSON.stringify({
-        name: "@user_id1:provider",
-        password: "user_password",
-        displayname: "User",
-        threepids: [
-          {
-            medium: "email",
-            address: "user@mail_1.com",
-          },
-          {
-            medium: "email",
-            address: "user@mail_2.com",
-          },
-        ],
-        avatar_url: "mxc://localhost/user1",
-        admin: false,
-        deactivated: false,
-        creation_ts: 1560432506,
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          name: "@user_id1:provider",
+          password: "user_password",
+          displayname: "User",
+          threepids: [
+            {
+              medium: "email",
+              address: "user@mail_1.com",
+            },
+            {
+              medium: "email",
+              address: "user@mail_2.com",
+            },
+          ],
+          avatar_url: "mxc://localhost/user1",
+          admin: false,
+          deactivated: false,
+          creation_ts: 1560432506,
+        })
+      )
     );
 
     const user = await dataProvider.getOne("users", { id: "@user_id1:provider" });
@@ -97,21 +99,23 @@ describe("dataProvider", () => {
   });
 
   it("keeps Synapse list creation_ts values in milliseconds", async () => {
-    fetchMock.mockResponseOnce(
-      JSON.stringify({
-        users: [
-          {
-            name: "@user_id1:provider",
-            is_guest: 0,
-            admin: 0,
-            user_type: null,
-            deactivated: 0,
-            displayname: "User One",
-            creation_ts: 1560432668000,
-          },
-        ],
-        total: 1,
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          users: [
+            {
+              name: "@user_id1:provider",
+              is_guest: 0,
+              admin: 0,
+              user_type: null,
+              deactivated: 0,
+              displayname: "User One",
+              creation_ts: 1560432668000,
+            },
+          ],
+          total: 1,
+        })
+      )
     );
 
     const users = await dataProvider.getList("users", {
@@ -135,7 +139,7 @@ describe("dataProvider", () => {
   });
 
   it("uses MAS pagination cursor on page 2", async () => {
-    jest.resetModules();
+    vi.resetModules();
     // Re-import after reset so MAS registration tokens init isn't cached from prior tests.
     const { default: freshDataProvider } = await import("./index");
 
@@ -190,7 +194,9 @@ describe("dataProvider", () => {
       },
     };
 
-    fetchMock.mockResponseOnce(JSON.stringify(masListPage1)).mockResponseOnce(JSON.stringify(masListPage2));
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(new Response(JSON.stringify(masListPage1)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(masListPage2)));
 
     await freshDataProvider.getList("registration_tokens", {
       pagination: { page: 1, perPage: 10 },
@@ -204,7 +210,7 @@ describe("dataProvider", () => {
       filter: { valid: true },
     });
 
-    const [page2Url] = fetchMock.mock.calls[1];
+    const [page2Url] = vi.mocked(fetch).mock.calls[1];
     expect(page2Url).toContain("http://mas.example/api/admin/v1/user-registration-tokens?");
     expect(page2Url).toContain("page%5Bfirst%5D=10");
     expect(page2Url).toContain("page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V");
@@ -220,17 +226,19 @@ describe("dataProvider", () => {
       etkeccAdmin: "",
     });
 
-    fetchMock.mockResponseOnce(
-      JSON.stringify({
-        users: [
-          { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
-          { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
-          { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
-          { name: "@sys3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 3" },
-          { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
-        ],
-        total: 5,
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          users: [
+            { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
+            { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
+            { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
+            { name: "@sys3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 3" },
+            { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
+          ],
+          total: 5,
+        })
+      )
     );
 
     const users = await dataProvider.getList("users", {
@@ -242,9 +250,9 @@ describe("dataProvider", () => {
     expect(users.data.map(user => user.id)).toEqual(["@user1:provider", "@user2:provider"]);
     expect(users.total).toEqual(2);
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("from=0");
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("limit=250");
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("deactivated=false");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("from=0");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("limit=250");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("deactivated=false");
   });
 
   it("paginates users by the filtered system_users dataset", async () => {
@@ -256,18 +264,20 @@ describe("dataProvider", () => {
       etkeccAdmin: "",
     });
 
-    fetchMock.mockResponseOnce(
-      JSON.stringify({
-        users: [
-          { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
-          { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
-          { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
-          { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
-          { name: "@user3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 3" },
-          { name: "@sys3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 3" },
-        ],
-        total: 6,
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          users: [
+            { name: "@sys1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 1" },
+            { name: "@user1:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 1" },
+            { name: "@sys2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 2" },
+            { name: "@user2:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 2" },
+            { name: "@user3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "User 3" },
+            { name: "@sys3:provider", is_guest: 0, admin: 0, deactivated: 0, displayname: "System 3" },
+          ],
+          total: 6,
+        })
+      )
     );
 
     const users = await dataProvider.getList("users", {
@@ -279,9 +289,9 @@ describe("dataProvider", () => {
     expect(users.data.map(user => user.id)).toEqual(["@user3:provider"]);
     expect(users.total).toEqual(3);
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("from=0");
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("limit=250");
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("guests=false");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("from=0");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("limit=250");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("guests=false");
   });
 
   it("stops once the filtered page is filled and reports partial pagination info", async () => {
@@ -308,11 +318,13 @@ describe("dataProvider", () => {
       })),
     ];
 
-    fetchMock.mockResponseOnce(
-      JSON.stringify({
-        users: firstChunkUsers,
-        total: 300,
-      })
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(
+        JSON.stringify({
+          users: firstChunkUsers,
+          total: 300,
+        })
+      )
     );
 
     const users = await dataProvider.getList("users", {
@@ -354,18 +366,22 @@ describe("dataProvider", () => {
       displayname: `More User ${index}`,
     }));
 
-    fetchMock
-      .mockResponseOnce(
-        JSON.stringify({
-          users: firstChunkUsers,
-          total: 300,
-        })
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            users: firstChunkUsers,
+            total: 300,
+          })
+        )
       )
-      .mockResponseOnce(
-        JSON.stringify({
-          users: secondChunkUsers,
-          total: 300,
-        })
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            users: secondChunkUsers,
+            total: 300,
+          })
+        )
       );
 
     const page1 = await dataProvider.getList("users", {
@@ -383,7 +399,7 @@ describe("dataProvider", () => {
     expect(page1.data).toHaveLength(50);
     expect(page2.data).toHaveLength(50);
     expect(fetch).toHaveBeenCalledTimes(2);
-    expect(fetchMock.mock.calls[0]?.[0]).toContain("from=0");
-    expect(fetchMock.mock.calls[1]?.[0]).toContain("from=250");
+    expect(vi.mocked(fetch).mock.calls[0]?.[0]).toContain("from=0");
+    expect(vi.mocked(fetch).mock.calls[1]?.[0]).toContain("from=250");
   });
 });

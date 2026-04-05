@@ -11,7 +11,7 @@ import {
 describe("config utils", () => {
   beforeEach(() => {
     localStorage.clear();
-    global.fetch = jest.fn();
+    vi.stubGlobal("fetch", vi.fn());
     ClearConfig();
     LoadConfig({
       restrictBaseUrl: "https://example.org",
@@ -65,7 +65,7 @@ describe("config utils", () => {
   });
 
   it("notifies subscribers when config changes", () => {
-    const listener = jest.fn();
+    const listener = vi.fn();
     const unsubscribe = SubscribeConfig(listener);
 
     LoadConfig({
@@ -81,14 +81,16 @@ describe("config utils", () => {
   });
 
   it("loads well-known config using the host from restrictBaseUrl when home_server is unset", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue({
-      json: async () => ({
-        [WellKnownKey]: {
-          asManagedUsers: ["^@wk:example\\.org$"],
-          menu: [],
-        },
-      }),
-    });
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          [WellKnownKey]: {
+            asManagedUsers: ["^@wk:example\\.org$"],
+            menu: [],
+          },
+        })
+      )
+    );
 
     const loaded = await FetchWellKnownConfig();
 

@@ -1,10 +1,11 @@
+import { Mock } from "vitest";
 import { fetchUtils } from "react-admin";
 
 import { isValidBaseUrl, splitMxid, resolveBaseUrlWithWellKnown } from "./matrix";
 
-jest.mock("react-admin", () => ({
+vi.mock("react-admin", () => ({
   fetchUtils: {
-    fetchJson: jest.fn(),
+    fetchJson: vi.fn(),
   },
 }));
 
@@ -72,7 +73,7 @@ describe("isValidBaseUrl", () => {
 });
 
 describe("resolveBaseUrlWithWellKnown", () => {
-  const fetchJsonMock = fetchUtils.fetchJson as jest.Mock;
+  const fetchJsonMock = fetchUtils.fetchJson as Mock;
 
   afterEach(() => {
     fetchJsonMock.mockReset();

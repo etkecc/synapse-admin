@@ -33,7 +33,7 @@ export default [
       ...config.languageOptions,
       parser: tseslint.parser,
       parserOptions: {
-        projectService: { allowDefaultProject: ["vite.config.ts", "jest.config.ts", "docs/*.ts"] },
+        projectService: { allowDefaultProject: ["vite.config.ts", "docs/*.ts"] },
       },
     },
   })),
@@ -44,7 +44,7 @@ export default [
       ...config.languageOptions,
       parser: tseslint.parser,
       parserOptions: {
-        projectService: { allowDefaultProject: ["vite.config.ts", "jest.config.ts", "docs/*.ts"] },
+        projectService: { allowDefaultProject: ["vite.config.ts", "docs/*.ts"] },
       },
     },
   })),
@@ -53,7 +53,7 @@ export default [
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        projectService: { allowDefaultProject: ["vite.config.ts", "jest.config.ts", "docs/*.ts"] },
+        projectService: { allowDefaultProject: ["vite.config.ts", "docs/*.ts"] },
       },
       globals: {
         ...globals.browser,
@@ -93,7 +93,7 @@ export default [
         {
           devDependencies: [
             "**/vite.config.ts",
-            "**/jest.setup.ts",
+            "**/vitest.setup.ts",
             "**/*.test.ts",
             "**/*.test.tsx",
           ],

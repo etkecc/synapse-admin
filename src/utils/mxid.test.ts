@@ -68,7 +68,7 @@ describe("mxid utils", () => {
   it("generates a random MXID for the current homeserver", () => {
     localStorage.setItem("home_server", "example.org");
     const randomValues = new Uint32Array([0, 1, 2, 3, 4, 5, 6, 7]);
-    const cryptoSpy = jest.spyOn(global.crypto, "getRandomValues").mockReturnValue(randomValues);
+    const cryptoSpy = vi.spyOn(global.crypto, "getRandomValues").mockReturnValue(randomValues);
 
     expect(generateRandomMXID()).toBe("@01234567:example.org");
 

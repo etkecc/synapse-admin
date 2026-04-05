@@ -21,7 +21,7 @@ describe("fetchAuthenticatedMedia", () => {
     localStorage.clear();
     localStorage.setItem("base_url", "https://hs.example");
     localStorage.setItem("access_token", "secret-token");
-    global.fetch = jest.fn();
+    vi.stubGlobal("fetch", vi.fn());
   });
 
   it("returns a 400 response for invalid MXC URLs without fetching", async () => {
@@ -32,7 +32,7 @@ describe("fetchAuthenticatedMedia", () => {
   });
 
   it("fetches thumbnails with the authenticated media URL", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue(new Response(null, { status: 200 }));
+    vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 200 }));
 
     await fetchAuthenticatedMedia("mxc://matrix.example/media123", "thumbnail");
 
@@ -47,7 +47,7 @@ describe("fetchAuthenticatedMedia", () => {
   });
 
   it("fetches originals with quarantine bypass enabled", async () => {
-    (global.fetch as jest.Mock).mockResolvedValue(new Response(null, { status: 200 }));
+    vi.mocked(fetch).mockResolvedValue(new Response(null, { status: 200 }));
 
     await fetchAuthenticatedMedia("mxc://matrix.example/media123", "original");
 

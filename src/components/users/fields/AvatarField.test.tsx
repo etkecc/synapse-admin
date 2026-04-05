@@ -7,21 +7,21 @@ import AvatarField from "./AvatarField";
 describe("AvatarField", () => {
   beforeEach(() => {
     // Mock fetch
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        blob: () => Promise.resolve(new Blob(["mock image data"], { type: "image/jpeg" })),
-      })
-    ) as jest.Mock;
+    global.fetch = vi.fn(() =>
+      Promise.resolve(new Response(new Blob(["mock image data"], { type: "image/jpeg" })))
+    ) as unknown as typeof fetch;
 
     // Mock URL.createObjectURL
-    global.URL.createObjectURL = jest.fn(() => "mock-object-url");
+    global.URL.createObjectURL = vi.fn(() => "mock-object-url");
+    localStorage.setItem("base_url", "https://example.org");
+    localStorage.setItem("access_token", "secret-token");
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
-  it.only("shows image", async () => {
+  it("shows image", async () => {
     const value = {
       avatar: "mxc://serverName/mediaId",
     };

@@ -300,12 +300,10 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
-path = ["jest.config.ts"]
+path = ["src/vitest.setup.ts"]
 SPDX-FileCopyrightText = [
   "2024 Manuel Stahl",
-  "2025 Nikita Chernyi <https://etke.cc>",
-  "2025 Borislav Pantaleev <https://etke.cc>",
-  "2025 Dirk Klimpel",
+  "2024-2026 Nikita Chernyi <https://etke.cc>",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 
@@ -1147,13 +1145,6 @@ SPDX-FileCopyrightText = [
   "2024-2026 Nikita Chernyi <https://etke.cc>",
   "2025 Dirk Klimpel",
   "2025 Patrick Kranz",
-]
-SPDX-License-Identifier = "Apache-2.0"
-
-[[annotations]]
-path = ["src/jest.setup.ts"]
-SPDX-FileCopyrightText = [
-  "2024 Manuel Stahl",
 ]
 SPDX-License-Identifier = "Apache-2.0"
 

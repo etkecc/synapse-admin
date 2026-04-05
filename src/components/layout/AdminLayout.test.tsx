@@ -3,9 +3,9 @@ import userEvent from "@testing-library/user-event";
 
 import { AdminUserMenu } from "./AdminLayout";
 
-const onClose = jest.fn();
+const onClose = vi.fn();
 
-jest.mock("react-admin", () => {
+vi.mock("react-admin", () => {
   const Menu = Object.assign(({ children }) => <div>{children}</div>, {
     Item: ({ children }) => <div>{children}</div>,
     ResourceItem: ({ children }) => <div>{children}</div>,
@@ -22,11 +22,11 @@ jest.mock("react-admin", () => {
     Logout: () => <button type="button">Logout</button>,
     Menu,
     ToggleThemeButton: () => null,
-    useLogout: () => jest.fn(),
+    useLogout: () => vi.fn(),
     UserMenu: ({ children }) => <div>{children}</div>,
-    useNotify: () => jest.fn(),
-    useStore: (_key, defaultValue) => [defaultValue, jest.fn()],
-    useLocaleState: () => ["en", jest.fn()],
+    useNotify: () => vi.fn(),
+    useStore: (_key, defaultValue) => [defaultValue, vi.fn()],
+    useLocaleState: () => ["en", vi.fn()],
     useLocale: () => "en",
     useLocales: () => [
       { locale: "en", name: "English" },
@@ -44,24 +44,24 @@ jest.mock("react-admin", () => {
   };
 });
 
-jest.mock("../../providers/data", () => ({
-  setDataProviderNotifier: jest.fn(),
+vi.mock("../../providers/data", () => ({
+  setDataProviderNotifier: vi.fn(),
 }));
 
-jest.mock("../users/AdminClientConfigItems", () => ({
+vi.mock("../users/AdminClientConfigItems", () => ({
   AdminClientConfigItems: () => <div>Admin client config</div>,
 }));
 
-jest.mock("../../providers/serverVersion", () => ({
+vi.mock("../../providers/serverVersion", () => ({
   useServerVersions: () => ({ synapse: "", mas: "" }),
 }));
 
-jest.mock("../../utils/config", () => ({
-  ClearConfig: jest.fn(),
+vi.mock("../../utils/config", () => ({
+  ClearConfig: vi.fn(),
 }));
 
-jest.mock("../etke.cc/InstanceConfig", () => ({
-  ClearInstanceConfig: jest.fn(),
+vi.mock("../etke.cc/InstanceConfig", () => ({
+  ClearInstanceConfig: vi.fn(),
   useInstanceConfig: () => ({
     disabled: {
       notifications: false,
@@ -75,20 +75,20 @@ jest.mock("../etke.cc/InstanceConfig", () => ({
   }),
 }));
 
-jest.mock("../etke.cc/ServerNotificationsBadge", () => ({
+vi.mock("../etke.cc/ServerNotificationsBadge", () => ({
   ServerNotificationsBadge: () => null,
 }));
 
-jest.mock("../etke.cc/ServerStatusBadge", () => ({
+vi.mock("../etke.cc/ServerStatusBadge", () => ({
   EtkeStatusPoller: () => null,
   ServerStatusStyledBadge: () => null,
 }));
 
-jest.mock("../../providers/data/mas", () => ({
+vi.mock("../../providers/data/mas", () => ({
   isMAS: () => false,
 }));
 
-jest.mock("../../Context", () => ({
+vi.mock("../../Context", () => ({
   useAppContext: () => ({
     menu: [],
     etkeccAdmin: "",
