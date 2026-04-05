@@ -84,6 +84,7 @@ describe("dataProvider", () => {
         avatar_url: "mxc://localhost/user1",
         admin: false,
         deactivated: false,
+        creation_ts: 1560432506,
       })
     );
 
@@ -91,7 +92,35 @@ describe("dataProvider", () => {
 
     expect(user.data.id).toEqual("@user_id1:provider");
     expect(user.data.displayname).toEqual("User");
+    expect(user.data.creation_ts_ms).toEqual(1560432506000);
     expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps Synapse list creation_ts values in milliseconds", async () => {
+    fetchMock.mockResponseOnce(
+      JSON.stringify({
+        users: [
+          {
+            name: "@user_id1:provider",
+            is_guest: 0,
+            admin: 0,
+            user_type: null,
+            deactivated: 0,
+            displayname: "User One",
+            creation_ts: 1560432668000,
+          },
+        ],
+        total: 1,
+      })
+    );
+
+    const users = await dataProvider.getList("users", {
+      pagination: { page: 1, perPage: 5 },
+      sort: { field: "name", order: "ASC" },
+      filter: {},
+    });
+
+    expect(users.data[0].creation_ts_ms).toEqual(1560432668000);
   });
 
   it("skips MAS availability check when no access token", async () => {

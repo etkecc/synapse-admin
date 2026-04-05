@@ -26,6 +26,7 @@ import {
   MASUserSessionResource,
 } from "../types";
 import { jsonClient } from "../http";
+import { normalizeTS } from "../../utils/date";
 
 /**
  * Read the cached MAS flag from localStorage.
@@ -355,7 +356,8 @@ export const getMASUsersAsMainResource = () => ({
             ...record,
             avatar_src: json.avatar_url ?? null,
             displayname: json.displayname ?? null,
-            creation_ts_ms: json.creation_ts != null ? json.creation_ts * 1000 : null,
+            // Normalize across Synapse user endpoints before the value reaches the UI.
+            creation_ts_ms: normalizeTS(json.creation_ts),
             is_guest: !!json.is_guest,
             shadow_banned: !!json.shadow_banned,
             erased: !!json.erased,
@@ -428,7 +430,8 @@ export const getMASUsersAsMainResource = () => ({
           suspended: !!u.suspended,
           avatar_src: u.avatar_url ?? null,
           displayname: u.displayname ?? null,
-          creation_ts_ms: u.creation_ts,
+          // Normalize across Synapse user endpoints before the value reaches the UI.
+          creation_ts_ms: normalizeTS(u.creation_ts),
         };
 
         if (!masBaseUrl) return synapseRecord;
@@ -466,7 +469,8 @@ export const getMASUsersAsMainResource = () => ({
             suspended: !!u.suspended,
             avatar_src: u.avatar_url ?? null,
             displayname: u.displayname ?? null,
-            creation_ts_ms: u.creation_ts,
+            // Normalize across Synapse user endpoints before the value reaches the UI.
+            creation_ts_ms: normalizeTS(u.creation_ts),
           };
         } catch {
           // MAS lookup failed — return Synapse-only record
@@ -516,7 +520,8 @@ export const getMASUsersAsMainResource = () => ({
         ...masRecord,
         avatar_src: synapseJson.avatar_url ?? null,
         displayname: synapseJson.displayname ?? null,
-        creation_ts_ms: synapseJson.creation_ts != null ? synapseJson.creation_ts * 1000 : null,
+        // Normalize across Synapse user endpoints before the value reaches the UI.
+        creation_ts_ms: normalizeTS(synapseJson.creation_ts),
         suspended: !!synapseJson.suspended,
         shadow_banned: !!synapseJson.shadow_banned,
       };

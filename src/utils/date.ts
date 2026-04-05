@@ -27,6 +27,34 @@ export const dateFormatter = (v: string | number | Date | undefined | null): str
   return `${year}-${month}-${day}T${hour}:${minute}`;
 };
 
+/**
+ * Normalize timestamps to milliseconds.
+ *
+ * This exists because the upstream APIs used by the users resource are inconsistent:
+ *
+ * - `GET /_synapse/admin/v2/users/<user_id>` returns `creation_ts` in seconds.
+ * - `GET /_synapse/admin/v2/users` and `GET /_synapse/admin/v3/users` return `creation_ts` in milliseconds.
+ *
+ * The UI expects a single normalized field (`creation_ts_ms`) regardless of which endpoint
+ * produced the record. Without normalization, records loaded from the single-user v2 endpoint
+ * are interpreted as milliseconds by the browser and render dates around January 1970.
+ *
+ * We detect second-based Unix timestamps using a simple threshold:
+ * current millisecond epoch values are 13 digits, while second-based epoch values are 10 digits.
+ * Anything below 1_000_000_000_000 is therefore treated as seconds and multiplied by 1000.
+ *
+ * This helper is intentionally conservative:
+ * - `null` and `undefined` are returned as-is so callers can preserve missing values.
+ * - already-normalized millisecond timestamps are returned unchanged.
+ */
+export const normalizeTS = (value?: number | null): number | null | undefined => {
+  if (value == null) {
+    return value;
+  }
+
+  return value < 1_000_000_000_000 ? value * 1000 : value;
+};
+
 interface TimeSinceResult {
   timeI18Nkey: string;
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */

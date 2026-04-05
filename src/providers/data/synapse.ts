@@ -29,6 +29,7 @@ import {
   Whois,
 } from "../types";
 import { returnMXID } from "../../utils/mxid";
+import { normalizeTS } from "../../utils/date";
 
 /**
  * Get Synapse server version via /_synapse/admin/v1/server_version
@@ -69,7 +70,7 @@ export const synapseResourceMap = {
   users: {
     path: "/_synapse/admin/v2/users",
     listPath: "/_synapse/admin/v3/users",
-    map: async (u: User) => ({
+    map: (u: User) => ({
       ...u,
       id: returnMXID(u.name),
       avatar_src: u.avatar_url ? u.avatar_url : undefined,
@@ -77,7 +78,8 @@ export const synapseResourceMap = {
       admin: !!u.admin,
       deactivated: !!u.deactivated,
       shadow_banned: !!u.shadow_banned,
-      creation_ts_ms: u.creation_ts,
+      // Normalize across Synapse user endpoints before the value reaches the UI.
+      creation_ts_ms: normalizeTS(u.creation_ts),
     }),
     data: "users",
     total: (json: { total: number }) => json.total,
