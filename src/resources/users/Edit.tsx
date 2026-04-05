@@ -1278,38 +1278,40 @@ export const UserEdit = (props: EditProps) => {
 
         <FormTab label="resources.connections.name" icon={<SettingsInputComponentIcon />} path="connections">
           <ReferenceField reference="connections" source="id" label="" link={false}>
-            <ArrayField source="devices[].sessions[0].connections" label="resources.connections.name">
-              {isSmall ? (
-                <SimpleList
-                  empty={<EmptyState resource="connections" />}
-                  primaryText={record => record.ip}
-                  secondaryText={record => (
-                    <>
-                      {record.last_seen && new Date(record.last_seen).toLocaleString(locale)}
-                      {record.user_agent && (
-                        <>
-                          <br />
-                          <Box component="span" sx={{ wordBreak: "break-all" }}>
-                            {record.user_agent}
-                          </Box>
-                        </>
-                      )}
-                    </>
-                  )}
-                  rowClick={false}
-                />
-              ) : (
-                <DatagridConfigurable
-                  sx={{ width: "100%" }}
-                  bulkActionButtons={false}
-                  empty={<EmptyState resource="connections" />}
-                >
-                  <TextField source="ip" sortable={false} />
-                  <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-                  <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
-                </DatagridConfigurable>
-              )}
-            </ArrayField>
+            <WrapperField label="resources.connections.name">
+              <ArrayField source="devices[].sessions[0].connections">
+                {isSmall ? (
+                  <SimpleList
+                    empty={<EmptyState resource="connections" />}
+                    primaryText={record => record.ip}
+                    secondaryText={record => (
+                      <>
+                        {record.last_seen && new Date(record.last_seen).toLocaleString(locale)}
+                        {record.user_agent && (
+                          <>
+                            <br />
+                            <Box component="span" sx={{ wordBreak: "break-all" }}>
+                              {record.user_agent}
+                            </Box>
+                          </>
+                        )}
+                      </>
+                    )}
+                    rowClick={false}
+                  />
+                ) : (
+                  <DatagridConfigurable
+                    sx={{ width: "100%" }}
+                    bulkActionButtons={false}
+                    empty={<EmptyState resource="connections" />}
+                  >
+                    <TextField source="ip" sortable={false} />
+                    <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+                    <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
+                  </DatagridConfigurable>
+                )}
+              </ArrayField>
+            </WrapperField>
           </ReferenceField>
         </FormTab>
 

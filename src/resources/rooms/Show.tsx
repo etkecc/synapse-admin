@@ -18,6 +18,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useState } from "react";
 import {
   BooleanField,
   DatagridConfigurable,
@@ -43,6 +44,7 @@ import {
   useTranslate,
 } from "react-admin";
 import { RoomHierarchy } from "../../components/rooms/RoomHierarchy";
+import { EventLookupDialog } from "../../components/rooms/EventLookupDialog";
 import { RoomMessages } from "../../components/rooms/RoomMessages";
 import AvatarField from "../../components/users/fields/AvatarField";
 import { BlockRoomButton } from "../../components/users/buttons/BlockRoomButton";
@@ -256,6 +258,177 @@ const RoomOverviewTab = () => {
   );
 };
 
+const ClickableEventId = ({ eventId, onClick }: { eventId: string; onClick: (eventId: string) => void }) => (
+  <Box
+    component="button"
+    type="button"
+    onClick={() => onClick(eventId)}
+    sx={{
+      all: "unset",
+      cursor: "pointer",
+      color: "primary.main",
+      textDecoration: "underline",
+      wordBreak: "break-all",
+    }}
+  >
+    {eventId}
+  </Box>
+);
+
+const ForwardExtremitiesTab = () => {
+  const translate = useTranslate();
+  const locale = useLocale();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const [lookupEventId, setLookupEventId] = useState<string | null>(null);
+
+  return (
+    <>
+      <Box
+        sx={{
+          fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+          margin: "0.5em",
+        }}
+      >
+        {translate("resources.rooms.helper.forward_extremities")}
+      </Box>
+      <ReferenceManyField
+        reference="forward_extremities"
+        target="room_id"
+        label={false}
+        pagination={<Pagination />}
+        perPage={10}
+      >
+        {isSmall ? (
+          <SimpleList
+            empty={<EmptyState resource="forward_extremities" />}
+            primaryText={record => <ClickableEventId eventId={record.id} onClick={setLookupEventId} />}
+            secondaryText={record => (
+              <>
+                {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
+                {record.state_group && (
+                  <>
+                    {" "}
+                    · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}
+                  </>
+                )}
+              </>
+            )}
+            rowClick={false}
+          />
+        ) : (
+          <DatagridConfigurable
+            sx={{ width: "100%" }}
+            bulkActionButtons={false}
+            omit={["depth", "received_ts"]}
+            empty={<EmptyState resource="forward_extremities" />}
+          >
+            <FunctionField
+              source="id"
+              sortable={false}
+              render={record => <ClickableEventId eventId={record.id} onClick={setLookupEventId} />}
+            />
+            <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+            <NumberField source="depth" sortable={false} />
+            <RaTextField source="state_group" sortable={false} />
+          </DatagridConfigurable>
+        )}
+      </ReferenceManyField>
+      <EventLookupDialog
+        open={!!lookupEventId}
+        onClose={() => setLookupEventId(null)}
+        initialEventId={lookupEventId ?? undefined}
+      />
+    </>
+  );
+};
+
+const RoomStateTab = () => {
+  const locale = useLocale();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const [lookupEventId, setLookupEventId] = useState<string | null>(null);
+
+  return (
+    <>
+      <ReferenceManyField
+        reference="room_state"
+        target="room_id"
+        label={false}
+        pagination={<Pagination />}
+        perPage={10}
+      >
+        {isSmall ? (
+          <SimpleList
+            empty={<EmptyState resource="room_state" />}
+            primaryText={record => record.type}
+            secondaryText={record => (
+              <>
+                {record.origin_server_ts && new Date(record.origin_server_ts).toLocaleString(locale)}
+                {record.sender && (
+                  <>
+                    <br />
+                    <Box component="span" sx={{ wordBreak: "break-all" }}>
+                      {record.sender}
+                    </Box>
+                  </>
+                )}
+                <Box
+                  component="pre"
+                  sx={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-all",
+                    m: 0,
+                    mt: 0.5,
+                    p: 1,
+                    fontSize: "0.75rem",
+                    bgcolor: "action.hover",
+                    borderRadius: 1,
+                    overflow: "auto",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {JSON.stringify(record.content, null, 2)}
+                </Box>
+              </>
+            )}
+            rowClick={id => {
+              setLookupEventId(String(id));
+              return false;
+            }}
+          />
+        ) : (
+          <DatagridConfigurable
+            sx={{ width: "100%" }}
+            bulkActionButtons={false}
+            empty={<EmptyState resource="room_state" />}
+            rowClick={id => {
+              setLookupEventId(String(id));
+              return false;
+            }}
+          >
+            <RaTextField source="type" sortable={false} />
+            <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
+            <FunctionField
+              source="content"
+              sortable={false}
+              render={record => `${JSON.stringify(record.content, null, 2)}`}
+            />
+            <ReferenceField source="sender" reference="users" sortable={false}>
+              <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
+            </ReferenceField>
+          </DatagridConfigurable>
+        )}
+      </ReferenceManyField>
+      <EventLookupDialog
+        open={!!lookupEventId}
+        onClose={() => setLookupEventId(null)}
+        initialEventId={lookupEventId ?? undefined}
+      />
+    </>
+  );
+};
+
 const RoomMembersMobileList = () => {
   const { data: members } = useListContext();
   const ids = (members || []).map(r => r.id);
@@ -296,7 +469,6 @@ const RoomMembersMobileList = () => {
 const RoomShowLayout = () => {
   const record = useRecordContext();
   const translate = useTranslate();
-  const locale = useLocale();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isSpace = record?.room_type === "m.space";
@@ -425,68 +597,7 @@ const RoomShowLayout = () => {
       </Tab>
 
       <Tab label={translate("resources.room_state.name", { smart_count: 2 })} icon={<EventIcon />} path="state">
-        <ReferenceManyField
-          reference="room_state"
-          target="room_id"
-          label={false}
-          pagination={<Pagination />}
-          perPage={10}
-        >
-          {isSmall ? (
-            <SimpleList
-              empty={<EmptyState resource="room_state" />}
-              primaryText={record => record.type}
-              secondaryText={record => (
-                <>
-                  {record.origin_server_ts && new Date(record.origin_server_ts).toLocaleString(locale)}
-                  {record.sender && (
-                    <>
-                      <br />
-                      <Box component="span" sx={{ wordBreak: "break-all" }}>
-                        {record.sender}
-                      </Box>
-                    </>
-                  )}
-                  <Box
-                    component="pre"
-                    sx={{
-                      whiteSpace: "pre-wrap",
-                      wordBreak: "break-all",
-                      m: 0,
-                      mt: 0.5,
-                      p: 1,
-                      fontSize: "0.75rem",
-                      bgcolor: "action.hover",
-                      borderRadius: 1,
-                      overflow: "auto",
-                      maxWidth: "100%",
-                    }}
-                  >
-                    {JSON.stringify(record.content, null, 2)}
-                  </Box>
-                </>
-              )}
-              rowClick={false}
-            />
-          ) : (
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              bulkActionButtons={false}
-              empty={<EmptyState resource="room_state" />}
-            >
-              <RaTextField source="type" sortable={false} />
-              <DateField source="origin_server_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-              <FunctionField
-                source="content"
-                sortable={false}
-                render={record => `${JSON.stringify(record.content, null, 2)}`}
-              />
-              <ReferenceField source="sender" reference="users" sortable={false}>
-                <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
-              </ReferenceField>
-            </DatagridConfigurable>
-          )}
-        </ReferenceManyField>
+        <RoomStateTab />
       </Tab>
 
       <Tab label="ketesa.rooms.tabs.messages" icon={<MessageIcon />} path="messages">
@@ -500,56 +611,7 @@ const RoomShowLayout = () => {
       )}
 
       <Tab label="resources.forward_extremities.name" icon={<FastForwardIcon />} path="forward_extremities">
-        <Box
-          sx={{
-            fontFamily: "Roboto, Helvetica, Arial, sans-serif",
-            margin: "0.5em",
-          }}
-        >
-          {translate("resources.rooms.helper.forward_extremities")}
-        </Box>
-        <ReferenceManyField
-          reference="forward_extremities"
-          target="room_id"
-          label={false}
-          pagination={<Pagination />}
-          perPage={10}
-        >
-          {isSmall ? (
-            <SimpleList
-              empty={<EmptyState resource="forward_extremities" />}
-              primaryText={record => (
-                <Box component="span" sx={{ wordBreak: "break-all" }}>
-                  {record.id}
-                </Box>
-              )}
-              secondaryText={record => (
-                <>
-                  {record.received_ts && new Date(record.received_ts).toLocaleString(locale)}
-                  {record.state_group && (
-                    <>
-                      {" "}
-                      · {translate("resources.forward_extremities.fields.state_group")}: {record.state_group}
-                    </>
-                  )}
-                </>
-              )}
-              rowClick={false}
-            />
-          ) : (
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              bulkActionButtons={false}
-              omit={["depth", "received_ts"]}
-              empty={<EmptyState resource="forward_extremities" />}
-            >
-              <RaTextField source="id" sortable={false} sx={{ wordBreak: "break-all" }} />
-              <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
-              <NumberField source="depth" sortable={false} />
-              <RaTextField source="state_group" sortable={false} />
-            </DatagridConfigurable>
-          )}
-        </ReferenceManyField>
+        <ForwardExtremitiesTab />
       </Tab>
     </TabbedShowLayout>
   );
