@@ -220,7 +220,9 @@ const RoomOverviewTab = () => {
                   {translate("resources.rooms.fields.join_rules")}
                 </Typography>
                 <Typography variant="body2">
-                  {record.join_rules ? tt(translate, `resources.rooms.enums.join_rules.${record.join_rules}`, record.join_rules) : "—"}
+                  {record.join_rules
+                    ? tt(translate, `resources.rooms.enums.join_rules.${record.join_rules}`, record.join_rules)
+                    : "—"}
                 </Typography>
               </Box>
               <Box>
@@ -228,7 +230,9 @@ const RoomOverviewTab = () => {
                   {translate("resources.rooms.fields.guest_access")}
                 </Typography>
                 <Typography variant="body2">
-                  {record.guest_access ? tt(translate, `resources.rooms.enums.guest_access.${record.guest_access}`, record.guest_access) : "—"}
+                  {record.guest_access
+                    ? tt(translate, `resources.rooms.enums.guest_access.${record.guest_access}`, record.guest_access)
+                    : "—"}
                 </Typography>
               </Box>
               <Box>
@@ -237,7 +241,11 @@ const RoomOverviewTab = () => {
                 </Typography>
                 <Typography variant="body2">
                   {record.history_visibility
-                    ? tt(translate, `resources.rooms.enums.history_visibility.${record.history_visibility}`, record.history_visibility)
+                    ? tt(
+                        translate,
+                        `resources.rooms.enums.history_visibility.${record.history_visibility}`,
+                        record.history_visibility
+                      )
                     : "—"}
                 </Typography>
               </Box>

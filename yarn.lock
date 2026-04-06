@@ -8,26 +8,24 @@
   integrity sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==
 
 "@asamuzakjp/css-color@^5.0.1":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@asamuzakjp/css-color/-/css-color-5.1.5.tgz#78fca40e43bd517f3e1ed1301287f9202b9895c5"
-  integrity sha512-8cMAA1bE66Mb/tfmkhcfJLjEPgyT7SSy6lW6id5XL113ai1ky76d/1L27sGnXCMsLfq66DInAU3OzuahB4lu9Q==
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/@asamuzakjp/css-color/-/css-color-5.1.6.tgz#8c57d67dfc90c2aed90c11a64e64bd3a6e978a83"
+  integrity sha512-BXWCh8dHs9GOfpo/fWGDJtDmleta2VePN9rn6WQt3GjEbxzutVF4t0x2pmH+7dbMCLtuv3MlwqRsAuxlzFXqFg==
   dependencies:
     "@csstools/css-calc" "^3.1.1"
     "@csstools/css-color-parser" "^4.0.2"
     "@csstools/css-parser-algorithms" "^4.0.0"
     "@csstools/css-tokenizer" "^4.0.0"
-    lru-cache "^11.2.7"
 
 "@asamuzakjp/dom-selector@^7.0.3":
-  version "7.0.6"
-  resolved "https://registry.yarnpkg.com/@asamuzakjp/dom-selector/-/dom-selector-7.0.6.tgz#9f5f0b0a7e6ea3dfa881aa2ec7ee80bce8d85af7"
-  integrity sha512-Tgmk6EQM0nc9xvp7sEHRVavbknhb/vGKht+04yAT3t5KQwZ02CSobCtcFgaHH04ZrjD1BhEKNA8tRhzFV20gkA==
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/@asamuzakjp/dom-selector/-/dom-selector-7.0.7.tgz#eaa7c72adac70ea451fa3c5c4f40b9be3c752b67"
+  integrity sha512-d2BgqDUOS1Hfp4IzKUZqCNz+Kg3Y88AkaBvJK/ZVSQPU1f7OpPNi7nQTH6/oI47Dkdg+Z3e8Yp6ynOu4UMINAQ==
   dependencies:
     "@asamuzakjp/nwsapi" "^2.3.9"
     bidi-js "^1.0.3"
     css-tree "^3.2.1"
     is-potential-custom-element-name "^1.0.1"
-    lru-cache "^11.2.7"
 
 "@asamuzakjp/nwsapi@^2.3.9":
   version "2.3.9"
@@ -1451,9 +1449,9 @@ balanced-match@^4.0.2:
   integrity sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==
 
 baseline-browser-mapping@^2.10.12:
-  version "2.10.14"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.10.14.tgz#d25463733a8f80bb59ab9f797c902dc88832d47c"
-  integrity sha512-fOVLPAsFTsQfuCkvahZkzq6nf8KvGWanlYoTh0SVA0A/PIUxQGU2AOZAoD95n2gFLVDW/jP6sbGLny95nmEuHA==
+  version "2.10.16"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.10.16.tgz#ef80cf218a53f165689a6e32ffffdca1f35d979c"
+  integrity sha512-Lyf3aK28zpsD1yQMiiHD4RvVb6UdMoo8xzG2XzFIfR9luPzOpcBlAsT/qfB1XWS1bxWT+UtE4WmQgsp297FYOA==
 
 bidi-js@^1.0.3:
   version "1.0.3"
@@ -1520,9 +1518,9 @@ callsites@^3.0.0:
   integrity sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
 
 caniuse-lite@^1.0.30001782:
-  version "1.0.30001785"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001785.tgz#31f8e3ec1059430d2a7b04fff44c27672c4482df"
-  integrity sha512-blhOL/WNR+Km1RI/LCVAvA73xplXA7ZbjzI4YkMK9pa6T/P3F2GxjNpEkyw5repTw9IvkyrjyHpwjnhZ5FOvYQ==
+  version "1.0.30001786"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001786.tgz#586120fc73f3c7ee82152f76acd0c37e04acefbb"
+  integrity sha512-4oxTZEvqmLLrERwxO76yfKM7acZo310U+v4kqexI2TL1DkkUEMT8UijrxxcnVdxR3qkVf5awGRX+4Z6aPHVKrA==
 
 chai@^6.2.2:
   version "6.2.2"
@@ -2852,9 +2850,9 @@ loose-envify@^1.0.0, loose-envify@^1.4.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 lru-cache@^11.2.7:
-  version "11.2.7"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-11.2.7.tgz#9127402617f34cd6767b96daee98c28e74458d35"
-  integrity sha512-aY/R+aEsRelme17KGQa/1ZSIpLpNYYrhcrepKTZgE+W3WM16YMCaPwOHLHsmopZHELU0Ojin1lPVxKR0MihncA==
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-11.3.1.tgz#ed2e369003d1ef9d178fe4d1918bc1a37f068008"
+  integrity sha512-Y71HWT4hydF1IAG/2OPync4dgQ/J2iWye7eg6CuzJHI+E97tvqFPlADzxiNnjH6WSljg8ecfXMr9k6bfFuqA5w==
 
 lru-cache@^5.1.1:
   version "5.1.1"
@@ -4117,10 +4115,10 @@ v8-compile-cache-lib@^3.0.1:
   resolved "https://registry.yarnpkg.com/v8-compile-cache-lib/-/v8-compile-cache-lib-3.0.1.tgz#6336e8d71965cb3d35a1bbb7868445a7c05264bf"
   integrity sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==
 
-"vite@^6.0.0 || ^7.0.0 || ^8.0.0", vite@^8.0.3:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-8.0.3.tgz#036d9e3b077ff57b128660b3e3a5d2d12bac9b42"
-  integrity sha512-B9ifbFudT1TFhfltfaIPgjo9Z3mDynBTJSUYxTjOQruf/zHH+ezCQKcoqO+h7a9Pw9Nm/OtlXAiGT1axBgwqrQ==
+"vite@^6.0.0 || ^7.0.0 || ^8.0.0", vite@^8.0.5:
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-8.0.5.tgz#5f8648997359e18dbc1a9e151ce55434ce5d8a2f"
+  integrity sha512-nmu43Qvq9UopTRfMx2jOYW5l16pb3iDC1JH6yMuPkpVbzK0k+L7dfsEDH4jRgYFmsg0sTAqkojoZgzLMlwHsCQ==
   dependencies:
     lightningcss "^1.32.0"
     picomatch "^4.0.4"
