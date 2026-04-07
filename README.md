@@ -149,44 +149,19 @@ management:
 
 | | Where | Details |
 |---|---|---|
-| 🏠 | **[etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=ketesa)** | Core component of the managed hosting platform |
-| 🌐 | **[admin.etke.cc](https://admin.etke.cc)** | Hosted instance, always on the latest version |
-| 📦 | **[GitHub Releases](https://github.com/etkecc/ketesa/releases)** | Prebuilt tarballs for root-path and `/admin` subpath deployment |
-| 🐳 | **[Docker Hub](https://hub.docker.com/r/etkecc/ketesa) / [GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa)** | Official Docker images |
-| 🤖 | **[matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy/blob/master/docs/configuring-playbook-ketesa.md)** | Ansible playbook component |
-| ❄️ | **[Nix package](https://search.nixos.org/packages?show=synapse-admin-etkecc)** | Maintained by [@Defelo](https://github.com/Defelo) |
-| 🐧 | **[Arch Linux AUR](https://aur.archlinux.org/packages/synapse-admin-etke-git)** | Maintained by [@drygdryg](https://github.com/drygdryg) |
-| 🌊 | **[IPFS](https://ipfs.io)** | Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net) — see [details below](#ipfs) |
+| 🏠 | **[etke.cc](https://etke.cc/?utm_source=github&utm_medium=readme&utm_campaign=ketesa)** | Managed hosting with Ketesa built in |
+| 🌐 | **[admin.etke.cc](https://admin.etke.cc)** | Hosted instance, always on the latest development version |
+| 📦 | **[GitHub Releases](https://github.com/etkecc/ketesa/releases)** | Official prebuilt tarballs for root-path and `/admin` deployments |
+| 🐳 | **[GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa) / [Docker Hub](https://hub.docker.com/r/etkecc/ketesa/tags)** | Official container images |
+| 🔧 | **[Source](https://github.com/etkecc/ketesa)** | Build from source or track `main` directly |
 
-### Prebuilt distributions
+Official static builds:
 
-We offer two prebuilt distributions for different deployment paths:
+- **`ketesa.tar.gz`** for root path deployment, such as `https://admin.example.com`
+- **`ketesa-subpath-admin.tar.gz`** for `/admin` deployments, such as `https://example.com/admin`
 
-- **`ketesa.tar.gz`** — for root path deployment (e.g., `https://admin.example.com`)
-- **`ketesa-subpath-admin.tar.gz`** — for `/admin` subpath deployment (e.g., `https://example.com/admin`)
-
-Find the latest **released** versions on [GitHub Releases](https://github.com/etkecc/ketesa/releases).
-Find the latest **development (nightly)** builds in [GitHub Actions](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml)
-— click the latest successful run and download `dist-root` or `dist-subpath-admin` from the Artifacts section.
-
-### 🌙 Nightly builds
-
-Stay on the bleeding edge:
-
-- 🌐 **[admin.etke.cc](https://admin.etke.cc)** — always running the latest development version
-- 🐳 **Docker** — use the `latest` or `latest-subpath-admin` image tags on [GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa) or [Docker Hub](https://hub.docker.com/r/etkecc/ketesa/tags)
-- 📦 **Artifacts** — `dist-root` / `dist-subpath-admin` from the latest [GitHub Actions run](https://github.com/etkecc/ketesa/actions/workflows/workflow.yml)
-- 🔧 **Source** — clone the `main` branch and build it yourself
-
-### IPFS
-
-> Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net)
-
-**Latest version:** `/ipns/synapse-admin.sibnsk.net`
-(dnslink key `/ipns/k51qzi5uqu5dj91scsxoqu0ebmy7uqajrt9ohl98vs7fl7l429h0chgozk58i2`)
-
-**Archive:** `/ipns/synapse-admin-archive.sibnsk.net`
-(dnslink key `/ipns/k51qzi5uqu5dhxwc36sld1hn6jn935k71ww8rdyqomrnqcqucixy7re08qeu7z`)
+For nightly builds, distro packages, Ansible integrations, and IPFS,
+see the [full availability guide](./docs/availability.md).
 
 ---
 
