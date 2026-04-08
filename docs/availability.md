@@ -58,10 +58,10 @@ If you want the latest unreleased changes:
 
 > Maintained by [Fеnикs (@fenuks:sibnsk.net)](https://matrix.to/#/@fenuks:sibnsk.net)
 
-**Latest version:** `/ipns/synapse-admin.sibnsk.net`
+**Latest version:** `/ipns/ketesa.sibnsk.net`
 (`dnslink` key `/ipns/k51qzi5uqu5dj91scsxoqu0ebmy7uqajrt9ohl98vs7fl7l429h0chgozk58i2`)
 
-**Archive:** `/ipns/synapse-admin-archive.sibnsk.net`
+**Archive:** `/ipns/ketesa-archive.sibnsk.net`
 (`dnslink` key `/ipns/k51qzi5uqu5dhxwc36sld1hn6jn935k71ww8rdyqomrnqcqucixy7re08qeu7z`)
 
 ## 📝 Want your package listed?
