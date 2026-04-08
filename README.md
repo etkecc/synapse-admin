@@ -109,10 +109,10 @@ acted upon directly from the reports list.
 
 [📄 Server statistics guide](./docs/server-statistics.md) · [📄 Federation guide](./docs/federation.md) · [📄 Event reports guide](./docs/event-reports.md)
 
-### 🌍 Available in 9 languages
+### 🌍 Available in 10 languages
 
 Ketesa ships with full translations in English, German, French, Japanese, Russian, Persian,
-Ukrainian, Chinese, and Italian — every string is fully translated, with no untranslated
+Ukrainian, Chinese, Italian, and Portuguese — every string is fully translated, with no untranslated
 English stubs left behind.
 
 ### 📱 Mobile-friendly by design

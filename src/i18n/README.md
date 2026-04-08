@@ -1,12 +1,12 @@
 # i18n/
 
-Internationalization. 9 languages, each in its own directory.
+Internationalization. 10 languages, each in its own directory.
 
 ## Structure
 
 - `index.ts` — i18n provider setup (do not modify for new translations)
 - `types.d.ts` — Type-safe translation key definitions
-- `en/`, `de/`, `fa/`, `fr/`, `it/`, `ja/`, `ru/`, `uk/`, `zh/` — one dir per language
+- `en/`, `de/`, `fa/`, `fr/`, `it/`, `ja/`, `pt/`, `ru/`, `uk/`, `zh/` — one dir per language
 
 Each language directory contains:
 - `index.ts` — assembles all domain files into the full translation object

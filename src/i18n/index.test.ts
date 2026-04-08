@@ -147,13 +147,13 @@ describe("createI18nProvider", () => {
   });
 
   describe("available locales", () => {
-    it("should expose all 9 supported locales", async () => {
+    it("should expose all 10 supported locales", async () => {
       const provider = await createI18nProvider();
       const locales = provider.getLocales!();
 
-      expect(locales).toHaveLength(9);
+      expect(locales).toHaveLength(10);
       expect(locales.map(l => l.locale)).toEqual(
-        expect.arrayContaining(["en", "de", "fa", "fr", "it", "ja", "ru", "uk", "zh"])
+        expect.arrayContaining(["en", "de", "fa", "fr", "it", "ja", "pt", "ru", "uk", "zh"])
       );
     });
   });

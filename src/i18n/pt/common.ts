@@ -1,0 +1,388 @@
+import portugueseMessages from "./base";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const common: Record<string, any> = {
+  ...portugueseMessages,
+  ketesa: {
+    auth: {
+      base_url: "URL do servidor doméstico",
+      welcome: "Bem-vindo ao %{name}",
+      description:
+        "A evolução do Synapse Admin. Gira, monitorize e mantenha o seu servidor Matrix a partir de uma interface limpa. Concebido tanto para pequenos servidores privados como para grandes comunidades federadas.",
+      server_version: "Versão do Synapse",
+      supports_specs: "Suporta especificações Matrix",
+      username_error: "Introduza o ID de utilizador completo: '@utilizador:dominio'",
+      protocol_error: "O URL deve começar com 'http://' ou 'https://'",
+      url_error: "URL de servidor Matrix inválido",
+      sso_sign_in: "Entrar com SSO",
+      credentials: "Credenciais",
+      access_token: "Token de acesso",
+      logout_acces_token_dialog: {
+        title: "Está a utilizar um token de acesso Matrix existente.",
+        content:
+          "Pretende destruir esta sessão (que pode estar a ser utilizada noutro local, por exemplo num cliente Matrix) ou apenas terminar sessão no painel de administração?",
+        confirm: "Destruir sessão",
+        cancel: "Apenas terminar sessão no painel de administração",
+      },
+    },
+    users: {
+      invalid_user_id:
+        "Introduza apenas a parte local de um ID de utilizador Matrix — não inclua o servidor doméstico.",
+      tabs: {
+        sso: "SSO",
+        experimental: "Experimental",
+        limits: "Limites de taxa",
+        account_data: "Dados da conta",
+        sessions: "Sessões",
+      },
+      danger_zone: "Zona de perigo",
+    },
+    rooms: {
+      details: "Detalhes da sala",
+      tabs: {
+        basic: "Básico",
+        members: "Membros",
+        detail: "Detalhes",
+        permission: "Permissões",
+        media: "Multimédia",
+        messages: "Mensagens",
+        hierarchy: "Hierarquia",
+      },
+    },
+    reports: { tabs: { basic: "Básico", detail: "Detalhes" } },
+    admin_config: {
+      soft_failed_events: "Eventos com falha suave",
+      spam_flagged_events: "Eventos marcados como spam",
+      success: "Configuração de administração atualizada",
+      failure: "Falha ao atualizar a configuração de administração",
+    },
+  },
+  import_users: {
+    error: {
+      at_entry: "Na entrada %{entry}: %{message}",
+      error: "Erro",
+      required_field: "O campo obrigatório '%{field}' está ausente",
+      invalid_value: "Valor inválido na linha %{row}. O campo '%{field}' só pode ser 'true' ou 'false'",
+      unreasonably_big: "Recusado o carregamento de um ficheiro excessivamente grande de %{size} megabytes",
+      already_in_progress: "Já está em curso uma importação",
+      id_exits: "O ID %{id} já existe",
+    },
+    title: "Importar utilizadores via CSV",
+    goToPdf: "Ir para PDF",
+    cards: {
+      importstats: {
+        header: "Utilizadores analisados para importação",
+        users_total: "%{smart_count} utilizador no ficheiro CSV |||| %{smart_count} utilizadores no ficheiro CSV",
+        guest_count: "%{smart_count} convidado |||| %{smart_count} convidados",
+        admin_count: "%{smart_count} administrador |||| %{smart_count} administradores",
+      },
+      conflicts: {
+        header: "Estratégia de conflito",
+        mode: {
+          stop: "Parar em caso de conflito",
+          skip: "Mostrar erro e ignorar em caso de conflito",
+        },
+      },
+      ids: {
+        header: "IDs",
+        all_ids_present: "Todas as entradas têm um ID",
+        count_ids_present: "%{smart_count} entrada tem um ID |||| %{smart_count} entradas têm IDs",
+        mode: {
+          ignore: "Ignorar IDs do CSV e criar novos",
+          update: "Atualizar registos existentes",
+        },
+      },
+      passwords: {
+        header: "Palavras-passe",
+        all_passwords_present: "Todas as entradas têm uma palavra-passe",
+        count_passwords_present:
+          "%{smart_count} entrada tem uma palavra-passe |||| %{smart_count} entradas têm palavras-passe",
+        use_passwords: "Usar palavras-passe do CSV",
+      },
+      upload: {
+        header: "Ficheiro CSV de entrada",
+        explanation:
+          "Aqui pode carregar um ficheiro com valores separados por vírgulas que será processado para criar ou atualizar utilizadores. O ficheiro deve incluir os campos 'id' e 'displayname'. Pode descarregar e adaptar um ficheiro de exemplo aqui: ",
+      },
+      startImport: {
+        simulate_only: "Apenas simular",
+        run_import: "Importar",
+      },
+      results: {
+        header: "Resultados da importação",
+        total: "%{smart_count} entrada no total |||| %{smart_count} entradas no total",
+        successful: "%{smart_count} entradas importadas com sucesso",
+        skipped: "%{smart_count} entradas ignoradas",
+        download_skipped: "Descarregar registos ignorados",
+        with_error: "%{smart_count} entrada com erros |||| %{smart_count} entradas com erros",
+        simulated_only: "Esta foi apenas uma simulação — não foram feitas alterações",
+      },
+    },
+  },
+  delete_media: {
+    name: "Multimédia",
+    fields: {
+      before_ts: "Último acesso antes de",
+      size_gt: "Maior que (em bytes)",
+      keep_profiles: "Manter imagens de perfil",
+    },
+    action: {
+      send: "Eliminar multimédia",
+      send_success:
+        "Ficheiro multimédia eliminado com sucesso. |||| %{smart_count} ficheiros multimédia eliminados com sucesso.",
+      send_success_none: "Nenhum ficheiro multimédia correspondeu aos critérios especificados. Nada foi eliminado.",
+      send_failure: "Ocorreu um erro.",
+    },
+    helper: {
+      send: "Esta API elimina o multimédia local do disco do seu próprio servidor. Inclui miniaturas locais e cópias de multimédia descarregado. Esta API não afeta multimédia carregado em repositórios externos.",
+    },
+  },
+  purge_remote_media: {
+    name: "Multimédia remoto",
+    fields: {
+      before_ts: "Último acesso antes de",
+    },
+    action: {
+      send: "Limpar multimédia remoto",
+      send_success:
+        "Ficheiro multimédia remoto limpo com sucesso. |||| %{smart_count} ficheiros multimédia remotos limpos com sucesso.",
+      send_success_none: "Nenhum ficheiro multimédia remoto correspondeu aos critérios especificados. Nada foi limpo.",
+      send_failure: "Ocorreu um erro no pedido de limpeza de multimédia remoto.",
+    },
+    helper: {
+      send: "Esta API limpa a cache de multimédia remoto do disco do seu próprio servidor. Inclui miniaturas locais e cópias de multimédia descarregado. Esta API não afeta multimédia carregado no repositório de multimédia do próprio servidor.",
+    },
+  },
+  etkecc: {
+    donate: {
+      menu_label: "Fazer donativo",
+      name: "Apoiar o desenvolvimento do Ketesa",
+      title: "Apoiar o desenvolvimento do Ketesa",
+      description_1:
+        "O projeto Ketesa é gratuito e de código aberto, e construímo-lo e mantemo-lo abertamente para a comunidade Matrix.",
+      description_2:
+        "Se o projeto Ketesa lhe foi útil, um donativo ajuda-nos a continuar o trabalho por detrás dele: desenvolvimento, manutenção, correções e melhorias constantes.",
+      description_3: "Ajuda-nos a dedicar mais tempo a melhorar o projeto para todos os que dele dependem.",
+      description_4: "Cada contribuição ajuda e agradecemos sinceramente o seu apoio! ❤️",
+      button: "Fazer donativo",
+      signature_team: "a equipa etke.cc",
+    },
+    billing: {
+      name: "Faturação",
+      title: "Histórico de pagamentos",
+      no_payments: "Nenhum pagamento encontrado.",
+      no_payments_helper: "Se acredita que se trata de um erro, contacte o suporte etke.cc em",
+      description1: "Consulte pagamentos e gere faturas aqui. Pode saber mais sobre a gestão de subscrições em",
+      description2: "Para alterar o seu e-mail de faturação ou adicionar dados da empresa às faturas, consulte",
+      fields: {
+        transaction_id: "ID da transação",
+        email: "E-mail",
+        type: "Tipo",
+        amount: "Montante",
+        paid_at: "Pago em",
+        invoice: "Fatura",
+      },
+      enums: {
+        type: {
+          subscription: "Subscrição",
+          one_time: "Pagamento único",
+        },
+      },
+      helper: {
+        download_invoice: "Descarregar fatura",
+        downloading: "A descarregar...",
+        download_started: "Início do descarregamento da fatura.",
+        invoice_not_available: "Fatura pendente",
+        loading: "A carregar informações de faturação...",
+        loading_failed1: "Ocorreu um problema ao carregar as informações de faturação.",
+        loading_failed2: "Por favor tente novamente mais tarde.",
+        loading_failed3: "Se o problema persistir, contacte o suporte etke.cc em",
+        loading_failed4: "com a seguinte mensagem de erro:",
+      },
+    },
+    status: {
+      name: "Estado do servidor",
+      badge: {
+        default: "Clique para ver o estado do servidor",
+        running: "Em execução: %{command}. %{text}",
+      },
+      category: {
+        "Host Metrics": "Métricas do anfitrião",
+        Network: "Rede",
+        HTTP: "HTTP",
+        Matrix: "Matrix",
+      },
+      status: "Estado",
+      error: "Erro",
+      loading: "A obter informações de saúde do servidor em tempo real — um momento…",
+      intro1: "Este é um relatório de monitorização em tempo real do seu servidor. Pode saber mais em",
+      intro2: "Se alguma das verificações abaixo o preocupar, consulte as ações sugeridas em",
+      help: "Ajuda",
+    },
+    maintenance: {
+      title: "O sistema está atualmente em modo de manutenção.",
+      try_again: "Por favor tente novamente mais tarde.",
+      note: "Não é necessário contactar o suporte sobre isto, já estamos a trabalhar nisso!",
+    },
+    actions: {
+      name: "Ações do servidor",
+      available_title: "Comandos disponíveis",
+      available_description: "Os seguintes comandos estão disponíveis para executar no seu servidor.",
+      available_help_intro: "Mais detalhes sobre cada comando estão disponíveis em",
+      scheduled_title: "Comandos agendados",
+      scheduled_description:
+        "Os seguintes comandos estão agendados para ser executados em momentos específicos. Pode ver os detalhes e modificá-los conforme necessário.",
+      recurring_title: "Comandos recorrentes",
+      recurring_description:
+        "Os seguintes comandos estão configurados para ser executados num dia da semana e hora específicos (semanalmente). Pode ver os detalhes e modificá-los conforme necessário.",
+      scheduled_help_intro: "Mais detalhes sobre esta funcionalidade estão disponíveis em",
+      recurring_help_intro: "Mais detalhes sobre esta funcionalidade estão disponíveis em",
+      maintenance_title: "O sistema está atualmente em modo de manutenção.",
+      maintenance_try_again: "Por favor tente novamente mais tarde.",
+      maintenance_note: "Não é necessário contactar o suporte sobre isto, já estamos a trabalhar nisso!",
+      maintenance_commands_blocked: "Os comandos não podem ser executados enquanto o modo de manutenção estiver ativo.",
+      table: {
+        command: "Comando",
+        description: "Descrição",
+        arguments: "Argumentos",
+        is_recurring: "É recorrente?",
+        run_at: "Executar em (hora local)",
+        next_run_at: "Próxima execução em (hora local)",
+        time_utc: "Hora (UTC)",
+        time_local: "Hora (hora local)",
+      },
+      buttons: {
+        create: "Criar",
+        update: "Atualizar",
+        back: "Voltar",
+        delete: "Eliminar",
+        run: "Executar",
+      },
+      command_scheduled: "Comando agendado: %{command}",
+      command_scheduled_args: "com argumentos adicionais: %{args}",
+      expect_prefix: "O resultado aparecerá na página",
+      expect_suffix: "em breve.",
+      notifications_link: "Notificações",
+      command_help_title: "Ajuda sobre %{command}",
+      scheduled_title_create: "Criar comando agendado",
+      scheduled_title_edit: "Editar comando agendado",
+      recurring_title_create: "Criar comando recorrente",
+      recurring_title_edit: "Editar comando recorrente",
+      scheduled_details_title: "Detalhes do comando agendado",
+      recurring_warning:
+        "Os comandos agendados gerados a partir de um comando recorrente não podem ser editados, pois são regenerados automaticamente. Para fazer alterações, edite o comando recorrente.",
+      command_details_intro: "Pode encontrar mais detalhes sobre o comando em",
+      form: {
+        id: "ID",
+        command: "Comando",
+        scheduled_at: "Agendado para",
+        day_of_week: "Dia da semana",
+      },
+      delete_scheduled_title: "Eliminar comando agendado",
+      delete_recurring_title: "Eliminar comando recorrente",
+      delete_confirm: "Tem a certeza de que pretende eliminar o comando: %{command}?",
+      errors: {
+        unknown: "Ocorreu um erro desconhecido",
+        delete_failed: "Erro: %{error}",
+      },
+      days: {
+        monday: "Segunda-feira",
+        tuesday: "Terça-feira",
+        wednesday: "Quarta-feira",
+        thursday: "Quinta-feira",
+        friday: "Sexta-feira",
+        saturday: "Sábado",
+        sunday: "Domingo",
+      },
+      scheduled: {
+        action: {
+          create_success: "Comando agendado criado com sucesso",
+          update_success: "Comando agendado atualizado com sucesso",
+          update_failure: "Ocorreu um erro",
+          delete_success: "Comando agendado eliminado com sucesso",
+          delete_failure: "Ocorreu um erro",
+        },
+      },
+      recurring: {
+        action: {
+          create_success: "Comando recorrente criado com sucesso",
+          update_success: "Comando recorrente atualizado com sucesso",
+          update_failure: "Ocorreu um erro",
+          delete_success: "Comando recorrente eliminado com sucesso",
+          delete_failure: "Ocorreu um erro",
+        },
+      },
+    },
+    notifications: {
+      title: "Notificações",
+      new_notifications: "%{smart_count} nova notificação |||| %{smart_count} novas notificações",
+      no_notifications: "Ainda não há notificações",
+      see_all: "Ver todas as notificações",
+      clear_all: "Limpar todas",
+      ago: "atrás",
+    },
+    currently_running: {
+      command: "Atualmente em execução:",
+      started_ago: "(iniciado há %{time})",
+    },
+    time: {
+      less_than_minute: "agora mesmo",
+      minutes: "%{smart_count} minuto |||| %{smart_count} minutos",
+      hours: "%{smart_count} hora |||| %{smart_count} horas",
+      days: "%{smart_count} dia |||| %{smart_count} dias",
+      weeks: "%{smart_count} semana |||| %{smart_count} semanas",
+      months: "%{smart_count} mês |||| %{smart_count} meses",
+    },
+    support: {
+      name: "Suporte",
+      menu_label: "Contactar suporte",
+      description:
+        "Abra um pedido de suporte ou acompanhe um já existente. A nossa equipa responderá o mais brevemente possível.",
+      create_title: "Novo pedido de suporte",
+      no_requests: "Ainda não há pedidos de suporte.",
+      no_messages: "Ainda não há mensagens.",
+      closed_message: "Este pedido está encerrado. Se ainda precisar de ajuda, abra um novo pedido.",
+      fields: {
+        subject: "Assunto",
+        message: "Mensagem",
+        reply: "Resposta",
+        status: "Estado",
+        created_at: "Criado em",
+        updated_at: "Última atualização",
+      },
+      status: {
+        active: "A aguardar resposta do suporte",
+        open: "Aberto",
+        closed: "Encerrado",
+        pending: "À sua espera",
+      },
+      buttons: {
+        new_request: "Novo pedido",
+        submit: "Submeter",
+        cancel: "Cancelar",
+        send: "Enviar",
+        back: "Voltar ao suporte",
+      },
+      helper: {
+        loading: "A carregar pedidos de suporte...",
+        reply_hint: "Prima Ctrl+Enter para enviar",
+        reply_placeholder: "Inclua o máximo de detalhes possível.",
+        before_contact_title: "Antes de nos contactar",
+        help_pages_prompt: "Consulte primeiro as nossas páginas de ajuda:",
+        services_prompt: "Apenas prestamos os serviços listados em:",
+        topics_prompt: "Só podemos ajudar com os tópicos suportados:",
+        scope_confirm_label:
+          "Consultei as páginas de ajuda e confirmo que este pedido corresponde aos tópicos suportados.",
+        english_only_notice: "O suporte é prestado apenas em inglês.",
+        response_time_prompt: "Procuramos responder em 48 horas. Precisa de uma resposta mais rápida? Consulte:",
+      },
+      actions: {
+        create_success: "Pedido de suporte criado com sucesso.",
+        create_failure: "Falha ao criar o pedido de suporte.",
+        send_failure: "Falha ao enviar mensagem.",
+      },
+    },
+  },
+};
+
+export default common;

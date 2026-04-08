@@ -1137,6 +1137,36 @@ SPDX-FileCopyrightText = ["Haxqer", "Moca-Tech"]
 SPDX-License-Identifier = "MIT"
 
 [[annotations]]
+path = [
+  "src/i18n/pt/common.ts",
+  "src/i18n/pt/index.ts",
+  "src/i18n/pt/mas.ts",
+  "src/i18n/pt/misc_resources.ts",
+  "src/i18n/pt/reports.ts",
+  "src/i18n/pt/rooms.ts",
+  "src/i18n/pt/users.ts",
+]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = ["src/i18n/pt/base.ts"]
+SPDX-FileCopyrightText = [
+  "2017 Wedney Yuri",
+  "2017 Willian Ribeiro Angelo",
+  "2018-2020 Gabriel Marques",
+  "2018 Giuseppe Menti",
+  "2019 Marcos Fernando Costa",
+  "2019 Matheus Wichman",
+  "2020 Alexsander da Rosa",
+  "2020 Eduardo Gomes Bonilha",
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
 path = ["src/index.tsx"]
 SPDX-FileCopyrightText = [
   "2020 Michael Albert",
