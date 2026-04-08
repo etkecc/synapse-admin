@@ -64,9 +64,6 @@ const users = {
     sent_invite_count: "Gesamtzahl der von diesem Benutzer in allen Räumen gesendeten Einladungen.",
     cumulative_joined_room_count:
       "Gesamtzahl der Räume, denen dieser Benutzer jemals beigetreten ist, einschließlich Räume, die er verlassen hat oder aus denen er verbannt wurde.",
-    mas_synapse_sort:
-      "MAS unterstützt keine native Sortierung. Ergebnisse werden von Synapse abgerufen — einige Filter sind in diesem Modus nicht verfügbar.",
-    mas_synapse_sort_reset: "Sortierung entfernen",
   },
   badge: {
     you: "Sie",

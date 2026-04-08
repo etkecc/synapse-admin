@@ -24,6 +24,7 @@ const rooms = {
   filter: {
     public_rooms: "公開ルーム",
     empty_rooms: "空のルーム",
+    local_members_only: "ローカルメンバーのみ",
   },
   helper: {
     forward_extremities:

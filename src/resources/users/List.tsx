@@ -6,7 +6,7 @@ import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert, Box, Button as MuiButton, Tooltip } from "@mui/material";
+import { Alert, Box, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
@@ -83,8 +83,6 @@ const SystemUsersFilter = (props: Record<string, unknown>) => {
 };
 
 const MASStatusFilter = (props: Record<string, unknown>) => {
-  const { sort } = useListContext();
-  const synapseSortActive = isMAS() && !(sort.field === "name" && sort.order === "ASC");
   return (
     <SelectInput
       {...props}
@@ -94,7 +92,6 @@ const MASStatusFilter = (props: Record<string, unknown>) => {
         { id: "locked", name: "resources.mas_users.filter.status_locked" },
         { id: "deactivated", name: "resources.mas_users.filter.status_deactivated" },
       ]}
-      disabled={synapseSortActive}
     />
   );
 };
@@ -171,28 +168,6 @@ export const UserPreventSelfDelete: React.FC<{
   return <div onClickCapture={handleDeleteClick}>{props.children}</div>;
 };
 
-const MASSortAlert = () => {
-  const { sort, setSort } = useListContext();
-  const translate = useTranslate();
-  if (!isMAS() || (sort.field === "name" && sort.order === "ASC")) {
-    return null;
-  }
-  return (
-    <Box sx={{ mb: 1 }}>
-      <Alert
-        severity="warning"
-        action={
-          <MuiButton size="small" color="inherit" onClick={() => setSort({ field: "name", order: "ASC" })}>
-            {translate("resources.users.helper.mas_synapse_sort_reset")}
-          </MuiButton>
-        }
-      >
-        {translate("resources.users.helper.mas_synapse_sort")}
-      </Alert>
-    </Box>
-  );
-};
-
 const UserBulkActionButtons = () => {
   const record = useListContext();
   const [ownUserIsSelected, setOwnUserIsSelected] = useState(false);
@@ -244,7 +219,6 @@ export const UserList = (props: ListProps) => {
         },
       })}
     >
-      <MASSortAlert />
       {isSmall ? (
         <SimpleList
           primaryText={record => (

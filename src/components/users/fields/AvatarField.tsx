@@ -83,7 +83,7 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
       badge = "👑";
       tooltip = translate("resources.users.badge.admin");
     }
-    if (isSystemUser(record?.name)) {
+    if (isSystemUser(record?.name) || record?.appservice_id) {
       badge = "🛡️";
       tooltip = `${translate("resources.users.badge.system_managed")} (${tooltip})`;
     }

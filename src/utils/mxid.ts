@@ -2,7 +2,7 @@ import { Identifier } from "ra-core";
 
 import { GetConfig, SubscribeConfig } from "../utils/config";
 
-const mxidPattern = /^@[^@:]+:[^@:]+$/;
+const mxidPattern = /^@[^@:]+:[^@]+$/;
 
 /*
  * Check if id is a valid Matrix ID (user)

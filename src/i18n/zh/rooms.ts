@@ -24,6 +24,7 @@ const rooms = {
   filter: {
     public_rooms: "公开房间",
     empty_rooms: "空房间",
+    local_members_only: "仅本地成员",
   },
   helper: {
     forward_extremities:

@@ -24,6 +24,7 @@ const rooms = {
   filter: {
     public_rooms: "Публичные комнаты",
     empty_rooms: "Пустые комнаты",
+    local_members_only: "Только локальные участники",
   },
   helper: {
     forward_extremities:
