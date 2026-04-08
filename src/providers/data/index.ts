@@ -571,8 +571,15 @@ const baseDataProvider: SynapseDataProvider = {
     let total: number;
 
     if (CACHED_MANY_REF[CACHE_KEY]) {
-      jsonData = CACHED_MANY_REF[CACHE_KEY]["data"].slice(from, from + perPage);
-      total = CACHED_MANY_REF[CACHE_KEY]["total"];
+      let allData: any[] = CACHED_MANY_REF[CACHE_KEY]["data"];
+      // Apply localOnly filter for room_members: exclude federated users
+      if (resource === "room_members" && params.filter?.localOnly) {
+        const hs = localStorage.getItem("home_server") || "";
+        allData = allData.filter((m: any) => String(m).endsWith(`:${hs}`));
+      }
+      total = allData.length;
+      const safeFrom = from < total ? from : 0;
+      jsonData = allData.slice(safeFrom, safeFrom + perPage);
     } else {
       const { json } = await jsonClient(endpoint_url);
       jsonData = json[res.data];
@@ -590,7 +597,14 @@ const baseDataProvider: SynapseDataProvider = {
       // only cache if the endpoint returned all data (no server-side pagination)
       if (jsonData.length >= total) {
         CACHED_MANY_REF[CACHE_KEY] = { data: jsonData, total: total };
-        jsonData = jsonData.slice(from, from + perPage);
+        // Apply localOnly filter for room_members: exclude federated users
+        if (resource === "room_members" && params.filter?.localOnly) {
+          const hs = localStorage.getItem("home_server") || "";
+          jsonData = jsonData.filter((m: any) => String(m).endsWith(`:${hs}`));
+        }
+        total = jsonData.length;
+        const safeFrom = from < total ? from : 0;
+        jsonData = jsonData.slice(safeFrom, safeFrom + perPage);
       }
     }
 

@@ -371,10 +371,8 @@ export const getMASUsersAsMainResource = () => ({
     );
   },
   getList: async (params: { pagination: PaginationPayload; sort: SortPayload; filter: Record<string, any> }) => {
-    // Fall through to MAS cursor path for default sort (name ASC)
-    if (params.sort.field === "name" && params.sort.order === "ASC") {
-      return null;
-    }
+    // Always use Synapse-first path so appservice/bot users (Synapse-only, no MAS account)
+    // are included in the list alongside regular MAS-managed users.
 
     // Synapse-first path: fetch from Synapse v3 users API, then enrich with MAS data
     const synapseBaseUrl = localStorage.getItem("base_url") || "";
@@ -430,6 +428,8 @@ export const getMASUsersAsMainResource = () => ({
           suspended: !!u.suspended,
           avatar_src: u.avatar_url ?? null,
           displayname: u.displayname ?? null,
+          user_type: u.user_type ?? null,
+          appservice_id: u.appservice_id ?? null,
           // Normalize across Synapse user endpoints before the value reaches the UI.
           creation_ts_ms: normalizeTS(u.creation_ts),
         };
@@ -469,6 +469,8 @@ export const getMASUsersAsMainResource = () => ({
             suspended: !!u.suspended,
             avatar_src: u.avatar_url ?? null,
             displayname: u.displayname ?? null,
+            user_type: u.user_type ?? null,
+            appservice_id: u.appservice_id ?? null,
             // Normalize across Synapse user endpoints before the value reaches the UI.
             creation_ts_ms: normalizeTS(u.creation_ts),
           };
@@ -507,19 +509,49 @@ export const getMASUsersAsMainResource = () => ({
 
     const items: MASUserResource[] = (json?.data as MASUserResource[]) || [];
     const item = items.find(u => u.attributes.username === username);
-    if (!item) throw new Error(`MAS user not found: ${username}`);
+    const synapseBaseUrl = localStorage.getItem("base_url") || "";
+    const mxid = `@${username}:${homeserver}`;
+    const matrixId = encodeURIComponent(mxid);
 
-    const masRecord = { ...mapMASUserItem(item, homeserver), id: `@${item.attributes.username}:${homeserver}` };
+    if (!item) {
+      // User exists in Synapse but not in MAS (e.g., appservice-managed user).
+      // Return a Synapse-only record so the edit page can still render.
+      const { json: synapseJson } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
+      return {
+        id: mxid,
+        name: mxid,
+        mas_id: undefined,
+        username,
+        admin: !!synapseJson.admin,
+        deactivated: !!synapseJson.deactivated,
+        locked: false,
+        created_at: undefined,
+        locked_at: null,
+        deactivated_at: null,
+        legacy_guest: undefined,
+        is_guest: !!synapseJson.is_guest,
+        erased: !!synapseJson.erased,
+        shadow_banned: !!synapseJson.shadow_banned,
+        suspended: !!synapseJson.suspended,
+        avatar_src: synapseJson.avatar_url ?? null,
+        displayname: synapseJson.displayname ?? null,
+        user_type: synapseJson.user_type ?? null,
+        appservice_id: synapseJson.appservice_id ?? null,
+        creation_ts_ms: normalizeTS(synapseJson.creation_ts),
+      };
+    }
+
+    const masRecord = { ...mapMASUserItem(item, homeserver), id: mxid };
 
     // Merge Synapse profile data (avatar, displayname, creation_ts_ms, suspended, shadow_banned)
     try {
-      const synapseBaseUrl = localStorage.getItem("base_url") || "";
-      const matrixId = encodeURIComponent(masRecord.id);
       const { json: synapseJson } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
       return {
         ...masRecord,
         avatar_src: synapseJson.avatar_url ?? null,
         displayname: synapseJson.displayname ?? null,
+        user_type: synapseJson.user_type ?? null,
+        appservice_id: synapseJson.appservice_id ?? null,
         // Normalize across Synapse user endpoints before the value reaches the UI.
         creation_ts_ms: normalizeTS(synapseJson.creation_ts),
         suspended: !!synapseJson.suspended,

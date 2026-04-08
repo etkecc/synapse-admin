@@ -9,6 +9,8 @@ import PermMediaIcon from "@mui/icons-material/PermMedia";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
@@ -481,6 +483,7 @@ const RoomShowLayout = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isSpace = record?.room_type === "m.space";
+  const [localMembersOnly, setLocalMembersOnly] = useState(false);
 
   return (
     <TabbedShowLayout sx={{ "& .MuiTabs-scroller": { overflowX: "auto !important" } }}>
@@ -490,12 +493,21 @@ const RoomShowLayout = () => {
 
       <Tab label="ketesa.rooms.tabs.members" icon={<UserIcon />} path="members">
         <MakeAdminBtn />
+        <Box sx={{ px: 2, pt: 1 }}>
+          <FormControlLabel
+            control={
+              <Switch checked={localMembersOnly} onChange={e => setLocalMembersOnly(e.target.checked)} size="small" />
+            }
+            label={translate("resources.rooms.filter.local_members_only")}
+          />
+        </Box>
         <ReferenceManyField
           reference="room_members"
           target="room_id"
           label={false}
           perPage={10}
           pagination={<RoomPagination />}
+          filter={{ localOnly: localMembersOnly }}
         >
           {isSmall ? (
             <RoomMembersMobileList />

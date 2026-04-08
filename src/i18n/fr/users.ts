@@ -64,9 +64,6 @@ const users = {
     sent_invite_count: "Nombre total d'invitations envoyées par cet utilisateur dans tous les salons.",
     cumulative_joined_room_count:
       "Nombre total de salons que cet utilisateur a rejoint, y compris ceux qu'il a quittés ou dont il a été banni.",
-    mas_synapse_sort:
-      "MAS ne prend pas en charge le tri natif. Les résultats sont récupérés depuis Synapse — certains filtres ne sont pas disponibles dans ce mode.",
-    mas_synapse_sort_reset: "Supprimer le tri",
   },
   badge: {
     you: "Vous",

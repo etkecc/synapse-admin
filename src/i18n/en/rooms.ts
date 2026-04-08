@@ -24,6 +24,7 @@ const rooms = {
   filter: {
     public_rooms: "Public rooms",
     empty_rooms: "Empty rooms",
+    local_members_only: "Local members only",
   },
   helper: {
     forward_extremities:

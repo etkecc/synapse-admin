@@ -176,6 +176,7 @@ export const LoadConfig = (context: Config) => {
 
   if (changed) {
     config = nextConfig;
+    log.debug("config updated", { config });
     notifyConfigListeners();
   }
 };

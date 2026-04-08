@@ -24,6 +24,7 @@ const rooms = {
   filter: {
     public_rooms: "اتاق‌های عمومی",
     empty_rooms: "اتاق‌های خالی",
+    local_members_only: "فقط اعضای محلی",
   },
   helper: {
     forward_extremities:
