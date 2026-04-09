@@ -133,7 +133,7 @@ const misc_resources = {
     },
   },
   user_media_statistics: {
-    name: "ユーザーのメディア",
+    name: "メディアファイル",
     fields: {
       media_count: "メディア数",
       media_length: "メディアの大きさ",

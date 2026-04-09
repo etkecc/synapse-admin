@@ -1,15 +1,4 @@
-import {
-  DataProvider,
-  DeleteManyParams,
-  DeleteParams,
-  HttpError,
-  Identifier,
-  PaginationPayload,
-  RaRecord,
-  SortPayload,
-  UpdateParams,
-  withLifecycleCallbacks,
-} from "react-admin";
+import { HttpError, Identifier, PaginationPayload, RaRecord, SortPayload } from "react-admin";
 
 import { jsonClient } from "../http";
 import {
@@ -21,6 +10,8 @@ import {
   filterUndefined,
   revokeRegistrationToken,
   isMAS,
+} from "./mas-utils";
+import {
   getMASRegistrationTokensResource,
   getMASUsersResource,
   getMASUsersAsMainResource,
@@ -31,6 +22,8 @@ import {
   getMASUserSessionsResource,
   getMASUpstreamOAuthLinksResource,
   getMASUpstreamOAuthProvidersResource,
+} from "./mas";
+import {
   masLockUser,
   masDeactivateUser,
   masSetAdmin,
@@ -41,10 +34,9 @@ import {
   masFinishUserSession,
   getMASPolicyData,
   setMASPolicyData,
-} from "./mas";
-import { synapseResourceMap } from "./synapse";
+} from "./mas-actions";
+import { synapseResourceMap, synapseRegistrationTokensResource } from "./synapse";
 import {
-  synapseRegistrationTokensResource,
   deleteMedia,
   purgeRemoteMedia,
   getFeatures,
@@ -81,16 +73,26 @@ import {
   getRoomHierarchy,
   getAdminClientConfig,
   setAdminClientConfig,
-  deleteUserMedia,
   redactUserEvents,
   getRedactStatus,
   fetchEvent,
-} from "./synapse";
+} from "./synapse-actions";
 import { uploadMedia } from "../matrix";
-import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "../../resourceMap";
+import { CACHED_MANY_REF, resourceMap } from "../../resourceMap";
 import { etkeProviderMethods } from "./etke";
 import { SynapseDataProvider } from "../types";
-import { isSystemUser } from "../../utils/mxid";
+import { isSystemUser, getLocalpart } from "../../utils/mxid";
+import {
+  systemUsersScanCache,
+  reverseSearchScanCache,
+  buildScanCacheKey,
+  setScanNotifier,
+  runVirtualScan,
+} from "./scan";
+import { wrapWithLifecycle } from "./lifecycle";
+import createLogger from "../../utils/logger";
+
+export { clearSystemUsersScanCache, clearReverseSearchScanCache } from "./scan";
 
 /**
  * Initialize all flag-dependent resources and patch them into resourceMap.
@@ -159,6 +161,10 @@ const resolveResource = (resource: string) => {
   return { res, baseUrl, homeserver };
 };
 
+export const setDataProviderNotifier = (fn: (key: string) => void) => {
+  setScanNotifier(fn);
+};
+
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 function filterNullValues(key: string, value: any) {
   // Filtering out null properties
@@ -223,50 +229,6 @@ const buildSynapseListQuery = (
   max_timestamp: params.max_timestamp,
 });
 
-const SYSTEM_USERS_SCAN_CHUNK_SIZE = 250;
-
-interface SystemUsersScanCacheEntry {
-  // Whether the backend list has been fully scanned for this filter/sort combination.
-  backendExhausted: boolean;
-  // Raw backend offset already consumed while building the filtered virtual dataset.
-  backendOffset: number;
-  // Filtered users accumulated so later pages can reuse prior scan work.
-  filteredRecords: RaRecord[];
-}
-
-const systemUsersScanCache = new Map<string, SystemUsersScanCacheEntry>();
-
-export const clearSystemUsersScanCache = () => {
-  systemUsersScanCache.clear();
-};
-
-let _dataProviderNotifier: ((key: string) => void) | null = null;
-
-export const setDataProviderNotifier = (fn: (key: string) => void) => {
-  _dataProviderNotifier = fn;
-};
-
-// Cache key for the client-side system_users virtual dataset. It must vary with every
-// server-side filter/sort input because those affect which backend users are scanned.
-const getSystemUsersScanCacheKey = (
-  resource: string,
-  baseUrl: string,
-  query: Record<string, any>,
-  field: string,
-  order: "ASC" | "DESC",
-  wantSystem: boolean
-) =>
-  JSON.stringify({
-    resource,
-    baseUrl,
-    query: filterUndefined(query),
-    field,
-    order,
-    wantSystem,
-  });
-
-import createLogger from "../../utils/logger";
-
 const log = createLogger("data");
 
 const baseDataProvider: SynapseDataProvider = {
@@ -292,13 +254,38 @@ const baseDataProvider: SynapseDataProvider = {
       max_timestamp,
       system_users,
     } = params.filter;
+
     const { page, perPage } = params.pagination as PaginationPayload;
     log.debug("getList", resource, { page, perPage, filter: params.filter });
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
 
+    // Shared filter param object — avoids repeating 16 keys across multiple buildSynapseListQuery calls.
+    const synapseFilterParams = {
+      user_id,
+      search_term,
+      name,
+      destination,
+      guests,
+      deactivated,
+      locked,
+      suspended,
+      shadow_banned,
+      valid,
+      public_rooms,
+      empty_rooms,
+      action_name,
+      resource_id,
+      status,
+      max_timestamp,
+    };
+
+    // Determine reverse search flag before res.getList delegation
+    const isReverseSearch = resource === "users" && typeof name === "string" && name.startsWith("!");
+
     // Allow resource to override getList entirely (e.g. MAS users Synapse-first sort)
-    if (res.getList) {
+    // Skip when reverse search or system_users scan is active — handled below for both modes.
+    if (!isReverseSearch && !system_users && res.getList) {
       const result = await res.getList({
         pagination: params.pagination as PaginationPayload,
         sort: params.sort as SortPayload,
@@ -315,135 +302,106 @@ const baseDataProvider: SynapseDataProvider = {
       query = res.buildListQuery(perPage, pageAfter, params.filter);
     } else {
       // Synapse API
-      query = buildSynapseListQuery(
-        {
-          user_id,
-          search_term,
-          name,
-          destination,
-          guests,
-          deactivated,
-          locked,
-          suspended,
-          shadow_banned,
-          valid,
-          public_rooms,
-          empty_rooms,
-          action_name,
-          resource_id,
-          status,
-          max_timestamp,
-        },
-        from,
-        perPage,
-        field,
-        order
-      );
+      query = buildSynapseListQuery(synapseFilterParams, from, perPage, field, order);
     }
 
     // Client-side post-filter for system (appservice-managed) users
-    const shouldFilterSystemUsers =
-      resource === "users" && !res.isMAS && system_users !== undefined && system_users !== null;
+    const shouldFilterSystemUsers = resource === "users" && system_users !== undefined && system_users !== null;
     if (shouldFilterSystemUsers) {
       const wantSystem = system_users === true || system_users === "true";
-      const endpoint_url = baseUrl + (res.listPath || res.path);
+      // MAS mode: scan Synapse v3 directly (same endpoint as reverse search)
+      const synapseBaseUrl = res.isMAS ? localStorage.getItem("base_url") || "" : String(baseUrl);
+      const endpoint_url = res.isMAS
+        ? `${synapseBaseUrl}/_synapse/admin/v3/users`
+        : baseUrl + (res.listPath || res.path);
+      const scanMap = res.isMAS ? synapseResourceMap.users.map : res.map;
+      const scanDataKey = res.isMAS ? synapseResourceMap.users.data : res.data;
+      const scanTotal = res.isMAS ? synapseResourceMap.users.total : res.total;
       const pageStart = from;
       const pageEnd = pageStart + perPage;
-      // One extra filtered record is enough to tell React Admin that another page exists.
-      const nextPageThreshold = pageEnd + 1;
-      const scanQuery = buildSynapseListQuery(
-        {
-          user_id,
-          search_term,
-          name,
-          destination,
-          guests,
-          deactivated,
-          locked,
-          suspended,
-          shadow_banned,
-          valid,
-          public_rooms,
-          empty_rooms,
-          action_name,
-          resource_id,
-          status,
-          max_timestamp,
-        },
-        0,
-        0,
+
+      const scanFilterParams = res.isMAS ? { ...synapseFilterParams, guests: false } : synapseFilterParams;
+      const scanQuery = buildSynapseListQuery(scanFilterParams, 0, 0, field, order);
+      const cacheKey = buildScanCacheKey({
+        resource,
+        baseUrl: synapseBaseUrl,
+        query: filterUndefined(scanQuery),
         field,
-        order
-      );
-      const cacheKey = getSystemUsersScanCacheKey(resource, String(baseUrl), scanQuery, field, order, wantSystem);
-      const cachedScan = systemUsersScanCache.get(cacheKey);
-      const scanState: SystemUsersScanCacheEntry = cachedScan || {
-        backendExhausted: false,
-        backendOffset: 0,
-        filteredRecords: [],
-      };
+        order,
+        wantSystem,
+      });
 
-      let loopRequestCount = 0;
-      while (!scanState.backendExhausted && scanState.filteredRecords.length < nextPageThreshold) {
-        loopRequestCount++;
-        if (loopRequestCount === 3) {
-          _dataProviderNotifier?.("resources.users.action.system_users_scan_in_progress");
-        }
-        // Fetch backend users in larger chunks to avoid many small round-trips when the
-        // UI-only filter removes most records from a page.
-        const backendLimit = Math.max(perPage, SYSTEM_USERS_SCAN_CHUNK_SIZE);
-        const pagedQuery = buildSynapseListQuery(
-          {
-            user_id,
-            search_term,
-            name,
-            destination,
-            guests,
-            deactivated,
-            locked,
-            suspended,
-            shadow_banned,
-            valid,
-            public_rooms,
-            empty_rooms,
-            action_name,
-            resource_id,
-            status,
-            max_timestamp,
-          },
-          scanState.backendOffset,
-          backendLimit,
-          field,
-          order
-        );
-        const pagedUrl = `${endpoint_url}?${new URLSearchParams(filterUndefined(pagedQuery)).toString()}`;
-        const { json } = await jsonClient(pagedUrl);
-        const rawData = json[res.data] || [];
-        const resolvedData = await Promise.all(rawData.map(res.map));
-        const filteredData = resolvedData.filter(record => isSystemUser(record.id) === wantSystem);
-        scanState.filteredRecords.push(...filteredData);
-        scanState.backendOffset += rawData.length;
-
-        const serverTotal = res.total(json, scanState.backendOffset, backendLimit);
-        scanState.backendExhausted =
-          rawData.length === 0 || scanState.backendOffset >= serverTotal || rawData.length < backendLimit;
-      }
-
-      systemUsersScanCache.set(cacheKey, scanState);
-      // Paginate over the filtered virtual dataset, not over raw backend pages.
-      const pagedData = scanState.filteredRecords.slice(pageStart, pageEnd);
-      const hasNextPage = scanState.backendExhausted
-        ? scanState.filteredRecords.length > pageEnd
-        : scanState.filteredRecords.length >= nextPageThreshold;
-
-      return {
-        data: pagedData as any,
-        total: scanState.backendExhausted ? scanState.filteredRecords.length : undefined,
-        pageInfo: {
-          hasPreviousPage: page > 1,
-          hasNextPage,
+      return runVirtualScan({
+        cache: systemUsersScanCache,
+        cacheKey,
+        pageStart,
+        pageEnd,
+        perPage,
+        fetchPage: async (offset, limit) => {
+          const pagedQuery = buildSynapseListQuery(scanFilterParams, offset, limit, field, order);
+          const pagedUrl = `${endpoint_url}?${new URLSearchParams(filterUndefined(pagedQuery)).toString()}`;
+          const { json } = await jsonClient(pagedUrl);
+          const rawData = json[scanDataKey] || [];
+          const records = await Promise.all(rawData.map(scanMap));
+          return { rawCount: rawData.length, records, serverTotal: scanTotal(json) };
         },
-      };
+        filterFn: record => isSystemUser(record.id) === wantSystem,
+        notifyKey: "resources.users.action.system_users_scan_in_progress",
+        enrichList: res.enrichList,
+      });
+    }
+
+    if (isReverseSearch) {
+      const excludeTerm = name.slice(1).toLowerCase();
+      // MAS mode: scan Synapse v3 directly (getMASUsersAsMainResource is Synapse-first)
+      const synapseBaseUrl = res.isMAS ? localStorage.getItem("base_url") || "" : String(baseUrl);
+      const scanEndpoint = res.isMAS
+        ? `${synapseBaseUrl}/_synapse/admin/v3/users`
+        : synapseBaseUrl + (res.listPath || res.path);
+
+      // Use Synapse user map/data/total — both modes scan the same Synapse v3 API
+      const scanMap = synapseResourceMap.users.map;
+      const scanDataKey = synapseResourceMap.users.data;
+      const scanTotal = synapseResourceMap.users.total;
+
+      const pageStart = from;
+      const pageEnd = pageStart + perPage;
+
+      // Reverse search excludes the name filter and overrides guests for MAS mode.
+      const reverseSearchFilterParams = { ...synapseFilterParams, name: undefined, guests: res.isMAS ? false : guests };
+      const scanQuery = buildSynapseListQuery(reverseSearchFilterParams, 0, 0, field, order);
+      const cacheKey = buildScanCacheKey({
+        resource,
+        baseUrl: synapseBaseUrl,
+        query: filterUndefined(scanQuery),
+        field,
+        order,
+        excludeTerm,
+      });
+
+      return runVirtualScan({
+        cache: reverseSearchScanCache,
+        cacheKey,
+        pageStart,
+        pageEnd,
+        perPage,
+        fetchPage: async (offset, limit) => {
+          const pagedQuery = buildSynapseListQuery(reverseSearchFilterParams, offset, limit, field, order);
+          const pagedUrl = `${scanEndpoint}?${new URLSearchParams(filterUndefined(pagedQuery)).toString()}`;
+          const { json } = await jsonClient(pagedUrl);
+          const rawData = json[scanDataKey] || [];
+          const records = await Promise.all(rawData.map(scanMap));
+          return { rawCount: rawData.length, records, serverTotal: scanTotal(json) };
+        },
+        filterFn: record => {
+          const localpartLower = String(getLocalpart(record.id || "")).toLowerCase();
+          const displayLower = String(record.displayname || "").toLowerCase();
+          return !localpartLower.includes(excludeTerm) && !displayLower.includes(excludeTerm);
+        },
+        notifyKey: "resources.users.action.reverse_search_scan_in_progress",
+        maxRequests: 100,
+        enrichList: res.enrichList,
+      });
     }
 
     const endpoint_url = baseUrl + (res.listPath || res.path);
@@ -481,7 +439,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     return {
       data: formattedData,
-      total: res.total(json, from, perPage),
+      total: res.total(json),
     };
   },
 
@@ -592,7 +550,7 @@ const baseDataProvider: SynapseDataProvider = {
         }));
       }
 
-      total = res.total(json, from, perPage);
+      total = res.total(json);
 
       // only cache if the endpoint returned all data (no server-side pagination)
       if (jsonData.length >= total) {
@@ -817,147 +775,4 @@ const baseDataProvider: SynapseDataProvider = {
   ...etkeProviderMethods,
 };
 
-const dataProvider = withLifecycleCallbacks(baseDataProvider, [
-  {
-    resource: "rooms",
-    afterDelete: async result => {
-      // Invalidate the joined_rooms cache after room deletion
-      invalidateManyRefCache("joined_rooms");
-      return result;
-    },
-    afterDeleteMany: async result => {
-      // Invalidate the joined_rooms cache after room deletion
-      invalidateManyRefCache("joined_rooms");
-      return result;
-    },
-  },
-  {
-    resource: "users",
-    beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
-      // In MAS mode: dispatch MAS auth-field changes and skip Synapse-only logic
-      if (isMAS()) {
-        const masId = params.previousData.mas_id as string;
-        const prev = params.previousData;
-        const next = params.data;
-
-        // MAS-managed fields — only fire when the field was actually submitted (not disabled/omitted).
-        // Disabled BooleanInputs (e.g. admin editing their own account) are excluded from react-hook-form
-        // submission, leaving the value as undefined. Guarding with !== undefined prevents spurious API
-        // calls that would e.g. strip admin from the current user or unlock an already-unlocked account.
-        // Also normalise to strict booleans to guard against undefined/null from incomplete cache data.
-        const prevAdmin = prev.admin === true;
-        const nextAdmin = next.admin === true;
-        if (next.admin !== undefined && prevAdmin !== nextAdmin)
-          await (dataProvider as SynapseDataProvider).masSetAdmin(masId, nextAdmin);
-
-        const prevLocked = prev.locked === true;
-        const nextLocked = next.locked === true;
-        if (next.locked !== undefined && prevLocked !== nextLocked)
-          await (dataProvider as SynapseDataProvider).masLockUser(masId, nextLocked);
-
-        const prevDeactivated = prev.deactivated === true;
-        const nextDeactivated = next.deactivated === true;
-        if (next.deactivated !== undefined && prevDeactivated !== nextDeactivated)
-          // masDeactivateUser(id, active): true = reactivate, false = deactivate
-          await (dataProvider as SynapseDataProvider).masDeactivateUser(masId, !nextDeactivated);
-
-        // Synapse-managed profile fields (not disabled by MSC3861)
-        if (prev.suspended !== next.suspended && next.suspended !== undefined)
-          await (dataProvider as SynapseDataProvider).suspendUser(params.id, next.suspended);
-        if (prev.shadow_banned !== next.shadow_banned && next.shadow_banned !== undefined)
-          await (dataProvider as SynapseDataProvider).shadowBanUser(params.id, next.shadow_banned);
-
-        // Handle avatar upload / erase before the Synapse profile PUT
-        const avatarFile = next.avatar_file?.rawFile;
-        const avatarErase = next.avatar_erase;
-        if (avatarErase) {
-          next.avatar_src = null;
-        } else if (avatarFile instanceof File) {
-          const uploaded = await (dataProvider as SynapseDataProvider).uploadMedia({
-            file: avatarFile,
-            filename: next.avatar_file.title,
-            content_type: avatarFile.type,
-          });
-          next.avatar_src = uploaded.content_uri;
-        }
-
-        // Synapse-managed profile fields sent via main PUT /_synapse/admin/v2/users/...
-        const synapseProfileChanged = prev.displayname !== next.displayname || prev.avatar_src !== next.avatar_src;
-        if (synapseProfileChanged) {
-          const baseUrl = localStorage.getItem("base_url") || "";
-          const matrixId = encodeURIComponent(String(params.id));
-
-          const body: Record<string, any> = {};
-          if (prev.displayname !== next.displayname) body.displayname = next.displayname ?? "";
-          if (prev.avatar_src !== next.avatar_src) body.avatar_url = next.avatar_src ?? "";
-          await jsonClient(`${baseUrl}/_synapse/admin/v2/users/${matrixId}`, {
-            method: "PUT",
-            body: JSON.stringify(body),
-          });
-        }
-
-        return params;
-      }
-
-      const avatarFile = params.data.avatar_file?.rawFile;
-      const avatarErase = params.data.avatar_erase;
-      const rates = params.data.rates;
-      const suspended = params.data.suspended;
-      const previousSuspended = params.previousData?.suspended;
-      const shadowBanned = params.data.shadow_banned;
-      const previousShadowBanned = params.previousData?.shadow_banned;
-      const deactivated = params.data.deactivated;
-      const erased = params.data.erased;
-
-      if (rates) {
-        await dataProvider.setRateLimits(params.id, rates);
-        delete params.data.rates;
-      }
-
-      if (suspended !== undefined && suspended !== previousSuspended) {
-        await (dataProvider as SynapseDataProvider).suspendUser(params.id, suspended);
-        delete params.data.suspended;
-      }
-
-      if (shadowBanned !== undefined && shadowBanned !== previousShadowBanned) {
-        await (dataProvider as SynapseDataProvider).shadowBanUser(params.id, shadowBanned);
-        delete params.data.shadow_banned;
-      }
-
-      if (deactivated !== undefined && erased !== undefined) {
-        await (dataProvider as SynapseDataProvider).eraseUser(params.id);
-        delete params.data.deactivated;
-        delete params.data.erased;
-      }
-
-      if (avatarErase) {
-        params.data.avatar_url = "";
-        return params;
-      }
-
-      if (avatarFile instanceof File) {
-        const response = await dataProvider.uploadMedia({
-          file: avatarFile,
-          filename: params.data.avatar_file.title,
-          content_type: params.data.avatar_file.rawFile.type,
-        });
-        params.data.avatar_url = response.content_uri;
-      }
-      return params;
-    },
-    beforeDelete: async (params: DeleteParams<any>, _dataProvider: DataProvider) => {
-      if (params.meta?.deleteMedia) await deleteUserMedia(params.id);
-      return params;
-    },
-    beforeDeleteMany: async (params: DeleteManyParams<any>, _dataProvider: DataProvider) => {
-      await Promise.all(
-        params.ids.map(async id => {
-          if (params.meta?.deleteMedia) await deleteUserMedia(id);
-        })
-      );
-      return params;
-    },
-  },
-]);
-
-export default dataProvider;
+export default wrapWithLifecycle(baseDataProvider);

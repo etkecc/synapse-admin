@@ -133,7 +133,7 @@ const misc_resources = {
     },
   },
   user_media_statistics: {
-    name: "用户的媒体文件",
+    name: "媒体文件",
     fields: {
       media_count: "媒体文件统计",
       media_length: "媒体文件长度",

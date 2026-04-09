@@ -154,6 +154,8 @@ const users = {
     },
     system_users_scan_in_progress:
       "Attendere — la ricerca degli utenti corrispondenti è ancora in corso, la pagina verrà caricata a breve",
+    reverse_search_scan_in_progress:
+      "Attendere — tutti gli utenti vengono analizzati per escludere le corrispondenze, la pagina verrà caricata a breve",
   },
   limits: {
     messages_per_second: "Messaggi al secondo",

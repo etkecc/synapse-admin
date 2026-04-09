@@ -39,6 +39,7 @@ Specific topics:
 | Guide | What it covers |
 |-------|----------------|
 | [User management](./user-management.md) | Login-as-user, shadow ban, rate limits, experimental features, account data, server notices, MAS user management, MAS policy data |
+| [User search](./user-search.md) | Normal and reverse (`!`) MXID/displayname search |
 | [Bulk CSV import](./csv-import.md) | Import many users at once from a CSV file |
 | [Registration tokens](./registration-tokens.md) | Create and manage invite tokens for Synapse and MAS |
 

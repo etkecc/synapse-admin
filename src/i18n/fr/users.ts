@@ -155,6 +155,8 @@ const users = {
     },
     system_users_scan_in_progress:
       "Patientez — la recherche des utilisateurs correspondants est en cours, la page va se charger dans un instant",
+    reverse_search_scan_in_progress:
+      "Patientez — tous les utilisateurs sont en cours d'analyse pour exclure les correspondances, la page va se charger dans un instant",
   },
   limits: {
     messages_per_second: "Messages par seconde",

@@ -5,11 +5,13 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import SearchIcon from "@mui/icons-material/Search";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert, Box, Tooltip } from "@mui/material";
+import { Alert, Box, InputAdornment, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
+import { useWatch } from "react-hook-form";
 import {
   BooleanField,
   BooleanInput,
@@ -21,9 +23,9 @@ import {
   ListProps,
   NullableBooleanInput,
   Pagination,
-  SearchInput,
   SelectInput,
   SimpleList,
+  TextInput,
   TextField,
   TopToolbar,
   Identifier,
@@ -96,17 +98,36 @@ const MASStatusFilter = (props: Record<string, unknown>) => {
   );
 };
 
+const ReverseSearchInput = (props: { source: string } & Record<string, unknown>) => {
+  const nameValue = useWatch({ name: "name" }) as string | undefined;
+  const isReverse = typeof nameValue === "string" && nameValue.startsWith("!");
+
+  return (
+    <TextInput
+      {...props}
+      resettable
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            {isReverse ? (
+              <HourglassEmptyIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+            ) : (
+              <SearchIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+            )}
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+};
+
 const userFilters = () => {
-  if (isMAS()) {
-    return [
-      <SearchInput key="name" source="name" alwaysOn />,
-      <MASStatusFilter key="status" source="status" />,
-      <BooleanInput key="admin" source="admin" />,
-    ];
-  }
+  const mas = isMAS();
   const filters = [
-    <SearchInput source="name" alwaysOn />,
+    <ReverseSearchInput key="name" source="name" alwaysOn />,
+    ...(mas ? [<MASStatusFilter key="status" source="status" />, <BooleanInput key="admin" source="admin" />] : []),
     <NullableBooleanInput
+      key="deactivated"
       label="resources.users.fields.show_deactivated"
       source="deactivated"
       nullLabel="resources.users.fields.filter_user_all"
@@ -115,6 +136,7 @@ const userFilters = () => {
       alwaysOn
     />,
     <NullableBooleanInput
+      key="locked"
       label="resources.users.fields.show_locked"
       source="locked"
       nullLabel="resources.users.fields.filter_user_all"
@@ -127,9 +149,11 @@ const userFilters = () => {
     // as of Synapse v1.149.1, filter doesn't work yet, showing all users instead of only shadow banned ones
     // <BooleanInput label="resources.users.fields.show_shadow_banned" source="shadow_banned" alwaysOn />,
   ];
+  // guests filter: hidden in MAS mode (externalAuthProvider is set) and when using an external auth provider
   if (!GetConfig().externalAuthProvider) {
     filters.push(
       <NullableBooleanInput
+        key="guests"
         label="resources.users.fields.show_guests"
         source="guests"
         nullLabel="resources.users.fields.filter_user_all"
@@ -140,7 +164,7 @@ const userFilters = () => {
     );
   }
   if (GetConfig().asManagedUsers?.length > 0) {
-    filters.push(<SystemUsersFilter source="system_users" alwaysOn />);
+    filters.push(<SystemUsersFilter key="system_users" source="system_users" alwaysOn />);
   }
   return filters;
 };

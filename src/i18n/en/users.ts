@@ -144,6 +144,7 @@ const users = {
       failure: "Failed to renew account validity",
     },
     system_users_scan_in_progress: "Scanning for matching users — the page will load shortly.",
+    reverse_search_scan_in_progress: "Scanning all users to exclude matches — the page will load shortly.",
   },
   badge: {
     you: "You",

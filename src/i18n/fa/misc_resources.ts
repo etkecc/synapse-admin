@@ -134,7 +134,7 @@ const misc_resources = {
     },
   },
   user_media_statistics: {
-    name: "رسانه کاربران",
+    name: "رسانه‌ها",
     fields: {
       media_count: "شمارش رسانه ها",
       media_length: "طول رسانه",

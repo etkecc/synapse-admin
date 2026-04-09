@@ -156,6 +156,8 @@ const users = {
     },
     system_users_scan_in_progress:
       "Einen Moment – es werden noch passende Benutzer gesucht, die Seite wird gleich geladen",
+    reverse_search_scan_in_progress:
+      "Einen Moment – alle Benutzer werden nach Übereinstimmungen durchsucht und diese ausgeschlossen, die Seite wird gleich geladen",
   },
   limits: {
     messages_per_second: "Nachrichten pro Sekunde",

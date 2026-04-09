@@ -2,13 +2,14 @@ import { etkeClient } from "../http";
 import createLogger from "../../utils/logger";
 
 const log = createLogger("data");
-import {
+import type {
   PaymentsResponse,
   RecurringCommand,
   ScheduledCommand,
   ServerNotificationsResponse,
   ServerProcessResponse,
   ServerStatusResponse,
+  SupportAttachment,
   SupportMessage,
   SupportRequest,
   SupportRequestDetail,
@@ -529,8 +530,10 @@ export const etkeProviderMethods = {
     return (json.requests ?? json) as SupportRequest[];
   },
 
-  getSupportRequest: async (etkeAdminUrl: string, locale: string, id: string) => {
-    const response = await etkeClient(`${etkeAdminUrl}/support/${id}`, locale);
+  getSupportRequest: async (etkeAdminUrl: string, locale: string, id: string, burstCache = false) => {
+    let url = `${etkeAdminUrl}/support/${id}`;
+    if (burstCache) url += `?time=${new Date().getTime()}`;
+    const response = await etkeClient(url, locale);
     if (!response.ok) {
       throw new Error(`Failed to fetch support request: ${response.status} ${response.statusText}`);
     }
@@ -538,25 +541,52 @@ export const etkeProviderMethods = {
     return json as SupportRequestDetail;
   },
 
-  createSupportRequest: async (etkeAdminUrl: string, locale: string, subject: string, message: string) => {
+  createSupportRequest: async (
+    etkeAdminUrl: string,
+    locale: string,
+    subject: string,
+    message: string,
+    attachments?: SupportAttachment[]
+  ) => {
     const response = await etkeClient(`${etkeAdminUrl}/support`, locale, {
       method: "POST",
-      body: JSON.stringify({ subject, message }),
+      body: JSON.stringify({ subject, message, ...(attachments?.length ? { attachments } : {}) }),
     });
     if (!response.ok) {
-      throw new Error(`Failed to create support request: ${response.status} ${response.statusText}`);
+      let errMsg = "etkecc.support.actions.create_failure";
+      try {
+        const body = await response.json();
+        if (body?.error) errMsg = body.error;
+      } catch {
+        /* ignore */
+      }
+      throw new Error(errMsg);
     }
     const json = await response.json();
     return json as SupportRequest;
   },
 
-  postSupportMessage: async (etkeAdminUrl: string, locale: string, id: string, message: string) => {
+  postSupportMessage: async (
+    etkeAdminUrl: string,
+    locale: string,
+    id: string,
+    message: string,
+    attachments?: SupportAttachment[],
+    close?: boolean
+  ) => {
     const response = await etkeClient(`${etkeAdminUrl}/support/${id}`, locale, {
       method: "POST",
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, ...(close ? { close } : {}), ...(attachments?.length ? { attachments } : {}) }),
     });
     if (!response.ok) {
-      throw new Error(`Failed to post support message: ${response.status} ${response.statusText}`);
+      let errMsg = "etkecc.support.actions.send_failure";
+      try {
+        const body = await response.json();
+        if (body?.error) errMsg = body.error;
+      } catch {
+        /* ignore */
+      }
+      throw new Error(errMsg);
     }
     if (response.status === 204 || response.headers.get("content-length") === "0") {
       return {} as SupportMessage;
