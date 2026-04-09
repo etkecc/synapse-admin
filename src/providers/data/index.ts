@@ -90,7 +90,7 @@ import { uploadMedia } from "../matrix";
 import { CACHED_MANY_REF, invalidateManyRefCache, resourceMap } from "../../resourceMap";
 import { etkeProviderMethods } from "./etke";
 import { SynapseDataProvider } from "../types";
-import { isSystemUser } from "../../utils/mxid";
+import { isSystemUser, getLocalpart } from "../../utils/mxid";
 
 /**
  * Initialize all flag-dependent resources and patch them into resourceMap.
@@ -240,6 +240,21 @@ export const clearSystemUsersScanCache = () => {
   systemUsersScanCache.clear();
 };
 
+const reverseSearchScanCache = new Map<string, SystemUsersScanCacheEntry>();
+
+export const clearReverseSearchScanCache = () => {
+  reverseSearchScanCache.clear();
+};
+
+const getReverseSearchScanCacheKey = (
+  resource: string,
+  baseUrl: string,
+  query: Record<string, any>,
+  field: string,
+  order: "ASC" | "DESC",
+  excludeTerm: string
+) => JSON.stringify({ resource, baseUrl, query: filterUndefined(query), field, order, excludeTerm });
+
 let _dataProviderNotifier: ((key: string) => void) | null = null;
 
 export const setDataProviderNotifier = (fn: (key: string) => void) => {
@@ -297,8 +312,12 @@ const baseDataProvider: SynapseDataProvider = {
     const { field, order } = params.sort as SortPayload;
     const from = (page - 1) * perPage;
 
+    // Determine reverse search flag before res.getList delegation
+    const isReverseSearch = resource === "users" && typeof name === "string" && name.startsWith("!");
+
     // Allow resource to override getList entirely (e.g. MAS users Synapse-first sort)
-    if (res.getList) {
+    // Skip when reverse search is active — handled below for both modes.
+    if (!isReverseSearch && res.getList) {
       const result = await res.getList({
         pagination: params.pagination as PaginationPayload,
         sort: params.sort as SortPayload,
@@ -432,6 +451,133 @@ const baseDataProvider: SynapseDataProvider = {
       systemUsersScanCache.set(cacheKey, scanState);
       // Paginate over the filtered virtual dataset, not over raw backend pages.
       const pagedData = scanState.filteredRecords.slice(pageStart, pageEnd);
+      const hasNextPage = scanState.backendExhausted
+        ? scanState.filteredRecords.length > pageEnd
+        : scanState.filteredRecords.length >= nextPageThreshold;
+
+      return {
+        data: pagedData as any,
+        total: scanState.backendExhausted ? scanState.filteredRecords.length : undefined,
+        pageInfo: {
+          hasPreviousPage: page > 1,
+          hasNextPage,
+        },
+      };
+    }
+
+    if (isReverseSearch) {
+      const excludeTerm = name.slice(1).toLowerCase();
+      // MAS mode: scan Synapse v3 directly (getMASUsersAsMainResource is Synapse-first)
+      const synapseBaseUrl = res.isMAS ? localStorage.getItem("base_url") || "" : String(baseUrl);
+      const scanEndpoint = res.isMAS
+        ? `${synapseBaseUrl}/_synapse/admin/v3/users`
+        : synapseBaseUrl + (res.listPath || res.path);
+
+      // Use Synapse user map/data/total — both modes scan the same Synapse v3 API
+      const scanMap = synapseResourceMap.users.map;
+      const scanDataKey = synapseResourceMap.users.data;
+      const scanTotal = synapseResourceMap.users.total;
+
+      const pageStart = from;
+      const pageEnd = pageStart + perPage;
+      const nextPageThreshold = pageEnd + 1;
+
+      const scanQuery = buildSynapseListQuery(
+        {
+          user_id,
+          search_term,
+          name: undefined,
+          destination,
+          guests: res.isMAS ? false : guests,
+          deactivated,
+          locked,
+          suspended,
+          shadow_banned,
+          valid,
+          public_rooms,
+          empty_rooms,
+          action_name,
+          resource_id,
+          status,
+          max_timestamp,
+        },
+        0,
+        0,
+        field,
+        order
+      );
+      const cacheKey = getReverseSearchScanCacheKey(resource, synapseBaseUrl, scanQuery, field, order, excludeTerm);
+      const cachedScan = reverseSearchScanCache.get(cacheKey);
+      const scanState: SystemUsersScanCacheEntry = cachedScan || {
+        backendExhausted: false,
+        backendOffset: 0,
+        filteredRecords: [],
+      };
+
+      const MAX_REVERSE_SCAN_REQUESTS = 100;
+      let loopRequestCount = 0;
+      while (
+        !scanState.backendExhausted &&
+        scanState.filteredRecords.length < nextPageThreshold &&
+        loopRequestCount < MAX_REVERSE_SCAN_REQUESTS
+      ) {
+        loopRequestCount++;
+        if (loopRequestCount === 3) {
+          _dataProviderNotifier?.("resources.users.action.reverse_search_scan_in_progress");
+        }
+        const backendLimit = Math.max(perPage, SYSTEM_USERS_SCAN_CHUNK_SIZE);
+        const pagedQuery = buildSynapseListQuery(
+          {
+            user_id,
+            search_term,
+            name: undefined,
+            destination,
+            guests: res.isMAS ? false : guests,
+            deactivated,
+            locked,
+            suspended,
+            shadow_banned,
+            valid,
+            public_rooms,
+            empty_rooms,
+            action_name,
+            resource_id,
+            status,
+            max_timestamp,
+          },
+          scanState.backendOffset,
+          backendLimit,
+          field,
+          order
+        );
+        const pagedUrl = `${scanEndpoint}?${new URLSearchParams(filterUndefined(pagedQuery)).toString()}`;
+        const { json } = await jsonClient(pagedUrl);
+        const rawData = json[scanDataKey] || [];
+        const resolvedData = await Promise.all(rawData.map(scanMap));
+
+        // Exclude users whose localpart or displayname contains the term
+        const filteredData = resolvedData.filter(record => {
+          const localpartLower = String(getLocalpart(record.id || "")).toLowerCase();
+          const displayLower = String(record.displayname || "").toLowerCase();
+          return !localpartLower.includes(excludeTerm) && !displayLower.includes(excludeTerm);
+        });
+
+        scanState.filteredRecords.push(...filteredData);
+        scanState.backendOffset += rawData.length;
+        const serverTotal = scanTotal(json);
+        scanState.backendExhausted =
+          rawData.length === 0 || scanState.backendOffset >= serverTotal || rawData.length < backendLimit;
+      }
+
+      reverseSearchScanCache.set(cacheKey, scanState);
+      // eslint-disable-next-line prefer-const
+      let pagedData: RaRecord[] = scanState.filteredRecords.slice(pageStart, pageEnd);
+
+      // For MAS mode: enrich final page with MAS-specific fields (locked, mas_id, etc.)
+      if (res.enrichList) {
+        pagedData = await res.enrichList(pagedData);
+      }
+
       const hasNextPage = scanState.backendExhausted
         ? scanState.filteredRecords.length > pageEnd
         : scanState.filteredRecords.length >= nextPageThreshold;

@@ -258,4 +258,4 @@ Ketesa supports creating multiple user accounts at once from a CSV file. The imp
 
 ---
 
-**See also:** [CSV import](./csv-import.md) · [System users](./system-users.md) · [External auth provider](./external-auth-provider.md) · [Documentation index](./README.md)
+**See also:** [CSV import](./csv-import.md) · [System users](./system-users.md) · [External auth provider](./external-auth-provider.md) · [User search](./user-search.md) · [Documentation index](./README.md)

@@ -5,11 +5,13 @@ import GetAppIcon from "@mui/icons-material/GetApp";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import LockIcon from "@mui/icons-material/Lock";
 import NoAccountsIcon from "@mui/icons-material/NoAccounts";
+import SearchIcon from "@mui/icons-material/Search";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert, Box, Tooltip } from "@mui/material";
+import { Alert, Box, InputAdornment, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useEffect, useState } from "react";
+import { useWatch } from "react-hook-form";
 import {
   BooleanField,
   BooleanInput,
@@ -21,9 +23,9 @@ import {
   ListProps,
   NullableBooleanInput,
   Pagination,
-  SearchInput,
   SelectInput,
   SimpleList,
+  TextInput,
   TextField,
   TopToolbar,
   Identifier,
@@ -96,16 +98,39 @@ const MASStatusFilter = (props: Record<string, unknown>) => {
   );
 };
 
+const ReverseSearchInput = (props: { source: string } & Record<string, unknown>) => {
+  const nameValue = useWatch({ name: "name" }) as string | undefined;
+  const isReverse = typeof nameValue === "string" && nameValue.startsWith("!");
+
+  return (
+    <TextInput
+      {...props}
+      resettable
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            {isReverse ? (
+              <HourglassEmptyIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+            ) : (
+              <SearchIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+            )}
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+};
+
 const userFilters = () => {
   if (isMAS()) {
     return [
-      <SearchInput key="name" source="name" alwaysOn />,
+      <ReverseSearchInput key="name" source="name" alwaysOn />,
       <MASStatusFilter key="status" source="status" />,
       <BooleanInput key="admin" source="admin" />,
     ];
   }
   const filters = [
-    <SearchInput source="name" alwaysOn />,
+    <ReverseSearchInput source="name" alwaysOn />,
     <NullableBooleanInput
       label="resources.users.fields.show_deactivated"
       source="deactivated"

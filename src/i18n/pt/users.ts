@@ -145,6 +145,8 @@ const users = {
       failure: "Falha ao renovar a validade da conta",
     },
     system_users_scan_in_progress: "A pesquisar utilizadores correspondentes — a página carregará em breve.",
+    reverse_search_scan_in_progress:
+      "A pesquisar todos os utilizadores para excluir correspondências — a página carregará em breve.",
   },
   badge: {
     you: "Você",

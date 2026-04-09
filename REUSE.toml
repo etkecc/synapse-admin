@@ -292,6 +292,13 @@ SPDX-FileCopyrightText = [
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = ["docs/user-search.md"]
+SPDX-FileCopyrightText = [
+  "2026 Nikita Chernyi <https://etke.cc>",
+]
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = ["eslint.config.js"]
 SPDX-FileCopyrightText = [
   "2026 Nikita Chernyi <https://etke.cc>",

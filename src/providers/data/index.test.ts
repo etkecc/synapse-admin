@@ -4,7 +4,7 @@ vi.mock("../matrix", async () => ({
 }));
 
 import dataProvider from "./index";
-import { clearSystemUsersScanCache } from "./index";
+import { clearSystemUsersScanCache, clearReverseSearchScanCache } from "./index";
 import { LoadConfig } from "../../utils/config";
 
 beforeEach(() => {
@@ -14,6 +14,7 @@ beforeEach(() => {
   localStorage.setItem("base_url", "http://localhost");
   localStorage.setItem("access_token", "access_token");
   clearSystemUsersScanCache();
+  clearReverseSearchScanCache();
   LoadConfig({
     restrictBaseUrl: "",
     corsCredentials: "same-origin",

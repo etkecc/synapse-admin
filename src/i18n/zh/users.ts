@@ -147,6 +147,7 @@ const users = {
       failure: "续期账户有效期失败",
     },
     system_users_scan_in_progress: "请稍候 — 仍在搜索匹配的用户，页面即将加载",
+    reverse_search_scan_in_progress: "请稍候 — 正在扫描所有用户以排除匹配项，页面即将加载",
   },
   limits: {
     messages_per_second: "每秒消息数",

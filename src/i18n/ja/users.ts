@@ -142,6 +142,8 @@ const users = {
     },
     system_users_scan_in_progress:
       "少々お待ちください。該当するユーザーをまだ検索中です。まもなくページが読み込まれます。",
+    reverse_search_scan_in_progress:
+      "少々お待ちください。除外するユーザーを検索するためにすべてのユーザーをスキャン中です。まもなくページが読み込まれます。",
   },
   badge: {
     you: "あなた",
