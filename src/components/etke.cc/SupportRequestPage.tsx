@@ -130,27 +130,30 @@ const SupportRequestPage = () => {
   const fetchedMxids = useRef<Set<string>>(new Set());
   const blobUrlsRef = useRef<string[]>([]);
 
-  const fetchRequest = useCallback(async () => {
-    if (!etkeccAdmin || !id) {
-      setFailure(
-        translate("etkecc.support.helper.not_configured", {
-          _: "Support is not configured for this server.",
-        })
-      );
-      setLoading(false);
-      return;
-    }
-    try {
-      setFailure(null);
-      const data = await dataProvider.getSupportRequest(etkeccAdmin, locale, id);
-      setRequest(data);
-    } catch (error) {
-      log.error("failed to fetch support request", { id, error });
-      setFailure(error instanceof Error ? error.message : String(error));
-    } finally {
-      setLoading(false);
-    }
-  }, [etkeccAdmin, id, locale, dataProvider, translate]);
+  const fetchRequest = useCallback(
+    async (burstCache = false) => {
+      if (!etkeccAdmin || !id) {
+        setFailure(
+          translate("etkecc.support.helper.not_configured", {
+            _: "Support is not configured for this server.",
+          })
+        );
+        setLoading(false);
+        return;
+      }
+      try {
+        setFailure(null);
+        const data = await dataProvider.getSupportRequest(etkeccAdmin, locale, id, burstCache);
+        setRequest(data);
+      } catch (error) {
+        log.error("failed to fetch support request", { id, error });
+        setFailure(error instanceof Error ? error.message : String(error));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [etkeccAdmin, id, locale, dataProvider, translate]
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -244,7 +247,7 @@ const SupportRequestPage = () => {
         created_at: new Date().toISOString(),
       };
       setRequest(prev => (prev ? { ...prev, messages: [...prev.messages, optimisticMsg] } : prev));
-      fetchRequest();
+      fetchRequest(true);
     } catch (error) {
       log.error("failed to send message", { id, error });
       notify(error instanceof Error ? error.message : "etkecc.support.actions.send_failure", { type: "error" });

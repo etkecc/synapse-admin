@@ -529,8 +529,10 @@ export const etkeProviderMethods = {
     return (json.requests ?? json) as SupportRequest[];
   },
 
-  getSupportRequest: async (etkeAdminUrl: string, locale: string, id: string) => {
-    const response = await etkeClient(`${etkeAdminUrl}/support/${id}`, locale);
+  getSupportRequest: async (etkeAdminUrl: string, locale: string, id: string, burstCache = false) => {
+    let url = `${etkeAdminUrl}/support/${id}`;
+    if (burstCache) url += `?time=${new Date().getTime()}`;
+    const response = await etkeClient(url, locale);
     if (!response.ok) {
       throw new Error(`Failed to fetch support request: ${response.status} ${response.statusText}`);
     }
