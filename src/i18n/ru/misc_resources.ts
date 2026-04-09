@@ -135,7 +135,7 @@ const misc_resources = {
     },
   },
   user_media_statistics: {
-    name: "Файлы пользователей",
+    name: "Файлы",
     fields: {
       media_count: "Количество файлов",
       media_length: "Размер файлов",
