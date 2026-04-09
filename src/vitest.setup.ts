@@ -29,6 +29,16 @@ const installStorageGlobals = () => {
 
 installStorageGlobals();
 
+// React's scheduler uses setImmediate for its work loop. Those callbacks can fire after
+// jsdom teardown removes window, causing "window is not defined". Guard every callback
+// so work is silently skipped once the environment is gone — this is safe because
+// any remaining work at that point is already irrelevant to the completed tests.
+const _setImmediate = globalThis.setImmediate.bind(globalThis);
+vi.stubGlobal("setImmediate", ((fn: (...args: unknown[]) => void, ...args: unknown[]) =>
+  _setImmediate(() => {
+    if (typeof window !== "undefined") fn(...args);
+  })) as typeof setImmediate);
+
 let logSpy: ReturnType<typeof vi.spyOn> | null = null;
 
 beforeEach(() => {

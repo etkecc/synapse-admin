@@ -122,16 +122,12 @@ const ReverseSearchInput = (props: { source: string } & Record<string, unknown>)
 };
 
 const userFilters = () => {
-  if (isMAS()) {
-    return [
-      <ReverseSearchInput key="name" source="name" alwaysOn />,
-      <MASStatusFilter key="status" source="status" />,
-      <BooleanInput key="admin" source="admin" />,
-    ];
-  }
+  const mas = isMAS();
   const filters = [
-    <ReverseSearchInput source="name" alwaysOn />,
+    <ReverseSearchInput key="name" source="name" alwaysOn />,
+    ...(mas ? [<MASStatusFilter key="status" source="status" />, <BooleanInput key="admin" source="admin" />] : []),
     <NullableBooleanInput
+      key="deactivated"
       label="resources.users.fields.show_deactivated"
       source="deactivated"
       nullLabel="resources.users.fields.filter_user_all"
@@ -140,6 +136,7 @@ const userFilters = () => {
       alwaysOn
     />,
     <NullableBooleanInput
+      key="locked"
       label="resources.users.fields.show_locked"
       source="locked"
       nullLabel="resources.users.fields.filter_user_all"
@@ -152,9 +149,11 @@ const userFilters = () => {
     // as of Synapse v1.149.1, filter doesn't work yet, showing all users instead of only shadow banned ones
     // <BooleanInput label="resources.users.fields.show_shadow_banned" source="shadow_banned" alwaysOn />,
   ];
+  // guests filter: hidden in MAS mode (externalAuthProvider is set) and when using an external auth provider
   if (!GetConfig().externalAuthProvider) {
     filters.push(
       <NullableBooleanInput
+        key="guests"
         label="resources.users.fields.show_guests"
         source="guests"
         nullLabel="resources.users.fields.filter_user_all"
@@ -165,7 +164,7 @@ const userFilters = () => {
     );
   }
   if (GetConfig().asManagedUsers?.length > 0) {
-    filters.push(<SystemUsersFilter source="system_users" alwaysOn />);
+    filters.push(<SystemUsersFilter key="system_users" source="system_users" alwaysOn />);
   }
   return filters;
 };
