@@ -5,9 +5,11 @@ import {
   Avatar,
   Box,
   Button,
+  Checkbox,
   Chip,
   CircularProgress,
   Divider,
+  FormControlLabel,
   IconButton,
   Link,
   Paper,
@@ -28,10 +30,12 @@ import {
 } from "react-admin";
 
 import { useAppContext } from "../../Context";
+import type { SupportAttachment } from "../../providers/types";
 import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../providers/types";
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
 import { useDocTitle } from "../hooks/useDocTitle";
 import RichTextEditor from "./RichTextEditor";
+import SupportAttachments from "./SupportAttachments";
 import createLogger from "../../utils/logger";
 
 const log = createLogger("support");
@@ -126,6 +130,8 @@ const SupportRequestPage = () => {
   const draftKey = id ? `supportRequests.${id}.draft` : "supportRequests.unknown.draft";
   const [newMessage, setNewMessage] = useStore<string>(draftKey, "");
   const [sending, setSending] = useState(false);
+  const [attachments, setAttachments] = useState<SupportAttachment[]>([]);
+  const [closeRequest, setCloseRequest] = useState(false);
   const [profiles, setProfiles] = useState<Record<string, ResolvedProfile>>({});
   const fetchedMxids = useRef<Set<string>>(new Set());
   const blobUrlsRef = useRef<string[]>([]);
@@ -239,8 +245,17 @@ const SupportRequestPage = () => {
     setSending(true);
     const messageText = newMessage.trim();
     try {
-      await dataProvider.postSupportMessage(etkeccAdmin, locale, id, messageText);
+      await dataProvider.postSupportMessage(
+        etkeccAdmin,
+        locale,
+        id,
+        messageText,
+        attachments.length ? attachments : undefined,
+        closeRequest || undefined
+      );
       setNewMessage("");
+      setAttachments([]);
+      setCloseRequest(false);
       const optimisticMsg: SupportMessage = {
         text: messageText,
         type: "operator",
@@ -250,7 +265,9 @@ const SupportRequestPage = () => {
       fetchRequest(true);
     } catch (error) {
       log.error("failed to send message", { id, error });
-      notify(error instanceof Error ? error.message : "etkecc.support.actions.send_failure", { type: "error" });
+      const serverMsg = error instanceof Error && !error.message.startsWith("etkecc.") ? error.message : null;
+      const rawLabel = translate("etkecc.support.actions.send_failure");
+      notify(serverMsg ? `${rawLabel.replace(/\p{P}$/u, "")}: ${serverMsg}` : rawLabel, { type: "error" });
     } finally {
       setSending(false);
     }
@@ -376,6 +393,20 @@ const SupportRequestPage = () => {
                 placeholder={translate("etkecc.support.helper.reply_placeholder")}
                 disabled={sending}
                 minRows={6}
+              />
+              <SupportAttachments onChange={setAttachments} disabled={sending} />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={closeRequest}
+                    onChange={e => setCloseRequest(e.target.checked)}
+                    disabled={sending}
+                    size="small"
+                  />
+                }
+                label={
+                  <Typography variant="body2">{translate("etkecc.support.helper.close_request_label")}</Typography>
+                }
               />
               <Box>
                 <Button

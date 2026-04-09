@@ -102,3 +102,8 @@ export interface SupportMessage {
 export interface SupportRequestDetail extends SupportRequest {
   messages: SupportMessage[];
 }
+
+export interface SupportAttachment {
+  fileName: string;
+  data: string; // base64-encoded file content
+}

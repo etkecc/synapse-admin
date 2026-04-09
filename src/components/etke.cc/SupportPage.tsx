@@ -30,7 +30,9 @@ import { Title, useDataProvider, useLocale, useNotify, useRedirect, useTranslate
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import RichTextEditor from "./RichTextEditor";
+import SupportAttachments from "./SupportAttachments";
 import { useAppContext } from "../../Context";
+import type { SupportAttachment } from "../../providers/types";
 import { SynapseDataProvider, SupportRequest } from "../../providers/types";
 import { useDocTitle } from "../hooks/useDocTitle";
 import createLogger from "../../utils/logger";
@@ -41,7 +43,7 @@ const CreateRequestForm = ({
   onSubmit,
   onCancel,
 }: {
-  onSubmit: (subject: string, message: string) => Promise<void>;
+  onSubmit: (subject: string, message: string, attachments: SupportAttachment[]) => Promise<void>;
   onCancel: () => void;
 }) => {
   const translate = useTranslate();
@@ -49,12 +51,13 @@ const CreateRequestForm = ({
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [confirmedScope, setConfirmedScope] = useState(false);
+  const [attachments, setAttachments] = useState<SupportAttachment[]>([]);
 
   const handleSubmit = async () => {
     if (!subject.trim() || !message.trim()) return;
     setSubmitting(true);
     try {
-      await onSubmit(subject.trim(), message.trim());
+      await onSubmit(subject.trim(), message.trim(), attachments);
     } finally {
       setSubmitting(false);
     }
@@ -115,6 +118,7 @@ const CreateRequestForm = ({
             minRows={4}
           />
         </Box>
+        <SupportAttachments onChange={setAttachments} disabled={submitting} />
         <Stack direction="row" spacing={1}>
           <Button
             variant="contained"
@@ -171,14 +175,22 @@ const SupportPage = () => {
     fetchRequests();
   }, [fetchRequests]);
 
-  const handleCreate = async (subject: string, message: string) => {
+  const handleCreate = async (subject: string, message: string, attachments: SupportAttachment[]) => {
     try {
-      const created = await dataProvider.createSupportRequest(etkeccAdmin as string, locale, subject, message);
+      const created = await dataProvider.createSupportRequest(
+        etkeccAdmin as string,
+        locale,
+        subject,
+        message,
+        attachments.length ? attachments : undefined
+      );
       notify("etkecc.support.actions.create_success", { type: "success" });
       navigate(`/support/${created.id}`);
     } catch (error) {
       log.error("failed to create support request", error);
-      notify(error instanceof Error ? error.message : "etkecc.support.actions.create_failure", { type: "error" });
+      const serverMsg = error instanceof Error && !error.message.startsWith("etkecc.") ? error.message : null;
+      const rawLabel = translate("etkecc.support.actions.create_failure");
+      notify(serverMsg ? `${rawLabel.replace(/\p{P}$/u, "")}: ${serverMsg}` : rawLabel, { type: "error" });
       throw error;
     }
   };

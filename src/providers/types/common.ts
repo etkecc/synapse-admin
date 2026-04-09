@@ -12,6 +12,7 @@ import type {
   ServerProcessResponse,
   ServerStatusResponse,
   SupportMessage,
+  SupportAttachment,
   SupportRequest,
   SupportRequestDetail,
 } from "./etke";
@@ -220,9 +221,17 @@ export interface SynapseDataProvider extends DataProvider {
     etkeAdminUrl: string,
     locale: string,
     subject: string,
-    message: string
+    message: string,
+    attachments?: SupportAttachment[]
   ) => Promise<SupportRequest>;
-  postSupportMessage: (etkeAdminUrl: string, locale: string, id: string, message: string) => Promise<SupportMessage>;
+  postSupportMessage: (
+    etkeAdminUrl: string,
+    locale: string,
+    id: string,
+    message: string,
+    attachments?: SupportAttachment[],
+    close?: boolean
+  ) => Promise<SupportMessage>;
   getAdminClientConfig: () => Promise<AdminClientConfig>;
   setAdminClientConfig: (config: AdminClientConfig) => Promise<void>;
   masLockUser: (id: string, lock: boolean) => Promise<{ success: boolean; error?: string }>;
