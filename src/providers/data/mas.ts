@@ -580,7 +580,6 @@ export const getMASUserSessionsResource = () => ({
   },
   data: "data",
   total: (json: MASUserSessionListResponse) => json.meta?.count || 0,
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   buildListQuery: (perPage: number, cursor: string | undefined, filter: Record<string, any>) =>
     filterUndefined({
       "page[first]": perPage,
