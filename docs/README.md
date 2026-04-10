@@ -74,6 +74,7 @@ Specific topics:
 * [Server Commands Panel](../src/components/etke.cc/README.md#server-commands-panel)
 * [Server Notifications icon](../src/components/etke.cc/README.md#server-notifications-icon)
 * [Server Notifications page](../src/components/etke.cc/README.md#server-notifications-page)
+* [Components page](./components.md)
 * [Billing page](../src/components/etke.cc/README.md#billing-page)
 * [Support page](../src/components/etke.cc/README.md#support-page)
 * [Instance config](../src/components/etke.cc/README.md#instance-config)

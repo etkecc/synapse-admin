@@ -79,6 +79,32 @@ export interface PaymentsResponse {
   total: number;
 }
 
+export interface Component {
+  id: string;
+  name: string;
+  enabled: boolean;
+  archived?: boolean;
+  price: number;
+  help: string;
+}
+
+export interface ComponentSection {
+  id: string;
+  name: string;
+  enabled: boolean;
+  archived?: boolean;
+  price: number;
+  help: string;
+  components: Component[];
+}
+
+export interface ComponentsResponse {
+  components: Component[];
+  sections: ComponentSection[];
+  currency: string;
+  total_price: number;
+}
+
 export interface SupportRequest {
   id: number;
   subject: string;

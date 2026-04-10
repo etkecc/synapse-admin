@@ -4,7 +4,9 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import {
   Box,
   Alert,
+  AlertTitle,
   Chip,
+  CircularProgress,
   List,
   ListItem,
   Typography,
@@ -71,9 +73,9 @@ const BillingPage = () => {
 
       try {
         setLoading(true);
-        const response = await dataProvider.getPayments(etkeccAdmin, locale);
-        setPaymentsData(response.payments);
-        setMaintenance(response.maintenance);
+        const paymentsResponse = await dataProvider.getPayments(etkeccAdmin, locale);
+        setPaymentsData(paymentsResponse.payments);
+        setMaintenance(paymentsResponse.maintenance);
       } catch (error) {
         log.error("failed to fetch billing data", error);
         setFailure(error instanceof Error ? error.message : (error as string));
@@ -158,9 +160,18 @@ const BillingPage = () => {
     return (
       <Stack spacing={3} mt={3}>
         {header}
-        <Box sx={{ mt: 3 }}>
-          <Typography>{translate("etkecc.billing.helper.loading")}</Typography>
-        </Box>
+        <Paper
+          elevation={0}
+          sx={theme => ({
+            p: 4,
+            borderRadius: 3,
+            textAlign: "center",
+            border: theme.palette.mode === "dark" ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
+          })}
+        >
+          <CircularProgress size={32} sx={{ mb: 2 }} />
+          <Typography color="text.secondary">{translate("etkecc.billing.helper.loading")}</Typography>
+        </Paper>
       </Stack>
     );
   }
@@ -169,15 +180,12 @@ const BillingPage = () => {
     return (
       <Stack spacing={3} mt={3}>
         {header}
-        <Box sx={{ mt: 3 }}>
-          <Typography>
-            {translate("etkecc.billing.helper.loading_failed1")}
-            <br />
-            {translate("etkecc.billing.helper.loading_failed2")}
-            <br />
-          </Typography>
+        <Alert severity="error" sx={{ borderRadius: 3 }}>
+          <AlertTitle>{translate("etkecc.billing.helper.loading_failed1")}</AlertTitle>
+          {translate("etkecc.billing.helper.loading_failed2")}
+          <br />
           <EtkeAttribution>
-            <Typography>
+            <Typography variant="body2">
               {translate("etkecc.billing.helper.loading_failed3")}{" "}
               <Link href="https://etke.cc/contacts/" target="_blank">
                 etke.cc/contacts
@@ -185,10 +193,10 @@ const BillingPage = () => {
               {translate("etkecc.billing.helper.loading_failed4")}
             </Typography>
           </EtkeAttribution>
-          <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+          <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
             {failure}
           </Typography>
-        </Box>
+        </Alert>
       </Stack>
     );
   }
@@ -197,15 +205,12 @@ const BillingPage = () => {
     return (
       <Stack spacing={3} mt={3}>
         {header}
-        <Box sx={{ mt: 3 }}>
-          <Alert severity="info">
-            {translate("etkecc.maintenance.title")}
-            <br />
-            {translate("etkecc.maintenance.try_again")}
-            <br />
-            {translate("etkecc.maintenance.note")}
-          </Alert>
-        </Box>
+        <Alert severity="info" sx={{ borderRadius: 3 }}>
+          <AlertTitle>{translate("etkecc.maintenance.title")}</AlertTitle>
+          {translate("etkecc.maintenance.try_again")}
+          <br />
+          {translate("etkecc.maintenance.note")}
+        </Alert>
       </Stack>
     );
   }

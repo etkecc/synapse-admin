@@ -3,6 +3,7 @@ import createLogger from "../../utils/logger";
 
 const log = createLogger("data");
 import type {
+  ComponentsResponse,
   PaymentsResponse,
   RecurringCommand,
   ScheduledCommand,
@@ -432,6 +433,26 @@ export const etkeProviderMethods = {
       log.error("deleteRecurringCommand failed", { id, error });
       return { success: false };
     }
+  },
+
+  getComponents: async (etkeAdminUrl: string, locale: string) => {
+    try {
+      const response = await etkeClient(`${etkeAdminUrl}/components`, locale);
+      if (response.status === 503) {
+        return { components: [], sections: [], currency: "EUR", total_price: 0 } as ComponentsResponse;
+      }
+      if (!response.ok) {
+        log.error(`getComponents: HTTP ${response.status} ${response.statusText}`);
+        return { components: [], sections: [], currency: "EUR", total_price: 0 } as ComponentsResponse;
+      }
+      if (response.status === 200) {
+        const json = await response.json();
+        return json as ComponentsResponse;
+      }
+    } catch (error) {
+      log.error("getComponents failed", error);
+    }
+    return { components: [], sections: [], currency: "EUR", total_price: 0 } as ComponentsResponse;
   },
 
   getPayments: async (etkeAdminUrl: string, locale: string) => {

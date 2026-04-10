@@ -2,6 +2,7 @@ import GavelIcon from "@mui/icons-material/Gavel";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
+import ExtensionIcon from "@mui/icons-material/Extension";
 import PaymentIcon from "@mui/icons-material/Payment";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
@@ -332,6 +333,14 @@ const AdminMenu = props => {
       )}
       {etkeRoutesEnabled && !icfg.disabled.payments && (
         <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
+      )}
+      {etkeRoutesEnabled && !icfg.disabled.payments && (
+        <Menu.Item
+          key="components"
+          to="/components"
+          leftIcon={<ExtensionIcon />}
+          primaryText="etkecc.components.name"
+        />
       )}
       {etkeRoutesEnabled && !icfg.disabled.support && (
         <Menu.Item

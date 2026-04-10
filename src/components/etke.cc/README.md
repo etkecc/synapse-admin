@@ -79,6 +79,25 @@ The page includes a full list of [available management commands](https://etke.cc
 
 ---
 
+### 🧩 Components page
+
+| Light | Dark |
+|-------|------|
+| ![Components (light)](../../../docs/screenshots/light/components.webp) | ![Components (dark)](../../../docs/screenshots/dark/components.webp) |
+
+Accessible via the **Components** sidebar menu item. A self-service catalogue for your server's add-ons — bridges, bots, apps, and extras:
+
+- **Your Server card** — see every active component and its price at a glance
+- **Add-on sections** — browse what's available: Bridges, Extras, Matrix Apps, Matrix Bots, Matrix Extras
+- **Live price preview** — stage additions and removals, see the new monthly total before committing
+- **One-click requests** — hit **Request changes** to automatically submit a support ticket; no manual back-and-forth needed
+
+Pack-based components (e.g., Bridges) show **Available** when the pack is active — meaning they're included in your pack at no extra charge. Individual add-ons display their monthly price upfront so there are no surprises.
+
+[📄 Full Components guide](../../../docs/components.md)
+
+---
+
 ### 💳 Billing page
 
 | Light | Dark |
