@@ -38,6 +38,13 @@ configuration is added automatically to the `/.well-known/matrix/client` file.
   Accepts a boolean value.
   [More details](external-auth-provider.md)
 
+* `wellKnownDiscovery` — control automatic URL canonicalization via `/.well-known/matrix/client`.
+  Accepts a boolean value. Default: `true` (discovery enabled, per Matrix spec).
+  Set to `false` when the `/_synapse/admin` API is hosted on a separate domain not advertised
+  in well-known (e.g. a VPN-only admin endpoint). When disabled, MXID-based URL auto-fill
+  uses the domain portion of the MXID directly without a well-known lookup.
+  [More details](well-known-discovery.md)
+
 * `corsCredentials` — configure the CORS credentials for the Ketesa instance.
   Accepts the following values:
 

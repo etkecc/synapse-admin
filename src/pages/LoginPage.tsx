@@ -44,7 +44,7 @@ import {
   getAuthMetadata,
   resolveBaseUrlWithWellKnown,
 } from "../providers/matrix";
-import { SetExternalAuthProvider } from "../utils/config";
+import { GetConfig, SetExternalAuthProvider } from "../utils/config";
 import createLogger from "../utils/logger";
 
 const log = createLogger("login");
@@ -121,6 +121,7 @@ const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
   const [restrictBaseUrlSingle, restrictBaseUrlMultiple] = useRestrictedBaseUrl();
+  const wellKnownDiscovery = GetConfig().wellKnownDiscovery ?? true;
   const baseUrlChoices = restrictBaseUrlMultiple ? restrictBaseUrlMultiple : [];
   const localStorageBaseUrl = localStorage.getItem("base_url");
   let base_url = restrictBaseUrlSingle
@@ -318,7 +319,7 @@ const LoginPage = () => {
       return;
     }
 
-    const resolvedUrl = await resolveBaseUrlWithWellKnown(url);
+    const resolvedUrl = wellKnownDiscovery ? await resolveBaseUrlWithWellKnown(url) : url;
     if (resolvedUrl !== url && updateFormValue) {
       updateFormValue(resolvedUrl);
     }
@@ -349,7 +350,7 @@ const LoginPage = () => {
       // check if username is a full qualified userId then set base_url accordingly
       const domain = splitMxid(formData.username)?.domain;
       if (domain) {
-        const url = await getWellKnownUrl(domain);
+        const url = wellKnownDiscovery ? await getWellKnownUrl(domain) : `https://${domain}`;
         if (!restrictBaseUrlMultiple || restrictBaseUrlMultiple.includes(url)) {
           form.setValue("base_url", url, {
             shouldValidate: true,
