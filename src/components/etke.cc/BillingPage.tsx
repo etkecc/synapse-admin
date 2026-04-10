@@ -1,3 +1,6 @@
+import BuildIcon from "@mui/icons-material/Build";
+import EuroSymbolIcon from "@mui/icons-material/EuroSymbol";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DownloadIcon from "@mui/icons-material/Download";
 import PaymentIcon from "@mui/icons-material/Payment";
@@ -25,13 +28,15 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import { Link as RouterLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
-import { SynapseDataProvider, Payment } from "../../providers/types";
+import { SynapseDataProvider, Payment, PaymentStatus } from "../../providers/types";
 import createLogger from "../../utils/logger";
+import { getTimeSince, getTimeUntil } from "../../utils/date";
 
 const log = createLogger("billing");
 import { useDocTitle } from "../hooks/useDocTitle";
@@ -61,6 +66,7 @@ const BillingPage = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [paymentsData, setPaymentsData] = useState<Payment[]>([]);
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [maintenance, setMaintenance] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
@@ -76,6 +82,19 @@ const BillingPage = () => {
         const paymentsResponse = await dataProvider.getPayments(etkeccAdmin, locale);
         setPaymentsData(paymentsResponse.payments);
         setMaintenance(paymentsResponse.maintenance);
+
+        const status = paymentsResponse.status;
+        if (status) {
+          const twoMonthsAgo = new Date();
+          twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
+          if (status.expected_price === 0) {
+            log.warn("payment status: expected_price is 0, treating as missing data");
+          } else if (new Date(status.due_at) < twoMonthsAgo) {
+            log.warn("payment status: due_at is more than 2 months in the past, treating as stale data", status.due_at);
+          } else if (status.overdue || status.mismatch) {
+            setPaymentStatus(status);
+          }
+        }
       } catch (error) {
         log.error("failed to fetch billing data", error);
         setFailure(error instanceof Error ? error.message : (error as string));
@@ -215,9 +234,122 @@ const BillingPage = () => {
     );
   }
 
+  const formatCurrency = (amount: number, currency: string) =>
+    new Intl.NumberFormat("en", { style: "currency", currency }).format(amount);
+
+  const renderPaymentStatusAlert = () => {
+    if (!paymentStatus || (!paymentStatus.overdue && !paymentStatus.mismatch)) return null;
+
+    const mostRecentSubscriptionPayment = paymentsData.find(p => p.is_subscription) ?? paymentsData[0];
+    const mostRecentPayment = mostRecentSubscriptionPayment;
+    const dueAtDate = new Date(paymentStatus.due_at);
+    const isOverdue = dueAtDate <= new Date();
+    const { timeI18Nkey, timeI18Nparams } = isOverdue
+      ? getTimeSince(paymentStatus.due_at)
+      : getTimeUntil(paymentStatus.due_at);
+    const relativeTime = translate(timeI18Nkey, timeI18Nparams);
+    const absoluteDueDate = dueAtDate.toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" });
+
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    const showLastPaid = mostRecentPayment && new Date(mostRecentPayment.paid_at) >= threeMonthsAgo;
+
+    return (
+      <Alert severity="warning" sx={{ borderRadius: 3 }}>
+        <AlertTitle>{translate("etkecc.billing.status.issue.title")}</AlertTitle>
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          {translate("etkecc.billing.status.issue.description")}
+        </Typography>
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 1.5 }}>
+          {paymentStatus.overdue && (
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                {isOverdue
+                  ? translate("etkecc.billing.status.issue.due_overdue")
+                  : translate("etkecc.billing.status.issue.due_upcoming")}
+              </Typography>
+              <Tooltip
+                title={
+                  isOverdue
+                    ? `${translate("etkecc.billing.status.issue.due_overdue")} ${absoluteDueDate}`
+                    : absoluteDueDate
+                }
+              >
+                <Typography variant="body2" fontWeight="medium" sx={{ cursor: "help" }}>
+                  {relativeTime}
+                </Typography>
+              </Tooltip>
+            </Box>
+          )}
+          {paymentStatus.mismatch && (
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                {translate("etkecc.billing.status.issue.expected")}
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {mostRecentPayment
+                  ? formatCurrency(paymentStatus.expected_price, mostRecentPayment.currency)
+                  : paymentStatus.expected_price}
+              </Typography>
+            </Box>
+          )}
+          {paymentStatus.mismatch && showLastPaid && mostRecentPayment && (
+            <Box>
+              <Typography variant="caption" color="text.secondary">
+                {translate("etkecc.billing.status.issue.last_paid")}
+              </Typography>
+              <Typography variant="body2" fontWeight="medium">
+                {formatCurrency(mostRecentPayment.amount, mostRecentPayment.currency)}
+              </Typography>
+            </Box>
+          )}
+        </Box>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, flexWrap: "wrap", gap: 1 }}>
+          {paymentStatus.overdue && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<BuildIcon />}
+              fullWidth={isSmall}
+              component={Link}
+              href="https://etke.cc/help/payments/#how-to-fix-a-failing-subscription"
+              target="_blank"
+            >
+              {translate("etkecc.billing.status.issue.fix_link")}
+            </Button>
+          )}
+          {paymentStatus.mismatch && (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<EuroSymbolIcon />}
+              fullWidth={isSmall}
+              component={Link}
+              href="https://etke.cc/help/payments/#how-to-update-your-subscription-price"
+              target="_blank"
+            >
+              {translate("etkecc.billing.status.issue.fix_mismatch_link")}
+            </Button>
+          )}
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<SupportAgentIcon />}
+            fullWidth={isSmall}
+            component={RouterLink}
+            to="/support"
+          >
+            {translate("etkecc.billing.status.issue.support_link")}
+          </Button>
+        </Box>
+      </Alert>
+    );
+  };
+
   return (
     <Stack spacing={3} mt={3}>
       {header}
+      {renderPaymentStatusAlert()}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
           {translate("etkecc.billing.title")}
@@ -254,7 +386,7 @@ const BillingPage = () => {
               >
                 <Box>
                   <Typography variant="subtitle1" fontWeight="bold">
-                    {payment.amount.toFixed(2)} {payment.currency}
+                    {formatCurrency(payment.amount, payment.currency)}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {new Date(payment.paid_at).toLocaleDateString(locale)}
@@ -290,9 +422,7 @@ const BillingPage = () => {
                     <TableCell>
                       {translate(`etkecc.billing.enums.type.${payment.is_subscription ? "subscription" : "one_time"}`)}
                     </TableCell>
-                    <TableCell>
-                      {payment.amount.toFixed(2)} {payment.currency}
-                    </TableCell>
+                    <TableCell>{formatCurrency(payment.amount, payment.currency)}</TableCell>
                     <TableCell>{new Date(payment.paid_at).toLocaleDateString(locale)}</TableCell>
                     <TableCell>{downloadInvoiceButton(payment)}</TableCell>
                   </TableRow>

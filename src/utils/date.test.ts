@@ -1,4 +1,4 @@
-import { dateFormatter, dateParser, getTimeSince, normalizeTS } from "./date";
+import { dateFormatter, dateParser, getTimeSince, getTimeUntil, normalizeTS } from "./date";
 
 describe("normalizeTS", () => {
   it("converts second-based unix timestamps to milliseconds", () => {
@@ -162,6 +162,115 @@ describe("getTimeSince", () => {
     setNow(new Date("2024-01-01T12:01:00Z"));
     // "2024-01-01 12:00:00" has no Z — should be treated as UTC
     const result = getTimeSince("2024-01-01 12:00:00");
+    expect(result.timeI18Nkey).toBe("etkecc.time.minutes");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("handles overdue dates (past, > 1 month)", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeSince(past(45 * 24 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.months");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("handles overdue dates (past, > 2 months)", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeSince(past(75 * 24 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.months");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 2 });
+  });
+});
+
+describe("getTimeUntil", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  const setNow = (date: Date) => vi.setSystemTime(date);
+
+  const future = (minutesFromNow: number): string => {
+    const d = new Date(Date.now() + minutesFromNow * 60 * 1000);
+    return d.toISOString();
+  };
+
+  it("returns less_than_minute when diff < 1 min", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(0));
+    expect(result.timeI18Nkey).toBe("etkecc.time.less_than_minute");
+    expect(result.timeI18Nparams).toEqual({});
+  });
+
+  it("returns minutes with smart_count 1 when diff === 1 min", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(1));
+    expect(result.timeI18Nkey).toBe("etkecc.time.minutes");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("returns minutes with correct count when diff < 60 min", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(30));
+    expect(result.timeI18Nkey).toBe("etkecc.time.minutes");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 30 });
+  });
+
+  it("returns hours with smart_count 1 when diff is 60–119 min", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(90));
+    expect(result.timeI18Nkey).toBe("etkecc.time.hours");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("returns days with smart_count 1 when diff is 24–47h", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(36 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.days");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("returns days with correct count when diff < 7 days", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(5 * 24 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.days");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 5 });
+  });
+
+  it("returns weeks with smart_count 1 when diff is 7–13 days", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(10 * 24 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.weeks");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("returns months with smart_count 1 when diff is 30–59 days", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(45 * 24 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.months");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
+  });
+
+  it("returns months with correct count when diff >= 60 days", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil(future(90 * 24 * 60));
+    expect(result.timeI18Nkey).toBe("etkecc.time.months");
+    expect(result.timeI18Nparams).toEqual({ smart_count: 3 });
+  });
+
+  it("returns less_than_minute for a past date (due_at already passed)", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    // date 1 minute in the past → diff is negative, resolves to first bucket
+    const pastDate = new Date(Date.now() - 60 * 1000).toISOString();
+    const result = getTimeUntil(pastDate);
+    expect(result.timeI18Nkey).toBe("etkecc.time.less_than_minute");
+  });
+
+  it("appends Z to date strings without timezone suffix", () => {
+    setNow(new Date("2024-01-01T12:00:00Z"));
+    const result = getTimeUntil("2024-01-01 12:01:00");
     expect(result.timeI18Nkey).toBe("etkecc.time.minutes");
     expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
   });

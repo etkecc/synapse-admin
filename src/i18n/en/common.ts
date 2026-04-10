@@ -253,6 +253,19 @@ const common = {
       components_request_already_sent:
         "A change request is already open. To request more changes, reply to your existing support ticket.",
       components_request_already_sent_view: "View ticket",
+      status: {
+        issue: {
+          title: "Subscription needs attention",
+          description: "We noticed an issue with your subscription. Don't worry — it's easy to fix.",
+          due_overdue: "Overdue since",
+          due_upcoming: "Due in",
+          expected: "Expected amount",
+          last_paid: "Last paid",
+          fix_link: "Fix overdue payment",
+          fix_mismatch_link: "Update subscription price",
+          support_link: "Contact support",
+        },
+      },
     },
     status: {
       name: "Server Status",

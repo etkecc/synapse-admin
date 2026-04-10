@@ -258,6 +258,19 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "Запит на зміну вже відкрито. Для запиту додаткових змін дайте відповідь на існуючий тікет підтримки.",
       components_request_already_sent_view: "Переглянути тікет",
+      status: {
+        issue: {
+          title: "Підписка потребує уваги",
+          description: "Ми виявили проблему з вашою підпискою. Не хвилюйтесь — її легко вирішити.",
+          due_overdue: "Прострочена з",
+          due_upcoming: "До оплати",
+          expected: "Очікувана сума",
+          last_paid: "Остання оплата",
+          fix_link: "Виправити прострочення",
+          fix_mismatch_link: "Оновити ціну підписки",
+          support_link: "Зв'язатися з підтримкою",
+        },
+      },
     },
     status: {
       name: "Стан сервера",

@@ -258,6 +258,20 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "Eine Änderungsanfrage ist bereits offen. Um weitere Änderungen anzufordern, antworten Sie bitte auf Ihr bestehendes Support-Ticket.",
       components_request_already_sent_view: "Ticket anzeigen",
+      status: {
+        issue: {
+          title: "Abonnement benötigt Aufmerksamkeit",
+          description:
+            "Wir haben ein Problem mit Ihrem Abonnement festgestellt. Keine Sorge — es lässt sich leicht beheben.",
+          due_overdue: "Überfällig seit",
+          due_upcoming: "Fällig in",
+          expected: "Erwarteter Betrag",
+          last_paid: "Zuletzt bezahlt",
+          fix_link: "Zahlungsrückstand beheben",
+          fix_mismatch_link: "Abonnementspreis aktualisieren",
+          support_link: "Support kontaktieren",
+        },
+      },
     },
     status: {
       name: "Serverstatus",

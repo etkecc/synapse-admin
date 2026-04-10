@@ -253,6 +253,19 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "変更リクエストはすでに開いています。さらに変更をリクエストするには、既存のサポートチケットに返信してください。",
       components_request_already_sent_view: "チケットを表示",
+      status: {
+        issue: {
+          title: "サブスクリプションの確認が必要です",
+          description: "サブスクリプションに問題が検出されました。ご安心ください — 簡単に解決できます。",
+          due_overdue: "滞納期間",
+          due_upcoming: "支払いまで",
+          expected: "予定金額",
+          last_paid: "最終支払い",
+          fix_link: "滞納支払いを解決",
+          fix_mismatch_link: "サブスクリプション価格を更新する",
+          support_link: "サポートに連絡",
+        },
+      },
     },
     status: {
       name: "サーバーの稼働状況",

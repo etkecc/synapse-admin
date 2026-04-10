@@ -252,6 +252,19 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "یک درخواست تغییر در حال پردازش است. برای درخواست تغییرات بیشتر، به تیکت پشتیبانی موجود خود پاسخ دهید.",
       components_request_already_sent_view: "مشاهده تیکت",
+      status: {
+        issue: {
+          title: "اشتراک نیاز به توجه دارد",
+          description: "مشکلی در اشتراک شما شناسایی شد. نگران نباشید — رفع آن آسان است.",
+          due_overdue: "معوق از",
+          due_upcoming: "تا پرداخت",
+          expected: "مبلغ مورد انتظار",
+          last_paid: "آخرین پرداخت",
+          fix_link: "حل پرداخت معوق",
+          fix_mismatch_link: "به‌روزرسانی قیمت اشتراک",
+          support_link: "تماس با پشتیبانی",
+        },
+      },
     },
     status: {
       name: "وضعیت سرور",

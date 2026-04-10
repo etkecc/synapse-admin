@@ -3,7 +3,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
 import ExtensionIcon from "@mui/icons-material/Extension";
-import PaymentIcon from "@mui/icons-material/Payment";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import TranslateIcon from "@mui/icons-material/Translate";
@@ -44,6 +43,7 @@ import { EtkeAttribution } from "../etke.cc/EtkeAttribution";
 import { ClearInstanceConfig, useInstanceConfig } from "../etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "../etke.cc/ServerNotificationsBadge";
 import { EtkeStatusPoller, ServerStatusStyledBadge } from "../etke.cc/ServerStatusBadge";
+import { BillingStatusBadge, BillingStatusPoller } from "../etke.cc/BillingStatusBadge";
 import { isMAS } from "../../providers/data/mas";
 import { useAppContext } from "../../Context";
 
@@ -298,6 +298,7 @@ const AdminMenu = props => {
       })}
     >
       {etkeRoutesEnabled && <EtkeStatusPoller />}
+      {etkeRoutesEnabled && !icfg.disabled.payments && <BillingStatusPoller />}
       {etkeRoutesEnabled && !icfg.disabled.monitoring && (
         <Menu.Item
           key="server_status"
@@ -332,7 +333,7 @@ const AdminMenu = props => {
         />
       )}
       {etkeRoutesEnabled && !icfg.disabled.payments && (
-        <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
+        <Menu.Item key="billing" to="/billing" leftIcon={<BillingStatusBadge />} primaryText="etkecc.billing.name" />
       )}
       {etkeRoutesEnabled && !icfg.disabled.payments && (
         <Menu.Item

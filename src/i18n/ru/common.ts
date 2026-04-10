@@ -265,6 +265,19 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "Запрос на изменение уже открыт. Для запроса дополнительных изменений ответьте на существующий тикет поддержки.",
       components_request_already_sent_view: "Посмотреть тикет",
+      status: {
+        issue: {
+          title: "Подписка требует внимания",
+          description: "Мы обнаружили проблему с вашей подпиской. Не беспокойтесь — её легко устранить.",
+          due_overdue: "Просрочена с",
+          due_upcoming: "До оплаты",
+          expected: "Ожидаемая сумма",
+          last_paid: "Последняя оплата",
+          fix_link: "Исправить задолженность",
+          fix_mismatch_link: "Обновить цену подписки",
+          support_link: "Связаться с поддержкой",
+        },
+      },
     },
     status: {
       name: "Статус сервера",

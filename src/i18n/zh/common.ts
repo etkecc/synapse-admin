@@ -239,6 +239,19 @@ const common: Record<string, any> = {
       components_request_sent_view: "查看申请",
       components_request_already_sent: "更改申请已存在。如需申请更多更改，请回复您现有的支持工单。",
       components_request_already_sent_view: "查看工单",
+      status: {
+        issue: {
+          title: "订阅需要关注",
+          description: "我们发现您的订阅存在问题。请放心，这很容易解决。",
+          due_overdue: "已逾期",
+          due_upcoming: "到期时间",
+          expected: "预期金额",
+          last_paid: "最近付款",
+          fix_link: "解决逾期付款",
+          fix_mismatch_link: "更新订阅价格",
+          support_link: "联系支持",
+        },
+      },
     },
     status: {
       name: "服务器状态",

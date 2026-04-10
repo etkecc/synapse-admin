@@ -255,6 +255,19 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "Já existe um pedido de alteração em aberto. Para solicitar mais alterações, responda ao seu ticket de suporte existente.",
       components_request_already_sent_view: "Ver ticket",
+      status: {
+        issue: {
+          title: "Subscrição necessita de atenção",
+          description: "Detetámos um problema na sua subscrição. Não se preocupe — é fácil de resolver.",
+          due_overdue: "Em atraso há",
+          due_upcoming: "Prazo em",
+          expected: "Valor esperado",
+          last_paid: "Último pagamento",
+          fix_link: "Resolver pagamento em atraso",
+          fix_mismatch_link: "Atualizar o preço da subscrição",
+          support_link: "Contactar suporte",
+        },
+      },
     },
     status: {
       name: "Estado do servidor",

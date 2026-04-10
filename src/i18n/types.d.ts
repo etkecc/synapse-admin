@@ -991,6 +991,19 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       components_request_sent_view: string;
       components_request_already_sent: string;
       components_request_already_sent_view: string;
+      status: {
+        issue: {
+          title: string;
+          description: string;
+          due_overdue: string;
+          due_upcoming: string;
+          expected: string;
+          last_paid: string;
+          fix_link: string;
+          fix_mismatch_link: string;
+          support_link: string;
+        };
+      };
     };
     components: {
       name: string;

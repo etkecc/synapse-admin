@@ -257,6 +257,19 @@ const common: Record<string, any> = {
       components_request_already_sent:
         "È già aperta una richiesta di modifica. Per richiedere ulteriori modifiche, risponda al ticket di supporto esistente.",
       components_request_already_sent_view: "Visualizza ticket",
+      status: {
+        issue: {
+          title: "L'abbonamento richiede attenzione",
+          description: "Abbiamo rilevato un problema con il Suo abbonamento. Non si preoccupi — è facile da risolvere.",
+          due_overdue: "In ritardo da",
+          due_upcoming: "Scadenza tra",
+          expected: "Importo atteso",
+          last_paid: "Ultimo pagamento",
+          fix_link: "Risolva il pagamento in ritardo",
+          fix_mismatch_link: "Aggiorni il prezzo dell'abbonamento",
+          support_link: "Contatta il supporto",
+        },
+      },
     },
     status: {
       name: "Stato del server",
