@@ -110,7 +110,7 @@ describe("authProvider", () => {
     localStorage.setItem("clientId", "client_id");
     localStorage.setItem("oidc_issuer", "https://issuer.example");
     localStorage.setItem("oidc_scope", "openid profile");
-    localStorage.setItem("oidc_redirect_uri", "http://localhost:5173/auth-callback");
+    localStorage.setItem("oidc_redirect_uri", "http://localhost:5173/auth-callback/");
     localStorage.setItem("decoded_base_url", "http://example.com");
 
     vi.mocked(fetch).mockResolvedValueOnce(
@@ -128,7 +128,7 @@ describe("authProvider", () => {
     expect(UserManager).toHaveBeenCalledWith({
       authority: "https://issuer.example",
       client_id: "client_id",
-      redirect_uri: "http://localhost:5173/auth-callback",
+      redirect_uri: "http://localhost:5173/auth-callback/",
       response_type: "code",
       scope: "openid profile",
     });

@@ -209,7 +209,7 @@ const authProvider: AuthProvider = {
     const clientId = localStorage.getItem("clientId");
     const issuer = localStorage.getItem("oidc_issuer");
     const scope = localStorage.getItem("oidc_scope") || "openid";
-    const redirectUri = localStorage.getItem("oidc_redirect_uri") || `${window.location.origin}/auth-callback`;
+    const redirectUri = localStorage.getItem("oidc_redirect_uri") || `${window.location.origin}/auth-callback/`;
 
     if (!clientId || !issuer) {
       log.error("handleCallback: missing OIDC config in storage", { hasClientId: !!clientId, hasIssuer: !!issuer });

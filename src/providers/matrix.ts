@@ -197,7 +197,7 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
       client_uri: clientUrl,
       response_types: ["code"],
       grant_types: ["authorization_code", "refresh_token"],
-      redirect_uris: [`${clientUrl}/auth-callback`],
+      redirect_uris: [`${clientUrl}/auth-callback/`],
       id_token_signed_response_alg: "RS256",
       token_endpoint_auth_method: "none",
       application_type: "web",
