@@ -208,7 +208,7 @@ const common: Record<string, any> = {
       name: "Abrechnung",
       title: "Zahlungshistorie",
       no_payments: "Keine Zahlungen gefunden.",
-      no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support unter",
+      no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support.",
       description1:
         "Hier können Sie Zahlungen einsehen und Rechnungen erstellen. Mehr zur Verwaltung von Abonnements erfahren Sie unter",
       description2: "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen, siehe",
@@ -234,7 +234,7 @@ const common: Record<string, any> = {
         loading: "Abrechnungsinformationen werden geladen...",
         loading_failed1: "Beim Laden der Abrechnungsinformationen ist ein Problem aufgetreten.",
         loading_failed2: "Bitte versuchen Sie es später erneut.",
-        loading_failed3: "Wenn das Problem weiterhin besteht, kontaktieren Sie bitte den etke.cc-Support unter",
+        loading_failed3: "Wenn das Problem weiterhin besteht, kontaktieren Sie bitte den etke.cc-Support.",
         loading_failed4: "mit der folgenden Fehlermeldung:",
       },
       components: "Aktive Komponenten",

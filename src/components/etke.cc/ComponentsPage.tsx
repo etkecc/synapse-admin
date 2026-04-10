@@ -1,4 +1,5 @@
 import ExtensionIcon from "@mui/icons-material/Extension";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import {
   Alert,
   AlertTitle,
@@ -26,10 +27,12 @@ import {
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useState, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { Title, useDataProvider, useLocale, useNotify, useRedirect, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
+import { useInstanceConfig } from "./InstanceConfig";
 import { SynapseDataProvider, Component, ComponentSection, SupportRequest } from "../../providers/types";
 import createLogger from "../../utils/logger";
 import { tt } from "../../utils/safety";
@@ -39,6 +42,7 @@ const log = createLogger("components");
 
 const ComponentsPage = () => {
   const { etkeccAdmin } = useAppContext();
+  const icfg = useInstanceConfig();
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const locale = useLocale();
   const translate = useTranslate();
@@ -401,15 +405,23 @@ const ComponentsPage = () => {
           {translate("etkecc.billing.helper.loading_failed2")}
           <br />
           <EtkeAttribution>
-            <Typography variant="body2">
-              {translate("etkecc.billing.helper.loading_failed3")}{" "}
-              <Link href="https://etke.cc/contacts/" target="_blank">
-                etke.cc/contacts
-              </Link>{" "}
-              {translate("etkecc.billing.helper.loading_failed4")}
-            </Typography>
+            <Typography variant="body2">{translate("etkecc.billing.helper.loading_failed3")}</Typography>
+            {!icfg.disabled.support && (
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<SupportAgentIcon />}
+                component={RouterLink}
+                to="/support"
+                sx={{ mt: 1 }}
+              >
+                {translate("etkecc.billing.status.issue.support_link")}
+              </Button>
+            )}
           </EtkeAttribution>
           <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
+            {translate("etkecc.billing.helper.loading_failed4")}
+            <br />
             {failure}
           </Typography>
         </Alert>

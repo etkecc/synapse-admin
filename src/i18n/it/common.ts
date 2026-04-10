@@ -207,7 +207,7 @@ const common: Record<string, any> = {
       name: "Fatturazione",
       title: "Cronologia pagamenti",
       no_payments: "Nessun pagamento trovato.",
-      no_payments_helper: "Se ritiene che si tratti di un errore, contatti l’assistenza etke.cc a",
+      no_payments_helper: "Se ritiene che si tratti di un errore, contatti l’assistenza etke.cc.",
       description1:
         "Da qui può visualizzare i pagamenti e generare le fatture. Può saperne di più sulla gestione degli abbonamenti su",
       description2: "Per modificare l’email di fatturazione o aggiungere i dati aziendali alle fatture, consulti",
@@ -233,7 +233,7 @@ const common: Record<string, any> = {
         loading: "Caricamento delle informazioni di fatturazione...",
         loading_failed1: "Si è verificato un problema durante il caricamento delle informazioni di fatturazione.",
         loading_failed2: "Riprova più tardi.",
-        loading_failed3: "Se il problema persiste, contatti l’assistenza etke.cc a",
+        loading_failed3: "Se il problema persiste, contatti l’assistenza etke.cc.",
         loading_failed4: "con il seguente messaggio di errore:",
       },
       components: "Componenti attivi",

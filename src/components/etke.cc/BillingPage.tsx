@@ -34,6 +34,7 @@ import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "reac
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { useAppContext } from "../../Context";
+import { useInstanceConfig } from "./InstanceConfig";
 import { SynapseDataProvider, Payment, PaymentStatus } from "../../providers/types";
 import createLogger from "../../utils/logger";
 import { getTimeSince, getTimeUntil } from "../../utils/date";
@@ -59,6 +60,7 @@ const TruncatedUUID = ({ uuid }): React.ReactElement => {
 
 const BillingPage = () => {
   const { etkeccAdmin } = useAppContext();
+  const icfg = useInstanceConfig();
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const notify = useNotify();
   const locale = useLocale();
@@ -204,15 +206,23 @@ const BillingPage = () => {
           {translate("etkecc.billing.helper.loading_failed2")}
           <br />
           <EtkeAttribution>
-            <Typography variant="body2">
-              {translate("etkecc.billing.helper.loading_failed3")}{" "}
-              <Link href="https://etke.cc/contacts/" target="_blank">
-                etke.cc/contacts
-              </Link>{" "}
-              {translate("etkecc.billing.helper.loading_failed4")}
-            </Typography>
+            <Typography variant="body2">{translate("etkecc.billing.helper.loading_failed3")}</Typography>
+            {!icfg.disabled.support && (
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<SupportAgentIcon />}
+                component={RouterLink}
+                to="/support"
+                sx={{ mt: 1 }}
+              >
+                {translate("etkecc.billing.status.issue.support_link")}
+              </Button>
+            )}
           </EtkeAttribution>
           <Typography variant="body2" sx={{ mt: 1, opacity: 0.8 }}>
+            {translate("etkecc.billing.helper.loading_failed4")}
+            <br />
             {failure}
           </Typography>
         </Alert>
@@ -358,13 +368,19 @@ const BillingPage = () => {
           <Typography variant="body1">
             {translate("etkecc.billing.no_payments")}
             <EtkeAttribution>
-              <Typography>
-                {translate("etkecc.billing.no_payments_helper")}{" "}
-                <Link href="https://etke.cc/contacts/" target="_blank">
-                  etke.cc/contacts
-                </Link>
-                .
-              </Typography>
+              <Typography>{translate("etkecc.billing.no_payments_helper")}</Typography>
+              {!icfg.disabled.support && (
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<SupportAgentIcon />}
+                  component={RouterLink}
+                  to="/support"
+                  sx={{ mt: 1 }}
+                >
+                  {translate("etkecc.billing.status.issue.support_link")}
+                </Button>
+              )}
             </EtkeAttribution>
           </Typography>
         ) : isSmall ? (

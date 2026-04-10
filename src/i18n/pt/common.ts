@@ -206,7 +206,7 @@ const common: Record<string, any> = {
       name: "Faturação",
       title: "Histórico de pagamentos",
       no_payments: "Nenhum pagamento encontrado.",
-      no_payments_helper: "Se acredita que se trata de um erro, contacte o suporte etke.cc em",
+      no_payments_helper: "Se acredita que se trata de um erro, contacte o suporte etke.cc.",
       description1: "Consulte pagamentos e gere faturas aqui. Pode saber mais sobre a gestão de subscrições em",
       description2: "Para alterar o seu e-mail de faturação ou adicionar dados da empresa às faturas, consulte",
       fields: {
@@ -231,7 +231,7 @@ const common: Record<string, any> = {
         loading: "A carregar informações de faturação...",
         loading_failed1: "Ocorreu um problema ao carregar as informações de faturação.",
         loading_failed2: "Por favor tente novamente mais tarde.",
-        loading_failed3: "Se o problema persistir, contacte o suporte etke.cc em",
+        loading_failed3: "Se o problema persistir, contacte o suporte etke.cc.",
         loading_failed4: "com a seguinte mensagem de erro:",
       },
       components: "Componentes ativos",

@@ -204,7 +204,7 @@ const common = {
       name: "Billing",
       title: "Payment History",
       no_payments: "No payments found.",
-      no_payments_helper: "If you believe this is an error, please contact etke.cc support at",
+      no_payments_helper: "If you believe this is an error, please contact etke.cc support.",
       description1: "View payments and generate invoices here. You can learn more about subscription management at",
       description2: "To change your billing email or add company details to invoices, see",
       fields: {
@@ -229,7 +229,7 @@ const common = {
         loading: "Loading billing information...",
         loading_failed1: "There was a problem loading billing information.",
         loading_failed2: "Please try again later.",
-        loading_failed3: "If the problem persists, please contact etke.cc support at",
+        loading_failed3: "If the problem persists, please contact etke.cc support.",
         loading_failed4: "with the following error message:",
       },
       components: "Active Components",

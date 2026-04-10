@@ -191,7 +191,7 @@ const common: Record<string, any> = {
       name: "账单",
       title: "付款记录",
       no_payments: "未找到付款记录。",
-      no_payments_helper: "如果您认为这是错误，请通过以下方式联系 etke.cc 支持：",
+      no_payments_helper: "如果您认为这是错误，请联系 etke.cc 支持。",
       description1: "您可以在此查看付款并生成发票。有关订阅管理的更多信息，请访问",
       description2: "如需更改账单邮箱或向发票添加公司信息，请参阅",
       fields: {
@@ -216,7 +216,7 @@ const common: Record<string, any> = {
         loading: "正在加载账单信息...",
         loading_failed1: "加载账单信息时出现问题。",
         loading_failed2: "请稍后再试。",
-        loading_failed3: "如果问题仍然存在，请通过以下方式联系 etke.cc 支持：",
+        loading_failed3: "如果问题仍然存在，请联系 etke.cc 支持。",
         loading_failed4: "并提供以下错误信息：",
       },
       components: "已启用的组件",
