@@ -41,8 +41,7 @@ or pass the `BASE_PATH` Docker build argument.
 
 | Channel | Type | Maintainer | Best for | Notes |
 |---|---|---|---|---|
-| [Nix package search](https://search.nixos.org/packages?show=synapse-admin-etkecc) | Package index | [@Defelo](https://github.com/Defelo) | Nix and NixOS users | Package still uses the legacy `synapse-admin-etkecc` name |
-| [MyNixOS package page](https://mynixos.com/nixpkgs/package/synapse-admin-etkecc) | Package index | [@Defelo](https://github.com/Defelo) | Users who want a friendlier Nix package view | Alternate index for the same Nix package |
+| [Nixpkgs](https://search.nixos.org/packages?channel=unstable&show=ketesa) | Package index | [@Defelo](https://github.com/Defelo) | Nix and NixOS users | |
 | [Arch Linux AUR](https://aur.archlinux.org/packages/synapse-admin-etke-git) | AUR package | [@drygdryg](https://github.com/drygdryg) | Arch users who prefer AUR packaging | Legacy package naming; maintained outside this repository |
 
 ## 🌙 Nightly and development builds
