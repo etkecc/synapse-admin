@@ -111,6 +111,21 @@ const users = {
         "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
       failure: "Failed to quarantine media. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Delete all media",
+      title: "Delete all media for %{userName}",
+      content: "This will permanently delete all media uploaded by this user. This action cannot be undone.",
+      in_progress: "Deleting media…",
+      background_note: "You can safely close this dialog — deletion will continue in the background.",
+      success: "Successfully deleted %{smart_count} media item. |||| Successfully deleted %{smart_count} media items.",
+      failure: "Failed to delete media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Delete all media for %{smart_count} user? |||| Delete all media for %{smart_count} users?",
+      content: "This will permanently delete all media uploaded by the selected users. This action cannot be undone.",
+      success: "Deleted media for %{success} of %{total} users.",
+      partial_failure: "Deleted media for %{success} of %{total} users. %{failed} failed.",
+    },
     allow_cross_signing: {
       label: "Allow cross-signing reset",
       title: "Allow cross-signing key replacement",

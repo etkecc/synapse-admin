@@ -147,6 +147,11 @@ export interface SynapseDataProvider extends DataProvider {
     roomId: string,
     params?: { from?: string; limit?: number; max_depth?: number }
   ) => Promise<{ success: boolean; data?: RoomHierarchyResult; error?: string; errcode?: string }>;
+  deleteUserMedia: (id: Identifier) => Promise<DeleteMediaResult>;
+  deleteRoomMedia: (
+    roomId: string,
+    onProgress?: (current: number, total: number) => void
+  ) => Promise<{ total: number }>;
   quarantineRoomMedia: (
     roomId: string
   ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;

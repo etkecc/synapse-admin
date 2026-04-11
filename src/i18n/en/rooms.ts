@@ -118,6 +118,24 @@ const rooms = {
         "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
       failure: "Failed to quarantine media. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Delete all media",
+      title: "Delete all media in %{roomName}",
+      content:
+        "This will permanently delete all local media in this room. Only local media from unencrypted rooms is affected — remote media from other servers is excluded. This action cannot be undone.",
+      in_progress_loading: "Fetching media list…",
+      in_progress: "Deleting media… (%{current} / %{total})",
+      do_not_close: "Do not close this dialog — deletion is running in the foreground and will stop if closed.",
+      success: "Successfully deleted %{smart_count} media item. |||| Successfully deleted %{smart_count} media items.",
+      failure: "Failed to delete media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Delete all media for %{smart_count} room? |||| Delete all media for %{smart_count} rooms?",
+      content:
+        "This will permanently delete all local media in the selected rooms (unencrypted rooms only). Remote media from other servers is excluded. This action cannot be undone.",
+      success: "Deleted media for %{success} of %{total} rooms.",
+      partial_failure: "Deleted media for %{success} of %{total} rooms. %{failed} failed.",
+    },
     event_context: {
       lookup_title: "Look Up Event by ID",
       jump_to_date: "Jump to date",

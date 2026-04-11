@@ -118,6 +118,27 @@ const rooms = {
         "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
       failure: "Impossibile mettere in quarantena i media. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Elimina tutti i media",
+      title: "Elimina tutti i media in %{roomName}",
+      content:
+        "Questa operazione eliminerà definitivamente tutti i media locali in questa stanza. Sono interessati solo i media locali delle stanze non cifrate — i media di server remoti sono esclusi. L'operazione è irreversibile.",
+      in_progress_loading: "Recupero dell'elenco dei media…",
+      in_progress: "Eliminazione dei media… (%{current} / %{total})",
+      do_not_close:
+        "Non chiuda questa finestra — l'eliminazione è in esecuzione in primo piano e si interromperà se viene chiusa.",
+      success:
+        "Eliminazione riuscita di %{smart_count} elemento multimediale. |||| Eliminazione riuscita di %{smart_count} elementi multimediali.",
+      failure: "Impossibile eliminare i media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Eliminare tutti i media per %{smart_count} stanza? |||| Eliminare tutti i media per %{smart_count} stanze?",
+      content:
+        "Questa operazione eliminerà definitivamente tutti i media locali nelle stanze selezionate (solo stanze non cifrate). I media di server remoti sono esclusi. L'operazione è irreversibile.",
+      success: "Media eliminati per %{success} su %{total} stanze.",
+      partial_failure: "Media eliminati per %{success} su %{total} stanze. %{failed} non riusciti.",
+    },
     event_context: {
       lookup_title: "Cerca evento per ID",
       jump_to_date: "Vai alla data",

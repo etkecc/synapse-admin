@@ -38,6 +38,7 @@ import {
 
 import AvatarField from "../../components/users/fields/AvatarField";
 import DeleteUserButton from "../../components/users/buttons/DeleteUserButton";
+import { DeleteUserMediaBulkButton } from "../../components/users/buttons/DeleteAllMediaButton";
 import { ServerNoticeBulkButton } from "../../components/users/ServerNotices";
 import EmptyState from "../../components/layout/EmptyState";
 import List from "../../components/layout/List";
@@ -208,6 +209,7 @@ const UserBulkActionButtons = () => {
   return (
     <>
       <ServerNoticeBulkButton />
+      <DeleteUserMediaBulkButton />
       <UserPreventSelfDelete ownUserIsSelected={ownUserIsSelected} systemUserIsSelected={systemUserIsSelected}>
         <DeleteUserButton
           selectedIds={selectedIds}

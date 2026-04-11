@@ -46,6 +46,7 @@ import {
   BlockRoomByIdButton,
 } from "../../components/users/buttons/BlockRoomButton";
 import DeleteRoomButton from "../../components/users/buttons/DeleteRoomButton";
+import { DeleteRoomMediaBulkButton } from "../../components/users/buttons/DeleteAllMediaButton";
 import EmptyState from "../../components/layout/EmptyState";
 import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
@@ -252,6 +253,7 @@ export const RoomBulkActionButtons = () => {
       <UnblockRoomBulkButton />
       <RoomDirectoryBulkPublishButton />
       <RoomDirectoryBulkUnpublishButton />
+      <DeleteRoomMediaBulkButton />
       <DeleteRoomButton
         selectedIds={record.selectedIds}
         confirmTitle="resources.rooms.action.erase.title"

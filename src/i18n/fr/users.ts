@@ -121,6 +121,26 @@ const users = {
         "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
       failure: "Échec de la mise en quarantaine. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Supprimer tous les médias",
+      title: "Supprimer tous les médias de %{userName}",
+      content:
+        "Cette action supprimera définitivement tous les médias téléversés par cet utilisateur. Elle est irréversible.",
+      in_progress: "Suppression des médias en cours…",
+      background_note:
+        "Vous pouvez fermer cette fenêtre en toute sécurité — la suppression continuera en arrière-plan.",
+      success:
+        "Suppression réussie de %{smart_count} élément multimédia. |||| Suppression réussie de %{smart_count} éléments multimédia.",
+      failure: "Échec de la suppression des médias. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Supprimer tous les médias pour %{smart_count} utilisateur ? |||| Supprimer tous les médias pour %{smart_count} utilisateurs ?",
+      content:
+        "Cette action supprimera définitivement tous les médias téléversés par les utilisateurs sélectionnés. Elle est irréversible.",
+      success: "Médias supprimés pour %{success} sur %{total} utilisateurs.",
+      partial_failure: "Médias supprimés pour %{success} sur %{total} utilisateurs. %{failed} ont échoué.",
+    },
     allow_cross_signing: {
       label: "Autoriser la réinitialisation du Cross-Signing",
       title: "Autoriser le remplacement des clés Cross-Signing",

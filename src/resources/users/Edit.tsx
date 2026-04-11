@@ -120,6 +120,7 @@ import UserRateLimits from "../../components/users/UserRateLimits";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { MediaIDField, ProtectMediaButton, QuarantineMediaButton } from "../../components/media";
 import { QuarantineUserMediaButton } from "../../components/users/buttons/QuarantineAllMediaButton";
+import { DeleteUserMediaButton } from "../../components/users/buttons/DeleteAllMediaButton";
 import { SynapseDataProvider } from "../../providers/types";
 import {
   FinishCompatSessionButton,
@@ -1321,6 +1322,7 @@ export const UserEdit = (props: EditProps) => {
           path="media"
         >
           <QuarantineUserMediaButton />
+          <DeleteUserMediaButton />
           <ReferenceManyField
             reference="users_media"
             target="user_id"

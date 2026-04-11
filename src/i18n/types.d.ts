@@ -245,6 +245,21 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        delete_all_media: {
+          label: string;
+          title: string;
+          content: string;
+          in_progress: string;
+          background_note: string;
+          success: string;
+          failure: string;
+        };
+        delete_all_media_bulk: {
+          title: string;
+          content: string;
+          success: string;
+          partial_failure: string;
+        };
         allow_cross_signing: {
           label: string;
           title: string;
@@ -409,6 +424,22 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           content: string;
           success: string;
           failure: string;
+        };
+        delete_all_media: {
+          label: string;
+          title: string;
+          content: string;
+          in_progress_loading: string;
+          in_progress: string;
+          do_not_close: string;
+          success: string;
+          failure: string;
+        };
+        delete_all_media_bulk: {
+          title: string;
+          content: string;
+          success: string;
+          partial_failure: string;
         };
         event_context: {
           jump_to_date: string;

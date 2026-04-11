@@ -122,6 +122,24 @@ const users = {
         "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
       failure: "Quarantäne fehlgeschlagen. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Alle Medien löschen",
+      title: "Alle Medien von %{userName} löschen",
+      content:
+        "Alle von diesem Benutzer hochgeladenen Medien werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      in_progress: "Medien werden gelöscht…",
+      background_note: "Sie können diesen Dialog sicher schließen — der Löschvorgang wird im Hintergrund fortgesetzt.",
+      success:
+        "Erfolgreich %{smart_count} Medienelement gelöscht. |||| Erfolgreich %{smart_count} Medienelemente gelöscht.",
+      failure: "Medien konnten nicht gelöscht werden. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Alle Medien für %{smart_count} Benutzer löschen? |||| Alle Medien für %{smart_count} Benutzer löschen?",
+      content:
+        "Alle von den ausgewählten Benutzern hochgeladenen Medien werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+      success: "Medien für %{success} von %{total} Benutzern gelöscht.",
+      partial_failure: "Medien für %{success} von %{total} Benutzern gelöscht. %{failed} fehlgeschlagen.",
+    },
     allow_cross_signing: {
       label: "Cross-Signing-Reset erlauben",
       title: "Cross-Signing-Schlüsselersatz erlauben",

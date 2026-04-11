@@ -119,6 +119,26 @@ const rooms = {
         "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
       failure: "Quarantäne fehlgeschlagen. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Alle Medien löschen",
+      title: "Alle Medien in %{roomName} löschen",
+      content:
+        "Alle lokalen Medien in diesem Raum werden dauerhaft gelöscht. Nur lokale Medien aus unverschlüsselten Räumen sind betroffen — Medien von externen Servern sind ausgeschlossen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      in_progress_loading: "Medienliste wird abgerufen…",
+      in_progress: "Medien werden gelöscht… (%{current} / %{total})",
+      do_not_close:
+        "Schließen Sie diesen Dialog nicht — der Löschvorgang läuft im Vordergrund und wird unterbrochen, wenn Sie ihn schließen.",
+      success:
+        "Erfolgreich %{smart_count} Medienelement gelöscht. |||| Erfolgreich %{smart_count} Medienelemente gelöscht.",
+      failure: "Medien konnten nicht gelöscht werden. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Alle Medien für %{smart_count} Raum löschen? |||| Alle Medien für %{smart_count} Räume löschen?",
+      content:
+        "Alle lokalen Medien in den ausgewählten Räumen werden dauerhaft gelöscht (nur unverschlüsselte Räume). Medien von externen Servern sind ausgeschlossen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      success: "Medien für %{success} von %{total} Räumen gelöscht.",
+      partial_failure: "Medien für %{success} von %{total} Räumen gelöscht. %{failed} fehlgeschlagen.",
+    },
     event_context: {
       lookup_title: "Ereignis nach ID nachschlagen",
       jump_to_date: "Zu Datum springen",

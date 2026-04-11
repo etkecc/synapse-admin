@@ -118,6 +118,27 @@ const rooms = {
         "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
       failure: "Échec de la mise en quarantaine. %{errMsg}",
     },
+    delete_all_media: {
+      label: "Supprimer tous les médias",
+      title: "Supprimer tous les médias du salon %{roomName}",
+      content:
+        "Cette action supprimera définitivement tous les médias locaux de ce salon. Seuls les médias locaux des salons non chiffrés sont concernés — les médias provenant de serveurs distants sont exclus. Elle est irréversible.",
+      in_progress_loading: "Récupération de la liste des médias…",
+      in_progress: "Suppression des médias… (%{current} / %{total})",
+      do_not_close:
+        "Ne fermez pas cette fenêtre — la suppression s'exécute au premier plan et s'interrompra si vous la fermez.",
+      success:
+        "Suppression réussie de %{smart_count} élément multimédia. |||| Suppression réussie de %{smart_count} éléments multimédia.",
+      failure: "Échec de la suppression des médias. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Supprimer tous les médias pour %{smart_count} salon ? |||| Supprimer tous les médias pour %{smart_count} salons ?",
+      content:
+        "Cette action supprimera définitivement tous les médias locaux des salons sélectionnés (salons non chiffrés uniquement). Les médias provenant de serveurs distants sont exclus. Elle est irréversible.",
+      success: "Médias supprimés pour %{success} sur %{total} salons.",
+      partial_failure: "Médias supprimés pour %{success} sur %{total} salons. %{failed} ont échoué.",
+    },
     event_context: {
       lookup_title: "Rechercher un événement par ID",
       jump_to_date: "Aller à la date",

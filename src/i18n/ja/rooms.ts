@@ -116,6 +116,26 @@ const rooms = {
       success: "%{smart_count} 件のメディアを検疫しました。",
       failure: "メディアの検疫を行えませんでした。%{errMsg}",
     },
+    delete_all_media: {
+      label: "すべてのメディアを削除",
+      title: "%{roomName} のすべてのメディアを削除",
+      content:
+        "このルームのすべてのローカルメディアが完全に削除されます。暗号化されていないルームのローカルメディアのみが対象です — 他のサーバーのリモートメディアは除外されます。この操作は元に戻せません。",
+      in_progress_loading: "メディアリストを取得中…",
+      in_progress: "メディアを削除中… (%{current} / %{total})",
+      do_not_close: "このダイアログを閉じないでください — 削除はフォアグラウンドで実行中であり、閉じると中断されます。",
+      success:
+        "%{smart_count} 件のメディアを正常に削除しました。 |||| %{smart_count} 件のメディアを正常に削除しました。",
+      failure: "メディアの削除に失敗しました。%{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "%{smart_count} 件のルームのすべてのメディアを削除しますか？ |||| %{smart_count} 件のルームのすべてのメディアを削除しますか？",
+      content:
+        "選択したルームのすべてのローカルメディアが完全に削除されます（暗号化されていないルームのみ）。他のサーバーのリモートメディアは除外されます。この操作は元に戻せません。",
+      success: "%{total} 件のうち %{success} 件のルームのメディアを削除しました。",
+      partial_failure: "%{total} 件のうち %{success} 件のルームのメディアを削除しました。%{failed} 件は失敗しました。",
+    },
     event_context: {
       lookup_title: "イベント ID で検索",
       jump_to_date: "日付にジャンプ",

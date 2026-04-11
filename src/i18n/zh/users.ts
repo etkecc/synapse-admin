@@ -115,6 +115,21 @@ const users = {
       success: "已成功隔离 %{smart_count} 个媒体项。",
       failure: "隔离媒体失败。%{errMsg}",
     },
+    delete_all_media: {
+      label: "删除所有媒体",
+      title: "删除 %{userName} 的所有媒体",
+      content: "这将永久删除该用户上传的所有媒体文件。此操作无法撤销。",
+      in_progress: "正在删除媒体…",
+      background_note: "您可以安全地关闭此对话框——删除将在后台继续进行。",
+      success: "成功删除了 %{smart_count} 个媒体文件。 |||| 成功删除了 %{smart_count} 个媒体文件。",
+      failure: "删除媒体失败。%{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "删除 %{smart_count} 名用户的所有媒体？ |||| 删除 %{smart_count} 名用户的所有媒体？",
+      content: "这将永久删除所选用户上传的所有媒体文件。此操作无法撤销。",
+      success: "已为 %{total} 名用户中的 %{success} 名删除媒体。",
+      partial_failure: "已为 %{total} 名用户中的 %{success} 名删除媒体，%{failed} 名失败。",
+    },
     allow_cross_signing: {
       label: "允许重置 Cross-Signing",
       title: "允许替换 Cross-Signing 密钥",

@@ -53,6 +53,7 @@ import { BlockRoomButton } from "../../components/users/buttons/BlockRoomButton"
 import DeleteRoomButton from "../../components/users/buttons/DeleteRoomButton";
 import { PurgeHistoryButton } from "../../components/users/buttons/PurgeHistoryButton";
 import { QuarantineRoomMediaButton } from "../../components/users/buttons/QuarantineAllMediaButton";
+import { DeleteRoomMediaButton } from "../../components/users/buttons/DeleteAllMediaButton";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { MediaIDField } from "../../components/media";
 import { DATE_FORMAT } from "../../utils/date";
@@ -586,6 +587,7 @@ const RoomShowLayout = () => {
       <Tab label="ketesa.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
         <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
         <QuarantineRoomMediaButton />
+        <DeleteRoomMediaButton />
         <ReferenceManyField
           reference="room_media"
           target="room_id"

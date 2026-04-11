@@ -108,6 +108,23 @@ const users = {
       success: "%{smart_count} 件のメディアを検疫しました。",
       failure: "メディアの検疫を行えませんでした。%{errMsg}",
     },
+    delete_all_media: {
+      label: "すべてのメディアを削除",
+      title: "%{userName} のすべてのメディアを削除",
+      content: "このユーザーがアップロードしたすべてのメディアが完全に削除されます。この操作は元に戻せません。",
+      in_progress: "メディアを削除中…",
+      background_note: "このダイアログを安全に閉じることができます — 削除はバックグラウンドで続行されます。",
+      success:
+        "%{smart_count} 件のメディアを正常に削除しました。 |||| %{smart_count} 件のメディアを正常に削除しました。",
+      failure: "メディアの削除に失敗しました。%{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "%{smart_count} 人のユーザーのすべてのメディアを削除しますか？ |||| %{smart_count} 人のユーザーのすべてのメディアを削除しますか？",
+      content: "選択したユーザーがアップロードしたすべてのメディアが完全に削除されます。この操作は元に戻せません。",
+      success: "%{total} 人のうち %{success} 人のメディアを削除しました。",
+      partial_failure: "%{total} 人のうち %{success} 人のメディアを削除しました。%{failed} 人は失敗しました。",
+    },
     allow_cross_signing: {
       label: "Cross-Signingリセットを許可",
       title: "Cross-Signingキーの置き換えを許可",

@@ -112,6 +112,24 @@ const rooms = {
       success: "已成功隔离 %{smart_count} 个媒体项。",
       failure: "隔离媒体失败。%{errMsg}",
     },
+    delete_all_media: {
+      label: "删除所有媒体",
+      title: "删除 %{roomName} 中的所有媒体",
+      content:
+        "这将永久删除该房间中的所有本地媒体文件。仅影响非加密房间中的本地媒体——来自其他服务器的远程媒体不在范围内。此操作无法撤销。",
+      in_progress_loading: "正在获取媒体列表…",
+      in_progress: "正在删除媒体… (%{current} / %{total})",
+      do_not_close: "请勿关闭此对话框——删除正在前台运行，关闭后将中断。",
+      success: "成功删除了 %{smart_count} 个媒体文件。 |||| 成功删除了 %{smart_count} 个媒体文件。",
+      failure: "删除媒体失败。%{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "删除 %{smart_count} 个房间的所有媒体？ |||| 删除 %{smart_count} 个房间的所有媒体？",
+      content:
+        "这将永久删除所选房间中的所有本地媒体文件（仅限非加密房间）。来自其他服务器的远程媒体不在范围内。此操作无法撤销。",
+      success: "已为 %{total} 个房间中的 %{success} 个删除媒体。",
+      partial_failure: "已为 %{total} 个房间中的 %{success} 个删除媒体，%{failed} 个失败。",
+    },
     event_context: {
       lookup_title: "按 ID 查找事件",
       jump_to_date: "跳转到日期",
