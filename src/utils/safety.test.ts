@@ -1,4 +1,34 @@
-import { JSONStringify, decodeURLComponent, tt } from "./safety";
+import { JSONStringify, decodeURLComponent, encodeURLComponent, tt } from "./safety";
+
+describe("encodeURLComponent", () => {
+  it("returns a plain string unchanged", () => {
+    expect(encodeURLComponent("plain.jpg")).toBe("plain.jpg");
+  });
+
+  it("encodes spaces as %20", () => {
+    expect(encodeURLComponent("my file.png")).toBe("my%20file.png");
+  });
+
+  it("encodes & as %26", () => {
+    expect(encodeURLComponent("a&b")).toBe("a%26b");
+  });
+
+  it("encodes # as %23", () => {
+    expect(encodeURLComponent("file#1.txt")).toBe("file%231.txt");
+  });
+
+  it("encodes + as %2B", () => {
+    expect(encodeURLComponent("a+b")).toBe("a%2Bb");
+  });
+
+  it("encodes non-ASCII characters", () => {
+    expect(encodeURLComponent("résumé.pdf")).toBe("r%C3%A9sum%C3%A9.pdf");
+  });
+
+  it("returns an empty string unchanged", () => {
+    expect(encodeURLComponent("")).toBe("");
+  });
+});
 
 describe("decodeURLComponent", () => {
   it("decodes valid url-encoded strings", () => {

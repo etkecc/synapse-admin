@@ -10,6 +10,17 @@ export const decodeURLComponent = (str: string): string => {
 };
 
 /**
+ * Encode a URI component, and if it fails, return the original string.
+ */
+export const encodeURLComponent = (str: string): string => {
+  try {
+    return encodeURIComponent(str);
+  } catch {
+    return str;
+  }
+};
+
+/**
  * Try-translate: attempt to translate a key, falling back to a default value if no translation exists.
  *
  * react-admin's translate() (from useTranslate) returns the key itself when no translation is found.

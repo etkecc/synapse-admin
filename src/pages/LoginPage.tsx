@@ -117,6 +117,20 @@ const prependDefaultProtocol = (value: string): string => {
   return `${getDefaultProtocolForHomeserverInput(value)}://${value}`;
 };
 
+/**
+ * Returns true when the issuer string is a well-formed HTTP(S) URL
+ * with no query string or fragment (per RFC 8414 §2).
+ * Does not enforce https — that is a deployment policy, not a format rule.
+ */
+export const isValidIssuer = (issuer: string): boolean => {
+  try {
+    const { protocol, search, hash } = new URL(issuer);
+    return (protocol === "https:" || protocol === "http:") && search === "" && hash === "";
+  } catch {
+    return false;
+  }
+};
+
 const LoginPage = () => {
   const login = useLogin();
   const notify = useNotify();
@@ -266,44 +280,61 @@ const LoginPage = () => {
       setMatrixVersions("");
     }
 
-    // Set SSO Url
-    try {
-      const loginFlows = await getSupportedLoginFlows(url);
-      const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
-      const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
+    // Probe login flows and auth_metadata in parallel.
+    // auth_metadata (/_matrix/client/v1/auth_metadata) works even when /v3/login is disabled by MAS.
+    const [loginFlowsResult, authMetadataResult] = await Promise.allSettled([
+      getSupportedLoginFlows(url),
+      getAuthMetadata(url),
+    ]);
+
+    const loginFlows = loginFlowsResult.status === "fulfilled" ? loginFlowsResult.value : [];
+    const authMetadata = authMetadataResult.status === "fulfilled" ? authMetadataResult.value : null;
+
+    const supportPass = loginFlows.find(f => f.type === "m.login.password") !== undefined;
+    const supportSSO = loginFlows.find(f => f.type === "m.login.sso") !== undefined;
+    const hasDelegatedOIDC =
+      supportSSO &&
+      !!loginFlows.find(
+        f =>
+          f.type === "m.login.sso" &&
+          (f["org.matrix.msc3824.delegated_oidc_compatibility"] || f["delegated_oidc_compatibility"])
+      );
+
+    // Either the MSC3824 delegated_oidc flag OR a valid auth_metadata issuer triggers the OIDC path.
+    // MAS servers typically disable /v3/login (returning 404), so auth_metadata is the only signal.
+    if (hasDelegatedOIDC || authMetadata?.issuer) {
+      if (!authMetadata || !isValidIssuer(authMetadata.issuer)) {
+        // auth_metadata missing or issuer has an unsupported scheme — server misconfigured
+        setSupportPassAuth(false);
+        setSSOBaseUrl("");
+        setOIDCUrl("");
+        setOIDCVisible(false);
+        setBaseUrl("");
+        setResolvedBaseUrl("");
+        return;
+      }
+      setBaseUrl(url);
+      setResolvedBaseUrl(url);
+      SetExternalAuthProvider(true);
+      setSSOBaseUrl("");
+      setAuthMetadata(authMetadata);
+      setOIDCUrl(authMetadata.issuer);
+      setSupportPassAuth(false);
+    } else if (loginFlows.length > 0) {
+      // Standard login flows — no delegated OIDC
       setBaseUrl(url);
       setResolvedBaseUrl(url);
       setSupportPassAuth(supportPass);
       setSSOBaseUrl(supportSSO ? url : "");
-
-      if (
-        supportSSO &&
-        loginFlows.find(
-          f =>
-            f.type === "m.login.sso" &&
-            (f["org.matrix.msc3824.delegated_oidc_compatibility"] || f["delegated_oidc_compatibility"])
-        )
-      ) {
-        SetExternalAuthProvider(true);
-        // only OIDC SSO login is supported
-        setSSOBaseUrl("");
-
-        const authMetadata = await getAuthMetadata(url);
-        if (!authMetadata) {
-          throw new Error("Failed to fetch authentication metadata");
-        }
-        setAuthMetadata(authMetadata);
-        setOIDCUrl(authMetadata.issuer);
-        setSupportPassAuth(false);
-      } else {
-        setOIDCVisible(false);
-        setOIDCUrl("");
-        setAuthMetadata({});
-      }
-    } catch {
+      setOIDCVisible(false);
+      setOIDCUrl("");
+      setAuthMetadata({});
+    } else {
+      // Both probes failed — unknown or unreachable server
       setSupportPassAuth(false);
       setSSOBaseUrl("");
       setOIDCUrl("");
+      setOIDCVisible(false);
       setBaseUrl("");
       setResolvedBaseUrl("");
     }

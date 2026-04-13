@@ -2,12 +2,38 @@ import { act, render, screen } from "@testing-library/react";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { AdminContext } from "react-admin";
 
-import LoginPage, { getDefaultProtocolForHomeserverInput } from "./LoginPage";
+import LoginPage, { getDefaultProtocolForHomeserverInput, isValidIssuer } from "./LoginPage";
 import { AppContext } from "../Context";
 import englishMessages from "../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
 const welcomeText = englishMessages.ketesa.auth.welcome.replace("%{name}", "Ketesa");
+
+describe("isValidIssuer", () => {
+  it.each([
+    // valid — https any host
+    ["https://auth.example.com/", true],
+    ["https://auth.example.com", true],
+    ["https://localhost:8007/", true],
+    ["https://127.0.0.1:8007", true],
+    // valid — http for intranet/local deployments
+    ["http://localhost:8007", true],
+    ["http://127.0.0.1:8007", true],
+    ["http://mas.intranet.corp", true],
+    ["http://auth.internal/", true],
+    // invalid — query string or fragment
+    ["https://auth.example.com/?foo=bar", false],
+    ["https://auth.example.com/#section", false],
+    // invalid — non-http scheme
+    ["ftp://auth.example.com/", false],
+    ["javascript:alert(1)", false],
+    // invalid — not a URL
+    ["not-a-url", false],
+    ["", false],
+  ])("isValidIssuer(%s) === %s", (issuer, expected) => {
+    expect(isValidIssuer(issuer)).toBe(expected);
+  });
+});
 
 describe("LoginForm", () => {
   it.each([

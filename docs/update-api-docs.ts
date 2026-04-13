@@ -19,6 +19,15 @@ const TMP_DIR = ".tmp_synapse_repo";
 const SYNAPSE_SRC = "docs/admin_api";
 const SYNAPSE_DEST = "docs/apis/synapse";
 
+const MATRIX_SPEC_REPO = "https://github.com/matrix-org/matrix-spec.git";
+const MATRIX_SPEC_BRANCH = "main";
+const TMP_DIR_MATRIX_SPEC = ".tmp_matrix_spec_repo";
+// Extract only the OpenAPI data directory — all endpoint YAML definitions live here.
+// data/api/ — client-server, server-server, push-gateway, appservice, identity OpenAPI specs
+// data-definitions/ — shared JSON schema types referenced by the API specs
+const MATRIX_SPEC_SRCS = ["data/api", "data-definitions"];
+const MATRIX_SPEC_DEST = "docs/apis/matrix-spec";
+
 // ---------- UI ----------
 const c = {
   blue: "\x1b[34m",
@@ -173,6 +182,45 @@ async function stepSynapse() {
   ok(`Saved → ${SYNAPSE_DEST}`);
 }
 
+// ---------- STEP 3 ----------
+async function stepMatrixSpec() {
+  log("Fetching Matrix spec");
+
+  ensureDir(path.dirname(MATRIX_SPEC_DEST));
+
+  await retry(async () => {
+    if (fs.existsSync(TMP_DIR_MATRIX_SPEC)) {
+      fs.rmSync(TMP_DIR_MATRIX_SPEC, { recursive: true, force: true });
+    }
+
+    await runGit(["clone", "--depth", "1", "--branch", MATRIX_SPEC_BRANCH, MATRIX_SPEC_REPO, TMP_DIR_MATRIX_SPEC]);
+  }, "Git clone");
+
+  if (fs.existsSync(MATRIX_SPEC_DEST)) {
+    fs.rmSync(MATRIX_SPEC_DEST, { recursive: true, force: true });
+  }
+
+  ensureDir(MATRIX_SPEC_DEST);
+
+  for (const src of MATRIX_SPEC_SRCS) {
+    const srcPath = path.join(TMP_DIR_MATRIX_SPEC, src);
+
+    if (!fs.existsSync(srcPath)) {
+      warn(`Missing path in matrix-spec: ${src} — skipping`);
+      continue;
+    }
+
+    // Copy each source subdirectory directly into MATRIX_SPEC_DEST,
+    // preserving the original directory name (e.g. data/api → matrix-spec/api).
+    const destName = path.basename(src);
+    copyDir(srcPath, path.join(MATRIX_SPEC_DEST, destName));
+  }
+
+  fs.rmSync(TMP_DIR_MATRIX_SPEC, { recursive: true, force: true });
+
+  ok(`Saved → ${MATRIX_SPEC_DEST}`);
+}
+
 // ---------- MAIN ----------
 (async () => {
   console.log("=== Matrix API Docs Updater ===\n");
@@ -181,6 +229,8 @@ async function stepSynapse() {
     await stepMAS();
     console.log();
     await stepSynapse();
+    console.log();
+    await stepMatrixSpec();
     console.log();
 
     ok("All done!");

@@ -69,6 +69,69 @@ describe("authProvider", () => {
       expect(localStorage.getItem("user_id")).toEqual("@user:example.com");
       expect(localStorage.getItem("access_token")).toEqual("foobar");
       expect(localStorage.getItem("device_id")).toEqual("some_device");
+      expect(localStorage.getItem("home_server")).toEqual("example.com");
+    });
+
+    it("extracts home_server from user_id, ignoring the deprecated home_server field", async () => {
+      vi.mocked(fetch).mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            home_server: "deprecated.should-be-ignored.example.com",
+            user_id: "@admin:actual.example.com",
+            access_token: "tok",
+            device_id: "dev",
+          })
+        )
+      );
+      vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({})));
+
+      await authProvider.login({
+        base_url: "http://actual.example.com",
+        username: "@admin:actual.example.com",
+        password: "pass",
+      });
+
+      expect(localStorage.getItem("home_server")).toEqual("actual.example.com");
+    });
+
+    it("throws when user_id is missing from the login response", async () => {
+      vi.mocked(fetch).mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            access_token: "tok",
+            device_id: "dev",
+          })
+        )
+      );
+
+      await expect(
+        authProvider.login({
+          base_url: "http://example.com",
+          username: "@admin:example.com",
+          password: "pass",
+        })
+      ).rejects.toBeDefined();
+    });
+
+    it("extracts home_server with port from user_id", async () => {
+      vi.mocked(fetch).mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            user_id: "@admin:example.com:8008",
+            access_token: "tok",
+            device_id: "dev",
+          })
+        )
+      );
+      vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({})));
+
+      await authProvider.login({
+        base_url: "http://example.com:8008",
+        username: "@admin:example.com:8008",
+        password: "pass",
+      });
+
+      expect(localStorage.getItem("home_server")).toEqual("example.com:8008");
     });
   });
 

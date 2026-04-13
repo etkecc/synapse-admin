@@ -2,6 +2,7 @@ import BuildIcon from "@mui/icons-material/Build";
 import EuroSymbolIcon from "@mui/icons-material/EuroSymbol";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
 import PaymentIcon from "@mui/icons-material/Payment";
 import {
@@ -44,14 +45,30 @@ import { useDocTitle } from "../hooks/useDocTitle";
 
 const TruncatedUUID = ({ uuid }): React.ReactElement => {
   const short = `${uuid.slice(0, 8)}...${uuid.slice(-6)}`;
-  const copyToClipboard = () => navigator.clipboard.writeText(uuid);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 1500);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
+  const copyToClipboard = async () => {
+    if (!navigator.clipboard) return;
+    try {
+      await navigator.clipboard.writeText(uuid);
+      setCopied(true);
+    } catch {
+      // clipboard write failed
+    }
+  };
 
   return (
     <Tooltip title={uuid}>
       <span style={{ display: "inline-flex", alignItems: "center" }}>
         {short}
         <IconButton size="small" onClick={copyToClipboard}>
-          <ContentCopyIcon fontSize="small" />
+          {copied ? <CheckIcon fontSize="small" /> : <ContentCopyIcon fontSize="small" />}
         </IconButton>
       </span>
     </Tooltip>
