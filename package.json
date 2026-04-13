@@ -78,7 +78,7 @@
     "ra-i18n-polyglot": "^5.14.5",
     "ra-language-english": "^5.14.5",
     "ra-language-french": "^5.14.5",
-    "react": "^19.2.4",
+    "react": "^19.2.5",
     "react-admin": "^5.14.5",
     "react-dom": "^19.2.4",
     "react-hook-form": "^7.72.1",
