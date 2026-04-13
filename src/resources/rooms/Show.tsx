@@ -23,7 +23,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import {
   BooleanField,
-  DatagridConfigurable,
   DateField,
   DeleteButton,
   FunctionField,
@@ -58,9 +57,9 @@ import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { MediaIDField } from "../../components/media";
 import { DATE_FORMAT } from "../../utils/date";
 import { tt } from "../../utils/safety";
-import EmptyState from "../../components/layout/EmptyState";
 import { RoomDirectoryUnpublishButton, RoomDirectoryPublishButton } from "../room-directory";
 import { MakeAdminBtn, JoinUserBtn, RoomPagination } from "./List";
+import { Datagrid, EmptyState } from "../../components/layout";
 
 const RoomTitle = () => {
   const record = useRecordContext();
@@ -329,7 +328,7 @@ const ForwardExtremitiesTab = () => {
             rowClick={false}
           />
         ) : (
-          <DatagridConfigurable
+          <Datagrid
             sx={{ width: "100%" }}
             bulkActionButtons={false}
             omit={["depth", "received_ts"]}
@@ -343,7 +342,7 @@ const ForwardExtremitiesTab = () => {
             <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
             <NumberField source="depth" sortable={false} />
             <RaTextField source="state_group" sortable={false} />
-          </DatagridConfigurable>
+          </Datagrid>
         )}
       </ReferenceManyField>
       <EventLookupDialog
@@ -410,7 +409,7 @@ const RoomStateTab = () => {
             }}
           />
         ) : (
-          <DatagridConfigurable
+          <Datagrid
             sx={{ width: "100%" }}
             bulkActionButtons={false}
             empty={<EmptyState resource="room_state" />}
@@ -429,7 +428,7 @@ const RoomStateTab = () => {
             <ReferenceField source="sender" reference="users" sortable={false}>
               <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
             </ReferenceField>
-          </DatagridConfigurable>
+          </Datagrid>
         )}
       </ReferenceManyField>
       <EventLookupDialog
@@ -513,7 +512,7 @@ const RoomShowLayout = () => {
           {isSmall ? (
             <RoomMembersMobileList />
           ) : (
-            <DatagridConfigurable
+            <Datagrid
               sx={{ width: "100%" }}
               rowClick={id => "/users/" + id}
               bulkActionButtons={false}
@@ -579,7 +578,7 @@ const RoomShowLayout = () => {
               >
                 <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
               </ReferenceField>
-            </DatagridConfigurable>
+            </Datagrid>
           )}
         </ReferenceManyField>
       </Tab>
@@ -607,14 +606,10 @@ const RoomShowLayout = () => {
               rowClick={false}
             />
           ) : (
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              bulkActionButtons={false}
-              empty={<EmptyState resource="room_media" />}
-            >
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false} empty={<EmptyState resource="room_media" />}>
               <MediaIDField source="media_id" />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </DatagridConfigurable>
+            </Datagrid>
           )}
         </ReferenceManyField>
       </Tab>

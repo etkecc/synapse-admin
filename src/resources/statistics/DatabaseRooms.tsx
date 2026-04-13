@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
-  DatagridConfigurable,
   ExportButton,
   FunctionField,
   Link,
@@ -21,10 +20,9 @@ import {
 } from "react-admin";
 
 import AvatarField from "../../components/users/fields/AvatarField";
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { formatBytes } from "../../utils/formatBytes";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const ListActions = () => {
   const { total } = useListContext();
@@ -90,10 +88,7 @@ export const DatabaseRoomStatsList = (props: ListProps) => {
       {isSmall ? (
         <DatabaseRoomStatsMobileList />
       ) : (
-        <DatagridConfigurable
-          rowClick={id => `/rooms/${encodeURIComponent(id as string)}/show`}
-          bulkActionButtons={false}
-        >
+        <Datagrid rowClick={id => `/rooms/${encodeURIComponent(id as string)}/show`} bulkActionButtons={false}>
           <ReferenceField label="resources.rooms.fields.avatar" source="id" reference="rooms" sortable={false} link="">
             <AvatarField source="avatar" sx={{ height: "40px", width: "40px" }} />
           </ReferenceField>
@@ -124,7 +119,7 @@ export const DatabaseRoomStatsList = (props: ListProps) => {
             sortable={false}
             render={(record: { estimated_size: number }) => formatBytes(record.estimated_size)}
           />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

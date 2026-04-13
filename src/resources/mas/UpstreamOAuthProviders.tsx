@@ -1,12 +1,11 @@
-import EmptyState from "../../components/layout/EmptyState";
 import BlockIcon from "@mui/icons-material/Block";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HttpsIcon from "@mui/icons-material/Https";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 import {
   BooleanField,
-  DatagridConfigurable,
   DateField,
   ListProps,
   ResourceProps,
@@ -15,7 +14,6 @@ import {
   SimpleShowLayout,
   TextField,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 export function MASUpstreamOAuthProvidersList(props: ListProps) {
   const theme = useTheme();
@@ -36,13 +34,13 @@ export function MASUpstreamOAuthProvidersList(props: ListProps) {
           rowClick="show"
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick="show">
+        <Datagrid rowLabel={record => String(record.human_name || record.id)} bulkActionButtons={false} rowClick="show">
           <TextField source="human_name" sortable={false} emptyText="-" />
           <TextField source="brand_name" sortable={false} emptyText="-" />
           <TextField source="issuer" sortable={false} emptyText="-" />
           <BooleanField source="enabled" sortable={false} />
           <DateField source="created_at" showTime sortable={false} />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

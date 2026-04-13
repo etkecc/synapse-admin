@@ -4,12 +4,12 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Loading, Button, useLocale, useRedirect, useTranslate } from "react-admin";
 import { DateField, useRecordContext } from "react-admin";
-import { Datagrid } from "react-admin";
 import { ListContextProvider, TextField, TopToolbar, Identifier } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 
 import { DATE_FORMAT } from "../../../../../utils/date";
 import { useRecurringCommands } from "../../hooks/useRecurringCommands";
+import { Datagrid } from "../../../../../components/layout";
 
 const ListActions = () => {
   const navigate = useRedirect();

@@ -5,11 +5,10 @@ import { useTranslate } from "react-admin";
 import { Root } from "react-dom/client";
 import React from "react";
 
-import LoginFormBox from "../components/layout/LoginFormBox";
-import Footer from "../components/layout/Footer";
 import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
 import { useInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { createI18nProvider } from "../i18n";
+import { Footer, LoginFormBox } from "../components/layout";
 
 const AuthCallbackErrorView = ({ message, onBack }: { message: string; onBack: () => void }): React.ReactElement => {
   const icfg = useInstanceConfig();

@@ -2,7 +2,6 @@ import { Box, Chip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {
-  DatagridConfigurable,
   DateField,
   DateTimeInput,
   FunctionField,
@@ -16,11 +15,10 @@ import {
   useTranslate,
 } from "react-admin";
 
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { DATE_FORMAT, dateParser } from "../../utils/date";
 import { JSONStringify } from "../../utils/safety";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const ScheduledTaskPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -99,7 +97,7 @@ export const ScheduledTaskList = (props: ListProps) => {
           rowClick={false}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false}>
+        <Datagrid bulkActionButtons={false}>
           <TextField source="id" sortable={false} label="resources.scheduled_tasks.fields.id" />
           <TextField source="action" sortable={false} label="resources.scheduled_tasks.fields.action" />
           <FunctionField
@@ -129,7 +127,7 @@ export const ScheduledTaskList = (props: ListProps) => {
             render={record => JSONStringify(record.result)}
           />
           <TextField source="error" sortable={false} label="resources.scheduled_tasks.fields.error" />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

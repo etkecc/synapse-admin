@@ -16,7 +16,6 @@ import { useState } from "react";
 import {
   BooleanField,
   WrapperField,
-  DatagridConfigurable,
   ExportButton,
   FilterButton,
   FunctionField,
@@ -47,10 +46,9 @@ import {
 } from "../../components/users/buttons/BlockRoomButton";
 import DeleteRoomButton from "../../components/users/buttons/DeleteRoomButton";
 import { DeleteRoomMediaBulkButton } from "../../components/users/buttons/DeleteAllMediaButton";
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { Room } from "../../providers/types";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 export const RoomPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -361,7 +359,8 @@ export const RoomList = (props: ListProps) => {
       {isSmall ? (
         <RoomsMobileList />
       ) : (
-        <DatagridConfigurable
+        <Datagrid
+          rowLabel={record => String(record.name || record.canonical_alias || record.id)}
           rowClick="show"
           bulkActionButtons={<RoomBulkActionButtons />}
           omit={["joined_local_members", "state_events", "version", "federatable", "join_rules"]}
@@ -410,7 +409,7 @@ export const RoomList = (props: ListProps) => {
           <WrapperField label="resources.rooms.fields.actions">
             <MakeAdminBtn />
           </WrapperField>
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import {
   BooleanField,
-  DatagridConfigurable,
   ExportButton,
   FunctionField,
   Link,
@@ -24,11 +23,10 @@ import {
 } from "react-admin";
 
 import AvatarField from "../../components/users/fields/AvatarField";
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { formatBytes } from "../../utils/formatBytes";
 import { DeleteMediaButton, PurgeRemoteMediaButton } from "../../components/media";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const ListActions = () => {
   const { total } = useListContext();
@@ -106,7 +104,7 @@ export const UserMediaStatsList = (props: ListProps) => {
       {isSmall ? (
         <UserMediaMobileList />
       ) : (
-        <DatagridConfigurable rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
+        <Datagrid rowClick={id => "/users/" + id + "/media"} bulkActionButtons={false}>
           <ReferenceField label="resources.users.fields.avatar" source="id" reference="users" sortable={false} link="">
             <AvatarField source="avatar_src" sx={{ height: "40px", width: "40px" }} />
           </ReferenceField>
@@ -138,7 +136,7 @@ export const UserMediaStatsList = (props: ListProps) => {
           <ReferenceField label="resources.users.fields.erased" source="id" reference="users" sortable={false} link="">
             <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
           </ReferenceField>
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

@@ -1,4 +1,3 @@
-import EmptyState from "../../components/layout/EmptyState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyIcon from "@mui/icons-material/Key";
 import {
@@ -20,7 +19,6 @@ import {
   Confirm,
   Create,
   CreateProps,
-  DatagridConfigurable,
   DateField,
   ListProps,
   ReferenceInput,
@@ -39,10 +37,10 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
 import { personalSessionStatusChoices } from "./shared";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 export const RevokePersonalSessionButton = () => {
   const record = useRecordContext();
@@ -117,7 +115,7 @@ export function MASPersonalSessionsList(props: ListProps) {
           sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+        <Datagrid bulkActionButtons={false} rowClick={false}>
           <TextField source="owner_user_id" sortable={false} emptyText="-" />
           <TextField source="human_name" sortable={false} emptyText="-" />
           <TextField source="scope" sortable={false} />
@@ -128,7 +126,7 @@ export function MASPersonalSessionsList(props: ListProps) {
           <DateField source="expires_at" showTime sortable={false} emptyText="-" />
           <DateField source="revoked_at" showTime sortable={false} emptyText="-" />
           <RevokePersonalSessionButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

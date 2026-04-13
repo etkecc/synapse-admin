@@ -30,8 +30,6 @@ import {
 import { useFormContext } from "react-hook-form";
 
 import { useAppContext } from "../Context";
-import Footer from "../components/layout/Footer";
-import LoginFormBox from "../components/layout/LoginFormBox";
 import { EtkeAttribution } from "../components/etke.cc/EtkeAttribution";
 import { useInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { getServerVersion } from "../providers/data/synapse";
@@ -46,6 +44,7 @@ import {
 } from "../providers/matrix";
 import { GetConfig, SetExternalAuthProvider } from "../utils/config";
 import createLogger from "../utils/logger";
+import { Footer, LoginFormBox } from "../components/layout";
 
 const log = createLogger("login");
 

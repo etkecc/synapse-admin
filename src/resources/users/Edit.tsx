@@ -53,8 +53,6 @@ import {
   ArrayField,
   Button,
   BulkDeleteButton,
-  Datagrid,
-  DatagridConfigurable,
   DateField,
   DeleteButton,
   Edit,
@@ -136,8 +134,8 @@ import { decodeURLComponent } from "../../utils/safety";
 import { isSystemUser } from "../../utils/mxid";
 import { formatBytes } from "../../utils/formatBytes";
 import { generateRandomPassword } from "../../utils/password";
-import EmptyState from "../../components/layout/EmptyState";
 import { UserPreventSelfDelete } from "./List";
+import { Datagrid, EmptyState } from "../../components/layout";
 
 // Shared constants — also used by Create.tsx
 export const choices_medium = [
@@ -495,7 +493,7 @@ const MASSessionsPanel = () => {
             fullWidth
             multiline
             rows={3}
-            InputProps={{ readOnly: true }}
+            slotProps={{ input: { readOnly: true } }}
             onClick={e => (e.target as HTMLInputElement).select()}
           />
         </DialogContent>
@@ -816,7 +814,7 @@ const UserEditToolbar = () => {
   );
 };
 
-export const UserBooleanInput = props => {
+export const UserBooleanInput = (props: React.ComponentProps<typeof BooleanInput> & { icon?: React.ReactNode }) => {
   const translate = useTranslate();
   const record = useRecordContext();
   const ownUserId = localStorage.getItem("user_id");
@@ -835,7 +833,7 @@ export const UserBooleanInput = props => {
   const label = icon ? (
     <Box sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
       {icon}
-      {translate(rest.label || `resources.users.fields.${rest.source}`)}
+      {translate((typeof rest.label === "string" && rest.label) || `resources.users.fields.${rest.source}`)}
     </Box>
   ) : undefined;
 
@@ -846,7 +844,7 @@ export const UserBooleanInput = props => {
   );
 };
 
-export const UserPasswordInput = props => {
+export const UserPasswordInput = (props: React.ComponentProps<typeof PasswordInput>) => {
   const record = useRecordContext();
   let systemUserIsSelected = false;
   const translate = useTranslate();
@@ -867,7 +865,7 @@ export const UserPasswordInput = props => {
   const deactivatedFromRecord = record?.deactivated;
 
   // Custom validation for reactivation case
-  const validatePasswordOnReactivation = value => {
+  const validatePasswordOnReactivation = (value: unknown) => {
     if (deactivatedFromRecord === true && deactivated === false && !GetConfig().externalAuthProvider && !value) {
       return translate("resources.users.helper.password_required_for_reactivation");
     }
@@ -903,7 +901,7 @@ export const UserPasswordInput = props => {
   );
 };
 
-const ErasedBooleanInput = props => {
+const ErasedBooleanInput = (props: React.ComponentProps<typeof BooleanInput>) => {
   const record = useRecordContext();
   const form = useFormContext();
   const deactivated = form.watch("deactivated");
@@ -1257,7 +1255,7 @@ export const UserEdit = (props: EditProps) => {
                   rowClick={false}
                 />
               ) : (
-                <DatagridConfigurable
+                <Datagrid
                   bulkActionButtons={<DeviceBulkRemoveButton />}
                   omit={["last_seen_user_agent", "dehydrated"]}
                   empty={<EmptyState resource="devices" />}
@@ -1271,7 +1269,7 @@ export const UserEdit = (props: EditProps) => {
                   <WrapperField label="resources.rooms.fields.actions">
                     <DeviceRemoveButton />
                   </WrapperField>
-                </DatagridConfigurable>
+                </Datagrid>
               )}
             </Box>
           </ReferenceManyField>
@@ -1301,7 +1299,7 @@ export const UserEdit = (props: EditProps) => {
                     rowClick={false}
                   />
                 ) : (
-                  <DatagridConfigurable
+                  <Datagrid
                     sx={{ width: "100%" }}
                     bulkActionButtons={false}
                     empty={<EmptyState resource="connections" />}
@@ -1309,7 +1307,7 @@ export const UserEdit = (props: EditProps) => {
                     <TextField source="ip" sortable={false} />
                     <DateField source="last_seen" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
                     <TextField source="user_agent" sortable={false} style={{ width: "100%" }} />
-                  </DatagridConfigurable>
+                  </Datagrid>
                 )}
               </ArrayField>
             </WrapperField>
@@ -1357,7 +1355,7 @@ export const UserEdit = (props: EditProps) => {
                 rowClick={false}
               />
             ) : (
-              <DatagridConfigurable
+              <Datagrid
                 sx={{ width: "100%" }}
                 bulkActionButtons={<BulkDeleteButton />}
                 empty={<EmptyState resource="users_media" />}
@@ -1375,7 +1373,7 @@ export const UserEdit = (props: EditProps) => {
                 <QuarantineMediaButton />
                 <ProtectMediaButton />
                 <DeleteButton mutationMode="pessimistic" redirect={false} />
-              </DatagridConfigurable>
+              </Datagrid>
             )}
           </ReferenceManyField>
         </FormTab>
@@ -1391,7 +1389,7 @@ export const UserEdit = (props: EditProps) => {
             {isSmall ? (
               <JoinedRoomsMobileList />
             ) : (
-              <DatagridConfigurable
+              <Datagrid
                 sx={{ width: "100%" }}
                 rowClick={id => "/rooms/" + id + "/show"}
                 bulkActionButtons={<RoomBulkActionButtons />}
@@ -1433,7 +1431,7 @@ export const UserEdit = (props: EditProps) => {
                 <ReferenceField reference="rooms" source="id" label="" link={false} sortable={false}>
                   <MakeAdminBtn />
                 </ReferenceField>
-              </DatagridConfigurable>
+              </Datagrid>
             )}
           </ReferenceManyField>
         </FormTab>
@@ -1453,7 +1451,7 @@ export const UserEdit = (props: EditProps) => {
             {isSmall ? (
               <MembershipsMobileList />
             ) : (
-              <DatagridConfigurable
+              <Datagrid
                 sx={{ width: "100%" }}
                 rowClick={id => "/rooms/" + id + "/show"}
                 bulkActionButtons={false}
@@ -1482,7 +1480,7 @@ export const UserEdit = (props: EditProps) => {
                   label={translate("resources.users.membership", { smart_count: 1 })}
                   sortable={false}
                 />
-              </DatagridConfigurable>
+              </Datagrid>
             )}
           </ReferenceManyField>
         </FormTab>
@@ -1518,7 +1516,7 @@ export const UserEdit = (props: EditProps) => {
                 rowClick={false}
               />
             ) : (
-              <DatagridConfigurable
+              <Datagrid
                 sx={{ width: "100%" }}
                 bulkActionButtons={false}
                 omit={["app_id", "data.url", "profile_tag", "pushkey"]}
@@ -1532,7 +1530,7 @@ export const UserEdit = (props: EditProps) => {
                 <TextField source="lang" sortable={false} />
                 <TextField source="profile_tag" sortable={false} />
                 <TextField source="pushkey" sortable={false} />
-              </DatagridConfigurable>
+              </Datagrid>
             )}
           </ReferenceManyField>
         </FormTab>

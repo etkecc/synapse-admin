@@ -17,7 +17,6 @@ import {
   BooleanInput,
   Button,
   CreateButton,
-  DatagridConfigurable,
   DateField,
   ExportButton,
   ListProps,
@@ -40,14 +39,13 @@ import AvatarField from "../../components/users/fields/AvatarField";
 import DeleteUserButton from "../../components/users/buttons/DeleteUserButton";
 import { DeleteUserMediaBulkButton } from "../../components/users/buttons/DeleteAllMediaButton";
 import { ServerNoticeBulkButton } from "../../components/users/ServerNotices";
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { FindUserButton } from "../../components/users/buttons/FindUserButton";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { GetConfig } from "../../utils/config";
 import { DATE_FORMAT } from "../../utils/date";
 import { isSystemUser, getLocalpart } from "../../utils/mxid";
 import { isMAS } from "../../providers/data/mas";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const UserListActions = () => {
   const { total } = useListContext();
@@ -107,16 +105,18 @@ const ReverseSearchInput = (props: { source: string } & Record<string, unknown>)
     <TextInput
       {...props}
       resettable
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            {isReverse ? (
-              <HourglassEmptyIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
-            ) : (
-              <SearchIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
-            )}
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          startAdornment: (
+            <InputAdornment position="start">
+              {isReverse ? (
+                <HourglassEmptyIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+              ) : (
+                <SearchIcon sx={{ fontSize: "1em", opacity: 0.6 }} />
+              )}
+            </InputAdornment>
+          ),
+        },
       }}
     />
   );
@@ -297,7 +297,8 @@ export const UserList = (props: ListProps) => {
           )}
         />
       ) : (
-        <DatagridConfigurable
+        <Datagrid
+          rowLabel={record => String(record.displayname || record.id)}
           rowClick={(id: Identifier, resource: string) => `/${resource}/${encodeURIComponent(id)}`}
           bulkActionButtons={<UserBulkActionButtons />}
         >
@@ -339,7 +340,7 @@ export const UserList = (props: ListProps) => {
             options={DATE_FORMAT}
             locales={locale}
           />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

@@ -8,7 +8,6 @@ import { get } from "lodash";
 import { MouseEvent } from "react";
 import {
   Button,
-  DatagridConfigurable,
   DateField,
   DateFieldProps,
   FunctionField,
@@ -32,11 +31,10 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
-import EmptyState from "../../components/layout/EmptyState";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { DATE_FORMAT } from "../../utils/date";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const DestinationPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -151,7 +149,7 @@ export const DestinationList = (props: ListProps) => {
           rowClick={id => `${id}/show/rooms`}
         />
       ) : (
-        <DatagridConfigurable rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
+        <Datagrid rowClick={id => `${id}/show/rooms`} bulkActionButtons={false}>
           <FunctionField
             source="destination"
             render={destinationFieldRender}
@@ -177,7 +175,7 @@ export const DestinationList = (props: ListProps) => {
             label="resources.destinations.fields.last_successful_stream_ordering"
           />
           <DestinationReconnectButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );
@@ -210,11 +208,7 @@ export const DestinationShow = (props: ShowProps) => {
             pagination={<DestinationPagination />}
             perPage={50}
           >
-            <DatagridConfigurable
-              style={{ width: "100%" }}
-              rowClick={id => `/rooms/${id}/show`}
-              empty={<EmptyState resource="destination_rooms" />}
-            >
+            <Datagrid rowClick={id => `/rooms/${id}/show`} empty={<EmptyState resource="destination_rooms" />}>
               <TextField source="room_id" label="resources.rooms.fields.room_id" sx={{ wordBreak: "break-all" }} />
               <TextField source="stream_ordering" sortable={false} />
               <ReferenceField
@@ -226,7 +220,7 @@ export const DestinationShow = (props: ShowProps) => {
               >
                 <TextField source="name" sortable={false} />
               </ReferenceField>
-            </DatagridConfigurable>
+            </Datagrid>
           </ReferenceManyField>
         </Tab>
       </TabbedShowLayout>
