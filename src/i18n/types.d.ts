@@ -363,6 +363,10 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           world_readable: string;
         };
         unencrypted: string;
+        room_type: {
+          room: string;
+          space: string;
+        };
       };
       action: {
         erase: {

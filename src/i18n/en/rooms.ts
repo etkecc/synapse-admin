@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Anyone",
     },
     unencrypted: "Unencrypted",
+    room_type: {
+      room: "Room",
+      space: "Space",
+    },
   },
   action: {
     erase: {

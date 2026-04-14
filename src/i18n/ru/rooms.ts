@@ -52,6 +52,10 @@ const rooms = {
       world_readable: "Для всех",
     },
     unencrypted: "Без шифрования",
+    room_type: {
+      room: "Комната",
+      space: "Пространство",
+    },
   },
   action: {
     erase: {

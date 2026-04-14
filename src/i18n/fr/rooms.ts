@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Tout le monde",
     },
     unencrypted: "Non chiffré",
+    room_type: {
+      room: "Salon",
+      space: "Espace",
+    },
   },
   action: {
     erase: {

@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "هر کسی",
     },
     unencrypted: "رمزگذاری نشده",
+    room_type: {
+      room: "اتاق",
+      space: "فضا",
+    },
   },
   action: {
     erase: {

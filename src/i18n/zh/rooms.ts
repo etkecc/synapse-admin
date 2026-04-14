@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "所有人可见",
     },
     unencrypted: "未加密",
+    room_type: {
+      room: "房间",
+      space: "空间",
+    },
   },
   action: {
     erase: {

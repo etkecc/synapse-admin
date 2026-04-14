@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "制限なし",
     },
     unencrypted: "非暗号化",
+    room_type: {
+      room: "ルーム",
+      space: "スペース",
+    },
   },
   action: {
     erase: {

@@ -3,7 +3,9 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import MessageIcon from "@mui/icons-material/Message";
 import UserIcon from "@mui/icons-material/Group";
+import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import HttpsIcon from "@mui/icons-material/Https";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import ViewListIcon from "@mui/icons-material/ViewList";
@@ -120,6 +122,8 @@ const RoomOverviewTab = () => {
   if (!record) return null;
 
   const isEncrypted = !!record.encryption;
+  const rawRoomType = record.room_type ?? "";
+  const roomTypeKey = rawRoomType === "m.space" ? "space" : rawRoomType === "" ? "room" : rawRoomType;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, py: 1 }}>
@@ -164,6 +168,14 @@ const RoomOverviewTab = () => {
             {record.federatable && (
               <Chip size="small" label={translate("resources.rooms.fields.federatable")} variant="outlined" />
             )}
+            <Chip
+              size="small"
+              icon={
+                rawRoomType === "m.space" ? <GroupWorkIcon fontSize="small" /> : <MeetingRoomIcon fontSize="small" />
+              }
+              label={tt(translate, `resources.rooms.enums.room_type.${roomTypeKey}`, roomTypeKey)}
+              variant="outlined"
+            />
           </Box>
         </Box>
       </Box>
