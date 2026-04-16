@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       credentials: "Identifiants",
       access_token: "Token d'accès",
       supports_specs: "prend en charge les spécifications Matrix",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "Vous utilisez un token d'accès Matrix existant.",
         content:
           "Voulez-vous détruire cette session (qui pourrait être utilisée ailleurs, par exemple dans un client Matrix) ou simplement vous déconnecter du panneau d'administration?",
@@ -115,7 +115,7 @@ const common: Record<string, any> = {
         successful: "%{smart_count} entrées importées avec succès",
         skipped: "%{smart_count} entrées ignorées",
         download_skipped: "Télécharger les entrées ignorées",
-        with_error: "%{smart_count} entrée avec des erreurs ||| %{smart_count} entrées avec des erreurs",
+        with_error: "%{smart_count} entrée avec des erreurs |||| %{smart_count} entrées avec des erreurs",
         simulated_only: "L'import était simulé",
       },
     },
@@ -169,11 +169,46 @@ const common: Record<string, any> = {
       button: "Faire un don",
       signature_team: "l'équipe etke.cc",
     },
+    components: {
+      name: "Composants",
+      description: "Consultez et gérez vos composants actifs et découvrez ce que vous pouvez ajouter à votre serveur.",
+      no_section: "Votre serveur",
+      per_month: "/mois",
+      included: "Inclus",
+      total: "Total",
+      loading: "Chargement des composants...",
+      state_add: "Ajouter",
+      state_remove: "Supprimer",
+      add_aria: "Demander l'ajout de %{name}",
+      remove_aria: "Demander la suppression de %{name}",
+      preview_label: "aperçu",
+      request_changes: "Demander des modifications",
+      requesting: "Envoi en cours...",
+      request_failure: "L'envoi de la demande de modification a échoué. Veuillez réessayer.",
+      request_sent_title: "Demande soumise",
+      request_sent_body:
+        "Votre demande de modification de composant a été envoyée au support etke.cc. Si vous avez besoin de modifications supplémentaires, veuillez répondre à cette demande de support plutôt qu'en ouvrir une nouvelle.",
+      request_sent_close: "Fermer",
+      request_sent_view: "Voir la demande",
+      request_already_sent:
+        "Une demande de modification est déjà ouverte. Pour demander d'autres modifications, répondez à votre ticket de support existant.",
+      request_already_sent_view: "Voir le ticket",
+      free_label: "Gratuit",
+      available_label: "Disponible",
+      tagline: "Améliorez votre serveur — ajoutez ou supprimez n'importe quel composant à tout moment.",
+      section: {
+        bridges: "Passerelles",
+        extras: "Compléments",
+        matrix_apps: "Applications Matrix",
+        matrix_bots: "Bots Matrix",
+        matrix_extras: "Compléments Matrix",
+      },
+    },
     billing: {
       name: "Facturation",
       title: "Historique des paiements",
       no_payments: "Aucun paiement trouvé.",
-      no_payments_helper: "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support etke.cc à l’adresse",
+      no_payments_helper: "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support etke.cc.",
       description1:
         "Vous pouvez consulter les paiements et générer des factures ici. Pour en savoir plus sur la gestion des abonnements, rendez-vous sur",
       description2:
@@ -200,8 +235,43 @@ const common: Record<string, any> = {
         loading: "Chargement des informations de facturation...",
         loading_failed1: "Un problème est survenu lors du chargement des informations de facturation.",
         loading_failed2: "Veuillez réessayer plus tard.",
-        loading_failed3: "Si le problème persiste, veuillez contacter le support etke.cc à l’adresse",
+        loading_failed3: "Si le problème persiste, veuillez contacter le support etke.cc.",
         loading_failed4: "avec le message d’erreur suivant :",
+      },
+      components: "Composants actifs",
+      components_no_section: "Votre serveur",
+      components_per_month: "/mois",
+      components_included: "Inclus",
+      components_total: "Total",
+      components_help_title: "En savoir plus sur %{name}",
+      components_state_install: "Installer",
+      components_state_remove: "Supprimer",
+      components_remove_aria: "Installer/supprimer %{name}",
+      components_preview_label: "aperçu",
+      components_request_changes: "Demander des modifications",
+      components_requesting: "Envoi en cours...",
+      components_request_failure: "L'envoi de la demande de modification a échoué. Veuillez réessayer.",
+      components_request_sent_title: "Demande soumise",
+      components_request_sent_body:
+        "Votre demande de modification de composant a été envoyée au support etke.cc. Si vous avez besoin de modifications supplémentaires, veuillez répondre à cette demande de support plutôt qu'en ouvrir une nouvelle.",
+      components_request_sent_close: "Fermer",
+      components_request_sent_view: "Voir la demande",
+      components_request_already_sent:
+        "Une demande de modification est déjà ouverte. Pour demander d'autres modifications, répondez à votre ticket de support existant.",
+      components_request_already_sent_view: "Voir le ticket",
+      status: {
+        issue: {
+          title: "L'abonnement nécessite votre attention",
+          description:
+            "Nous avons détecté un problème avec votre abonnement. Ne vous inquiétez pas — c'est facile à résoudre.",
+          due_overdue: "En retard depuis",
+          due_upcoming: "Échéance dans",
+          expected: "Montant attendu",
+          last_paid: "Dernier paiement",
+          fix_link: "Résoudre le retard de paiement",
+          fix_mismatch_link: "Mettre à jour le prix de l'abonnement",
+          support_link: "Contacter le support",
+        },
       },
     },
     status: {
@@ -209,6 +279,11 @@ const common: Record<string, any> = {
       badge: {
         default: "Cliquez pour voir l’état du serveur",
         running: "En cours d’exécution : %{command}. %{text}",
+        status_ok: "Le serveur est en ligne",
+        status_error: "État: Erreur",
+        status_maintenance: "Le système est actuellement en mode maintenance.",
+        status_process_running: "Le serveur exécute une commande",
+        status_checking: "Vérification de l’état du serveur",
       },
       category: {
         "Host Metrics": "Métriques de l’hôte",
@@ -247,6 +322,7 @@ const common: Record<string, any> = {
       maintenance_commands_blocked:
         "Les commandes ne peuvent pas être exécutées tant que le mode maintenance n’est pas désactivé.",
       table: {
+        aria_label: "Commandes du serveur",
         command: "Commande",
         description: "Description",
         arguments: "Arguments",

@@ -8,6 +8,7 @@ import { Room, UploadMediaParams, UploadMediaResult } from "./types";
 
 import { GetInstanceConfig } from "../components/etke.cc/InstanceConfig";
 import { generateDeviceId } from "../utils/password";
+import { encodeURLComponent } from "../utils/safety";
 
 export const splitMxid = (mxid: string) => {
   const re = /^@(?<name>[a-zA-Z0-9._=\-/]+):(?<domain>(?:\[[\da-fA-F:]+\]|[a-zA-Z0-9\-.]+)(?::\d{1,5})?)$/;
@@ -82,19 +83,21 @@ export const getSupportedLoginFlows = async (baseUrl: string) => {
 };
 
 export const getAuthMetadata = async (baseUrl: string): Promise<AuthMetadata | null> => {
-  let authMetadataUrl = `${baseUrl}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`;
-  try {
-    let response = await fetchUtils.fetchJson(authMetadataUrl, { method: "GET" });
-    if (response.status !== 200) {
-      // Fallback to stable endpoint
-      authMetadataUrl = `${baseUrl}/_matrix/client/auth_metadata`;
-      response = await fetchUtils.fetchJson(authMetadataUrl, { method: "GET" });
+  const endpoints = [
+    `${baseUrl}/_matrix/client/v1/auth_metadata`, // stable (Matrix spec v1.14+)
+    `${baseUrl}/_matrix/client/unstable/org.matrix.msc2965/auth_metadata`, // legacy unstable fallback
+  ];
+  for (const url of endpoints) {
+    try {
+      const response = await fetchUtils.fetchJson(url, { method: "GET" });
+      if (response.status === 200 && response.json?.issuer) {
+        return response.json;
+      }
+    } catch {
+      // try next endpoint
     }
-
-    return response.json;
-  } catch {
-    return null;
   }
+  return null;
 };
 
 /**
@@ -197,7 +200,7 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
       client_uri: clientUrl,
       response_types: ["code"],
       grant_types: ["authorization_code", "refresh_token"],
-      redirect_uris: [`${clientUrl}/auth-callback`],
+      redirect_uris: [`${clientUrl}/auth-callback/`],
       id_token_signed_response_alg: "RS256",
       token_endpoint_auth_method: "none",
       application_type: "web",
@@ -211,10 +214,19 @@ export const registerClient = async (registrationEndpoint: string, clientUrl: st
 };
 
 export interface AuthMetadata {
+  issuer: string;
   authorization_endpoint: string;
   token_endpoint: string;
-  registration_endpoint: string;
-  issuer: string;
+  registration_endpoint?: string;
+  revocation_endpoint?: string;
+  response_types_supported?: string[];
+  grant_types_supported?: string[];
+  response_modes_supported?: string[];
+  code_challenge_methods_supported?: string[];
+  prompt_values_supported?: string[];
+  device_authorization_endpoint?: string;
+  account_management_uri?: string;
+  account_management_actions_supported?: string[];
 }
 
 export interface OIDCAuthParams {
@@ -226,6 +238,9 @@ export interface OIDCAuthParams {
 }
 
 export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: string): Promise<OIDCAuthParams> => {
+  if (!authMetadata.registration_endpoint) {
+    throw new Error("Server does not support dynamic client registration");
+  }
   const registrationJson = await registerClient(authMetadata.registration_endpoint, clientUrl);
   const clientId = registrationJson.client_id;
 
@@ -260,7 +275,7 @@ export const handleOIDCAuth = async (authMetadata: AuthMetadata, clientUrl: stri
 
 export const uploadMedia = async ({ file, filename, content_type }: UploadMediaParams): Promise<UploadMediaResult> => {
   const base_url = localStorage.getItem("base_url");
-  const { json } = await jsonClient(`${base_url}/_matrix/media/v3/upload?filename=${filename}`, {
+  const { json } = await jsonClient(`${base_url}/_matrix/media/v3/upload?filename=${encodeURLComponent(filename)}`, {
     method: "POST",
     body: file,
     headers: new Headers({

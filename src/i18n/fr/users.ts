@@ -57,7 +57,7 @@ const users = {
     admin: "Un administrateur de serveur a un contrôle total sur le serveur et ses utilisateurs.",
     lock: "Empêche l'utilisateur d'utiliser le serveur. C'est une action non destructive qui peut être annulée.",
     erase_text:
-      "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
+      "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans le salon au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront le salon par la suite.",
     erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",
     modify_managed_user_error: "La modification d'un utilisateur géré par le système n'est pas autorisée.",
     username_available: "Nom d'utilisateur disponible",
@@ -78,7 +78,7 @@ const users = {
     erase: "Effacer les données de l'utilisateur",
     erase_avatar: "Effacer l'avatar",
     delete_media: "Supprimer tous les médias téléchargés par le(s) utilisateur(s)",
-    redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
+    redact_events: "Expurger tous les événements envoyés par le(s) utilisateur(s)",
     redact_in_progress: "Expurgation en cours\u2026",
     redact_background_note:
       "Vous pouvez fermer cette fenêtre en toute sécurité, l'expurgation continuera en arrière-plan.",
@@ -120,6 +120,26 @@ const users = {
       success:
         "%{smart_count} élément multimédia mis en quarantaine avec succès. |||| %{smart_count} éléments multimédias mis en quarantaine avec succès.",
       failure: "Échec de la mise en quarantaine. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Supprimer tous les médias",
+      title: "Supprimer tous les médias de %{userName}",
+      content:
+        "Cette action supprimera définitivement tous les médias téléversés par cet utilisateur. Elle est irréversible.",
+      in_progress: "Suppression des médias en cours…",
+      background_note:
+        "Vous pouvez fermer cette fenêtre en toute sécurité — la suppression continuera en arrière-plan.",
+      success:
+        "Suppression réussie de %{smart_count} élément multimédia. |||| Suppression réussie de %{smart_count} éléments multimédia.",
+      failure: "Échec de la suppression des médias. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Supprimer tous les médias pour %{smart_count} utilisateur ? |||| Supprimer tous les médias pour %{smart_count} utilisateurs ?",
+      content:
+        "Cette action supprimera définitivement tous les médias téléversés par les utilisateurs sélectionnés. Elle est irréversible.",
+      success: "Médias supprimés pour %{success} sur %{total} utilisateurs.",
+      partial_failure: "Médias supprimés pour %{success} sur %{total} utilisateurs. %{failed} ont échoué.",
     },
     allow_cross_signing: {
       label: "Autoriser la réinitialisation du Cross-Signing",

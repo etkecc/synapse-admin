@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Vorderextremitäten sind Blatt-Ereignisse am Ende eines gerichteten azyklischen Graphens (DAG) in einem Raum, auch bekannt als Ereignisse ohne Nachkommen. Je mehr in einem Raum existieren, umso mehr Zustandsauflösungen muss Synapse absolvieren (Hinweis: dies ist eine sehr aufwendige Operation). Obwohl Synapse Code hat um zu verhindern, dass zuviele davon gleichzeitig in einem Raum existieren, können Bugs manchmal dafür sorgen, dass sie sich ansammeln. Wenn ein Raum >10 Vorderextremitäten hat ist es sinnvoll zu überprüfen um welchen Raum es sich handelt und sie gegebenenfalls, wie in #1769 beschrieben, mittels SQL-Queries zu entfernen.",
+      "Vorderextremitäten sind Blatt-Ereignisse am Ende eines gerichteten azyklischen Graphen (DAG) in einem Raum, d. h. Ereignisse ohne Nachkommen. Je mehr in einem Raum existieren, umso mehr Zustandsauflösungen muss Synapse absolvieren (Hinweis: dies ist eine sehr aufwendige Operation). Obwohl Synapse Code hat um zu verhindern, dass zuviele davon gleichzeitig in einem Raum existieren, können Bugs manchmal dafür sorgen, dass sie sich ansammeln. Wenn ein Raum >10 Vorderextremitäten hat, ist es sinnvoll, sie gegebenenfalls, wie in #1760 beschrieben, mittels SQL-Queries zu entfernen.",
   },
   enums: {
     join_rules: {
@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Jeder",
     },
     unencrypted: "Nicht verschlüsselt",
+    room_type: {
+      room: "Raum",
+      space: "Space",
+    },
   },
   action: {
     erase: {
@@ -73,9 +77,9 @@ const rooms = {
       failure: "Der/die Benutzer konnte/n nicht als Raumadministrator gesetzt werden. %{errMsg}",
     },
     join: {
-      label: "Benutzer beitreten",
-      title: "Benutzer zu %{roomName} beitreten lassen",
-      confirm: "Beitreten",
+      label: "Benutzer hinzufügen",
+      title: "Benutzer zu %{roomName} hinzufügen",
+      confirm: "Hinzufügen",
       content:
         "Geben Sie die vollständige MXID des Benutzers ein, der diesem Raum beitreten soll.\nHinweis: Sie müssen im Raum sein und die Berechtigung haben, Benutzer einzuladen.",
       success: "Benutzer wurde erfolgreich zum Raum hinzugefügt.",
@@ -118,6 +122,26 @@ const rooms = {
       success:
         "%{smart_count} Medienelement erfolgreich unter Quarantäne gestellt. |||| %{smart_count} Medienelemente erfolgreich unter Quarantäne gestellt.",
       failure: "Quarantäne fehlgeschlagen. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Alle Medien löschen",
+      title: "Alle Medien in %{roomName} löschen",
+      content:
+        "Alle lokalen Medien in diesem Raum werden dauerhaft gelöscht. Nur lokale Medien aus unverschlüsselten Räumen sind betroffen — Medien von externen Servern sind ausgeschlossen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      in_progress_loading: "Medienliste wird abgerufen…",
+      in_progress: "Medien werden gelöscht… (%{current} / %{total})",
+      do_not_close:
+        "Schließen Sie diesen Dialog nicht — der Löschvorgang läuft im Vordergrund und wird unterbrochen, wenn Sie ihn schließen.",
+      success:
+        "Erfolgreich %{smart_count} Medienelement gelöscht. |||| Erfolgreich %{smart_count} Medienelemente gelöscht.",
+      failure: "Medien konnten nicht gelöscht werden. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Alle Medien für %{smart_count} Raum löschen? |||| Alle Medien für %{smart_count} Räume löschen?",
+      content:
+        "Alle lokalen Medien in den ausgewählten Räumen werden dauerhaft gelöscht (nur unverschlüsselte Räume). Medien von externen Servern sind ausgeschlossen. Diese Aktion kann nicht rückgängig gemacht werden.",
+      success: "Medien für %{success} von %{total} Räumen gelöscht.",
+      partial_failure: "Medien für %{success} von %{total} Räumen gelöscht. %{failed} fehlgeschlagen.",
     },
     event_context: {
       lookup_title: "Ereignis nach ID nachschlagen",

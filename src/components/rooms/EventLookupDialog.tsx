@@ -165,8 +165,17 @@ export const EventLookupDialog = ({
   }, [open, initialEventId]);
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-      <DialogTitle>{translate("resources.reports.action.event_lookup.title")}</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      maxWidth="sm"
+      fullWidth
+      fullScreen={fullScreen}
+      aria-labelledby="event-lookup-dialog-title"
+    >
+      <DialogTitle id="event-lookup-dialog-title">
+        {translate("resources.reports.action.event_lookup.title")}
+      </DialogTitle>
       <DialogContent>
         {initialEventId ? (
           <Typography

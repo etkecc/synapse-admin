@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "As extremidades diretas são os eventos folha no final de um grafo acíclico dirigido (DAG) numa sala, ou seja, eventos sem filhos. Quanto mais existirem numa sala, mais resolução de estado o Synapse precisa de realizar (nota: esta é uma operação dispendiosa). Embora o Synapse tenha código para evitar demasiadas extremidades ao mesmo tempo, erros podem fazê-las reaparecer. Se uma sala tiver mais de 10 extremidades diretas, vale a pena verificar qual é a sala culpada e potencialmente removê-las usando as consultas SQL mencionadas em #1760.",
+      "As extremidades frontais são os eventos folha no final de um grafo acíclico dirigido (DAG) numa sala, ou seja, eventos sem filhos. Quanto mais existirem numa sala, mais resolução de estado o Synapse precisa de realizar (nota: esta é uma operação dispendiosa). Embora o Synapse tenha código para evitar demasiadas extremidades ao mesmo tempo, erros podem fazê-las reaparecer. Se uma sala tiver mais de 10 extremidades frontais, vale a pena investigar e potencialmente removê-las usando as consultas SQL mencionadas em #1760.",
   },
   enums: {
     join_rules: {
@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Qualquer pessoa",
     },
     unencrypted: "Não encriptado",
+    room_type: {
+      room: "Sala",
+      space: "Espaço",
+    },
   },
   action: {
     erase: {
@@ -117,6 +121,26 @@ const rooms = {
       success:
         "Item de multimédia colocado em quarentena com sucesso. |||| %{smart_count} itens de multimédia colocados em quarentena com sucesso.",
       failure: "Falha ao colocar multimédia em quarentena. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Eliminar todos os média",
+      title: "Eliminar todos os média em %{roomName}",
+      content:
+        "Todos os ficheiros de média locais nesta sala serão eliminados permanentemente. Apenas os média locais de salas não cifradas são afetados — os média de servidores externos estão excluídos. Esta ação não pode ser revertida.",
+      in_progress_loading: "A obter a lista de média…",
+      in_progress: "A eliminar os média… (%{current} / %{total})",
+      do_not_close:
+        "Não feche esta janela — a eliminação está a decorrer em primeiro plano e será interrompida se fechar.",
+      success:
+        "Eliminado com sucesso %{smart_count} ficheiro de média. |||| Eliminados com sucesso %{smart_count} ficheiros de média.",
+      failure: "Falha ao eliminar os média. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Eliminar todos os média de %{smart_count} sala? |||| Eliminar todos os média de %{smart_count} salas?",
+      content:
+        "Todos os ficheiros de média locais das salas selecionadas serão eliminados permanentemente (apenas salas não cifradas). Os média de servidores externos estão excluídos. Esta ação não pode ser revertida.",
+      success: "Média eliminados para %{success} de %{total} salas.",
+      partial_failure: "Média eliminados para %{success} de %{total} salas. %{failed} falharam.",
     },
     event_context: {
       lookup_title: "Pesquisar evento por ID",

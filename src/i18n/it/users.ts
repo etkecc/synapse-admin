@@ -50,10 +50,10 @@ const users = {
     password_required_for_reactivation: "Deve fornire una password per riattivare l'account.",
     create_password: "Genera una password forte e sicura utilizzando il pulsante sottostante.",
     deactivate: "Deve fornire una password per riattivare l'account.",
-    suspend: "Sospendi l'utente",
+    suspend: "La sospensione mette l'utente in modalità di sola lettura.",
     shadow_ban:
       "L'utente bannato nell'ombra riceve risposte normali, ma i suoi eventi non vengono propagati ad altri utenti o stanze. Da usare solo come ultima risorsa.",
-    erase: "Constrassegna l'utente come cancellato dal GDPR",
+    erase: "Contrassegni l'utente come cancellato dal GDPR",
     admin: "Un amministratore del server ha controllo totale sul server e sui suoi utenti.",
     lock: "Impedisce all'utente di utilizzare il server. Questa è un'azione non distruttiva che può essere annullata.",
     erase_text:
@@ -77,8 +77,8 @@ const users = {
   action: {
     erase: "Cancella i dati dell'utente",
     erase_avatar: "Cancella l'avatar dell'utente",
-    delete_media: "Elimina tutti i media caricati dall'utente(-s)",
-    redact_events: "Oscura tutti gli eventi inviati dall'utente(-i)",
+    delete_media: "Elimina tutti i media caricati dall'utente/dagli utenti",
+    redact_events: "Oscura tutti gli eventi inviati dall'utente/dagli utenti",
     redact_in_progress: "Oscuramento in corso\u2026",
     redact_background_note: "Può chiudere questa finestra in sicurezza, l'oscuramento continuerà in background.",
     redact_success: "Tutti gli eventi sono stati oscurati con successo.",
@@ -99,7 +99,7 @@ const users = {
       label: "Accedi come utente",
       title: "Accedi come utente",
       helper:
-        "Ottieni un token di accesso per autenticarsi come %{user}. Questa azione non genera un nuovo dispositivo per l'utente, quindi non apparirà nella lista dei dispositivi/sessioni. L'utente di destinazione generalmente non dovrebbe essere in grado di rilevare questo accesso.",
+        "Ottenga un token di accesso per autenticarsi come %{user}. Questa azione non genera un nuovo dispositivo per l'utente, quindi non apparirà nella lista dei dispositivi/sessioni. L'utente di destinazione generalmente non dovrebbe essere in grado di rilevare questo accesso.",
       valid_until: "Imposta data di scadenza",
       success: "Token di accesso generato con successo",
       failure: "Impossibile generare il token di accesso",
@@ -119,6 +119,25 @@ const users = {
       success:
         "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
       failure: "Impossibile mettere in quarantena i media. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Elimina tutti i media",
+      title: "Elimina tutti i media di %{userName}",
+      content:
+        "Questa operazione eliminerà definitivamente tutti i media caricati da questo utente. L'operazione è irreversibile.",
+      in_progress: "Eliminazione dei media in corso…",
+      background_note: "Può chiudere questa finestra in sicurezza — l'eliminazione continuerà in background.",
+      success:
+        "Eliminazione riuscita di %{smart_count} elemento multimediale. |||| Eliminazione riuscita di %{smart_count} elementi multimediali.",
+      failure: "Impossibile eliminare i media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Eliminare tutti i media per %{smart_count} utente? |||| Eliminare tutti i media per %{smart_count} utenti?",
+      content:
+        "Questa operazione eliminerà definitivamente tutti i media caricati dagli utenti selezionati. L'operazione è irreversibile.",
+      success: "Media eliminati per %{success} su %{total} utenti.",
+      partial_failure: "Media eliminati per %{success} su %{total} utenti. %{failed} non riusciti.",
     },
     allow_cross_signing: {
       label: "Consenti reimpostazione Cross-Signing",
@@ -145,9 +164,9 @@ const users = {
       label: "Rinnova account",
       title: "Rinnova la validità dell'account",
       content:
-        "Rinnova la validità dell'account di %{user}. Può facoltativamente impostare una data di scadenza personalizzata. Se lasciato vuoto, verrà utilizzato il periodo di rinnovo predefinito del server.",
+        "Rinnovi la validità dell'account di %{user}. Può facoltativamente impostare una data di scadenza personalizzata. Se lasciato vuoto, verrà utilizzato il periodo di rinnovo predefinito del server.",
       expiration: "Data di scadenza",
-      expiration_helper: "Lascia vuoto per utilizzare il periodo di rinnovo predefinito del server",
+      expiration_helper: "Lasci vuoto per utilizzare il periodo di rinnovo predefinito del server",
       renewal_emails: "Invia e-mail di notifica di rinnovo",
       success: "Validità dell'account rinnovata fino al %{date}",
       failure: "Impossibile rinnovare la validità dell'account",

@@ -5,12 +5,12 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { Loading, Button, useLocale, useTranslate, useRedirect } from "react-admin";
 import { ResourceContextProvider, useList } from "react-admin";
 import { ListContextProvider, TextField } from "react-admin";
-import { Datagrid } from "react-admin";
 import { BooleanField, DateField, TopToolbar } from "react-admin";
 import { Identifier } from "react-admin";
 
 import { DATE_FORMAT } from "../../../../../utils/date";
 import { useScheduledCommands } from "../../hooks/useScheduledCommands";
+import { Datagrid } from "../../../../../components/layout";
 const ListActions = () => {
   const redirect = useRedirect();
   const translate = useTranslate();

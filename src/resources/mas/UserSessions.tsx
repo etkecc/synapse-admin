@@ -1,4 +1,3 @@
-import EmptyState from "../../components/layout/EmptyState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HttpsIcon from "@mui/icons-material/Https";
 import { useTheme } from "@mui/material/styles";
@@ -8,7 +7,6 @@ import {
   BooleanField,
   Button,
   Confirm,
-  DatagridConfigurable,
   DateField,
   ListProps,
   ResourceProps,
@@ -21,10 +19,10 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
 import { sessionStatusChoices } from "./shared";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 export const FinishUserSessionButton = () => {
   const record = useRecordContext();
@@ -98,7 +96,7 @@ export function MASUserSessionsList(props: ListProps) {
           rowClick={false}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+        <Datagrid bulkActionButtons={false} rowClick={false}>
           <TextField source="user_id" sortable={false} />
           <BooleanField source="active" sortable={false} />
           <DateField source="created_at" showTime sortable={false} />
@@ -107,7 +105,7 @@ export function MASUserSessionsList(props: ListProps) {
           <TextField source="user_agent" sortable={false} emptyText="-" />
           <DateField source="finished_at" showTime sortable={false} emptyText="-" />
           <FinishUserSessionButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

@@ -9,6 +9,7 @@ export interface Config {
   menu: MenuItem[];
   externalAuthProvider?: boolean;
   etkeccAdmin?: string;
+  wellKnownDiscovery?: boolean;
 }
 
 export interface MenuItem {
@@ -167,6 +168,11 @@ export const LoadConfig = (context: Config) => {
       nextConfig.externalAuthProvider = storedExternalAuthProvider === "true";
       changed = true;
     }
+  }
+
+  if (context?.wellKnownDiscovery !== undefined) {
+    nextConfig.wellKnownDiscovery = context.wellKnownDiscovery;
+    changed = true;
   }
 
   if (context?.etkeccAdmin) {

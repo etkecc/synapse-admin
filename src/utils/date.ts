@@ -61,6 +61,47 @@ interface TimeSinceResult {
   timeI18Nparams: Record<string, any>;
 }
 
+/**
+ * Returns a relative time result for a future date (e.g. "in 5 days").
+ * Uses the same bucket thresholds and TimeSinceResult shape as getTimeSince.
+ * If the date is in the past, diffInMs will be negative and all thresholds resolve
+ * to the first bucket (less_than_minute), which callers should treat as "due now".
+ * Assumes ISO 8601 format; appends "Z" if no timezone suffix is present.
+ */
+export const getTimeUntil = (dateToCompare: string): TimeSinceResult => {
+  const nowUTC = new Date().getTime();
+  if (!dateToCompare.includes("Z")) {
+    dateToCompare = dateToCompare + "Z";
+  }
+  const future = new Date(dateToCompare);
+  const futureUTC = future.getTime();
+  const diffInMs = futureUTC - nowUTC;
+
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+
+  if (diffInMinutes < 1) return { timeI18Nkey: "etkecc.time.less_than_minute", timeI18Nparams: {} };
+  if (diffInMinutes === 1) return { timeI18Nkey: "etkecc.time.minutes", timeI18Nparams: { smart_count: 1 } };
+  if (diffInMinutes < 60) return { timeI18Nkey: "etkecc.time.minutes", timeI18Nparams: { smart_count: diffInMinutes } };
+  if (diffInMinutes < 120) return { timeI18Nkey: "etkecc.time.hours", timeI18Nparams: { smart_count: 1 } };
+  if (diffInMinutes < 24 * 60)
+    return { timeI18Nkey: "etkecc.time.hours", timeI18Nparams: { smart_count: Math.floor(diffInMinutes / 60) } };
+  if (diffInMinutes < 48 * 60) return { timeI18Nkey: "etkecc.time.days", timeI18Nparams: { smart_count: 1 } };
+  if (diffInMinutes < 7 * 24 * 60)
+    return { timeI18Nkey: "etkecc.time.days", timeI18Nparams: { smart_count: Math.floor(diffInMinutes / (24 * 60)) } };
+  if (diffInMinutes < 14 * 24 * 60) return { timeI18Nkey: "etkecc.time.weeks", timeI18Nparams: { smart_count: 1 } };
+  if (diffInMinutes < 30 * 24 * 60)
+    return {
+      timeI18Nkey: "etkecc.time.weeks",
+      timeI18Nparams: { smart_count: Math.floor(diffInMinutes / (7 * 24 * 60)) },
+    };
+  if (diffInMinutes < 60 * 24 * 60) return { timeI18Nkey: "etkecc.time.months", timeI18Nparams: { smart_count: 1 } };
+
+  return {
+    timeI18Nkey: "etkecc.time.months",
+    timeI18Nparams: { smart_count: Math.floor(diffInMinutes / (30 * 24 * 60)) },
+  };
+};
+
 // assuming date is in format "2025-02-26 20:52:00" where no timezone is specified
 export const getTimeSince = (dateToCompare: string): TimeSinceResult => {
   const nowUTC = new Date().getTime();

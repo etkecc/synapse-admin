@@ -12,7 +12,7 @@ const users = {
     admin: "Administrador do servidor",
     locked: "Bloqueado",
     suspended: "Suspenso",
-    shadow_banned: "Shadow ban",
+    shadow_banned: "Banido silenciosamente",
     deactivated: "Desativado",
     erased: "Apagado",
     show_guests: "Mostrar convidados",
@@ -111,6 +111,25 @@ const users = {
       success:
         "Item de multimédia colocado em quarentena com sucesso. |||| %{smart_count} itens de multimédia colocados em quarentena com sucesso.",
       failure: "Falha ao colocar multimédia em quarentena. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Eliminar todos os média",
+      title: "Eliminar todos os média de %{userName}",
+      content:
+        "Todos os ficheiros de média carregados por este utilizador serão eliminados permanentemente. Esta ação não pode ser revertida.",
+      in_progress: "A eliminar os média…",
+      background_note: "Pode fechar esta janela em segurança — a eliminação continuará em segundo plano.",
+      success:
+        "Eliminado com sucesso %{smart_count} ficheiro de média. |||| Eliminados com sucesso %{smart_count} ficheiros de média.",
+      failure: "Falha ao eliminar os média. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Eliminar todos os média de %{smart_count} utilizador? |||| Eliminar todos os média de %{smart_count} utilizadores?",
+      content:
+        "Todos os ficheiros de média carregados pelos utilizadores selecionados serão eliminados permanentemente. Esta ação não pode ser revertida.",
+      success: "Média eliminados para %{success} de %{total} utilizadores.",
+      partial_failure: "Média eliminados para %{success} de %{total} utilizadores. %{failed} falharam.",
     },
     allow_cross_signing: {
       label: "Permitir reposição de assinatura cruzada",

@@ -3,7 +3,9 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import MessageIcon from "@mui/icons-material/Message";
 import UserIcon from "@mui/icons-material/Group";
+import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import HttpsIcon from "@mui/icons-material/Https";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import NoEncryptionIcon from "@mui/icons-material/NoEncryption";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import ViewListIcon from "@mui/icons-material/ViewList";
@@ -23,7 +25,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from "react";
 import {
   BooleanField,
-  DatagridConfigurable,
   DateField,
   DeleteButton,
   FunctionField,
@@ -53,13 +54,14 @@ import { BlockRoomButton } from "../../components/users/buttons/BlockRoomButton"
 import DeleteRoomButton from "../../components/users/buttons/DeleteRoomButton";
 import { PurgeHistoryButton } from "../../components/users/buttons/PurgeHistoryButton";
 import { QuarantineRoomMediaButton } from "../../components/users/buttons/QuarantineAllMediaButton";
+import { DeleteRoomMediaButton } from "../../components/users/buttons/DeleteAllMediaButton";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { MediaIDField } from "../../components/media";
 import { DATE_FORMAT } from "../../utils/date";
 import { tt } from "../../utils/safety";
-import EmptyState from "../../components/layout/EmptyState";
 import { RoomDirectoryUnpublishButton, RoomDirectoryPublishButton } from "../room-directory";
 import { MakeAdminBtn, JoinUserBtn, RoomPagination } from "./List";
+import { Datagrid, EmptyState } from "../../components/layout";
 
 const RoomTitle = () => {
   const record = useRecordContext();
@@ -120,6 +122,8 @@ const RoomOverviewTab = () => {
   if (!record) return null;
 
   const isEncrypted = !!record.encryption;
+  const rawRoomType = record.room_type ?? "";
+  const roomTypeKey = rawRoomType === "m.space" ? "space" : rawRoomType === "" ? "room" : rawRoomType;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, py: 1 }}>
@@ -164,6 +168,14 @@ const RoomOverviewTab = () => {
             {record.federatable && (
               <Chip size="small" label={translate("resources.rooms.fields.federatable")} variant="outlined" />
             )}
+            <Chip
+              size="small"
+              icon={
+                rawRoomType === "m.space" ? <GroupWorkIcon fontSize="small" /> : <MeetingRoomIcon fontSize="small" />
+              }
+              label={tt(translate, `resources.rooms.enums.room_type.${roomTypeKey}`, roomTypeKey)}
+              variant="outlined"
+            />
           </Box>
         </Box>
       </Box>
@@ -328,7 +340,7 @@ const ForwardExtremitiesTab = () => {
             rowClick={false}
           />
         ) : (
-          <DatagridConfigurable
+          <Datagrid
             sx={{ width: "100%" }}
             bulkActionButtons={false}
             omit={["depth", "received_ts"]}
@@ -342,7 +354,7 @@ const ForwardExtremitiesTab = () => {
             <DateField source="received_ts" showTime options={DATE_FORMAT} sortable={false} locales={locale} />
             <NumberField source="depth" sortable={false} />
             <RaTextField source="state_group" sortable={false} />
-          </DatagridConfigurable>
+          </Datagrid>
         )}
       </ReferenceManyField>
       <EventLookupDialog
@@ -409,7 +421,7 @@ const RoomStateTab = () => {
             }}
           />
         ) : (
-          <DatagridConfigurable
+          <Datagrid
             sx={{ width: "100%" }}
             bulkActionButtons={false}
             empty={<EmptyState resource="room_state" />}
@@ -428,7 +440,7 @@ const RoomStateTab = () => {
             <ReferenceField source="sender" reference="users" sortable={false}>
               <RaTextField source="id" sx={{ wordBreak: "break-all" }} />
             </ReferenceField>
-          </DatagridConfigurable>
+          </Datagrid>
         )}
       </ReferenceManyField>
       <EventLookupDialog
@@ -512,7 +524,7 @@ const RoomShowLayout = () => {
           {isSmall ? (
             <RoomMembersMobileList />
           ) : (
-            <DatagridConfigurable
+            <Datagrid
               sx={{ width: "100%" }}
               rowClick={id => "/users/" + id}
               bulkActionButtons={false}
@@ -578,7 +590,7 @@ const RoomShowLayout = () => {
               >
                 <BooleanField source="erased" sortable={false} label="resources.users.fields.erased" />
               </ReferenceField>
-            </DatagridConfigurable>
+            </Datagrid>
           )}
         </ReferenceManyField>
       </Tab>
@@ -586,6 +598,7 @@ const RoomShowLayout = () => {
       <Tab label="ketesa.rooms.tabs.media" icon={<PermMediaIcon />} path="media">
         <Alert severity="warning">{translate("resources.room_media.helper.info")}</Alert>
         <QuarantineRoomMediaButton />
+        <DeleteRoomMediaButton />
         <ReferenceManyField
           reference="room_media"
           target="room_id"
@@ -605,14 +618,10 @@ const RoomShowLayout = () => {
               rowClick={false}
             />
           ) : (
-            <DatagridConfigurable
-              sx={{ width: "100%" }}
-              bulkActionButtons={false}
-              empty={<EmptyState resource="room_media" />}
-            >
+            <Datagrid sx={{ width: "100%" }} bulkActionButtons={false} empty={<EmptyState resource="room_media" />}>
               <MediaIDField source="media_id" />
               <DeleteButton mutationMode="pessimistic" redirect={false} />
-            </DatagridConfigurable>
+            </Datagrid>
           )}
         </ReferenceManyField>
       </Tab>

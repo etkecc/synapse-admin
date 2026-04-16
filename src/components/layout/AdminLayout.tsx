@@ -2,7 +2,7 @@ import GavelIcon from "@mui/icons-material/Gavel";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ManageHistoryIcon from "@mui/icons-material/ManageHistory";
-import PaymentIcon from "@mui/icons-material/Payment";
+import ExtensionIcon from "@mui/icons-material/Extension";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import TranslateIcon from "@mui/icons-material/Translate";
@@ -31,6 +31,7 @@ import {
   useResourceDefinitions,
 } from "react-admin";
 
+import { useMatch } from "react-router-dom";
 import { setDataProviderNotifier } from "../../providers/data";
 import { AdminClientConfigItems } from "../users/AdminClientConfigItems";
 import Footer from "./Footer";
@@ -43,6 +44,7 @@ import { EtkeAttribution } from "../etke.cc/EtkeAttribution";
 import { ClearInstanceConfig, useInstanceConfig } from "../etke.cc/InstanceConfig";
 import { ServerNotificationsBadge } from "../etke.cc/ServerNotificationsBadge";
 import { EtkeStatusPoller, ServerStatusStyledBadge } from "../etke.cc/ServerStatusBadge";
+import { BillingStatusBadge, BillingStatusPoller } from "../etke.cc/BillingStatusBadge";
 import { isMAS } from "../../providers/data/mas";
 import { useAppContext } from "../../Context";
 
@@ -184,12 +186,12 @@ export const AdminUserMenu = () => {
       </div>
       <Confirm
         isOpen={open}
-        title="ketesa.auth.logout_acces_token_dialog.title"
-        content="ketesa.auth.logout_acces_token_dialog.content"
+        title="ketesa.auth.logout_access_token_dialog.title"
+        content="ketesa.auth.logout_access_token_dialog.content"
         onConfirm={handleConfirm}
         onClose={handleDialogClose}
-        confirm="ketesa.auth.logout_acces_token_dialog.confirm"
-        cancel="ketesa.auth.logout_acces_token_dialog.cancel"
+        confirm="ketesa.auth.logout_access_token_dialog.confirm"
+        cancel="ketesa.auth.logout_access_token_dialog.cancel"
       />
     </UserMenu>
   );
@@ -218,6 +220,25 @@ const MAS_RESOURCE_PREFIX = "mas_";
  */
 const MAS_SESSION_RESOURCES = ["mas_upstream_oauth_providers"];
 
+/**
+ * Wraps Menu.Item and injects aria-current="page" on the active route.
+ * Note: aria-current is forwarded to the underlying <a> via RA's MenuItemLink prop-forwarding.
+ * If a future RA upgrade stops forwarding unknown props, aria-current will silently drop (progressive enhancement).
+ */
+export const ActiveMenuItemLink = ({ to, ...props }: React.ComponentProps<typeof Menu.Item> & { to: string }) => {
+  const match = useMatch({ path: to, end: true });
+  return <Menu.Item to={to} aria-current={match ? "page" : undefined} {...props} />;
+};
+
+/** Wraps Menu.ResourceItem and injects aria-current="page" on the active resource route. */
+export const ActiveResourceItem = ({
+  name,
+  ...props
+}: React.ComponentProps<typeof Menu.ResourceItem> & { name: string }) => {
+  const match = useMatch({ path: `/${name}`, end: false });
+  return <Menu.ResourceItem name={name} aria-current={match ? "page" : undefined} {...props} />;
+};
+
 const ResourceMenuItems = () => {
   const resources = useResourceDefinitions();
   const masEnabled = isMAS();
@@ -228,13 +249,17 @@ const ResourceMenuItems = () => {
         .filter(name => !name.startsWith(MAS_RESOURCE_PREFIX) && resources[name].hasList)
         .map(name => (
           <span key={name}>
-            <Menu.ResourceItem name={name} />
+            <ActiveResourceItem name={name} />
             {name === "users" &&
               masEnabled &&
               MAS_SESSION_RESOURCES.map(
                 masName =>
                   resources[masName] && (
-                    <Menu.ResourceItem key={masName} name={masName} sx={{ "& .RaMenuItemLink-root": { pl: "20px" } }} />
+                    <ActiveResourceItem
+                      key={masName}
+                      name={masName}
+                      sx={{ "& .RaMenuItemLink-root": { pl: "20px" } }}
+                    />
                   )
               )}
           </span>
@@ -297,8 +322,9 @@ const AdminMenu = props => {
       })}
     >
       {etkeRoutesEnabled && <EtkeStatusPoller />}
+      {etkeRoutesEnabled && !icfg.disabled.payments && <BillingStatusPoller />}
       {etkeRoutesEnabled && !icfg.disabled.monitoring && (
-        <Menu.Item
+        <ActiveMenuItemLink
           key="server_status"
           to="/server_status"
           leftIcon={
@@ -314,30 +340,43 @@ const AdminMenu = props => {
         />
       )}
       {etkeRoutesEnabled && !icfg.disabled.actions && (
-        <Menu.Item
+        <ActiveMenuItemLink
           key="server_actions"
           to="/server_actions"
-          leftIcon={<ManageHistoryIcon />}
+          leftIcon={<ManageHistoryIcon aria-hidden />}
           primaryText="etkecc.actions.name"
         />
       )}
       <ResourceMenuItems />
       {isMAS() && (
-        <Menu.Item
+        <ActiveMenuItemLink
           key="mas_policy_data"
           to="/mas_policy_data"
-          leftIcon={<GavelIcon />}
+          leftIcon={<GavelIcon aria-hidden />}
           primaryText="resources.mas_policy_data.name"
         />
       )}
       {etkeRoutesEnabled && !icfg.disabled.payments && (
-        <Menu.Item key="billing" to="/billing" leftIcon={<PaymentIcon />} primaryText="etkecc.billing.name" />
+        <ActiveMenuItemLink
+          key="billing"
+          to="/billing"
+          leftIcon={<BillingStatusBadge />}
+          primaryText="etkecc.billing.name"
+        />
+      )}
+      {etkeRoutesEnabled && !icfg.disabled.payments && (
+        <ActiveMenuItemLink
+          key="components"
+          to="/components"
+          leftIcon={<ExtensionIcon aria-hidden />}
+          primaryText="etkecc.components.name"
+        />
       )}
       {etkeRoutesEnabled && !icfg.disabled.support && (
-        <Menu.Item
+        <ActiveMenuItemLink
           key="support"
           to="/support"
-          leftIcon={<SupportAgentIcon />}
+          leftIcon={<SupportAgentIcon aria-hidden />}
           primaryText="etkecc.support.menu_label"
         />
       )}
@@ -381,6 +420,7 @@ export const AdminLayout = ({ children }) => {
   // Set the document language based on the selected locale
   const [locale, _setLocale] = useLocaleState();
   const icfg = useInstanceConfig();
+  const translate = useTranslate();
   useEffect(() => {
     document.documentElement.lang = locale;
 
@@ -406,6 +446,23 @@ export const AdminLayout = ({ children }) => {
 
   return (
     <>
+      <Box
+        component="a"
+        href="#main-content"
+        sx={{
+          position: "absolute",
+          transform: "translateY(-100%)",
+          "&:focus": { transform: "translateY(0)" },
+          zIndex: 9999,
+          top: 0,
+          left: 0,
+          p: 1,
+          bgcolor: "background.paper",
+          color: "text.primary",
+        }}
+      >
+        {translate("ra.navigation.skip_nav")}
+      </Box>
       <DataProviderNotifierBridge />
       <Layout
         appBar={AdminAppBar}
@@ -430,7 +487,9 @@ export const AdminLayout = ({ children }) => {
           },
         })}
       >
-        {children}
+        <Box id="main-content" tabIndex={-1} sx={{ outline: 0 }}>
+          {children}
+        </Box>
         <CheckForApplicationUpdate />
       </Layout>
       <EtkeAttribution>

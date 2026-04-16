@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, i.e., events with no children. The more that exist in a room, the more state resolution that Synapse needs to perform (note: this is an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
+      "Forward extremities are the leaf events at the end of a directed acyclic graph (DAG) in a room, i.e., events with no children. The more that exist in a room, the more state resolution that Synapse needs to perform (note: this is an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth investigating and potentially removing them using the SQL queries mentioned in #1760.",
   },
   enums: {
     join_rules: {
@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Anyone",
     },
     unencrypted: "Unencrypted",
+    room_type: {
+      room: "Room",
+      space: "Space",
+    },
   },
   action: {
     erase: {
@@ -59,7 +63,7 @@ const rooms = {
         block: "Block and prevent users from joining the room",
       },
       in_progress: "Deletion in progress…",
-      background_note: "You can safely close this window, the deletion will continue in the background.",
+      background_note: "You can safely close this window — the deletion will continue in the background.",
       success: "Room deleted successfully. |||| Rooms deleted successfully.",
       failure: "The room could not be deleted. |||| The rooms could not be deleted.",
     },
@@ -73,9 +77,9 @@ const rooms = {
       failure: "The user could not be set as room admin. %{errMsg}",
     },
     join: {
-      label: "Join user",
-      title: "Join user to %{roomName}",
-      confirm: "Join",
+      label: "Add user",
+      title: "Add user to %{roomName}",
+      confirm: "Add",
       content:
         "Enter the full MXID of the user to add to this room.\nNote: you must be a member of the room with permission to invite users.",
       success: "User added to the room successfully.",
@@ -105,7 +109,7 @@ const rooms = {
       date_label: "Purge events before",
       delete_local: "Also delete events sent by local users",
       in_progress: "Purge in progress…",
-      background_note: "You can safely close this window, the purge will continue in the background.",
+      background_note: "You can safely close this window — the purge will continue in the background.",
       success: "Room history purged successfully.",
       failure: "Failed to purge room history. %{errMsg}",
     },
@@ -117,6 +121,24 @@ const rooms = {
       success:
         "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
       failure: "Failed to quarantine media. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Delete all media",
+      title: "Delete all media in %{roomName}",
+      content:
+        "This will permanently delete all local media in this room. Only local media from unencrypted rooms is affected — remote media from other servers is excluded. This action cannot be undone.",
+      in_progress_loading: "Fetching media list…",
+      in_progress: "Deleting media… (%{current} / %{total})",
+      do_not_close: "Do not close this dialog — deletion is running in the foreground and will stop if closed.",
+      success: "Successfully deleted %{smart_count} media item. |||| Successfully deleted %{smart_count} media items.",
+      failure: "Failed to delete media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Delete all media for %{smart_count} room? |||| Delete all media for %{smart_count} rooms?",
+      content:
+        "This will permanently delete all local media in the selected rooms (unencrypted rooms only). Remote media from other servers is excluded. This action cannot be undone.",
+      success: "Deleted media for %{success} of %{total} rooms.",
+      partial_failure: "Deleted media for %{success} of %{total} rooms. %{failed} failed.",
     },
     event_context: {
       lookup_title: "Look Up Event by ID",

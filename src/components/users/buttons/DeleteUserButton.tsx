@@ -2,6 +2,7 @@ import ActionCheck from "@mui/icons-material/CheckCircle";
 import ActionDelete from "@mui/icons-material/Delete";
 import AlertError from "@mui/icons-material/ErrorOutline";
 import {
+  Box,
   Button as MuiButton,
   CircularProgress,
   Dialog,
@@ -12,7 +13,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useId, useRef, useState } from "react";
 import {
   Button,
   SimpleForm,
@@ -44,6 +45,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const translate = useTranslate();
+  const titleId = useId();
   const [open, setOpen] = useState(false);
   const [deleteMedia, setDeleteMedia] = useState(false);
   const [redactEvents, setRedactEvents] = useState(false);
@@ -198,8 +200,15 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
       >
         <ActionDelete />
       </Button>
-      <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate(props.confirmTitle)}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleDialogClose}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={titleId}
+      >
+        <DialogTitle id={titleId}>{translate(props.confirmTitle)}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate(props.confirmContent)}</DialogContentText>
           <SimpleForm toolbar={false}>
@@ -226,10 +235,10 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
           </SimpleForm>
           {redactStatus === "active" && (
             <>
-              <DialogContentText sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
-                <CircularProgress size={16} />
+              <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
+                <CircularProgress size={16} role="status" aria-label={translate("ra.message.loading")} />
                 {translate("resources.users.action.redact_in_progress")}
-              </DialogContentText>
+              </Box>
               <DialogContentText sx={{ mt: 1 }}>
                 {translate("resources.users.action.redact_background_note")}
               </DialogContentText>
@@ -242,10 +251,11 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
           </MuiButton>
           <MuiButton
             disabled={loading}
+            aria-busy={loading}
             onClick={handleConfirm}
             className={"ra-confirm RaConfirm-confirmPrimary"}
             autoFocus
-            startIcon={loading ? <CircularProgress size={16} /> : <ActionCheck />}
+            startIcon={loading ? <CircularProgress size={16} aria-hidden="true" /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
           </MuiButton>

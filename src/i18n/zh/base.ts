@@ -5,7 +5,7 @@ const chineseMessages: TranslationMessages = {
     action: {
       add: "增加",
       add_filter: "添加搜索条件",
-      back: "回退",
+      back: "返回",
       bulk_actions: "选中1项 |||| 选中%{smart_count}项",
       cancel: "取消",
       clear_array_input: "清空列表",
@@ -86,7 +86,7 @@ const chineseMessages: TranslationMessages = {
     message: {
       about: "关于",
       access_denied: "您没有访问此页面的权限。",
-      are_you_sure: "您确定操作?",
+      are_you_sure: "您确定要执行此操作吗？",
       authentication_error: "身份验证服务器返回错误，无法验证您的凭据。",
       auth_error: "身份认证出错",
       bulk_delete_content: "您确定要删除 %{name}? |||| 您确定要删除 %{smart_count} 项?",
@@ -152,7 +152,7 @@ const chineseMessages: TranslationMessages = {
       data_provider_error: "dataProvider错误. 请检查console的详细信息.",
       i18n_error: "无法加载指定语言包",
       logged_out: "会话失效, 请重连.",
-      not_authorized: "你没有权限访问此资源.",
+      not_authorized: "您没有权限访问此资源。",
       application_update_available: "新版本可用.",
       offline: "离线。无法获取数据。",
     },

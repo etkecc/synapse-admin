@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       sso_sign_in: "Anmeldung mit SSO",
       credentials: "Anmeldedaten",
       access_token: "Zugriffstoken",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "Sie verwenden ein bestehendes Matrix-Zugriffstoken.",
         content:
           "Möchten Sie diese Sitzung (die anderswo, z.B. in einem Matrix-Client, verwendet werden könnte) beenden oder sich nur vom Admin-Panel abmelden?",
@@ -168,11 +168,47 @@ const common: Record<string, any> = {
       button: "Spenden",
       signature_team: "das etke.cc-Team",
     },
+    components: {
+      name: "Komponenten",
+      description:
+        "Sehen Sie Ihre aktiven Komponenten ein und entdecken Sie, was Sie zu Ihrem Server hinzufügen können.",
+      no_section: "Ihr Server",
+      per_month: "/Mo.",
+      included: "Inklusive",
+      total: "Gesamt",
+      loading: "Komponenten werden geladen...",
+      state_add: "Hinzufügen",
+      state_remove: "Deinstallieren",
+      add_aria: "%{name} hinzufügen",
+      remove_aria: "%{name} entfernen",
+      preview_label: "Vorschau",
+      request_changes: "Änderungen anfordern",
+      requesting: "Wird gesendet...",
+      request_failure: "Die Änderungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+      request_sent_title: "Anfrage eingereicht",
+      request_sent_body:
+        "Ihre Anfrage zur Komponentenänderung wurde an den etke.cc-Support gesendet. Wenn Sie weitere Änderungen benötigen, antworten Sie bitte auf diese Support-Anfrage, anstatt eine neue zu öffnen.",
+      request_sent_close: "Schließen",
+      request_sent_view: "Anfrage anzeigen",
+      request_already_sent:
+        "Eine Änderungsanfrage ist bereits offen. Um weitere Änderungen anzufordern, antworten Sie bitte auf Ihr bestehendes Support-Ticket.",
+      request_already_sent_view: "Ticket anzeigen",
+      free_label: "Kostenlos",
+      available_label: "Verfügbar",
+      tagline: "Erweitern Sie Ihren Server — fügen Sie Komponenten jederzeit hinzu oder entfernen Sie sie.",
+      section: {
+        bridges: "Brücken",
+        extras: "Extras",
+        matrix_apps: "Matrix-Anwendungen",
+        matrix_bots: "Matrix-Bots",
+        matrix_extras: "Matrix-Extras",
+      },
+    },
     billing: {
       name: "Abrechnung",
       title: "Zahlungshistorie",
       no_payments: "Keine Zahlungen gefunden.",
-      no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support unter",
+      no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support.",
       description1:
         "Hier können Sie Zahlungen einsehen und Rechnungen erstellen. Mehr zur Verwaltung von Abonnements erfahren Sie unter",
       description2: "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen, siehe",
@@ -198,8 +234,43 @@ const common: Record<string, any> = {
         loading: "Abrechnungsinformationen werden geladen...",
         loading_failed1: "Beim Laden der Abrechnungsinformationen ist ein Problem aufgetreten.",
         loading_failed2: "Bitte versuchen Sie es später erneut.",
-        loading_failed3: "Wenn das Problem weiterhin besteht, kontaktieren Sie bitte den etke.cc-Support unter",
+        loading_failed3: "Wenn das Problem weiterhin besteht, kontaktieren Sie bitte den etke.cc-Support.",
         loading_failed4: "mit der folgenden Fehlermeldung:",
+      },
+      components: "Aktive Komponenten",
+      components_no_section: "Ihr Server",
+      components_per_month: "/Mo.",
+      components_included: "Inklusive",
+      components_total: "Gesamt",
+      components_help_title: "Mehr über %{name} erfahren",
+      components_state_install: "Installieren",
+      components_state_remove: "Deinstallieren",
+      components_remove_aria: "%{name} installieren/deinstallieren",
+      components_preview_label: "Vorschau",
+      components_request_changes: "Änderungen anfordern",
+      components_requesting: "Wird gesendet...",
+      components_request_failure: "Die Änderungsanfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+      components_request_sent_title: "Anfrage eingereicht",
+      components_request_sent_body:
+        "Ihre Anfrage zur Komponentenänderung wurde an den etke.cc-Support gesendet. Wenn Sie weitere Änderungen benötigen, antworten Sie bitte auf diese Support-Anfrage, anstatt eine neue zu öffnen.",
+      components_request_sent_close: "Schließen",
+      components_request_sent_view: "Anfrage anzeigen",
+      components_request_already_sent:
+        "Eine Änderungsanfrage ist bereits offen. Um weitere Änderungen anzufordern, antworten Sie bitte auf Ihr bestehendes Support-Ticket.",
+      components_request_already_sent_view: "Ticket anzeigen",
+      status: {
+        issue: {
+          title: "Abonnement benötigt Aufmerksamkeit",
+          description:
+            "Wir haben ein Problem mit Ihrem Abonnement festgestellt. Keine Sorge — es lässt sich leicht beheben.",
+          due_overdue: "Überfällig seit",
+          due_upcoming: "Fällig in",
+          expected: "Erwarteter Betrag",
+          last_paid: "Zuletzt bezahlt",
+          fix_link: "Zahlungsrückstand beheben",
+          fix_mismatch_link: "Abonnementspreis aktualisieren",
+          support_link: "Support kontaktieren",
+        },
       },
     },
     status: {
@@ -207,6 +278,11 @@ const common: Record<string, any> = {
       badge: {
         default: "Klicken, um den Serverstatus anzuzeigen",
         running: "Läuft: %{command}. %{text}",
+        status_ok: "Server ist online",
+        status_error: "Status: Fehler",
+        status_maintenance: "Das System befindet sich derzeit im Wartungsmodus.",
+        status_process_running: "Server führt einen Befehl aus",
+        status_checking: "Serverstatus wird geprüft",
       },
       category: {
         "Host Metrics": "Host-Metriken",
@@ -244,6 +320,7 @@ const common: Record<string, any> = {
       maintenance_note: "Sie müssen den Support hierzu nicht kontaktieren — wir arbeiten bereits daran!",
       maintenance_commands_blocked: "Befehle können erst ausgeführt werden, wenn der Wartungsmodus deaktiviert ist.",
       table: {
+        aria_label: "Serverbefehle",
         command: "Befehl",
         description: "Beschreibung",
         arguments: "Argumente",

@@ -14,7 +14,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       sso_sign_in: string;
       credentials: string;
       access_token: string;
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: string;
         content: string;
         confirm: string;
@@ -245,6 +245,21 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           success: string;
           failure: string;
         };
+        delete_all_media: {
+          label: string;
+          title: string;
+          content: string;
+          in_progress: string;
+          background_note: string;
+          success: string;
+          failure: string;
+        };
+        delete_all_media_bulk: {
+          title: string;
+          content: string;
+          success: string;
+          partial_failure: string;
+        };
         allow_cross_signing: {
           label: string;
           title: string;
@@ -348,6 +363,10 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           world_readable: string;
         };
         unencrypted: string;
+        room_type: {
+          room: string;
+          space: string;
+        };
       };
       action: {
         erase: {
@@ -409,6 +428,22 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           content: string;
           success: string;
           failure: string;
+        };
+        delete_all_media: {
+          label: string;
+          title: string;
+          content: string;
+          in_progress_loading: string;
+          in_progress: string;
+          do_not_close: string;
+          success: string;
+          failure: string;
+        };
+        delete_all_media_bulk: {
+          title: string;
+          content: string;
+          success: string;
+          partial_failure: string;
         };
         event_context: {
           jump_to_date: string;
@@ -972,12 +1007,82 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         loading_failed3: string;
         loading_failed4: string;
       };
+      components: string;
+      components_no_section: string;
+      components_per_month: string;
+      components_included: string;
+      components_total: string;
+      components_help_title: string;
+      components_state_install: string;
+      components_state_remove: string;
+      components_remove_aria: string;
+      components_preview_label: string;
+      components_request_changes: string;
+      components_requesting: string;
+      components_request_failure: string;
+      components_request_sent_title: string;
+      components_request_sent_body: string;
+      components_request_sent_close: string;
+      components_request_sent_view: string;
+      components_request_already_sent: string;
+      components_request_already_sent_view: string;
+      status: {
+        issue: {
+          title: string;
+          description: string;
+          due_overdue: string;
+          due_upcoming: string;
+          expected: string;
+          last_paid: string;
+          fix_link: string;
+          fix_mismatch_link: string;
+          support_link: string;
+        };
+      };
+    };
+    components: {
+      name: string;
+      description: string;
+      tagline: string;
+      no_section: string;
+      per_month: string;
+      included: string;
+      free_label: string;
+      available_label: string;
+      total: string;
+      loading: string;
+      state_add: string;
+      state_remove: string;
+      add_aria: string;
+      remove_aria: string;
+      preview_label: string;
+      request_changes: string;
+      requesting: string;
+      request_failure: string;
+      request_sent_title: string;
+      request_sent_body: string;
+      request_sent_close: string;
+      request_sent_view: string;
+      request_already_sent: string;
+      request_already_sent_view: string;
+      section: {
+        bridges: string;
+        extras: string;
+        matrix_apps: string;
+        matrix_bots: string;
+        matrix_extras: string;
+      };
     };
     status: {
       name: string;
       badge: {
         default: string;
         running: string;
+        status_ok: string;
+        status_error: string;
+        status_maintenance: string;
+        status_process_running: string;
+        status_checking: string;
       };
       category: {
         "Host Metrics": string;
@@ -1045,6 +1150,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         cancel: string;
         send: string;
         back: string;
+        attach_files: string;
       };
       helper: {
         loading: string;
@@ -1057,11 +1163,16 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         scope_confirm_label: string;
         english_only_notice: string;
         response_time_prompt: string;
+        attachments_limit: string;
+        close_request_label: string;
       };
       actions: {
         create_success: string;
         create_failure: string;
         send_failure: string;
+        attachment_too_large: string;
+        too_many_attachments: string;
+        total_size_exceeded: string;
       };
     };
     actions: {
@@ -1080,6 +1191,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       maintenance_note: string;
       maintenance_commands_blocked: string;
       table: {
+        aria_label: string;
         command: string;
         description: string;
         arguments: string;

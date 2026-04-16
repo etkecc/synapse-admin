@@ -1,4 +1,3 @@
-import EmptyState from "../../components/layout/EmptyState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HttpsIcon from "@mui/icons-material/Https";
 import { useTheme } from "@mui/material/styles";
@@ -7,7 +6,6 @@ import { useState } from "react";
 import {
   Button,
   Confirm,
-  DatagridConfigurable,
   DateField,
   ListProps,
   ResourceProps,
@@ -20,9 +18,9 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 export const DeleteOAuthLinkButton = () => {
   const record = useRecordContext();
@@ -85,14 +83,14 @@ export function MASUpstreamOAuthLinksList(props: ListProps) {
           rowClick={false}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+        <Datagrid bulkActionButtons={false} rowClick={false}>
           <TextField source="user_id" sortable={false} />
           <TextField source="provider_id" sortable={false} />
           <TextField source="subject" sortable={false} />
           <TextField source="human_account_name" sortable={false} emptyText="-" />
           <DateField source="created_at" showTime sortable={false} />
           <DeleteOAuthLinkButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

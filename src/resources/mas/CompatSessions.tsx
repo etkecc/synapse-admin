@@ -1,4 +1,3 @@
-import EmptyState from "../../components/layout/EmptyState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DevicesIcon from "@mui/icons-material/Devices";
 import { useTheme } from "@mui/material/styles";
@@ -8,7 +7,6 @@ import {
   BooleanField,
   Button,
   Confirm,
-  DatagridConfigurable,
   DateField,
   ListProps,
   ResourceProps,
@@ -21,10 +19,10 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
 import { sessionStatusChoices } from "./shared";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 export const FinishCompatSessionButton = () => {
   const record = useRecordContext();
@@ -98,7 +96,7 @@ export function MASCompatSessionsList(props: ListProps) {
           rowClick={false}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+        <Datagrid bulkActionButtons={false} rowClick={false}>
           <TextField source="user_id" sortable={false} />
           <TextField source="device_id" sortable={false} emptyText="-" />
           <TextField source="human_name" sortable={false} emptyText="-" />
@@ -108,7 +106,7 @@ export function MASCompatSessionsList(props: ListProps) {
           <TextField source="last_active_ip" sortable={false} emptyText="-" />
           <DateField source="finished_at" showTime sortable={false} emptyText="-" />
           <FinishCompatSessionButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

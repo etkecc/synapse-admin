@@ -16,6 +16,15 @@ the full MAS integration: registration token management, the MAS user management
 upstream OAuth links, policy data), and adapted create/edit workflows for users.
 See the [MAS user management guide](./user-management.md#-mas-user-management) for the full feature list.
 
+Ketesa detects MAS by probing two endpoints in parallel when you enter a homeserver URL:
+
+- `/_matrix/client/v3/login` — checks for the `org.matrix.msc3824.delegated_oidc_compatibility` flag on the SSO flow
+- `/_matrix/client/v1/auth_metadata` — the stable OAuth 2.0 server metadata endpoint defined in [Matrix spec v1.14](https://spec.matrix.org/v1.18/client-server-api/#get_matrixclientv1auth_metadata)
+
+Either signal is sufficient to enable the OIDC login button. This means Ketesa correctly handles both configurations:
+- Synapse with MAS where `/_matrix/client/v3/login` is **disabled** (the default MAS behaviour, which previously caused the OIDC button not to appear)
+- Synapse with MAS where `/_matrix/client/v3/login` is still active and advertises the MSC3824 flag
+
 The MAS admin API is not exposed by default, so it must be reachable from the Ketesa UI.
 
 > ⚠️ **Warning:** If the MAS admin API is not exposed, MAS-specific operations (registration tokens, sessions, emails, etc.) will fail.

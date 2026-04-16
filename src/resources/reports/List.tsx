@@ -4,7 +4,6 @@ import { useTheme } from "@mui/material/styles";
 import { useState } from "react";
 import {
   Button,
-  DatagridConfigurable,
   DateField,
   ListProps,
   Pagination,
@@ -15,11 +14,10 @@ import {
   useTranslate,
 } from "react-admin";
 
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { EventLookupDialog } from "../../components/rooms/EventLookupDialog";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { DATE_FORMAT } from "../../utils/date";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const ReportPagination = () => <Pagination rowsPerPageOptions={[10, 25, 50, 100, 500, 1000]} />;
 
@@ -82,7 +80,11 @@ export const ReportList = (props: ListProps) => {
           rowClick="show"
         />
       ) : (
-        <DatagridConfigurable rowClick="show" bulkActionButtons={false}>
+        <Datagrid
+          rowLabel={record => `#${record.id} ${record.name || record.room_id || ""}`.trim()}
+          rowClick="show"
+          bulkActionButtons={false}
+        >
           <TextField source="id" sortable={false} label="resources.reports.fields.id" />
           <DateField
             source="received_ts"
@@ -105,7 +107,7 @@ export const ReportList = (props: ListProps) => {
             sx={{ ...ellipsisSx, maxWidth: "200px", display: "inline-block" }}
           />
           <TextField sortable={false} source="score" label="resources.reports.fields.score" />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

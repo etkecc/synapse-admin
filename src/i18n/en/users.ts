@@ -57,8 +57,8 @@ const users = {
     erase: "In addition to deactivating the user, mark the user as GDPR-erased.",
     admin: "A server administrator has full control over the server and its users.",
     erase_text:
-      "This means messages sent by the user(-s) will still be visible to anyone who was in the room at the time, but will be hidden from users who join afterward.",
-    erase_admin_error: "Deleting own user is not allowed.",
+      "This means messages sent by the user(s) will still be visible to anyone who was in the room at the time, but will be hidden from users who join afterward.",
+    erase_admin_error: "Deleting your own user is not allowed.",
     modify_managed_user_error: "Modifying a system-managed user is not allowed.",
     username_available: "Username is available",
     sent_invite_count: "Total number of invites sent by this user across all rooms.",
@@ -110,6 +110,21 @@ const users = {
       success:
         "Successfully quarantined %{smart_count} media item. |||| Successfully quarantined %{smart_count} media items.",
       failure: "Failed to quarantine media. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Delete all media",
+      title: "Delete all media for %{userName}",
+      content: "This will permanently delete all media uploaded by this user. This action cannot be undone.",
+      in_progress: "Deleting media…",
+      background_note: "You can safely close this dialog — deletion will continue in the background.",
+      success: "Successfully deleted %{smart_count} media item. |||| Successfully deleted %{smart_count} media items.",
+      failure: "Failed to delete media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "Delete all media for %{smart_count} user? |||| Delete all media for %{smart_count} users?",
+      content: "This will permanently delete all media uploaded by the selected users. This action cannot be undone.",
+      success: "Deleted media for %{success} of %{total} users.",
+      partial_failure: "Deleted media for %{success} of %{total} users. %{failed} failed.",
     },
     allow_cross_signing: {
       label: "Allow cross-signing reset",

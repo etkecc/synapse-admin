@@ -73,10 +73,44 @@ export interface Payment {
   invoice_id: string;
 }
 
+export interface PaymentStatus {
+  due_at: string;
+  expected_price: number;
+  mismatch: boolean;
+  overdue: boolean;
+}
+
 export interface PaymentsResponse {
   payments: Payment[];
   maintenance: boolean;
   total: number;
+  status?: PaymentStatus;
+}
+
+export interface Component {
+  id: string;
+  name: string;
+  enabled: boolean;
+  archived?: boolean;
+  price: number;
+  help: string;
+}
+
+export interface ComponentSection {
+  id: string;
+  name: string;
+  enabled: boolean;
+  archived?: boolean;
+  price: number;
+  help: string;
+  components: Component[];
+}
+
+export interface ComponentsResponse {
+  components: Component[];
+  sections: ComponentSection[];
+  currency: string;
+  total_price: number;
 }
 
 export interface SupportRequest {

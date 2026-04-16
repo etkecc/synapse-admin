@@ -1,5 +1,8 @@
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { expect, vi } from "vitest";
+import * as axeMatchers from "vitest-axe/matchers";
+
+expect.extend(axeMatchers);
 
 const createStorage = () => {
   const store = new Map<string, string>();

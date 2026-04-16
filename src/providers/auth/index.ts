@@ -125,16 +125,16 @@ const authProvider: AuthProvider = {
       response = await fetchUtils.fetchJson(login_api_url, options);
       const json = response.json;
 
-      let homeserverFromMXID = "";
-      if (accessToken) {
-        // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
-        // like "@user:example.com:8008" or "@user:[2001:db8::1]"
-        const mxidParts = json.user_id.split(":");
-        mxidParts.shift();
-        homeserverFromMXID = mxidParts.join(":");
+      // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
+      // like "@user:example.com:8008" or "@user:[2001:db8::1]"
+      // home_server is deprecated in the login response (Matrix spec), so always extract from user_id
+      const mxidParts = json.user_id?.split(":");
+      mxidParts?.shift();
+      const homeServer = mxidParts?.join(":");
+      if (!homeServer) {
+        throw new Error(`Cannot determine home_server from user_id: ${json.user_id}`);
       }
-
-      localStorage.setItem("home_server", accessToken ? homeserverFromMXID : json.home_server);
+      localStorage.setItem("home_server", homeServer);
       localStorage.setItem("user_id", json.user_id);
       localStorage.setItem("access_token", accessToken ? accessToken : json.access_token);
       localStorage.setItem("device_id", json.device_id);
@@ -209,7 +209,7 @@ const authProvider: AuthProvider = {
     const clientId = localStorage.getItem("clientId");
     const issuer = localStorage.getItem("oidc_issuer");
     const scope = localStorage.getItem("oidc_scope") || "openid";
-    const redirectUri = localStorage.getItem("oidc_redirect_uri") || `${window.location.origin}/auth-callback`;
+    const redirectUri = localStorage.getItem("oidc_redirect_uri") || `${window.location.origin}/auth-callback/`;
 
     if (!clientId || !issuer) {
       log.error("handleCallback: missing OIDC config in storage", { hasClientId: !!clientId, hasIssuer: !!issuer });

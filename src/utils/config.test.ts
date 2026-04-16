@@ -80,6 +80,54 @@ describe("config utils", () => {
     unsubscribe();
   });
 
+  it("sets wellKnownDiscovery when provided in context", () => {
+    LoadConfig({
+      restrictBaseUrl: "https://example.org",
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+      wellKnownDiscovery: false,
+    });
+
+    expect(GetConfig().wellKnownDiscovery).toBe(false);
+  });
+
+  it("sets wellKnownDiscovery to true when explicitly provided", () => {
+    LoadConfig({
+      restrictBaseUrl: "https://example.org",
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+      wellKnownDiscovery: true,
+    });
+
+    expect(GetConfig().wellKnownDiscovery).toBe(true);
+  });
+
+  it("does not overwrite wellKnownDiscovery when omitted from context", () => {
+    LoadConfig({
+      restrictBaseUrl: "https://example.org",
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+      wellKnownDiscovery: false,
+    });
+
+    // omitting wellKnownDiscovery in a subsequent LoadConfig should not reset it
+    LoadConfig({
+      restrictBaseUrl: "https://example.org",
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+    });
+
+    expect(GetConfig().wellKnownDiscovery).toBe(false);
+  });
+
   it("loads well-known config using the host from restrictBaseUrl when home_server is unset", async () => {
     vi.mocked(fetch).mockResolvedValue(
       new Response(

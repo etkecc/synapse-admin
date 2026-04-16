@@ -4,6 +4,7 @@ import type { AccountDataModel, ExperimentalFeaturesModel, RateLimitsModel, User
 import type { EventContextResult, RoomHierarchyResult, RoomMessagesResult } from "./rooms";
 import type { MASPolicyData } from "./mas";
 import type {
+  ComponentsResponse,
   PaymentsResponse,
   RecurringCommand,
   ScheduledCommand,
@@ -146,6 +147,11 @@ export interface SynapseDataProvider extends DataProvider {
     roomId: string,
     params?: { from?: string; limit?: number; max_depth?: number }
   ) => Promise<{ success: boolean; data?: RoomHierarchyResult; error?: string; errcode?: string }>;
+  deleteUserMedia: (id: Identifier) => Promise<DeleteMediaResult>;
+  deleteRoomMedia: (
+    roomId: string,
+    onProgress?: (current: number, total: number) => void
+  ) => Promise<{ total: number }>;
   quarantineRoomMedia: (
     roomId: string
   ) => Promise<{ success: boolean; num_quarantined: number; error?: string; errcode?: string }>;
@@ -208,6 +214,7 @@ export interface SynapseDataProvider extends DataProvider {
     command: RecurringCommand
   ) => Promise<RecurringCommand>;
   deleteRecurringCommand: (etkeAdminUrl: string, locale: string, id: string) => Promise<{ success: boolean }>;
+  getComponents: (etkeAdminUrl: string, locale: string) => Promise<ComponentsResponse>;
   getPayments: (etkeAdminUrl: string, locale: string) => Promise<PaymentsResponse>;
   getInvoice: (etkeAdminUrl: string, locale: string, transactionId: string) => Promise<void>;
   getSupportRequests: (etkeAdminUrl: string, locale: string) => Promise<SupportRequest[]>;

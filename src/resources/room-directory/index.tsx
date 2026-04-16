@@ -8,7 +8,6 @@ import {
   BulkDeleteButtonProps,
   Button,
   ButtonProps,
-  DatagridConfigurable,
   DeleteButton,
   DeleteButtonProps,
   ExportButton,
@@ -31,9 +30,8 @@ import {
 
 import { MakeAdminBtn } from "../rooms";
 import AvatarField from "../../components/users/fields/AvatarField";
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const RoomDirectoryPagination = () => <Pagination rowsPerPageOptions={[100, 500, 1000, 2000]} />;
 
@@ -186,7 +184,8 @@ export const RoomDirectoryList = () => {
           )}
         />
       ) : (
-        <DatagridConfigurable
+        <Datagrid
+          rowLabel={record => String(record.name || record.canonical_alias || record.id)}
           rowClick={id => "/rooms/" + id + "/show"}
           bulkActionButtons={<RoomDirectoryBulkUnpublishButton />}
           omit={["room_id", "canonical_alias", "topic"]}
@@ -222,7 +221,7 @@ export const RoomDirectoryList = () => {
             label="resources.room_directory.fields.guest_can_join"
           />
           <MakeAdminBtn />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

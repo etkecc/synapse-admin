@@ -137,6 +137,7 @@ management:
 | 🟢 | **Server health** | Live status badge in the toolbar + a full dashboard showing every server component with color-coded indicators, error details, and suggested actions. Know what's wrong before your users do. |
 | 🔔 | **Notifications** | Important server events surface as an in-app feed with an unread badge — nothing slips through the cracks. |
 | ⚡ | **Server actions** | Trigger management commands on demand, schedule them for a precise date and time, or set up recurring weekly jobs. Routine maintenance becomes a few clicks, not a cron job. |
+| 🧩 | **Components** | Browse, add, and remove server add-ons — bridges, bots, apps — from a self-service catalogue. See what's active, preview the cost impact, and submit changes with one click. No support ticket needed. |
 | 💳 | **Billing** | View payment history, transaction details, and download invoices without ever leaving the admin panel. |
 | 💬 | **Support** | Open support requests, track their progress, and exchange messages with the etke.cc team — right from the interface you use every day. |
 | 🎨 | **White-labelling** | Custom name, logo, favicon, and background applied automatically from the platform. No extra configuration, no deploy step. |

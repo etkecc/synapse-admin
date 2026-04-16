@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Le estremità forward sono gli eventi foglia alla fine di un grafo diretto aciclico (DAG) in una stanza, cioè eventi senza figli. Più ce ne sono, più Synapse deve risolvere lo stato (operazione costosa). Anche se Synapse evita che ce ne siano troppi, a volte dei bug li fanno ricomparire. Se una stanza ha >10 forward extremities, vale la pena identificare la stanza problematica e rimuoverli con le query SQL citate in #1760.",
+      "Le Forward Extremities sono gli eventi foglia alla fine di un grafo diretto aciclico (DAG) in una stanza, ovvero eventi senza figli. Più ce ne sono, più Synapse deve eseguire la risoluzione dello stato (operazione costosa). Sebbene Synapse disponga di codice per evitare che ce ne siano troppe in una stanza, a volte dei bug le fanno ricomparire. Se una stanza ha più di 10 Forward Extremities, vale la pena investigare e potenzialmente rimuoverle utilizzando le query SQL citate in #1760.",
   },
   enums: {
     join_rules: {
@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Chiunque",
     },
     unencrypted: "Non criptata",
+    room_type: {
+      room: "Stanza",
+      space: "Spazio",
+    },
   },
   action: {
     erase: {
@@ -68,14 +72,14 @@ const rooms = {
       title: "Assegna un amministratore alla stanza %{roomName}",
       confirm: "Assegna un amministratore",
       content:
-        "Inserisca la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
+        "Inserisca la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: perché ciò funzioni, la stanza deve avere almeno un membro locale come amministratore.",
       success: "L'utente è stato designato come amministratore della stanza.",
       failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
     },
     join: {
-      label: "Unisci utente",
-      title: "Unisci un utente a %{roomName}",
-      confirm: "Unisci",
+      label: "Aggiungi utente",
+      title: "Aggiungi un utente a %{roomName}",
+      confirm: "Aggiungi",
       content:
         "Inserisca la MXID completa dell'utente da unire a questa stanza.\nNota: deve essere nella stanza e avere il permesso di invitare utenti.",
       success: "L'utente è stato aggiunto alla stanza con successo.",
@@ -117,6 +121,27 @@ const rooms = {
       success:
         "%{smart_count} elemento multimediale messo in quarantena con successo. |||| %{smart_count} elementi multimediali messi in quarantena con successo.",
       failure: "Impossibile mettere in quarantena i media. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Elimina tutti i media",
+      title: "Elimina tutti i media in %{roomName}",
+      content:
+        "Questa operazione eliminerà definitivamente tutti i media locali in questa stanza. Sono interessati solo i media locali delle stanze non cifrate — i media di server remoti sono esclusi. L'operazione è irreversibile.",
+      in_progress_loading: "Recupero dell'elenco dei media…",
+      in_progress: "Eliminazione dei media… (%{current} / %{total})",
+      do_not_close:
+        "Non chiuda questa finestra — l'eliminazione è in esecuzione in primo piano e si interromperà se viene chiusa.",
+      success:
+        "Eliminazione riuscita di %{smart_count} elemento multimediale. |||| Eliminazione riuscita di %{smart_count} elementi multimediali.",
+      failure: "Impossibile eliminare i media. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Eliminare tutti i media per %{smart_count} stanza? |||| Eliminare tutti i media per %{smart_count} stanze?",
+      content:
+        "Questa operazione eliminerà definitivamente tutti i media locali nelle stanze selezionate (solo stanze non cifrate). I media di server remoti sono esclusi. L'operazione è irreversibile.",
+      success: "Media eliminati per %{success} su %{total} stanze.",
+      partial_failure: "Media eliminati per %{success} su %{total} stanze. %{failed} non riusciti.",
     },
     event_context: {
       lookup_title: "Cerca evento per ID",

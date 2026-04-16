@@ -12,7 +12,7 @@ const users = {
     admin: "サーバーの管理者",
     locked: "ロック",
     suspended: "停止",
-    shadow_banned: "シャドウBAN",
+    shadow_banned: "シャドウバン",
     deactivated: "無効化",
     erased: "消去",
     show_guests: "ゲストを表示",
@@ -29,7 +29,7 @@ const users = {
     filter_system_users_false: "システムユーザーを除外",
     filter_system_users_true: "システムユーザーのみ",
     show_suspended: "停止されたユーザーを表示",
-    show_shadow_banned: "シャドウBANされたユーザーを表示",
+    show_shadow_banned: "シャドウバンされたユーザーを表示",
     user_id: "ユーザーを検索",
     displayname: "表示名",
     password: "パスワード",
@@ -51,7 +51,7 @@ const users = {
     create_password: "以下のボタンで強力なパスワードを生成できます。",
     lock: "ユーザーにアカウントを使用できないよう設定。これは後から取り消せます。",
     deactivate: "アカウントを再度有効にするにはパスワードを設定する必要があります。",
-    suspend: "ユーザーを停止すると、ユーザーは読み込み限定のモードに設定されます。",
+    suspend: "ユーザーを停止すると、ユーザーは読み取り専用のモードに設定されます。",
     shadow_ban:
       "シャドウBANされたユーザーは通常の応答を受け取りますが、イベントは他のユーザーやルームに伝播しません。最終手段としてのみ使用してください。",
     erase: "ユーザーをGDPRに準拠した形で消去",
@@ -88,7 +88,7 @@ const users = {
       label: "ユーザーとしてログイン",
       title: "ユーザーとしてログイン",
       helper:
-        "%{user} として認証するためのアクセストークンを取得します。この操作ではユーザーの新しいデバイスが登録されないため、デバイス/セッションの一覧には表示されず、対象のユーザーにはログインされたことが通知されません。",
+        "%{user} として認証するためのアクセストークンを取得します。この操作ではユーザーの新しいデバイスが登録されないため、デバイス/セッションの一覧には表示されず、対象のユーザーは誰かが自分として認証したことに気づきません。",
       valid_until: "有効期限を設定",
       success: "アクセストークンを作成しました",
       failure: "アクセストークンを作成できませんでした",
@@ -107,6 +107,23 @@ const users = {
         "このユーザーがアップロードしたすべてのローカルメディアを検疫します。検疫されたメディアは他のユーザーからアクセスできなくなります。",
       success: "%{smart_count} 件のメディアを検疫しました。",
       failure: "メディアの検疫を行えませんでした。%{errMsg}",
+    },
+    delete_all_media: {
+      label: "すべてのメディアを削除",
+      title: "%{userName} のすべてのメディアを削除",
+      content: "このユーザーがアップロードしたすべてのメディアが完全に削除されます。この操作は元に戻せません。",
+      in_progress: "メディアを削除中…",
+      background_note: "このダイアログを安全に閉じることができます — 削除はバックグラウンドで続行されます。",
+      success:
+        "%{smart_count} 件のメディアを正常に削除しました。 |||| %{smart_count} 件のメディアを正常に削除しました。",
+      failure: "メディアの削除に失敗しました。%{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "%{smart_count} 人のユーザーのすべてのメディアを削除しますか？ |||| %{smart_count} 人のユーザーのすべてのメディアを削除しますか？",
+      content: "選択したユーザーがアップロードしたすべてのメディアが完全に削除されます。この操作は元に戻せません。",
+      success: "%{total} 人のうち %{success} 人のメディアを削除しました。",
+      partial_failure: "%{total} 人のうち %{success} 人のメディアを削除しました。%{failed} 人は失敗しました。",
     },
     allow_cross_signing: {
       label: "Cross-Signingリセットを許可",

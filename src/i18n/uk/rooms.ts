@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, aka events that have no children. The more exist in a room, the more state resolution that Synapse needs to perform (hint: it's an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
+      "Прямі екстремуми — це листові події в кінці спрямованого ациклічного графа (DAG) кімнати, тобто події без дочірніх елементів. Чим більше їх у кімнаті, тим більше розв'язання стану потрібно виконувати Synapse (примітка: це дорога операція). Хоча Synapse має код для запобігання надмірній кількості таких подій у кімнаті, помилки можуть спричиняти їх повторну появу. Якщо в кімнаті більше 10 прямих екстремумів, варто дослідити ситуацію та потенційно видалити їх за допомогою SQL-запитів, згаданих у #1760.",
   },
   enums: {
     join_rules: {
@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "Будь-хто",
     },
     unencrypted: "Незашифровано",
+    room_type: {
+      room: "Кімната",
+      space: "Простір",
+    },
   },
   action: {
     erase: {
@@ -73,9 +77,9 @@ const rooms = {
       failure: "Користувача не можна призначити адміністратором кімнати. %{errMsg}",
     },
     join: {
-      label: "Приєднати",
-      title: "Приєднати користувача до %{roomName}",
-      confirm: "Приєднати",
+      label: "Додати користувача",
+      title: "Додати користувача до %{roomName}",
+      confirm: "Додати",
       content:
         "Введіть повний MXID користувача, якого потрібно приєднати до цієї кімнати.\nПримітка: ви повинні бути в кімнаті та мати дозвіл запрошувати користувачів.",
       success: "Користувача успішно додано до кімнати.",
@@ -120,6 +124,26 @@ const rooms = {
       success:
         "Успішно поміщено на карантин %{smart_count} медіа-елемент. |||| Успішно поміщено на карантин %{smart_count} медіа-елементів.",
       failure: "Не вдалося помістити медіа на карантин. %{errMsg}",
+    },
+    delete_all_media: {
+      label: "Видалити всі медіафайли",
+      title: "Видалити всі медіафайли в %{roomName}",
+      content:
+        "Всі локальні медіафайли в цій кімнаті будуть безповоротно видалені. Впливає лише на локальні медіафайли з незашифрованих кімнат — медіафайли зовнішніх серверів виключено. Цю дію не можна скасувати.",
+      in_progress_loading: "Отримання списку медіафайлів…",
+      in_progress: "Видалення медіафайлів… (%{current} / %{total})",
+      do_not_close: "Не закривайте це вікно — видалення виконується синхронно і перерветься при закритті.",
+      success:
+        "Успішно видалено %{smart_count} медіафайл. |||| Успішно видалено %{smart_count} медіафайли. |||| Успішно видалено %{smart_count} медіафайлів.",
+      failure: "Не вдалося видалити медіафайли. %{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title:
+        "Видалити всі медіафайли для %{smart_count} кімнати? |||| Видалити всі медіафайли для %{smart_count} кімнати? |||| Видалити всі медіафайли для %{smart_count} кімнат?",
+      content:
+        "Всі локальні медіафайли у вибраних кімнатах будуть безповоротно видалені (лише незашифровані кімнати). Медіафайли зовнішніх серверів виключено. Цю дію не можна скасувати.",
+      success: "Медіафайли видалено в %{success} з %{total} кімнат.",
+      partial_failure: "Медіафайли видалено в %{success} з %{total} кімнат. Помилка для %{failed}.",
     },
     event_context: {
       lookup_title: "Пошук події за ID",

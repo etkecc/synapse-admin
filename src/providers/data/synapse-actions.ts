@@ -449,6 +449,36 @@ export const setAdminClientConfig = async (config: AdminClientConfig) => {
   );
 };
 
+export const deleteRoomMedia = async (
+  roomId: string,
+  onProgress?: (current: number, total: number) => void
+): Promise<{ total: number }> => {
+  const base_url = localStorage.getItem("base_url");
+  const { json: listJson } = await jsonClient(`${base_url}/_synapse/admin/v1/room/${encodeURIComponent(roomId)}/media`);
+  const localMedia: string[] = listJson.local ?? [];
+  // Filter before counting so the progress counter matches actual deletions.
+  const validMedia = localMedia.filter(mxc => {
+    if (!mxc.startsWith("mxc://")) return false;
+    const parts = mxc.split("/");
+    return Boolean(parts[2] && parts[3]);
+  });
+  const total = validMedia.length;
+  onProgress?.(0, total);
+  let current = 0;
+  for (const mxc of validMedia) {
+    const parts = mxc.split("/");
+    const serverName = parts[2];
+    const mediaId = parts[3];
+    await jsonClient(
+      `${base_url}/_synapse/admin/v1/media/${encodeURIComponent(serverName)}/${encodeURIComponent(mediaId)}`,
+      { method: "DELETE" }
+    );
+    current++;
+    onProgress?.(current, total);
+  }
+  return { total };
+};
+
 export const quarantineRoomMedia = async (roomId: string) => {
   const base_url = localStorage.getItem("base_url");
   try {
@@ -512,11 +542,12 @@ export const getPurgeHistoryStatus = async (purgeId: string) => {
   }
 };
 
-export const deleteUserMedia = async (id: Identifier): Promise<void> => {
+export const deleteUserMedia = async (id: Identifier): Promise<DeleteMediaResult> => {
   const base_url = localStorage.getItem("base_url");
-  await jsonClient(`${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`, {
+  const { json } = await jsonClient(`${base_url}/_synapse/admin/v1/users/${encodeURIComponent(returnMXID(id))}/media`, {
     method: "DELETE",
   });
+  return json as DeleteMediaResult;
 };
 
 export const fetchEvent = async (eventId: string) => {

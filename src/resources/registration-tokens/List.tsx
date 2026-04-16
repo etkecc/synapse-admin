@@ -2,7 +2,6 @@ import { Box, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
   BooleanInput,
-  DatagridConfigurable,
   DateField,
   DeleteButton,
   ListProps,
@@ -13,11 +12,10 @@ import {
   useTranslate,
 } from "react-admin";
 
-import EmptyState from "../../components/layout/EmptyState";
-import List from "../../components/layout/List";
 import { useDocTitle } from "../../components/hooks/useDocTitle";
 import { useIsMAS } from "../../providers/data/mas";
 import { DATE_FORMAT } from "../../utils/date";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const registrationTokenFilters = [<BooleanInput key="valid" source="valid" />];
 
@@ -62,7 +60,7 @@ export const RegistrationTokenList = (props: ListProps) => {
           rowClick="edit"
         />
       ) : (
-        <DatagridConfigurable rowClick="edit">
+        <Datagrid rowLabel={record => String(record.token)} rowClick="edit">
           <TextField source="token" sortable={false} label="resources.registration_tokens.fields.token" />
           <NumberField
             source="uses_allowed"
@@ -109,7 +107,7 @@ export const RegistrationTokenList = (props: ListProps) => {
               locales={locale}
             />
           )}
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

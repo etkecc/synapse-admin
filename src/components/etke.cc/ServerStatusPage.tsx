@@ -8,6 +8,7 @@ import { Title } from "react-admin";
 import CurrentlyRunningCommand from "./CurrentlyRunningCommand";
 import { EtkeAttribution } from "./EtkeAttribution";
 import { ServerProcessResponse, ServerStatusComponent, ServerStatusResponse } from "../../providers/types";
+import { tt } from "../../utils/safety";
 import { useDocTitle } from "../hooks/useDocTitle";
 
 const StatusChip = ({
@@ -141,10 +142,7 @@ const ServerStatusPage = () => {
 
         <Stack spacing={2} direction={{ xs: "column", md: "row" }}>
           {Object.keys(groupedResults).map((category, _idx) => {
-            let categoryName = translate(`etkecc.status.category.${category}`);
-            if (categoryName.startsWith("etkecc.status.category.")) {
-              categoryName = category;
-            }
+            const categoryName = tt(translate, `etkecc.status.category.${category}`, category);
             return (
               <Box key={`category_${category}`} sx={{ flex: 1 }}>
                 <Typography variant="h5" mb={1}>

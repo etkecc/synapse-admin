@@ -44,13 +44,16 @@ The following buttons appear on each file row in the user Media tab:
 
 The Media tab on the user edit page shows all media uploaded by that user, with per-file action buttons (see [Per-file Operations](#-per-file-operations) above).
 
-At the top of the tab, a bulk action button is available:
+At the top of the tab, bulk action buttons are available:
 
-| Button label | What it does |
-|--------------|-------------|
-| Quarantine all media | Quarantines every media file uploaded by the user, after confirmation |
+| Button label | What it does | When it appears |
+|--------------|-------------|-----------------|
+| Quarantine all media | Quarantines every media file uploaded by the user, after confirmation | Always visible |
+| Delete all media | Permanently deletes every media file uploaded by the user, after confirmation | Always visible |
 
 > ⚠️ **Quarantine all media** affects every file the user has ever uploaded to the server. This cannot be undone in bulk — you would need to unquarantine each file individually. Use with care.
+
+> ⚠️ **Delete all media** permanently removes all media uploaded by the user. This cannot be undone. The dialog runs in the foreground — do not close it until deletion is complete.
 
 ---
 
@@ -60,13 +63,16 @@ At the top of the tab, a bulk action button is available:
 
 The Media tab on the room show page lists all media uploaded into that room. Each row has an individual **Delete** button.
 
-At the top of the tab, a bulk action button is available:
+At the top of the tab, bulk action buttons are available:
 
-| Button label | What it does |
-|--------------|-------------|
-| Quarantine all media | Quarantines every media file uploaded in the room, after confirmation |
+| Button label | What it does | When it appears |
+|--------------|-------------|-----------------|
+| Quarantine all media | Quarantines every media file uploaded in the room, after confirmation | Always visible |
+| Delete all media | Permanently deletes all local media in the room, after confirmation | Only for unencrypted rooms |
 
 > ⚠️ **Quarantine all media** affects all files uploaded to the room by all members. Use this for rooms with reported illegal or harmful content.
+
+> ⚠️ **Delete all media** permanently removes all local media in the room. Only local media from unencrypted rooms is affected — media from external servers and encrypted rooms is excluded. The dialog runs in the foreground and shows live progress — do not close it until deletion is complete.
 
 > 📝 It is not possible to delete media that has been uploaded to external media repositories. Only media hosted on your own server is affected.
 
@@ -128,13 +134,27 @@ This action deletes local media from your server's disk, including thumbnails an
 
 ---
 
-## 🗑️ How to Bulk-delete a User's Media
+## 🗑️ How to Delete All Media for a User
 
-> ⚠️ Bulk deletion is irreversible. All matching files are permanently removed from disk. There is no undo.
+> ⚠️ Deletion is irreversible. All files are permanently removed from disk. There is no undo.
 
-The **Delete media** button (found in Statistics → Users' media toolbar) deletes media server-wide based on age and size filters, not scoped to a single user. To remove all media for a specific user, delete files individually from the user's Media tab, or use the per-file **Delete** button.
+**Single user:**
 
-For a server-wide bulk delete:
+1. Navigate to **Users** and open the user.
+2. Click **Edit**, then open the **Media** tab.
+3. Click **Delete all media** at the top of the tab.
+4. Confirm in the dialog. The dialog runs in the foreground — do not close it until complete.
+
+**Multiple users at once (bulk):**
+
+1. Navigate to **Users**.
+2. Select the users using the checkboxes on the left.
+3. Click **Delete all media** in the bulk action toolbar that appears at the top.
+4. Confirm in the dialog. A summary notification reports how many succeeded and how many failed.
+
+**Server-wide delete by age/size (Statistics):**
+
+The **Delete media** button (found in Statistics → Users' media toolbar) deletes media server-wide based on age and size filters:
 
 1. Navigate to **Statistics → Users' media**.
 2. Click **Delete media** in the top toolbar.
@@ -144,6 +164,26 @@ For a server-wide bulk delete:
 6. Click **Delete media** to confirm.
 
 > 💡 Run with conservative filters first (e.g., a recent cutoff date and large size threshold) to limit the blast radius before doing a broad sweep.
+
+---
+
+## 🚪 How to Delete All Media for a Room
+
+> ⚠️ Only local media from unencrypted rooms is affected. Media from encrypted rooms and external servers is excluded. Deletion is irreversible.
+
+**Single room:**
+
+1. Navigate to **Rooms** and open an unencrypted room.
+2. Click **Show**, then open the **Media** tab.
+3. Click **Delete all media** at the top of the tab.
+4. Confirm in the dialog. The dialog shows live progress and runs in the foreground — do not close it until complete.
+
+**Multiple rooms at once (bulk):**
+
+1. Navigate to **Rooms**.
+2. Select the rooms using the checkboxes on the left.
+3. Click **Delete all media** in the bulk action toolbar that appears at the top.
+4. Confirm in the dialog. Encrypted rooms are skipped automatically. A summary notification reports the result.
 
 ---
 

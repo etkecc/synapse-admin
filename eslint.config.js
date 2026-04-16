@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import importPlugin from "eslint-plugin-import";
 import prettierPlugin from "eslint-plugin-prettier";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -61,6 +62,7 @@ export default [
     },
     plugins: {
       import: importPlugin,
+      "jsx-a11y": jsxA11y,
       prettier: prettierPlugin,
       "react-hooks": reactHooks,
       "unused-imports": unusedImports,
@@ -72,6 +74,10 @@ export default [
       },
     },
     rules: {
+      ...jsxA11y.flatConfigs.recommended.rules,
+      // autoFocus on MUI Dialog confirm buttons is the correct WAI-ARIA dialog pattern —
+      // dialogs trap focus and focus must be placed inside them on open.
+      "jsx-a11y/no-autofocus": "off",
       "@typescript-eslint/consistent-generic-constructors": "off",
       "ts-compat/consistent-generic-constructors": "error",
       "prettier/prettier": "error",

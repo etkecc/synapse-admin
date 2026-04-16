@@ -1,4 +1,3 @@
-import EmptyState from "../../components/layout/EmptyState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HttpsIcon from "@mui/icons-material/Https";
 import { Box, Chip } from "@mui/material";
@@ -9,7 +8,6 @@ import {
   BooleanField,
   Button,
   Confirm,
-  DatagridConfigurable,
   DateField,
   FunctionField,
   ListProps,
@@ -23,10 +21,10 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
 import { sessionStatusChoices } from "./shared";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 export const FinishOAuth2SessionButton = () => {
   const record = useRecordContext();
@@ -101,7 +99,7 @@ export function MASOAuth2SessionsList(props: ListProps) {
           sx={{ "& .MuiListItemText-secondary": { wordBreak: "break-all" } }}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+        <Datagrid bulkActionButtons={false} rowClick={false}>
           <TextField source="user_id" sortable={false} emptyText="-" />
           <TextField source="client_id" sortable={false} />
           <FunctionField
@@ -128,7 +126,7 @@ export function MASOAuth2SessionsList(props: ListProps) {
           <TextField source="last_active_ip" sortable={false} emptyText="-" />
           <DateField source="finished_at" showTime sortable={false} emptyText="-" />
           <FinishOAuth2SessionButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

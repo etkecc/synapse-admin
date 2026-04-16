@@ -12,7 +12,7 @@ const rooms = {
     is_encrypted: "已加密",
     encryption: "加密",
     federatable: "支持联邦",
-    public: "公开",
+    public: "在房间目录中可见",
     creator: "创建者",
     join_rules: "加入规则",
     guest_access: "访客访问",
@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Forward extremities 是房间有向无环图（DAG）末端的叶子事件，也就是没有子事件的事件。数量越多，Synapse 需要进行的状态解析越多（这是一项昂贵的操作）。虽然 Synapse 有机制防止同一房间出现过多该类事件，但某些 Bug 仍可能导致其再次出现。如果房间的 forward extremities 超过 10 个，建议找出问题房间并根据 #1760 中提到的 SQL 查询进行清理。",
+      "Forward extremities 是房间有向无环图（DAG）末端的叶子事件，也就是没有子事件的事件。数量越多，Synapse 需要进行的状态解析越多（这是一项昂贵的操作）。虽然 Synapse 有机制防止同一房间出现过多该类事件，但某些 Bug 仍可能导致其再次出现。如果房间的 forward extremities 超过 10 个，建议进行调查，并根据 #1760 中提到的 SQL 查询进行清理。",
   },
   enums: {
     join_rules: {
@@ -49,6 +49,10 @@ const rooms = {
       world_readable: "所有人可见",
     },
     unencrypted: "未加密",
+    room_type: {
+      room: "房间",
+      space: "空间",
+    },
   },
   action: {
     erase: {
@@ -71,9 +75,9 @@ const rooms = {
       failure: "无法将用户设为房间管理员。%{errMsg}",
     },
     join: {
-      label: "加入用户",
-      title: "将用户加入 %{roomName}",
-      confirm: "加入",
+      label: "添加用户",
+      title: "将用户添加到 %{roomName}",
+      confirm: "添加",
       content: "请输入要加入此房间的用户完整 MXID。\n注意：您必须在房间中并具有邀请用户的权限。",
       success: "已将用户成功添加到房间。",
       failure: "无法将用户添加到房间。%{errMsg}",
@@ -111,6 +115,24 @@ const rooms = {
       content: "这将隔离此房间中的所有本地和远程媒体。被隔离的媒体将无法被用户访问。",
       success: "已成功隔离 %{smart_count} 个媒体项。",
       failure: "隔离媒体失败。%{errMsg}",
+    },
+    delete_all_media: {
+      label: "删除所有媒体",
+      title: "删除 %{roomName} 中的所有媒体",
+      content:
+        "这将永久删除该房间中的所有本地媒体文件。仅影响非加密房间中的本地媒体——来自其他服务器的远程媒体不在范围内。此操作无法撤销。",
+      in_progress_loading: "正在获取媒体列表…",
+      in_progress: "正在删除媒体… (%{current} / %{total})",
+      do_not_close: "请勿关闭此对话框——删除正在前台运行，关闭后将中断。",
+      success: "成功删除了 %{smart_count} 个媒体文件。 |||| 成功删除了 %{smart_count} 个媒体文件。",
+      failure: "删除媒体失败。%{errMsg}",
+    },
+    delete_all_media_bulk: {
+      title: "删除 %{smart_count} 个房间的所有媒体？ |||| 删除 %{smart_count} 个房间的所有媒体？",
+      content:
+        "这将永久删除所选房间中的所有本地媒体文件（仅限非加密房间）。来自其他服务器的远程媒体不在范围内。此操作无法撤销。",
+      success: "已为 %{total} 个房间中的 %{success} 个删除媒体。",
+      partial_failure: "已为 %{total} 个房间中的 %{success} 个删除媒体，%{failed} 个失败。",
     },
     event_context: {
       lookup_title: "按 ID 查找事件",

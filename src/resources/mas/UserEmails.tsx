@@ -1,4 +1,3 @@
-import EmptyState from "../../components/layout/EmptyState";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import { useTheme } from "@mui/material/styles";
@@ -10,7 +9,6 @@ import {
   Confirm,
   Create,
   CreateProps,
-  DatagridConfigurable,
   DateField,
   ListProps,
   ReferenceInput,
@@ -28,9 +26,9 @@ import {
   useRefresh,
   useTranslate,
 } from "react-admin";
-import List from "../../components/layout/List";
 
 import { SynapseDataProvider } from "../../providers/types";
+import { Datagrid, EmptyState, List } from "../../components/layout";
 
 const DeleteEmailButton = () => {
   const record = useRecordContext();
@@ -93,12 +91,12 @@ export function MASUserEmailsList(props: ListProps) {
           rowClick={false}
         />
       ) : (
-        <DatagridConfigurable bulkActionButtons={false} rowClick={false}>
+        <Datagrid bulkActionButtons={false} rowClick={false}>
           <TextField source="email" sortable={false} />
           <TextField source="user_id" sortable={false} />
           <DateField source="created_at" showTime sortable={false} />
           <DeleteEmailButton />
-        </DatagridConfigurable>
+        </Datagrid>
       )}
     </List>
   );

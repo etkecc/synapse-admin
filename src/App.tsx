@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Admin, CustomRoutes, Resource, reactRouterProvider } from "react-admin";
 import type { I18nProvider } from "ra-core";
 
-import AdminLayout from "./components/layout/AdminLayout";
 import BillingPage from "./components/etke.cc/BillingPage";
+import ComponentsPage from "./components/etke.cc/ComponentsPage";
 import { useInstanceConfig } from "./components/etke.cc/InstanceConfig";
 import ServerActionsPage from "./components/etke.cc/ServerActionsPage";
 import SupportPage from "./components/etke.cc/SupportPage";
@@ -38,6 +38,7 @@ import authProvider from "./providers/auth";
 import dataProvider from "./providers/data";
 import { isMAS } from "./providers/data/mas";
 import { lightTheme, darkTheme } from "./assets/theme";
+import { AdminLayout } from "./components/layout";
 
 const Route = reactRouterProvider.Route;
 const queryClient = new QueryClient();
@@ -82,6 +83,7 @@ export const App = ({ i18nProvider }: { i18nProvider: I18nProvider }) => {
           )}
           {!icfg.disabled.actions && <Route path="/server_notifications" element={<ServerNotificationsPage />} />}
           {!icfg.disabled.payments && <Route path="/billing" element={<BillingPage />} />}
+          {!icfg.disabled.payments && <Route path="/components" element={<ComponentsPage />} />}
           {!icfg.disabled.support && <Route path="/support" element={<SupportPage />} />}
           {!icfg.disabled.support && <Route path="/support/:id" element={<SupportRequestPage />} />}
           {masEnabled && <Route path="/mas_policy_data" element={<MASPolicyDataPage />} />}

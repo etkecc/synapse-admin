@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Button, useDataProvider, useLocale, useNotify, useRecordContext, useTranslate } from "react-admin";
 
 import { SynapseDataProvider } from "../../../providers/types";
@@ -35,6 +35,8 @@ export const LoginAsUserButton = () => {
   const notify = useNotify();
   const translate = useTranslate();
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const confirmTitleId = useId();
+  const resultTitleId = useId();
 
   if (!record) {
     return null;
@@ -78,8 +80,15 @@ export const LoginAsUserButton = () => {
       <Button label="resources.users.action.login_as.label" onClick={handleOpen} disabled={loading}>
         <LoginIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate("resources.users.action.login_as.title")}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={confirmTitleId}
+      >
+        <DialogTitle id={confirmTitleId}>{translate("resources.users.action.login_as.title")}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>
             {translate("resources.users.action.login_as.helper", { user: record.id })}
@@ -114,8 +123,17 @@ export const LoginAsUserButton = () => {
           </MuiButton>
         </DialogActions>
       </Dialog>
-      <Dialog open={resultOpen} onClose={handleResultClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate("resources.users.action.login_as.result_title", { user: record.id })}</DialogTitle>
+      <Dialog
+        open={resultOpen}
+        onClose={handleResultClose}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={resultTitleId}
+      >
+        <DialogTitle id={resultTitleId}>
+          {translate("resources.users.action.login_as.result_title", { user: record.id })}
+        </DialogTitle>
         <DialogContent>
           <TextField
             fullWidth

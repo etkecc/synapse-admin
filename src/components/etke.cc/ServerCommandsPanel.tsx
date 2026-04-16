@@ -256,7 +256,7 @@ const ServerCommandsPanel = () => {
         </Stack>
       ) : (
         <TableContainer component={Paper} sx={{ mt: 2 }}>
-          <Table sx={{ minWidth: 450 }} size="small" aria-label="simple table">
+          <Table sx={{ minWidth: 450 }} size="small" aria-label={translate("etkecc.actions.table.aria_label")}>
             <TableHead>
               <TableRow>
                 <TableCell>{translate("etkecc.actions.table.command")}</TableCell>
