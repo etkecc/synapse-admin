@@ -1443,7 +1443,7 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-axe-core@^4.10.0:
+axe-core@^4.10.0, axe-core@^4.4.2:
   version "4.11.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.11.3.tgz#d23cf404edaa5f97bdfd9afed6eea8405e5326e7"
   integrity sha512-zBQouZixDTbo3jMGqHKyePxYxr1e5W8UdTmBQ7sNtaA9M2bE32daxxPLS/jojhKOHxQ7LWwPjfiwf/fhaJWzlg==
@@ -1550,6 +1550,11 @@ chai@^6.2.2:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/chai/-/chai-6.2.2.tgz#ae41b52c9aca87734505362717f3255facda360e"
   integrity sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==
+
+chalk@^5.0.1:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.6.2.tgz#b1238b6e23ea337af71c7f8a295db5af0c158aea"
+  integrity sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==
 
 clsx@^2.1.1:
   version "2.1.1"
@@ -1748,7 +1753,7 @@ doctrine@^2.1.0:
   dependencies:
     esutils "^2.0.2"
 
-dom-accessibility-api@^0.5.9:
+dom-accessibility-api@^0.5.14, dom-accessibility-api@^0.5.9:
   version "0.5.16"
   resolved "https://registry.yarnpkg.com/dom-accessibility-api/-/dom-accessibility-api-0.5.16.tgz#5a7429e6066eb3664d911e33fb0e45de8eb08453"
   integrity sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==
@@ -2855,6 +2860,11 @@ locate-path@^6.0.0:
   integrity sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==
   dependencies:
     p-locate "^5.0.0"
+
+lodash-es@^4.17.21:
+  version "4.18.1"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.18.1.tgz#b962eeb80d9d983a900bf342961fb7418ca10b1d"
+  integrity sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==
 
 lodash@^4.17.21, lodash@^4.18.1:
   version "4.18.1"
@@ -4152,6 +4162,18 @@ v8-compile-cache-lib@^3.0.1:
     tinyglobby "^0.2.15"
   optionalDependencies:
     fsevents "~2.3.3"
+
+vitest-axe@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/vitest-axe/-/vitest-axe-0.1.0.tgz#34f714e5af31d579d7e2ca906d6b95207a1006ec"
+  integrity sha512-jvtXxeQPg8R/2ANTY8QicA5pvvdRP4F0FsVUAHANJ46YCDASie/cuhlSzu0DGcLmZvGBSBNsNuK3HqfaeknyvA==
+  dependencies:
+    aria-query "^5.0.0"
+    axe-core "^4.4.2"
+    chalk "^5.0.1"
+    dom-accessibility-api "^0.5.14"
+    lodash-es "^4.17.21"
+    redent "^3.0.0"
 
 vitest@^4.1.4:
   version "4.1.4"

@@ -98,6 +98,7 @@ const MASStatusFilter = (props: Record<string, unknown>) => {
 };
 
 const ReverseSearchInput = (props: { source: string } & Record<string, unknown>) => {
+  const translate = useTranslate();
   const nameValue = useWatch({ name: "name" }) as string | undefined;
   const isReverse = typeof nameValue === "string" && nameValue.startsWith("!");
 
@@ -106,6 +107,7 @@ const ReverseSearchInput = (props: { source: string } & Record<string, unknown>)
       {...props}
       resettable
       slotProps={{
+        htmlInput: { "aria-label": translate("ra.action.search") },
         input: {
           startAdornment: (
             <InputAdornment position="start">

@@ -2,6 +2,7 @@ import ActionCheck from "@mui/icons-material/CheckCircle";
 import AlertError from "@mui/icons-material/ErrorOutline";
 import HistoryIcon from "@mui/icons-material/History";
 import {
+  Box,
   Button as MuiButton,
   Checkbox,
   CircularProgress,
@@ -15,7 +16,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Button, useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 
 import { SynapseDataProvider } from "../../../providers/types";
@@ -23,6 +24,7 @@ import { SynapseDataProvider } from "../../../providers/types";
 export const PurgeHistoryButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const titleId = useId();
   const record = useRecordContext();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -109,8 +111,15 @@ export const PurgeHistoryButton = () => {
       <Button label="resources.rooms.action.purge_history.label" onClick={() => setOpen(true)}>
         <HistoryIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate("resources.rooms.action.purge_history.title", { roomName })}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={titleId}
+      >
+        <DialogTitle id={titleId}>{translate("resources.rooms.action.purge_history.title", { roomName })}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>
             {translate("resources.rooms.action.purge_history.content")}
@@ -131,10 +140,10 @@ export const PurgeHistoryButton = () => {
           />
           {purgeStatus === "active" && (
             <>
-              <DialogContentText sx={{ mt: 2, display: "flex", alignItems: "center", gap: 1 }}>
-                <CircularProgress size={16} />
+              <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 1 }}>
+                <CircularProgress size={16} role="status" aria-label={translate("ra.message.loading")} />
                 {translate("resources.rooms.action.purge_history.in_progress")}
-              </DialogContentText>
+              </Box>
               <DialogContentText sx={{ mt: 1 }}>
                 {translate("resources.rooms.action.purge_history.background_note")}
               </DialogContentText>
@@ -148,8 +157,9 @@ export const PurgeHistoryButton = () => {
           <MuiButton
             onClick={handlePurge}
             disabled={!purgeDate || loading}
+            aria-busy={loading}
             className="ra-confirm RaConfirm-confirmPrimary"
-            startIcon={loading ? <CircularProgress size={16} /> : <ActionCheck />}
+            startIcon={loading ? <CircularProgress size={16} aria-hidden="true" /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
           </MuiButton>

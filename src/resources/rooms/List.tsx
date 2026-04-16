@@ -261,8 +261,19 @@ export const RoomBulkActionButtons = () => {
   );
 };
 
+const RoomSearchInput = () => {
+  const translate = useTranslate();
+  return (
+    <SearchInput
+      source="search_term"
+      alwaysOn
+      slotProps={{ htmlInput: { "aria-label": translate("ra.action.search") } }}
+    />
+  );
+};
+
 const roomFilters = [
-  <SearchInput key="search_term" source="search_term" alwaysOn />,
+  <RoomSearchInput key="search_term" />,
   <NullableBooleanInput key="public_rooms" source="public_rooms" label="resources.rooms.filter.public_rooms" />,
   <NullableBooleanInput key="empty_rooms" source="empty_rooms" label="resources.rooms.filter.empty_rooms" />,
 ];

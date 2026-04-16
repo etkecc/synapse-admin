@@ -1078,6 +1078,11 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       badge: {
         default: string;
         running: string;
+        status_ok: string;
+        status_error: string;
+        status_maintenance: string;
+        status_process_running: string;
+        status_checking: string;
       };
       category: {
         "Host Metrics": string;
@@ -1145,6 +1150,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         cancel: string;
         send: string;
         back: string;
+        attach_files: string;
       };
       helper: {
         loading: string;
@@ -1157,11 +1163,16 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         scope_confirm_label: string;
         english_only_notice: string;
         response_time_prompt: string;
+        attachments_limit: string;
+        close_request_label: string;
       };
       actions: {
         create_success: string;
         create_failure: string;
         send_failure: string;
+        attachment_too_large: string;
+        too_many_attachments: string;
+        total_size_exceeded: string;
       };
     };
     actions: {
@@ -1180,6 +1191,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       maintenance_note: string;
       maintenance_commands_blocked: string;
       table: {
+        aria_label: string;
         command: string;
         description: string;
         arguments: string;

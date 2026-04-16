@@ -390,6 +390,7 @@ const darkComponents: ThemeOptions["components"] = {
 export const lightTheme = createTheme({
   palette: {
     mode: "light",
+    contrastThreshold: 4.5,
     primary: { main: "#1858D5" },
     secondary: { main: "#334258" },
     error: { main: "#DC3545", light: "#FEF2F2" },
@@ -397,7 +398,7 @@ export const lightTheme = createTheme({
     success: { main: "#248E39", light: "#F0FDF4" },
     info: { main: "#1858D5" },
     background: { default: "#F5F5F5", paper: "#FFFFFF" },
-    text: { primary: "#1A1A2E", secondary: "#6B7280" },
+    text: { primary: "#1A1A2E", secondary: "#575E6B" },
     divider: "#E5E7EB",
   },
   typography,
@@ -409,6 +410,7 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    contrastThreshold: 4.5,
     primary: { main: "#F49300" },
     secondary: { main: "#5B8DAF" },
     error: { main: "#FF6B7A" },

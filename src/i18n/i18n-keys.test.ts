@@ -4,6 +4,7 @@ import fa from "./fa";
 import fr from "./fr";
 import itMessages from "./it";
 import ja from "./ja";
+import pt from "./pt";
 import ru from "./ru";
 import uk from "./uk";
 import zh from "./zh";
@@ -14,6 +15,7 @@ const locales = {
   fr,
   it: itMessages,
   ja,
+  pt,
   ru,
   uk,
   zh,

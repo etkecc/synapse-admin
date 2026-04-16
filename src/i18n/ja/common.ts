@@ -272,6 +272,11 @@ const common: Record<string, any> = {
       badge: {
         default: "クリックしてサーバーの稼働状況を表示",
         running: "実行中: %{command}。%{text}",
+        status_ok: "サーバーはオンラインです",
+        status_error: "ステータス: エラー",
+        status_maintenance: "現在、システムはメンテナンスモードです。",
+        status_process_running: "サーバーはコマンドを実行中です",
+        status_checking: "サーバーステータスを確認中",
       },
       category: {
         "Host Metrics": "ホストメトリクス",
@@ -309,6 +314,7 @@ const common: Record<string, any> = {
       maintenance_note: "この件についてサポートに連絡する必要はありません。すでに対応中です！",
       maintenance_commands_blocked: "メンテナンスモードが解除されるまでコマンドは実行できません。",
       table: {
+        aria_label: "サーバーコマンド",
         command: "コマンド",
         description: "説明",
         arguments: "引数",

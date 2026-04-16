@@ -117,7 +117,7 @@ export const BillingStatusBadge = () => {
   const [billingStatus] = useStore<PaymentStatus | null>("billingStatus", null);
 
   if (!billingStatus) {
-    return <PaymentIcon />;
+    return <PaymentIcon aria-hidden="true" />;
   }
 
   const color = theme.palette.error.main;
@@ -130,7 +130,7 @@ export const BillingStatusBadge = () => {
       backgroundColor={color}
       badgeColor={color}
     >
-      <PaymentIcon />
+      <PaymentIcon aria-hidden="true" />
     </StyledBadge>
   );
 };

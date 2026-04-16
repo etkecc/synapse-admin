@@ -283,6 +283,11 @@ const common: Record<string, any> = {
       badge: {
         default: "Нажмите, чтобы посмотреть статус сервера",
         running: "Запущено: %{command}. %{text}",
+        status_ok: "Сервер в сети",
+        status_error: "Статус: Ошибка",
+        status_maintenance: "Система сейчас находится в режиме обслуживания.",
+        status_process_running: "Сервер выполняет команду",
+        status_checking: "Проверка состояния сервера",
       },
       category: {
         "Host Metrics": "Метрики хоста",
@@ -320,6 +325,7 @@ const common: Record<string, any> = {
       maintenance_note: "Не нужно обращаться в поддержку по этому поводу — мы уже работаем над этим!",
       maintenance_commands_blocked: "Команды нельзя запускать, пока режим обслуживания не будет отключён.",
       table: {
+        aria_label: "Команды сервера",
         command: "Команда",
         description: "Описание",
         arguments: "Аргументы",

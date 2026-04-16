@@ -271,6 +271,11 @@ const common: Record<string, any> = {
       badge: {
         default: "برای مشاهده وضعیت سرور کلیک کنید",
         running: "در حال اجرا: %{command}. %{text}",
+        status_ok: "سرور آنلاین است",
+        status_error: "وضعیت: خطا",
+        status_maintenance: "سیستم در حال حاضر در حالت تعمیر و نگهداری است.",
+        status_process_running: "سرور در حال اجرای دستور است",
+        status_checking: "در حال بررسی وضعیت سرور",
       },
       category: {
         "Host Metrics": "شاخص‌های میزبان",
@@ -308,6 +313,7 @@ const common: Record<string, any> = {
       maintenance_note: "نیازی نیست بابت این موضوع با پشتیبانی تماس بگیرید؛ ما از قبل در حال رسیدگی هستیم!",
       maintenance_commands_blocked: "تا زمانی که حالت تعمیر و نگهداری غیرفعال نشود، امکان اجرای فرمان‌ها نیست.",
       table: {
+        aria_label: "دستورات سرور",
         command: "فرمان",
         description: "توضیحات",
         arguments: "آرگومان‌ها",

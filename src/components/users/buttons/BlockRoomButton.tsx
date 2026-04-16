@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   Button,
   useDataProvider,
@@ -42,6 +42,7 @@ export const BlockRoomButton = () => {
   const refresh = useRefresh();
   const translate = useTranslate();
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   useEffect(() => {
     if (!record?.id) return;
@@ -114,8 +115,15 @@ export const BlockRoomButton = () => {
       <Button label="resources.rooms.action.block.label" onClick={() => setOpen(true)} disabled={loading}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate("resources.rooms.action.block.title", { room: roomName })}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={titleId}
+      >
+        <DialogTitle id={titleId}>{translate("resources.rooms.action.block.title", { room: roomName })}</DialogTitle>
         <DialogContent>
           <DialogContentText>{translate("resources.rooms.action.block.content")}</DialogContentText>
         </DialogContent>
@@ -152,6 +160,7 @@ export const BlockRoomBulkButton = () => {
   const translate = useTranslate();
   const unselectAll = useUnselectAll("rooms");
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   const handleBlock = async () => {
     setLoading(true);
@@ -176,8 +185,15 @@ export const BlockRoomBulkButton = () => {
       <Button label="resources.rooms.action.block.label" onClick={() => setOpen(true)} disabled={loading}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={titleId}
+      >
+        <DialogTitle id={titleId}>
           {translate("resources.rooms.action.block.title_bulk", { smart_count: selectedIds.length })}
         </DialogTitle>
         <DialogContent>
@@ -248,6 +264,7 @@ export const BlockRoomByIdButton = () => {
   const notify = useNotify();
   const translate = useTranslate();
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   const handleBlock = async () => {
     if (!roomId) return;
@@ -276,8 +293,15 @@ export const BlockRoomByIdButton = () => {
       <Button label="resources.rooms.action.block.label" onClick={() => setOpen(true)}>
         <BlockIcon />
       </Button>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate("resources.rooms.action.block.title_by_id")}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={titleId}
+      >
+        <DialogTitle id={titleId}>{translate("resources.rooms.action.block.title_by_id")}</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ mb: 2 }}>{translate("resources.rooms.action.block.content")}</DialogContentText>
           <TextField

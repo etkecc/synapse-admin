@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useState } from "react";
+import { useId, useState } from "react";
 import {
   Button,
   useDataProvider,
@@ -43,6 +43,7 @@ export const DeleteUserMediaButton = () => {
   const notify = useNotify();
   const translate = useTranslate();
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   if (!record) return null;
 
@@ -82,14 +83,23 @@ export const DeleteUserMediaButton = () => {
       >
         <DeleteForeverIcon />
       </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
-        <DialogTitle>{translate("resources.users.action.delete_all_media.title", { userName })}</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+        fullScreen={fullScreen}
+        aria-labelledby={titleId}
+      >
+        <DialogTitle id={titleId}>
+          {translate("resources.users.action.delete_all_media.title", { userName })}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>{translate("resources.users.action.delete_all_media.content")}</DialogContentText>
           {status === "active" && (
             <>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
-                <CircularProgress size={16} />
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }} aria-live="polite">
+                <CircularProgress size={16} role="status" aria-label={translate("ra.message.loading")} />
                 <Typography variant="body2" color="text.secondary">
                   {translate("resources.users.action.delete_all_media.in_progress")}
                 </Typography>
@@ -107,9 +117,10 @@ export const DeleteUserMediaButton = () => {
           <MuiButton
             onClick={handleDelete}
             disabled={status !== "idle"}
+            aria-busy={status === "active"}
             className="ra-confirm RaConfirm-confirmPrimary"
             autoFocus
-            startIcon={status === "active" ? <CircularProgress size={16} /> : <ActionCheck />}
+            startIcon={status === "active" ? <CircularProgress size={16} aria-hidden="true" /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
           </MuiButton>
@@ -133,6 +144,7 @@ export const DeleteUserMediaBulkButton = () => {
   const translate = useTranslate();
   const unselectAll = useUnselectAll("users");
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   const handleDelete = async () => {
     setLoading(true);
@@ -167,8 +179,9 @@ export const DeleteUserMediaBulkButton = () => {
         maxWidth="sm"
         fullWidth
         fullScreen={fullScreen}
+        aria-labelledby={titleId}
       >
-        <DialogTitle>
+        <DialogTitle id={titleId}>
           {translate("resources.users.action.delete_all_media_bulk.title", {
             smart_count: selectedIds.length,
           })}
@@ -176,8 +189,8 @@ export const DeleteUserMediaBulkButton = () => {
         <DialogContent>
           <DialogContentText>{translate("resources.users.action.delete_all_media_bulk.content")}</DialogContentText>
           {loading && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
-              <CircularProgress size={16} />
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }} aria-live="polite">
+              <CircularProgress size={16} role="status" aria-label={translate("ra.message.loading")} />
               <Typography variant="body2" color="text.secondary">
                 {translate("resources.users.action.delete_all_media.in_progress")}
               </Typography>
@@ -191,9 +204,10 @@ export const DeleteUserMediaBulkButton = () => {
           <MuiButton
             onClick={handleDelete}
             disabled={loading}
+            aria-busy={loading}
             className="ra-confirm RaConfirm-confirmPrimary"
             autoFocus
-            startIcon={loading ? <CircularProgress size={16} /> : <ActionCheck />}
+            startIcon={loading ? <CircularProgress size={16} aria-hidden="true" /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
           </MuiButton>
@@ -218,6 +232,7 @@ export const DeleteRoomMediaButton = () => {
   const notify = useNotify();
   const translate = useTranslate();
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   if (!record || record.encryption) return null;
 
@@ -274,14 +289,17 @@ export const DeleteRoomMediaButton = () => {
         maxWidth="sm"
         fullWidth
         fullScreen={fullScreen}
+        aria-labelledby={titleId}
       >
-        <DialogTitle>{translate("resources.rooms.action.delete_all_media.title", { roomName })}</DialogTitle>
+        <DialogTitle id={titleId}>
+          {translate("resources.rooms.action.delete_all_media.title", { roomName })}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>{translate("resources.rooms.action.delete_all_media.content")}</DialogContentText>
           {status === "active" && (
             <>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
-                <CircularProgress size={16} />
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }} aria-live="polite">
+                <CircularProgress size={16} role="status" aria-label={translate("ra.message.loading")} />
                 <Typography variant="body2" color="text.secondary">
                   {progressLabel}
                 </Typography>
@@ -299,9 +317,10 @@ export const DeleteRoomMediaButton = () => {
           <MuiButton
             onClick={handleDelete}
             disabled={status !== "idle"}
+            aria-busy={status === "active"}
             className="ra-confirm RaConfirm-confirmPrimary"
             autoFocus
-            startIcon={status === "active" ? <CircularProgress size={16} /> : <ActionCheck />}
+            startIcon={status === "active" ? <CircularProgress size={16} aria-hidden="true" /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
           </MuiButton>
@@ -325,6 +344,7 @@ export const DeleteRoomMediaBulkButton = () => {
   const translate = useTranslate();
   const unselectAll = useUnselectAll("rooms");
   const dataProvider = useDataProvider() as SynapseDataProvider;
+  const titleId = useId();
 
   const handleDelete = async () => {
     setLoading(true);
@@ -359,8 +379,9 @@ export const DeleteRoomMediaBulkButton = () => {
         maxWidth="sm"
         fullWidth
         fullScreen={fullScreen}
+        aria-labelledby={titleId}
       >
-        <DialogTitle>
+        <DialogTitle id={titleId}>
           {translate("resources.rooms.action.delete_all_media_bulk.title", {
             smart_count: selectedIds.length,
           })}
@@ -368,8 +389,8 @@ export const DeleteRoomMediaBulkButton = () => {
         <DialogContent>
           <DialogContentText>{translate("resources.rooms.action.delete_all_media_bulk.content")}</DialogContentText>
           {loading && (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }}>
-              <CircularProgress size={16} />
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 2 }} aria-live="polite">
+              <CircularProgress size={16} role="status" aria-label={translate("ra.message.loading")} />
               <Typography variant="body2" color="text.secondary">
                 {translate("resources.rooms.action.delete_all_media.in_progress_loading")}
               </Typography>
@@ -383,9 +404,10 @@ export const DeleteRoomMediaBulkButton = () => {
           <MuiButton
             onClick={handleDelete}
             disabled={loading}
+            aria-busy={loading}
             className="ra-confirm RaConfirm-confirmPrimary"
             autoFocus
-            startIcon={loading ? <CircularProgress size={16} /> : <ActionCheck />}
+            startIcon={loading ? <CircularProgress size={16} aria-hidden="true" /> : <ActionCheck />}
           >
             {translate("ra.action.confirm")}
           </MuiButton>

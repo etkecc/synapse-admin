@@ -128,7 +128,15 @@ export const ServerNotificationsBadge = () => {
 
   return (
     <Box>
-      <IconButton onClick={handleOpen} sx={{ color: theme.palette.common.white }}>
+      <IconButton
+        onClick={handleOpen}
+        sx={{ color: theme.palette.common.white }}
+        aria-label={
+          notifications && notifications.length > 0
+            ? translate("etkecc.notifications.new_notifications", { smart_count: notifications.length })
+            : translate("etkecc.notifications.no_notifications")
+        }
+      >
         <Tooltip
           title={
             notifications && notifications.length > 0

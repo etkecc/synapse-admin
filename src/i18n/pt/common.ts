@@ -274,6 +274,11 @@ const common: Record<string, any> = {
       badge: {
         default: "Clique para ver o estado do servidor",
         running: "Em execução: %{command}. %{text}",
+        status_ok: "O servidor está online",
+        status_error: "Estado: Erro",
+        status_maintenance: "O sistema está atualmente em modo de manutenção.",
+        status_process_running: "O servidor está a executar um comando",
+        status_checking: "A verificar o estado do servidor",
       },
       category: {
         "Host Metrics": "Métricas do anfitrião",
@@ -311,6 +316,7 @@ const common: Record<string, any> = {
       maintenance_note: "Não é necessário contactar o suporte sobre isto, já estamos a trabalhar nisso!",
       maintenance_commands_blocked: "Os comandos não podem ser executados enquanto o modo de manutenção estiver ativo.",
       table: {
+        aria_label: "Comandos do servidor",
         command: "Comando",
         description: "Descrição",
         arguments: "Argumentos",

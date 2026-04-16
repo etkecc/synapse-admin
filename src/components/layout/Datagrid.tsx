@@ -227,6 +227,7 @@ const AccessibleRow = React.forwardRef<HTMLTableRowElement, AccessibleRowProps>(
         {...(isClickable
           ? {
               tabIndex: 0,
+              "aria-roledescription": "link",
               onKeyDown: handleKeyDown,
               "aria-rowindex": rowIndex,
               "aria-label": ariaLabel,

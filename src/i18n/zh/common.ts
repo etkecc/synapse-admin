@@ -258,6 +258,11 @@ const common: Record<string, any> = {
       badge: {
         default: "点击查看服务器状态",
         running: "正在运行：%{command}。%{text}",
+        status_ok: "服务器在线",
+        status_error: "状态：错误",
+        status_maintenance: "系统当前处于维护模式。",
+        status_process_running: "服务器正在执行命令",
+        status_checking: "正在检查服务器状态",
       },
       category: {
         "Host Metrics": "主机指标",
@@ -293,6 +298,7 @@ const common: Record<string, any> = {
       maintenance_note: "无需就此联系支持团队——我们已在处理！",
       maintenance_commands_blocked: "在维护模式解除之前无法运行命令。",
       table: {
+        aria_label: "服务器命令",
         command: "命令",
         description: "描述",
         arguments: "参数",

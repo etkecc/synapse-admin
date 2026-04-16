@@ -272,6 +272,11 @@ const common = {
       badge: {
         default: "Click to view Server Status",
         running: "Running: %{command}. %{text}",
+        status_ok: "Server is online",
+        status_error: "Status: Error",
+        status_maintenance: "The system is currently in maintenance mode.",
+        status_process_running: "Server is running a command",
+        status_checking: "Checking server status",
       },
       category: {
         "Host Metrics": "Host Metrics",
@@ -309,6 +314,7 @@ const common = {
       maintenance_note: "You don't need to contact support about this, we are already working on it!",
       maintenance_commands_blocked: "Commands cannot be run until maintenance mode is disabled.",
       table: {
+        aria_label: "Server commands",
         command: "Command",
         description: "Description",
         arguments: "Arguments",

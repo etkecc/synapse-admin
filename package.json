@@ -58,7 +58,8 @@
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.8",
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.4",
+    "vitest-axe": "^0.1.0"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

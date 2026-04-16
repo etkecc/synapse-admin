@@ -441,6 +441,7 @@ vi.mock("react-admin", async importOriginal => {
         // ── DOM-valid props (forwarded to <tr>) ─────────────────────────────
         // These are set by AccessibleRow on clickable rows.
         "aria-label": ariaLabel, // set from rowLabel prop or record representation
+        "aria-roledescription": ariaRoledescription, // "link" on clickable rows — signals navigability to AT without breaking table ARIA hierarchy
         "aria-rowindex": ariaRowIndex, // 1-based, accounting for header row + pagination
         tabIndex, // 0 on clickable rows, absent on static rows
         onKeyDown, // AccessibleRow's keyboard handler (Enter/Space → click)
@@ -450,6 +451,7 @@ vi.mock("react-admin", async importOriginal => {
       }: Record<string, unknown> & { children?: React.ReactNode }) => (
         <tr
           aria-label={ariaLabel as string | undefined}
+          aria-roledescription={ariaRoledescription as string | undefined}
           aria-rowindex={ariaRowIndex as number | undefined}
           tabIndex={tabIndex as number | undefined}
           // onKeyDown is AccessibleRow.handleKeyDown:
@@ -866,7 +868,16 @@ describe("Datagrid accessibility features", () => {
       expect(row?.getAttribute("aria-rowindex")).toBe("2"); // ← PASSES
     });
 
-    it("rows without rowClick: no aria-rowindex, no aria-label, no tabIndex", () => {
+    it("clickable rows have aria-roledescription='link'", () => {
+      // aria-roledescription="link" on the <tr> tells screen readers to announce
+      // the row as "link [aria-label]" in browse mode, signalling navigability
+      // without using role="link" (which would break the table row/cell hierarchy).
+      renderWith([USER_RECORD as unknown as RaRecord], "users", <TextField source="id" />, { rowClick: "edit" });
+      const row = document.querySelector("tr[tabindex='0']");
+      expect(row?.getAttribute("aria-roledescription")).toBe("link"); // ← PASSES
+    });
+
+    it("rows without rowClick: no aria-rowindex, no aria-label, no tabIndex, no aria-roledescription", () => {
       // CORRECT BEHAVIOR — non-clickable rows have no accessibility overhead.
       //
       // AccessibleRow checks: isClickable = rowClick != null && rowClick !== false
@@ -878,6 +889,7 @@ describe("Datagrid accessibility features", () => {
       expect(row?.getAttribute("aria-rowindex")).toBeNull(); // ← PASSES
       expect(row?.getAttribute("aria-label")).toBeNull(); // ← PASSES
       expect(row?.getAttribute("tabindex")).toBeNull(); // ← PASSES
+      expect(row?.getAttribute("aria-roledescription")).toBeNull(); // ← PASSES
     });
 
     it("Enter key on a focusable row dispatches a click event", async () => {

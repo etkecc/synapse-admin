@@ -1,10 +1,11 @@
 import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
-import { Avatar, Badge, Theme } from "@mui/material";
+import { Avatar, Badge, Box, Theme } from "@mui/material";
 import { BadgeProps } from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
+import { visuallyHidden } from "@mui/utils";
 import { useCallback, useEffect } from "react";
-import { useDataProvider, useLocale, useStore } from "react-admin";
+import { useDataProvider, useLocale, useStore, useTranslate } from "react-admin";
 
 import { useAppContext } from "../../Context";
 import { ServerProcessResponse, ServerStatusResponse } from "../../providers/types";
@@ -177,6 +178,8 @@ export const ServerStatusStyledBadge = ({
   inSidebar: boolean;
 }) => {
   const theme = useTheme();
+  const translate = useTranslate();
+
   let badgeBackgroundColor =
     isLoaded && !isMaintenance
       ? isOkay
@@ -190,10 +193,17 @@ export const ServerStatusStyledBadge = ({
         : theme.palette.error.main
       : theme.palette.grey[600];
 
+  let statusKey = "etkecc.status.badge.status_checking";
   if (command && locked_at) {
     badgeBackgroundColor = theme.palette.warning.main;
     badgeColor = theme.palette.warning.main;
+    statusKey = "etkecc.status.badge.status_process_running";
+  } else if (isMaintenance) {
+    statusKey = "etkecc.status.badge.status_maintenance";
+  } else if (isLoaded) {
+    statusKey = isOkay ? "etkecc.status.badge.status_ok" : "etkecc.status.badge.status_error";
   }
+
   let avatarBackgroundColor =
     theme.palette.mode === "dark" ? theme.palette.background.default : theme.palette.primary.main;
   if (inSidebar) {
@@ -201,17 +211,23 @@ export const ServerStatusStyledBadge = ({
   }
 
   return (
-    <StyledBadge
-      overlap="circular"
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      variant="dot"
-      backgroundColor={badgeBackgroundColor}
-      badgeColor={badgeColor}
-    >
-      <Avatar sx={{ height: 24, width: 24, background: avatarBackgroundColor }}>
-        <MonitorHeartIcon sx={{ height: 22, width: 22, color: theme.palette.common.white }} />
-      </Avatar>
-    </StyledBadge>
+    <>
+      <StyledBadge
+        overlap="circular"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        variant="dot"
+        backgroundColor={badgeBackgroundColor}
+        badgeColor={badgeColor}
+        aria-hidden="true"
+      >
+        <Avatar sx={{ height: 24, width: 24, background: avatarBackgroundColor }}>
+          <MonitorHeartIcon sx={{ height: 22, width: 22, color: theme.palette.common.white }} />
+        </Avatar>
+      </StyledBadge>
+      <Box component="span" sx={visuallyHidden}>
+        {translate(statusKey)}
+      </Box>
+    </>
   );
 };
 

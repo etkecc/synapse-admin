@@ -278,6 +278,11 @@ const common: Record<string, any> = {
       badge: {
         default: "Klicken, um den Serverstatus anzuzeigen",
         running: "Läuft: %{command}. %{text}",
+        status_ok: "Server ist online",
+        status_error: "Status: Fehler",
+        status_maintenance: "Das System befindet sich derzeit im Wartungsmodus.",
+        status_process_running: "Server führt einen Befehl aus",
+        status_checking: "Serverstatus wird geprüft",
       },
       category: {
         "Host Metrics": "Host-Metriken",
@@ -315,6 +320,7 @@ const common: Record<string, any> = {
       maintenance_note: "Sie müssen den Support hierzu nicht kontaktieren — wir arbeiten bereits daran!",
       maintenance_commands_blocked: "Befehle können erst ausgeführt werden, wenn der Wartungsmodus deaktiviert ist.",
       table: {
+        aria_label: "Serverbefehle",
         command: "Befehl",
         description: "Beschreibung",
         arguments: "Argumente",
