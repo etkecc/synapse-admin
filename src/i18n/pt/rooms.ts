@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "As extremidades diretas são os eventos folha no final de um grafo acíclico dirigido (DAG) numa sala, ou seja, eventos sem filhos. Quanto mais existirem numa sala, mais resolução de estado o Synapse precisa de realizar (nota: esta é uma operação dispendiosa). Embora o Synapse tenha código para evitar demasiadas extremidades ao mesmo tempo, erros podem fazê-las reaparecer. Se uma sala tiver mais de 10 extremidades diretas, vale a pena verificar qual é a sala culpada e potencialmente removê-las usando as consultas SQL mencionadas em #1760.",
+      "As extremidades frontais são os eventos folha no final de um grafo acíclico dirigido (DAG) numa sala, ou seja, eventos sem filhos. Quanto mais existirem numa sala, mais resolução de estado o Synapse precisa de realizar (nota: esta é uma operação dispendiosa). Embora o Synapse tenha código para evitar demasiadas extremidades ao mesmo tempo, erros podem fazê-las reaparecer. Se uma sala tiver mais de 10 extremidades frontais, vale a pena investigar e potencialmente removê-las usando as consultas SQL mencionadas em #1760.",
   },
   enums: {
     join_rules: {

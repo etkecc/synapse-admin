@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       sso_sign_in: "Anmeldung mit SSO",
       credentials: "Anmeldedaten",
       access_token: "Zugriffstoken",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "Sie verwenden ein bestehendes Matrix-Zugriffstoken.",
         content:
           "Möchten Sie diese Sitzung (die anderswo, z.B. in einem Matrix-Client, verwendet werden könnte) beenden oder sich nur vom Admin-Panel abmelden?",

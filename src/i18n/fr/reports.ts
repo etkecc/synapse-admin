@@ -4,7 +4,7 @@ const reports = {
     id: "Identifiant",
     received_ts: "Date du signalement",
     user_id: "Rapporteur",
-    name: "Nom de la salle",
+    name: "Nom du salon",
     score: "Score",
     reason: "Raison",
     event_id: "ID de l'événement",

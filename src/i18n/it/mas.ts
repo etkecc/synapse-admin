@@ -107,7 +107,7 @@ const mas = {
     set_policy: "Imposta nuova policy",
     invalid_json: "JSON non valido",
     fields: {
-      json_placeholder: "Inserisci i dati della policy come JSON…",
+      json_placeholder: "Inserisca i dati della policy come JSON…",
       created_at: "Creato il",
     },
     action: {
@@ -198,7 +198,7 @@ const mas = {
       },
       create: {
         token_title: "Token di accesso personale",
-        token_content: "Copia questo token adesso — non verrà mostrato di nuovo.",
+        token_content: "Copi questo token adesso — non verrà mostrato di nuovo.",
       },
     },
   },

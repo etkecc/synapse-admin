@@ -12,7 +12,7 @@ const rooms = {
     is_encrypted: "已加密",
     encryption: "加密",
     federatable: "支持联邦",
-    public: "公开",
+    public: "在房间目录中可见",
     creator: "创建者",
     join_rules: "加入规则",
     guest_access: "访客访问",
@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Forward extremities 是房间有向无环图（DAG）末端的叶子事件，也就是没有子事件的事件。数量越多，Synapse 需要进行的状态解析越多（这是一项昂贵的操作）。虽然 Synapse 有机制防止同一房间出现过多该类事件，但某些 Bug 仍可能导致其再次出现。如果房间的 forward extremities 超过 10 个，建议找出问题房间并根据 #1760 中提到的 SQL 查询进行清理。",
+      "Forward extremities 是房间有向无环图（DAG）末端的叶子事件，也就是没有子事件的事件。数量越多，Synapse 需要进行的状态解析越多（这是一项昂贵的操作）。虽然 Synapse 有机制防止同一房间出现过多该类事件，但某些 Bug 仍可能导致其再次出现。如果房间的 forward extremities 超过 10 个，建议进行调查，并根据 #1760 中提到的 SQL 查询进行清理。",
   },
   enums: {
     join_rules: {
@@ -75,9 +75,9 @@ const rooms = {
       failure: "无法将用户设为房间管理员。%{errMsg}",
     },
     join: {
-      label: "加入用户",
-      title: "将用户加入 %{roomName}",
-      confirm: "加入",
+      label: "添加用户",
+      title: "将用户添加到 %{roomName}",
+      confirm: "添加",
       content: "请输入要加入此房间的用户完整 MXID。\n注意：您必须在房间中并具有邀请用户的权限。",
       success: "已将用户成功添加到房间。",
       failure: "无法将用户添加到房间。%{errMsg}",

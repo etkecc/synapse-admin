@@ -49,11 +49,12 @@ const users = {
     password: "Durch die Änderung des Passworts wird der Benutzer von allen Sitzungen abgemeldet.",
     password_required_for_reactivation: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
     create_password: "Generieren Sie ein starkes und sicheres Passwort mit dem Button unten.",
-    deactivate: "Sie müssen ein Passwort angeben, um ein Konto wieder zu aktivieren.",
-    suspend: "Ein gesperrter Benutzer kann sich nicht mehr anmelden und wird in den schreibgeschützten Modus versetzt.",
+    deactivate: "Markiert den Benutzer als inaktiv. Diese Aktion kann rückgängig gemacht werden.",
+    suspend:
+      "Ein suspendierter Benutzer wird in den schreibgeschützten Modus versetzt und kann keine Änderungen mehr vornehmen.",
     shadow_ban:
       "Ein schattengebannter Benutzer erhält normale Antworten, aber seine Ereignisse werden nicht an andere Benutzer oder Räume übertragen. Nur als letztes Mittel verwenden.",
-    erase: "DSGVO-konformes Löschen der Benutzerdaten.",
+    erase: "GDPR-konformes Löschen der Benutzerdaten.",
     admin: "Ein Serveradministrator hat volle Kontrolle über den Server und seine Benutzer.",
     lock: "Verhindert, dass der Benutzer den Server nutzen kann. Dies ist eine nicht-destruktive Aktion, die rückgängig gemacht werden kann.",
     erase_text:
@@ -69,7 +70,7 @@ const users = {
     you: "Sie",
     bot: "Bot",
     admin: "Administrator",
-    support: "Unterstützung",
+    support: "Support",
     regular: "Normaler Benutzer",
     federated: "Föderierter Benutzer",
     system_managed: "Systemverwalteter Benutzer",

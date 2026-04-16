@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       credentials: "Identifiants",
       access_token: "Token d'accès",
       supports_specs: "prend en charge les spécifications Matrix",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "Vous utilisez un token d'accès Matrix existant.",
         content:
           "Voulez-vous détruire cette session (qui pourrait être utilisée ailleurs, par exemple dans un client Matrix) ou simplement vous déconnecter du panneau d'administration?",
@@ -115,7 +115,7 @@ const common: Record<string, any> = {
         successful: "%{smart_count} entrées importées avec succès",
         skipped: "%{smart_count} entrées ignorées",
         download_skipped: "Télécharger les entrées ignorées",
-        with_error: "%{smart_count} entrée avec des erreurs ||| %{smart_count} entrées avec des erreurs",
+        with_error: "%{smart_count} entrée avec des erreurs |||| %{smart_count} entrées avec des erreurs",
         simulated_only: "L'import était simulé",
       },
     },

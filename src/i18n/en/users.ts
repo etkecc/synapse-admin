@@ -57,8 +57,8 @@ const users = {
     erase: "In addition to deactivating the user, mark the user as GDPR-erased.",
     admin: "A server administrator has full control over the server and its users.",
     erase_text:
-      "This means messages sent by the user(-s) will still be visible to anyone who was in the room at the time, but will be hidden from users who join afterward.",
-    erase_admin_error: "Deleting own user is not allowed.",
+      "This means messages sent by the user(s) will still be visible to anyone who was in the room at the time, but will be hidden from users who join afterward.",
+    erase_admin_error: "Deleting your own user is not allowed.",
     modify_managed_user_error: "Modifying a system-managed user is not allowed.",
     username_available: "Username is available",
     sent_invite_count: "Total number of invites sent by this user across all rooms.",

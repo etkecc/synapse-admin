@@ -14,7 +14,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       sso_sign_in: string;
       credentials: string;
       access_token: string;
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: string;
         content: string;
         confirm: string;

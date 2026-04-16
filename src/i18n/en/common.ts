@@ -11,18 +11,18 @@ const common = {
         "The evolution of Synapse Admin. Manage, monitor, and maintain your Matrix homeserver from one clean interface. Built for small private servers and large federated communities alike.",
       server_version: "Synapse version",
       supports_specs: "Supports Matrix specifications",
-      username_error: "Please enter fully qualified user ID: '@user:domain'",
+      username_error: "Please enter a fully qualified user ID: '@user:domain'",
       protocol_error: "URL has to start with 'http://' or 'https://'",
       url_error: "Not a valid Matrix server URL",
       sso_sign_in: "Sign in with SSO",
       credentials: "Credentials",
       access_token: "Access token",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "You are using an existing Matrix access token.",
         content:
-          "Do you want to destroy this session (that could be used elsewhere, e.g. in a Matrix client) or just logout from the admin panel?",
+          "Do you want to destroy this session (that could be used elsewhere, e.g. in a Matrix client) or just log out of the admin panel?",
         confirm: "Destroy session",
-        cancel: "Just logout from admin panel",
+        cancel: "Just log out of the admin panel",
       },
     },
     users: {
@@ -286,7 +286,7 @@ const common = {
       },
       status: "Status",
       error: "Error",
-      loading: "Fetching real-time server health — just a moment…",
+      loading: "Fetching real-time server status — just a moment…",
       intro1: "This is a real-time monitoring report for your server. You can learn more about it at",
       intro2: "If any of the checks below concern you, see the suggested actions at",
       help: "Help",
@@ -294,7 +294,7 @@ const common = {
     maintenance: {
       title: "The system is currently in maintenance mode.",
       try_again: "Please try again later.",
-      note: "You don't need to contact support about this, we are already working on it!",
+      note: "You don't need to contact support about this — we are already working on it!",
     },
     actions: {
       name: "Server Actions",
@@ -306,12 +306,12 @@ const common = {
         "The following commands are scheduled to run at specific times. You can view their details and modify them as needed.",
       recurring_title: "Recurring commands",
       recurring_description:
-        "The following commands are set to run at specific weekday and time (weekly). You can view their details and modify them as needed.",
+        "The following commands are set to run on a specific weekday and time each week. You can view their details and modify them as needed.",
       scheduled_help_intro: "More details about this feature can be found at",
       recurring_help_intro: "More details about this feature can be found at",
       maintenance_title: "The system is currently in maintenance mode.",
       maintenance_try_again: "Please try again later.",
-      maintenance_note: "You don't need to contact support about this, we are already working on it!",
+      maintenance_note: "You don't need to contact support about this — we are already working on it!",
       maintenance_commands_blocked: "Commands cannot be run until maintenance mode is disabled.",
       table: {
         aria_label: "Server commands",
@@ -344,7 +344,7 @@ const common = {
       scheduled_details_title: "Scheduled Command Details",
       recurring_warning:
         "Scheduled commands generated from a recurring command cannot be edited, as they are regenerated automatically. To make changes, edit the recurring command instead.",
-      command_details_intro: "You can find more details about the command on",
+      command_details_intro: "You can find more details about the command at",
       form: {
         id: "ID",
         command: "Command",

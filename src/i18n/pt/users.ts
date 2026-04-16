@@ -12,7 +12,7 @@ const users = {
     admin: "Administrador do servidor",
     locked: "Bloqueado",
     suspended: "Suspenso",
-    shadow_banned: "Shadow ban",
+    shadow_banned: "Banido silenciosamente",
     deactivated: "Desativado",
     erased: "Apagado",
     show_guests: "Mostrar convidados",

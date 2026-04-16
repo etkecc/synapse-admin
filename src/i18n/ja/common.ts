@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       sso_sign_in: "シングルサインオン",
       credentials: "認証情報",
       access_token: "アクセストークン",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "既存のMatrixアクセストークンが使われています。",
         content:
           "このセッションを破棄しますか？　このセッションは、Matrixのクライアントなどで使われている可能性があります。または、管理パネルからログアウトしますか？",
@@ -26,7 +26,7 @@ const common: Record<string, any> = {
       },
     },
     users: {
-      invalid_user_id: "ホームサーバーが指定されていないMatrixのユーザーIDです。",
+      invalid_user_id: "Matrix ユーザーID のローカル部分のみを入力してください — ホームサーバーは含めないでください。",
       tabs: {
         sso: "シングルサインオン",
         experimental: "実験的",
@@ -286,7 +286,7 @@ const common: Record<string, any> = {
       },
       status: "ステータス",
       error: "エラー",
-      loading: "サーバーの稼働状況を確認しています… 少々お待ちください！",
+      loading: "リアルタイムの稼働状況を取得しています — 少々お待ちください…",
       intro1: "これはサーバーのリアルタイム監視レポートです。詳しくは",
       intro2: "以下のチェック内容が気になる場合は、推奨される対処方法を",
       help: "ヘルプ",

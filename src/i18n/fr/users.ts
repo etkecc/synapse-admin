@@ -57,7 +57,7 @@ const users = {
     admin: "Un administrateur de serveur a un contrôle total sur le serveur et ses utilisateurs.",
     lock: "Empêche l'utilisateur d'utiliser le serveur. C'est une action non destructive qui peut être annulée.",
     erase_text:
-      "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans la salle au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront la salle par la suite.",
+      "Cela signifie que les messages envoyés par le(s) utilisateur(s) seront toujours visibles par toute personne qui se trouvait dans le salon au moment où ces messages ont été envoyés, mais qu'ils seront cachés aux utilisateurs qui rejoindront le salon par la suite.",
     erase_admin_error: "La suppression de son propre utilisateur n'est pas autorisée.",
     modify_managed_user_error: "La modification d'un utilisateur géré par le système n'est pas autorisée.",
     username_available: "Nom d'utilisateur disponible",
@@ -78,7 +78,7 @@ const users = {
     erase: "Effacer les données de l'utilisateur",
     erase_avatar: "Effacer l'avatar",
     delete_media: "Supprimer tous les médias téléchargés par le(s) utilisateur(s)",
-    redact_events: "Expurger tous les événements envoyés par l'utilisateur(-s)",
+    redact_events: "Expurger tous les événements envoyés par le(s) utilisateur(s)",
     redact_in_progress: "Expurgation en cours\u2026",
     redact_background_note:
       "Vous pouvez fermer cette fenêtre en toute sécurité, l'expurgation continuera en arrière-plan.",

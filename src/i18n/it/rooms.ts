@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Le estremità forward sono gli eventi foglia alla fine di un grafo diretto aciclico (DAG) in una stanza, cioè eventi senza figli. Più ce ne sono, più Synapse deve risolvere lo stato (operazione costosa). Anche se Synapse evita che ce ne siano troppi, a volte dei bug li fanno ricomparire. Se una stanza ha >10 forward extremities, vale la pena identificare la stanza problematica e rimuoverli con le query SQL citate in #1760.",
+      "Le Forward Extremities sono gli eventi foglia alla fine di un grafo diretto aciclico (DAG) in una stanza, ovvero eventi senza figli. Più ce ne sono, più Synapse deve eseguire la risoluzione dello stato (operazione costosa). Sebbene Synapse disponga di codice per evitare che ce ne siano troppe in una stanza, a volte dei bug le fanno ricomparire. Se una stanza ha più di 10 Forward Extremities, vale la pena investigare e potenzialmente rimuoverle utilizzando le query SQL citate in #1760.",
   },
   enums: {
     join_rules: {
@@ -72,14 +72,14 @@ const rooms = {
       title: "Assegna un amministratore alla stanza %{roomName}",
       confirm: "Assegna un amministratore",
       content:
-        "Inserisca la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: per questo funzionare, la stanza deve avere almeno un membro locale come amministratore.",
+        "Inserisca la MXID completa dell'utente che sarà designato come amministratore.\nAttenzione: perché ciò funzioni, la stanza deve avere almeno un membro locale come amministratore.",
       success: "L'utente è stato designato come amministratore della stanza.",
       failure: "L'utente non può essere designato come amministratore della stanza. %{errMsg}",
     },
     join: {
-      label: "Unisci utente",
-      title: "Unisci un utente a %{roomName}",
-      confirm: "Unisci",
+      label: "Aggiungi utente",
+      title: "Aggiungi un utente a %{roomName}",
+      confirm: "Aggiungi",
       content:
         "Inserisca la MXID completa dell'utente da unire a questa stanza.\nNota: deve essere nella stanza e avere il permesso di invitare utenti.",
       success: "L'utente è stato aggiunto alla stanza con successo.",

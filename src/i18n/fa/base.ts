@@ -90,7 +90,7 @@ const farsiMessages: TranslationMessages = {
       authentication_error: "سرور احراز هویت خطایی را برگرداند و اعتبار شما قابل بررسی نیست.",
       auth_error: "خطا در احراز هویت",
       bulk_delete_content:
-        "آیا از حذف  %{name} اطمینان دارید؟ |||| آیا از حدف %{smart_count} عدد از آیتم‌ها اطمینان دارید؟",
+        "آیا از حذف  %{name} اطمینان دارید؟ |||| آیا از حذف %{smart_count} عدد از آیتم‌ها اطمینان دارید؟",
       bulk_delete_title: "حذف %{name} |||| حذف %{smart_count} عدد از آیتم‌های %{name}",
       bulk_update_content:
         "آیا از بروز‌رسانی %{name} %{recordRepresentation} اطمینان دارید؟ |||| آیا از بروز‌رسانی %{smart_count} عدد از آیتم‌ها اطمینان دارید؟",
@@ -153,15 +153,15 @@ const farsiMessages: TranslationMessages = {
       data_provider_error: "خطا در دریافت اطلاعات",
       i18n_error: "بارگزاری ترجمه‌ها برای زبان مورد نظر امکان‌پذیر نیست",
       canceled: "لغو شد",
-      logged_out: "نشست کاربری شما به پایان زسیده‌است، لطفا دوباره وصل شوید.",
+      logged_out: "نشست کاربری شما به پایان رسیده‌است، لطفا دوباره وصل شوید.",
       not_authorized: "شما اجازه دسترسی به این منبع را ندارید",
       application_update_available: "نسخه جدید برنامه در دسترس است",
       offline: "بدون اتصال. داده‌ها قابل دریافت نیستند.",
     },
     validation: {
       required: "اجباری",
-      minLength: "حداقل باید %{min} کارکتر باشد",
-      maxLength: "باید %{max} کارکتر یا کمتر باشد",
+      minLength: "حداقل باید %{min} کاراکتر باشد",
+      maxLength: "باید %{max} کاراکتر یا کمتر باشد",
       minValue: "حداقل باید %{min} باشد",
       maxValue: "باید %{max} یا کمتر باشد",
       number: "باید یک عدد باشد",
@@ -177,8 +177,8 @@ const farsiMessages: TranslationMessages = {
       new_dialog_title: "ذخیره کوئری فعلی به عنوان",
       remove_label: "حذف کوئری ذخیره شده",
       remove_label_with_name: 'حذف کوئری "%{name}"',
-      remove_dialog_title: "کوئری ذخیره شده حدف شود؟",
-      remove_message: "آیا از حذف آینم از لیست کوئری‌های ذخیره شده اطمینان دارید؟",
+      remove_dialog_title: "کوئری ذخیره شده حذف شود؟",
+      remove_message: "آیا از حذف آیتم از لیست کوئری‌های ذخیره شده اطمینان دارید؟",
       help: "لیست را فیلتر کنید و کوئری را برای استفاده بعدی ذخیره کنید",
     },
     guesser: {

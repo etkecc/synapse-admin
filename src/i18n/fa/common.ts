@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       credentials: "اعتبارنامه",
       access_token: "توکن دسترسی",
       supports_specs: "پشتیبانی از مشخصات Matrix",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "شما در حال استفاده از یک توکن دسترسی موجود Matrix هستید.",
         content:
           "آیا می‌خواهید این نشست (که ممکن است در جای دیگر، مانند یک کلاینت Matrix نیز استفاده شود) را باطل کنید یا فقط از پنل مدیریت خارج شوید؟",
@@ -76,14 +76,14 @@ const common: Record<string, any> = {
         admin_count: "%{smart_count} مدیر |||| %{smart_count} مدیر",
       },
       conflicts: {
-        header: "استراتژی متغارض",
+        header: "استراتژی متعارض",
         mode: {
           stop: "توقف",
           skip: "نمایش خطا و رد شدن",
         },
       },
       ids: {
-        header: "شناسنامه ها",
+        header: "شناسه‌ها",
         all_ids_present: "شناسه های موجود در هر ورودی",
         count_ids_present: "%{smart_count} ورود با شناسه |||| %{smart_count} ورودی با شناسه",
         mode: {
@@ -285,7 +285,7 @@ const common: Record<string, any> = {
       },
       status: "وضعیت",
       error: "خطا",
-      loading: "در حال دریافت وضعیت لحظه‌ای سرور... لطفاً کمی صبر کنید!",
+      loading: "در حال دریافت وضعیت سرور به‌صورت لحظه‌ای — لطفاً کمی صبر کنید…",
       intro1: "این گزارش پایش لحظه‌ایِ سرور شماست. می‌توانید درباره آن بیشتر در",
       intro2: "اگر هر یک از بررسی‌های زیر شما را نگران می‌کند، لطفاً اقدامات پیشنهادی را در",
       help: "راهنما",

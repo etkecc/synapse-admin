@@ -94,7 +94,7 @@ const misc_resources = {
     },
   },
   pushers: {
-    name: "发布者",
+    name: "推送器",
     fields: {
       app: "App",
       app_display_name: "App 名称",

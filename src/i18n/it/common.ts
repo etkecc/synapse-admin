@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       credentials: "Credenziali",
       access_token: "Token di accesso",
       supports_specs: "supporta le specifiche Matrix",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "Sta utilizzando un token di accesso Matrix esistente.",
         content:
           "Vuole distruggere questa sessione (che potrebbe essere utilizzata altrove, ad esempio in un client Matrix) o semplicemente disconnettersi dal pannello di amministrazione?",

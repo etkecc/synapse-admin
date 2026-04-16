@@ -77,11 +77,11 @@ const rooms = {
       failure: "L'utilisateur n'a pas pu être désigné comme administrateur du salon. %{errMsg}",
     },
     join: {
-      label: "Joindre utilisateur",
-      title: "Joindre un utilisateur à %{roomName}",
-      confirm: "Joindre",
+      label: "Ajouter un utilisateur",
+      title: "Ajouter un utilisateur à %{roomName}",
+      confirm: "Ajouter",
       content:
-        "Entrez la MXID complète de l'utilisateur à joindre à ce salon.\nNote : vous devez être dans le salon et avoir la permission d'inviter des utilisateurs.",
+        "Entrez la MXID complète de l'utilisateur à ajouter à ce salon.\nNote : vous devez être dans le salon et avoir la permission d'inviter des utilisateurs.",
       success: "L'utilisateur a été ajouté au salon avec succès.",
       failure: "L'utilisateur n'a pas pu être ajouté au salon. %{errMsg}",
     },

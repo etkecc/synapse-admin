@@ -69,10 +69,10 @@ const mas = {
     },
     action: {
       finish: {
-        label: "结束",
-        title: "结束会话？",
+        label: "终止",
+        title: "终止会话？",
         content: "此会话将被终止。",
-        success: "会话已结束",
+        success: "会话已终止",
       },
     },
   },
@@ -93,10 +93,10 @@ const mas = {
     },
     action: {
       finish: {
-        label: "结束",
-        title: "结束会话？",
+        label: "终止",
+        title: "终止会话？",
         content: "此会话将被终止。",
-        success: "会话已结束",
+        success: "会话已终止",
       },
     },
   },
@@ -131,10 +131,10 @@ const mas = {
     },
     action: {
       finish: {
-        label: "结束",
-        title: "结束会话？",
+        label: "终止",
+        title: "终止会话？",
         content: "此浏览器会话将被终止。",
-        success: "会话已结束",
+        success: "会话已终止",
       },
     },
   },

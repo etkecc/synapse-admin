@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Vorderextremitäten sind Blatt-Ereignisse am Ende eines gerichteten azyklischen Graphens (DAG) in einem Raum, auch bekannt als Ereignisse ohne Nachkommen. Je mehr in einem Raum existieren, umso mehr Zustandsauflösungen muss Synapse absolvieren (Hinweis: dies ist eine sehr aufwendige Operation). Obwohl Synapse Code hat um zu verhindern, dass zuviele davon gleichzeitig in einem Raum existieren, können Bugs manchmal dafür sorgen, dass sie sich ansammeln. Wenn ein Raum >10 Vorderextremitäten hat ist es sinnvoll zu überprüfen um welchen Raum es sich handelt und sie gegebenenfalls, wie in #1769 beschrieben, mittels SQL-Queries zu entfernen.",
+      "Vorderextremitäten sind Blatt-Ereignisse am Ende eines gerichteten azyklischen Graphen (DAG) in einem Raum, d. h. Ereignisse ohne Nachkommen. Je mehr in einem Raum existieren, umso mehr Zustandsauflösungen muss Synapse absolvieren (Hinweis: dies ist eine sehr aufwendige Operation). Obwohl Synapse Code hat um zu verhindern, dass zuviele davon gleichzeitig in einem Raum existieren, können Bugs manchmal dafür sorgen, dass sie sich ansammeln. Wenn ein Raum >10 Vorderextremitäten hat, ist es sinnvoll, sie gegebenenfalls, wie in #1760 beschrieben, mittels SQL-Queries zu entfernen.",
   },
   enums: {
     join_rules: {
@@ -77,9 +77,9 @@ const rooms = {
       failure: "Der/die Benutzer konnte/n nicht als Raumadministrator gesetzt werden. %{errMsg}",
     },
     join: {
-      label: "Benutzer beitreten",
-      title: "Benutzer zu %{roomName} beitreten lassen",
-      confirm: "Beitreten",
+      label: "Benutzer hinzufügen",
+      title: "Benutzer zu %{roomName} hinzufügen",
+      confirm: "Hinzufügen",
       content:
         "Geben Sie die vollständige MXID des Benutzers ein, der diesem Raum beitreten soll.\nHinweis: Sie müssen im Raum sein und die Berechtigung haben, Benutzer einzuladen.",
       success: "Benutzer wurde erfolgreich zum Raum hinzugefügt.",

@@ -104,7 +104,7 @@ const germanMessages: TranslationMessages = {
       invalid_form: "Das Formular ist ungültig. Bitte überprüfen Sie Ihre Eingaben.",
       loading: "Bitte warten",
       no: "Nein",
-      not_found: "Sie eine falsche URL aufgerufen oder eingegeben.",
+      not_found: "Sie haben eine falsche URL aufgerufen oder eingegeben.",
       select_all_limit_reached:
         "Es gibt zu viele Elemente, um sie alle auszuwählen. Es wurden nur die ersten %{max} Elemente ausgewählt.",
       unsaved_changes: "Einige Änderungen wurden nicht gespeichert. Sicher, dass Sie diese nicht übernehmen wollen?",
@@ -115,7 +115,7 @@ const germanMessages: TranslationMessages = {
       clear_filters: "Alle Filter entfernen",
       no_filtered_results: "Keine Ergebnisse",
       no_results: "Keine Ergebnisse gefunden.",
-      no_more_results: "Es gibt keine Seite %{page}. Versuche eine vorherige.",
+      no_more_results: "Es gibt keine Seite %{page}. Versuchen Sie eine vorherige.",
       page_out_of_boundaries: "Es gibt keine Seite %{page}.",
       page_out_from_end: "Es gibt keine Seite mehr nach dieser.",
       page_out_from_begin: "Es gibt keine Seite vor Seite 1.",
@@ -138,7 +138,7 @@ const germanMessages: TranslationMessages = {
     auth: {
       auth_check_error: "Bitte anmelden um fortzufahren",
       user_menu: "Profil",
-      username: "Nutzername",
+      username: "Benutzername",
       password: "Passwort",
       email: "E-Mail",
       sign_in: "Anmelden",
@@ -194,7 +194,7 @@ const germanMessages: TranslationMessages = {
       configureMode: "Diese Seite anpassen",
       inspector: {
         title: "Inspektor",
-        content: "Bewegen Sie den Mauszeigen über die UI-Elemente, um sie zu konfigurieren",
+        content: "Bewegen Sie den Mauszeiger über die UI-Elemente, um sie zu konfigurieren",
         reset: "Einstellungen zurücksetzen",
         hideAll: "Alles verbergen",
         showAll: "Alles anzeigen",

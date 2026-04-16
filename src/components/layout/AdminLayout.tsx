@@ -186,12 +186,12 @@ export const AdminUserMenu = () => {
       </div>
       <Confirm
         isOpen={open}
-        title="ketesa.auth.logout_acces_token_dialog.title"
-        content="ketesa.auth.logout_acces_token_dialog.content"
+        title="ketesa.auth.logout_access_token_dialog.title"
+        content="ketesa.auth.logout_access_token_dialog.content"
         onConfirm={handleConfirm}
         onClose={handleDialogClose}
-        confirm="ketesa.auth.logout_acces_token_dialog.confirm"
-        cancel="ketesa.auth.logout_acces_token_dialog.cancel"
+        confirm="ketesa.auth.logout_access_token_dialog.confirm"
+        cancel="ketesa.auth.logout_access_token_dialog.cancel"
       />
     </UserMenu>
   );

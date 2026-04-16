@@ -75,7 +75,7 @@ const ukrainianMessages: TranslationMessages = {
       },
       references: {
         all_missing: "Неможливо знайти дані посилань.",
-        many_missing: "Щонайменьше одне з пов'язаних посилань більше не доступно.",
+        many_missing: "Щонайменше одне з пов'язаних посилань більше не доступно.",
         single_missing: "Пов'язане посилання більше не доступно.",
       },
       password: {
@@ -88,7 +88,7 @@ const ukrainianMessages: TranslationMessages = {
       access_denied: "Ви не маєте доступу до цієї сторінки.",
       are_you_sure: "Ви впевнені?",
       authentication_error: "Сервер автентифікації повернув помилку, перевірити ваші дані не вдалося.",
-      auth_error: "Під час перевірки аутентифікації сталася помилка.",
+      auth_error: "Під час перевірки автентифікації сталася помилка.",
       bulk_delete_content:
         "Ви дійсно хочете видалити це %{name}? |||| Ви впевнені що хочете видалити ці %{smart_count} %{name}?",
       bulk_delete_title: "Видалити %{name} |||| Видалити %{smart_count} %{name} елементів",
@@ -134,13 +134,13 @@ const ukrainianMessages: TranslationMessages = {
       DESC: "низобіжний",
     },
     auth: {
-      auth_check_error: "Щоб продовжити, будь ласка залогінтеся",
+      auth_check_error: "Щоб продовжити, будь ласка увійдіть",
       user_menu: "Профіль",
       username: "Ім'я користувача",
       password: "Пароль",
       email: "Електронна пошта",
       sign_in: "Ввійти",
-      sign_in_error: "Помилка аутентифікації, спробуйте знову",
+      sign_in_error: "Помилка автентифікації, спробуйте знову",
       logout: "Вийти",
     },
     notification: {
@@ -153,7 +153,7 @@ const ukrainianMessages: TranslationMessages = {
       data_provider_error: "Помилка в dataProvider. Перевірте деталі в консолі.",
       i18n_error: "Не вдалося завантажити переклад для вибраної мови",
       canceled: "Дія відмінена",
-      logged_out: "Ваша логін-сессія завершена, будь ласка залогінтесь знову.",
+      logged_out: "Вашу сесію завершено, будь ласка увійдіть знову.",
       not_authorized: "Немає доступу до цього ресурсу.",
       application_update_available: "Доступна нова версія програми",
       offline: "Немає з'єднання. Дані не вдалося отримати.",

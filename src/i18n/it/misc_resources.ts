@@ -141,7 +141,7 @@ const misc_resources = {
     },
   },
   forward_extremities: {
-    name: "Invia estremità",
+    name: "Forward Extremities",
     fields: {
       id: "Event ID",
       received_ts: "Timestamp",

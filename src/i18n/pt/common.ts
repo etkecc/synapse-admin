@@ -5,10 +5,10 @@ const common: Record<string, any> = {
   ...portugueseMessages,
   ketesa: {
     auth: {
-      base_url: "URL do servidor doméstico",
+      base_url: "URL do homeserver",
       welcome: "Bem-vindo ao %{name}",
       description:
-        "A evolução do Synapse Admin. Gira, monitorize e mantenha o seu servidor Matrix a partir de uma interface limpa. Concebido tanto para pequenos servidores privados como para grandes comunidades federadas.",
+        "A evolução do Synapse Admin. Faça a gestão, monitorize e mantenha o seu servidor Matrix a partir de uma interface limpa. Concebido tanto para pequenos servidores privados como para grandes comunidades federadas.",
       server_version: "Versão do Synapse",
       supports_specs: "Suporta especificações Matrix",
       username_error: "Introduza o ID de utilizador completo: '@utilizador:dominio'",
@@ -17,7 +17,7 @@ const common: Record<string, any> = {
       sso_sign_in: "Entrar com SSO",
       credentials: "Credenciais",
       access_token: "Token de acesso",
-      logout_acces_token_dialog: {
+      logout_access_token_dialog: {
         title: "Está a utilizar um token de acesso Matrix existente.",
         content:
           "Pretende destruir esta sessão (que pode estar a ser utilizada noutro local, por exemplo num cliente Matrix) ou apenas terminar sessão no painel de administração?",
@@ -164,7 +164,7 @@ const common: Record<string, any> = {
         "Se o projeto Ketesa lhe foi útil, um donativo ajuda-nos a continuar o trabalho por detrás dele: desenvolvimento, manutenção, correções e melhorias constantes.",
       description_3: "Ajuda-nos a dedicar mais tempo a melhorar o projeto para todos os que dele dependem.",
       description_4: "Cada contribuição ajuda e agradecemos sinceramente o seu apoio! ❤️",
-      button: "Fazer donativo",
+      button: "Doar",
       signature_team: "a equipa etke.cc",
     },
     components: {
@@ -288,7 +288,7 @@ const common: Record<string, any> = {
       },
       status: "Estado",
       error: "Erro",
-      loading: "A obter informações de saúde do servidor em tempo real — um momento…",
+      loading: "A obter o estado operacional do servidor em tempo real — um momento…",
       intro1: "Este é um relatório de monitorização em tempo real do seu servidor. Pode saber mais em",
       intro2: "Se alguma das verificações abaixo o preocupar, consulte as ações sugeridas em",
       help: "Ajuda",

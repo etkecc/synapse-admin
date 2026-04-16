@@ -50,7 +50,7 @@ const users = {
     password_required_for_reactivation: "重新激活账户需要提供密码。",
     create_password: "使用下面的按钮生成一个强大和安全的密码。",
     deactivate: "您必须提供密码才能停用此账户。",
-    suspend: "暂停账户将阻止用户登录，但不会删除其数据。",
+    suspend: "暂停用户将使其进入只读模式。",
     shadow_ban: "被影子封禁的用户会收到正常响应，但其事件不会传播到其他用户或房间。仅在万不得已时使用。",
     erase: "将用户标记为根据 GDPR 的要求抹除了",
     admin: "服务器管理员对服务器和其用户有完全的控制权。",

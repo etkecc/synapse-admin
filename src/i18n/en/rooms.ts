@@ -28,7 +28,7 @@ const rooms = {
   },
   helper: {
     forward_extremities:
-      "Forward extremities are the leaf events at the end of a Directed acyclic graph (DAG) in a room, i.e., events with no children. The more that exist in a room, the more state resolution that Synapse needs to perform (note: this is an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth checking which room is the culprit and potentially removing them using the SQL queries mentioned in #1760.",
+      "Forward extremities are the leaf events at the end of a directed acyclic graph (DAG) in a room, i.e., events with no children. The more that exist in a room, the more state resolution that Synapse needs to perform (note: this is an expensive operation). While Synapse has code to prevent too many of these existing at one time in a room, bugs can sometimes make them crop up again. If a room has >10 forward extremities, it's worth investigating and potentially removing them using the SQL queries mentioned in #1760.",
   },
   enums: {
     join_rules: {
@@ -63,7 +63,7 @@ const rooms = {
         block: "Block and prevent users from joining the room",
       },
       in_progress: "Deletion in progress…",
-      background_note: "You can safely close this window, the deletion will continue in the background.",
+      background_note: "You can safely close this window — the deletion will continue in the background.",
       success: "Room deleted successfully. |||| Rooms deleted successfully.",
       failure: "The room could not be deleted. |||| The rooms could not be deleted.",
     },
@@ -77,9 +77,9 @@ const rooms = {
       failure: "The user could not be set as room admin. %{errMsg}",
     },
     join: {
-      label: "Join user",
-      title: "Join user to %{roomName}",
-      confirm: "Join",
+      label: "Add user",
+      title: "Add user to %{roomName}",
+      confirm: "Add",
       content:
         "Enter the full MXID of the user to add to this room.\nNote: you must be a member of the room with permission to invite users.",
       success: "User added to the room successfully.",
@@ -109,7 +109,7 @@ const rooms = {
       date_label: "Purge events before",
       delete_local: "Also delete events sent by local users",
       in_progress: "Purge in progress…",
-      background_note: "You can safely close this window, the purge will continue in the background.",
+      background_note: "You can safely close this window — the purge will continue in the background.",
       success: "Room history purged successfully.",
       failure: "Failed to purge room history. %{errMsg}",
     },
