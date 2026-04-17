@@ -69,6 +69,8 @@ services:
 
   postgres:
     image: postgres:17-alpine
+    ports:
+      - "5432:5432"
     volumes:
       - ../docs/testdata/postgres.data:/var/lib/postgresql/data
       - ../docs/testdata/postgres.initdb:/docker-entrypoint-initdb.d:ro

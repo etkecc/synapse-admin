@@ -83,4 +83,5 @@ Specific topics:
 
 ## 🚀 Deployment
 
+* [Availability](./availability.md) — where to get Ketesa: official builds, distro packages, integrations, mirrors, and legacy compatibility links
 * [Serving Ketesa behind a reverse proxy](./reverse-proxy.md)
