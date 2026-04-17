@@ -9,10 +9,10 @@ import {
   DatagridRow,
   DateField,
   Identifier,
+  ListContext,
   RaRecord,
   RecordContextProvider,
   useGetRecordRepresentation,
-  useListContext,
   useRecordContext,
   useResourceContext,
   useTranslate,
@@ -272,7 +272,9 @@ const AccessibleBody = React.forwardRef<HTMLTableSectionElement, AccessibleBodyP
     },
     ref
   ) => {
-    const { page = 1, perPage = 10 } = useListContext();
+    const listCtx = React.useContext(ListContext);
+    const page = listCtx?.page ?? 1;
+    const perPage = listCtx?.perPage ?? 10;
     const offset = (page - 1) * perPage;
     const translate = useTranslate();
     // resource prop may be undefined when DatagridConfigurable doesn't forward it;

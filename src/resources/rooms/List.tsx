@@ -264,10 +264,7 @@ export const RoomBulkActionButtons = () => {
 const RoomSearchInput = (_props: { alwaysOn?: boolean }) => {
   const translate = useTranslate();
   return (
-    <SearchInput
-      source="search_term"
-      slotProps={{ htmlInput: { "aria-label": translate("ra.action.search") } }}
-    />
+    <SearchInput source="search_term" slotProps={{ htmlInput: { "aria-label": translate("ra.action.search") } }} />
   );
 };
 
