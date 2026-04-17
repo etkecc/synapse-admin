@@ -35,6 +35,37 @@ interface TreeNode {
 
 let nodeKeyCounter = 0;
 
+// Per MSC2946: a valid order value is a non-empty string of printable ASCII characters (0x20–0x7E).
+// Spread iterates Unicode code points so multi-byte characters are caught correctly.
+export const isValidOrder = (o: unknown): o is string =>
+  typeof o === "string" &&
+  o.length > 0 &&
+  [...o].every(c => {
+    const cp = c.codePointAt(0) ?? 0;
+    return cp >= 0x20 && cp <= 0x7e;
+  });
+
+// Sorts m.space.child events per the Matrix spec (MSC2946):
+// 1. Children with a valid `order` string sort first, lexicographically.
+// 2. Children without a valid `order` sort after, by origin_server_ts ascending.
+// 3. Equal order strings, or equal timestamps, fall back to state_key for a stable result.
+export const sortChildren = <T extends { state_key: string; content: { order?: string }; origin_server_ts: number }>(
+  children: T[]
+): T[] =>
+  [...children].sort((a, b) => {
+    const aOrd = isValidOrder(a.content.order) ? a.content.order : undefined;
+    const bOrd = isValidOrder(b.content.order) ? b.content.order : undefined;
+    if (aOrd !== undefined && bOrd !== undefined) {
+      if (aOrd !== bOrd) return aOrd < bOrd ? -1 : 1;
+      // equal order strings → fall through to ts/state_key tiebreaker below
+    } else if (aOrd !== undefined) {
+      return -1;
+    } else if (bOrd !== undefined) {
+      return 1;
+    }
+    return a.origin_server_ts - b.origin_server_ts || a.state_key.localeCompare(b.state_key);
+  });
+
 const collectChildIds = (rooms: HierarchyRoom[]): Set<string> => {
   const knownIds = new Set(rooms.map(r => r.room_id));
   const missing = new Set<string>();
@@ -48,7 +79,7 @@ const collectChildIds = (rooms: HierarchyRoom[]): Set<string> => {
   return missing;
 };
 
-const buildTree = (rooms: HierarchyRoom[]): TreeNode[] => {
+export const buildTree = (rooms: HierarchyRoom[]): TreeNode[] => {
   if (rooms.length === 0) return [];
   nodeKeyCounter = 0;
 
@@ -63,7 +94,7 @@ const buildTree = (rooms: HierarchyRoom[]): TreeNode[] => {
     const key = `${room.room_id}-${nodeKeyCounter++}`;
     const children: TreeNode[] = [];
     if (room.children_state) {
-      for (const child of room.children_state) {
+      for (const child of sortChildren(room.children_state)) {
         if (visited.has(child.state_key)) continue;
         visited.add(child.state_key);
         const knownRoom = roomMap.get(child.state_key);

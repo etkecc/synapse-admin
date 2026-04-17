@@ -87,7 +87,12 @@ export interface HierarchyRoom {
   children_state: {
     type: string;
     state_key: string;
-    content: Record<string, unknown>;
+    content: {
+      via?: string[];
+      suggested?: boolean;
+      order?: string;
+      [key: string]: unknown;
+    };
     sender: string;
     origin_server_ts: number;
   }[];
