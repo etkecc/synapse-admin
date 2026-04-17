@@ -3,7 +3,7 @@
 Ketesa uses various APIs to manage Matrix homeservers and related services.
 This document lists all supported APIs and their implementation status.
 
-> 📝 **Note:** This file was compiled based on Synapse **v1.149.1** and MAS **v1.13.0** documentation.
+> 📝 **Note:** This file was compiled based on Synapse **v1.151.0** and MAS **v1.15.0** documentation.
 > It is not updated often and is provided just for reference purposes.
 
 **Legend:** ✅ fully implemented · 🟡 in progress · ❌ not implemented · ⏭️ superseded (newer version available)
