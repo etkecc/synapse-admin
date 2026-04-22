@@ -393,6 +393,15 @@ const common: Record<string, any> = {
       see_all: "すべての通知を見る",
       clear_all: "すべてクリア",
       ago: "前",
+      advisory_tooltip: "通知を見逃した可能性があります。#news:etke.cc、etke.cc/news、またはメールもご確認ください。",
+      unavailable_tooltip: "通知が利用できない場合があります。詳細はこちらをクリックしてください。",
+      unavailable_title: "現在、通知が利用できない可能性があります",
+      unavailable_body:
+        "現在、このパネルにお届けできないお知らせがある可能性があります。または新しい情報がない場合もあります。見逃しがないよう、定期的にご確認ください：",
+      unavailable_link_matrix: "Matrixルーム #news:etke.cc",
+      unavailable_link_news: "etke.cc/news のお知らせページ",
+      unavailable_link_email: "メールの受信箱（迷惑メールフォルダもご確認ください）",
+      unavailable_retry: "再試行",
     },
     currently_running: {
       command: "現在実行中:",

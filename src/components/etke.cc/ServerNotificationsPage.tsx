@@ -17,6 +17,7 @@ const ServerNotificationsPage = () => {
   const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", {
     notifications: [],
     success: false,
+    status: "ok",
   });
 
   useDocTitle(translate("etkecc.notifications.title"));
@@ -38,6 +39,7 @@ const ServerNotificationsPage = () => {
                 setServerNotifications({
                   notifications: [],
                   success: true,
+                  status: "ok",
                 });
               }}
             >

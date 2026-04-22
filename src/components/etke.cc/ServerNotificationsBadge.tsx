@@ -23,6 +23,7 @@ import { useDataProvider, useLocale, useRedirect, useStore, useTranslate } from 
 import { useAppContext } from "../../Context";
 import { ServerNotificationsResponse, ServerProcessResponse } from "../../providers/types";
 import { getTimeSince } from "../../utils/date";
+import { ServerNotificationsUnavailable } from "./ServerNotificationsUnavailable";
 
 // 5 minutes
 const SERVER_NOTIFICATIONS_INTERVAL_TIME = 300000;
@@ -31,6 +32,7 @@ const useServerNotifications = () => {
   const [serverNotifications, setServerNotifications] = useStore<ServerNotificationsResponse>("serverNotifications", {
     notifications: [],
     success: false,
+    status: "ok",
   });
   const [serverProcess, _setServerProcess] = useStore<ServerProcessResponse>("serverProcess", {
     command: "",
@@ -42,7 +44,7 @@ const useServerNotifications = () => {
   const { etkeccAdmin } = useAppContext();
   const dataProvider = useDataProvider();
   const locale = useLocale();
-  const { notifications, success } = serverNotifications;
+  const { notifications, status } = serverNotifications;
 
   const fetchNotifications = useCallback(async () => {
     const notificationsResponse: ServerNotificationsResponse = await dataProvider.getServerNotifications(
@@ -65,6 +67,7 @@ const useServerNotifications = () => {
       setServerNotifications({
         notifications: [],
         success: true,
+        status: "ok",
       });
     }
   };
@@ -91,12 +94,12 @@ const useServerNotifications = () => {
     };
   }, [etkeccAdmin, fetchNotifications, locked_at]);
 
-  return { success, notifications, deleteServerNotifications };
+  return { status, notifications, deleteServerNotifications, refetch: fetchNotifications };
 };
 
 export const ServerNotificationsBadge = () => {
   const redirect = useRedirect();
-  const { success, notifications, deleteServerNotifications } = useServerNotifications();
+  const { status, notifications, deleteServerNotifications, refetch } = useServerNotifications();
   const theme = useTheme();
   const translate = useTranslate();
 
@@ -105,6 +108,9 @@ export const ServerNotificationsBadge = () => {
   const open = Boolean(anchorEl);
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    if (status === "unavailable" && !anchorEl) {
+      refetch();
+    }
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
@@ -122,34 +128,36 @@ export const ServerNotificationsBadge = () => {
     handleClose();
   };
 
-  if (!success) {
-    return null;
-  }
+  const handleRetry = () => {
+    refetch();
+    handleClose();
+  };
+
+  const tooltipTitle =
+    status === "unavailable"
+      ? translate("etkecc.notifications.unavailable_tooltip")
+      : status === "advisory"
+        ? translate("etkecc.notifications.advisory_tooltip")
+        : notifications && notifications.length > 0
+          ? translate("etkecc.notifications.new_notifications", { smart_count: notifications.length })
+          : translate("etkecc.notifications.no_notifications");
+
+  const bellColor = status === "unavailable" ? theme.palette.action.disabled : theme.palette.common.white;
 
   return (
     <Box>
-      <IconButton
-        onClick={handleOpen}
-        sx={{ color: theme.palette.common.white }}
-        aria-label={
-          notifications && notifications.length > 0
-            ? translate("etkecc.notifications.new_notifications", { smart_count: notifications.length })
-            : translate("etkecc.notifications.no_notifications")
-        }
-      >
-        <Tooltip
-          title={
-            notifications && notifications.length > 0
-              ? translate("etkecc.notifications.new_notifications", { smart_count: notifications.length })
-              : translate("etkecc.notifications.no_notifications")
-          }
-        >
-          {notifications && notifications.length > 0 ? (
+      <IconButton onClick={handleOpen} sx={{ color: bellColor }} aria-label={tooltipTitle}>
+        <Tooltip title={tooltipTitle}>
+          {status === "advisory" ? (
+            <Badge color="warning" variant="dot" overlap="circular">
+              <NotificationsIcon />
+            </Badge>
+          ) : status === "ok" && notifications && notifications.length > 0 ? (
             <Badge badgeContent={notifications.length} color="error">
               <NotificationsIcon />
             </Badge>
           ) : (
-            <NotificationsIcon sx={{ opacity: 0.5 }} />
+            <NotificationsIcon sx={{ opacity: status === "unavailable" ? 0.4 : 0.5 }} />
           )}
         </Tooltip>
       </IconButton>
@@ -169,7 +177,9 @@ export const ServerNotificationsBadge = () => {
               },
             }}
           >
-            {!notifications || notifications.length === 0 ? (
+            {status === "unavailable" ? (
+              <ServerNotificationsUnavailable onRetry={handleRetry} />
+            ) : !notifications || notifications.length === 0 ? (
               <Typography sx={{ p: 1 }} variant="body2">
                 {translate("etkecc.notifications.no_notifications")}
               </Typography>

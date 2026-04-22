@@ -405,6 +405,16 @@ const common: Record<string, any> = {
       see_all: "Посмотреть все уведомления",
       clear_all: "Очистить все",
       ago: "назад",
+      advisory_tooltip:
+        "Возможно, Вы пропустили уведомление. Пожалуйста, также проверьте #news:etke.cc, etke.cc/news или Вашу электронную почту.",
+      unavailable_tooltip: "Уведомления могут быть недоступны. Нажмите для получения подробностей.",
+      unavailable_title: "Уведомления могут быть временно недоступны",
+      unavailable_body:
+        "Возможно, есть обновления, которые не удаётся доставить в эту панель прямо сейчас — или же ничего нового нет. Чтобы ничего не пропустить, пожалуйста, периодически проверяйте:",
+      unavailable_link_matrix: "Комната Matrix #news:etke.cc",
+      unavailable_link_news: "Страница объявлений на etke.cc/news",
+      unavailable_link_email: "Ваш почтовый ящик (включая папку со спамом)",
+      unavailable_retry: "Повторить",
     },
     currently_running: {
       command: "Сейчас запущено:",

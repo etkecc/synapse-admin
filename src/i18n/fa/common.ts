@@ -392,6 +392,16 @@ const common: Record<string, any> = {
       see_all: "مشاهده همه اعلان‌ها",
       clear_all: "حذف همه",
       ago: "پیش",
+      advisory_tooltip:
+        "ممکن است اعلانی را از دست داده باشید. لطفاً #news:etke.cc، etke.cc/news یا صندوق ورودی ایمیل خود را نیز بررسی کنید.",
+      unavailable_tooltip: "ممکن است اعلان‌ها در دسترس نباشند. برای جزئیات کلیک کنید.",
+      unavailable_title: "ممکن است اعلان‌ها در حال حاضر در دسترس نباشند",
+      unavailable_body:
+        "ممکن است به‌روزرسانی‌هایی وجود داشته باشند که در حال حاضر نتوانیم به این پنل ارسال کنیم — یا ممکن است هیچ مورد جدیدی وجود نداشته باشد. برای جلوگیری از از دست دادن اطلاعات، لطفاً به‌صورت دوره‌ای بررسی کنید:",
+      unavailable_link_matrix: "اتاق Matrix با نشانی #news:etke.cc",
+      unavailable_link_news: "صفحه اطلاعیه‌ها در etke.cc/news",
+      unavailable_link_email: "صندوق ورودی ایمیل شما (از جمله پوشه هرزنامه)",
+      unavailable_retry: "تلاش مجدد",
     },
     currently_running: {
       command: "در حال اجرا:",

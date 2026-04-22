@@ -401,6 +401,16 @@ const common: Record<string, any> = {
       see_all: "Voir toutes les notifications",
       clear_all: "Tout effacer",
       ago: "il y a",
+      advisory_tooltip:
+        "Il se peut que vous ayez manqué une notification. Veuillez également consulter #news:etke.cc, etke.cc/news, ou votre messagerie électronique.",
+      unavailable_tooltip: "Il se peut que les notifications soient indisponibles. Cliquez pour plus de détails.",
+      unavailable_title: "Il se peut que les notifications soient indisponibles en ce moment",
+      unavailable_body:
+        "Il se peut que des mises à jour ne puissent pas être transmises à ce panneau en ce moment — ou qu'il n'y ait rien de nouveau. Pour ne rien manquer, veuillez vérifier régulièrement :",
+      unavailable_link_matrix: "Salon Matrix #news:etke.cc",
+      unavailable_link_news: "Page d'annonces sur etke.cc/news",
+      unavailable_link_email: "Votre boîte de réception (y compris le dossier spam)",
+      unavailable_retry: "Réessayer",
     },
     currently_running: {
       command: "En cours d’exécution :",

@@ -399,6 +399,16 @@ const common: Record<string, any> = {
       see_all: "Alle anzeigen",
       clear_all: "Alle löschen",
       ago: "vor",
+      advisory_tooltip:
+        "Möglicherweise haben Sie eine Benachrichtigung verpasst. Bitte prüfen Sie auch #news:etke.cc, etke.cc/news oder Ihr E-Mail-Postfach.",
+      unavailable_tooltip: "Benachrichtigungen sind möglicherweise nicht verfügbar. Klicken Sie für Details.",
+      unavailable_title: "Benachrichtigungen sind zurzeit möglicherweise nicht verfügbar",
+      unavailable_body:
+        "Es könnte Updates geben, die zurzeit nicht an dieses Panel übermittelt werden können — oder es gibt nichts Neues. Um nichts zu verpassen, prüfen Sie bitte regelmäßig:",
+      unavailable_link_matrix: "Matrix-Raum #news:etke.cc",
+      unavailable_link_news: "Ankündigungsseite auf etke.cc/news",
+      unavailable_link_email: "Ihr E-Mail-Postfach (einschließlich Spam-Ordner)",
+      unavailable_retry: "Erneut versuchen",
     },
     currently_running: {
       command: "Derzeit läuft:",

@@ -393,6 +393,16 @@ const common = {
       see_all: "See all notifications",
       clear_all: "Clear all",
       ago: "ago",
+      advisory_tooltip:
+        "You may have missed a notification. Please also check #news:etke.cc, etke.cc/news, or your email.",
+      unavailable_tooltip: "Notifications may be unavailable. Click for details.",
+      unavailable_title: "Notifications may be unavailable right now",
+      unavailable_body:
+        "There may be updates we can't deliver to this panel right now — or there may be nothing new. To avoid missing anything, please check periodically:",
+      unavailable_link_matrix: "Matrix room #news:etke.cc",
+      unavailable_link_news: "Announcements page at etke.cc/news",
+      unavailable_link_email: "Your email inbox (including spam folder)",
+      unavailable_retry: "Retry",
     },
     currently_running: {
       command: "Currently running:",

@@ -31,8 +31,11 @@ export interface ServerNotification {
   sent_at: string;
 }
 
+export type NotificationsStatus = "ok" | "advisory" | "unavailable";
+
 export interface ServerNotificationsResponse {
   success: boolean;
+  status: NotificationsStatus;
   notifications: ServerNotification[];
 }
 

@@ -4,9 +4,11 @@ import createLogger from "../../utils/logger";
 const log = createLogger("data");
 import type {
   ComponentsResponse,
+  NotificationsStatus,
   PaymentsResponse,
   RecurringCommand,
   ScheduledCommand,
+  ServerNotification,
   ServerNotificationsResponse,
   ServerProcessResponse,
   ServerStatusResponse,
@@ -100,29 +102,31 @@ export const etkeProviderMethods = {
     try {
       const response = await etkeClient(serverURL, locale);
       if (response.status === 503) {
-        return { success: false, notifications: [] };
+        return { success: false, status: "unavailable", notifications: [] };
       }
       if (!response.ok) {
         log.error(`getServerNotifications: HTTP ${response.status} ${response.statusText}`, { url: serverURL });
-        return { success: false, notifications: [] };
+        return { success: false, status: "unavailable", notifications: [] };
       }
 
-      const status = response.status;
-      if (status === 204) {
-        return { success: true, notifications: [] };
+      const advisory = response.headers.get("X-Notifications-Advisory");
+      const status: NotificationsStatus = advisory === "possibly_missed" ? "advisory" : "ok";
+
+      if (response.status === 204) {
+        return { success: true, status, notifications: [] };
       }
 
-      if (status === 200) {
+      if (response.status === 200) {
         const json = await response.json();
-        return { success: true, notifications: json } as ServerNotificationsResponse;
+        return { success: true, status, notifications: json as ServerNotification[] };
       }
 
-      return { success: true, notifications: [] };
+      return { success: true, status, notifications: [] };
     } catch (error) {
       log.error("getServerNotifications failed", error);
     }
 
-    return { success: false, notifications: [] };
+    return { success: false, status: "unavailable", notifications: [] };
   },
 
   deleteServerNotifications: async (etkeAdminUrl: string, locale: string) => {
