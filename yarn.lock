@@ -3316,10 +3316,10 @@ query-string@^7.1.3:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
-ra-core@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.14.5.tgz#0c40676b6f59f166886f39f974b79ab05d280bdb"
-  integrity sha512-Ztis8Rb1f0XZbnT3ZQTP0W6dmpb26S/ml/IhtSKG299p6t7Pm70DE1N5QA1G+AM3gx3iz17LX5gJSv7+iuly2A==
+ra-core@^5.14.5, ra-core@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.14.6.tgz#0b150e7d2c34b32420878b4234df2b78967e30d0"
+  integrity sha512-/3LOanIhCLTLTpOd6Dma9rsLrksLhqpE5dq6GUW1Xe7jI46xPC/6O5WlqCDwUJqe3aDZG3kJRGu6U8iHb2OU/A==
   dependencies:
     date-fns "^3.6.0"
     eventemitter3 "^5.0.1"
@@ -3345,12 +3345,12 @@ ra-language-english@^5.14.5:
   dependencies:
     ra-core "^5.14.5"
 
-ra-language-french@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.14.5.tgz#82a33ee3697284f84a56ba65b8388a962aecdb86"
-  integrity sha512-RiI2L+klyi8fqdLuDKLJPiVL7+vJjI3Pdqvk0uAC1tPDGt4GME9usa6zlkgPrHnhYZS20aunmSWC+AOv0v6sMA==
+ra-language-french@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-5.14.6.tgz#0d84b4f1013a0506dba92f73c665a7d845ed4b8f"
+  integrity sha512-nEhUXFpZv+2wdtLQcr/6byztJDB6apluJvC/J8SOadkG/rDYcnWns+BozTNnpMTrGjSIi4mG8jIRdYjb7yaAqw==
   dependencies:
-    ra-core "^5.14.5"
+    ra-core "^5.14.6"
 
 ra-ui-materialui@^5.14.5:
   version "5.14.5"
