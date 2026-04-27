@@ -2830,15 +2830,10 @@ lodash-es@^4.17.21:
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.18.1.tgz#b962eeb80d9d983a900bf342961fb7418ca10b1d"
   integrity sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==
 
-lodash@^4.17.21, lodash@^4.18.1:
+lodash@^4.17.21, lodash@^4.18.1, lodash@~4.18.1:
   version "4.18.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.18.1.tgz#ff2b66c1f6326d59513de2407bf881439812771c"
   integrity sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==
-
-lodash@~4.17.5:
-  version "4.17.23"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.23.tgz#f113b0378386103be4f6893388c73d0bde7f2c5a"
-  integrity sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==
 
 loose-envify@^1.0.0, loose-envify@^1.4.0:
   version "1.4.0"
@@ -3316,10 +3311,10 @@ query-string@^7.1.3:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
-ra-core@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.14.5.tgz#0c40676b6f59f166886f39f974b79ab05d280bdb"
-  integrity sha512-Ztis8Rb1f0XZbnT3ZQTP0W6dmpb26S/ml/IhtSKG299p6t7Pm70DE1N5QA1G+AM3gx3iz17LX5gJSv7+iuly2A==
+ra-core@^5.14.5, ra-core@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-5.14.6.tgz#0b150e7d2c34b32420878b4234df2b78967e30d0"
+  integrity sha512-/3LOanIhCLTLTpOd6Dma9rsLrksLhqpE5dq6GUW1Xe7jI46xPC/6O5WlqCDwUJqe3aDZG3kJRGu6U8iHb2OU/A==
   dependencies:
     date-fns "^3.6.0"
     eventemitter3 "^5.0.1"
@@ -3330,20 +3325,20 @@ ra-core@^5.14.5:
     react-error-boundary "^4.0.13"
     react-is "^18.2.0 || ^19.0.0"
 
-ra-i18n-polyglot@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/ra-i18n-polyglot/-/ra-i18n-polyglot-5.14.5.tgz#1f45fa24b483e3f8563b0a73adc1cf9890fc67de"
-  integrity sha512-qP/qxAgyoJgxGJBqWZdliHc5vCK8WZM7YL3Jkre8URnmru9hPZD3vilQH4LSW/W+5yLfYoLk81597Gig9g9euw==
+ra-i18n-polyglot@^5.14.5, ra-i18n-polyglot@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/ra-i18n-polyglot/-/ra-i18n-polyglot-5.14.6.tgz#2732f68cce60dcfd20f43da090c85089fe054014"
+  integrity sha512-qUPMrurTj5Tr90nku6DSzdqWyoPLpjNQG8W3p09L7fII7KSeJ0uTvAJBZdNTibnr9Wxu9rSMQSgTp/oEGFUQ3Q==
   dependencies:
     node-polyglot "^2.2.2"
-    ra-core "^5.14.5"
+    ra-core "^5.14.6"
 
-ra-language-english@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.14.5.tgz#a8fe1ba18c1d417e3f1fef907c77456ace4bb7c7"
-  integrity sha512-5lB3O1/gNSgvKRDR1NA9yOEMSwGdrJYzv4etpLBaVVnAX268BHubZbm1pLmT7j4xEc9kvUQC58/rAnFDORqbiQ==
+ra-language-english@^5.14.5, ra-language-english@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/ra-language-english/-/ra-language-english-5.14.6.tgz#cfd1fda87ddafa790d61336c35bd407bbef71c74"
+  integrity sha512-cxKXQsOvDY4m6i8KmDC3M931DK0QXeW/pUuZAPySXma9kzmNd17EMkv7ZGSDi3syFsyOhoe0N5+TUCbDMFFu+w==
   dependencies:
-    ra-core "^5.14.5"
+    ra-core "^5.14.6"
 
 ra-language-french@^5.14.5:
   version "5.14.5"
@@ -3352,10 +3347,10 @@ ra-language-french@^5.14.5:
   dependencies:
     ra-core "^5.14.5"
 
-ra-ui-materialui@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-5.14.5.tgz#f6a0fd6238b05c26ed040c3d0ce01c8b293a90c3"
-  integrity sha512-0FNrBL6k+Yu1PLRZOKAc6TDGcRk8ZAWBb0OnujlvdCOgYHgFKYtLa4nZ5L9a0EYsUsOogbmx4zKiETsJUYIfqg==
+ra-ui-materialui@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/ra-ui-materialui/-/ra-ui-materialui-5.14.6.tgz#cf280cfa02edfeebcfd2fcc3664326879f97922b"
+  integrity sha512-OJMm0G/MKYyUXHZkvCCtS9Zrb+N1ghR9YlxiYumQg/0+LowM/yPxdacdUoP1TapY1sXNuHaiqM5V9X8ftFM1yQ==
   dependencies:
     autosuggest-highlight "^3.1.1"
     clsx "^2.1.1"
@@ -3364,28 +3359,28 @@ ra-ui-materialui@^5.14.5:
     dompurify "^3.2.4"
     inflection "^3.0.0"
     jsonexport "^3.2.0"
-    lodash "~4.17.5"
+    lodash "~4.18.1"
     query-string "^7.1.3"
     react-dropzone "^14.2.3"
     react-error-boundary "^4.0.13"
     react-hotkeys-hook "^5.1.0"
     react-transition-group "^4.4.5"
 
-react-admin@^5.14.5:
-  version "5.14.5"
-  resolved "https://registry.yarnpkg.com/react-admin/-/react-admin-5.14.5.tgz#fbc4b6e7130fe4c9f9788ea1dc61f1e4f9b434ee"
-  integrity sha512-1XQxqL+ArkL3o5USs/AsC9fdQX4F/vzBJXwelq8jEXABcbx58d51Ug2WkXi+7WuxPrLZCOPW1kVD7l4+ahbeww==
+react-admin@^5.14.6:
+  version "5.14.6"
+  resolved "https://registry.yarnpkg.com/react-admin/-/react-admin-5.14.6.tgz#f4cf1ee7cab9cb99ccb383f93d8709f529335be2"
+  integrity sha512-5mCgrp84+HgBnh6/1gqrxO3WeemOMzubDqJDWZF29smf2X38sddS37NBGq/1O49zLVTfD+rGc25G4uZZjYtGEQ==
   dependencies:
     "@emotion/react" "^11.14.0"
     "@emotion/styled" "^11.14.0"
     "@mui/icons-material" "^5.16.12 || ^6.0.0 || ^7.0.0"
     "@mui/material" "^5.16.12 || ^6.0.0 || ^7.0.0"
     "@tanstack/react-query" "^5.83.0"
-    ra-core "^5.14.5"
-    ra-i18n-polyglot "^5.14.5"
-    ra-language-english "^5.14.5"
-    ra-ui-materialui "^5.14.5"
-    react-hook-form "^7.65.0"
+    ra-core "^5.14.6"
+    ra-i18n-polyglot "^5.14.6"
+    ra-language-english "^5.14.6"
+    ra-ui-materialui "^5.14.6"
+    react-hook-form "^7.72.0"
     react-router "^6.28.1 || ^7.1.1"
     react-router-dom "^6.28.1 || ^7.1.1"
 
@@ -3412,10 +3407,10 @@ react-error-boundary@^4.0.13:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-hook-form@^7.65.0, react-hook-form@^7.72.1:
-  version "7.72.1"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.72.1.tgz#19a8bbeaf685934f4c9fc422294cc730ade2780e"
-  integrity sha512-RhwBoy2ygeVZje+C+bwJ8g0NjTdBmDlJvAUHTxRjTmSUKPYsKfMphkS2sgEMotsY03bP358yEYlnUeZy//D9Ig==
+react-hook-form@^7.72.0, react-hook-form@^7.72.1:
+  version "7.74.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.74.0.tgz#7c55ac360290e7e7a78cc3169b0f07bce11a36c0"
+  integrity sha512-yR6wHr99p9wFv686jhRWVSFhUvDvNbdUf2dKlbno8/VKOCuoNobDGC6S+M2dua9A9Yo8vpcrp8assIYbsZCQ9g==
 
 react-hotkeys-hook@^5.1.0:
   version "5.2.4"
