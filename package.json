@@ -51,7 +51,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^17.5.0",
-    "jsdom": "^29.0.2",
+    "jsdom": "^29.1.0",
     "prettier": "^3.8.3",
     "react-test-renderer": "^19.2.5",
     "ts-node": "^10.9.2",
