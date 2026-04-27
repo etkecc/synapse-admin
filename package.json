@@ -56,7 +56,7 @@
     "react-test-renderer": "^19.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.58.2",
+    "typescript-eslint": "^8.59.0",
     "vite": "^8.0.9",
     "vitest": "^4.1.4",
     "vitest-axe": "^0.1.0"
