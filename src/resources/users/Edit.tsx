@@ -1077,6 +1077,7 @@ export const UserEdit = (props: EditProps) => {
                 <TextInput source="id" readOnly fullWidth label="resources.users.fields.id" />
                 <TextInput source="mas_id" readOnly fullWidth label="resources.mas_users.fields.id" />
                 <TextInput source="displayname" fullWidth />
+                <SelectInput source="user_type" choices={choices_type} translateChoice={false} resettable fullWidth />
               </Box>
             </Box>
           )}
