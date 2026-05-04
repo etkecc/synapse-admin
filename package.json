@@ -50,7 +50,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-unused-imports": "^4.4.1",
-    "globals": "^17.5.0",
+    "globals": "^17.6.0",
     "jsdom": "^29.1.0",
     "prettier": "^3.8.3",
     "react-test-renderer": "^19.2.5",
