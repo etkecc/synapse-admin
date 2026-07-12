@@ -18,7 +18,7 @@ const MASPolicyDataPage = () => {
   const [jsonError, setJsonError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  useDocTitle(translate("resources.mas_policy_data.name"));
+  useDocTitle(translate("resources.mas_policy_data.name", { smart_count: 1 }));
 
   const fetchPolicy = useCallback(async () => {
     const data = await dataProvider.getMASPolicyData();
@@ -70,7 +70,7 @@ const MASPolicyDataPage = () => {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Title title={translate("resources.mas_policy_data.name")} />
+      <Title title={translate("resources.mas_policy_data.name", { smart_count: 1 })} />
 
       <Card sx={{ mb: 3 }}>
         <CardContent>

@@ -215,7 +215,52 @@ const common: Record<string, any> = {
       no_payments: "Nenhum pagamento encontrado.",
       no_payments_helper: "Se acredita que se trata de um erro, contacte o suporte etke.cc.",
       description1: "Consulte pagamentos e gere faturas aqui. Pode saber mais sobre a gestão de subscrições em",
-      description2: "Para alterar o seu e-mail de faturação ou adicionar dados da empresa às faturas, consulte",
+      description2: "Para alterar o seu e-mail de faturação ou adicionar dados da empresa às faturas:",
+      invoice_emails: {
+        title: "E-mails de fatura",
+        enabled_label: "Enviar as faturas por e-mail para endereços específicos",
+        emails_label: "Endereços de destinatários",
+        emails_placeholder: "billing@example.com",
+        emails_helper: "Prima Enter para adicionar cada endereço. Até 5.",
+        description:
+          "As novas definições aplicam-se apenas a faturas futuras; as faturas anteriores não são reenviadas.",
+        save: "Guardar",
+        confirm_title: "Guardar as definições de e-mail de fatura?",
+        confirm_additive: "Aplicar estes destinatários às faturas futuras?",
+        confirm_destructive:
+          "Isto remove %{emails} e cancela quaisquer e-mails de fatura pendentes para este servidor. Os destinatários não são memorizados após a remoção. Continuar?",
+        saved: "Definições de e-mail de fatura guardadas.",
+        saved_canceled:
+          "Definições guardadas. %{smart_count} e-mail de fatura pendente foi cancelado. |||| Definições guardadas. %{smart_count} e-mails de fatura pendentes foram cancelados.",
+        saved_canceled_retry:
+          "Definições guardadas. Se uma tentativa anterior foi bem-sucedida, alguns e-mails de fatura pendentes podem já ter sido cancelados.",
+        error_rate_limited: "Demasiadas alterações num curto espaço de tempo. Aguarde um momento e tente novamente.",
+        error_save: "Não foi possível guardar as definições de e-mail de fatura. Tente novamente.",
+        error_load: "Não foi possível carregar as definições de e-mail de fatura. Tente novamente mais tarde.",
+        invalid_email: "Introduza um endereço de e-mail válido.",
+        too_many: "Adicione no máximo %{smart_count} endereço. |||| Adicione no máximo %{smart_count} endereços.",
+      },
+      company_details: {
+        open: "Adicionar dados da empresa",
+        title: "Adicionar dados da empresa às faturas",
+        description: "Introduza os dados da sua empresa abaixo para os adicionar às suas futuras faturas.",
+        fields: {
+          vat_id: "NIF / Número de IVA",
+          company_name: "Nome da empresa",
+          country: "País",
+          address: "Morada",
+          postal_code: "Código postal",
+          city: "Cidade",
+        },
+        send: "Enviar pedido",
+        sending: "A enviar...",
+        cancel: "Cancelar",
+        close: "Fechar",
+        view_request: "Ver pedido",
+        success:
+          "O seu pedido foi enviado. Vamos adicionar estes dados a todas as futuras faturas; as faturas anteriores não são alteradas.",
+        error: "Não foi possível enviar o seu pedido. Tente novamente.",
+      },
       fields: {
         transaction_id: "ID da transação",
         email: "E-mail",

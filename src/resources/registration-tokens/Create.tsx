@@ -24,7 +24,9 @@ const validateLength = [number(), maxValue(64)];
 export const RegistrationTokenCreate = (props: CreateProps) => {
   const translate = useTranslate();
   const isMAS = useIsMAS();
-  useDocTitle(translate("ra.action.create_item", { item: translate("resources.registration_tokens.name") }));
+  useDocTitle(
+    translate("ra.action.create_item", { item: translate("resources.registration_tokens.name", { smart_count: 1 }) })
+  );
 
   return (
     <Create {...props} redirect="list">

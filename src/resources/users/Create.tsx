@@ -41,7 +41,7 @@ const MASUserCreate = (props: CreateProps) => {
   const notify = useNotify();
   const [create] = useCreate();
 
-  useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name") }));
+  useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name", { smart_count: 1 }) }));
 
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   const handleSubmit = async (data: Record<string, any>) => {
@@ -117,7 +117,7 @@ const SynapseUserCreate = (props: CreateProps) => {
   const notify = useNotify();
   const theme = useTheme();
 
-  useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name") }));
+  useDocTitle(translate("ra.action.create_item", { item: translate("resources.users.name", { smart_count: 1 }) }));
 
   const [open, setOpen] = useState(false);
   const [userIsAvailable, setUserIsAvailable] = useState<boolean | undefined>();

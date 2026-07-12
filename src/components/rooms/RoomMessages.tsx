@@ -7,7 +7,6 @@ import {
   Button as MuiButton,
   Card,
   CardContent,
-  Chip,
   CircularProgress,
   Collapse,
   Divider,
@@ -23,6 +22,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDataProvider, useNotify, useRecordContext, useTranslate } from "react-admin";
 
+import { ChipInput } from "../ChipInput";
 import { EventLookupDialog, renderWithEventIds } from "./EventLookupDialog";
 import { RoomEvent, SynapseDataProvider } from "../../providers/types";
 
@@ -201,52 +201,6 @@ const buildFilter = (filter: RoomEventFilter): string | undefined => {
   if (filter.not_senders && filter.not_senders.length > 0) obj.not_senders = filter.not_senders;
   if (filter.contains_url !== undefined) obj.contains_url = filter.contains_url;
   return Object.keys(obj).length > 0 ? JSON.stringify(obj) : undefined;
-};
-
-const ChipInput = ({
-  label,
-  placeholder,
-  values,
-  onChange,
-  isSmall,
-}: {
-  label: string;
-  placeholder: string;
-  values: string[];
-  onChange: (v: string[]) => void;
-  isSmall: boolean;
-}) => {
-  const [input, setInput] = useState("");
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && input.trim()) {
-      e.preventDefault();
-      if (!values.includes(input.trim())) {
-        onChange([...values, input.trim()]);
-      }
-      setInput("");
-    }
-  };
-  return (
-    <Box sx={{ flex: 1, minWidth: isSmall ? undefined : 250 }}>
-      <TextField
-        size="small"
-        fullWidth
-        label={label}
-        placeholder={placeholder}
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        onKeyDown={handleKeyDown}
-        slotProps={{ inputLabel: { shrink: true } }}
-      />
-      {values.length > 0 && (
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mt: 0.5 }}>
-          {values.map(v => (
-            <Chip key={v} label={v} size="small" onDelete={() => onChange(values.filter(x => x !== v))} />
-          ))}
-        </Box>
-      )}
-    </Box>
-  );
 };
 
 export const RoomMessages = () => {

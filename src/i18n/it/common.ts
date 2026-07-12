@@ -216,7 +216,52 @@ const common: Record<string, any> = {
       no_payments_helper: "Se ritiene che si tratti di un errore, contatti l’assistenza etke.cc.",
       description1:
         "Da qui può visualizzare i pagamenti e generare le fatture. Può saperne di più sulla gestione degli abbonamenti su",
-      description2: "Per modificare l’email di fatturazione o aggiungere i dati aziendali alle fatture, consulti",
+      description2: "Per modificare l’email di fatturazione o aggiungere i dati aziendali alle fatture:",
+      invoice_emails: {
+        title: "Email di fatturazione",
+        enabled_label: "Invii le fatture via email a indirizzi specifici",
+        emails_label: "Indirizzi destinatari",
+        emails_placeholder: "billing@example.com",
+        emails_helper: "Prema Invio per aggiungere ogni indirizzo. Fino a 5.",
+        description:
+          "Le nuove impostazioni si applicano solo alle fatture future; le fatture precedenti non vengono reinviate.",
+        save: "Salva",
+        confirm_title: "Salvare le impostazioni email di fatturazione?",
+        confirm_additive: "Applicare questi destinatari alle fatture future?",
+        confirm_destructive:
+          "Questa operazione rimuove %{emails} e annulla eventuali email di fatturazione in sospeso per questo server. I destinatari non vengono memorizzati dopo la rimozione. Continuare?",
+        saved: "Impostazioni email di fatturazione salvate.",
+        saved_canceled:
+          "Impostazioni salvate. %{smart_count} email di fatturazione in sospeso è stata annullata. |||| Impostazioni salvate. %{smart_count} email di fatturazione in sospeso sono state annullate.",
+        saved_canceled_retry:
+          "Impostazioni salvate. Se un tentativo precedente è andato a buon fine, alcune email di fatturazione in sospeso potrebbero essere già state annullate.",
+        error_rate_limited: "Troppe modifiche in un breve periodo di tempo. Attenda un momento e riprovi.",
+        error_save: "Impossibile salvare le impostazioni email di fatturazione. Riprovi.",
+        error_load: "Impossibile caricare le impostazioni email di fatturazione. Riprovi più tardi.",
+        invalid_email: "Inserisca un indirizzo email valido.",
+        too_many: "Aggiunga al massimo %{smart_count} indirizzo. |||| Aggiunga al massimo %{smart_count} indirizzi.",
+      },
+      company_details: {
+        open: "Aggiungi dati aziendali",
+        title: "Aggiunga i dati aziendali alle fatture",
+        description: "Inserisca di seguito i dati della Sua azienda per aggiungerli alle Sue fatture future.",
+        fields: {
+          vat_id: "Partita IVA / Codice fiscale",
+          company_name: "Ragione sociale",
+          country: "Paese",
+          address: "Indirizzo",
+          postal_code: "Codice postale",
+          city: "Città",
+        },
+        send: "Invia richiesta",
+        sending: "Invio in corso...",
+        cancel: "Annulla",
+        close: "Chiudi",
+        view_request: "Visualizza richiesta",
+        success:
+          "La richiesta è stata inviata. Aggiungeremo questi dati a tutte le fatture future; le fatture precedenti non vengono modificate.",
+        error: "Impossibile inviare la richiesta. Riprovi.",
+      },
       fields: {
         transaction_id: "ID transazione",
         email: "Email",

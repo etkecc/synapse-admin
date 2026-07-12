@@ -39,6 +39,17 @@ SPDX-FileCopyrightText = "2026 Nikita Chernyi <https://etke.cc>"
 SPDX-License-Identifier = "Apache-2.0"
 
 [[annotations]]
+path = [
+  "src/components/ChipInput.tsx",
+  "src/components/etke.cc/InvoiceEmailsSection.tsx",
+  "src/components/etke.cc/InvoiceEmailsSection.test.tsx",
+  "src/components/etke.cc/CompanyDetailsDialog.tsx",
+  "src/components/etke.cc/CompanyDetailsDialog.test.tsx",
+]
+SPDX-FileCopyrightText = "2026 Nikita Chernyi <https://etke.cc>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
 path = [".dockerignore"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"

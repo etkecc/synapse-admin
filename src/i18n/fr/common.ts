@@ -218,8 +218,53 @@ const common: Record<string, any> = {
       no_payments_helper: "Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support etke.cc.",
       description1:
         "Vous pouvez consulter les paiements et générer des factures ici. Pour en savoir plus sur la gestion des abonnements, rendez-vous sur",
-      description2:
-        "Pour modifier votre e-mail de facturation ou ajouter des informations d’entreprise aux factures, consultez",
+      description2: "Pour modifier votre e-mail de facturation ou ajouter des informations d’entreprise aux factures :",
+      invoice_emails: {
+        title: "E-mails de facture",
+        enabled_label: "Envoyer les factures par e-mail à des adresses spécifiques",
+        emails_label: "Adresses des destinataires",
+        emails_placeholder: "billing@example.com",
+        emails_helper: "Appuyez sur Entrée pour ajouter chaque adresse. 5 maximum.",
+        description:
+          "Les nouveaux paramètres s’appliquent uniquement aux futures factures ; les factures passées ne sont pas renvoyées.",
+        save: "Enregistrer",
+        confirm_title: "Enregistrer les paramètres d’e-mail de facture ?",
+        confirm_additive: "Appliquer ces destinataires aux futures factures ?",
+        confirm_destructive:
+          "Cette action supprime %{emails} et annule tout e-mail de facture en attente pour ce serveur. Les destinataires ne sont pas conservés après la suppression. Continuer ?",
+        saved: "Paramètres d’e-mail de facture enregistrés.",
+        saved_canceled:
+          "Paramètres enregistrés. %{smart_count} e-mail de facture en attente a été annulé. |||| Paramètres enregistrés. %{smart_count} e-mails de facture en attente ont été annulés.",
+        saved_canceled_retry:
+          "Paramètres enregistrés. Si une tentative précédente a abouti, certains e-mails de facture en attente ont peut-être déjà été annulés.",
+        error_rate_limited: "Trop de modifications en peu de temps. Veuillez patienter un instant et réessayer.",
+        error_save: "Impossible d’enregistrer les paramètres d’e-mail de facture. Veuillez réessayer.",
+        error_load: "Impossible de charger les paramètres d’e-mail de facture. Veuillez réessayer plus tard.",
+        invalid_email: "Saisissez une adresse e-mail valide.",
+        too_many: "Ajoutez au maximum %{smart_count} adresse. |||| Ajoutez au maximum %{smart_count} adresses.",
+      },
+      company_details: {
+        open: "Ajouter les informations d’entreprise",
+        title: "Ajouter les informations d’entreprise aux factures",
+        description:
+          "Saisissez ci-dessous les informations de votre entreprise pour les ajouter à vos futures factures.",
+        fields: {
+          vat_id: "Numéro de TVA / identifiant fiscal",
+          company_name: "Nom de l’entreprise",
+          country: "Pays",
+          address: "Adresse",
+          postal_code: "Code postal",
+          city: "Ville",
+        },
+        send: "Envoyer la demande",
+        sending: "Envoi en cours...",
+        cancel: "Annuler",
+        close: "Fermer",
+        view_request: "Voir la demande",
+        success:
+          "Votre demande a été envoyée. Nous ajouterons ces informations à toutes vos futures factures ; les factures passées ne sont pas modifiées.",
+        error: "Impossible d’envoyer votre demande. Veuillez réessayer.",
+      },
       fields: {
         transaction_id: "ID de transaction",
         email: "E-mail",

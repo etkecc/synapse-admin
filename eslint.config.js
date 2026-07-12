@@ -108,6 +108,17 @@ export default [
       // eslint-plugin-import@2.32.0 is not compatible with ESLint 10 (see TypeError in lint output).
       // Re-enable when the plugin supports ESLint 10.
       "import/order": "off",
+      // A resource name key carries plural forms ("User |||| Users"); resolving one without a
+      // smart_count option returns the raw "||||", which then leaks into page and tab titles.
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "CallExpression[callee.name='translate'][arguments.0.value=/^resources\\.\\w+\\.name$/][arguments.length=1]",
+          message:
+            'translate("resources.*.name") needs a { smart_count } option, otherwise the plural resource name leaks the raw "||||" separator into the UI.',
+        },
+      ],
     },
   },
 ];

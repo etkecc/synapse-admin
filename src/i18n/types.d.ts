@@ -1014,6 +1014,46 @@ export interface SynapseTranslationMessages extends TranslationMessages {
       no_payments_helper: string;
       description1: string;
       description2: string;
+      invoice_emails: {
+        title: string;
+        enabled_label: string;
+        emails_label: string;
+        emails_placeholder: string;
+        emails_helper: string;
+        description: string;
+        save: string;
+        confirm_title: string;
+        confirm_additive: string;
+        confirm_destructive: string;
+        saved: string;
+        saved_canceled: string;
+        saved_canceled_retry: string;
+        error_rate_limited: string;
+        error_save: string;
+        error_load: string;
+        invalid_email: string;
+        too_many: string;
+      };
+      company_details: {
+        open: string;
+        title: string;
+        description: string;
+        fields: {
+          vat_id: string;
+          company_name: string;
+          country: string;
+          address: string;
+          postal_code: string;
+          city: string;
+        };
+        send: string;
+        sending: string;
+        cancel: string;
+        close: string;
+        view_request: string;
+        success: string;
+        error: string;
+      };
       fields: {
         transaction_id: string;
         email: string;

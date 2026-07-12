@@ -90,6 +90,14 @@ export interface PaymentsResponse {
   status?: PaymentStatus;
 }
 
+export interface InvoiceEmails {
+  enabled: boolean;
+  emails: string[];
+  // count of invoices this save canceled. only this PUT's response reports a nonzero count; a GET, or a
+  // repeat of the same save, returns 0. cache the first success, don't re-read it.
+  canceled?: number;
+}
+
 export interface Component {
   id: string;
   name: string;

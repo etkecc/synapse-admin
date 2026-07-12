@@ -4,6 +4,7 @@ import createLogger from "../../utils/logger";
 const log = createLogger("data");
 import type {
   ComponentsResponse,
+  InvoiceEmails,
   NotificationsStatus,
   PaymentsResponse,
   RecurringCommand,
@@ -541,6 +542,59 @@ export const etkeProviderMethods = {
       log.error("getInvoice download failed", { transactionId, error });
       throw error; // Re-throw to let the UI handle the error
     }
+  },
+
+  getInvoiceEmails: async (etkeAdminUrl: string, locale: string): Promise<InvoiceEmails> => {
+    try {
+      const response = await etkeClient(`${etkeAdminUrl}/invoice-emails`, locale);
+      if (!response.ok) {
+        log.error(`getInvoiceEmails: HTTP ${response.status} ${response.statusText}`);
+        throw new Error("Failed to fetch invoice email settings");
+      }
+      // an empty config is a valid response, not an error, so always return the parsed body.
+      return (await response.json()) as InvoiceEmails;
+    } catch (error) {
+      log.error("getInvoiceEmails failed", error);
+      throw error;
+    }
+  },
+
+  upsertInvoiceEmails: async (
+    etkeAdminUrl: string,
+    locale: string,
+    enabled: boolean,
+    emails: string[]
+  ): Promise<InvoiceEmails> => {
+    let response: Response;
+    try {
+      response = await etkeClient(`${etkeAdminUrl}/invoice-emails`, locale, {
+        method: "PUT",
+        body: JSON.stringify({ enabled, emails }),
+      });
+    } catch (error) {
+      // a network failure or missing token throws a raw, non-localized string; normalize it to a
+      // translatable key so a non-English customer never sees browser plumbing on the billing page.
+      log.error("upsertInvoiceEmails request failed", { error });
+      throw new Error("etkecc.billing.invoice_emails.error_save", { cause: error });
+    }
+    if (!response.ok) {
+      // surface rate-limiting as its own copy so the user waits instead of hammering Save into a wall.
+      if (response.status === 429) {
+        log.error("upsertInvoiceEmails rate-limited", { retryAfter: response.headers.get("Retry-After") });
+        throw new Error("etkecc.billing.invoice_emails.error_rate_limited");
+      }
+      // the error body carries a display-ready message; fall back to a local key only when it is empty.
+      let errMsg = "etkecc.billing.invoice_emails.error_save";
+      try {
+        const body = await response.json();
+        // guard the type: a non-string `error` would stringify to "[object Object]" and bury the real reason.
+        if (typeof body?.error === "string" && body.error) errMsg = body.error;
+      } catch {
+        /* empty error body: keep the fallback key */
+      }
+      throw new Error(errMsg);
+    }
+    return (await response.json()) as InvoiceEmails;
   },
 
   getSupportRequests: async (etkeAdminUrl: string, locale: string) => {

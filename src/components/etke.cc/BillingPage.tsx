@@ -1,4 +1,5 @@
 import BuildIcon from "@mui/icons-material/Build";
+import BusinessIcon from "@mui/icons-material/Business";
 import EuroSymbolIcon from "@mui/icons-material/EuroSymbol";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -30,10 +31,12 @@ import { useTheme } from "@mui/material/styles";
 import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { Link as RouterLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "react-admin";
 
 import { EtkeAttribution } from "./EtkeAttribution";
+import { CompanyDetailsDialog } from "./CompanyDetailsDialog";
+import { InvoiceEmailsSection } from "./InvoiceEmailsSection";
 import { useAppContext } from "../../Context";
 import { useInstanceConfig } from "./InstanceConfig";
 import { SynapseDataProvider, Payment, PaymentStatus } from "../../providers/types";
@@ -90,6 +93,10 @@ const BillingPage = () => {
   const [maintenance, setMaintenance] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
+  const [companyDialogOpen, setCompanyDialogOpen] = useState(false);
+  const closeCompanyDialog = useCallback(() => setCompanyDialogOpen(false), []);
+  // one binding for button + dialog so their guards can't drift apart (a dead-click/pop-open race if they do).
+  const supportAvailable = !!etkeccAdmin && !icfg.disabled.support;
 
   useDocTitle(translate("etkecc.billing.name"));
   useEffect(() => {
@@ -183,13 +190,30 @@ const BillingPage = () => {
             </Link>
             .
             <br />
-            {translate("etkecc.billing.description2")}{" "}
-            <Link href="https://etke.cc/help/payments/#how-to-add-company-details-to-the-invoices" target="_blank">
-              etke.cc/help/payments/#how-to-add-company-details-to-the-invoices
-            </Link>
-            .
+            {translate("etkecc.billing.description2")}
           </Typography>
+          {supportAvailable ? (
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<BusinessIcon />}
+              onClick={() => setCompanyDialogOpen(true)}
+              fullWidth={isSmall}
+              sx={{ mt: 1 }}
+            >
+              {translate("etkecc.billing.company_details.open")}
+            </Button>
+          ) : (
+            <Typography variant="body2" sx={{ mt: 0.5 }}>
+              <Link href="https://etke.cc/help/payments/#how-to-add-company-details-to-the-invoices" target="_blank">
+                etke.cc/help/payments/#how-to-add-company-details-to-the-invoices
+              </Link>
+            </Typography>
+          )}
         </EtkeAttribution>
+        {supportAvailable && (
+          <CompanyDetailsDialog etkeccAdmin={etkeccAdmin} open={companyDialogOpen} onClose={closeCompanyDialog} />
+        )}
       </Box>
     </>
   );
@@ -377,6 +401,7 @@ const BillingPage = () => {
     <Stack spacing={3} mt={3}>
       {header}
       {renderPaymentStatusAlert()}
+      {etkeccAdmin && <InvoiceEmailsSection etkeccAdmin={etkeccAdmin} />}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
           {translate("etkecc.billing.title")}

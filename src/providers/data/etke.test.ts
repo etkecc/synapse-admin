@@ -86,3 +86,49 @@ describe("getServerNotifications", () => {
     expect(result.success).toBe(false);
   });
 });
+
+describe("upsertInvoiceEmails", () => {
+  const url = "https://admin.example/etke";
+
+  it("normalizes a network rejection to the localized error_save key", async () => {
+    vi.mocked(fetch).mockRejectedValueOnce(new Error("Failed to fetch"));
+
+    await expect(etkeProviderMethods.upsertInvoiceEmails(url, "en", true, ["a@example.com"])).rejects.toThrow(
+      "etkecc.billing.invoice_emails.error_save"
+    );
+  });
+
+  it("maps a 429 to the rate-limit key", async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 429 }));
+
+    await expect(etkeProviderMethods.upsertInvoiceEmails(url, "en", true, ["a@example.com"])).rejects.toThrow(
+      "etkecc.billing.invoice_emails.error_rate_limited"
+    );
+  });
+
+  it("surfaces a server-localized error body verbatim", async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({ error: "Adresse invalide" }), { status: 400 })
+    );
+
+    await expect(etkeProviderMethods.upsertInvoiceEmails(url, "en", true, ["bad"])).rejects.toThrow("Adresse invalide");
+  });
+
+  it("falls back to error_save when the error body is empty", async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(new Response(null, { status: 500 }));
+
+    await expect(etkeProviderMethods.upsertInvoiceEmails(url, "en", true, ["a@example.com"])).rejects.toThrow(
+      "etkecc.billing.invoice_emails.error_save"
+    );
+  });
+
+  it("returns the parsed config on success", async () => {
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({ enabled: true, emails: ["a@example.com"], canceled: 2 }), { status: 200 })
+    );
+
+    const result = await etkeProviderMethods.upsertInvoiceEmails(url, "en", true, ["a@example.com"]);
+
+    expect(result).toEqual({ enabled: true, emails: ["a@example.com"], canceled: 2 });
+  });
+});

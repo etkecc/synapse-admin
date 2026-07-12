@@ -5,6 +5,7 @@ import type { EventContextResult, RoomHierarchyResult, RoomMessagesResult } from
 import type { MASPolicyData } from "./mas";
 import type {
   ComponentsResponse,
+  InvoiceEmails,
   PaymentsResponse,
   RecurringCommand,
   ScheduledCommand,
@@ -217,6 +218,13 @@ export interface SynapseDataProvider extends DataProvider {
   getComponents: (etkeAdminUrl: string, locale: string) => Promise<ComponentsResponse>;
   getPayments: (etkeAdminUrl: string, locale: string) => Promise<PaymentsResponse>;
   getInvoice: (etkeAdminUrl: string, locale: string, transactionId: string) => Promise<void>;
+  getInvoiceEmails: (etkeAdminUrl: string, locale: string) => Promise<InvoiceEmails>;
+  upsertInvoiceEmails: (
+    etkeAdminUrl: string,
+    locale: string,
+    enabled: boolean,
+    emails: string[]
+  ) => Promise<InvoiceEmails>;
   getSupportRequests: (etkeAdminUrl: string, locale: string) => Promise<SupportRequest[]>;
   getSupportRequest: (
     etkeAdminUrl: string,

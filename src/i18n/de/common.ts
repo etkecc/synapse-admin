@@ -218,7 +218,56 @@ const common: Record<string, any> = {
       no_payments_helper: "Wenn Sie glauben, dass das ein Fehler ist, kontaktieren Sie bitte den etke.cc-Support.",
       description1:
         "Hier können Sie Zahlungen einsehen und Rechnungen erstellen. Mehr zur Verwaltung von Abonnements erfahren Sie unter",
-      description2: "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen, siehe",
+      description2: "Um Ihre Abrechnungs-E-Mail zu ändern oder Firmendaten zu Rechnungen hinzuzufügen:",
+      invoice_emails: {
+        title: "Rechnungs-E-Mails",
+        enabled_label: "Rechnungen an bestimmte Adressen per E-Mail senden",
+        emails_label: "Empfängeradressen",
+        emails_placeholder: "billing@example.com",
+        emails_helper: "Drücken Sie die Eingabetaste, um jede Adresse hinzuzufügen. Bis zu 5.",
+        description:
+          "Neue Einstellungen gelten nur für zukünftige Rechnungen, vergangene Rechnungen werden nicht erneut versendet.",
+        save: "Speichern",
+        confirm_title: "Einstellungen für Rechnungs-E-Mails speichern?",
+        confirm_additive: "Diese Empfänger auf zukünftige Rechnungen anwenden?",
+        confirm_destructive:
+          "Dadurch werden %{emails} entfernt und alle ausstehenden Rechnungs-E-Mails für diesen Server storniert. Empfänger werden nach der Entfernung nicht gespeichert. Fortfahren?",
+        saved: "Einstellungen für Rechnungs-E-Mails gespeichert.",
+        saved_canceled:
+          "Einstellungen gespeichert. %{smart_count} ausstehende Rechnungs-E-Mail wurde storniert. |||| Einstellungen gespeichert. %{smart_count} ausstehende Rechnungs-E-Mails wurden storniert.",
+        saved_canceled_retry:
+          "Einstellungen gespeichert. Falls ein früherer Versuch erfolgreich war, wurden möglicherweise bereits einige ausstehende Rechnungs-E-Mails storniert.",
+        error_rate_limited:
+          "Zu viele Änderungen in kurzer Zeit. Bitte warten Sie einen Moment und versuchen Sie es erneut.",
+        error_save:
+          "Die Einstellungen für Rechnungs-E-Mails konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+        error_load:
+          "Die Einstellungen für Rechnungs-E-Mails konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+        invalid_email: "Geben Sie eine gültige E-Mail-Adresse ein.",
+        too_many:
+          "Fügen Sie höchstens %{smart_count} Adresse hinzu. |||| Fügen Sie höchstens %{smart_count} Adressen hinzu.",
+      },
+      company_details: {
+        open: "Firmendaten hinzufügen",
+        title: "Firmendaten zu Rechnungen hinzufügen",
+        description: "Geben Sie unten Ihre Firmendaten ein, um sie zu Ihren zukünftigen Rechnungen hinzuzufügen.",
+        fields: {
+          vat_id: "USt-IdNr. / Steuernummer",
+          company_name: "Firmenname",
+          country: "Land",
+          address: "Adresse",
+          postal_code: "Postleitzahl",
+          city: "Stadt",
+        },
+        send: "Anfrage senden",
+        sending: "Wird gesendet...",
+        cancel: "Abbrechen",
+        close: "Schließen",
+        view_request: "Anfrage anzeigen",
+        success:
+          "Ihre Anfrage wurde gesendet. Wir fügen diese Angaben zu allen zukünftigen Rechnungen hinzu; vergangene Rechnungen werden nicht geändert.",
+        error: "Ihre Anfrage konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+      },
       fields: {
         transaction_id: "Transaktions-ID",
         email: "E-Mail",

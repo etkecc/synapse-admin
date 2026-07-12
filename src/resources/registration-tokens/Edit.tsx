@@ -89,7 +89,7 @@ const RegistrationTokenEditToolbar = () => {
 export const RegistrationTokenEdit = (props: EditProps) => {
   const translate = useTranslate();
   const isMAS = useIsMAS();
-  useDocTitle(`${translate("ra.action.edit")} ${translate("resources.registration_tokens.name")}`);
+  useDocTitle(`${translate("ra.action.edit")} ${translate("resources.registration_tokens.name", { smart_count: 1 })}`);
 
   return (
     <Edit
