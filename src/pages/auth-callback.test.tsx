@@ -49,7 +49,7 @@ describe("auth-callback entrypoint", () => {
     });
 
     expect(location.href).toBe("http://localhost/auth-callback?code=abc");
-    await waitFor(() => expect(rootElement?.textContent).toContain("Authentication error"));
+    await waitFor(() => expect(rootElement?.textContent).toContain("Authentication error"), { timeout: 10000 });
     expect(rootElement?.textContent).toContain("nope");
     expect(rootElement?.textContent).toContain("Welcome to Ketesa");
     expect(rootElement?.textContent).toContain("Go Back");

@@ -31,8 +31,8 @@ const ServerActionsPage = () => {
           <EtkeAttribution>
             <Typography>
               {translate("etkecc.actions.scheduled_help_intro")}{" "}
-              <Link href="https://etke.cc/help/extras/scheduler/#schedule" target="_blank">
-                etke.cc/help/extras/scheduler/#schedule
+              <Link href="https://etke.cc/help/extras/ketesa/#schedule" target="_blank">
+                etke.cc/help/extras/ketesa/#schedule
               </Link>
               .
             </Typography>
@@ -48,8 +48,8 @@ const ServerActionsPage = () => {
           <EtkeAttribution>
             <Typography>
               {translate("etkecc.actions.recurring_help_intro")}{" "}
-              <Link href="https://etke.cc/help/extras/scheduler/#recurring" target="_blank">
-                etke.cc/help/extras/scheduler/#recurring
+              <Link href="https://etke.cc/help/extras/ketesa/#recurring" target="_blank">
+                etke.cc/help/extras/ketesa/#recurring
               </Link>
               .
             </Typography>

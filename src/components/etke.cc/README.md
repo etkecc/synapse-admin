@@ -11,7 +11,7 @@ A health indicator in the sidebar. It polls the server in the background and upd
 | Color | Meaning |
 |-------|---------|
 | 🟢 Green | Server is up, nothing wrong |
-| 🟡 Yellow | Server is up but a command is running, likely [maintenance](https://etke.cc/help/extras/scheduler/#maintenance); brief disruption is expected and fine |
+| 🟡 Yellow | Server is up but a command is running, likely [maintenance](https://etke.cc/help/extras/ketesa/#maintenance); brief disruption is expected and fine |
 | 🔴 Red | At least one component has a problem; click through to see what and why |
 
 ### Server Status page
@@ -47,10 +47,10 @@ Reachable from the **Server Actions** sidebar item. This is the management surfa
 | Action | What it does |
 |--------|--------------|
 | **Run now** | Runs a management command immediately; the result comes back as a notification |
-| **[Schedule](https://etke.cc/help/extras/scheduler/#schedule)** | Runs a command at a set date and time, for planned maintenance windows |
-| **[Recurring](https://etke.cc/help/extras/scheduler/#recurring)** | Runs a command automatically on a weekly schedule, for routine jobs like backups or cleanups |
+| **[Schedule](https://etke.cc/help/extras/ketesa/#schedule)** | Runs a command at a set date and time, for planned maintenance windows |
+| **[Recurring](https://etke.cc/help/extras/ketesa/#recurring)** | Runs a command automatically on a weekly schedule, for routine jobs like backups or cleanups |
 
-The [full command list](https://etke.cc/help/extras/scheduler/#commands) covers restarting services, running updates, triggering backups, and more, each a single click; some commands take optional arguments. Anything that would normally need SSH or a support ticket is available here directly.
+The [full command list](https://etke.cc/help/extras/ketesa/#commands) covers restarting services, running updates, triggering backups, and more, each a single click; some commands take optional arguments. Anything that would normally need SSH or a support ticket is available here directly.
 
 ### Components page
 

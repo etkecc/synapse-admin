@@ -41,8 +41,8 @@ SPDX-License-Identifier = "Apache-2.0"
 [[annotations]]
 path = [
   "src/components/ChipInput.tsx",
-  "src/components/etke.cc/InvoiceEmailsSection.tsx",
-  "src/components/etke.cc/InvoiceEmailsSection.test.tsx",
+  "src/components/etke.cc/InvoiceEmailsDialog.tsx",
+  "src/components/etke.cc/InvoiceEmailsDialog.test.tsx",
   "src/components/etke.cc/CompanyDetailsDialog.tsx",
   "src/components/etke.cc/CompanyDetailsDialog.test.tsx",
 ]

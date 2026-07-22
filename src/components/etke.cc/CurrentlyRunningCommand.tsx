@@ -28,7 +28,7 @@ const CurrentlyRunningCommand = () => {
         {translate("etkecc.currently_running.command")}{" "}
         {icfg.disabled.attributions && <Typography>{command}</Typography>}
         <EtkeAttribution>
-          <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
+          <Link href={"https://etke.cc/help/extras/ketesa/#" + command} target="_blank">
             {command}
           </Link>
         </EtkeAttribution>

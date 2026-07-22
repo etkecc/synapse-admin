@@ -2,8 +2,11 @@ import {
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControlLabel,
-  Paper,
   Stack,
   Switch,
   Typography,
@@ -36,7 +39,15 @@ const sameSet = (a: string[], b: string[]): boolean => a.length === b.length && 
 
 const KEY = "etkecc.billing.invoice_emails";
 
-export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) => {
+export const InvoiceEmailsDialog = ({
+  etkeccAdmin,
+  open,
+  onClose,
+}: {
+  etkeccAdmin: string;
+  open: boolean;
+  onClose: () => void;
+}) => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const locale = useLocale();
   const notify = useNotify();
@@ -47,7 +58,7 @@ export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) =
   const [loaded, setLoaded] = useState<InvoiceEmails>({ enabled: false, emails: [] });
   const [enabled, setEnabled] = useState(false);
   const [emails, setEmails] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   // set when a prior DESTRUCTIVE save errored: a later success returning canceled:0 is then ambiguous
@@ -61,8 +72,11 @@ export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) =
     localeRef.current = locale;
   });
 
+  // fetch on open, refetch on every reopen: no network while closed, and a reopen shows server truth, not a stale draft.
   useEffect(() => {
+    if (!open) return;
     let active = true;
+    setLoading(true);
     (async () => {
       try {
         const raw = await dataProvider.getInvoiceEmails(etkeccAdmin, localeRef.current);
@@ -73,6 +87,7 @@ export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) =
         setLoaded(cfg);
         setEnabled(cfg.enabled);
         setEmails(cfg.emails);
+        setPrevFailedDestructive(false); // reopen is a fresh baseline, drop any softened-toast flag from a prior attempt.
       } catch (error) {
         log.error("getInvoiceEmails failed", { error });
         if (active) notify(translate(`${KEY}.error_load`), { type: "error" });
@@ -83,7 +98,7 @@ export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) =
     return () => {
       active = false;
     };
-  }, [etkeccAdmin, dataProvider, notify, translate]);
+  }, [open, etkeccAdmin, dataProvider, notify, translate]);
 
   const emailsValid = emails.length <= MAX_EMAILS && emails.every(looksLikeEmail);
   const changed = enabled !== loaded.enabled || !sameSet(emails, loaded.emails);
@@ -131,78 +146,75 @@ export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) =
     }
   };
 
-  // same card the rest of BillingPage speaks in, so this section stops looking homeless next to it.
-  const cardSx = (t: typeof theme) => ({
-    p: { xs: 2, sm: 3 },
-    borderRadius: 3,
-    border: t.palette.mode === "dark" ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.08)",
-  });
-
-  if (loading) {
-    return (
-      <Paper elevation={0} sx={cardSx}>
-        <Box sx={{ display: "flex", justifyContent: "center", py: 2 }}>
-          <CircularProgress />
-        </Box>
-      </Paper>
-    );
-  }
+  // don't let a backdrop/Escape close yank the dialog out from under an in-flight save.
+  const handleClose = () => {
+    if (saving) return;
+    onClose();
+  };
 
   return (
-    <Paper elevation={0} sx={cardSx}>
-      <Stack spacing={2}>
-        <Box>
-          <Typography variant="h6" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <ReceiptLongIcon fontSize="small" />
-            {translate(`${KEY}.title`)}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {translate(`${KEY}.description`)}
-          </Typography>
-        </Box>
-        <FormControlLabel
-          control={<Switch checked={enabled} onChange={e => setEnabled(e.target.checked)} />}
-          label={translate(`${KEY}.enabled_label`)}
-        />
-        {enabled && (
-          <Stack spacing={1}>
-            <ChipInput
-              label={translate(`${KEY}.emails_label`)}
-              placeholder={translate(`${KEY}.emails_placeholder`)}
-              values={emails}
-              onChange={setEmails}
-              isSmall={isSmall}
-              type="email"
-              autoComplete="email"
-            />
+    <Dialog open={open} onClose={handleClose} fullScreen={isSmall} fullWidth maxWidth="sm">
+      <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <ReceiptLongIcon fontSize="small" />
+        {translate(`${KEY}.title`)}
+      </DialogTitle>
+      <DialogContent>
+        {loading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Stack spacing={2} sx={{ mt: 1 }}>
             <Typography variant="body2" color="text.secondary">
-              {translate(`${KEY}.emails_helper`)}
+              {translate(`${KEY}.description`)}
             </Typography>
-            {emails.length > MAX_EMAILS && (
-              <Typography variant="body2" color="error">
-                {translate(`${KEY}.too_many`, { smart_count: MAX_EMAILS })}
-              </Typography>
-            )}
-            {emails.some(e => !looksLikeEmail(e)) && (
-              <Typography variant="body2" color="error">
-                {translate(`${KEY}.invalid_email`)}
-              </Typography>
+            <FormControlLabel
+              control={<Switch checked={enabled} onChange={e => setEnabled(e.target.checked)} />}
+              label={translate(`${KEY}.enabled_label`)}
+            />
+            {enabled && (
+              <Stack spacing={1}>
+                <ChipInput
+                  label={translate(`${KEY}.emails_label`)}
+                  placeholder={translate(`${KEY}.emails_placeholder`)}
+                  values={emails}
+                  onChange={setEmails}
+                  isSmall={isSmall}
+                  type="email"
+                  autoComplete="email"
+                />
+                <Typography variant="body2" color="text.secondary">
+                  {translate(`${KEY}.emails_helper`)}
+                </Typography>
+                {emails.length > MAX_EMAILS && (
+                  <Typography variant="body2" color="error">
+                    {translate(`${KEY}.too_many`, { smart_count: MAX_EMAILS })}
+                  </Typography>
+                )}
+                {emails.some(e => !looksLikeEmail(e)) && (
+                  <Typography variant="body2" color="error">
+                    {translate(`${KEY}.invalid_email`)}
+                  </Typography>
+                )}
+              </Stack>
             )}
           </Stack>
         )}
-        <Box>
-          <Button
-            variant="contained"
-            onClick={() => setConfirmOpen(true)}
-            disabled={!canSave}
-            fullWidth={isSmall}
-            startIcon={saving ? <CircularProgress size={16} color="inherit" /> : undefined}
-            sx={{ minHeight: 44 }}
-          >
-            {translate(`${KEY}.save`)}
-          </Button>
-        </Box>
-      </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} disabled={saving}>
+          {translate("etkecc.billing.company_details.close")}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => setConfirmOpen(true)}
+          disabled={!canSave}
+          startIcon={saving ? <CircularProgress size={16} color="inherit" /> : undefined}
+          sx={{ minHeight: 44 }}
+        >
+          {translate(`${KEY}.save`)}
+        </Button>
+      </DialogActions>
       <Confirm
         isOpen={confirmOpen}
         fullScreen={isSmall}
@@ -215,6 +227,6 @@ export const InvoiceEmailsSection = ({ etkeccAdmin }: { etkeccAdmin: string }) =
         onConfirm={handleConfirm}
         onClose={() => setConfirmOpen(false)}
       />
-    </Paper>
+    </Dialog>
   );
 };

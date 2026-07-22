@@ -15,7 +15,7 @@ vi.mock("react-admin", async importOriginal => {
 });
 
 // imported after the mock is registered so the component picks up the mocked useNotify.
-const { InvoiceEmailsSection } = await import("./InvoiceEmailsSection");
+const { InvoiceEmailsDialog } = await import("./InvoiceEmailsDialog");
 
 const keyPrefix = "etkecc.billing.invoice_emails";
 const t = englishMessages.etkecc.billing.invoice_emails;
@@ -33,10 +33,10 @@ const makeProvider = (loaded: InvoiceEmails, overrides: ProviderOverrides = {}) 
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const renderSection = (dataProvider: any) =>
+const renderDialog = (dataProvider: any) =>
   render(
     <AdminContext i18nProvider={i18nProvider} dataProvider={dataProvider}>
-      <InvoiceEmailsSection etkeccAdmin="https://admin.example/admin/hash" />
+      <InvoiceEmailsDialog etkeccAdmin="https://admin.example/admin/hash" open onClose={vi.fn()} />
     </AdminContext>
   );
 
@@ -47,10 +47,10 @@ beforeEach(() => {
   notify.mockClear();
 });
 
-describe("InvoiceEmailsSection", () => {
+describe("InvoiceEmailsDialog", () => {
   it("does not PUT until the confirm dialog is confirmed", async () => {
     const dp = makeProvider({ enabled: true, emails: ["keep@example.com"] });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     const input = await screen.findByLabelText(t.emails_label);
@@ -71,7 +71,7 @@ describe("InvoiceEmailsSection", () => {
 
   it("shows the destructive warning when disabling removes the last recipients", async () => {
     const dp = makeProvider({ enabled: true, emails: ["a@example.com", "b@example.com"] });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     await user.click(await screen.findByLabelText(t.enabled_label)); // toggle off
@@ -83,7 +83,7 @@ describe("InvoiceEmailsSection", () => {
 
   it("shows the mild copy when one address is removed but recipients remain (predicate fix)", async () => {
     const dp = makeProvider({ enabled: true, emails: ["a@example.com", "b@example.com"] });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     await screen.findByLabelText(t.emails_label);
@@ -97,7 +97,7 @@ describe("InvoiceEmailsSection", () => {
 
   it("shows the mild copy on first-time setup (previously unconfigured)", async () => {
     const dp = makeProvider({ enabled: false, emails: [] });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     await user.click(await screen.findByLabelText(t.enabled_label)); // toggle on
@@ -112,7 +112,7 @@ describe("InvoiceEmailsSection", () => {
 
   it("disables Save when an address is malformed", async () => {
     const dp = makeProvider({ enabled: true, emails: ["a@example.com"] });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     const input = await screen.findByLabelText(t.emails_label);
@@ -124,7 +124,7 @@ describe("InvoiceEmailsSection", () => {
   it("notifies the canceled count when the save revokes pending invoices", async () => {
     const upsertInvoiceEmails = vi.fn().mockResolvedValue({ enabled: false, emails: [], canceled: 3 } as InvoiceEmails);
     const dp = makeProvider({ enabled: true, emails: ["a@example.com"] }, { upsertInvoiceEmails });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     await user.click(await screen.findByLabelText(t.enabled_label)); // toggle off -> destructive save
@@ -141,7 +141,7 @@ describe("InvoiceEmailsSection", () => {
   it("shows the rate-limit copy on a 429", async () => {
     const upsertInvoiceEmails = vi.fn().mockRejectedValue(new Error(`${keyPrefix}.error_rate_limited`));
     const dp = makeProvider({ enabled: true, emails: ["a@example.com"] }, { upsertInvoiceEmails });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     const input = await screen.findByLabelText(t.emails_label);
@@ -158,7 +158,7 @@ describe("InvoiceEmailsSection", () => {
       .mockRejectedValueOnce(new Error("Service temporarily unavailable")) // server-localized, shown verbatim
       .mockResolvedValueOnce({ enabled: false, emails: [], canceled: 0 } as InvoiceEmails);
     const dp = makeProvider({ enabled: true, emails: ["a@example.com"] }, { upsertInvoiceEmails });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     await user.click(await screen.findByLabelText(t.enabled_label)); // toggle off -> destructive
@@ -184,7 +184,7 @@ describe("InvoiceEmailsSection", () => {
         canceled: 0,
       } as InvoiceEmails);
     const dp = makeProvider({ enabled: true, emails: ["a@example.com"] }, { upsertInvoiceEmails });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     // additive save (server keeps recipients) fails: not destructive, so it cancels nothing.
@@ -210,7 +210,7 @@ describe("InvoiceEmailsSection", () => {
         canceled: 0,
       } as InvoiceEmails);
     const dp = makeProvider({ enabled: true, emails: ["a@example.com"] }, { upsertInvoiceEmails });
-    renderSection(dp);
+    renderDialog(dp);
     const user = userEvent.setup();
 
     await user.click(await screen.findByLabelText(t.enabled_label)); // toggle off -> destructive

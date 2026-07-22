@@ -6,6 +6,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
 import PaymentIcon from "@mui/icons-material/Payment";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import {
   Box,
   Alert,
@@ -36,7 +37,7 @@ import { Title, useDataProvider, useLocale, useNotify, useTranslate } from "reac
 
 import { EtkeAttribution } from "./EtkeAttribution";
 import { CompanyDetailsDialog } from "./CompanyDetailsDialog";
-import { InvoiceEmailsSection } from "./InvoiceEmailsSection";
+import { InvoiceEmailsDialog } from "./InvoiceEmailsDialog";
 import { useAppContext } from "../../Context";
 import { useInstanceConfig } from "./InstanceConfig";
 import { SynapseDataProvider, Payment, PaymentStatus } from "../../providers/types";
@@ -95,6 +96,8 @@ const BillingPage = () => {
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
   const [companyDialogOpen, setCompanyDialogOpen] = useState(false);
   const closeCompanyDialog = useCallback(() => setCompanyDialogOpen(false), []);
+  const [invoiceEmailsDialogOpen, setInvoiceEmailsDialogOpen] = useState(false);
+  const closeInvoiceEmailsDialog = useCallback(() => setInvoiceEmailsDialogOpen(false), []);
   // one binding for button + dialog so their guards can't drift apart (a dead-click/pop-open race if they do).
   const supportAvailable = !!etkeccAdmin && !icfg.disabled.support;
 
@@ -213,6 +216,25 @@ const BillingPage = () => {
         </EtkeAttribution>
         {supportAvailable && (
           <CompanyDetailsDialog etkeccAdmin={etkeccAdmin} open={companyDialogOpen} onClose={closeCompanyDialog} />
+        )}
+        {etkeccAdmin && (
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<ReceiptLongIcon />}
+            onClick={() => setInvoiceEmailsDialogOpen(true)}
+            fullWidth={isSmall}
+            sx={{ mt: 1, ml: { sm: 1 } }}
+          >
+            {translate("etkecc.billing.invoice_emails.title")}
+          </Button>
+        )}
+        {etkeccAdmin && (
+          <InvoiceEmailsDialog
+            etkeccAdmin={etkeccAdmin}
+            open={invoiceEmailsDialogOpen}
+            onClose={closeInvoiceEmailsDialog}
+          />
         )}
       </Box>
     </>
@@ -401,7 +423,6 @@ const BillingPage = () => {
     <Stack spacing={3} mt={3}>
       {header}
       {renderPaymentStatusAlert()}
-      {etkeccAdmin && <InvoiceEmailsSection etkeccAdmin={etkeccAdmin} />}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h5" sx={{ mb: 2 }}>
           {translate("etkecc.billing.title")}

@@ -185,8 +185,8 @@ const ServerCommandsPanel = () => {
       <EtkeAttribution>
         <Typography variant="body1" sx={{ mt: 0 }}>
           {translate("etkecc.actions.available_description")} {translate("etkecc.actions.available_help_intro")}{" "}
-          <Link href="https://etke.cc/help/extras/scheduler/#commands" target="_blank">
-            etke.cc/help/extras/scheduler/#commands
+          <Link href="https://etke.cc/help/extras/ketesa/#commands" target="_blank">
+            etke.cc/help/extras/ketesa/#commands
           </Link>
           .
         </Typography>
@@ -200,7 +200,7 @@ const ServerCommandsPanel = () => {
                 <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
                   {command}
                 </Typography>
-                <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank" sx={{ ml: "auto" }}>
+                <Link href={"https://etke.cc/help/extras/ketesa/#" + command} target="_blank" sx={{ ml: "auto" }}>
                   <HelpCenter fontSize="small" />
                 </Link>
               </Box>
@@ -275,7 +275,7 @@ const ServerCommandsPanel = () => {
                     </Box>
                   </TableCell>
                   <TableCell>
-                    <Link href={"https://etke.cc/help/extras/scheduler/#" + command} target="_blank">
+                    <Link href={"https://etke.cc/help/extras/ketesa/#" + command} target="_blank">
                       <Button
                         size="small"
                         startIcon={<HelpCenter />}

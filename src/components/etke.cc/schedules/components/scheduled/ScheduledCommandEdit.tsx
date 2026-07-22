@@ -144,11 +144,11 @@ const ScheduledCommandEdit = () => {
               <Typography variant="body1" sx={{ px: 2 }}>
                 {translate("etkecc.actions.command_details_intro")}{" "}
                 <Link
-                  href={`https://etke.cc/help/extras/scheduler/#${command.command}`}
+                  href={`https://etke.cc/help/extras/ketesa/#${command.command}`}
                   target="_blank"
                   sx={{ wordBreak: "break-all" }}
                 >
-                  {`etke.cc/help/extras/scheduler/#${command.command}`}
+                  {`etke.cc/help/extras/ketesa/#${command.command}`}
                 </Link>
                 .
               </Typography>
