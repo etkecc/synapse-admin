@@ -160,6 +160,7 @@ light up when there's an etke.cc platform behind them to talk to:
 | [GitHub Releases](https://github.com/etkecc/ketesa/releases) | Official prebuilt tarballs for root-path and `/admin` deployments |
 | [GHCR](https://github.com/etkecc/ketesa/pkgs/container/ketesa) / [Docker Hub](https://hub.docker.com/r/etkecc/ketesa/tags) | Official container images |
 | [Source](https://github.com/etkecc/ketesa) | Build from source or track `main` directly |
+| [Software Heritage](https://archive.softwareheritage.org/browse/origin/directory/?origin_url=https://github.com/etkecc/ketesa) |[![SWH](https://archive.softwareheritage.org/badge/origin/https://github.com/etkecc/ketesa/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/etkecc/ketesa) [![SWH](https://archive.softwareheritage.org/badge/swh:1:dir:91c27e43095109a277f1608f7861d1249e954018/)](https://archive.softwareheritage.org/swh:1:dir:91c27e43095109a277f1608f7861d1249e954018;origin=https://github.com/etkecc/ketesa;visit=swh:1:snp:d1d34ad11bda648f9f08684d97f859aea49c9d7a;anchor=swh:1:rev:d094b7d3d85b2bb3e3f22c06be6795689347e05d)
 
 Official static builds:
 
