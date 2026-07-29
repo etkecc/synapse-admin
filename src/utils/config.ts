@@ -74,26 +74,17 @@ export const FetchWellKnownConfig = async () => {
   // if it is not set, attempt to identify homeserver from the restrictBaseUrl config
   if (!homeserver) {
     const restrictBaseUrl = config.restrictBaseUrl;
-    if (typeof restrictBaseUrl === "string" && restrictBaseUrl !== "") {
+    const configured = typeof restrictBaseUrl === "string" ? restrictBaseUrl : (restrictBaseUrl?.[0] ?? "");
+    if (configured !== "") {
       try {
-        const url = new URL(restrictBaseUrl);
-        const host = url.host;
-        if (host) {
-          homeserver = host;
+        const url = new URL(configured);
+        if (url.host) {
+          homeserver = url.host;
+          // protocol rides with the host it came from; dial an http-only deployment over https and it just hangs.
+          protocol = url.protocol.replace(":", "");
         }
       } catch (e) {
-        // invalid URL, ignore
-        log.warn("invalid restrictBaseUrl, skipping", { restrictBaseUrl, error: e });
-      }
-    } else if (Array.isArray(restrictBaseUrl) && restrictBaseUrl.length > 0 && restrictBaseUrl[0] !== "") {
-      try {
-        const url = new URL(restrictBaseUrl[0]);
-        const host = url.host;
-        if (host) {
-          homeserver = host;
-        }
-      } catch (e) {
-        log.warn("invalid restrictBaseUrl, skipping", { restrictBaseUrl: restrictBaseUrl[0], error: e });
+        log.warn("invalid restrictBaseUrl, skipping", { restrictBaseUrl: configured, error: e });
       }
     }
   }

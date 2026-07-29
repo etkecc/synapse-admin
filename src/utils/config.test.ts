@@ -146,4 +146,52 @@ describe("config utils", () => {
     expect(global.fetch).toHaveBeenCalledWith("https://example.org/.well-known/matrix/client");
     expect((GetConfig().asManagedUsers[0] as RegExp).test("@wk:example.org")).toBe(true);
   });
+
+  it("keeps the restrictBaseUrl protocol when home_server and base_url are absent", async () => {
+    LoadConfig({
+      restrictBaseUrl: "http://localhost:8008",
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ [WellKnownKey]: { menu: [] } })));
+
+    await FetchWellKnownConfig();
+
+    expect(global.fetch).toHaveBeenCalledWith("http://localhost:8008/.well-known/matrix/client");
+  });
+
+  it("keeps the restrictBaseUrl protocol when restrictBaseUrl is a list", async () => {
+    LoadConfig({
+      restrictBaseUrl: ["http://localhost:8008", "https://example.org"],
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ [WellKnownKey]: { menu: [] } })));
+
+    await FetchWellKnownConfig();
+
+    expect(global.fetch).toHaveBeenCalledWith("http://localhost:8008/.well-known/matrix/client");
+  });
+
+  it("ignores restrictBaseUrl entirely once home_server is stored", async () => {
+    LoadConfig({
+      restrictBaseUrl: "http://localhost:8008",
+      corsCredentials: "same-origin",
+      asManagedUsers: [],
+      menu: [],
+      etkeccAdmin: "",
+    });
+    localStorage.setItem("home_server", "stored.example.org");
+    localStorage.setItem("base_url", "https://stored.example.org");
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ [WellKnownKey]: { menu: [] } })));
+
+    await FetchWellKnownConfig();
+
+    // both host and protocol come from storage; restrictBaseUrl's http must not leak across the guard
+    expect(global.fetch).toHaveBeenCalledWith("https://stored.example.org/.well-known/matrix/client");
+  });
 });
