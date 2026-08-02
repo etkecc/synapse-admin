@@ -52,7 +52,7 @@ describe("fetchAuthenticatedMedia", () => {
     await fetchAuthenticatedMedia("mxc://matrix.example/media123", "original");
 
     expect(global.fetch).toHaveBeenCalledWith(
-      "https://hs.example/_matrix/client/v1/media/download/matrix.example/media123/?admin_unsafely_bypass_quarantine=true",
+      "https://hs.example/_matrix/client/v1/media/download/matrix.example/media123?admin_unsafely_bypass_quarantine=true",
       {
         headers: {
           authorization: "Bearer secret-token",
