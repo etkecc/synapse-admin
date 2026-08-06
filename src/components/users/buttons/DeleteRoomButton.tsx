@@ -46,6 +46,8 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
   const titleId = useId();
   const [open, setOpen] = useState(false);
   const [block, setBlock] = useState(false);
+  const [purge, setPurge] = useState(true);
+  const [forcePurge, setForcePurge] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState<null | "active" | "done">(null);
 
   const notify = useNotify();
@@ -74,7 +76,13 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
     return stopPolling;
   }, [stopPolling]);
 
-  const handleDialogOpen = () => setOpen(true);
+  const handleDialogOpen = () => {
+    // clean slate every open: this button survives selection changes, so force_purge can't ride in checked from last time.
+    setBlock(false);
+    setPurge(true);
+    setForcePurge(false);
+    setOpen(true);
+  };
 
   const handleDialogClose = () => {
     if (deleteStatus === "active") {
@@ -93,7 +101,9 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
     setDeleteStatus("active");
 
     try {
-      const results = await Promise.all(recordIds.map(id => dataProvider.deleteRoom(id as string, block)));
+      const results = await Promise.all(
+        recordIds.map(id => dataProvider.deleteRoom(id as string, block, purge, forcePurge))
+      );
 
       const deleteIds = results.filter(r => r.success && r.delete_id).map(r => r.delete_id!);
       const failedImmediately = results.filter(r => !r.success);
@@ -188,6 +198,28 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
               label="resources.rooms.action.erase.fields.block"
               defaultValue={false}
               disabled={loading}
+            />
+            <BooleanInput
+              source="purge"
+              value={purge}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                const checked = event.target.checked;
+                setPurge(checked);
+                // force_purge is meaningless without purge, so an unchecked purge drags it down too.
+                if (!checked) setForcePurge(false);
+              }}
+              label="resources.rooms.action.erase.fields.purge"
+              defaultValue={true}
+              disabled={loading}
+            />
+            <BooleanInput
+              source="force_purge"
+              value={forcePurge}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setForcePurge(event.target.checked)}
+              label="resources.rooms.action.erase.fields.force_purge"
+              helperText="resources.rooms.action.erase.fields.force_purge_help"
+              defaultValue={false}
+              disabled={loading || !purge}
             />
           </SimpleForm>
           {deleteStatus === "active" && (

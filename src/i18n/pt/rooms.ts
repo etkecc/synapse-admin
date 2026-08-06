@@ -61,6 +61,10 @@ const rooms = {
         "Tem a certeza de que pretende eliminar esta sala? Esta ação não pode ser desfeita. Todas as mensagens e multimédia partilhado serão permanentemente eliminados do servidor.",
       fields: {
         block: "Bloquear e impedir utilizadores de entrar na sala",
+        purge: "Limpar todos os dados da sala da base de dados",
+        force_purge: "Forçar a limpeza mesmo que ainda existam utilizadores locais na sala",
+        force_purge_help:
+          "Utilize apenas se uma eliminação normal falhar; os clientes desses utilizadores podem ficar num estado inconsistente.",
       },
       in_progress: "Eliminação em curso…",
       background_note: "Pode fechar esta janela com segurança; a eliminação continuará em segundo plano.",

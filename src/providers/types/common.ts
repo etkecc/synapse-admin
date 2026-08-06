@@ -169,7 +169,9 @@ export interface SynapseDataProvider extends DataProvider {
   ) => Promise<{ success: boolean; status?: string; error?: string; errcode?: string }>;
   deleteRoom: (
     roomId: string,
-    block: boolean
+    block: boolean,
+    purge: boolean,
+    forcePurge: boolean
   ) => Promise<{ success: boolean; delete_id?: string; error?: string; errcode?: string }>;
   getRoomDeleteStatus: (
     deleteId: string

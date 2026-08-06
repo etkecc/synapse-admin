@@ -61,6 +61,10 @@ const rooms = {
         "Are you sure you want to delete this room? This action cannot be undone. All messages and shared media will be permanently deleted from the server.",
       fields: {
         block: "Block and prevent users from joining the room",
+        purge: "Purge all room data from the database",
+        force_purge: "Force purge even if local users are still in the room",
+        force_purge_help:
+          "Only use this if a normal delete fails; it can leave those users' clients in a confused state.",
       },
       in_progress: "Deletion in progress…",
       background_note: "You can safely close this window — the deletion will continue in the background.",

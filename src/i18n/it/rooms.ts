@@ -61,6 +61,10 @@ const rooms = {
         "È sicuro di voler eliminare questa stanza? Questa azione è definitiva. Tutti i messaggi e i media condivisi in questa stanza verranno eliminati dal server!",
       fields: {
         block: "Blocca e impedisci agli utenti di entrare nella stanza",
+        purge: "Elimina tutti i dati della stanza dal database",
+        force_purge: "Forza l'eliminazione anche se ci sono ancora utenti locali nella stanza",
+        force_purge_help:
+          "Usare solo se una normale eliminazione fallisce; i client di questi utenti potrebbero rimanere in uno stato incoerente.",
       },
       in_progress: "Eliminazione in corso…",
       background_note: "Può chiudere questa finestra, l'eliminazione continuerà in background.",

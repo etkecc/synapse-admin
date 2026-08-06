@@ -61,6 +61,10 @@ const rooms = {
         "Sind Sie sicher, dass Sie den Raum löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden. Alle Nachrichten und Medien, die der Raum beinhaltet werden vom Server gelöscht!",
       fields: {
         block: "Blockieren und Benutzer daran hindern, dem Raum beizutreten",
+        purge: "Alle Raumdaten aus der Datenbank löschen",
+        force_purge: "Löschen erzwingen, auch wenn noch lokale Benutzer im Raum sind",
+        force_purge_help:
+          "Nur verwenden, wenn ein normales Löschen fehlschlägt; die Clients dieser Benutzer können in einen inkonsistenten Zustand geraten.",
       },
       in_progress: "Löschung läuft…",
       background_note: "Sie können dieses Fenster bedenkenlos schließen, die Löschung wird im Hintergrund fortgesetzt.",

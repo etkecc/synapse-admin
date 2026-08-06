@@ -390,6 +390,9 @@ export interface SynapseTranslationMessages extends TranslationMessages {
           content: string;
           fields: {
             block: string;
+            purge: string;
+            force_purge: string;
+            force_purge_help: string;
           };
           in_progress: string;
           background_note: string;

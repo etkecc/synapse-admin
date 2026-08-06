@@ -565,12 +565,13 @@ export const redactUserEvents = async (id: Identifier) => {
   return { redact_id: json.redact_id as string };
 };
 
-export const deleteRoom = async (roomId: string, block: boolean) => {
+export const deleteRoom = async (roomId: string, block: boolean, purge: boolean, forcePurge: boolean) => {
   const base_url = localStorage.getItem("base_url");
   try {
+    // force_purge is a no-op server-side unless purge is true, so don't bother sending it otherwise.
     const { json } = await jsonClient(`${base_url}/_synapse/admin/v2/rooms/${encodeURIComponent(roomId)}`, {
       method: "DELETE",
-      body: JSON.stringify({ block }),
+      body: JSON.stringify({ block, purge, force_purge: purge && forcePurge }),
     });
     return { success: true, delete_id: json.delete_id as string };
   } catch (error) {

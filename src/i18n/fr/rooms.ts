@@ -61,6 +61,10 @@ const rooms = {
         "Voulez-vous vraiment supprimer le salon ? Cette opération ne peut être annulée. Tous les messages et médias partagés du salon seront supprimés du serveur !",
       fields: {
         block: "Bloquer et empêcher les utilisateurs de rejoindre le salon",
+        purge: "Purger toutes les données du salon de la base de données",
+        force_purge: "Forcer la purge même si des utilisateurs locaux sont encore dans le salon",
+        force_purge_help:
+          "À utiliser uniquement si une suppression normale échoue ; les clients de ces utilisateurs peuvent se retrouver dans un état incohérent.",
       },
       in_progress: "Suppression en cours…",
       background_note: "Vous pouvez fermer cette fenêtre, la suppression continuera en arrière-plan.",
