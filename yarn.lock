@@ -3042,10 +3042,10 @@ p-locate@^5.0.0:
   dependencies:
     p-limit "^3.0.2"
 
-papaparse@^5.5.4:
-  version "5.5.4"
-  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.5.4.tgz#7923f375a5d43850fd313160371c9567e5608c11"
-  integrity sha512-SwzWD9gl/ElwYLCI0nUja1mFJzjq2D8ziShfNBa7zCHzkOozeOGDwHWQ+tvCzEZcewecWZ5U7kUopDnG+DFYEQ==
+papaparse@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.6.0.tgz#738e01b27701df2fee6f92bb24bf8a6c5ef14c46"
+  integrity sha512-N2vuNQAYGK1/4vs6HJX86+VYU6OkiSTgdJz3JQfTk1y51cFCO/U8gnaeTF4iNE4r57Tt0sV47dUua1/19pxO6Q==
 
 parent-module@^1.0.0:
   version "1.0.1"
