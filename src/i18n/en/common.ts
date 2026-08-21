@@ -518,6 +518,7 @@ const common = {
         attachment_too_large: 'File "%{name}" exceeds the 5 MB limit.',
         too_many_attachments: "Maximum 5 files allowed.",
         total_size_exceeded: "Total attachment size exceeds 10 MB.",
+        download_failed: "Failed to download attachment.",
       },
     },
   },

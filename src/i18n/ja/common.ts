@@ -517,6 +517,7 @@ const common: Record<string, any> = {
         attachment_too_large: "ファイル「%{name}」は5MBの上限を超えています。",
         too_many_attachments: "添付ファイルは最大5件までです。",
         total_size_exceeded: "添付ファイルの合計サイズが10MBを超えています。",
+        download_failed: "添付ファイルのダウンロードに失敗しました。",
       },
     },
   },

@@ -544,6 +544,55 @@ export const etkeProviderMethods = {
     }
   },
 
+  getSupportAttachment: async (
+    etkeAdminUrl: string,
+    locale: string,
+    requestId: string,
+    attachmentId: string,
+    fileName: string
+  ) => {
+    try {
+      const response = await etkeClient(`${etkeAdminUrl}/support/${requestId}/attachments/${attachmentId}`, locale);
+
+      if (!response.ok) {
+        let errorMessage = `Failed to download attachment (${response.status}): ${response.statusText}`;
+
+        switch (response.status) {
+          case 404:
+            errorMessage = "Attachment not found";
+            break;
+          case 403:
+            errorMessage = "Access forbidden";
+            break;
+          case 401:
+            errorMessage = "Unauthorized";
+            break;
+        }
+
+        log.error("getSupportAttachment failed", {
+          requestId,
+          attachmentId,
+          status: response.status,
+          message: errorMessage,
+        });
+        throw new Error(errorMessage);
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      log.error("getSupportAttachment download failed", { requestId, attachmentId, error });
+      throw error;
+    }
+  },
+
   getInvoiceEmails: async (etkeAdminUrl: string, locale: string): Promise<InvoiceEmails> => {
     try {
       const response = await etkeClient(`${etkeAdminUrl}/invoice-emails`, locale);

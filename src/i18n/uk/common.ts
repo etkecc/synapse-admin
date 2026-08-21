@@ -526,6 +526,7 @@ const common: Record<string, any> = {
         attachment_too_large: "Файл «%{name}» перевищує обмеження у 5 МБ.",
         too_many_attachments: "Максимум 5 файлів.",
         total_size_exceeded: "Загальний розмір вкладень перевищує 10 МБ.",
+        download_failed: "Не вдалося завантажити вкладення.",
       },
     },
   },

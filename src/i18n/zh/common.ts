@@ -496,6 +496,7 @@ const common: Record<string, any> = {
         attachment_too_large: '文件"%{name}"超过5 MB限制。',
         too_many_attachments: "最多允许5个文件。",
         total_size_exceeded: "附件总大小超过10 MB。",
+        download_failed: "下载附件失败。",
       },
     },
   },

@@ -524,6 +524,7 @@ const common: Record<string, any> = {
         attachment_too_large: 'O ficheiro "%{name}" excede o limite de 5 MB.',
         too_many_attachments: "Máximo de 5 ficheiros permitido.",
         total_size_exceeded: "O tamanho total dos anexos excede 10 MB.",
+        download_failed: "Falha ao descarregar o anexo.",
       },
     },
   },

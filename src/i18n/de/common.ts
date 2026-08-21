@@ -533,6 +533,7 @@ const common: Record<string, any> = {
         attachment_too_large: 'Datei "%{name}" überschreitet das Limit von 5 MB.',
         too_many_attachments: "Maximal 5 Dateien erlaubt.",
         total_size_exceeded: "Die Gesamtgröße der Anhänge überschreitet 10 MB.",
+        download_failed: "Fehler beim Herunterladen des Anhangs.",
       },
     },
   },

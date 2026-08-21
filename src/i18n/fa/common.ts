@@ -519,6 +519,7 @@ const common: Record<string, any> = {
         attachment_too_large: "فایل «%{name}» از محدودیت ۵ مگابایت فراتر رفته است.",
         too_many_attachments: "حداکثر ۵ فایل مجاز است.",
         total_size_exceeded: "اندازه کل پیوست‌ها از ۱۰ مگابایت فراتر رفته است.",
+        download_failed: "بارگیری پیوست ناموفق بود.",
       },
     },
   },

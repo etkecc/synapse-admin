@@ -234,6 +234,13 @@ export interface SynapseDataProvider extends DataProvider {
     id: string,
     burstCache?: boolean
   ) => Promise<SupportRequestDetail>;
+  getSupportAttachment: (
+    etkeAdminUrl: string,
+    locale: string,
+    requestId: string,
+    attachmentId: string,
+    fileName: string
+  ) => Promise<void>;
   createSupportRequest: (
     etkeAdminUrl: string,
     locale: string,

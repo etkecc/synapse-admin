@@ -1,5 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
+import DownloadIcon from "@mui/icons-material/Download";
 import SendIcon from "@mui/icons-material/Send";
 import {
   Alert,
@@ -31,7 +31,7 @@ import {
 } from "react-admin";
 
 import { useAppContext } from "../../Context";
-import type { SupportAttachment } from "../../providers/types";
+import type { SupportAttachment, SupportAttachmentMeta } from "../../providers/types";
 import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../providers/types";
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
 import { formatBytes } from "../../utils/formatBytes";
@@ -56,18 +56,37 @@ const MessageRow = ({
   locale,
   resolvedProfile,
   mxid,
+  requestId,
 }: {
   msg: SupportMessage;
   locale: string;
   resolvedProfile?: ResolvedProfile;
   mxid?: string;
+  requestId: string;
 }) => {
   const navigate = useRedirect();
   const translate = useTranslate();
+  const { etkeccAdmin } = useAppContext();
+  const dataProvider = useDataProvider() as SynapseDataProvider;
+  const notify = useNotify();
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
   const isCustomer = msg.type === "customer";
   const author = resolvedProfile?.displayName ?? msg.created_by?.firstName ?? msg.type;
   const avatarUrl = resolvedProfile?.avatarSrc ?? msg.created_by?.avatarUrl;
   const safeHtml = DOMPurify.sanitize(msg.text, { USE_PROFILES: { html: true } });
+
+  const handleDownload = async (att: SupportAttachmentMeta) => {
+    if (downloadingId !== null || !etkeccAdmin || !att.id) return;
+    setDownloadingId(att.id);
+    try {
+      await dataProvider.getSupportAttachment(etkeccAdmin, locale, requestId, String(att.id), att.fileName);
+    } catch (error) {
+      notify(translate("etkecc.support.actions.download_failed"), { type: "error" });
+      log.error("failed to download attachment", { att, error });
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   return (
     <Paper
@@ -122,10 +141,12 @@ const MessageRow = ({
                 {msg.attachments.map(att => (
                   <Chip
                     key={att.id ?? att.fileName}
-                    icon={<AttachFileIcon />}
+                    icon={downloadingId === att.id ? <CircularProgress size={16} /> : <DownloadIcon />}
                     label={`${att.fileName}${att.size ? ` (${formatBytes(att.size)})` : ""}`}
                     size="small"
                     variant="outlined"
+                    onClick={() => att.id && handleDownload(att)}
+                    sx={{ cursor: att.id ? "pointer" : "default" }}
                   />
                 ))}
               </Stack>
@@ -385,6 +406,7 @@ const SupportRequestPage = () => {
                   ? msg.created_by.firstName
                   : undefined
               }
+              requestId={id!}
             />
           ))}
         </Stack>

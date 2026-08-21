@@ -533,6 +533,7 @@ const common: Record<string, any> = {
         attachment_too_large: "Файл «%{name}» превышает ограничение в 5 МБ.",
         too_many_attachments: "Максимум 5 файлов.",
         total_size_exceeded: "Общий размер вложений превышает 10 МБ.",
+        download_failed: "Не удалось скачать вложение.",
       },
     },
   },

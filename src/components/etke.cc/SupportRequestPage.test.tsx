@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { memoryStore } from "ra-core";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { AdminContext } from "react-admin";
@@ -53,6 +53,16 @@ const renderPage = (dataProvider: Partial<SynapseDataProvider>) => {
 };
 
 describe("SupportRequestPage", () => {
+  beforeEach(() => {
+    global.URL.createObjectURL = vi.fn(() => "blob:mock-object-url");
+    global.URL.revokeObjectURL = vi.fn();
+    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it("renders attachment chips for messages that have attachments", async () => {
     renderPage({
       getSupportRequest: vi.fn().mockResolvedValue(requestWithAttachments),
@@ -82,5 +92,23 @@ describe("SupportRequestPage", () => {
     });
 
     expect(screen.queryByText(englishMessages.etkecc.support.fields.attachments)).not.toBeInTheDocument();
+  });
+
+  it("downloads attachment when chip is clicked", async () => {
+    const getSupportAttachment = vi.fn().mockResolvedValue(undefined);
+    renderPage({
+      getSupportRequest: vi.fn().mockResolvedValue(requestWithAttachments),
+      getSupportAttachment,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText("screenshot.png (2.0 KB)")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("screenshot.png (2.0 KB)"));
+
+    await waitFor(() => {
+      expect(getSupportAttachment).toHaveBeenCalledWith("https://etke.cc", "en", "42", "7", "screenshot.png");
+    });
   });
 });

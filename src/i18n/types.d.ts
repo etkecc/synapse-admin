@@ -1249,6 +1249,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         attachment_too_large: string;
         too_many_attachments: string;
         total_size_exceeded: string;
+        download_failed: string;
       };
     };
     actions: {
