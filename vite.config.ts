@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { resolve, join, dirname } from "node:path";
 import { promises as fs } from "node:fs";
-import { resolveVersion, injectVersion } from "./src/utils/version";
+import { resolveVersion, injectVersion } from "./src/utils/version.ts";
 
 const version = resolveVersion();
 
@@ -32,8 +32,8 @@ export default defineConfig(({ mode }) => ({
     sourcemap: mode === "development",
     rolldownOptions: {
       input: {
-        main: resolve(__dirname, "src/entrypoints/index.html"),
-        "auth-callback/index": resolve(__dirname, "src/entrypoints/auth-callback.html"),
+        main: resolve(import.meta.dirname, "src/entrypoints/index.html"),
+        "auth-callback/index": resolve(import.meta.dirname, "src/entrypoints/auth-callback.html"),
       },
       output: {
         codeSplitting: {

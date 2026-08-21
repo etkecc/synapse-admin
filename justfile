@@ -8,7 +8,7 @@ build: __install
     @yarn run build --base=./
 
 update:
-    yarn upgrade-interactive --latest
+    yarn upgrade-interactive
     @echo "Cleaning up node_modules and reinstalling to avoid potential issues..."
     -rm -rf node_modules
     -rm yarn.lock
