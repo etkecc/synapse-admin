@@ -495,6 +495,7 @@ const common: Record<string, any> = {
         status: "Status",
         created_at: "Erstellt",
         updated_at: "Zuletzt aktualisiert",
+        attachments: "Anhänge",
       },
       status: {
         active: "Warte auf Betreiber",

@@ -459,6 +459,7 @@ const common: Record<string, any> = {
         status: "状态",
         created_at: "创建时间",
         updated_at: "最后更新",
+        attachments: "附件",
       },
       status: {
         active: "等待支持团队回复",

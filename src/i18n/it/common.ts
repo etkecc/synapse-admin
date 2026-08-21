@@ -487,6 +487,7 @@ const common: Record<string, any> = {
         status: "Stato",
         created_at: "Creato",
         updated_at: "Ultimo aggiornamento",
+        attachments: "Allegati",
       },
       status: {
         active: "In attesa dell'operatore",

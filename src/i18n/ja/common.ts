@@ -480,6 +480,7 @@ const common: Record<string, any> = {
         status: "ステータス",
         created_at: "作成日",
         updated_at: "最終更新",
+        attachments: "添付ファイル",
       },
       status: {
         active: "オペレーターの対応待ち",

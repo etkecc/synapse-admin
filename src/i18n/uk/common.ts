@@ -488,6 +488,7 @@ const common: Record<string, any> = {
         status: "Статус",
         created_at: "Створено",
         updated_at: "Останнє оновлення",
+        attachments: "Вкладення",
       },
       status: {
         active: "Очікування оператора",

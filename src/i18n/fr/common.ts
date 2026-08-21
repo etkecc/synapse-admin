@@ -492,6 +492,7 @@ const common: Record<string, any> = {
         status: "Statut",
         created_at: "Créé",
         updated_at: "Dernière mise à jour",
+        attachments: "Pièces jointes",
       },
       status: {
         active: "En attente de l'opérateur",

@@ -132,6 +132,13 @@ export interface SupportRequest {
   updated_at?: string;
 }
 
+export interface SupportAttachmentMeta {
+  id: number;
+  fileName: string;
+  mimeType?: string;
+  size?: number; // bytes
+}
+
 export interface SupportMessage {
   id?: number;
   type: string;
@@ -142,6 +149,7 @@ export interface SupportMessage {
     email?: string;
   };
   created_at?: string;
+  attachments?: SupportAttachmentMeta[];
 }
 
 export interface SupportRequestDetail extends SupportRequest {

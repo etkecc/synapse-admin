@@ -481,6 +481,7 @@ const common = {
         status: "Status",
         created_at: "Created",
         updated_at: "Last updated",
+        attachments: "Attachments",
       },
       status: {
         active: "Awaiting response from support",

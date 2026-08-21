@@ -1,4 +1,5 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import {
   Alert,
@@ -33,6 +34,7 @@ import { useAppContext } from "../../Context";
 import type { SupportAttachment } from "../../providers/types";
 import { SynapseDataProvider, SupportMessage, SupportRequestDetail } from "../../providers/types";
 import { fetchAuthenticatedMedia } from "../../utils/fetchMedia";
+import { formatBytes } from "../../utils/formatBytes";
 import { useDocTitle } from "../hooks/useDocTitle";
 import RichTextEditor from "./RichTextEditor";
 import SupportAttachments from "./SupportAttachments";
@@ -61,6 +63,7 @@ const MessageRow = ({
   mxid?: string;
 }) => {
   const navigate = useRedirect();
+  const translate = useTranslate();
   const isCustomer = msg.type === "customer";
   const author = resolvedProfile?.displayName ?? msg.created_by?.firstName ?? msg.type;
   const avatarUrl = resolvedProfile?.avatarSrc ?? msg.created_by?.avatarUrl;
@@ -110,6 +113,24 @@ const MessageRow = ({
         </Box>
         <Box sx={{ flex: 1, p: 2, minWidth: 0 }}>
           <Typography variant="body2" component="div" dangerouslySetInnerHTML={{ __html: safeHtml }} />
+          {msg.attachments?.length ? (
+            <Box mt={1}>
+              <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                {translate("etkecc.support.fields.attachments")}
+              </Typography>
+              <Stack direction="row" flexWrap="wrap" gap={0.5}>
+                {msg.attachments.map(att => (
+                  <Chip
+                    key={att.id ?? att.fileName}
+                    icon={<AttachFileIcon />}
+                    label={`${att.fileName}${att.size ? ` (${formatBytes(att.size)})` : ""}`}
+                    size="small"
+                    variant="outlined"
+                  />
+                ))}
+              </Stack>
+            </Box>
+          ) : null}
         </Box>
       </Stack>
     </Paper>

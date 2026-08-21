@@ -481,6 +481,7 @@ const common: Record<string, any> = {
         status: "وضعیت",
         created_at: "ایجاد شده",
         updated_at: "آخرین به‌روزرسانی",
+        attachments: "پیوست‌ها",
       },
       status: {
         active: "در انتظار اپراتور",

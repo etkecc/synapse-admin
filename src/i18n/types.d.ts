@@ -1212,6 +1212,7 @@ export interface SynapseTranslationMessages extends TranslationMessages {
         status: string;
         created_at: string;
         updated_at: string;
+        attachments: string;
       };
       status: {
         active: string;
