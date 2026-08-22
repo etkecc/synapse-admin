@@ -8,7 +8,26 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { DeleteParams, PaginationPayload, RaRecord, SortPayload, UpdateParams } from "react-admin";
+import { DeleteParams, GetListResult, PaginationPayload, RaRecord, SortPayload, UpdateParams } from "react-admin";
+
+import { jsonClient } from "../http";
+import { normalizeTS } from "../../utils/date";
+import { getLocalpart } from "../../utils/mxid";
+import { buildScanCacheKey, masFilterScanCache, runVirtualScan } from "./scan";
+import { synapseResourceMap } from "./synapse";
+import {
+  convertMASTokenToSynapse,
+  detectAndSetMAS,
+  filterUndefined,
+  getMASBaseUrl,
+  getMASNextPageCursor,
+  getMASVersion,
+  getMASTokenResource,
+  isMAS,
+  setIsMAS,
+  toRfc3339,
+  useIsMAS,
+} from "./mas-utils";
 
 import {
   MASCompatSessionListResponse,
@@ -32,21 +51,6 @@ import {
   MASUserSessionListResponse,
   MASUserSessionResource,
 } from "../types";
-import { jsonClient } from "../http";
-import { normalizeTS } from "../../utils/date";
-import {
-  convertMASTokenToSynapse,
-  detectAndSetMAS,
-  filterUndefined,
-  getMASBaseUrl,
-  getMASNextPageCursor,
-  getMASVersion,
-  getMASTokenResource,
-  isMAS,
-  setIsMAS,
-  toRfc3339,
-  useIsMAS,
-} from "./mas-utils";
 
 // Re-export utilities consumed by components and auth providers that import from this module.
 export { detectAndSetMAS, getMASBaseUrl, getMASNextPageCursor, getMASVersion, isMAS, setIsMAS, useIsMAS };
@@ -115,6 +119,119 @@ const mapMASUserItem = (item: MASUserResource, homeserverId?: string) => {
   };
 };
 
+// Enriches MAS user records with Synapse profile data; admin stays Synapse-only by design.
+const enrichMASUserList = async (records: RaRecord[]): Promise<RaRecord[]> => {
+  const synapseBaseUrl = localStorage.getItem("base_url") || "";
+  return Promise.all(
+    records.map(async record => {
+      try {
+        const matrixId = encodeURIComponent(record.id);
+        const { json } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
+        return {
+          ...record,
+          avatar_src: json.avatar_url ?? null,
+          displayname: json.displayname ?? null,
+          // Normalize across Synapse user endpoints before the value reaches the UI.
+          creation_ts_ms: normalizeTS(json.creation_ts),
+          is_guest: !!json.is_guest,
+          shadow_banned: !!json.shadow_banned,
+          erased: !!json.erased,
+          deactivated: !!json.deactivated,
+          suspended: !!json.suspended,
+        };
+      } catch {
+        return record;
+      }
+    })
+  );
+};
+
+// Scans Synapse v3 for status/admin filters, filtering on MAS-merged state Synapse lacks.
+const scanMASFilteredUsers = async (params: {
+  pagination: PaginationPayload;
+  sort: SortPayload;
+  filter: Record<string, any>;
+}): Promise<GetListResult> => {
+  const masBaseUrl = getMASBaseUrl();
+  const synapseBaseUrl = localStorage.getItem("base_url") || "";
+  const { page, perPage } = params.pagination;
+  const { field, order } = params.sort;
+  const { status, admin, name, search } = params.filter;
+
+  // Full MAS user list as the in-memory lookup for the merged filter state.
+  const masByUsername = new Map<string, MASUserResource>();
+  if (masBaseUrl) {
+    let cursor: string | undefined;
+    do {
+      const query = filterUndefined({ "page[first]": 100, "page[after]": cursor, count: "true" });
+      const url = `${masBaseUrl}/api/admin/v1/users?${new URLSearchParams(query as Record<string, string>).toString()}`;
+      const { json } = await jsonClient(url);
+      for (const u of (json?.data as MASUserResource[]) || []) {
+        masByUsername.set(u.attributes.username, u);
+      }
+      cursor = json?.links?.next ? getMASNextPageCursor(json) : undefined;
+    } while (cursor);
+  }
+
+  // Map sort field to Synapse order_by
+  const orderByMap: Record<string, string> = {
+    creation_ts_ms: "creation_ts",
+  };
+  const orderBy = orderByMap[field] ?? field;
+
+  // locked=true is inclusive; exclusive deactivated/admins filters would drop MAS-only state.
+  const baseQuery = filterUndefined({
+    order_by: orderBy,
+    dir: order === "DESC" ? "b" : "f",
+    name: name || search || undefined,
+    guests: false,
+    locked: true,
+  });
+
+  const cacheKey = buildScanCacheKey({
+    resource: "users",
+    baseUrl: synapseBaseUrl,
+    query: baseQuery,
+    status,
+    admin,
+  });
+  const pageStart = (page - 1) * perPage;
+  const pageEnd = pageStart + perPage;
+
+  return runVirtualScan({
+    cache: masFilterScanCache,
+    cacheKey,
+    pageStart,
+    pageEnd,
+    perPage,
+    fetchPage: async (offset, limit) => {
+      const pagedQuery = { ...baseQuery, from: offset, limit };
+      const url = `${synapseBaseUrl}/_synapse/admin/v3/users?${new URLSearchParams(
+        filterUndefined(pagedQuery) as Record<string, string>
+      ).toString()}`;
+      const { json } = await jsonClient(url);
+      const rawData: any[] = json.users || [];
+      const records = rawData.map(synapseResourceMap.users.map);
+      return { rawCount: rawData.length, records, serverTotal: json.total || 0 };
+    },
+    filterFn: record => {
+      const username = getLocalpart(record.id);
+      const mas = masByUsername.get(username);
+      const mergedAdmin = !!record.admin || !!mas?.attributes.admin;
+      const mergedLocked = mas ? !!mas.attributes.locked_at : !!record.locked;
+      const mergedDeactivated = mas ? !!mas.attributes.deactivated_at : !!record.deactivated;
+      if (status === "active") return !mergedLocked && !mergedDeactivated;
+      if (status === "locked") return mergedLocked;
+      if (status === "deactivated") return mergedDeactivated;
+      if (admin === true) return mergedAdmin;
+      if (admin === false) return !mergedAdmin;
+      return true;
+    },
+    notifyKey: "resources.users.action.system_users_scan_in_progress",
+    enrichList: enrichMASUserList,
+  });
+};
+
 export const getMASUsersResource = () => ({
   path: "/api/admin/v1/users",
   isMAS: true,
@@ -168,32 +285,13 @@ export const getMASUsersAsMainResource = () => ({
   // Note: this path (reverse-search / system-user scans) sources `admin` from Synapse only; it does
   // not OR in MAS can_request_admin the way getList/getOne do, so a MAS-promoted admin shows no crown
   // in these secondary views. Synapse-only-by-design here to avoid a per-record MAS fetch in the scan.
-  enrichList: async (records: RaRecord[]) => {
-    const synapseBaseUrl = localStorage.getItem("base_url") || "";
-    return Promise.all(
-      records.map(async record => {
-        try {
-          const matrixId = encodeURIComponent(record.id);
-          const { json } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
-          return {
-            ...record,
-            avatar_src: json.avatar_url ?? null,
-            displayname: json.displayname ?? null,
-            // Normalize across Synapse user endpoints before the value reaches the UI.
-            creation_ts_ms: normalizeTS(json.creation_ts),
-            is_guest: !!json.is_guest,
-            shadow_banned: !!json.shadow_banned,
-            erased: !!json.erased,
-            deactivated: !!json.deactivated,
-            suspended: !!json.suspended,
-          };
-        } catch {
-          return record;
-        }
-      })
-    );
-  },
+  enrichList: enrichMASUserList,
   getList: async (params: { pagination: PaginationPayload; sort: SortPayload; filter: Record<string, any> }) => {
+    // MAS status/admin filters need the MAS-merged state (see scanMASFilteredUsers).
+    if (params.filter.status || params.filter.admin !== undefined) {
+      return scanMASFilteredUsers(params);
+    }
+
     // Always use Synapse-first path so appservice/bot users (Synapse-only, no MAS account)
     // are included in the list alongside regular MAS-managed users.
 

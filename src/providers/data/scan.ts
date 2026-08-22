@@ -24,6 +24,10 @@ export const clearSystemUsersScanCache = () => systemUsersScanCache.clear();
 export const reverseSearchScanCache = new Map<string, SystemUsersScanCacheEntry>();
 export const clearReverseSearchScanCache = () => reverseSearchScanCache.clear();
 
+// Cache for the MAS status/admin filter scan (getMASUsersAsMainResource.getList).
+export const masFilterScanCache = new Map<string, SystemUsersScanCacheEntry>();
+export const clearMASFilterScanCache = () => masFilterScanCache.clear();
+
 /**
  * Build a stable cache key from any set of filter/sort parameters.
  * Callers are responsible for pre-filtering undefined values out of query params

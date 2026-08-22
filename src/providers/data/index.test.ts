@@ -4,7 +4,7 @@ vi.mock("../matrix", async () => ({
 }));
 
 import dataProvider from "./index";
-import { clearSystemUsersScanCache, clearReverseSearchScanCache } from "./index";
+import { clearSystemUsersScanCache, clearReverseSearchScanCache, clearMASFilterScanCache } from "./index";
 import { LoadConfig } from "../../utils/config";
 
 beforeEach(() => {
@@ -15,6 +15,7 @@ beforeEach(() => {
   localStorage.setItem("access_token", "access_token");
   clearSystemUsersScanCache();
   clearReverseSearchScanCache();
+  clearMASFilterScanCache();
   LoadConfig({
     restrictBaseUrl: "",
     corsCredentials: "same-origin",
@@ -216,6 +217,365 @@ describe("dataProvider", () => {
     expect(page2Url).toContain("page%5Bfirst%5D=10");
     expect(page2Url).toContain("page%5Bafter%5D=01JB4PAPAMESEFX6CNP1JA5M6V");
     expect(page2Url).toContain("filter%5Bvalid%5D=true");
+  });
+  it("filters MAS users by status=locked using the MAS-merged state", async () => {
+    vi.resetModules();
+    const { default: freshDataProvider } = await import("./index");
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    localStorage.setItem("RaStore.isMAS", "true");
+    localStorage.setItem("home_server", "hs");
+    const { initResources } = await import("./index");
+    initResources();
+
+    const masList = {
+      data: [
+        {
+          type: "user",
+          id: "ulid-alice",
+          links: { self: "/api/admin/v1/users/ulid-alice" },
+          attributes: {
+            username: "alice",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: "2024-01-02T00:00:00Z",
+            deactivated_at: null,
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+        {
+          type: "user",
+          id: "ulid-bob",
+          links: { self: "/api/admin/v1/users/ulid-bob" },
+          attributes: {
+            username: "bob",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: null,
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+        {
+          type: "user",
+          id: "ulid-carol",
+          links: { self: "/api/admin/v1/users/ulid-carol" },
+          attributes: {
+            username: "carol",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: "2024-01-02T00:00:00Z",
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+      ],
+      links: { next: null },
+      meta: { count: 3 },
+    };
+    const synapseUsers = {
+      users: [
+        { name: "@alice:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Alice" },
+        { name: "@bob:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Bob" },
+        { name: "@carol:hs", is_guest: 0, admin: 0, deactivated: 1, locked: 0, displayname: "Carol" },
+      ],
+      total: 3,
+    };
+    const aliceProfile = {
+      name: "@alice:hs",
+      admin: 0,
+      deactivated: 0,
+      locked: 0,
+      displayname: "Alice",
+      avatar_url: null,
+      is_guest: 0,
+      shadow_banned: 0,
+      erased: 0,
+      suspended: 0,
+      creation_ts: 1700000000,
+    };
+
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(new Response(JSON.stringify(masList)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(synapseUsers)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(aliceProfile)));
+
+    const result = await freshDataProvider.getList("users", {
+      pagination: { page: 1, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { status: "locked" },
+    });
+
+    expect(result.data.map(u => u.id)).toEqual(["@alice:hs"]);
+    expect(result.total).toEqual(1);
+    const [masUrl, synapseUrl] = vi.mocked(fetch).mock.calls.map(c => String(c[0]));
+    expect(masUrl).toContain("http://mas.example/api/admin/v1/users?");
+    expect(masUrl).toContain("page%5Bfirst%5D=100");
+    expect(synapseUrl).toContain("/_synapse/admin/v3/users?");
+    expect(synapseUrl).toContain("locked=true");
+    expect(synapseUrl).toContain("guests=false");
+  });
+
+  it("filters MAS users by status=active excluding locked and deactivated", async () => {
+    vi.resetModules();
+    const { default: freshDataProvider } = await import("./index");
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    localStorage.setItem("RaStore.isMAS", "true");
+    localStorage.setItem("home_server", "hs");
+    const { initResources } = await import("./index");
+    initResources();
+
+    const masList = {
+      data: [
+        {
+          type: "user",
+          id: "ulid-alice",
+          links: { self: "/api/admin/v1/users/ulid-alice" },
+          attributes: {
+            username: "alice",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: "2024-01-02T00:00:00Z",
+            deactivated_at: null,
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+        {
+          type: "user",
+          id: "ulid-bob",
+          links: { self: "/api/admin/v1/users/ulid-bob" },
+          attributes: {
+            username: "bob",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: null,
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+      ],
+      links: { next: null },
+      meta: { count: 2 },
+    };
+    const synapseUsers = {
+      users: [
+        { name: "@alice:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Alice" },
+        { name: "@bob:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Bob" },
+      ],
+      total: 2,
+    };
+    const bobProfile = {
+      name: "@bob:hs",
+      admin: 0,
+      deactivated: 0,
+      locked: 0,
+      displayname: "Bob",
+      avatar_url: null,
+      is_guest: 0,
+      shadow_banned: 0,
+      erased: 0,
+      suspended: 0,
+      creation_ts: 1700000000,
+    };
+
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(new Response(JSON.stringify(masList)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(synapseUsers)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(bobProfile)));
+
+    const result = await freshDataProvider.getList("users", {
+      pagination: { page: 1, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { status: "active" },
+    });
+
+    expect(result.data.map(u => u.id)).toEqual(["@bob:hs"]);
+    const [, synapseUrl] = vi.mocked(fetch).mock.calls.map(c => String(c[0]));
+    expect(synapseUrl).toContain("locked=true");
+    expect(synapseUrl).not.toContain("deactivated=");
+  });
+
+  it("filters MAS users by status=deactivated", async () => {
+    vi.resetModules();
+    const { default: freshDataProvider } = await import("./index");
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    localStorage.setItem("RaStore.isMAS", "true");
+    localStorage.setItem("home_server", "hs");
+    const { initResources } = await import("./index");
+    initResources();
+
+    const masList = {
+      data: [
+        {
+          type: "user",
+          id: "ulid-bob",
+          links: { self: "/api/admin/v1/users/ulid-bob" },
+          attributes: {
+            username: "bob",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: null,
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+        {
+          type: "user",
+          id: "ulid-carol",
+          links: { self: "/api/admin/v1/users/ulid-carol" },
+          attributes: {
+            username: "carol",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: "2024-01-02T00:00:00Z",
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+      ],
+      links: { next: null },
+      meta: { count: 2 },
+    };
+    const synapseUsers = {
+      users: [
+        { name: "@bob:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Bob" },
+        // carol is MAS-only deactivated: Synapse says active, MAS says deactivated.
+        { name: "@carol:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Carol" },
+      ],
+      total: 2,
+    };
+    const carolProfile = {
+      name: "@carol:hs",
+      admin: 0,
+      deactivated: 0,
+      locked: 0,
+      displayname: "Carol",
+      avatar_url: null,
+      is_guest: 0,
+      shadow_banned: 0,
+      erased: 0,
+      suspended: 0,
+      creation_ts: 1700000000,
+    };
+
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(new Response(JSON.stringify(masList)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(synapseUsers)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(carolProfile)));
+
+    const result = await freshDataProvider.getList("users", {
+      pagination: { page: 1, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { status: "deactivated" },
+    });
+
+    expect(result.data.map(u => u.id)).toEqual(["@carol:hs"]);
+    const [, synapseUrl] = vi.mocked(fetch).mock.calls.map(c => String(c[0]));
+    expect(synapseUrl).toContain("locked=true");
+    expect(synapseUrl).not.toContain("deactivated=");
+  });
+
+  it("filters MAS users by admin using the MAS-merged admin state", async () => {
+    vi.resetModules();
+    const { default: freshDataProvider } = await import("./index");
+    localStorage.setItem("token_endpoint", "http://mas.example/oauth2/token");
+    localStorage.setItem("RaStore.isMAS", "true");
+    localStorage.setItem("home_server", "hs");
+    const { initResources } = await import("./index");
+    initResources();
+
+    // alice is MAS-promoted admin only: Synapse v3 says admin=0, MAS says admin=true.
+    const masList = {
+      data: [
+        {
+          type: "user",
+          id: "ulid-alice",
+          links: { self: "/api/admin/v1/users/ulid-alice" },
+          attributes: {
+            username: "alice",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: null,
+            admin: true,
+            legacy_guest: false,
+          },
+        },
+        {
+          type: "user",
+          id: "ulid-bob",
+          links: { self: "/api/admin/v1/users/ulid-bob" },
+          attributes: {
+            username: "bob",
+            created_at: "2024-01-01T00:00:00Z",
+            locked_at: null,
+            deactivated_at: null,
+            admin: false,
+            legacy_guest: false,
+          },
+        },
+      ],
+      links: { next: null },
+      meta: { count: 2 },
+    };
+    const synapseUsers = {
+      users: [
+        { name: "@alice:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Alice" },
+        { name: "@bob:hs", is_guest: 0, admin: 0, deactivated: 0, locked: 0, displayname: "Bob" },
+      ],
+      total: 2,
+    };
+    const aliceProfile = {
+      name: "@alice:hs",
+      admin: 0,
+      deactivated: 0,
+      locked: 0,
+      displayname: "Alice",
+      avatar_url: null,
+      is_guest: 0,
+      shadow_banned: 0,
+      erased: 0,
+      suspended: 0,
+      creation_ts: 1700000000,
+    };
+    const bobProfile = {
+      name: "@bob:hs",
+      admin: 0,
+      deactivated: 0,
+      locked: 0,
+      displayname: "Bob",
+      avatar_url: null,
+      is_guest: 0,
+      shadow_banned: 0,
+      erased: 0,
+      suspended: 0,
+      creation_ts: 1700000000,
+    };
+
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(new Response(JSON.stringify(masList)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(synapseUsers)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(aliceProfile)));
+
+    const result = await freshDataProvider.getList("users", {
+      pagination: { page: 1, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { admin: true },
+    });
+
+    expect(result.data.map(u => u.id)).toEqual(["@alice:hs"]);
+    const [, synapseUrl] = vi.mocked(fetch).mock.calls.map(c => String(c[0]));
+    expect(synapseUrl).toContain("locked=true");
+    expect(synapseUrl).not.toContain("admins=");
+    // admin=false must exclude the MAS-only admin and keep the regular user.
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(new Response(JSON.stringify(masList)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(synapseUsers)))
+      .mockResolvedValueOnce(new Response(JSON.stringify(bobProfile)));
+    const nonAdmins = await freshDataProvider.getList("users", {
+      pagination: { page: 1, perPage: 50 },
+      sort: { field: "name", order: "ASC" },
+      filter: { admin: false },
+    });
+    expect(nonAdmins.data.map(u => u.id)).toEqual(["@bob:hs"]);
   });
 
   it("keeps fetching backend pages until a filtered users page is filled", async () => {

@@ -10,6 +10,7 @@ import {
   filterUndefined,
   revokeRegistrationToken,
   isMAS,
+  mapMASUserListFilterToSynapse,
 } from "./mas-utils";
 import {
   getMASRegistrationTokensResource,
@@ -94,7 +95,7 @@ import {
 import { wrapWithLifecycle } from "./lifecycle";
 import createLogger from "../../utils/logger";
 
-export { clearSystemUsersScanCache, clearReverseSearchScanCache } from "./scan";
+export { clearSystemUsersScanCache, clearReverseSearchScanCache, clearMASFilterScanCache } from "./scan";
 
 /**
  * Initialize all flag-dependent resources and patch them into resourceMap.
@@ -195,6 +196,7 @@ const buildSynapseListQuery = (
     guests: unknown;
     deactivated: unknown;
     locked: unknown;
+    admins: unknown;
     suspended: unknown;
     shadow_banned: unknown;
     valid: unknown;
@@ -220,6 +222,7 @@ const buildSynapseListQuery = (
   guests: isMAS() ? false : params.guests,
   deactivated: params.deactivated,
   locked: params.locked,
+  admins: params.admins,
   suspended: params.suspended,
   shadow_banned: params.shadow_banned,
   valid: params.valid,
@@ -246,6 +249,7 @@ const baseDataProvider: SynapseDataProvider = {
       guests,
       deactivated,
       locked,
+      admins,
       suspended,
       shadow_banned,
       search_term,
@@ -275,6 +279,7 @@ const baseDataProvider: SynapseDataProvider = {
       guests,
       deactivated,
       locked,
+      admins,
       suspended,
       shadow_banned,
       valid,
@@ -326,7 +331,9 @@ const baseDataProvider: SynapseDataProvider = {
       const pageStart = from;
       const pageEnd = pageStart + perPage;
 
-      const scanFilterParams = res.isMAS ? { ...synapseFilterParams, guests: false } : synapseFilterParams;
+      const scanFilterParams = res.isMAS
+        ? { ...synapseFilterParams, guests: false, ...mapMASUserListFilterToSynapse(params.filter) }
+        : synapseFilterParams;
       const scanQuery = buildSynapseListQuery(scanFilterParams, 0, 0, field, order);
       const cacheKey = buildScanCacheKey({
         resource,
@@ -351,7 +358,8 @@ const baseDataProvider: SynapseDataProvider = {
           const records = await Promise.all(rawData.map(scanMap));
           return { rawCount: rawData.length, records, serverTotal: scanTotal(json) };
         },
-        filterFn: record => isSystemUser(record.id) === wantSystem,
+        filterFn: record =>
+          (params.filter.status !== "locked" || !!record.locked) && isSystemUser(record.id) === wantSystem,
         notifyKey: "resources.users.action.system_users_scan_in_progress",
         enrichList: res.enrichList,
       });
@@ -374,7 +382,9 @@ const baseDataProvider: SynapseDataProvider = {
       const pageEnd = pageStart + perPage;
 
       // Reverse search excludes the name filter and overrides guests for MAS mode.
-      const reverseSearchFilterParams = { ...synapseFilterParams, name: undefined, guests: res.isMAS ? false : guests };
+      const reverseSearchFilterParams = res.isMAS
+        ? { ...synapseFilterParams, name: undefined, guests: false, ...mapMASUserListFilterToSynapse(params.filter) }
+        : { ...synapseFilterParams, name: undefined };
       const scanQuery = buildSynapseListQuery(reverseSearchFilterParams, 0, 0, field, order);
       const cacheKey = buildScanCacheKey({
         resource,
@@ -400,6 +410,7 @@ const baseDataProvider: SynapseDataProvider = {
           return { rawCount: rawData.length, records, serverTotal: scanTotal(json) };
         },
         filterFn: record => {
+          if (params.filter.status === "locked" && !record.locked) return false;
           const localpartLower = String(getLocalpart(record.id || "")).toLowerCase();
           const displayLower = String(record.displayname || "").toLowerCase();
           return !localpartLower.includes(excludeTerm) && !displayLower.includes(excludeTerm);

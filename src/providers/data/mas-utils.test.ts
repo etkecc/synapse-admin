@@ -26,6 +26,7 @@ import {
   getMASNextPageCursor,
   getMASTokenResource,
   isMAS,
+  mapMASUserListFilterToSynapse,
   setIsMAS,
   setMASCursor,
   toRfc3339,
@@ -264,5 +265,46 @@ describe("getMASNextPageCursor", () => {
     });
     // URL is malformed but "not a valid url" doesn't have page[after] param; falls through to item cursor
     expect(result).toBe("cursor-x");
+  });
+});
+describe("mapMASUserListFilterToSynapse", () => {
+  it("maps status=active to deactivated=false and locked=false", () => {
+    expect(mapMASUserListFilterToSynapse({ status: "active" })).toEqual({
+      deactivated: false,
+      locked: false,
+      admins: undefined,
+    });
+  });
+
+  it("maps status=deactivated to deactivated=true", () => {
+    expect(mapMASUserListFilterToSynapse({ status: "deactivated" })).toEqual({
+      deactivated: true,
+      locked: undefined,
+      admins: undefined,
+    });
+  });
+
+  it("maps status=locked to locked=true", () => {
+    expect(mapMASUserListFilterToSynapse({ status: "locked" })).toEqual({
+      deactivated: undefined,
+      locked: true,
+      admins: undefined,
+    });
+  });
+
+  it("passes admin through to the admins param", () => {
+    expect(mapMASUserListFilterToSynapse({ admin: true })).toEqual({
+      deactivated: undefined,
+      locked: undefined,
+      admins: true,
+    });
+  });
+
+  it("keeps explicit deactivated/locked values when status is absent", () => {
+    expect(mapMASUserListFilterToSynapse({ deactivated: true, locked: true })).toEqual({
+      deactivated: true,
+      locked: true,
+      admins: undefined,
+    });
   });
 });

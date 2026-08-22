@@ -157,6 +157,17 @@ export const filterUndefined = (obj: Record<string, any>) => {
   return Object.fromEntries(Object.entries(obj).filter(([_key, value]) => value !== undefined && value !== null));
 };
 
+// Maps MAS status/admin filters to Synapse v3 params; locked needs client-side filtering.
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export const mapMASUserListFilterToSynapse = (filter: Record<string, any>) => {
+  const status = filter.status;
+  return {
+    deactivated: status === "active" ? false : status === "deactivated" ? true : filter.deactivated,
+    locked: status === "active" ? false : status === "locked" ? true : filter.locked,
+    admins: filter.admin,
+  };
+};
+
 // Generic MAS cursor cache keyed by resource+perPage+filter
 const masCursorCache = new Map<string, Map<number, string>>();
 
