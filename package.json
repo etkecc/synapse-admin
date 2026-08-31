@@ -69,7 +69,7 @@
     "@mui/utils": "^7.3.9",
     "@tanstack/react-query": "^5.101.4",
     "@tiptap/extension-placeholder": "^3.29.2",
-    "@tiptap/react": "^3.29.2",
+    "@tiptap/react": "^3.30.5",
     "@tiptap/starter-kit": "^3.29.2",
     "dompurify": "^3.4.13",
     "lodash": "^4.18.1",
