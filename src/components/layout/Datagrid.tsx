@@ -1,5 +1,3 @@
-// SPDX-FileCopyrightText: 2026 Nikita Chernyi
-// SPDX-License-Identifier: Apache-2.0
 import React, { ReactNode, useCallback } from "react";
 import { SxProps, TableBody } from "@mui/material";
 import {
@@ -18,10 +16,6 @@ import {
   useTranslate,
 } from "react-admin";
 import EmptyState from "./EmptyState";
-
-// ─────────────────────────────────────────────
-// Types
-// ─────────────────────────────────────────────
 
 type DatagridBodyProps = React.ComponentPropsWithRef<typeof DatagridBody>;
 type DatagridRowProps = React.ComponentPropsWithRef<typeof DatagridRow>;
@@ -44,69 +38,33 @@ export type DatagridProps = DatagridConfigurableProps & {
   empty?: ReactNode;
 };
 
-// ─────────────────────────────────────────────
-// Cell title helpers
-// ─────────────────────────────────────────────
-
 type Translator = ReturnType<typeof useTranslate>;
 
-/**
- * Converts a snake_case or camelCase source name to a readable Title Case label.
- * Used as the last-resort fallback when no i18n key exists for a field.
- * e.g. "unlabeled_field" → "Unlabeled Field", "mediaLength" → "Media Length"
- */
+// Converts snake_case/camelCase to Title Case; last-resort fallback when no i18n key exists for a field.
 const humanizeSource = (source: string): string =>
   source
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .replace(/_/g, " ")
     .replace(/\b\w/g, c => c.toUpperCase());
 
-/**
- * Resolves a field's label prop to a plain string.
- * Falls back to the resource-scoped translation key, then a humanized source name.
- */
+// Resolves a field's label: explicit label, then resource-scoped translation key, then humanized source name.
 const resolveLabel = (label: unknown, source: string, resource: string | undefined, translate: Translator): string => {
   if (typeof label === "string") return translate(label, { _: label });
   if (resource) return translate(`resources.${resource}.fields.${source}`, { _: humanizeSource(source) });
   return humanizeSource(source);
 };
 
-/**
- * Converts a raw record value to a human-readable string for the title attribute.
- * Booleans use react-admin's standard translation keys (ra.boolean.true/false).
- */
+// Converts a raw value to a display string for the title attribute; booleans use ra.boolean.true/false keys.
 const formatCellValue = (value: unknown, translate: Translator): string => {
-  if (value == null) return "—";
+  if (value == null) return "-";
   if (typeof value === "boolean") {
     return translate(value ? "ra.boolean.true" : "ra.boolean.false", { _: value ? "Yes" : "No" });
   }
   if (typeof value === "string" || typeof value === "number") return String(value);
-  return "—";
+  return "-";
 };
 
-/**
- * Clones field children, injecting a `title="Column: Value"` onto each field
- * that has a `source` prop. Fields without source (icon buttons, etc.) are
- * passed through unchanged.
- *
- * RA's DatagridRow does NOT spread field props onto DatagridCell/TableCell, so
- * the title ends up on the field's own rendered element (e.g. a Typography span)
- * via sanitizeFieldRestProps. This provides hover tooltips on cell content rather
- * than on the <td> itself, still useful for column identification on hover.
- *
- * Field type dispatch (run in order, first match wins):
- *   1. DateField      : detected via child.type === DateField; formats the raw
- *      timestamp using new Date(v).toLocaleString(locales, options) mirroring
- *      what the field itself renders.
- *   2. ReferenceField : detected via typeof props.reference === "string".
- *      Uses child.type === ReferenceField instead would be cleaner, but that
- *      import triggers TS6133 ("declared but its value is never read") because
- *      TypeScript does not consider a runtime === comparison a value read.
- *      The same TS6133 constraint applies to FunctionField below.
- *   3. FunctionField  : detected via typeof props.render === "function".
- *      Calls render(record) and coerces the result to a string.
- *   4. Everything else: formatCellValue(record[source], translate).
- */
+// Injects title="Label: Value" on children with a source prop; duck-types via props to dodge TS6133 on child.type.
 const injectCellTitles = (
   children: ReactNode,
   record: RaRecord,
@@ -131,17 +89,7 @@ const injectCellTitles = (
         value = formatCellValue(rawValue, translate);
       }
     } else if (typeof props.reference === "string") {
-      // ReferenceField: duck-typed by the `reference` prop (child.type === ReferenceField
-      // triggers TS6133, the TypeScript compiler treats the import as unread).
-      //
-      // Strategy: read the first child element's `source` (e.g. "displayname") and
-      // look it up on the OUTER record. Many Synapse API endpoints embed display
-      // fields directly on the row record (e.g. room_members includes displayname),
-      // so `record[childSource]` is often available without an async fetch.
-      // Falls back to the raw reference ID (record[source]) when not present.
-      //
-      // Note: only the first child with a `source` prop is inspected, which covers
-      // the common single-child pattern (<TextField source="displayname" />).
+      // Reads the first child's source on the outer record to skip an async fetch; falls back to the raw reference id.
       const childSource = (() => {
         const kids = React.Children.toArray(props.children as ReactNode);
         for (const kid of kids) {
@@ -173,10 +121,6 @@ const injectCellTitles = (
     });
   }) ?? children;
 
-// ─────────────────────────────────────────────
-// AccessibleRow
-// ─────────────────────────────────────────────
-
 const focusSx = {
   "&:focus-visible": {
     outline: "2px solid",
@@ -192,8 +136,7 @@ const AccessibleRow = React.forwardRef<HTMLTableRowElement, AccessibleRowProps>(
     const getDefaultLabel = useGetRecordRepresentation(resource);
 
     const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTableRowElement>) => {
-      // Guard: only handle events targeted directly on the row, not bubbled from inner interactive elements
-      // (checkboxes, buttons in cells). Without this, Space on a focused child triggers both the child and the row.
+      // Guard: only handle events targeted at the row; without it, Space on a focused child triggers child and row.
       if (e.target !== e.currentTarget) return;
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -201,9 +144,7 @@ const AccessibleRow = React.forwardRef<HTMLTableRowElement, AccessibleRowProps>(
       }
     }, []);
 
-    // Note: rowClick can be a function that dynamically returns false/void (no-op).
-    // We cannot evaluate that statically, so those rows still get tabIndex/focus ring.
-    // RA's own click handler guards against navigating to undefined, so behaviour is safe.
+    // rowClick may dynamically return false/void; unevaluated statically, so these rows still get tabIndex/focus ring.
     const isClickable = rowClick != null && rowClick !== false;
 
     const mergedSx: SxProps | undefined = isClickable
@@ -241,14 +182,8 @@ const AccessibleRow = React.forwardRef<HTMLTableRowElement, AccessibleRowProps>(
 
 AccessibleRow.displayName = "AccessibleRow";
 
-// ─────────────────────────────────────────────
-// AccessibleBody
-// ─────────────────────────────────────────────
-
 const defaultData: RaRecord[] = [];
-// Note: cloneElement onto a module-level constant is the same pattern react-admin uses
-// internally in DatagridBody. If RA's DatagridBody rendering model changes across major
-// versions, AccessibleBody will need to be updated accordingly.
+// cloneElement onto a module-level constant mirrors RA's own DatagridBody pattern; a major RA rewrite could break this.
 const defaultRow = <AccessibleRow />;
 
 const AccessibleBody = React.forwardRef<HTMLTableSectionElement, AccessibleBodyProps>(
@@ -277,8 +212,7 @@ const AccessibleBody = React.forwardRef<HTMLTableSectionElement, AccessibleBodyP
     const perPage = listCtx?.perPage ?? 10;
     const offset = (page - 1) * perPage;
     const translate = useTranslate();
-    // resource prop may be undefined when DatagridConfigurable doesn't forward it;
-    // fall back to the ResourceContext set by the parent List.
+    // resource may be undefined when DatagridConfigurable doesn't forward it; fall back to the parent List's context.
     const resolvedResource = useResourceContext({ resource });
 
     return (
@@ -303,8 +237,7 @@ const AccessibleBody = React.forwardRef<HTMLTableSectionElement, AccessibleBodyP
                 onToggleItem,
                 resource,
                 rowClick,
-                // aria-rowindex is 1-based and must account for the header row (index 1),
-                // so the first data row on page 1 is index 2.
+                // aria-rowindex is 1-based and accounts for the header row, so the first data row on page 1 is 2.
                 rowIndex: offset + rowIndex + 2,
                 rowLabel,
                 selectable: !isRowSelectable || isRowSelectable(record),
@@ -321,22 +254,11 @@ const AccessibleBody = React.forwardRef<HTMLTableSectionElement, AccessibleBodyP
   }
 );
 
-// MUI Table requires this to accept the component as a valid child type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-(AccessibleBody as any).muiName = "TableBody";
+(AccessibleBody as any).muiName = "TableBody"; // MUI Table requires this to accept the component as a valid child type
 AccessibleBody.displayName = "AccessibleBody";
 
-// ─────────────────────────────────────────────
-// Datagrid (public export)
-// ─────────────────────────────────────────────
-
-/**
- * Drop-in replacement for react-admin's DatagridConfigurable.
- * Adds keyboard navigation (Enter/Space), visible focus ring, aria-rowindex,
- * and aria-label to all clickable rows, and title="Column: Value" to all
- * data cells for screen reader context.
- * Defaults: empty=<EmptyState />, width 100%.
- */
+// Drop-in DatagridConfigurable replacement: keyboard nav, focus ring, aria-rowindex/label, cell title tooltips.
 const Datagrid = ({ rowLabel, empty = <EmptyState />, sx, ...props }: DatagridProps) => (
   <DatagridConfigurable
     body={<AccessibleBody rowLabel={rowLabel} />}

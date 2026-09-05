@@ -5,8 +5,8 @@ React-Admin resource definitions. Each resource is its own directory.
 ## Structure
 
 Each resource directory contains:
-- `index.ts` — barrel export (the only file consumers should import from)
-- `List.tsx`, `Show.tsx`, `Edit.tsx`, `Create.tsx` — one file per CRUD view
+- `index.ts`: barrel export (the only file consumers should import from)
+- `List.tsx`, `Show.tsx`, `Edit.tsx`, `Create.tsx`: one file per CRUD view
 
 ## Conventions
 

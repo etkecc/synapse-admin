@@ -24,10 +24,7 @@ import createLogger from "../utils/logger";
 
 const log = createLogger("login");
 
-/**
- * Get restricted base URL(s) from app context
- * @returns tuple of (single URL or null, array of URLs or null)
- */
+// Restricted base URL(s) from app context: single mode returns one URL, list mode returns array of choices.
 function useRestrictedBaseUrl(): [string | null, string[] | null] {
   const { restrictBaseUrl } = useAppContext();
   // no var set, allow any
@@ -92,8 +89,7 @@ const LoginPage = () => {
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("credentials");
   const loginToken = new URLSearchParams(window.location.search).get("loginToken");
 
-  // base_url, when present, seeds one probe on mount (restrictBaseUrlSingle or a
-  // restored localStorage value). The probe lifecycle lives entirely in the hook.
+  // base_url seeds one probe on mount (restrictBaseUrlSingle or restored localStorage value); lifecycle lives in hook.
   const { state: probeState, start } = useLoginProbe(base_url || undefined);
 
   useEffect(() => {
@@ -129,14 +125,12 @@ const LoginPage = () => {
 
   const handleSubmit = (auth: { base_url?: string; [key: string]: unknown }) => {
     setLoading(true);
-    // Strip the query string (mirrors the loginToken handler's URL handling):
-    // String.replace would mangle the URL if the search string recurred elsewhere.
+    // Strips query string via URL.search; String.replace would mangle a URL where the string recurs.
     const cleanUrl = new URL(window.location.toString());
     cleanUrl.search = "";
     window.history.replaceState({}, "", cleanUrl.toString());
 
-    // When a probe has resolved, submit against its well-known-resolved url;
-    // otherwise fall through to whatever the form holds.
+    // When the probe resolved, submit against its well-known url; otherwise fall through to the form value.
     const resolvedBaseUrl = probeState.tag === "ready" ? probeState.url : auth.base_url;
     const authWithResolved = {
       ...auth,

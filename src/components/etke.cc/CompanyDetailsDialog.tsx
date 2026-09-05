@@ -22,8 +22,7 @@ const log = createLogger("company-details");
 
 const KEY = "etkecc.billing.company_details";
 
-// English labels ride along the i18n key: the dialog UI is localized for the customer,
-// but the ticket body stays English because etke.cc support reads English (same call ComponentsPage makes).
+// FIELDS carries English labels too: the ticket body stays English since etke.cc support reads English.
 const FIELDS = [
   { key: "vat_id", en: "VAT/Tax ID" },
   { key: "company_name", en: "Company name" },
@@ -62,8 +61,7 @@ export const CompanyDetailsDialog = ({
   const allFilled = FIELDS.every(f => values[f.key].trim() !== "");
   const success = requestId !== null;
 
-  // reset on open, not on close: the closing dialog stays visible through the fade, so resetting there would
-  // flash the success view back to blank fields. resetting on open also survives an interrupted close transition.
+  // Reset fires on open: the dialog stays visible through the closing fade, so resetting then flashes blank fields.
   useEffect(() => {
     if (!open) return;
     setValues(blankValues());

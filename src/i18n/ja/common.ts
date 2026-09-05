@@ -35,7 +35,7 @@ const common: Record<string, any> = {
       },
     },
     users: {
-      invalid_user_id: "Matrix ユーザーID のローカル部分のみを入力してください — ホームサーバーは含めないでください。",
+      invalid_user_id: "Matrix ユーザーID のローカル部分のみを入力してください。ホームサーバーは含めないでください。",
       tabs: {
         sso: "シングルサインオン",
         experimental: "実験的",
@@ -198,7 +198,7 @@ const common: Record<string, any> = {
       request_already_sent_view: "チケットを表示",
       free_label: "無料",
       available_label: "利用可能",
-      tagline: "サーバーを強化しましょう — コンポーネントはいつでも追加・削除できます。",
+      tagline: "サーバーを強化しましょう。コンポーネントはいつでも追加・削除できます。",
       section: {
         bridges: "ブリッジ",
         extras: "エクストラ",
@@ -306,7 +306,7 @@ const common: Record<string, any> = {
       status: {
         issue: {
           title: "サブスクリプションの確認が必要です",
-          description: "サブスクリプションに問題が検出されました。ご安心ください — 簡単に解決できます。",
+          description: "サブスクリプションに問題が検出されました。ご安心ください。簡単に解決できます。",
           due_overdue: "滞納期間",
           due_upcoming: "支払いまで",
           expected: "予定金額",
@@ -336,7 +336,7 @@ const common: Record<string, any> = {
       },
       status: "ステータス",
       error: "エラー",
-      loading: "リアルタイムの稼働状況を取得しています — 少々お待ちください…",
+      loading: "リアルタイムの稼働状況を取得しています。少々お待ちください…",
       intro1: "これはサーバーのリアルタイム監視レポートです。詳しくは",
       intro2: "以下のチェック内容が気になる場合は、推奨される対処方法を",
       help: "ヘルプ",

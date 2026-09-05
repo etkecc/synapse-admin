@@ -139,7 +139,7 @@ const users = {
         "Cette action supprimera définitivement tous les médias téléversés par cet utilisateur. Elle est irréversible.",
       in_progress: "Suppression des médias en cours…",
       background_note:
-        "Vous pouvez fermer cette fenêtre en toute sécurité — la suppression continuera en arrière-plan.",
+        "Vous pouvez fermer cette fenêtre en toute sécurité : la suppression continuera en arrière-plan.",
       success:
         "Suppression réussie de %{smart_count} élément multimédia. |||| Suppression réussie de %{smart_count} éléments multimédia.",
       failure: "Échec de la suppression des médias. %{errMsg}",
@@ -185,9 +185,9 @@ const users = {
       failure: "Échec du renouvellement de la validité du compte",
     },
     system_users_scan_in_progress:
-      "Patientez — la recherche des utilisateurs correspondants est en cours, la page va se charger dans un instant",
+      "Patientez : la recherche des utilisateurs correspondants est en cours, la page va se charger dans un instant",
     reverse_search_scan_in_progress:
-      "Patientez — tous les utilisateurs sont en cours d'analyse pour exclure les correspondances, la page va se charger dans un instant",
+      "Patientez : tous les utilisateurs sont en cours d'analyse pour exclure les correspondances, la page va se charger dans un instant",
   },
   limits: {
     messages_per_second: "Messages par seconde",

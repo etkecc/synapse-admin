@@ -1,6 +1,6 @@
-# Test Coverage TODO — Tier 4
+# Test Coverage TODO: Tier 4
 
-These areas were intentionally deferred after the Tier 1–3 coverage pass.
+These areas were intentionally deferred after the Tier 1-3 coverage pass.
 Each item requires heavier mocking infrastructure than the earlier tiers.
 
 ## Data Providers

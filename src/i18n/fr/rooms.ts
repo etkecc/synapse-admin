@@ -130,11 +130,11 @@ const rooms = {
       label: "Supprimer tous les médias",
       title: "Supprimer tous les médias du salon %{roomName}",
       content:
-        "Cette action supprimera définitivement tous les médias locaux de ce salon. Seuls les médias locaux des salons non chiffrés sont concernés — les médias provenant de serveurs distants sont exclus. Elle est irréversible.",
+        "Cette action supprimera définitivement tous les médias locaux de ce salon. Seuls les médias locaux des salons non chiffrés sont concernés : les médias provenant de serveurs distants sont exclus. Elle est irréversible.",
       in_progress_loading: "Récupération de la liste des médias…",
       in_progress: "Suppression des médias… (%{current} / %{total})",
       do_not_close:
-        "Ne fermez pas cette fenêtre — la suppression s'exécute au premier plan et s'interrompra si vous la fermez.",
+        "Ne fermez pas cette fenêtre : la suppression s'exécute au premier plan et s'interrompra si vous la fermez.",
       success:
         "Suppression réussie de %{smart_count} élément multimédia. |||| Suppression réussie de %{smart_count} éléments multimédia.",
       failure: "Échec de la suppression des médias. %{errMsg}",

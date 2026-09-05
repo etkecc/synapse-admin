@@ -140,7 +140,7 @@ const users = {
       content:
         "Alle von diesem Benutzer hochgeladenen Medien werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
       in_progress: "Medien werden gelöscht…",
-      background_note: "Sie können diesen Dialog sicher schließen — der Löschvorgang wird im Hintergrund fortgesetzt.",
+      background_note: "Sie können diesen Dialog sicher schließen; der Löschvorgang wird im Hintergrund fortgesetzt.",
       success:
         "Erfolgreich %{smart_count} Medienelement gelöscht. |||| Erfolgreich %{smart_count} Medienelemente gelöscht.",
       failure: "Medien konnten nicht gelöscht werden. %{errMsg}",
@@ -185,9 +185,9 @@ const users = {
       failure: "Erneuerung der Kontogültigkeit fehlgeschlagen",
     },
     system_users_scan_in_progress:
-      "Einen Moment – es werden noch passende Benutzer gesucht, die Seite wird gleich geladen",
+      "Einen Moment: Es werden noch passende Benutzer gesucht, die Seite wird gleich geladen",
     reverse_search_scan_in_progress:
-      "Einen Moment – alle Benutzer werden nach Übereinstimmungen durchsucht und diese ausgeschlossen, die Seite wird gleich geladen",
+      "Einen Moment: Alle Benutzer werden nach Übereinstimmungen durchsucht und diese ausgeschlossen, die Seite wird gleich geladen",
   },
   limits: {
     messages_per_second: "Nachrichten pro Sekunde",

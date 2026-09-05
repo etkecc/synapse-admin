@@ -48,9 +48,7 @@ import { isSystemUser, getLocalpart } from "../../utils/mxid";
 import { isMAS } from "../../providers/data/mas";
 import { Datagrid, EmptyState, List } from "../../components/layout";
 
-// Security boundary: external-auth deployments must keep guests hidden (the guests input
-// is also hidden in that mode). MAS forces guests=false at the provider, so it needs
-// nothing here. Exported for direct unit coverage; collapsing this to {} exposes guest accounts.
+// Security boundary: hides guests under external auth (MAS forces guests=false); collapsing to {} exposes guests.
 export const userFilterDefaults = (): Record<string, unknown> => {
   if (isMAS()) return {};
   return GetConfig().externalAuthProvider ? { guests: false } : {};
@@ -155,10 +153,7 @@ const userFilters = () => {
       falseLabel="resources.users.fields.filter_locked_false"
       trueLabel="resources.users.fields.filter_locked_true"
     />,
-    // waiting for https://github.com/element-hq/synapse/issues/18016
-    // <BooleanInput label="resources.users.fields.show_suspended" source="suspended" alwaysOn />,
-    // as of Synapse v1.149.1, filter doesn't work yet, showing all users instead of only shadow banned ones
-    // <BooleanInput label="resources.users.fields.show_shadow_banned" source="shadow_banned" alwaysOn />,
+    // Disabled: show_suspended (element-hq/synapse#18016); shadow_banned broken since v1.149.1, shows all users.
   ];
   // guests filter: hidden in MAS mode (externalAuthProvider is set) and when using an external auth provider
   if (!GetConfig().externalAuthProvider) {

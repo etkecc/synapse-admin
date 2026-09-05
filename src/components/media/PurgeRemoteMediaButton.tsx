@@ -56,8 +56,7 @@ const PurgeRemoteMediaDialog = ({ defaultBeforeTs, open, onClose, onSubmit }) =>
 export const PurgeRemoteMediaButton = (props: ButtonProps) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  // Placeholder; computed fresh when the dialog opens (see openDialog) so the cutoff is "now" at the
-  // moment of action, not page load: an incident responder purging just-federated media needs it to reach.
+  // Placeholder; computed fresh on open (see openDialog), giving the actual action-time "now".
   const [defaultBeforeTs, setDefaultBeforeTs] = useState(0);
   const notify = useNotify();
   const dataProvider = useDataProvider<SynapseDataProvider>();

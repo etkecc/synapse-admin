@@ -34,12 +34,9 @@ const authProvider: AuthProvider = {
     clientUrl: string;
     authMetadata: AuthMetadata;
   }) => {
-    // use the base_url from login instead of the well_known entry from the
-    // server, since the admin might want to access the admin API via some
-    // private address
+    // Uses the login form's base_url so the admin can reach the admin API on a private address.
     if (!base_url) {
-      // there is some kind of bug with base_url being present in the form, but not submitted
-      // ref: https://github.com/etkecc/ketesa/issues/14
+      // Guards a bug where base_url is present in the form but not submitted (etkecc/ketesa#14).
       localStorage.removeItem("base_url");
       throw new Error("Homeserver URL is required.");
     }
@@ -125,9 +122,7 @@ const authProvider: AuthProvider = {
       response = await fetchUtils.fetchJson(login_api_url, options);
       const json = response.json;
 
-      // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
-      // like "@user:example.com:8008" or "@user:[2001:db8::1]"
-      // home_server is deprecated in the login response (Matrix spec), so always extract from user_id
+      // split(":")[1] fails on hosts with ports or IPv6; home_server is deprecated, so extract from user_id.
       const mxidParts = json.user_id?.split(":");
       mxidParts?.shift();
       const homeServer = mxidParts?.join(":");
@@ -279,13 +274,12 @@ const authProvider: AuthProvider = {
         localStorage.setItem("device_id", deviceId);
       }
 
-      // just split(":")[1] is not enough, because there are homeservers with ports or IPv6 addresses,
-      // like "@user:example.com:8008" or "@user:[2001:db8::1]"
+      // split(":")[1] fails on hosts with ports or IPv6 addresses (e.g. "@user:example.com:8008").
       const mxidParts = userId.split(":");
       mxidParts.shift();
       localStorage.setItem("home_server", mxidParts.join(":"));
       localStorage.setItem("access_token", access_token);
-      localStorage.setItem("login_type", "credentials"); // OIDC login is basically credentials login, just via external provider
+      localStorage.setItem("login_type", "credentials"); // OIDC login via an external provider
 
       await FetchWellKnownConfig();
       const cfg = GetConfig();

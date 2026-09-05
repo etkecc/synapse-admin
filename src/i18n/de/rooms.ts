@@ -131,11 +131,11 @@ const rooms = {
       label: "Alle Medien löschen",
       title: "Alle Medien in %{roomName} löschen",
       content:
-        "Alle lokalen Medien in diesem Raum werden dauerhaft gelöscht. Nur lokale Medien aus unverschlüsselten Räumen sind betroffen — Medien von externen Servern sind ausgeschlossen. Diese Aktion kann nicht rückgängig gemacht werden.",
+        "Alle lokalen Medien in diesem Raum werden dauerhaft gelöscht. Nur lokale Medien aus unverschlüsselten Räumen sind betroffen; Medien von externen Servern sind ausgeschlossen. Diese Aktion kann nicht rückgängig gemacht werden.",
       in_progress_loading: "Medienliste wird abgerufen…",
       in_progress: "Medien werden gelöscht… (%{current} / %{total})",
       do_not_close:
-        "Schließen Sie diesen Dialog nicht — der Löschvorgang läuft im Vordergrund und wird unterbrochen, wenn Sie ihn schließen.",
+        "Schließen Sie diesen Dialog nicht: Der Löschvorgang läuft im Vordergrund und wird unterbrochen, wenn Sie ihn schließen.",
       success:
         "Erfolgreich %{smart_count} Medienelement gelöscht. |||| Erfolgreich %{smart_count} Medienelemente gelöscht.",
       failure: "Medien konnten nicht gelöscht werden. %{errMsg}",

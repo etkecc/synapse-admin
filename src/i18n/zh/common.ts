@@ -184,7 +184,7 @@ const common: Record<string, any> = {
       request_already_sent_view: "查看工单",
       free_label: "免费",
       available_label: "可用",
-      tagline: "增强您的服务器 — 随时添加或删除任意组件。",
+      tagline: "增强您的服务器：随时添加或删除任意组件。",
       section: {
         bridges: "桥接",
         extras: "附加服务",
@@ -327,7 +327,7 @@ const common: Record<string, any> = {
     maintenance: {
       title: "系统当前处于维护模式。",
       try_again: "请稍后再试。",
-      note: "无需就此联系支持团队——我们已在处理！",
+      note: "无需就此联系支持团队，我们已在处理！",
     },
     actions: {
       name: "服务器命令",
@@ -342,7 +342,7 @@ const common: Record<string, any> = {
       recurring_help_intro: "关于此模式的更多详情请访问",
       maintenance_title: "系统当前处于维护模式。",
       maintenance_try_again: "请稍后再试。",
-      maintenance_note: "无需就此联系支持团队——我们已在处理！",
+      maintenance_note: "无需就此联系支持团队，我们已在处理！",
       maintenance_commands_blocked: "在维护模式解除之前无法运行命令。",
       table: {
         aria_label: "服务器命令",
@@ -426,7 +426,7 @@ const common: Record<string, any> = {
       advisory_tooltip: "您可能错过了通知。请同时查看 #news:etke.cc、etke.cc/news 或您的电子邮件。",
       unavailable_tooltip: "通知可能不可用。点击查看详情。",
       unavailable_title: "通知目前可能不可用",
-      unavailable_body: "目前可能有一些更新无法推送到此面板——也可能没有新内容。为避免遗漏，请定期查看：",
+      unavailable_body: "目前可能有一些更新无法推送到此面板，也可能没有新内容。为避免遗漏，请定期查看：",
       unavailable_link_matrix: "Matrix 房间 #news:etke.cc",
       unavailable_link_news: "etke.cc/news 公告页面",
       unavailable_link_email: "您的电子邮件收件箱（包括垃圾邮件文件夹）",

@@ -12,9 +12,7 @@ await FetchConfig();
 await FetchInstanceConfig(GetConfig().etkeccAdmin, "");
 const i18nProvider = await createI18nProvider();
 
-// we set base title here to be used in useDocTitle hook
-// as a tricky workaround since hooks can't be used outside components,
-// and react-admin doesn't provide a way to set document title directly
+// Base title set here since hooks cannot run outside components and react-admin has no direct document-title API.
 const icfg = GetInstanceConfig();
 document.head.dataset.baseTitle = icfg.name || "Ketesa";
 // set <title> based on instance name, only if it's not already set

@@ -37,8 +37,7 @@ interface DeleteUserButtonProps {
   selectedIds: Identifier[];
   confirmTitle: string;
   confirmContent: string;
-  /** MXID → mas_id mapping; required for MAS bulk deactivation. Entries are undefined for
-   * Synapse-only users (no MAS account), which are routed through the Synapse v2 deactivate path. */
+  // MXID to mas_id map; an undefined entry means a Synapse-only user, routed through Synapse v2 deactivate instead.
   masIdMap?: Record<string, string | undefined>;
 }
 
@@ -80,8 +79,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
     setOpen(true);
   };
 
-  // Single-user delete is an irreversible erase (or, in MAS mode, a deactivate presented as erase):
-  // gate Confirm behind typing the exact MXID. Bulk (length > 1) keeps its current frictionless dialog.
+  // Single-user delete is an irreversible erase, so Confirm is gated behind typing the exact MXID.
   const singleSelection = recordIds.length === 1;
   const expectedMxid = singleSelection ? String(recordIds[0]) : "";
   const typedMatches = !singleSelection || typedValue.trim() === expectedMxid.trim();
@@ -152,8 +150,7 @@ const DeleteUserButton: React.FC<DeleteUserButtonProps> = props => {
   };
 
   const handleConfirm = async () => {
-    // Defense-in-depth: the Confirm button is already disabled until the MXID matches, but guard the
-    // handler too so a future refactor wiring a different trigger can't fire the erase ungated.
+    // Defense-in-depth: guard here too, in case a future refactor wires a different trigger ungated.
     if (!typedMatches) return;
     if (!redactEvents) {
       setOpen(false);

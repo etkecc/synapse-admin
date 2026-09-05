@@ -199,25 +199,25 @@ const RoomOverviewTab = () => {
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.joined_members")}
                 </Typography>
-                <Typography variant="body2">{record.joined_members ?? "—"}</Typography>
+                <Typography variant="body2">{record.joined_members ?? "-"}</Typography>
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.joined_local_members")}
                 </Typography>
-                <Typography variant="body2">{record.joined_local_members ?? "—"}</Typography>
+                <Typography variant="body2">{record.joined_local_members ?? "-"}</Typography>
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.joined_local_devices")}
                 </Typography>
-                <Typography variant="body2">{record.joined_local_devices ?? "—"}</Typography>
+                <Typography variant="body2">{record.joined_local_devices ?? "-"}</Typography>
               </Box>
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   {translate("resources.rooms.fields.state_events")}
                 </Typography>
-                <Typography variant="body2">{record.state_events ?? "—"}</Typography>
+                <Typography variant="body2">{record.state_events ?? "-"}</Typography>
               </Box>
             </Box>
           </CardContent>
@@ -236,7 +236,7 @@ const RoomOverviewTab = () => {
                 <Typography variant="body2">
                   {record.join_rules
                     ? tt(translate, `resources.rooms.enums.join_rules.${record.join_rules}`, record.join_rules)
-                    : "—"}
+                    : "-"}
                 </Typography>
               </Box>
               <Box>
@@ -246,7 +246,7 @@ const RoomOverviewTab = () => {
                 <Typography variant="body2">
                   {record.guest_access
                     ? tt(translate, `resources.rooms.enums.guest_access.${record.guest_access}`, record.guest_access)
-                    : "—"}
+                    : "-"}
                 </Typography>
               </Box>
               <Box>
@@ -260,7 +260,7 @@ const RoomOverviewTab = () => {
                         `resources.rooms.enums.history_visibility.${record.history_visibility}`,
                         record.history_visibility
                       )
-                    : "—"}
+                    : "-"}
                 </Typography>
               </Box>
               <Box>

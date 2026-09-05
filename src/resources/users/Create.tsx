@@ -56,9 +56,7 @@ const MASUserCreate = (props: CreateProps) => {
     const failures: string[] = [];
 
     if (masId && data.admin) {
-      // Synapse homeserver-admin (the flag the badge reads) is written first; MAS set-admin (the
-      // login scope grant) runs only if it succeeds, so a failed Synapse write can never leave a
-      // crown-less user who still holds a live MAS admin grant.
+      // Synapse admin write runs first; MAS set-admin runs only on success, keeping a crown-less user grant-free.
       let synapseAdminOk = true;
       try {
         const baseUrl = localStorage.getItem("base_url") || "";
@@ -94,8 +92,7 @@ const MASUserCreate = (props: CreateProps) => {
     } else {
       notify("ra.notification.created", { messageArgs: { smart_count: 1 } });
     }
-    // The user exists regardless; redirect to it so a failed admin/password step is fixable
-    // from the edit view rather than rolled back.
+    // The user exists regardless; redirect there so a failed admin/password step is fixable from the edit view.
     redirect(() => `users/${encodeURIComponent(record.id as string)}`);
   };
 

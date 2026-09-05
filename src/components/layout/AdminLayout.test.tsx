@@ -4,9 +4,7 @@ import { axe } from "vitest-axe";
 
 import { AdminUserMenu, ActiveMenuItemLink, ActiveResourceItem } from "./AdminLayout";
 
-// ── react-router-dom mock ──────────────────────────────────────────────────────
-// useMatch is the only import used by the two components under test.
-// matchRef.current lets each test control whether the route is "active".
+// react-router-dom mock: useMatch is the only import used; matchRef.current controls whether a route is active.
 const matchRef: { current: object | null } = { current: null };
 
 vi.mock("react-router-dom", () => ({
@@ -151,8 +149,7 @@ describe("ActiveMenuItemLink aria-current", () => {
   });
 
   it("sets aria-current='page' when useMatch returns a match", () => {
-    // Simulates the user being on the /billing route: useMatch returns a truthy
-    // PathMatch object, so ActiveMenuItemLink injects aria-current="page".
+    // Simulates being on /billing: useMatch returns a truthy match, so ActiveMenuItemLink injects aria-current=page.
     matchRef.current = { params: {}, pathname: "/billing", pathnameBase: "/billing" };
     render(<ActiveMenuItemLink to="/billing" primaryText="Billing" />);
     const link = screen.getByRole("link", { name: "Billing" });
@@ -174,8 +171,7 @@ describe("ActiveResourceItem aria-current", () => {
   });
 
   it("sets aria-current='page' when useMatch returns a match", () => {
-    // Simulates the user being on /users or a sub-route like /users/123/show:
-    // useMatch({ path: '/users', end: false }) returns a match.
+    // Simulates being on /users or /users/123/show: useMatch({ path: '/users', end: false }) returns a match.
     matchRef.current = { params: {}, pathname: "/users", pathnameBase: "/users" };
     render(<ActiveResourceItem name="users" />);
     const link = screen.getByRole("link", { name: "users" });

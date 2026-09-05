@@ -94,8 +94,7 @@ const ComponentsPage = () => {
     ...noSectionItems.filter(c => c.enabled && toggledOff.has(c.id)),
     ...allSectionItems.filter(c => c.enabled && toggledOff.has(c.id)),
   ];
-  // Only sections with a package price count as "activating"; toggling an item inside a
-  // free section (price === 0) does not trigger a section charge.
+  // Only priced sections count as "activating"; toggling in a free section (price === 0) triggers no charge.
   const activatedSections = sections.filter(
     s => !s.enabled && s.price > 0 && s.components.some(c => toggledOn.has(c.id))
   );
@@ -118,13 +117,13 @@ const ComponentsPage = () => {
       const removeList = removeItems
         .map(c => {
           const sectionName = compToSection.get(c.id);
-          return `<li>${c.name}${sectionName ? ` (${sectionName})` : ""} — remove</li>`;
+          return `<li>${c.name}${sectionName ? ` (${sectionName})` : ""}: remove</li>`;
         })
         .join("");
       const addList = addItems
         .map(c => {
           const sectionName = compToSection.get(c.id);
-          return `<li>${c.name}${sectionName ? ` (${sectionName})` : ""} — add</li>`;
+          return `<li>${c.name}${sectionName ? ` (${sectionName})` : ""}: add</li>`;
         })
         .join("");
       const message = `<p>Hello,</p><p>I would like to change the following components on my server:</p><ul>${removeList}${addList}</ul><p>Thank you.</p>`;
@@ -141,10 +140,7 @@ const ComponentsPage = () => {
     }
   };
 
-  // priceChip renders a price indicator for a component or section.
-  // packState: "active" = pack owned (show "Available"), "inactive" = pack not yet owned
-  //   (no chip by default; show primary chip only when toggled on), false = not a pack section
-  // isToggledOn/Off: overrides chip color to signal pending add (primary) or remove (grayed)
+  // packState picks the chip label; isToggledOn/Off overrides its color to flag a pending change.
   const priceChip = (
     comp: { price: number; enabled?: boolean },
     opts?: { packState?: "active" | "inactive" | false; isToggledOn?: boolean; isToggledOff?: boolean }

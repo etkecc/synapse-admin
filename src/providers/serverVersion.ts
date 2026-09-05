@@ -16,10 +16,7 @@ const notify = (v: ServerVersions) => {
   for (const fn of listeners) fn(v);
 };
 
-/**
- * Fetch Synapse (and optionally MAS) versions, cache the result.
- * Safe to call multiple times; deduplicates concurrent calls.
- */
+// Fetches and caches Synapse (and optionally MAS) versions; safe to call multiple times, deduplicates concurrent calls.
 export const fetchServerVersions = async (): Promise<ServerVersions> => {
   if (cached) return cached;
   if (fetchPromise) return fetchPromise;
@@ -54,19 +51,14 @@ export const fetchServerVersions = async (): Promise<ServerVersions> => {
   return fetchPromise;
 };
 
-/**
- * Clear cached versions (call on logout so next login re-fetches).
- */
+// Clears cached versions; call on logout so the next login re-fetches.
 export const clearServerVersions = () => {
   cached = null;
   fetchPromise = null;
   notify({ synapse: "", mas: "" });
 };
 
-/**
- * React hook that returns { synapse, mas } version strings.
- * Triggers a fetch on mount if not yet cached.
- */
+// React hook returning { synapse, mas } version strings; triggers a fetch on mount if not yet cached.
 export const useServerVersions = (): ServerVersions => {
   const [versions, setVersions] = useState<ServerVersions>(cached || { synapse: "", mas: "" });
 

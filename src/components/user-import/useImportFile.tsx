@@ -64,9 +64,7 @@ export const validateCsvImport = (
     };
   }
 
-  /* Collect some stats to prevent sneaky csv files from adding admin
-     users or something.
-   */
+  // Collect stats to catch a sneaky CSV smuggling in admin users or similar.
   const stats: ParsedStats = {
     user_types: { default: 0 },
     is_guest: 0,
@@ -101,10 +99,7 @@ export const validateCsvImport = (
       }
       stats.user_types[line.user_type] += 1;
     }
-    /* XXX correct the csv export that react-admin offers for the users
-     * resource so it gives sensible field names and doesn't duplicate
-     * id as "name"?
-     */
+    // XXX: react-admin's users CSV export duplicates id as "name"; strip it here.
     if (meta.fields?.includes("name")) {
       delete line.name;
     }
@@ -193,8 +188,7 @@ const useImportFile = () => {
     setImportResults(null);
     const file = e.target.files ? e.target.files[0] : null;
     if (!file) return;
-    /* Let's refuse some unreasonably big files instead of freezing
-     * up the browser */
+    // Refuse unreasonably big files instead of freezing the browser.
     if (file.size > 100000000) {
       const message = translate("import_users.errors.unreasonably_big", {
         size: (file.size / (1024 * 1024)).toFixed(2),
@@ -211,8 +205,7 @@ const useImportFile = () => {
           if (result.errors) {
             setErrors(result.errors.map(e => e.toString()));
           }
-          /* Papaparse is very lenient, we may be able to salvage
-           * the data in the file. */
+          // Papaparse is lenient; try to salvage the data despite the reported errors.
           verifyCsv(result);
         },
       });
@@ -267,9 +260,7 @@ const useImportFile = () => {
 
     const results = await doImport();
     setImportResults(results);
-    // offer CSV download of skipped or errored records
-    // (so that the user doesn't have to filter out successful
-    // records manually when fixing stuff in the CSV)
+    // Offer CSV download of skipped/errored records, so fixing the CSV doesn't require manual filtering.
     setSkippedRecords(unparseCsv(results.skippedRecords));
     if (LOGGING) log.debug("skipped records after parse", { count: results.skippedRecords.length });
   };
@@ -293,13 +284,11 @@ const useImportFile = () => {
         userRecord.deactivated = anyToBoolean(userRecord.deactivated);
         userRecord.is_guest = anyToBoolean(userRecord.is_guest);
         userRecord.admin = anyToBoolean(userRecord.admin);
-        // No need to do a bunch of cryptographic random number getting if
-        // we are using neither a generated password nor a generated user id.
+        // Skip cryptographic random generation entirely when neither password nor user id needs one.
         if (useridMode === "ignore" || userRecord.id === undefined || userRecord.id === "") {
           userRecord.id = generateRandomMXID();
         }
-        // we want to ensure that the ID is always full MXID, otherwise randomly-generated MXIDs will be in the full
-        // form, but the ones from the CSV will be localpart-only.
+        // Ensure the ID is always a full MXID: CSV-sourced ids may be localpart-only.
         userRecord.id = returnMXID(userRecord.id);
 
         // if there are 3PIDs, convert them to objects ("medium:address,..." -> [{medium,address},...])
@@ -321,22 +310,16 @@ const useImportFile = () => {
           userRecord.threepids = threepidObjs;
         }
 
-        /* Conflict handling lives in submitRecord below. In "ignore" id-mode the
-         * IDs are random, so a hit on an existing one is just a collision and we
-         * re-roll. In "update" id-mode a hit is a real existing user, handled per
-         * conflictMode: "stop" aborts the run, "skip" sets the record aside for
-         * the downloadable retry file. Existing users are never modified. */
         if (LOGGING) log.debug("checking existence", { id: userRecord.id });
         let retries = 0;
+        // Never modifies an existing user on id conflict: ignore re-rolls, update stops or skips.
         const submitRecord = async (recordData: ImportLine) => {
           try {
             await dataProvider.getOne("users", { id: recordData.id });
 
             if (LOGGING) log.debug("user already exists", { id: recordData.id });
 
-            // In "ignore" mode the IDs are randomly generated, so a hit on an
-            // existing one is just an unlucky collision: re-roll a fresh MXID
-            // and retry instead of treating it as a real conflict.
+            // "ignore" mode: IDs are random, so a hit is just an unlucky collision; re-roll a fresh MXID and retry.
             if (useridMode === "ignore") {
               retries++;
               if (retries > 512) {
@@ -351,8 +334,7 @@ const useImportFile = () => {
               return;
             }
 
-            // In "update" mode the ID comes from the CSV, so a hit means the
-            // user genuinely already exists. Honor the conflict mode.
+            // "update" mode: the ID comes from the CSV, so a hit is a real existing user; honor conflictMode.
             if (conflictMode === "stop") {
               throw new Error(
                 translate("import_users.error.id_exits", {
@@ -370,8 +352,7 @@ const useImportFile = () => {
 
             if (LOGGING) log.debug("creating record", { id: recordData.id, displayname: recordData.displayname });
 
-            // Generate a password only for records we actually create, so skipped
-            // records keep their original CSV value in the downloadable retry file.
+            // Generate a password only for records actually created; skipped ones keep their original CSV value.
             if (recordData.password === undefined || recordData.password === "") {
               recordData.password = generateRandomPassword();
             }

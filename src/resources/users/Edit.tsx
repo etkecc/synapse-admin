@@ -148,10 +148,7 @@ export const choices_type = [
   { id: "support", name: "support" },
 ];
 
-// https://matrix.org/docs/spec/appendices#user-identifiers
-// here only local part of user_id
-// maxLength = 255 - "@" - ":" - storage.getItem("home_server").length
-// storage.getItem("home_server").length is not valid here
+// matrix.org/docs/spec/appendices#user-identifiers: localpart max = 255 - "@" - ":" - homeserver len (unknown here).
 export const validateUser = [required(), maxLength(253), regex(/^[a-z0-9._=\-+/]+$/, "ketesa.users.invalid_user_id")];
 
 export const validateAddress = [required(), maxLength(255)];
@@ -244,8 +241,7 @@ const MASSessionsPanel = () => {
   const [newToken, setNewToken] = useState<string | null>(null);
   const [form, setForm] = useState({ scope: "", human_name: "", expires_in: "" });
 
-  // Each session list fetches only when its tab is active; react-query caches so
-  // switching back is instant. Avoids four unconditional round-trips on mount.
+  // Each session list fetches only when its tab is active; react-query caches so switching back is instant.
   const { data: personalSessions = [], isLoading: loadingPersonal } = useGetList(
     "mas_personal_sessions",
     { filter: { user_id: masId }, pagination: { page: 1, perPage: 50 }, sort: { field: "created_at", order: "DESC" } },

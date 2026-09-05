@@ -19,7 +19,7 @@
  *   the screenshot is captured, keeping infrastructure details out of public documentation.
  *
  * NOTE:
- *   The replacement is only visual — it does not change any application state or API calls.
+ *   The replacement is only visual. It does not change any application state or API calls.
  *   Refreshing the page will reset it; re-paste the script if needed after navigation.
  */
 (function () {

@@ -22,7 +22,7 @@ const common: Record<string, any> = {
         unreachable: "Impossible de joindre ce serveur. Vérifiez l'URL et réessayez.",
         incompatible: "Ce serveur propose des méthodes de connexion que Ketesa ne prend pas en charge : %{flows}",
         suppress_password_notice:
-          "Ce serveur requiert le flux OAuth — la connexion par mot de passe n'est pas disponible.",
+          "Ce serveur requiert le flux OAuth : la connexion par mot de passe n'est pas disponible.",
         checking: "Vérification du serveur…",
       },
       supports_specs: "prend en charge les spécifications Matrix",
@@ -202,7 +202,7 @@ const common: Record<string, any> = {
       request_already_sent_view: "Voir le ticket",
       free_label: "Gratuit",
       available_label: "Disponible",
-      tagline: "Améliorez votre serveur — ajoutez ou supprimez n'importe quel composant à tout moment.",
+      tagline: "Améliorez votre serveur : ajoutez ou supprimez n'importe quel composant à tout moment.",
       section: {
         bridges: "Passerelles",
         extras: "Compléments",
@@ -315,7 +315,7 @@ const common: Record<string, any> = {
         issue: {
           title: "L'abonnement nécessite votre attention",
           description:
-            "Nous avons détecté un problème avec votre abonnement. Ne vous inquiétez pas — c'est facile à résoudre.",
+            "Nous avons détecté un problème avec votre abonnement. Ne vous inquiétez pas : c'est facile à résoudre.",
           due_overdue: "En retard depuis",
           due_upcoming: "Échéance dans",
           expected: "Montant attendu",
@@ -458,7 +458,7 @@ const common: Record<string, any> = {
       unavailable_tooltip: "Il se peut que les notifications soient indisponibles. Cliquez pour plus de détails.",
       unavailable_title: "Il se peut que les notifications soient indisponibles en ce moment",
       unavailable_body:
-        "Il se peut que des mises à jour ne puissent pas être transmises à ce panneau en ce moment — ou qu'il n'y ait rien de nouveau. Pour ne rien manquer, veuillez vérifier régulièrement :",
+        "Il se peut que des mises à jour ne puissent pas être transmises à ce panneau en ce moment, ou qu'il n'y ait rien de nouveau. Pour ne rien manquer, veuillez vérifier régulièrement :",
       unavailable_link_matrix: "Salon Matrix #news:etke.cc",
       unavailable_link_news: "Page d'annonces sur etke.cc/news",
       unavailable_link_email: "Votre boîte de réception (y compris le dossier spam)",

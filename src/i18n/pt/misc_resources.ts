@@ -1,7 +1,3 @@
-// Miscellaneous resources: scheduled_tasks, connections, devices, users_media,
-// protect_media, quarantine_media, pushers, servernotices, database_room_statistics,
-// user_media_statistics, forward_extremities, room_state, room_media, room_directory,
-// destinations, registration_tokens
 const misc_resources = {
   scheduled_tasks: {
     name: "Tarefa agendada |||| Tarefas agendadas",

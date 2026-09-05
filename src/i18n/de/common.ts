@@ -23,7 +23,7 @@ const common: Record<string, any> = {
         unreachable: "Dieser Server ist nicht erreichbar. Bitte überprüfen Sie die URL und versuchen Sie es erneut.",
         incompatible: "Dieser Server bietet Anmeldemethoden an, die Ketesa nicht unterstützt: %{flows}",
         suppress_password_notice:
-          "Dieser Server erfordert den OAuth-Ablauf – die Anmeldung mit Passwort ist nicht verfügbar.",
+          "Dieser Server erfordert den OAuth-Ablauf; die Anmeldung mit Passwort ist nicht verfügbar.",
         checking: "Server wird geprüft…",
       },
       logout_access_token_dialog: {
@@ -202,7 +202,7 @@ const common: Record<string, any> = {
       request_already_sent_view: "Ticket anzeigen",
       free_label: "Kostenlos",
       available_label: "Verfügbar",
-      tagline: "Erweitern Sie Ihren Server — fügen Sie Komponenten jederzeit hinzu oder entfernen Sie sie.",
+      tagline: "Erweitern Sie Ihren Server: Fügen Sie Komponenten jederzeit hinzu oder entfernen Sie sie.",
       section: {
         bridges: "Brücken",
         extras: "Extras",
@@ -318,7 +318,7 @@ const common: Record<string, any> = {
         issue: {
           title: "Abonnement benötigt Aufmerksamkeit",
           description:
-            "Wir haben ein Problem mit Ihrem Abonnement festgestellt. Keine Sorge — es lässt sich leicht beheben.",
+            "Wir haben ein Problem mit Ihrem Abonnement festgestellt. Keine Sorge: Es lässt sich leicht beheben.",
           due_overdue: "Überfällig seit",
           due_upcoming: "Fällig in",
           expected: "Erwarteter Betrag",
@@ -356,7 +356,7 @@ const common: Record<string, any> = {
     maintenance: {
       title: "Das System befindet sich derzeit im Wartungsmodus.",
       try_again: "Bitte versuchen Sie es später erneut.",
-      note: "Sie müssen den Support hierzu nicht kontaktieren — wir arbeiten bereits daran!",
+      note: "Sie müssen den Support hierzu nicht kontaktieren: Wir arbeiten bereits daran!",
     },
     actions: {
       name: "Serverbefehle",
@@ -373,7 +373,7 @@ const common: Record<string, any> = {
       recurring_help_intro: "Weitere Details zu diesem Modus finden Sie unter",
       maintenance_title: "Das System befindet sich derzeit im Wartungsmodus.",
       maintenance_try_again: "Bitte versuchen Sie es später erneut.",
-      maintenance_note: "Sie müssen den Support hierzu nicht kontaktieren — wir arbeiten bereits daran!",
+      maintenance_note: "Sie müssen den Support hierzu nicht kontaktieren: Wir arbeiten bereits daran!",
       maintenance_commands_blocked: "Befehle können erst ausgeführt werden, wenn der Wartungsmodus deaktiviert ist.",
       table: {
         aria_label: "Serverbefehle",
@@ -460,7 +460,7 @@ const common: Record<string, any> = {
       unavailable_tooltip: "Benachrichtigungen sind möglicherweise nicht verfügbar. Klicken Sie für Details.",
       unavailable_title: "Benachrichtigungen sind zurzeit möglicherweise nicht verfügbar",
       unavailable_body:
-        "Es könnte Updates geben, die zurzeit nicht an dieses Panel übermittelt werden können — oder es gibt nichts Neues. Um nichts zu verpassen, prüfen Sie bitte regelmäßig:",
+        "Es könnte Updates geben, die zurzeit nicht an dieses Panel übermittelt werden können, oder es gibt nichts Neues. Um nichts zu verpassen, prüfen Sie bitte regelmäßig:",
       unavailable_link_matrix: "Matrix-Raum #news:etke.cc",
       unavailable_link_news: "Ankündigungsseite auf etke.cc/news",
       unavailable_link_email: "Ihr E-Mail-Postfach (einschließlich Spam-Ordner)",

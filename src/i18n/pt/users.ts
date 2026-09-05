@@ -129,7 +129,7 @@ const users = {
       content:
         "Todos os ficheiros de média carregados por este utilizador serão eliminados permanentemente. Esta ação não pode ser revertida.",
       in_progress: "A eliminar os média…",
-      background_note: "Pode fechar esta janela em segurança — a eliminação continuará em segundo plano.",
+      background_note: "Pode fechar esta janela em segurança; a eliminação continuará em segundo plano.",
       success:
         "Eliminado com sucesso %{smart_count} ficheiro de média. |||| Eliminados com sucesso %{smart_count} ficheiros de média.",
       failure: "Falha ao eliminar os média. %{errMsg}",
@@ -174,9 +174,9 @@ const users = {
       success: "Validade da conta renovada até %{date}",
       failure: "Falha ao renovar a validade da conta",
     },
-    system_users_scan_in_progress: "A pesquisar utilizadores correspondentes — a página carregará em breve.",
+    system_users_scan_in_progress: "A pesquisar utilizadores correspondentes; a página carregará em breve.",
     reverse_search_scan_in_progress:
-      "A pesquisar todos os utilizadores para excluir correspondências — a página carregará em breve.",
+      "A pesquisar todos os utilizadores para excluir correspondências; a página carregará em breve.",
   },
   badge: {
     you: "Você",

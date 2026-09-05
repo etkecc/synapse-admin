@@ -27,26 +27,7 @@ export const dateFormatter = (v: string | number | Date | undefined | null): str
   return `${year}-${month}-${day}T${hour}:${minute}`;
 };
 
-/**
- * Normalize timestamps to milliseconds.
- *
- * This exists because the upstream APIs used by the users resource are inconsistent:
- *
- * - `GET /_synapse/admin/v2/users/<user_id>` returns `creation_ts` in seconds.
- * - `GET /_synapse/admin/v2/users` and `GET /_synapse/admin/v3/users` return `creation_ts` in milliseconds.
- *
- * The UI expects a single normalized field (`creation_ts_ms`) regardless of which endpoint
- * produced the record. Without normalization, records loaded from the single-user v2 endpoint
- * are interpreted as milliseconds by the browser and render dates around January 1970.
- *
- * We detect second-based Unix timestamps using a simple threshold:
- * current millisecond epoch values are 13 digits, while second-based epoch values are 10 digits.
- * Anything below 1_000_000_000_000 is therefore treated as seconds and multiplied by 1000.
- *
- * This helper is intentionally conservative:
- * - `null` and `undefined` are returned as-is so callers can preserve missing values.
- * - already-normalized millisecond timestamps are returned unchanged.
- */
+// Normalizes ts to ms: v2 single-user endpoint returns seconds, list endpoints ms; below 1e12 treated as seconds.
 export const normalizeTS = (value?: number | null): number | null | undefined => {
   if (value == null) {
     return value;
@@ -61,13 +42,7 @@ interface TimeSinceResult {
   timeI18Nparams: Record<string, any>;
 }
 
-/**
- * Returns a relative time result for a future date (e.g. "in 5 days").
- * Uses the same bucket thresholds and TimeSinceResult shape as getTimeSince.
- * If the date is in the past, diffInMs will be negative and all thresholds resolve
- * to the first bucket (less_than_minute), which callers should treat as "due now".
- * Assumes ISO 8601 format; appends "Z" if no timezone suffix is present.
- */
+// Relative-time for future dates; negative diffInMs resolves to less_than_minute; assumes ISO 8601, appends Z.
 export const getTimeUntil = (dateToCompare: string): TimeSinceResult => {
   const nowUTC = new Date().getTime();
   if (!dateToCompare.includes("Z")) {

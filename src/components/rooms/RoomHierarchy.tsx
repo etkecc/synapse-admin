@@ -35,8 +35,7 @@ interface TreeNode {
 
 let nodeKeyCounter = 0;
 
-// Per MSC2946: a valid order value is a non-empty string of printable ASCII characters (0x20–0x7E).
-// Spread iterates Unicode code points so multi-byte characters are caught correctly.
+// Per MSC2946: order is a non-empty ASCII string (0x20 to 0x7E); spread iterates full Unicode code points.
 export const isValidOrder = (o: unknown): o is string =>
   typeof o === "string" &&
   o.length > 0 &&
@@ -45,10 +44,7 @@ export const isValidOrder = (o: unknown): o is string =>
     return cp >= 0x20 && cp <= 0x7e;
   });
 
-// Sorts m.space.child events per the Matrix spec (MSC2946):
-// 1. Children with a valid `order` string sort first, lexicographically.
-// 2. Children without a valid `order` sort after, by origin_server_ts ascending.
-// 3. Equal order strings, or equal timestamps, fall back to state_key for a stable result.
+// Sorts per MSC2946: valid `order` first, lexicographic; then origin_server_ts, then state_key.
 export const sortChildren = <T extends { state_key: string; content: { order?: string }; origin_server_ts: number }>(
   children: T[]
 ): T[] =>

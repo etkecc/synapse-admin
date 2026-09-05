@@ -167,8 +167,7 @@ describe("InvoiceEmailsDialog", () => {
     // the first (destructive) failure shows the server message verbatim.
     await waitFor(() => expect(notify).toHaveBeenCalledWith("Service temporarily unavailable", { type: "error" }));
 
-    // retry succeeds with an ambiguous zero: softened copy, not a false "nothing canceled".
-    // findByRole waits for the first dialog's close transition to release the aria-hidden background.
+    // Retry succeeds with an ambiguous zero (softened copy); findByRole waits out the closing dialog's fade.
     await user.click(await screen.findByRole("button", { name: t.save }));
     await user.click(await confirmButton());
     await waitFor(() => expect(notify).toHaveBeenLastCalledWith(t.saved_canceled_retry, { type: "info" }));
@@ -218,8 +217,7 @@ describe("InvoiceEmailsDialog", () => {
     await user.click(await confirmButton());
     await waitFor(() => expect(notify).toHaveBeenCalledWith("Service temporarily unavailable", { type: "error" }));
 
-    // the destructive attempt's outcome is unknown, so an additive retry's clean zero is still
-    // ambiguous: the softened copy is intended until a save actually succeeds.
+    // The destructive attempt's outcome is unknown, so an additive retry's clean zero stays ambiguous.
     await user.click(await screen.findByLabelText(t.enabled_label)); // toggle back on
     const input = await screen.findByLabelText(t.emails_label);
     await user.type(input, "b@example.com{Enter}");

@@ -1,10 +1,7 @@
 import { Box, Chip, TextField } from "@mui/material";
 import { useState } from "react";
 
-/**
- * ChipInput collects a list of strings: type, press Enter to commit a trimmed value, click a chip's
- * x to drop it. Deduplicates on insert. Values in, values out, no domain rules; validate upstream.
- */
+// Enter commits a trimmed value, chip's x drops it. Dedupes on insert; no domain validation here.
 export const ChipInput = ({
   label,
   placeholder,

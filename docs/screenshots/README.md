@@ -120,8 +120,8 @@ Screenshots are organized by theme. Each section shows both light and dark varia
 
 ### 💬 Support
 
-| Light                                                                  | Dark                                                                 |
-| ---------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| ![Support — Create Ticket (light)](./light/support-create.webp)        | ![Support — Create Ticket (dark)](./dark/support-create.webp)        |
-| ![Support — Open Thread (light)](./light/support-thread-open.webp)     | ![Support — Open Thread (dark)](./dark/support-thread-open.webp)     |
-| ![Support — Closed Thread (light)](./light/support-thread-closed.webp) | ![Support — Closed Thread (dark)](./dark/support-thread-closed.webp) |
+| Light                                                                 | Dark                                                                |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| ![Support: Create Ticket (light)](./light/support-create.webp)        | ![Support: Create Ticket (dark)](./dark/support-create.webp)        |
+| ![Support: Open Thread (light)](./light/support-thread-open.webp)     | ![Support: Open Thread (dark)](./dark/support-thread-open.webp)     |
+| ![Support: Closed Thread (light)](./light/support-thread-closed.webp) | ![Support: Closed Thread (dark)](./dark/support-thread-closed.webp) |

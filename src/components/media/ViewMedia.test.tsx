@@ -8,9 +8,7 @@ import englishMessages from "../../i18n/en";
 
 const i18nProvider = polyglotI18nProvider(() => englishMessages, "en", [{ locale: "en", name: "English" }]);
 
-// Flush the real microtask/macrotask queue so the async handleFile chain
-// (fetch -> blob -> createObjectURL) settles. setImmediate stays real because only
-// setTimeout is faked below, and React's scheduler relies on it.
+// Flush the real microtask/macrotask queue so the async handleFile chain settles; only setTimeout is faked below.
 const flushAsync = () => new Promise(resolve => setImmediate(resolve));
 
 interface ClickedAnchor {
@@ -35,9 +33,7 @@ describe("ViewMediaButton", () => {
   let clickedAnchors: ClickedAnchor[];
 
   const mockMediaResponse = (type: string) => {
-    // Hand back a Blob with the type set directly: jsdom's Response does not round-trip the
-    // Content-Type onto Response.blob().type, but a real browser fetch does. The production
-    // new-tab gate reads blob.type.
+    // Hand back a Blob with the type set directly: jsdom's Response doesn't round-trip Content-Type onto blob().type.
     global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
@@ -58,16 +54,14 @@ describe("ViewMediaButton", () => {
   };
 
   beforeEach(() => {
-    // Fake only setTimeout so the revoke timer is controllable without stalling
-    // React's setImmediate-based work loop.
+    // Fake only setTimeout so the revoke timer is controllable without stalling React's setImmediate work loop.
     vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
 
     clickedAnchors = [];
     mockMediaResponse("image/png");
     global.URL.createObjectURL = vi.fn(() => "blob:mock-object-url");
     global.URL.revokeObjectURL = vi.fn();
-    // Capture each programmatic anchor click instead of letting jsdom navigate, so tests can
-    // tell the new-tab path (target=_blank) from the download path (download attribute).
+    // Capture each programmatic anchor click so tests can tell the new-tab path from the download path.
     vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (this: HTMLAnchorElement) {
       clickedAnchors.push({ target: this.target, download: this.download });
     });
@@ -90,8 +84,7 @@ describe("ViewMediaButton", () => {
     expect(global.URL.createObjectURL).toHaveBeenCalledTimes(1);
     expect(lastClick()).toEqual({ target: "_blank", download: "" });
 
-    // Regression guard: the old code revoked after 10ms, killing the new tab mid-navigation
-    // and producing ERR_FILE_NOT_FOUND. The blob must still be alive here.
+    // Regression guard: the old code revoked after 10ms, killing the new tab mid-navigation with ERR_FILE_NOT_FOUND.
     vi.advanceTimersByTime(10);
     expect(global.URL.revokeObjectURL).not.toHaveBeenCalled();
 
@@ -121,8 +114,7 @@ describe("ViewMediaButton", () => {
   });
 
   it("falls back to download when the served blob type is unsafe despite an image media_type", async () => {
-    // The record claims image/png (so the open button shows) but the server serves text/html
-    // (the federated-spoofing case). The blob must download, never render in our origin.
+    // Federated-spoofing case: record claims image/png but the server serves text/html; must download, never render.
     mockMediaResponse("text/html");
     renderButton({ mimetype: "image/png", preview: true });
 

@@ -39,10 +39,7 @@ export const ProtectMediaButton = (props: ButtonProps) => {
   const safeFromQuarantine = isProtected ?? record.safe_from_quarantine;
 
   return (
-    /*
-    Wrapping Tooltip with <div>
-    https://github.com/marmelab/react-admin/issues/4349#issuecomment-578594735
-    */
+    // Wrapping Tooltip with <div>: https://github.com/marmelab/react-admin/issues/4349#issuecomment-578594735
     <>
       {record.quarantined_by && (
         <Tooltip

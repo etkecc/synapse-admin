@@ -25,11 +25,7 @@ interface TypeToConfirmDialogProps {
   onClose: () => void;
 }
 
-/**
- * Strong confirmation dialog: the Confirm button stays disabled until the operator types
- * `expectedValue` exactly. Reserved for irreversible actions (GDPR erase) where a single
- * misclick is unrecoverable. Mirrors the dialog a11y/structure of DeleteUserButton.
- */
+// Strong confirmation: Confirm stays disabled until `expectedValue` is typed exactly; for irreversible actions.
 const TypeToConfirmDialog: React.FC<TypeToConfirmDialogProps> = props => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

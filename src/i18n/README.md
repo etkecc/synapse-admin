@@ -4,18 +4,18 @@ Internationalization. 10 languages, each in its own directory.
 
 ## Structure
 
-- `index.ts` — i18n provider setup (do not modify for new translations)
-- `types.d.ts` — Type-safe translation key definitions
-- `en/`, `de/`, `fa/`, `fr/`, `it/`, `ja/`, `pt/`, `ru/`, `uk/`, `zh/` — one dir per language
+- `index.ts`: i18n provider setup (do not modify for new translations)
+- `types.d.ts`: Type-safe translation key definitions
+- `en/`, `de/`, `fa/`, `fr/`, `it/`, `ja/`, `pt/`, `ru/`, `uk/`, `zh/`: one dir per language
 
 Each language directory contains:
-- `index.ts` — assembles all domain files into the full translation object
-- `common.ts` — `ra.*` built-ins and app-level strings
-- `users.ts` — `resources.users.*`
-- `rooms.ts` — `resources.rooms.*`
-- `mas.ts` — all `resources.mas_*` keys
-- `reports.ts` — `resources.reports.*`
-- `misc_resources.ts` — all remaining resource keys
+- `index.ts`: assembles all domain files into the full translation object
+- `common.ts`: `ra.*` built-ins and app-level strings
+- `users.ts`: `resources.users.*`
+- `rooms.ts`: `resources.rooms.*`
+- `mas.ts`: all `resources.mas_*` keys
+- `reports.ts`: `resources.reports.*`
+- `misc_resources.ts`: all remaining resource keys
 
 ## Adding a translation key
 

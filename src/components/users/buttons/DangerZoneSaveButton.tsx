@@ -8,18 +8,7 @@ type DangerDialog = "none" | "erase" | "escalate";
 
 const preLineStyle = { whiteSpace: "pre-line" as const };
 
-/**
- * Save button for the user Edit form that gates dangerous transitions behind a confirmation.
- *
- * The gate lives at the SAVE boundary, not on the checkbox click: we diff the submitted form
- * values against the loaded record (the same prev/next shape lifecycle.ts works from) and chain
- * the right dialog before the real save runs. This survives a future regression in the save path
- * the way a per-toggle confirm would not.
- *
- * Severity wins: at most one dialog per save. An erase escalation shows the strong type-the-MXID
- * dialog (and covers the deactivation it implies); otherwise a deactivate/admin escalation shows a
- * light confirm. Confirmations fire only on escalation (off -> on), never on de-escalation.
- */
+// Gates dangerous transitions at the SAVE boundary (diff vs loaded record); erase escalation wins, fires once.
 const DangerZoneSaveButton = () => {
   const record = useRecordContext();
   const form = useFormContext();
@@ -31,8 +20,7 @@ const DangerZoneSaveButton = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pending, setPending] = useState<Record<string, any> | null>(null);
   const [escalations, setEscalations] = useState<string[]>([]);
-  // In-flight guard: erase is a destructive one-shot, so save() must fire at most once per action
-  // even if the operator double-clicks the dialog Confirm before the first await resolves.
+  // In-flight guard: save() fires at most once even on a double-click before the first await resolves.
   const saving = useRef(false);
 
   const mxid = String(record?.id ?? "");
@@ -52,8 +40,7 @@ const DangerZoneSaveButton = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onValid = async (values: Record<string, any>) => {
-    // Strict-boolean escalation check (off -> on), mirroring lifecycle.ts so undefined/null cache
-    // noise can't pop a spurious dialog.
+    // Strict-boolean escalation check (off -> on), mirroring lifecycle.ts to keep undefined/null cache noise quiet.
     const escalated = (field: string) => record?.[field] !== true && values[field] === true;
     const eraseEscalated = escalated("erased");
     const deactivateEscalated = escalated("deactivated");
@@ -78,9 +65,7 @@ const DangerZoneSaveButton = () => {
     await runSave(values);
   };
 
-  // type="button" means SaveButton won't submit the form itself; we preventDefault so its internal
-  // fallback submit (SaveButton handleClick) bails out at `event.defaultPrevented`, then run
-  // validation manually and intercept dangerous transitions before saving.
+  // type="button" skips SaveButton's own submit; preventDefault lets us run validation and gate saving manually.
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
     form.handleSubmit(onValid)();

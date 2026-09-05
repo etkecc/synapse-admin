@@ -1,65 +1,41 @@
-/**
- * MAS (Matrix Authentication Service) utility functions and helpers.
- * Shared by mas.ts (resource factories), mas-actions.ts, and index.ts.
- */
+// MAS (Matrix Authentication Service) utility functions, shared by mas.ts, mas-actions.ts, and index.ts.
 
 import { HttpError, useStore } from "react-admin";
 
 import { jsonClient } from "../http";
 import { MASRegistrationToken, MASRegistrationTokenResource } from "../types";
 
-/**
- * Read the cached MAS flag from localStorage.
- * react-admin's useStore persists under the "RaStore." prefix,
- * so useStore<boolean>('mas', false) reads/writes "RaStore.isMAS".
- * This function is for non-React code (dataProvider, serverVersion).
- */
+// Reads the cached MAS flag for non-React code (dataProvider, serverVersion); components use useIsMAS instead.
 export const isMAS = (): boolean => {
-  // react-admin's useStore serialises values as JSON under "RaStore.<key>"
   return localStorage.getItem("RaStore.isMAS") === "true";
 };
 
-/**
- * React hook for components; reactive, backed by react-admin store.
- */
+// Reactive counterpart to isMAS, backed by react-admin's store.
 export const useIsMAS = (): boolean => {
   const [value] = useStore<boolean>("isMAS", false);
   return value;
 };
 
-/**
- * Set the MAS flag in react-admin store's localStorage slot.
- * The flag means "is MAS AND admin API is available".
- */
+// Flag semantics: MAS is active AND its admin API responded to a health check.
 export const setIsMAS = (value: boolean): void => {
   localStorage.setItem("RaStore.isMAS", JSON.stringify(value));
 };
 
-/**
- * Extract the MAS base URL from the token endpoint
- * e.g., "http://localhost:8007/oauth2/token" -> "http://localhost:8007"
- */
+// Extracts the MAS base URL from the token endpoint, e.g. ".../oauth2/token" -> the origin without that suffix.
 export const getMASBaseUrl = (): string | null => {
   const tokenEndpoint = localStorage.getItem("token_endpoint");
   if (!tokenEndpoint) return null;
 
-  // Remove trailing /oauth2/token to get the base URL
   return tokenEndpoint.replace(/\/oauth2\/token$/, "");
 };
 
-/**
- * Convert Unix timestamp (milliseconds) to RFC 3339 formatted string
- * Used for MAS API which expects RFC 3339 format for expiry dates
- */
+// Converts a Unix ms timestamp to RFC 3339, the format the MAS API expects for expiry dates.
 export const toRfc3339 = (timestamp: number | undefined | null): string | undefined => {
   if (!timestamp) return undefined;
   return new Date(timestamp).toISOString();
 };
 
-/**
- * Check if MAS admin API is available by attempting a health check.
- * Only called once at login time, never on page refresh.
- */
+// Only called once at login time, never on page refresh.
 export const checkMASAdminApiAvailable = async (): Promise<boolean> => {
   const masBaseUrl = getMASBaseUrl();
   if (!masBaseUrl) return false;
@@ -74,11 +50,7 @@ export const checkMASAdminApiAvailable = async (): Promise<boolean> => {
   }
 };
 
-/**
- * Detect MAS, check admin API availability, set the cached flag,
- * and initialize the registration tokens resource.
- * Called once at login / OIDC callback.
- */
+// Detects MAS and admin API availability, then sets the cached flag; called once at login/OIDC callback.
 export const detectAndSetMAS = async (): Promise<void> => {
   const tokenEndpoint = localStorage.getItem("token_endpoint");
   const isMASEndpoint = !!tokenEndpoint && tokenEndpoint.endsWith("/oauth2/token");
@@ -90,9 +62,6 @@ export const detectAndSetMAS = async (): Promise<void> => {
   }
 };
 
-/**
- * Get the MAS server version
- */
 export const getMASVersion = async (): Promise<string> => {
   const masBaseUrl = getMASBaseUrl();
   if (!masBaseUrl) return "";
@@ -104,9 +73,6 @@ export const getMASVersion = async (): Promise<string> => {
   }
 };
 
-/**
- * Revoke or unrevoke a MAS registration token
- */
 export const revokeRegistrationToken = async (
   id: string,
   revoke: boolean
@@ -128,9 +94,7 @@ export const revokeRegistrationToken = async (
   }
 };
 
-/**
- * Convert MAS registration token format to Synapse format
- */
+// Unwraps a MAS registration token's JSON:API resource object, if wrapped.
 export const getMASTokenResource = (
   token: MASRegistrationToken | MASRegistrationTokenResource
 ): MASRegistrationTokenResource => {

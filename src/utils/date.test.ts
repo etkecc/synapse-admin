@@ -102,7 +102,7 @@ describe("getTimeSince", () => {
     expect(result.timeI18Nparams).toEqual({ smart_count: 30 });
   });
 
-  it("returns hours with smart_count 1 when diff is 60–119 min", () => {
+  it("returns hours with smart_count 1 when diff is 60-119 min", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeSince(past(90));
     expect(result.timeI18Nkey).toBe("etkecc.time.hours");
@@ -116,7 +116,7 @@ describe("getTimeSince", () => {
     expect(result.timeI18Nparams).toEqual({ smart_count: 6 });
   });
 
-  it("returns days with smart_count 1 when diff is 24–47h", () => {
+  it("returns days with smart_count 1 when diff is 24-47h", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeSince(past(36 * 60));
     expect(result.timeI18Nkey).toBe("etkecc.time.days");
@@ -130,7 +130,7 @@ describe("getTimeSince", () => {
     expect(result.timeI18Nparams).toEqual({ smart_count: 5 });
   });
 
-  it("returns weeks with smart_count 1 when diff is 7–13 days", () => {
+  it("returns weeks with smart_count 1 when diff is 7-13 days", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeSince(past(10 * 24 * 60));
     expect(result.timeI18Nkey).toBe("etkecc.time.weeks");
@@ -144,7 +144,7 @@ describe("getTimeSince", () => {
     expect(result.timeI18Nparams).toEqual({ smart_count: 3 });
   });
 
-  it("returns months with smart_count 1 when diff is 30–59 days", () => {
+  it("returns months with smart_count 1 when diff is 30-59 days", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeSince(past(45 * 24 * 60));
     expect(result.timeI18Nkey).toBe("etkecc.time.months");
@@ -218,14 +218,14 @@ describe("getTimeUntil", () => {
     expect(result.timeI18Nparams).toEqual({ smart_count: 30 });
   });
 
-  it("returns hours with smart_count 1 when diff is 60–119 min", () => {
+  it("returns hours with smart_count 1 when diff is 60-119 min", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeUntil(future(90));
     expect(result.timeI18Nkey).toBe("etkecc.time.hours");
     expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
   });
 
-  it("returns days with smart_count 1 when diff is 24–47h", () => {
+  it("returns days with smart_count 1 when diff is 24-47h", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeUntil(future(36 * 60));
     expect(result.timeI18Nkey).toBe("etkecc.time.days");
@@ -239,14 +239,14 @@ describe("getTimeUntil", () => {
     expect(result.timeI18Nparams).toEqual({ smart_count: 5 });
   });
 
-  it("returns weeks with smart_count 1 when diff is 7–13 days", () => {
+  it("returns weeks with smart_count 1 when diff is 7-13 days", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeUntil(future(10 * 24 * 60));
     expect(result.timeI18Nkey).toBe("etkecc.time.weeks");
     expect(result.timeI18Nparams).toEqual({ smart_count: 1 });
   });
 
-  it("returns months with smart_count 1 when diff is 30–59 days", () => {
+  it("returns months with smart_count 1 when diff is 30-59 days", () => {
     setNow(new Date("2024-01-01T12:00:00Z"));
     const result = getTimeUntil(future(45 * 24 * 60));
     expect(result.timeI18Nkey).toBe("etkecc.time.months");

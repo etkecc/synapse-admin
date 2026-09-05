@@ -22,7 +22,7 @@ const common = {
         resolving: "Checking server capabilities…",
         unreachable: "Couldn't reach this server. Check the URL and try again.",
         incompatible: "This server advertises sign-in methods Ketesa doesn't support: %{flows}",
-        suppress_password_notice: "This server requires the OAuth flow — password sign-in isn't available.",
+        suppress_password_notice: "This server requires the OAuth flow; password sign-in isn't available.",
         checking: "Checking server…",
       },
       logout_access_token_dialog: {
@@ -34,7 +34,7 @@ const common = {
       },
     },
     users: {
-      invalid_user_id: "Enter the localpart of a Matrix user ID only — do not include the homeserver.",
+      invalid_user_id: "Enter the localpart of a Matrix user ID only: do not include the homeserver.",
       tabs: {
         sso: "SSO",
         experimental: "Experimental",
@@ -119,7 +119,7 @@ const common = {
         successful: "%{smart_count} entries successfully imported",
         skipped: "%{smart_count} entries skipped",
         download_skipped: "Download skipped records",
-        simulated_only: "This was a simulation only — no changes were made",
+        simulated_only: "This was a simulation only; no changes were made",
       },
     },
   },
@@ -197,7 +197,7 @@ const common = {
       request_already_sent_view: "View ticket",
       free_label: "Free",
       available_label: "Available",
-      tagline: "Enhance your server — add or remove any component at any time.",
+      tagline: "Enhance your server: add or remove any component at any time.",
       section: {
         bridges: "Bridges",
         extras: "Extras",
@@ -306,7 +306,7 @@ const common = {
       status: {
         issue: {
           title: "Subscription needs attention",
-          description: "We noticed an issue with your subscription. Don't worry — it's easy to fix.",
+          description: "We noticed an issue with your subscription. Don't worry: it's easy to fix.",
           due_overdue: "Overdue since",
           due_upcoming: "Due in",
           expected: "Expected amount",
@@ -336,7 +336,7 @@ const common = {
       },
       status: "Status",
       error: "Error",
-      loading: "Fetching real-time server status — just a moment…",
+      loading: "Fetching real-time server status: just a moment…",
       intro1: "This is a real-time monitoring report for your server. You can learn more about it at",
       intro2: "If any of the checks below concern you, see the suggested actions at",
       help: "Help",
@@ -344,7 +344,7 @@ const common = {
     maintenance: {
       title: "The system is currently in maintenance mode.",
       try_again: "Please try again later.",
-      note: "You don't need to contact support about this — we are already working on it!",
+      note: "You don't need to contact support about this: we are already working on it!",
     },
     actions: {
       name: "Server Actions",
@@ -361,7 +361,7 @@ const common = {
       recurring_help_intro: "More details about this feature can be found at",
       maintenance_title: "The system is currently in maintenance mode.",
       maintenance_try_again: "Please try again later.",
-      maintenance_note: "You don't need to contact support about this — we are already working on it!",
+      maintenance_note: "You don't need to contact support about this: we are already working on it!",
       maintenance_commands_blocked: "Commands cannot be run until maintenance mode is disabled.",
       table: {
         aria_label: "Server commands",
@@ -448,7 +448,7 @@ const common = {
       unavailable_tooltip: "Notifications may be unavailable. Click for details.",
       unavailable_title: "Notifications may be unavailable right now",
       unavailable_body:
-        "There may be updates we can't deliver to this panel right now — or there may be nothing new. To avoid missing anything, please check periodically:",
+        "There may be updates we can't deliver to this panel right now, or there may be nothing new. To avoid missing anything, please check periodically:",
       unavailable_link_matrix: "Matrix room #news:etke.cc",
       unavailable_link_news: "Announcements page at etke.cc/news",
       unavailable_link_email: "Your email inbox (including spam folder)",

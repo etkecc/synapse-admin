@@ -97,20 +97,14 @@ import createLogger from "../../utils/logger";
 
 export { clearSystemUsersScanCache, clearReverseSearchScanCache, clearMASFilterScanCache } from "./scan";
 
-/**
- * Initialize all flag-dependent resources and patch them into resourceMap.
- * Reads the cached MAS flag synchronously; no HTTP calls needed.
- * Add new MAS-dependent resources here as they are introduced.
- */
+// Initializes flag-dependent resources into resourceMap; reads the cached MAS flag synchronously, no HTTP calls.
 export const initResources = () => {
   if (isMAS()) {
     resourceMap.registration_tokens = getMASRegistrationTokensResource();
-    // Swap users to MAS-backed resource; Synapse tabs still work because id = @user:homeserver
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (resourceMap as any).users = getMASUsersAsMainResource();
-    // mas_users registered with ULID ids for ReferenceInput in user-email create
+    (resourceMap as any).users = getMASUsersAsMainResource(); // Synapse tabs still work because id = @user:homeserver
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (resourceMap as any).mas_users = getMASUsersResource();
+    (resourceMap as any).mas_users = getMASUsersResource(); // ULID ids, for ReferenceInput in user-email create
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (resourceMap as any).mas_user_emails = getMASUserEmailsResource();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,9 +121,8 @@ export const initResources = () => {
     (resourceMap as any).mas_upstream_oauth_providers = getMASUpstreamOAuthProvidersResource();
   } else {
     resourceMap.registration_tokens = synapseRegistrationTokensResource;
-    // Restore Synapse users resource
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (resourceMap as any).users = synapseResourceMap.users;
+    (resourceMap as any).users = synapseResourceMap.users; // Restore Synapse users resource
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (resourceMap as any).mas_users;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -170,8 +163,7 @@ export const setDataProviderNotifier = (fn: (key: string) => void) => {
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 function filterNullValues(key: string, value: any) {
-  // Filtering out null properties
-  // to reset user_type from user, it must be null
+  // Filters out null properties, except user_type: resetting it from the user form requires null.
   if (value === null && key !== "user_type") {
     return undefined;
   }
@@ -294,8 +286,7 @@ const baseDataProvider: SynapseDataProvider = {
     // Determine reverse search flag before res.getList delegation
     const isReverseSearch = resource === "users" && typeof name === "string" && name.startsWith("!");
 
-    // Allow resource to override getList entirely (e.g. MAS users Synapse-first sort)
-    // Skip when reverse search or system_users scan is active; handled below for both modes.
+    // Allows a resource to override getList (e.g. MAS Synapse-first sort); skipped for reverse search/scan.
     if (!isReverseSearch && system_users == null && res.getList) {
       const result = await res.getList({
         pagination: params.pagination as PaginationPayload,
@@ -430,11 +421,7 @@ const baseDataProvider: SynapseDataProvider = {
     try {
       ({ json } = await jsonClient(url));
     } catch (error) {
-      // Some resources map known server errors to an empty result rather than
-      // propagating the error to React-Admin (which would prevent the empty
-      // state from rendering).  E.g. Synapse returns 500 for
-      // database_room_statistics when the stats table hasn't been populated yet.
-      // See: https://github.com/element-hq/synapse/issues/19561
+      // Maps known server errors (e.g. the 500 database_room_statistics returns pre-populate) to an empty result.
       if (res.ignoredErrors?.includes((error as any)?.status)) {
         return { data: [], total: 0 };
       }
@@ -480,8 +467,7 @@ const baseDataProvider: SynapseDataProvider = {
     const { res, baseUrl } = resolveResource(resource);
     const homeserver = localStorage.getItem("home_server");
 
-    // If the resource provides a custom getOne (e.g. MAS users, which use ULIDs and can't be
-    // fetched by Matrix ID via the standard path), delegate each lookup to it.
+    // Delegates to a custom getOne when the resource has one (e.g. MAS users, keyed by ULID not Matrix ID).
     if (res.getOne) {
       const data = await Promise.all(
         params.ids.map(async id => {
@@ -502,9 +488,7 @@ const baseDataProvider: SynapseDataProvider = {
     const endpoint_url = baseUrl + res.path;
     const data = await Promise.all(
       params.ids.map(async id => {
-        // Federated/external users can't be queried via the Synapse admin API.
-        // Return a minimal stub without going through res.map; this prevents res.map
-        // from setting boolean fields like is_guest: false on records that have no real data.
+        // Federated/external users bypass res.map so it can't set boolean fields like is_guest on fake data.
         if (homeserver && resource === "users" && !(id as string).endsWith(homeserver)) {
           return { id, name: id } as RaRecord;
         }
@@ -512,8 +496,7 @@ const baseDataProvider: SynapseDataProvider = {
           const { json } = await jsonClient(`${endpoint_url}/${encodeURIComponent(id)}`);
           return (await Promise.resolve(res.map(json))) as RaRecord;
         } catch (error) {
-          // Handle deleted/non-existent resources gracefully by returning minimal data
-          // This can happen when a room is deleted but still referenced in joined_rooms
+          // Handles a deleted room still referenced in joined_rooms by returning minimal stub data.
           if (error instanceof HttpError && error.status === 404) {
             const json = resource === "rooms" ? { room_id: id, name: id } : { id };
             return (await Promise.resolve(res.map(json))) as RaRecord;
@@ -591,9 +574,7 @@ const baseDataProvider: SynapseDataProvider = {
 
   update: async (resource, params) => {
     log.debug("update", resource, params.id);
-    // Erase is terminal: the lifecycle beforeUpdate already deactivated + GDPR-erased the user and
-    // set this flag. Skip the profile PUT (PUT /v2/users would recreate the just-erased profile)
-    // and echo back the erased record.
+    // Erase already ran in lifecycle beforeUpdate; skip the profile PUT (it would recreate the erased user).
     if (resource === "users" && params.meta?.userErased) {
       return { data: { ...params.previousData, ...params.data, id: params.id, deactivated: true, erased: true } };
     }
@@ -602,8 +583,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     if (res.update) {
       const upd = res.update(params);
-      // Async resources (e.g. MAS users) opt into a Promise-returning update that handles
-      // its own dispatch and returns the final record; sync resources return {endpoint, method}.
+      // Async resources (e.g. MAS users) return a Promise of the final record; sync ones return {endpoint, method}.
       if (upd && typeof (upd as Promise<unknown>).then === "function") {
         const data = await (upd as Promise<RaRecord>);
         return { data };
@@ -689,8 +669,7 @@ const baseDataProvider: SynapseDataProvider = {
 
     if ("delete" in res) {
       const del = res.delete(params);
-      // Async resources (e.g. MAS users) opt into a Promise-returning delete that handles
-      // its own dispatch and returns the deleted record; sync resources return {endpoint, method, body?}.
+      // Async resources (e.g. MAS users) return a Promise of the deleted record; sync ones return {endpoint, method}.
       if (del && typeof (del as Promise<unknown>).then === "function") {
         const data = await (del as Promise<RaRecord>);
         return { data };
@@ -755,13 +734,7 @@ const baseDataProvider: SynapseDataProvider = {
     }
   },
 
-  // Custom methods (https://marmelab.com/react-admin/DataProviders.html#adding-custom-methods)
-
-  /**
-   * Delete media by date or size
-   *
-   * @link https://matrix-org.github.io/synapse/latest/admin_api/media_admin_api.html#delete-local-media-by-date-or-size
-   */
+  // Delete media by date or size (Synapse admin_api/media_admin_api.html#delete-local-media-by-date-or-size).
   deleteMedia,
   purgeRemoteMedia,
   uploadMedia,

@@ -40,8 +40,7 @@ let config: Config = {
 };
 
 export const FetchConfig = async () => {
-  // load config.json and honor vite base url (import.meta.env.BASE_URL)
-  // if that url doesn't have a trailing slash - add it
+  // Loads config.json, honoring vite base url (import.meta.env.BASE_URL); appends a trailing slash if missing.
   let configJSONUrl = "config.json";
   if (import.meta.env.BASE_URL) {
     configJSONUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, "/")}config.json`;
@@ -108,9 +107,7 @@ export const FetchWellKnownConfig = async () => {
     }
 
     log.info("well-known config loaded", { homeserver });
-    // Well-known config overlays config.json values (including restrictBaseUrl)
-    // intentionally; well-known is admin-trusted as part of the deployment's
-    // homeserver config.
+    // Well-known config intentionally overlays config.json (including restrictBaseUrl); well-known is admin-trusted.
     LoadConfig(wkConfig);
     return true;
   } catch (e) {
@@ -119,9 +116,7 @@ export const FetchWellKnownConfig = async () => {
   }
 };
 
-// load config from context
-// we deliberately processing each key separately to avoid overwriting the whole config, losing some keys, and messing
-// with typescript types
+// Loads config from context; processes each key separately to avoid overwriting the config or fighting TS types.
 export const LoadConfig = (context: Config) => {
   const nextConfig: Config = { ...config };
   let changed = false;
@@ -186,9 +181,7 @@ export const GetConfig = (): Config => {
   return config;
 };
 
-// Clear session-specific runtime state from config and localStorage.
-// Static deployment config (restrictBaseUrl, corsCredentials, asManagedUsers, menu, etkeccAdmin)
-// is preserved so the login page behaves correctly after logout.
+// Clears session-specific runtime state; static deployment config stays so login behaves correctly after logout.
 export const ClearConfig = () => {
   config = { ...config, externalAuthProvider: undefined };
   localStorage.clear();

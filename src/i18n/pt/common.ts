@@ -23,7 +23,7 @@ const common: Record<string, any> = {
         unreachable: "Não foi possível contactar este servidor. Verifique o URL e tente novamente.",
         incompatible: "Este servidor anuncia métodos de autenticação que o Ketesa não suporta: %{flows}",
         suppress_password_notice:
-          "Este servidor requer o fluxo OAuth — a autenticação por palavra-passe não está disponível.",
+          "Este servidor requer o fluxo OAuth: a autenticação por palavra-passe não está disponível.",
         checking: "A verificar o servidor…",
       },
       logout_access_token_dialog: {
@@ -35,8 +35,7 @@ const common: Record<string, any> = {
       },
     },
     users: {
-      invalid_user_id:
-        "Introduza apenas a parte local de um ID de utilizador Matrix — não inclua o servidor doméstico.",
+      invalid_user_id: "Introduza apenas a parte local de um ID de utilizador Matrix; não inclua o servidor doméstico.",
       tabs: {
         sso: "SSO",
         experimental: "Experimental",
@@ -122,7 +121,7 @@ const common: Record<string, any> = {
         successful: "%{smart_count} entradas importadas com sucesso",
         skipped: "%{smart_count} entradas ignoradas",
         download_skipped: "Descarregar registos ignorados",
-        simulated_only: "Esta foi apenas uma simulação — não foram feitas alterações",
+        simulated_only: "Esta foi apenas uma simulação; não foram feitas alterações",
       },
     },
   },
@@ -200,7 +199,7 @@ const common: Record<string, any> = {
       request_already_sent_view: "Ver ticket",
       free_label: "Gratuito",
       available_label: "Disponível",
-      tagline: "Melhore o seu servidor — adicione ou remova qualquer componente a qualquer momento.",
+      tagline: "Melhore o seu servidor: adicione ou remova qualquer componente a qualquer momento.",
       section: {
         bridges: "Pontes",
         extras: "Complementos",
@@ -310,7 +309,7 @@ const common: Record<string, any> = {
       status: {
         issue: {
           title: "Subscrição necessita de atenção",
-          description: "Detetámos um problema na sua subscrição. Não se preocupe — é fácil de resolver.",
+          description: "Detetámos um problema na sua subscrição. Não se preocupe; é fácil de resolver.",
           due_overdue: "Em atraso há",
           due_upcoming: "Prazo em",
           expected: "Valor esperado",
@@ -340,7 +339,7 @@ const common: Record<string, any> = {
       },
       status: "Estado",
       error: "Erro",
-      loading: "A obter o estado operacional do servidor em tempo real — um momento…",
+      loading: "A obter o estado operacional do servidor em tempo real: um momento…",
       intro1: "Este é um relatório de monitorização em tempo real do seu servidor. Pode saber mais em",
       intro2: "Se alguma das verificações abaixo o preocupar, consulte as ações sugeridas em",
       help: "Ajuda",
@@ -452,7 +451,7 @@ const common: Record<string, any> = {
       unavailable_tooltip: "As notificações podem estar indisponíveis. Clique para mais detalhes.",
       unavailable_title: "As notificações podem estar indisponíveis neste momento",
       unavailable_body:
-        "Pode haver atualizações que não conseguimos entregar a este painel neste momento — ou pode não haver nada de novo. Para não perder nada, consulte periodicamente:",
+        "Pode haver atualizações que não conseguimos entregar a este painel neste momento, ou pode não haver nada de novo. Para não perder nada, consulte periodicamente:",
       unavailable_link_matrix: "Sala Matrix #news:etke.cc",
       unavailable_link_news: "Página de anúncios em etke.cc/news",
       unavailable_link_email: "A sua caixa de entrada de e-mail (incluindo a pasta de spam)",

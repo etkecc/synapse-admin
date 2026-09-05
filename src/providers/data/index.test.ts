@@ -780,9 +780,7 @@ describe("dataProvider", () => {
   });
 
   it("createMany sends one notice per recipient with no cross-contamination", async () => {
-    // Guards the wrong-recipient hazard: createMany builds a fresh payload per id and
-    // must never bleed one recipient's id into another's request.
-    // Fresh Response per call: a single Response body can only be read once.
+    // Guards the wrong-recipient hazard, and uses mockImplementation since a Response body reads only once.
     vi.mocked(fetch).mockImplementation(() => Promise.resolve(new Response(JSON.stringify({ event_id: "$evt" }))));
 
     const ids = ["@alice:localhost", "@bob:localhost", "@carol:localhost"];
@@ -835,8 +833,7 @@ describe("dataProvider", () => {
   });
 
   it("does not leak target_user_id into sibling resource queries", async () => {
-    // Regression guard: buildSynapseListQuery emits target_user_id for every resource,
-    // so an undefined value must be dropped before the URL — never sent as a stray param.
+    // Regression guard: an undefined target_user_id must be dropped before the URL, never sent as a stray param.
     vi.mocked(fetch).mockResolvedValueOnce(new Response(JSON.stringify({ event_reports: [], total: 0 })));
 
     await dataProvider.getList("reports", {

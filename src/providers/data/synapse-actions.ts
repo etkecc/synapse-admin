@@ -1,8 +1,4 @@
-/**
- * Standalone Synapse admin API action helpers.
- * These are direct async wrappers around Synapse admin endpoints, used as
- * custom dataProvider methods and from lifecycle callbacks.
- */
+// Standalone Synapse admin API action helpers, used as custom dataProvider methods and from lifecycle callbacks.
 
 import { HttpError, Identifier } from "react-admin";
 

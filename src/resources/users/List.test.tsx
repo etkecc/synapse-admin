@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// userFilterDefaults is the security boundary for guest-account visibility: under an external
-// auth provider it must keep guests hidden, and collapsing it to {} would expose them. The
-// branch is exercised here directly; isMAS and GetConfig are the only inputs it reads.
+// userFilterDefaults is the guest-visibility security boundary; isMAS and GetConfig are its only inputs.
 
 const isMASMock = vi.fn();
 const getConfigMock = vi.fn();

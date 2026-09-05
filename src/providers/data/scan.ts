@@ -1,9 +1,4 @@
-/**
- * Virtual scan engine for client-side post-filter pagination.
- *
- * Used by system-users and reverse-search list modes, which need to scan the full
- * backend dataset, apply a local filter, and paginate the filtered virtual dataset.
- */
+// Virtual scan engine for client-side post-filter pagination, used by system-users and reverse-search list modes.
 
 import { GetListResult, RaRecord } from "react-admin";
 
@@ -28,19 +23,12 @@ export const clearReverseSearchScanCache = () => reverseSearchScanCache.clear();
 export const masFilterScanCache = new Map<string, SystemUsersScanCacheEntry>();
 export const clearMASFilterScanCache = () => masFilterScanCache.clear();
 
-/**
- * Build a stable cache key from any set of filter/sort parameters.
- * Callers are responsible for pre-filtering undefined values out of query params
- * before passing them in (e.g., using filterUndefined(query)).
- */
+// Builds a stable cache key from filter/sort params; callers must pre-filter undefined values (e.g. filterUndefined).
 export const buildScanCacheKey = (params: Record<string, unknown>): string => JSON.stringify(params);
 
 let _scanNotifier: ((key: string) => void) | null = null;
 
-/**
- * Set the notification function called when a scan takes multiple requests.
- * Should be called once at app startup, e.g. from setDataProviderNotifier.
- */
+// Notification function called when a scan takes multiple requests; set once at app startup.
 export const setScanNotifier = (fn: ((key: string) => void) | null) => {
   _scanNotifier = fn;
 };

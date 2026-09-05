@@ -20,9 +20,7 @@ import { SynapseDataProvider } from "../../providers/types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-/**
- * Renders a JSON string with Matrix event IDs ($...) as clickable elements.
- */
+// Renders a JSON string with Matrix event IDs ($...) as clickable elements.
 export const renderWithEventIds = (text: string, onEventIdClick?: (id: string) => void): ReactNode => {
   if (!onEventIdClick || !text.includes('"$')) return text; // fast path: no event IDs
 
@@ -90,15 +88,7 @@ export const EventFields = ({
   </Box>
 );
 
-/**
- * Reusable "Look Up Event by ID" dialog.
- *
- * Two usage modes:
- * - Manual lookup (reports toolbar): omit `initialEventId`; renders a text field so the
- *   user can type an event ID, then click "Look Up".
- * - Auto-lookup (click an event_id in RoomMessages): pass `initialEventId`; the dialog
- *   shows the ID as a subtitle and fetches immediately on open, no input needed.
- */
+// "Look Up Event by ID" dialog: manual entry when `initialEventId` is omitted, auto-fetch on open when it's passed.
 export const EventLookupDialog = ({
   open,
   onClose,

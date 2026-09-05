@@ -88,8 +88,7 @@ export const DeleteMediaButton = (props: ButtonProps) => {
   });
 
   const openDialog = () => {
-    // before_ts is last-access time; default the cutoff to ~90 days (a quarter) ago, computed fresh
-    // on open, so it sweeps only media untouched that long and spares anything still in use.
+    // before_ts is last-access time; default cutoff to ~90 days ago, computed fresh on each open.
     setDefaultBeforeTs(new Date().getTime() - 90 * 24 * 60 * 60 * 1000);
     setOpen(true);
   };

@@ -22,15 +22,7 @@ interface LoginFormSectionsProps {
   start: UseLoginProbe["start"];
 }
 
-/**
- * The login form body: the credentials/access-token tabs, the homeserver URL
- * field, the server-state hints, and the username/password (or access-token)
- * inputs. The username/password inputs render whenever the credentials tab is
- * active, never gated on the probe result, so they are present in the DOM
- * regardless of probe timing. That is the keyboard-trap fix: Tab always reaches
- * them. They are merely disabled once a resolved server is known not to accept
- * password auth (and stay enabled while resolving, for autofill compatibility).
- */
+// Credential inputs always render, ungated on the probe (keyboard-trap fix); disabled once server rejects password.
 export const LoginFormSections = ({
   formData,
   probeState,
@@ -68,8 +60,7 @@ export const LoginFormSections = ({
       const wellKnownDiscovery = GetConfig().wellKnownDiscovery ?? true;
       let url: string;
       if (wellKnownDiscovery) {
-        // Abort an earlier in-flight lookup and bail if this one is cancelled on
-        // unmount, so we never setValue on a dead form.
+        // Abort an earlier lookup; bail if this one cancels on unmount so we never setValue on a dead form.
         wellKnownControllerRef.current?.abort();
         const controller = new AbortController();
         wellKnownControllerRef.current = controller;
@@ -102,8 +93,7 @@ export const LoginFormSections = ({
     }
 
     form.trigger("base_url");
-    // Only sync the field to the well-known-resolved url when the user owns the
-    // field (free-text mode); fixed/choice modes keep their configured value.
+    // Only sync to the well-known-resolved url in free-text mode; fixed/choice modes keep their configured value.
     const onResolved =
       restrictBaseUrlMultiple || restrictBaseUrlSingle
         ? undefined
@@ -155,29 +145,17 @@ export const LoginFormSections = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time URL-param seeding on mount
   }, []);
 
-  // Disable inputs when a resolved server will not accept password sign-in:
-  // either it advertises no password flow, or it asks OIDC-aware clients to
-  // suppress password (suppressPassword). This mirrors the Sign-in button's
-  // disabled logic, so the "password isn't available" notice never sits above
-  // a still-usable field.
-  // Error states (unreachable/incompatible) keep inputs enabled so the user can
-  // correct the URL without the fields dropping out of tab order; disabling
-  // them there would reintroduce a narrower version of the keyboard trap.
+  // Disabled only once a resolved server rejects password or asks to suppress it; errors stay enabled (keyboard trap).
   const inputsDisabled =
     loading || (probeState.tag === "ready" && (!probeState.caps.password || probeState.caps.suppressPassword));
 
-  // When the credential fields go disabled, clear any stale required-validation
-  // errors left from an earlier interaction (e.g. the user focused username,
-  // blurred it empty, then entered a server that does not accept password);
-  // otherwise a greyed-out field keeps showing a red "required" message.
+  // Clears stale required-validation errors when fields go disabled, else a greyed-out field still shows required.
   useEffect(() => {
     if (inputsDisabled) {
       form.clearErrors(["username", "password"]);
     }
-    // form (react-hook-form's methods) is stable in identity; only re-run when
-    // the disabled state toggles, not on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputsDisabled]);
+  }, [inputsDisabled]); // form's methods are stable in identity; only re-run when the disabled state toggles.
 
   const serverVersionText =
     probeState.tag === "ready" && probeState.caps.serverVersion
@@ -188,9 +166,7 @@ export const LoginFormSections = ({
       ? `${translate("ketesa.auth.supports_specs")} ${probeState.caps.matrixVersions.join(", ")}`
       : "";
 
-  // Retain the last advertised flows so the "incompatible" message can animate
-  // out smoothly; the Collapse keeps its child mounted through the exit
-  // transition, by which point probeState no longer carries advertisedFlows.
+  // Retains the last advertised flows so the incompatible message can animate out after probeState clears them.
   const lastFlowsRef = useRef("");
   if (probeState.tag === "incompatible") {
     lastFlowsRef.current = probeState.advertisedFlows.join(", ");
@@ -235,10 +211,7 @@ export const LoginFormSections = ({
           />
         )}
       </Box>
-      {/* One persistent aria-live region wraps the animated status messages, so a
-          screen reader announces every probe-state change, including the same
-          error twice in a row, reliably. Per-message role/aria-live is dropped
-          to avoid nested live regions reading the text twice. */}
+      {/* One aria-live region wraps status messages, even repeats; per-message live would nest and double-read. */}
       <Box aria-live="polite">
         <Collapse in={probeState.tag === "resolving"} unmountOnExit>
           <Typography className="serverState" color="text.secondary" sx={{ wordBreak: "break-word" }}>

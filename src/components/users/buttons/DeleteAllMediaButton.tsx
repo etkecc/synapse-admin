@@ -30,10 +30,7 @@ import { SynapseDataProvider } from "../../../providers/types";
 
 type DeletionStatus = "idle" | "active" | "done";
 
-/**
- * Delete all media uploaded by a single user.
- * Shows a confirmation dialog with a spinner while running.
- */
+// Delete all media uploaded by a single user; shows a confirmation dialog with a spinner while running.
 export const DeleteUserMediaButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -130,9 +127,7 @@ export const DeleteUserMediaButton = () => {
   );
 };
 
-/**
- * Bulk delete all media for selected users.
- */
+// Bulk delete all media for selected users.
 export const DeleteUserMediaBulkButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -217,11 +212,7 @@ export const DeleteUserMediaBulkButton = () => {
   );
 };
 
-/**
- * Delete all local media in a single room.
- * Only renders for unencrypted rooms (record.encryption is falsy).
- * Shows a dialog with live per-item progress counter.
- */
+// Delete all local media in a room; renders only when record.encryption is falsy, with a live progress counter.
 export const DeleteRoomMediaButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -330,12 +321,7 @@ export const DeleteRoomMediaButton = () => {
   );
 };
 
-/**
- * Bulk delete all local media for selected rooms.
- * Unlike the single-room button, this does not filter out encrypted rooms; the room media
- * list endpoint only returns media from unencrypted events, so an encrypted room loses only
- * whatever unencrypted local media it has.
- */
+// Bulk delete: doesn't filter encrypted rooms, since the endpoint only ever returns unencrypted media.
 export const DeleteRoomMediaBulkButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

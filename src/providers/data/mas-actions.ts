@@ -1,7 +1,4 @@
-/**
- * MAS (Matrix Authentication Service) admin API action helpers.
- * Direct async wrappers around MAS admin endpoints for user management actions.
- */
+// MAS admin API action helpers: direct async wrappers around MAS admin endpoints for user management.
 
 import { HttpError } from "react-admin";
 

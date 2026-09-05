@@ -23,9 +23,7 @@ import {
 import { returnMXID } from "../../utils/mxid";
 import { normalizeTS } from "../../utils/date";
 
-/**
- * Get Synapse server version via /_synapse/admin/v1/server_version
- */
+// Gets Synapse server version via /_synapse/admin/v1/server_version.
 export const getServerVersion = async (baseUrl: string, signal?: AbortSignal): Promise<string> => {
   const response = await fetchUtils.fetchJson(`${baseUrl}/_synapse/admin/v1/server_version`, {
     method: "GET",
@@ -238,9 +236,7 @@ export const synapseResourceMap = {
     data: "rooms",
     total: (json: { rooms: DatabaseRoomStatistic[] }) => json.rooms.length,
     noQueryParams: true,
-    // Synapse returns 500 when the stats table hasn't been populated yet.
-    // Treat it as an empty result so the empty state renders instead of an error.
-    // See: https://github.com/element-hq/synapse/issues/19561
+    // Synapse returns 500 when the stats table isn't populated yet; treated as empty (element-hq/synapse#19561).
     ignoredErrors: [500],
   },
   user_media_statistics: {

@@ -26,11 +26,7 @@ import {
 
 import { SynapseDataProvider } from "../../../providers/types";
 
-/**
- * Single room block/unblock button for the room show page.
- * Fetches block status on mount, shows "Block" or "Unblock" accordingly.
- * Block requires confirmation modal, unblock is direct.
- */
+// Single room block/unblock button: fetches status on mount; block asks for confirmation, unblock is direct.
 export const BlockRoomButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -146,9 +142,7 @@ export const BlockRoomButton = () => {
   );
 };
 
-/**
- * Bulk block/unblock buttons for room lists (main room list + joined_rooms).
- */
+// Bulk block/unblock buttons for room lists (main room list + joined_rooms).
 export const BlockRoomBulkButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -252,9 +246,7 @@ export const UnblockRoomBulkButton = () => {
   );
 };
 
-/**
- * Toolbar button above the main room list to block a room by ID.
- */
+// Toolbar button above the main room list to block a room by ID.
 export const BlockRoomByIdButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

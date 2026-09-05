@@ -98,7 +98,7 @@ export default defineConfig(({ mode }) => ({
           if (!hasAssets) {
             return;
           }
-          // Strip inline <style> blocks — CSS url() tokens use different quoting and are not HTML attribute paths
+          // Strip inline <style> blocks: CSS url() tokens use different quoting and are not HTML attribute paths
           const htmlOnly = content.replace(/<style>[\s\S]*?<\/style>/g, "");
           const invalidAssets = new RegExp(`["'](?!${assetsPrefix.replace(/\//g, "\\/")})[^"']*assets\\/`);
           if (invalidAssets.test(htmlOnly)) {

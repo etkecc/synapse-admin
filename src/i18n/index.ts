@@ -33,8 +33,7 @@ const loaders: Record<SupportedLocale, () => Promise<SynapseTranslationMessages>
   zh: () => import("./zh").then(m => m.default),
 };
 
-// Read locale directly from react-admin's localStorage store because this runs
-// before React mounts — useLocale() is not available at bootstrap time.
+// Read locale directly from localStorage; runs before React mounts, so useLocale() isn't available yet.
 const RA_STORE_LOCALE_KEY = "RaStore.locale";
 
 function isSupportedLocale(locale: string): locale is SupportedLocale {
@@ -50,7 +49,7 @@ function resolveInitialLocale(): SupportedLocale {
         return parsed;
       }
     } catch {
-      // malformed JSON — fall through to browser locale
+      // malformed JSON, fall through to browser locale
     }
   }
   const browser = resolveBrowserLocale();

@@ -21,7 +21,7 @@ const common: Record<string, any> = {
         resolving: "Verifica delle funzionalità del server in corso…",
         unreachable: "Impossibile raggiungere questo server. Verifichi l'URL e riprovi.",
         incompatible: "Questo server pubblicizza metodi di accesso non supportati da Ketesa: %{flows}",
-        suppress_password_notice: "Questo server richiede il flusso OAuth — l'accesso con password non è disponibile.",
+        suppress_password_notice: "Questo server richiede il flusso OAuth: l'accesso con password non è disponibile.",
         checking: "Verifica del server in corso…",
       },
       supports_specs: "supporta le specifiche Matrix",
@@ -200,7 +200,7 @@ const common: Record<string, any> = {
       request_already_sent_view: "Visualizza ticket",
       free_label: "Gratuito",
       available_label: "Disponibile",
-      tagline: "Migliori il Suo server — aggiunga o rimuova qualsiasi componente in qualsiasi momento.",
+      tagline: "Migliori il Suo server: aggiunga o rimuova qualsiasi componente in qualsiasi momento.",
       section: {
         bridges: "Ponti",
         extras: "Extra",
@@ -311,7 +311,7 @@ const common: Record<string, any> = {
       status: {
         issue: {
           title: "L'abbonamento richiede attenzione",
-          description: "Abbiamo rilevato un problema con il Suo abbonamento. Non si preoccupi — è facile da risolvere.",
+          description: "Abbiamo rilevato un problema con il Suo abbonamento. Non si preoccupi; è facile da risolvere.",
           due_overdue: "In ritardo da",
           due_upcoming: "Scadenza tra",
           expected: "Importo atteso",
@@ -453,7 +453,7 @@ const common: Record<string, any> = {
       unavailable_tooltip: "Le notifiche potrebbero non essere disponibili. Clicchi per i dettagli.",
       unavailable_title: "Le notifiche potrebbero non essere disponibili al momento",
       unavailable_body:
-        "Potrebbero esserci aggiornamenti che non riusciamo a recapitare in questo pannello al momento — o potrebbe non esserci nulla di nuovo. Per evitare di perdere qualcosa, si prega di controllare periodicamente:",
+        "Potrebbero esserci aggiornamenti che non riusciamo a recapitare in questo pannello al momento, o potrebbe non esserci nulla di nuovo. Per evitare di perdere qualcosa, si prega di controllare periodicamente:",
       unavailable_link_matrix: "Stanza Matrix #news:etke.cc",
       unavailable_link_news: "Pagina degli annunci su etke.cc/news",
       unavailable_link_email: "La Sua casella di posta elettronica (inclusa la cartella spam)",

@@ -51,7 +51,7 @@ export const RevokePersonalSessionButton = () => {
   const dataProvider = useDataProvider() as SynapseDataProvider;
   const translate = useTranslate();
 
-  if (!record || !record.active) return <span>—</span>;
+  if (!record || !record.active) return <span>-</span>;
 
   const handleConfirm = async () => {
     setOpen(false);

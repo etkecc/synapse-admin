@@ -13,13 +13,7 @@ interface LoginButtonsProps {
   loading: boolean;
 }
 
-/**
- * The login action buttons. The password Sign-in renders whenever the
- * credentials tab is active but stays disabled until a probe has resolved a
- * server that accepts password auth, so it can never submit before the server's
- * capabilities are known. SSO and OIDC buttons appear only once their capability
- * is confirmed on a resolved server.
- */
+// Sign-in stays disabled until a probe resolves password support; SSO/OIDC buttons wait on a resolved server too.
 export const LoginButtons = ({ probeState, loginMethod, loading }: LoginButtonsProps) => {
   const translate = useTranslate();
   const login = useLogin();
@@ -30,9 +24,7 @@ export const LoginButtons = ({ probeState, loginMethod, loading }: LoginButtonsP
     }
     const { ssoBaseUrl } = probeState.caps;
     localStorage.setItem("sso_base_url", ssoBaseUrl);
-    // Return to the bare login page after SSO, origin + pathname only, matching
-    // handleOIDC. The full href would leak any query params (and a racing
-    // loginToken) to the homeserver's SSO endpoint via the redirectUrl.
+    // origin+pathname only (matches handleOIDC): the full href would leak query params, including loginToken.
     const redirectUrl = window.location.origin + window.location.pathname;
     const ssoFullUrl = `${ssoBaseUrl}/_matrix/client/v3/login/sso/redirect?redirectUrl=${encodeURIComponent(
       redirectUrl
@@ -64,9 +56,7 @@ export const LoginButtons = ({ probeState, loginMethod, loading }: LoginButtonsP
 
   const ready = probeState.tag === "ready";
   const caps = ready ? probeState.caps : null;
-  // Show the password Sign-in until a resolved server is known NOT to accept
-  // password; then hide it, so OIDC-only servers don't show a permanently-dead
-  // control (better a11y than a never-enabling disabled button).
+  // Password Sign-in hides once a resolved server rejects password auth; avoids a permanently-dead control.
   const showSignIn = !ready || !!caps?.password;
   const signInDisabled = loading || !caps || !caps.password || caps.suppressPassword;
 
@@ -79,18 +69,14 @@ export const LoginButtons = ({ probeState, loginMethod, loading }: LoginButtonsP
             : translate("ra.auth.sign_in")}
         </Button>
       )}
-      {/* Suppress SSO only when OIDC is the live alternative (caps.oidc): a server
-          that asks to suppress password but advertises no usable OIDC issuer would
-          otherwise leave the card with no actionable button at all; SSO is the
-          fallback path there. */}
+      {/* Suppresses SSO only when OIDC is live (caps.oidc); otherwise SSO is the fallback so a button always shows. */}
       {caps && caps.sso && (!caps.suppressPassword || !caps.oidc) && (
         <Button variant="contained" color="secondary" onClick={handleSSO} disabled={loading} fullWidth>
           {translate("ketesa.auth.sso_sign_in")}
         </Button>
       )}
       {caps && caps.oidc && (
-        // Only when a usable issuer is confirmed (caps.oidc): a server can claim
-        // suppressPassword without a valid issuer, and handleOIDC needs the metadata.
+        // Only when caps.oidc confirms a usable issuer; handleOIDC needs that metadata to authenticate.
         <Button variant="contained" color="secondary" onClick={handleOIDC} disabled={loading} fullWidth>
           {translate("ketesa.auth.oidc_sign_in")}
         </Button>

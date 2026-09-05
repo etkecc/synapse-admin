@@ -621,8 +621,7 @@ export const etkeProviderMethods = {
         body: JSON.stringify({ enabled, emails }),
       });
     } catch (error) {
-      // a network failure or missing token throws a raw, non-localized string; normalize it to a
-      // translatable key so a non-English customer never sees browser plumbing on the billing page.
+      // Normalize the raw non-localized network/token error to a translatable key for the billing page.
       log.error("upsertInvoiceEmails request failed", { error });
       throw new Error("etkecc.billing.invoice_emails.error_save", { cause: error });
     }

@@ -28,13 +28,7 @@ interface LoginFlow {
   [key: string]: unknown;
 }
 
-/**
- * Staleness is handled in start() via the AbortController signal, so the reducer
- * only transitions on the action tag. START carries the raw url (for instant
- * "resolving" feedback) and RESOLVED carries the well-known-resolved url, so the
- * two urls legitimately differ; a url-matching guard here would reject the
- * resolved result.
- */
+// Staleness is handled in start() via AbortController; reducer just transitions on tag. START/RESOLVED urls differ.
 function probeReducer(state: ProbeState, action: ProbeAction): ProbeState {
   switch (action.type) {
     case "START":
@@ -52,15 +46,7 @@ function probeReducer(state: ProbeState, action: ProbeAction): ProbeState {
   }
 }
 
-/**
- * Derive the advertised capabilities from a resolved probe. password, sso, and
- * oidc are computed independently: a Synapse + SSO deployment advertises both
- * password and sso, and the spec allows their coexistence.
- *
- * OIDC counts as usable only with a present, well-formed issuer: a delegated-OIDC
- * signal pointing at a missing or malformed issuer is a misconfigured server, not
- * a flow we can drive (handleOIDC needs the auth metadata).
- */
+// Derives capabilities from a resolved probe; OIDC counts as usable only with a well-formed issuer present.
 function deriveCapabilities(
   url: string,
   flows: LoginFlow[],
@@ -91,23 +77,13 @@ function deriveCapabilities(
 
 export interface UseLoginProbe {
   state: ProbeState;
-  /**
-   * Probe a homeserver. rawUrl is resolved via well-known (when enabled); if the
-   * resolved url differs, onResolved is called so the caller can sync its form
-   * field. A previous in-flight probe is aborted first.
-   */
+  // Probes a homeserver, resolving via well-known; calls onResolved if the url changed. Aborts any prior probe.
   start: (rawUrl: string, onResolved?: (resolvedUrl: string) => void) => void;
   /** Cancel any in-flight probe and return to idle. */
   abort: () => void;
 }
 
-/**
- * Owns the homeserver-probe lifecycle: one AbortController-managed probe at a
- * time, the result reduced into a ProbeState the login form renders from. Input
- * visibility never depends on probe resolution timing, which is what fixes the
- * keyboard trap. An optional initialUrl fires one probe on mount (replacing the
- * previous on-mount effect for restrictBaseUrlSingle / restored base_url).
- */
+// Owns the probe lifecycle (one AbortController probe at a time); input visibility ignores timing (keyboard trap).
 export function useLoginProbe(initialUrl?: string): UseLoginProbe {
   const [state, dispatch] = useReducer(probeReducer, { tag: "idle" });
   const controllerRef = useRef<AbortController | null>(null);
@@ -152,8 +128,7 @@ export function useLoginProbe(initialUrl?: string): UseLoginProbe {
           return;
         }
 
-        // getAuthMetadata resolves to null on failure rather than rejecting, so
-        // reachability is judged by the three probes that reject on network error.
+        // getAuthMetadata resolves null on failure; reachability comes from the three probes that reject instead.
         const reachable =
           featuresR.status === "fulfilled" || flowsR.status === "fulfilled" || versionR.status === "fulfilled";
         if (!reachable) {
@@ -177,9 +152,7 @@ export function useLoginProbe(initialUrl?: string): UseLoginProbe {
           return;
         }
 
-        // Mark whether the deployment authenticates externally so the auth provider
-        // drives the right path. Set unconditionally (not only when true) so a later
-        // password-only server is not left stuck on a previous server's OIDC path.
+        // Always sets external-auth, even false, so a later password-only server can't stay stuck on prior OIDC.
         SetExternalAuthProvider(caps.oidc);
         dispatch({ type: "RESOLVED", url: resolvedUrl, caps });
       } catch (error) {

@@ -198,7 +198,7 @@ const mas = {
       },
       create: {
         token_title: "Token di accesso personale",
-        token_content: "Copi questo token adesso — non verrà mostrato di nuovo.",
+        token_content: "Copi questo token adesso; non verrà mostrato di nuovo.",
       },
     },
   },

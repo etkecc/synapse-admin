@@ -130,11 +130,11 @@ const rooms = {
       label: "Eliminar todos os média",
       title: "Eliminar todos os média em %{roomName}",
       content:
-        "Todos os ficheiros de média locais nesta sala serão eliminados permanentemente. Apenas os média locais de salas não cifradas são afetados — os média de servidores externos estão excluídos. Esta ação não pode ser revertida.",
+        "Todos os ficheiros de média locais nesta sala serão eliminados permanentemente. Apenas os média locais de salas não cifradas são afetados; os média de servidores externos estão excluídos. Esta ação não pode ser revertida.",
       in_progress_loading: "A obter a lista de média…",
       in_progress: "A eliminar os média… (%{current} / %{total})",
       do_not_close:
-        "Não feche esta janela — a eliminação está a decorrer em primeiro plano e será interrompida se fechar.",
+        "Não feche esta janela; a eliminação está a decorrer em primeiro plano e será interrompida se fechar.",
       success:
         "Eliminado com sucesso %{smart_count} ficheiro de média. |||| Eliminados com sucesso %{smart_count} ficheiros de média.",
       failure: "Falha ao eliminar os média. %{errMsg}",

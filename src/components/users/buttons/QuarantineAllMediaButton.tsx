@@ -16,10 +16,6 @@ import { Button, useDataProvider, useNotify, useRecordContext, useTranslate } fr
 
 import { SynapseDataProvider } from "../../../providers/types";
 
-/**
- * Quarantine all media for a room.
- * Shows a confirmation dialog before proceeding.
- */
 export const QuarantineRoomMediaButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -87,10 +83,6 @@ export const QuarantineRoomMediaButton = () => {
   );
 };
 
-/**
- * Quarantine all media for a user.
- * Shows a confirmation dialog before proceeding.
- */
 export const QuarantineUserMediaButton = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));

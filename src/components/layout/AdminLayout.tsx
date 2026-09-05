@@ -213,18 +213,10 @@ const AdminAppBar = () => {
 
 const MAS_RESOURCE_PREFIX = "mas_";
 
-/**
- * Renders resource menu items, excluding mas_* resources from the auto-list.
- * MAS resources (sessions, emails, users, upstream links) are managed inline on the user edit page.
- * Only upstream OAuth providers appear in the sidebar as a global admin config resource.
- */
+// MAS session/email/user resources are managed inline on the user edit page; only OAuth providers list here.
 const MAS_SESSION_RESOURCES = ["mas_upstream_oauth_providers"];
 
-/**
- * Wraps Menu.Item and injects aria-current="page" on the active route.
- * Note: aria-current is forwarded to the underlying <a> via RA's MenuItemLink prop-forwarding.
- * If a future RA upgrade stops forwarding unknown props, aria-current will silently drop (progressive enhancement).
- */
+// Wraps Menu.Item, injects aria-current=page via RA's prop-forwarding; a future RA upgrade could silently drop it.
 export const ActiveMenuItemLink = ({ to, ...props }: React.ComponentProps<typeof Menu.Item> & { to: string }) => {
   const match = useMatch({ path: to, end: true });
   return <Menu.Item to={to} aria-current={match ? "page" : undefined} {...props} />;

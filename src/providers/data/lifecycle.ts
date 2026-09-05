@@ -1,9 +1,4 @@
-/**
- * React-admin lifecycle callbacks for the Synapse data provider.
- *
- * Wraps the base data provider with beforeUpdate / beforeDelete / afterDelete hooks
- * that dispatch side-effects (MAS auth changes, Synapse profile updates, media cleanup).
- */
+// React-admin lifecycle callbacks for the Synapse data provider (MAS auth, profile updates, media cleanup).
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -15,10 +10,7 @@ import { isMAS } from "./mas-utils";
 import { deleteUserMedia } from "./synapse-actions";
 import { invalidateManyRefCache } from "./synapse";
 
-/**
- * Wrap a base SynapseDataProvider with lifecycle callbacks for user and room resources.
- * Returns the wrapped provider, which is the dataProvider used by the app.
- */
+// Wraps a base SynapseDataProvider with lifecycle callbacks for user/room resources; this is the app's dataProvider.
 export const wrapWithLifecycle = (base: SynapseDataProvider): SynapseDataProvider =>
   withLifecycleCallbacks(base, [
     {
@@ -37,24 +29,16 @@ export const wrapWithLifecycle = (base: SynapseDataProvider): SynapseDataProvide
     {
       resource: "users",
       beforeUpdate: async (params: UpdateParams<any>, dataProvider: DataProvider) => {
-        // In MAS mode: dispatch MAS auth-field changes and skip Synapse-only logic.
-        // When the user has no MAS account (Synapse-only, typically appservice/bot users),
-        // mas_id is undefined and we fall through to the Synapse-only branch below.
+        // In MAS mode, dispatch MAS auth changes; a Synapse-only user (appservice/bot) has mas_id undefined.
         const masId = params.previousData.mas_id as string | undefined;
         if (isMAS() && masId) {
           const prev = params.previousData;
           const next = params.data;
 
-          // MAS-managed fields: only fire when the field was actually submitted (not disabled/omitted).
-          // Disabled BooleanInputs (e.g. admin editing their own account) are excluded from react-hook-form
-          // submission, leaving the value as undefined. Guarding with !== undefined prevents spurious API
-          // calls that would e.g. strip admin from the current user or unlock an already-unlocked account.
-          // Also normalise to strict booleans to guard against undefined/null from incomplete cache data.
+          // Guard with !== undefined: a disabled BooleanInput (e.g. self-editing admin) submits as undefined.
           const prevAdmin = prev.admin === true;
           const nextAdmin = next.admin === true;
-          // Admin is written to both surfaces. The Synapse homeserver-admin flag (the badge source)
-          // goes in the profile PUT below; MAS set-admin (the login scope grant) runs only after that
-          // PUT succeeds, so a failed Synapse write never leaves a crown-less user with a live MAS grant.
+          // Admin is written to both surfaces: Synapse profile PUT sets the badge, MAS set-admin runs only after.
           const adminChanged = next.admin !== undefined && prevAdmin !== nextAdmin;
 
           const prevLocked = prev.locked === true;
@@ -109,8 +93,7 @@ export const wrapWithLifecycle = (base: SynapseDataProvider): SynapseDataProvide
             });
           }
 
-          // Grant the MAS admin scope only after the Synapse flag is persisted: a failed profile PUT
-          // rejects the save before this line, so MAS is never granted behind a crown-less UI.
+          // Grant MAS admin only after the Synapse flag persists, so a failed PUT never grants a crown-less user.
           if (adminChanged) await (dataProvider as SynapseDataProvider).masSetAdmin(masId, nextAdmin);
 
           return params;
@@ -152,12 +135,7 @@ export const wrapWithLifecycle = (base: SynapseDataProvider): SynapseDataProvide
           if (!result.success) {
             return Promise.reject(new Error(result.error || "Failed to erase user"));
           }
-          // Erase is terminal for this save: skip the follow-up profile PUT. PUT /v2/users is
-          // create-or-recreate, so letting it run would recreate the profile we just erased.
-          // Re-editing an already-erased user does not re-enter this branch (the change check above
-          // is false when both flags are unchanged), so recreating an erased user via a normal edit
-          // still works. Note: returning here exits beforeUpdate only; react-admin still runs any
-          // registered beforeSave on params.data; there is none on "users" today, keep it that way.
+          // Erase is terminal: skip the PUT (create-or-recreate); return here still runs any registered beforeSave.
           params.meta = { ...params.meta, userErased: true };
           return params;
         }

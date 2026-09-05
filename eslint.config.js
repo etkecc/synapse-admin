@@ -75,7 +75,7 @@ export default [
     },
     rules: {
       ...jsxA11y.flatConfigs.recommended.rules,
-      // autoFocus on MUI Dialog confirm buttons is the correct WAI-ARIA dialog pattern —
+      // autoFocus on MUI Dialog confirm buttons is the correct WAI-ARIA dialog pattern:
       // dialogs trap focus and focus must be placed inside them on open.
       "jsx-a11y/no-autofocus": "off",
       "@typescript-eslint/consistent-generic-constructors": "off",

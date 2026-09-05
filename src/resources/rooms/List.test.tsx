@@ -3,9 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// The room admin/join buttons live in List.tsx alongside the full RoomList, so importing
-// the module pulls in every react-admin export and sibling button it references. We only
-// exercise MakeAdminBtn + JoinUserBtn, so the rest is stubbed just enough to load.
+// Importing List.tsx pulls in every react-admin export and sibling button; only MakeAdminBtn/JoinUserBtn run here.
 
 const makeRoomAdminMock = vi.fn();
 const joinUserToRoomMock = vi.fn();

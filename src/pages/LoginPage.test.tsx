@@ -11,8 +11,7 @@ import englishMessages from "../i18n/en";
 import { getServerVersion } from "../providers/data/synapse";
 import { getAuthMetadata, getSupportedFeatures, getSupportedLoginFlows } from "../providers/matrix";
 
-// Mock only the network-touching probe functions; keep the rest of each module
-// (isValidBaseUrl, splitMxid, etc.) intact for the components that use them.
+// Mocks only network-touching probe functions; isValidBaseUrl, splitMxid etc. stay intact for real components.
 vi.mock("../providers/matrix", async importOriginal => {
   const actual = await importOriginal<typeof import("../providers/matrix")>();
   return {
@@ -127,8 +126,7 @@ describe("LoginPage rendering", () => {
   });
 
   it("renders the username/password fields immediately, before any probe (keyboard-trap fix)", () => {
-    // The inputs must be in the DOM regardless of probe state; that is the
-    // WCAG 2.1.2 keyboard-trap fix. They are no longer gated on an async result.
+    // Inputs stay in the DOM regardless of probe state (WCAG 2.1.2 keyboard-trap fix); async no longer gates them.
     renderUnrestricted();
 
     expect(screen.getByLabelText(/username/i)).toBeEnabled();
@@ -210,9 +208,7 @@ describe("LoginPage server probe: capability matrix", () => {
   });
 
   it("suppress_password without a usable issuer: notice shown, but NO OIDC button (no broken flow)", async () => {
-    // A server can advertise oauth_aware_preferred without a valid auth_metadata
-    // issuer (misconfigured or malicious). The OIDC button must NOT render; it
-    // would fire handleOIDC with a null issuer. Only caps.oidc (valid issuer) shows it.
+    // OIDC button stays hidden until caps.oidc confirms a valid issuer, even with oauth_aware_preferred advertised.
     mockFlows.mockResolvedValue([{ type: "m.login.sso", oauth_aware_preferred: true }]);
     mockAuthMetadata.mockResolvedValue(null);
     renderSingleRestrict();
@@ -274,10 +270,7 @@ describe("LoginPage server probe: resolving state", () => {
 describe("LoginPage server probe: staleness guard", () => {
   it("a superseded probe never overwrites the fresh one (last URL wins)", async () => {
     const user = userEvent.setup();
-    // url1's other three probes (features, authMetadata, serverVersion) resolve immediately via
-    // the beforeEach defaults; only url1's flows is held open below. So url1's Promise.allSettled
-    // DOES settle when we release resolveStaleFlows; and the signal.aborted guard in start() is
-    // the sole reason url1's late result is discarded. Remove that guard and this test fails.
+    // Only signal.aborted in start() discards the late url1 result; remove it and this test fails.
     let resolveStaleFlows: (value: unknown) => void = () => undefined;
     mockFlows
       .mockImplementationOnce(() => new Promise(resolve => (resolveStaleFlows = resolve))) // url1: held open

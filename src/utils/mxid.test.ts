@@ -13,10 +13,6 @@ describe("mxid utils", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
-  // isMXID
-  // ---------------------------------------------------------------------------
-
   describe("isMXID", () => {
     describe("valid MXIDs", () => {
       it("accepts a simple domain server name", () => {
@@ -107,10 +103,6 @@ describe("mxid utils", () => {
     });
   });
 
-  // ---------------------------------------------------------------------------
-  // getLocalpart
-  // ---------------------------------------------------------------------------
-
   describe("getLocalpart", () => {
     it("extracts localpart from a simple MXID", () => {
       expect(getLocalpart("@alice:example.org")).toBe("alice");
@@ -144,10 +136,6 @@ describe("mxid utils", () => {
       expect(getLocalpart("just-a-string")).toBe("just-a-string");
     });
   });
-
-  // ---------------------------------------------------------------------------
-  // returnMXID
-  // ---------------------------------------------------------------------------
 
   describe("returnMXID", () => {
     it("returns an already-valid MXID unchanged (simple domain)", () => {
@@ -195,10 +183,6 @@ describe("mxid utils", () => {
       expect(returnMXID("@alice")).toBe("@alice:example.org");
     });
   });
-
-  // ---------------------------------------------------------------------------
-  // isSystemUser
-  // ---------------------------------------------------------------------------
 
   describe("isSystemUser", () => {
     it("returns false when asManagedUsers is empty", () => {
@@ -271,10 +255,6 @@ describe("mxid utils", () => {
       expect(isSystemUser("@admin:example.org")).toBe(true);
     });
   });
-
-  // ---------------------------------------------------------------------------
-  // generateRandomMXID
-  // ---------------------------------------------------------------------------
 
   describe("generateRandomMXID", () => {
     it("generates a MXID for the current homeserver (simple domain)", () => {

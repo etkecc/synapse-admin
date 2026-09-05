@@ -300,8 +300,7 @@ describe("getMASUsersAsMainResource read-merge: admin shown if flagged on either
       filter: {},
     });
 
-    // Regression guard: MAS-promoted admins (can_request_admin only, Synapse column false) kept the
-    // crown under the original code and must keep it — a Synapse-only read dropped it.
+    // Regression guard: MAS-promoted admins (can_request_admin only, Synapse column false) must keep the crown.
     expect(result.data[0].admin).toBe(true);
   });
 
@@ -517,9 +516,7 @@ describe("getMASUsersAsMainResource.delete", () => {
     });
 
     const res = getMASUsersAsMainResource();
-    // Simulates the per-id invocation inside dataProvider.deleteMany when a caller passes
-    // meta.records to thread per-record mas_id through. DeleteManyParams carries no
-    // previousData by contract; see ra-core types.d.ts:185.
+    // Simulates deleteMany's per-id call with meta.records threading mas_id (no previousData; ra-core types.d.ts:185).
     const result = await res.delete({
       id: "@alice:hs.example.com",
       meta: {
@@ -590,9 +587,7 @@ describe("getMASUsersAsMainResource.delete", () => {
 });
 
 describe("lifecycle.beforeUpdate: Synapse-only mode, erase guard", () => {
-  // Regression for the catastrophic bug: deactivated + erased are present on every user record,
-  // so the old `!== undefined` guard fired eraseUser on every save. The guard must only fire when
-  // both flags are explicitly true AND actually changed.
+  // Regression: the old `!== undefined` guard fired eraseUser on every save; both flags must be true and changed.
   it("does NOT erase on a routine edit (displayname change, deactivated/erased unchanged)", async () => {
     const base = makeBase();
     const wrap = wrapWithLifecycle(base as any);

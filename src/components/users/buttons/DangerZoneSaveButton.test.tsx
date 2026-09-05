@@ -154,8 +154,7 @@ describe("DangerZoneSaveButton", () => {
 
     const confirm = screen.getByRole("button", { name: "ra.action.confirm" });
     await user.click(confirm);
-    // UI-level idempotency: the dialog closes on confirm so the button unmounts; a second click
-    // can't re-enter. (The in-flight `saving` ref additionally guards any programmatic double-call.)
+    // UI-level idempotency: the dialog closes on confirm and unmounts the button, blocking a second click.
     await user.click(confirm).catch(() => undefined);
 
     await waitFor(() => expect(saveMock).toHaveBeenCalledTimes(1));

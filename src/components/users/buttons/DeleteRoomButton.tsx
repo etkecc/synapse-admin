@@ -77,7 +77,7 @@ const DeleteRoomButton: React.FC<DeleteRoomButtonProps> = props => {
   }, [stopPolling]);
 
   const handleDialogOpen = () => {
-    // clean slate every open: this button survives selection changes, so force_purge can't ride in checked from last time.
+    // Clean slate every open: this button survives selection changes, so force_purge can't stay checked.
     setBlock(false);
     setPurge(true);
     setForcePurge(false);

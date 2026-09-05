@@ -180,8 +180,7 @@ describe("MASUserCreate username validation", () => {
 
     const usernameField = textInputProps.find(p => p.source === "username");
     expect(usernameField).toBeDefined();
-    // Wiring check only: confirms the field carries the shared validator. The regex
-    // behaviour (rejecting @user:host) lives where validateUser is defined, in Edit.tsx.
+    // Wiring check only: confirms the shared validator is attached; its regex behavior lives in Edit.tsx.
     expect(usernameField?.validate).toBe(validateUser);
   });
 });

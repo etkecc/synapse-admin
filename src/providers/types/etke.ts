@@ -93,8 +93,7 @@ export interface PaymentsResponse {
 export interface InvoiceEmails {
   enabled: boolean;
   emails: string[];
-  // count of invoices this save canceled. only this PUT's response reports a nonzero count; a GET, or a
-  // repeat of the same save, returns 0. cache the first success, don't re-read it.
+  // Count of invoices this save canceled; only this PUT reports nonzero, a GET or repeat save returns 0.
   canceled?: number;
 }
 

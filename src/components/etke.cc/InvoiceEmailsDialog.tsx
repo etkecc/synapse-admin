@@ -27,9 +27,7 @@ const log = createLogger("invoice-emails");
 const MAX_EMAILS = 5;
 const MAX_EMAIL_LEN = 320;
 
-// permissive shape check only: an @ with a dot after it, within the length cap. the server is the
-// strict authority and returns a localized error, so a stricter client would falsely reject an
-// address the server would accept.
+// Loose check only (@ + dot + length cap); server is the strict authority, a tighter client could reject valid input.
 const looksLikeEmail = (v: string): boolean => {
   const at = v.indexOf("@");
   return at > 0 && v.indexOf(".", at) > at + 1 && v.length <= MAX_EMAIL_LEN;
@@ -61,18 +59,16 @@ export const InvoiceEmailsDialog = ({
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  // set when a prior DESTRUCTIVE save errored: a later success returning canceled:0 is then ambiguous
-  // (the failed attempt may have canceled), so the toast softens rather than claiming a clean zero.
+  // Set when a prior destructive save errored: a later canceled:0 is ambiguous, so the toast softens the claim.
   const [prevFailedDestructive, setPrevFailedDestructive] = useState(false);
 
-  // read locale via a ref so a mid-edit language switch doesn't refetch and clobber unsaved changes;
-  // the baseline only depends on which server we're configuring, not on the UI language.
+  // Read locale via a ref: a language switch mid-edit must not refetch and clobber unsaved changes.
   const localeRef = useRef(locale);
   useEffect(() => {
     localeRef.current = locale;
   });
 
-  // fetch on open, refetch on every reopen: no network while closed, and a reopen shows server truth, not a stale draft.
+  // Fetch on open and every reopen: no network while closed, and a reopen always reflects server state.
   useEffect(() => {
     if (!open) return;
     let active = true;
@@ -81,8 +77,7 @@ export const InvoiceEmailsDialog = ({
       try {
         const raw = await dataProvider.getInvoiceEmails(etkeccAdmin, localeRef.current);
         if (!active) return;
-        // dedupe once at the boundary so `loaded` and `emails` share one canonical array; a
-        // duplicate-bearing response would otherwise make sameSet() flip `changed` on an untouched page.
+        // Dedupe once here so `loaded`/`emails` share one array; duplicates would falsely flip sameSet()'s changed.
         const cfg = { ...raw, emails: [...new Set(raw.emails)] };
         setLoaded(cfg);
         setEnabled(cfg.enabled);
@@ -105,8 +100,7 @@ export const InvoiceEmailsDialog = ({
   // when enabled, at least one valid address is required; removing all recipients is done via the toggle.
   const canSave = !saving && changed && (enabled ? emails.length > 0 && emailsValid : true);
 
-  // strong warning only when the save leaves the server with zero active recipients (toggle off, or an
-  // empty list); adding, editing, or dropping one of several cancels nothing and gets the mild copy.
+  // Strong warning only when save leaves zero active recipients; editing one of several gets the mild copy instead.
   const destructive = loaded.enabled && loaded.emails.length > 0 && !(enabled && emails.length > 0);
 
   const handleConfirm = async () => {
@@ -124,8 +118,7 @@ export const InvoiceEmailsDialog = ({
       if (result.canceled && result.canceled > 0) {
         notify(translate(`${KEY}.saved_canceled`, { smart_count: result.canceled }), { type: "info" });
       } else if (prevFailedDestructive) {
-        // a prior destructive attempt errored, so a 0 here doesn't prove nothing happened; soften
-        // instead of claiming a clean zero.
+        // A prior destructive attempt errored, so a 0 here doesn't prove nothing happened; soften the claim.
         notify(translate(`${KEY}.saved_canceled_retry`), { type: "info" });
       } else {
         notify(translate(`${KEY}.saved`), { type: "success" });
@@ -133,11 +126,9 @@ export const InvoiceEmailsDialog = ({
       setPrevFailedDestructive(false);
     } catch (error) {
       log.error("upsertInvoiceEmails failed", { error });
-      // only a failed DESTRUCTIVE save leaves the canceled count ambiguous; an additive failure
-      // cancels nothing, so it must not later trigger the softened "may already have been canceled" copy.
+      // Only a failed destructive save leaves canceled count ambiguous; an additive failure never sets this flag.
       setPrevFailedDestructive(prev => prev || wasDestructive);
-      // an etkecc.-prefixed message is a translation key (rate-limit, fallback); anything else is a
-      // server-localized message shown verbatim (the transport normalizes network errors to a key).
+      // etkecc.-prefixed is a translation key (network errors normalize to one); else it's server text, verbatim.
       const raw = error instanceof Error ? error.message : "";
       const display = raw && !raw.startsWith("etkecc.") ? raw : translate(raw || `${KEY}.error_save`);
       notify(display, { type: "error" });

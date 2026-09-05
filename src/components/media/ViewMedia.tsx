@@ -12,12 +12,10 @@ import createLogger from "../../utils/logger";
 
 const log = createLogger("media");
 
-// Revoke the blob URL long after it is consumed: revoking too early made the new tab show
-// ERR_FILE_NOT_FOUND before it finished loading. The browser frees it on unload anyway.
+// Revoke the blob URL long after use: revoking too early made the new tab show ERR_FILE_NOT_FOUND mid-load.
 const BLOB_URL_REVOKE_DELAY_MS = 60_000;
 
-// Types safe to open as a top-level document in our origin. SVG/HTML execute script there
-// (a blob: URL inherits our origin), so anything off this list is forced to download instead.
+// Types safe to open as a top-level document: a blob: URL inherits our origin, so SVG/HTML could execute script there.
 const NEW_TAB_SAFE_MIME_TYPES = new Set(["image/png", "image/jpeg", "image/gif", "image/webp", "image/avif"]);
 
 interface ViewMediaButtonProps {

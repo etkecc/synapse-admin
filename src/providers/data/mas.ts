@@ -1,10 +1,4 @@
-/**
- * MAS (Matrix Authentication Service) resource factory functions.
- * Each function returns a resource descriptor consumed by the MAS data provider in index.ts.
- *
- * Utility functions and helpers are in ./mas-utils.ts.
- * Action API calls (lock/unlock, deactivate, set-admin, etc.) are in ./mas-actions.ts.
- */
+// MAS resource factories consumed by the data provider; helpers in mas-utils.ts, actions in mas-actions.ts.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -262,12 +256,7 @@ export const getMASUsersResource = () => ({
   handleCreateResponse: (item: { data: MASUserResource }) => mapMASUserItem(item.data),
 });
 
-/**
- * MAS users resource for use as the main "users" resource in MAS mode.
- * Maps user IDs to Synapse-compatible format (@username:homeserver) so
- * all existing Synapse tabs (devices, rooms, connections, etc.) continue to work.
- * The MAS ULID is stored as mas_id for use by MAS action APIs.
- */
+// Main MAS users resource: maps ids to @username:homeserver so Synapse tabs work; ULID stored as mas_id.
 export const getMASUsersAsMainResource = () => ({
   path: "/api/admin/v1/users",
   isMAS: true,
@@ -279,12 +268,7 @@ export const getMASUsersAsMainResource = () => ({
       id: `@${u.attributes.username}:${homeserver}`,
     };
   },
-  // enrichList fetches Synapse user data for each MAS record in cursor-mode (default name ASC sort).
-  // It must include ALL fields that getList (Synapse-first mode) populates from Synapse,
-  // so both modes expose a unified record shape to the UI.
-  // Note: this path (reverse-search / system-user scans) sources `admin` from Synapse only; it does
-  // not OR in MAS can_request_admin the way getList/getOne do, so a MAS-promoted admin shows no crown
-  // in these secondary views. Synapse-only-by-design here to avoid a per-record MAS fetch in the scan.
+  // enrichList (scan path) sources admin from Synapse only, unlike getList/getOne, to avoid a per-record MAS fetch.
   enrichList: enrichMASUserList,
   getList: async (params: { pagination: PaginationPayload; sort: SortPayload; filter: Record<string, any> }) => {
     // MAS status/admin filters need the MAS-merged state (see scanMASFilteredUsers).
@@ -292,10 +276,7 @@ export const getMASUsersAsMainResource = () => ({
       return scanMASFilteredUsers(params);
     }
 
-    // Always use Synapse-first path so appservice/bot users (Synapse-only, no MAS account)
-    // are included in the list alongside regular MAS-managed users.
-
-    // Synapse-first path: fetch from Synapse v3 users API, then enrich with MAS data
+    // Synapse-first path: fetch from Synapse v3, then enrich with MAS; includes Synapse-only appservice/bot users.
     const synapseBaseUrl = localStorage.getItem("base_url") || "";
     const masBaseUrl = getMASBaseUrl();
     const homeserver = localStorage.getItem("home_server") || "";
@@ -379,9 +360,7 @@ export const getMASUsersAsMainResource = () => ({
             name: mxid,
             mas_id: masUser.id,
             username,
-            // Crown shows if flagged admin on either surface: Synapse homeserver-admin OR MAS
-            // can_request_admin. The two diverge by how the admin was provisioned (Synapse-level or
-            // via MAS set-admin), and under MSC3861 the MAS flag is the one that grants real access.
+            // Crown shows if admin on either surface: Synapse homeserver-admin OR MAS can_request_admin.
             admin: !!u.admin || !!masBase.admin,
             deactivated: masBase.deactivated,
             locked: !!masUser.attributes.locked_at,
@@ -440,8 +419,7 @@ export const getMASUsersAsMainResource = () => ({
     const matrixId = encodeURIComponent(mxid);
 
     if (!item) {
-      // User exists in Synapse but not in MAS (e.g., appservice-managed user).
-      // Return a Synapse-only record so the edit page can still render.
+      // Returns a Synapse-only record so the edit page renders for users MAS doesn't manage (e.g. appservice).
       const { json: synapseJson } = await jsonClient(`${synapseBaseUrl}/_synapse/admin/v2/users/${matrixId}`);
       return {
         id: mxid,
@@ -503,9 +481,7 @@ export const getMASUsersAsMainResource = () => ({
     const homeserver = localStorage.getItem("home_server") || "";
     return { ...mapMASUserItem(item.data, homeserver), id: `@${item.data.attributes.username}:${homeserver}` };
   },
-  // After beforeUpdate has dispatched MAS action calls, re-fetch and return the merged record.
-  // For Synapse-only users (no mas_id), PUT the diffed admin/locked/deactivated/profile fields
-  // through Synapse v2 first, then return the Synapse-only record from getOne.
+  // Re-fetches the merged record after beforeUpdate's MAS calls; Synapse-only users PUT via v2 first.
   update: async (params: UpdateParams) => {
     const masBaseUrl = getMASBaseUrl();
     const synapseBaseUrl = localStorage.getItem("base_url") || "";
@@ -560,25 +536,14 @@ export const getMASUsersAsMainResource = () => ({
 
     return factory.getOne({ id });
   },
-  // Routes single-user delete (== deactivate in MAS mode) through the right surface:
-  // MAS deactivate when the user has a MAS account; Synapse v2 PUT {deactivated:true} for
-  // Synapse-only users (appservice/bot). Returns the previousData record so RA's local cache
-  // reflects the new state; there is no canonical post-delete record to fetch.
-  //
-  // mas_id resolution order: (1) previousData.mas_id, populated for single-user delete by
-  // RA's DeleteParams contract; (2) meta.records[id].mas_id, fallback for deleteMany, whose
-  // DeleteManyParams shape carries no per-record previousData. Callers wiring useDeleteMany
-  // on this resource must thread the records list through meta to get correct MAS dispatch;
-  // without it, bulk-delete silently falls through to Synapse v2 PUT and MAS sessions are not
-  // revoked.
+  // mas_id: previousData, else meta.records; omitting meta.records on bulk-delete silently skips MAS revoke.
   delete: async (params: DeleteParams) => {
     const masBaseUrl = getMASBaseUrl();
     const synapseBaseUrl = localStorage.getItem("base_url") || "";
     const id = String(params.id);
 
     const previousMasId = (params.previousData as { mas_id?: string } | undefined)?.mas_id;
-    // records MUST be an Array<{id, mas_id}>; a plain-object map is not supported
-    // and will silently fall back to Synapse v2 PUT, by design.
+    // records MUST be an Array<{id, mas_id}>; a plain-object map silently falls back to Synapse v2 PUT.
     const metaRecords = (params.meta as { records?: unknown } | undefined)?.records;
     const fromMeta = Array.isArray(metaRecords)
       ? (metaRecords as { id?: unknown; mas_id?: string }[]).find(r => r && String(r.id) === id)?.mas_id

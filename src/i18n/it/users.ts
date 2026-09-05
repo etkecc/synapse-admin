@@ -137,7 +137,7 @@ const users = {
       content:
         "Questa operazione eliminerà definitivamente tutti i media caricati da questo utente. L'operazione è irreversibile.",
       in_progress: "Eliminazione dei media in corso…",
-      background_note: "Può chiudere questa finestra in sicurezza — l'eliminazione continuerà in background.",
+      background_note: "Può chiudere questa finestra in sicurezza; l'eliminazione continuerà in background.",
       success:
         "Eliminazione riuscita di %{smart_count} elemento multimediale. |||| Eliminazione riuscita di %{smart_count} elementi multimediali.",
       failure: "Impossibile eliminare i media. %{errMsg}",
@@ -183,9 +183,9 @@ const users = {
       failure: "Impossibile rinnovare la validità dell'account",
     },
     system_users_scan_in_progress:
-      "Attendere — la ricerca degli utenti corrispondenti è ancora in corso, la pagina verrà caricata a breve",
+      "Attendere: la ricerca degli utenti corrispondenti è ancora in corso, la pagina verrà caricata a breve",
     reverse_search_scan_in_progress:
-      "Attendere — tutti gli utenti vengono analizzati per escludere le corrispondenze, la pagina verrà caricata a breve",
+      "Attendere: tutti gli utenti vengono analizzati per escludere le corrispondenze, la pagina verrà caricata a breve",
   },
   limits: {
     messages_per_second: "Messaggi al secondo",

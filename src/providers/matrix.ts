@@ -19,10 +19,7 @@ export const splitMxid = (mxid: string) => {
 export const isValidBaseUrl = (baseUrl: unknown): boolean =>
   typeof baseUrl === "string" && /^(https?):\/\/(\[[\da-fA-F:]+\]|[a-zA-Z0-9\-.]+)(:\d{1,5})?\/?$/.test(baseUrl);
 
-/**
- * Resolve a base URL using /.well-known/matrix/client if present.
- * Falls back to the provided URL if lookup fails or is invalid.
- */
+// Resolves a base URL via /.well-known/matrix/client, falling back to the provided URL if lookup fails.
 export const resolveBaseUrlWithWellKnown = async (baseUrl: string, signal?: AbortSignal): Promise<string> => {
   if (!baseUrl) return baseUrl;
   const cleaned = baseUrl.replace(/\/+$/g, "");
@@ -36,9 +33,7 @@ export const resolveBaseUrlWithWellKnown = async (baseUrl: string, signal?: Abor
   const wellKnownUrl = `${origin}/.well-known/matrix/client`;
   try {
     const response = await fetchUtils.fetchJson(wellKnownUrl, { method: "GET", signal });
-    // A homeserver can opt out of URL canonization via its own well-known config
-    // (cc.etke.ketesa.wellKnownDiscovery=false), e.g. when the admin endpoint lives
-    // on a domain the public well-known does not, and should not, advertise.
+    // A homeserver can opt out of URL canonization via cc.etke.ketesa.wellKnownDiscovery=false.
     const wkConfig = response.json?.[WellKnownKey] || response.json?.[WellKnownKeyLegacy];
     if (wkConfig?.wellKnownDiscovery === false) {
       log.debug("well-known discovery disabled by homeserver, keeping provided URL", { original: baseUrl });
@@ -57,11 +52,7 @@ export const resolveBaseUrlWithWellKnown = async (baseUrl: string, signal?: Abor
   return cleaned;
 };
 
-/**
- * Resolve the homeserver URL using the well-known lookup
- * @param domain  the domain part of an MXID
- * @returns homeserver base URL
- */
+// Resolves the homeserver base URL for an MXID's domain via the well-known lookup.
 export const getWellKnownUrl = async (domain: string, signal?: AbortSignal) => {
   const wellKnownUrl = `https://${domain}/.well-known/matrix/client`;
   try {
@@ -85,11 +76,6 @@ export const getSupportedFeatures = async (baseUrl: string, signal?: AbortSignal
   return response.json;
 };
 
-/**
- * Get supported login flows
- * @param baseUrl  the base URL of the homeserver
- * @returns array of supported login flows
- */
 export const getSupportedLoginFlows = async (baseUrl: string, signal?: AbortSignal) => {
   const loginFlowsUrl = `${baseUrl}/_matrix/client/v3/login`;
   const response = await fetchUtils.fetchJson(loginFlowsUrl, { method: "GET", signal });
@@ -114,10 +100,7 @@ export const getAuthMetadata = async (baseUrl: string, signal?: AbortSignal): Pr
   return null;
 };
 
-/**
- * Refresh the access token using the refresh token
- * Based on: https://github.com/authts/oidc-client-ts/blob/main/docs/protocols/refresh-token-grant.md
- */
+// Refreshes the access token; based on authts/oidc-client-ts docs/protocols/refresh-token-grant.md.
 export const refreshAccessToken = async (): Promise<boolean> => {
   const refreshToken = localStorage.getItem("refresh_token");
   const tokenEndpoint = localStorage.getItem("token_endpoint");

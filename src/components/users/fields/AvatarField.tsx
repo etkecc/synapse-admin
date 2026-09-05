@@ -42,9 +42,7 @@ const AvatarField = ({ source, ...rest }: AvatarProps & FieldProps) => {
     };
   }, [mxcURL, fetchAvatar]);
 
-  // a hacky way to handle both users and rooms,
-  // where users have an ID, may have a name, and may have a displayname
-  // and rooms have an ID and may have a name
+  // Hacky way to handle both users (id/name/displayname) and rooms (id/name).
   let letter = "";
   if (record?.id) {
     letter = record.id[0].toUpperCase();
